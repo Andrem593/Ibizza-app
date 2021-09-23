@@ -11,7 +11,6 @@
         <x-slot name="body">
             componente
         </x-slot>
-
-        
+        {{-- hola --}}
     </x-card>
 </x-app-layout>
