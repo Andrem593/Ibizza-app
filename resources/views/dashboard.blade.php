@@ -4,6 +4,12 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
-    <x-jet-welcome />
+    <x-card>
+        <x-slot name="title">
+            prueba
+        </x-slot>
+        <x-slot name="body">
+            componente
+        </x-slot>
+    </x-card>
 </x-app-layout>
