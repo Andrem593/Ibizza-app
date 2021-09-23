@@ -7,9 +7,11 @@
     <x-card>
         <x-slot name="title">
             prueba
-        </x-slot>
+        </x-slot>c
         <x-slot name="body">
             componente
         </x-slot>
+
+        
     </x-card>
 </x-app-layout>
