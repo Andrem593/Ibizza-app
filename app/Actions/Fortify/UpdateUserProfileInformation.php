@@ -27,7 +27,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
-            Storage::put('public/profile photos',$input['photo']);
         }
 
         if ($input['email'] !== $user->email &&
