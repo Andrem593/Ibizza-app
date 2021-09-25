@@ -1,7 +1,8 @@
 <?php
 
 use Laravel\Jetstream\Features;
-
+use Laravel\Jetstream\HasProfilePhoto;
+use App\Models\User;
 return [
 
     /*
@@ -61,5 +62,4 @@ return [
     */
 
     'profile_photo_disk' => 'public',
-
 ];

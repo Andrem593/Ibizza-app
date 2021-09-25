@@ -1,4 +1,36 @@
-<!DOCTYPE html>
+@extends('adminlte::page')
+
+@section('title', 'Dashboard')
+
+@section('content_header')
+    {{ $header}}
+@stop
+
+@section('content')
+    {{ $slot }}
+@stop
+
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css">
+    <!-- Styles -->
+
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    @livewireStyles
+
+    <!-- Scripts -->
+    <script src="{{ mix('js/app.js') }}" defer></script>
+@stop
+
+@section('js')
+    @stack('modals')
+
+    @livewireScripts
+
+    @stack('scripts')
+@stop
+
+
+{{-- <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -40,4 +72,4 @@
 
         @stack('scripts')
     </body>
-</html>
+</html> --}}

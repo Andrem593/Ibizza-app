@@ -33,7 +33,11 @@
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}" class="rounded-circle" height="80px" width="80px">
+                    @if (Auth::user()->profile_photo_path)
+                        <img class="rounded-circle" width="32" height="32" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />    
+                    @else
+                        <img class="rounded-circle" width="32" height="32" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />    
+                    @endif
                 </div>
 
                 <!-- New Profile Photo Preview -->

@@ -232,7 +232,7 @@ sup {
 
 a {
   color: #3490dc;
-  text-decoration: underline;
+  text-decoration: none;
 }
 a:hover {
   color: #2a73b0;
