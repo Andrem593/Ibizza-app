@@ -1,4 +1,4 @@
-@props(['title' => __('Confirm Password'), 'content' => __('For your security, please confirm your password to continue.'), 'button' => __('Confirm')])
+@props(['title' => __('Confirme su contraseña'), 'content' => __('Por su seguridad, confirme su contraseña para continuar.'), 'button' => __('COnfirmar')])
 
 @php
     $confirmableId = md5($attributes->wire('then'));
@@ -35,7 +35,7 @@
 
     <x-slot name="footer">
         <x-jet-secondary-button wire:click="stopConfirmingPassword" wire:loading.attr="disabled">
-            {{ __('Cancel') }}
+            {{ __('Cancelar') }}
         </x-jet-secondary-button>
 
         <x-jet-button class="ms-2" wire:click="confirmPassword" wire:loading.attr="disabled">

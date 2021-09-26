@@ -1,8 +1,8 @@
 @props(['submit'])
 
 <div {{ $attributes->merge(['class' => 'row']) }}>
-    <div class="col-md-4">
-        <x-jet-section-title>
+    <div class="text-center d-flex justify-content-center">
+        <x-jet-section-title >
             <x-slot name="title">{{ $title }}</x-slot>
             <x-slot name="description">
                 <span class="small">
@@ -11,8 +11,8 @@
             </x-slot>
         </x-jet-section-title>
     </div>
-    <div class="col-md-8">
-        <div class="card shadow-sm">
+    <div class="row">
+        <div class="card shadow-sm w-50 mx-auto">
             <form wire:submit.prevent="{{ $submit }}">
                 <div class="card-body">
                 {{ $form }}
