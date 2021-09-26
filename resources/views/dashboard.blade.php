@@ -5,5 +5,7 @@
         <h2>app</h2>
         <h2>app</h2>
         <h2>app</h2>
+        <h2>app</h2>
+        <h2>app</h2>
     </x-slot>
 </x-app-layout>
