@@ -66,7 +66,7 @@
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                 @if (Auth::user()->profile_photo_path)
-                                    <img class="rounded-circle" width="32" height="32" src="/storage/{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />    
+                                    <img class="rounded-circle" width="32" height="32" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />    
                                 @else
                                     <img class="rounded-circle" width="32" height="32" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />    
                                 @endif
