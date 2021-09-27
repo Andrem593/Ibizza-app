@@ -36,7 +36,7 @@
                     <div class="custom-control custom-checkbox">
                         <x-jet-checkbox id="remember_me" name="remember" />
                         <label class="custom-control-label" for="remember_me">
-                            {{ __('Remember Me') }}
+                            {{ __('recuerdame') }}
                         </label>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <div class="d-flex justify-content-end align-items-baseline">
                         @if (Route::has('password.request'))
                             <a class="text-muted me-3" href="{{ route('password.request') }}">
-                                {{ __('Forgot your password?') }}
+                                {{ __('Olvidate tu contraseña?') }}
                             </a>
                         @endif
 
