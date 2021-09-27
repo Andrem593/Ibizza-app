@@ -10,4 +10,7 @@ class homeController extends Controller
     public function index(){
         return view('admin.index');
     }
+    public function productoUpload(){
+        return view('producto.upload');
+    }
 }
