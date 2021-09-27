@@ -3,6 +3,7 @@
         <x-slot name="header">
             <h5 class="text-center">ADMINISTRACIÓN DE USUARIO</h5>
         </x-slot>
+
         <div class="recuadro mx-auto shadow">
             <div class="card-header bg-dark p-3">
                 <h3 class="card-title">Creación nuevos usuarios</h3>
@@ -18,7 +19,7 @@
                     </div>
                     @error('name')
                         <div class="alert alert-danger p-1" role="alert">
-                            <i class="fas fa-exclamation-triangle me-1"></i>{{$message}}
+                            <i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}
                         </div>
                     @enderror
                     <div class="form-group">
@@ -27,7 +28,7 @@
                     </div>
                     @error('email')
                         <div class="alert alert-danger p-1" role="alert">
-                            <i class="fas fa-exclamation-triangle me-1"></i>{{$message}}
+                            <i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}
                         </div>
                     @enderror
                     <div class="form-group">
@@ -36,7 +37,7 @@
                     </div>
                     @error('password')
                         <div class="alert alert-danger p-1" role="alert">
-                            <i class="fas fa-exclamation-triangle me-1"></i>{{$message}}
+                            <i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}
                         </div>
                     @enderror
                     <div class="form-group">
@@ -52,7 +53,7 @@
                     </div>
                     @error('role')
                         <div class="alert alert-danger p-1" role="alert">
-                            <i class="fas fa-exclamation-triangle me-1"></i>{{$message}}
+                            <i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}
                         </div>
                     @enderror
                 </div>
@@ -64,3 +65,24 @@
             </form>
         </div>
     </x-app-layout>
+    @isset($user)
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: false,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Usuario creado'
+            })
+
+        </script>
+    @endisset

@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('content_header')
-    {{ $header}}
+    {{ $header }}
 @stop
 
 @section('content')
