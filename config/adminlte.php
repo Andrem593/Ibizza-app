@@ -249,7 +249,18 @@ return [
                 [
                     'text' => 'Carga',
                     'url'  => '/producto/upload',
-                    'icon'    => 'ms-4 fas fa-cloud-upload-alt',
+                    'icon'    => 'fas fa-cloud-upload-alt',
+                ],
+            ]
+        ],
+        [
+            'text'    => 'Usuarios',
+            'icon'    => 'fas fa-users',
+            'submenu' => [
+                [
+                    'text' => 'Crear',
+                    'route'  => 'usuario.create',
+                    'icon'    => 'fas fa-user-plus',
                 ],
             ]
         ],

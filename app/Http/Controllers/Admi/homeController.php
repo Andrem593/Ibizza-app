@@ -13,4 +13,7 @@ class homeController extends Controller
     public function productoUpload(){
         return view('producto.upload');
     }
+    public function userCreate(){
+        return view('usuario.crear');
+    }
 }
