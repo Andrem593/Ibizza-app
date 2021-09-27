@@ -1,4 +1,4 @@
-<x-jet-action-section class="mx-auto w-50">
+<x-jet-action-section class="mx-auto recuadro">
     <x-slot name="title">
 
     </x-slot>

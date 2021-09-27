@@ -27,6 +27,17 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="role" class="form-label">Tipo de Usuario</label>
+                    <input class="form-control" list="opciones_usuario" id="role" name="role" placeholder="Escribe el tipo de usuario...">
+                    <datalist id="opciones_usuario">
+                    <option value="Administrador">
+                    <option value="Vendedor">
+                    <option value="Supervisor">
+                    <option value="Empresaria">
+                    </datalist>
+                </div>
+
+                <div class="mb-3">
                     <x-jet-label value="{{ __('Password') }}" />
 
                     <x-jet-input class="{{ $errors->has('password') ? 'is-invalid' : '' }}" type="password"

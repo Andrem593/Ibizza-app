@@ -30,6 +30,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role',
         'password',
     ];
 
@@ -70,6 +71,6 @@ class User extends Authenticatable
         return $this->profile_photo_url;
     }
     public function adminlte_desc(){
-        return $this->email;
+        return $this->role;
     }
 }

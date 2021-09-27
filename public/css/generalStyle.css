@@ -1,0 +1,6 @@
+/* recuadros de login se adapten al 50% de la pantalla */
+@media (min-width: 800px){
+    .recuadro {
+        width: 50% !important;
+    }
+}

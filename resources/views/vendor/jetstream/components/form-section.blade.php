@@ -12,7 +12,7 @@
         </x-jet-section-title>
     </div>
     <div class="row">
-        <div class="card shadow-sm w-50 mx-auto">
+        <div class="recuadro card shadow-sm mx-auto">
             <form wire:submit.prevent="{{ $submit }}">
                 <div class="card-body">
                 {{ $form }}
