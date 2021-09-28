@@ -1,4 +1,243 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    {{-- CDN fontawesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+        integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>IBIZZA | Sitio Oficial </title>
+</head>
+
+<body>
+    <div class="container p-2">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="/img/logo_ibizza.png" alt="" width="120" height="35">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Ofertas</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Categorias
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">categoria 1</a></li>
+                                <li><a class="dropdown-item" href="#">categoria 1</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">categoria 1</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled">Regalos</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Buscas un producto.."
+                                aria-label="Recipient's username" aria-describedby="search">
+                            <span class="input-group-text" id="search"><i class="fas fa-search"></i></span>
+                        </div>
+                    </form>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle position-relative mx-1" type="button"
+                            id="elementos_car" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                2
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="elementos_car">
+                            <li><a class="dropdown-item" href="#">Producto 1</a></li>
+                            <li><a class="dropdown-item" href="#">Producto 2</a></li>
+                        </ul>
+                    </div>
+                    @if (Route::has('login'))
+                        <div class="">
+                            @auth
+                                <a href="{{ url('/dashboard') }}" class="btn btn-outline-dark mx-1">Dashboard</a>
+                            @else
+                                <a href="{{ route('login') }}" class="btn btn-outline-dark mx-1"><i class="fas fa-user"></i></a>
+                        @endif
+                    </div>
+                    @endif
+                </div>
+        </div>
+        </nav>
+        </div>
+        <div>
+            <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel" height="50vh">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="8000">
+                        <img src="/img/carrousel/banner_ibizza.png" class="img-fluid" alt="..."
+                            style="width: 100%; height: 50vh;">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="2000">
+                        <img src="/img/carrousel/banner_ibizza2.png" class="img-fluid" alt="..."
+                            style="width: 100%; height: 50vh;">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/img/carrousel/banner_ibizza2.png" class="img-fluid" alt="..."
+                            style="width: 100%; height: 50vh;">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            <div class="container">
+                <h2 class="text-center p-4">PROMOCIONES DE LA SEMANA</h2>
+                <div class="row row-cols-1 row-cols-md-3 g-4 my-2">
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="/img/carrousel/carrousel-1.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in
+                                    to additional content. This content is a little bit longer.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="/img/carrousel/carrousel-2.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a short card.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="/img/carrousel/carrousel-3.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in
+                                    to additional content.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="/img/carrousel/carrousel-1.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in
+                                    to additional content. This content is a little bit longer.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <footer class="py-5">
+                    <div class="row">
+                        <div class="col-2">
+                            <h5>Section</h5>
+                            <ul class="nav flex-column">
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-2">
+                            <h5>Section</h5>
+                            <ul class="nav flex-column">
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-2">
+                            <h5>Section</h5>
+                            <ul class="nav flex-column">
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-4 offset-1">
+                            <form>
+                                <img src="/img/logo_ibizza.png" alt="" width="240" height="75" class="mb-2">
+                                <h5>Subscribe to our newsletter</h5>
+                                <p>Monthly digest of whats new and exciting from us.</p>
+                                <div class="d-flex w-100 gap-2">
+                                    <label for="newsletter1" class="visually-hidden">Email address</label>
+                                    <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+                                    <button class="btn btn-primary" type="button">Subscribe</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-4 my-4 border-top">
+                        <p class="w-50">© 2021 Ibizza, All rights reserved.</p>
+                        <ul class="list-unstyled d-flex justify-content-end w-50 me-4">
+                            <li class="ms-3"><a class="link-dark" href="#"><i class="fab fa-twitter fs-3"></i></a></li>
+                            <li class="ms-3"><a class="link-dark" href="#"><i class="fab fa-instagram fs-3"></i></a></li>
+                            <li class="ms-3"><a class="link-dark" href="#"><i class="fab fa-facebook fs-3"></i></li>
+                        </ul>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+        </script>
+    </body>
+
+    </html>
+
+    {{-- <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -152,4 +391,4 @@
         </div>
     </div>
 </body>
-</html>
+</html> --}}
