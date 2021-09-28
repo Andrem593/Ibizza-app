@@ -28,7 +28,7 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->name('producto.upload');
 
 Route::middleware(['auth:sanctum', 'verified'])
-->get('/usuario/create', [homeController::class,'userCreate'])
+->get('/usuario/create/', [homeController::class,'userCreate'])
 ->name('usuario.create');
 
 Route::middleware(['auth:sanctum', 'verified'])

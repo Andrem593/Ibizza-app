@@ -15,7 +15,8 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="name">Nombre Usuario</label>
-                        <input type="text" class="form-control" name="name" placeholder="ingrese nombre de Usuario">
+                        <input type="text" class="form-control" name="name" placeholder="ingrese nombre de Usuario"
+                            value="{{ old('name') }}">
                     </div>
                     @error('name')
                         <div class="alert alert-danger p-1" role="alert">
@@ -24,7 +25,8 @@
                     @enderror
                     <div class="form-group">
                         <label for="email">Dirección de correo</label>
-                        <input type="email" class="form-control" name="email" placeholder="ingresa tu correo">
+                        <input type="email" class="form-control" name="email" placeholder="ingresa tu correo"
+                            value="{{ old('email') }}">
                     </div>
                     @error('email')
                         <div class="alert alert-danger p-1" role="alert">
@@ -33,7 +35,8 @@
                     @enderror
                     <div class="form-group">
                         <label for="password">Contraseña</label>
-                        <input type="password" class="form-control" name="password" placeholder="ingrese una contraseña">
+                        <input type="password" class="form-control" name="password" placeholder="ingrese una contraseña"
+                            value="{{ old('password') }}">
                     </div>
                     @error('password')
                         <div class="alert alert-danger p-1" role="alert">
@@ -43,7 +46,7 @@
                     <div class="form-group">
                         <label for="role" class="form-label">Tipo de Usuario</label>
                         <input class="form-control" list="opciones_usuario" id="role" name="role"
-                            placeholder="Escribe el tipo de usuario...">
+                            placeholder="Escribe el tipo de usuario..." value="{{ old('role') }}">
                         <datalist id="opciones_usuario">
                             <option value="Administrador">
                             <option value="Vendedor">
@@ -65,24 +68,24 @@
             </form>
         </div>
     </x-app-layout>
-    @isset($user)
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: false,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+    </script>
+    @if (session('message'))
         <script>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: false,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-
             Toast.fire({
                 icon: 'success',
-                title: 'Usuario creado'
+                title: 'Nuevo usuario creado'
             })
-
         </script>
-    @endisset
+    @endif
