@@ -249,7 +249,18 @@ return [
                 [
                     'text' => 'Carga',
                     'url'  => '/producto/upload',
-                    'icon'    => 'ms-4 fas fa-cloud-upload-alt',
+                    'icon'    => 'fas fa-cloud-upload-alt',
+                ],
+            ]
+        ],
+        [
+            'text'    => 'Usuarios',
+            'icon'    => 'fas fa-users',
+            'submenu' => [
+                [
+                    'text' => 'Crear',
+                    'route'  => 'usuario.create',
+                    'icon'    => 'fas fa-user-plus',
                 ],
             ]
         ],
@@ -349,12 +360,12 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
+                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@11',
                 ],
             ],
         ],

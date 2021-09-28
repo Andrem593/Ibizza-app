@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admi\homeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\userController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,11 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/producto/upload', [homeController::class,'productoUpload'])
 ->name('producto.upload');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/usuario/create', [homeController::class,'userCreate'])
+->name('usuario.create');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/usuario/create', [userController::class,'store'])
+->name('new.user');
