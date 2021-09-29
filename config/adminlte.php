@@ -248,7 +248,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Carga',
-                    'url'  => '/producto/upload',
+                    'route'  => 'producto.upload',
                     'icon'    => 'fas fa-cloud-upload-alt',
                 ],
             ]

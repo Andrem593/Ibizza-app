@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admi\homeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +25,12 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])
-->get('/producto/upload', [homeController::class,'productoUpload'])
+->get('/producto/upload', [ProductController::class,'productoUpload'])
 ->name('producto.upload');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/producto/create', [ProductController::class,'store'])
+->name('producto.store');
 
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/usuario/create/', [homeController::class,'userCreate'])
