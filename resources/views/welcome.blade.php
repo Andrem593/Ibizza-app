@@ -80,7 +80,8 @@
                             @auth
                                 <a href="{{ url('/dashboard') }}" class="btn btn-outline-dark mx-1">Dashboard</a>
                             @else
-                                <a href="{{ route('login') }}" class="btn btn-outline-dark mx-1"><i class="fas fa-user"></i></a>
+                                <a href="{{ route('login') }}" class="btn btn-outline-dark mx-1"><i
+                                        class="fas fa-user"></i></a>
                         @endif
                     </div>
                     @endif
@@ -89,7 +90,7 @@
         </nav>
         </div>
         <div>
-            <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel" height="50vh">
+            {{-- <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel" height="50vh">
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
                         aria-current="true" aria-label="Slide 1"></button>
@@ -226,7 +227,7 @@
                         </ul>
                     </div>
                 </footer>
-            </div>
+            </div> --}}
         </div>
 
 

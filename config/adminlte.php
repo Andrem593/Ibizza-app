@@ -248,7 +248,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Carga',
-                    'url'  => '/producto/upload',
+                    'route'  => 'producto.upload',
                     'icon'    => 'fas fa-cloud-upload-alt',
                 ],
             ]
@@ -315,7 +315,7 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
@@ -350,7 +350,7 @@ return [
             ],
         ],
         'Chartjs' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',

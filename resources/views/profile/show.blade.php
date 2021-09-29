@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', 'Ajustes Perfil')
     <x-slot name="header">
 
     </x-slot>

@@ -58,8 +58,12 @@ class userController extends Controller
         $user->email = $request->email;
         $user->role = $request->role;
         $user->password = Hash::make($request->password);
-        $user->save();
-        return redirect()->route('usuario.create',$user);
+        if($user->save()){
+            $message = 'nuevo usuario creado';
+        }else{
+            $message = 'error en base';
+        }
+        return redirect()->back()->with('message',$message);
     }
 
     /**
