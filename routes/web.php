@@ -4,6 +4,7 @@ use App\Http\Controllers\Admi\homeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\MarcaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,13 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/producto/create', [ProductController::class,'store'])
 ->name('producto.store');
+
+Route::resource('marcas', MarcaController::class)
+->middleware(['auth:sanctum', 'verified']);
+
+// Route::middleware(['auth:sanctum', 'verified'])
+// ->get('/marca', [MarcaController::class,'index'])
+// ->name('marca.index');
 
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/usuario/create/', [homeController::class,'userCreate'])

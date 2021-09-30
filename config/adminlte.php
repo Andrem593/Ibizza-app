@@ -254,6 +254,11 @@ return [
             ]
         ],
         [
+            'text'    => 'Marcas',
+            'icon'    => 'fas fa-copyright',
+            'route'  => 'marcas.index'
+        ],
+        [
             'text'    => 'Usuarios',
             'icon'    => 'fas fa-users',
             'submenu' => [
