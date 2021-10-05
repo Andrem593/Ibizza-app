@@ -50,7 +50,8 @@
                                             <td>{{ ++$i }}</td>
 
                                             <td>{{ $marca->nombre }}</td>
-                                            <td>{{ $marca->imagen }}</td>
+                                            <td><img src="/storage/images/marca/{{ $marca->imagen }}" width="100px"></td>
+                                            
 
                                             <td>
                                                 <form action="{{ route('marcas.destroy', $marca->id) }}"

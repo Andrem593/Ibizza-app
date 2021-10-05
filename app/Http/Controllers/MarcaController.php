@@ -45,7 +45,19 @@ class MarcaController extends Controller
     {
         request()->validate(Marca::$rules);
 
-        $marca = Marca::create($request->all());
+        $input = $request->all();
+
+        if ($image = $request->file('imagen')) {
+            //$destinationPath = 'image/';
+            //$profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $profileImage = time().'.'.$request->imagen->extension();
+            //$image->move($destinationPath, $profileImage);
+            // $request->imagen->storeAs('images', $profileImage);
+            $request->imagen->move(public_path('storage/images/marca'), $profileImage);
+            $input['imagen'] = "$profileImage";
+        }
+
+        $marca = Marca::create($input);
 
         return redirect()->route('marcas.index')
             ->with('success', 'Marca created successfully.');

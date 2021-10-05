@@ -25,7 +25,8 @@
                         </div>
                         <div class="form-group">
                             <strong>Imagen:</strong>
-                            {{ $marca->imagen }}
+                            <img src="/storage/images/marca/{{ $marca->imagen }}" width="500px">
+                            
                         </div>
 
                     </div>
