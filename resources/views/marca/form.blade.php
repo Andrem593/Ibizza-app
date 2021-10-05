@@ -12,17 +12,16 @@
             {!! $errors->first('imagen', '<div class="invalid-feedback">:message</p>') !!}
         </div> --}}
         @section('plugins.BsCustomFileInput', true)
-        <div class="form-group">
-            {{ Form::label('imagen') }}
-            <x-adminlte-input-file name="imagen" class="{{ $errors->has('imagen') ? 'is-invalid' : '' }}" igroup-size="sm" legend="Seleccionar" placeholder="Escoger una imágen...">
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-lightblue">
-                        <i class="fas fa-upload"></i>
-                    </div>
-                </x-slot>
-            </x-adminlte-input-file>
-            {!! $errors->first('imagen', '<div class="invalid-feedback">:message</p>') !!}
-        </div>
+        
+        <x-adminlte-input-file name="imagen" class="{{ $errors->has('imagen') ? 'is-invalid' : '' }}" igroup-size="sm" legend="Seleccionar" placeholder="Escoger una imágen...">
+            
+            <x-slot name="prependSlot">
+                <div class="input-group-text bg-lightblue">
+                    <i class="fas fa-upload"></i>
+                </div>
+            </x-slot>
+        </x-adminlte-input-file>
+        {!! $errors->first('imagen', '<div class="invalid-feedback">:message</p>') !!}
 
     </div>
     <div class="box-footer mt20">
