@@ -20,7 +20,7 @@ class Marca extends Model
 {
     
     static $rules = [
-		'nombre' => 'required',
+		'nombre' => 'required|unique:marcas|max:255',
 		'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ];
 
