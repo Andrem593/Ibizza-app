@@ -60,7 +60,7 @@ class MarcaController extends Controller
         $marca = Marca::create($input);
 
         return redirect()->route('marcas.index')
-            ->with('success', 'Marca created successfully.');
+            ->with('success', 'Se creó la marca.');
     }
 
     /**
