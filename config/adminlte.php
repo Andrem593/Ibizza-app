@@ -251,6 +251,11 @@ return [
                     'route'  => 'producto.upload',
                     'icon'    => 'fas fa-cloud-upload-alt',
                 ],
+                [
+                    'text' => 'CRUD',
+                    'route'  => 'productos.index',
+                    'icon'    => 'fas fa-box-open',
+                ],
             ]
         ],
         [
