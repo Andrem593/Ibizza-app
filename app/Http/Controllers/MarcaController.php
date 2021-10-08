@@ -57,7 +57,7 @@ class MarcaController extends Controller
             $input['imagen'] = "$profileImage";
         }
 
-        $marca = Marca::create($input);
+        Marca::create($input);
 
         return redirect()->route('marcas.index')
             ->with('success', 'Se creó la marca.');
@@ -98,9 +98,24 @@ class MarcaController extends Controller
      */
     public function update(Request $request, Marca $marca)
     {
-        request()->validate(Marca::$rules);
+        request()->validate([
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-        $marca->update($request->all());
+        $input = $request->all();
+
+        if ($image = $request->file('imagen')) {
+
+            $profileImage = time().'.'.$request->imagen->extension();
+            //$image->move($destinationPath, $profileImage);
+            // $request->imagen->storeAs('images', $profileImage);
+            $request->imagen->move(public_path('storage/images/marca'), $profileImage);
+            $input['imagen'] = "$profileImage";
+        }else{
+            unset($input['imagen']);
+        }
+          
+        $marca->update($input);
 
         return redirect()->route('marcas.index')
             ->with('success', 'Se actualizó la marca correctamente');

@@ -22,7 +22,9 @@
             </x-slot>
             {!! $errors->first('imagen', '<div class="invalid-feedback">:message</p>') !!}
         </x-adminlte-input-file>
-        
+        @if (isset($marca->imagen))
+        <img src="/storage/images/marca/{{ $marca->imagen }}" width="300px">
+        @endif
 
     </div>
     <div class="box-footer mt20">

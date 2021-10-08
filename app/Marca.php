@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Validation\Rule;
+
 /**
  * Class Marca
  *
