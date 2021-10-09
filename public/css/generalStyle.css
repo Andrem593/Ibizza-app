@@ -6,6 +6,20 @@
     max-height: 40px;
     width:auto;
 }
+.btn-ibizza{
+    color: #fff !important;
+    background-color: #009a9e !important;
+    border-color: #009a9e !important;
+}
+.btn-ibizza:hover{
+    color: #fff !important;
+    background-color: #008f94 !important;
+    border-color: #008f94 !important;
+}
+.bg-ibizza{
+    color: #fff !important;
+    background-color: #008f94 !important;
+}
 
 
 /* recuadros de login se adapten al 50% de la pantalla */

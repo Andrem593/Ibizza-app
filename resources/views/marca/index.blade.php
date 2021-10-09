@@ -47,14 +47,14 @@
                                     <tbody>
                                         @foreach ($marcas as $marca)
                                             <tr>
-                                                <td>{{ ++$i }}</td>
+                                                <td class="my-auto">{{ ++$i }}</td>
 
-                                                <td>{{ $marca->nombre }}</td>
-                                                <td><img src="/storage/images/marca/{{ $marca->imagen }}" width="100px">
+                                                <td class="my-auto">{{ $marca->nombre }}</td>
+                                                <td class="my-auto"><img src="/storage/images/marca/{{ $marca->imagen }}" width="100px" class="img-circle elevation-2 img-fluid" style="max-height: 80px; width: auto">
                                                 </td>
 
 
-                                                <td>
+                                                <td class="my-auto">
                                                     <form action="{{ route('marcas.destroy', $marca->id) }}"
                                                         method="POST">
 

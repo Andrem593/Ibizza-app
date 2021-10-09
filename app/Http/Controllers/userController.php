@@ -55,7 +55,11 @@ class userController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->role = $request->role;
+        if ($request->role == 1) {
+            $user->role = 'Administrador';
+        }else{
+            $user->role = 'Empresaria';
+        }
         $user->password = Hash::make($request->password);
         if($user->save()){
             $message = 'nuevo usuario creado';

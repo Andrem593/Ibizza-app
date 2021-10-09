@@ -14,7 +14,7 @@
             {!! Form::model($role,['route'=> ['admin.roles.update', $role],'method'=>'put']) !!}
 
                 <div class="form-group">
-                    {!! Form::label('name', 'nombre') !!}
+                    {!! Form::label('name', 'Nombre del Rol') !!}
                     {!! Form::text('name', null, ['class'=>'form-control','placeholder'=>'Ingrese el nombre del rol']) !!}
                 </div>
                 @error('name')
@@ -31,7 +31,7 @@
                     </div>
                 @endforeach
 
-                {!! Form::submit('editar Rol', ['class'=>'btn btn-primary']) !!}
+                {!! Form::submit('Editar Rol', ['class'=>'btn btn-ibizza']) !!}
             {!! Form::close() !!}
         </div>
     </div>

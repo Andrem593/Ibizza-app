@@ -25,7 +25,7 @@
                             <td>{{$role->id}}</td>
                             <td>{{$role->name}}</td>
                             <td width="10px">
-                                <a href="{{route('admin.roles.edit',$role)}} " class="btn btn-sm btn-primary">Editar</a>
+                                <a href="{{route('admin.roles.edit',$role)}} " class="btn btn-sm btn-ibizza">Editar</a>
                             </td>
                             <td width="10px">
                                 <form action="{{route('admin.roles.destroy',$role)}}" method="POST">

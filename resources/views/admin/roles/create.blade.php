@@ -9,7 +9,7 @@
             {!! Form::open(['route'=>'admin.roles.store']) !!}
 
                 <div class="form-group">
-                    {!! Form::label('name', 'nombre') !!}
+                    {!! Form::label('name', 'Nombre') !!}
                     {!! Form::text('name', null, ['class'=>'form-control','placeholder'=>'Ingrese el nombre del rol']) !!}
                 </div>
                 @error('name')
@@ -26,7 +26,7 @@
                     </div>
                 @endforeach
 
-                {!! Form::submit('Crear Rol', ['class'=>'btn btn-primary']) !!}
+                {!! Form::submit('Crear Rol', ['class'=>'btn btn-ibizza']) !!}
             {!! Form::close() !!}
         </div>
     </div>
