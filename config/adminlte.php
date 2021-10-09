@@ -45,11 +45,11 @@ return [
     |
     */
 
-    'logo' => '<b>IBIZZA</b>',
-    'logo_img' => 'vendor/adminlte/dist/img/logo_ibizza.jpg',
-    'logo_img_class' => 'brand-image img-circle elevation-3',
+    'logo' => '',
+    'logo_img' => 'vendor/adminlte/dist/img/Logo_ibizza.svg',
+    'logo_img_class' => 'logo_ibizza',
     'logo_img_xl' => null,
-    'logo_img_xl_class' => 'brand-image-xs',
+    'logo_img_xl_class' => '',
     'logo_img_alt' => 'Ibizza-app',
 
     /*
@@ -243,6 +243,11 @@ return [
         ],
         ['header' => 'ADMINISTRACIÓN'],
         [
+            'text' => 'Lista de Roles',
+            'route'  => 'admin.roles.index',
+            'icon'    => 'fas fa-user-cog',
+        ],
+        [
             'text'    => 'Productos',
             'icon'    => 'fas fa-shoe-prints',
             'submenu' => [
@@ -266,6 +271,7 @@ return [
         [
             'text'    => 'Usuarios',
             'icon'    => 'fas fa-users',
+            'can'   =>'usuario.create',
             'submenu' => [
                 [
                     'text' => 'Crear',

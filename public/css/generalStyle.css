@@ -1,3 +1,13 @@
+.logo_ibizza{
+    line-height: .8;
+    margin-left: .8rem;
+    margin-right: .5rem;
+    margin-top: -3px;
+    max-height: 40px;
+    width:auto;
+}
+
+
 /* recuadros de login se adapten al 50% de la pantalla */
 @media (min-width: 800px){
     .recuadro {

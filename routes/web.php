@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admi\homeController;
+use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ProductoController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,7 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
@@ -40,10 +40,6 @@ Route::resource('marcas', MarcaController::class)
 Route::resource('productos', ProductoController::class)
 ->middleware(['auth:sanctum', 'verified']);
 
-// Route::middleware(['auth:sanctum', 'verified'])
-// ->get('/marca', [MarcaController::class,'index'])
-// ->name('marca.index');
-
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/usuario/create/', [homeController::class,'userCreate'])
 ->name('usuario.create');
@@ -51,3 +47,5 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/usuario/create', [userController::class,'store'])
 ->name('new.user');
+
+Route::resource('roles', RoleController::class)->names('admin.roles');
