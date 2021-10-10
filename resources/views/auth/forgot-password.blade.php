@@ -1,10 +1,13 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            
         </x-slot>
 
         <div class="card-body">
+            <div class="w-100 text-center p-4">
+                <img src="img/Logo_ibizza.svg" alt="logo_ibizza" width="200px">
+            </div>
 
             <div class="mb-3">
                 {{ __('¿Olvidaste tu contraseña? No hay problema. Simplemente díganos su dirección de correo electrónico y le enviaremos un enlace para restablecer la contraseña que le permitirá elegir una nueva.') }}

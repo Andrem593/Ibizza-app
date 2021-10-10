@@ -1,10 +1,15 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            
         </x-slot>
 
         <div class="card-body">
+            
+            <div class="w-100 text-center p-4">
+                <img src="img/Logo_ibizza.svg" alt="logo_ibizza" width="200px">
+            </div>
+
             <div class="mb-3 small text-muted">
                 {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
             </div>

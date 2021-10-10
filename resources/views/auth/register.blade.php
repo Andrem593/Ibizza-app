@@ -1,12 +1,16 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            
         </x-slot>
 
         <x-jet-validation-errors class="mb-3" />
 
         <div class="card-body">
+            <div class="w-100 text-center p-4">
+                <img src="img/Logo_ibizza.svg" alt="logo_ibizza" width="200px">
+            </div>
+
             <form method="POST" action="{{ route('register') }}">
                 @csrf
 

@@ -48,4 +48,6 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->post('/usuario/create', [userController::class,'store'])
 ->name('new.user');
 
-Route::resource('roles', RoleController::class)->names('admin.roles');
+Route::resource('roles', RoleController::class)
+->middleware(['auth:sanctum', 'verified'])
+->names('admin.roles');

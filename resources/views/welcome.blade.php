@@ -21,7 +21,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
-                    <img src="/img/logo_ibizza.png" alt="" width="120" height="35">
+                    <img src="/img/logo_ibizza(2).svg" alt="" width="120" height="35">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -89,8 +89,8 @@
         </div>
         </nav>
         </div>
-        <div>
-            {{-- <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel" height="50vh">
+        <div class="container">
+            <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel" height="50vh">
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
                         aria-current="true" aria-label="Slide 1"></button>
@@ -227,7 +227,7 @@
                         </ul>
                     </div>
                 </footer>
-            </div> --}}
+            </div>
         </div>
 
 

@@ -241,6 +241,11 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'Buscar',
         ],
+        [
+            'text' => 'Dashboard',
+            'route'  => 'dashboard',
+            'icon'    => 'fas fa-tachometer-alt',
+        ],
         ['header' => 'ADMINISTRACIÓN'],
         [
             'text' => 'Lista de Roles',
