@@ -45,11 +45,11 @@ return [
     |
     */
 
-    'logo' => '<b>IBIZZA</b>',
-    'logo_img' => 'vendor/adminlte/dist/img/logo_ibizza.jpg',
-    'logo_img_class' => 'brand-image img-circle elevation-3',
+    'logo' => '',
+    'logo_img' => 'vendor/adminlte/dist/img/Logo_ibizza.svg',
+    'logo_img_class' => 'logo_ibizza',
     'logo_img_xl' => null,
-    'logo_img_xl_class' => 'brand-image-xs',
+    'logo_img_xl_class' => '',
     'logo_img_alt' => 'Ibizza-app',
 
     /*
@@ -241,7 +241,17 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'Buscar',
         ],
+        [
+            'text' => 'Dashboard',
+            'route'  => 'dashboard',
+            'icon'    => 'fas fa-tachometer-alt',
+        ],
         ['header' => 'ADMINISTRACIÓN'],
+        [
+            'text' => 'Lista de Roles',
+            'route'  => 'admin.roles.index',
+            'icon'    => 'fas fa-user-cog',
+        ],
         [
             'text'    => 'Productos',
             'icon'    => 'fas fa-shoe-prints',
@@ -251,11 +261,22 @@ return [
                     'route'  => 'producto.upload',
                     'icon'    => 'fas fa-cloud-upload-alt',
                 ],
+                [
+                    'text' => 'CRUD',
+                    'route'  => 'productos.index',
+                    'icon'    => 'fas fa-box-open',
+                ],
             ]
+        ],
+        [
+            'text'    => 'Marcas',
+            'icon'    => 'fas fa-copyright',
+            'route'  => 'marcas.index'
         ],
         [
             'text'    => 'Usuarios',
             'icon'    => 'fas fa-users',
+            'can'   =>'usuario.create',
             'submenu' => [
                 [
                     'text' => 'Crear',
@@ -381,6 +402,16 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'BsCustomFileInput' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bs-custom-file-input/bs-custom-file-input.min.js',
                 ],
             ],
         ],

@@ -45,14 +45,11 @@
                     @enderror
                     <div class="form-group">
                         <label for="role" class="form-label">Tipo de Usuario</label>
-                        <input class="form-control" list="opciones_usuario" id="role" name="role"
-                            placeholder="Escribe el tipo de usuario..." value="{{ old('role') }}">
-                        <datalist id="opciones_usuario">
-                            <option value="Administrador">
-                            <option value="Vendedor">
-                            <option value="Supervisor">
-                            <option value="Empresaria">
-                        </datalist>
+                        <select name="role" class="form-control" >
+                            @foreach ($roles as $role )
+                                <option value="{{$role->id}}">{{$role->name}}</option>
+                            @endforeach
+                        </select>                   
                     </div>
                     @error('role')
                         <div class="alert alert-danger p-1" role="alert">

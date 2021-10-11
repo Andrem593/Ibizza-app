@@ -1,12 +1,16 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            
         </x-slot>
 
         <x-jet-validation-errors class="mb-3" />
 
         <div class="card-body">
+            <div class="w-100 text-center p-4">
+                <img src="img/Logo_ibizza.svg" alt="logo_ibizza" width="200px">
+            </div>
+
             <form method="POST" action="{{ route('register') }}">
                 @csrf
 
@@ -27,14 +31,19 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="role" class="form-label">Tipo de Usuario</label>
-                    <input class="form-control" list="opciones_usuario" id="role" name="role" placeholder="Escribe el tipo de usuario...">
-                    <datalist id="opciones_usuario">
-                    <option value="Administrador">
-                    <option value="Vendedor">
-                    <option value="Supervisor">
-                    <option value="Empresaria">
-                    </datalist>
+                    <div class="form-group">
+                        <label for="role" class="form-label">Tipo de Usuario</label>
+                        <select name="role" class="form-control" >
+                            @foreach ($roles as $role )
+                                <option value="{{$role->id}}">{{$role->name}}</option>
+                            @endforeach
+                        </select>                   
+                    </div>
+                    @error('role')
+                        <div class="alert alert-danger p-1" role="alert">
+                            <i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
                 <div class="mb-3">

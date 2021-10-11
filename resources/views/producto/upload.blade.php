@@ -1,13 +1,10 @@
 <x-app-layout>
     @section('title', 'Carga Producto')
         <x-slot name="header">
-            <h5 class="text-center">CARGA DE PRODUCTOS</h5>
+            CARGA DE PRODUCTOS
         </x-slot>
 
-        <div class="recuadro mx-auto shadow">
-            <div class="card-header bg-dark p-3">
-                <h3 class="card-title">Productos</h3>
-            </div>
+        <div class="card">
 
             <form action="{{ route('producto.store') }}" method="POST">
                 @csrf
@@ -36,7 +33,7 @@
                             <i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}
                         </div>
                     @enderror
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="excel">Carga archivo (.xls)</label>
                         <div class="input-group">
                             <div class="custom-file">
@@ -44,7 +41,21 @@
                                 <label class="custom-file-label" for="excel">Seleccionar archivo</label>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+
+                    @section('plugins.BsCustomFileInput', true)
+
+                    <x-adminlte-input-file name="excel" class=""
+                        igroup-size="sm" label="Carga archivo (.xls, .xlsx)" legend="Seleccionar" placeholder="Escoger un archivo .xls o .xlsx">
+
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text btn-ibizza">
+                                <i class="fas fa-upload"></i>
+                            </div>
+                        </x-slot>
+                        
+                    </x-adminlte-input-file>
+
                     @error('excel')
                         <div class="alert alert-danger p-1" role="alert">
                             <i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}
@@ -55,7 +66,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer d-flex justify-content-end">
-                    <button type="submit" class="btn btn-dark">Cargar productos</button>
+                    <button type="submit" class="btn btn-ibizza">Cargar productos</button>
                 </div>
             </form>
 
@@ -63,6 +74,7 @@
     </x-app-layout>
 
 
+@Section('js')
     <script>
         const Toast = Swal.mixin({
             toast: true,
@@ -86,3 +98,4 @@
 
         </script>
     @endif
+@stop

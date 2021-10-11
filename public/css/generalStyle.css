@@ -1,3 +1,27 @@
+.logo_ibizza{
+    line-height: .8;
+    margin-left: .8rem;
+    margin-right: .5rem;
+    margin-top: -3px;
+    max-height: 40px;
+    width:auto;
+}
+.btn-ibizza{
+    color: #fff !important;
+    background-color: #009a9e !important;
+    border-color: #009a9e !important;
+}
+.btn-ibizza:hover{
+    color: #fff !important;
+    background-color: #008f94 !important;
+    border-color: #008f94 !important;
+}
+.bg-ibizza{
+    color: #fff !important;
+    background-color: #008f94 !important;
+}
+
+
 /* recuadros de login se adapten al 50% de la pantalla */
 @media (min-width: 800px){
     .recuadro {

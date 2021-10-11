@@ -11,12 +11,11 @@ use Laravel\Jetstream\Jetstream;
 
 class userController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:usuario.create');
+    }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
@@ -40,12 +39,6 @@ class userController extends Controller
      */
     public function store(Request $request)
     {
-        // Validator::make($request, [
-        //     'name' => ['required', 'string', 'max:255'],
-        //     'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        //     'role'=>['required','string','max:50'],
-        //     'password' => ['required', 'string', 'max:8']
-        // ])->validate();
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -56,56 +49,34 @@ class userController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->role = $request->role;
+        if ($request->role == 1) {
+            $user->role = 'Administrador';
+        }else{
+            $user->role = 'Empresaria';
+        }
         $user->password = Hash::make($request->password);
         if($user->save()){
             $message = 'nuevo usuario creado';
         }else{
             $message = 'error en base';
         }
+        $user->roles()->sync($request->role);
         return redirect()->back()->with('message',$message);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
