@@ -27,12 +27,8 @@ Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard
 })->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])
-->get('/producto/upload', [ProductController::class,'productoUpload'])
+->get('/producto/upload', [ProductoController::class,'productoUpload'])
 ->name('producto.upload');
-
-Route::middleware(['auth:sanctum', 'verified'])
-->get('/producto/create', [ProductController::class,'store'])
-->name('producto.store');
 
 Route::resource('marcas', MarcaController::class)
 ->middleware(['auth:sanctum', 'verified']);
