@@ -17,13 +17,13 @@ class Productos extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('sku');
-            $table->string('nombre_producto')->nullable();
+            $table->string('nombre_producto');
             $table->string('descripcion')->nullable();
 
             $table->string('marca')->nullable();
             $table->string('seccion')->nullable();
             $table->string('clasificacion')->nullable();
-            $table->string('proveedor')->nullable();
+            $table->integer('proveedor_id');
             $table->string('estilo')->nullable();
             $table->string('talla')->nullable();
             $table->integer('cantidad_inicial')->nullable();

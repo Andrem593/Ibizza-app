@@ -162,7 +162,7 @@ class ProductoController extends Controller
                             'marca'  => $row[4],
                             'seccion'  => $row[5],
                             'clasificacion'  => $row[6],
-                            'proveedor'  => $proveedor_id,
+                            'proveedor_id'  => $proveedor_id,
                             'estilo'  => $row[8],
                             'talla'  => $row[9],
                             'cantidad_inicial'  => $row[10],
@@ -182,6 +182,7 @@ class ProductoController extends Controller
             $message = '<div class="alert alert-danger">Please Select File</div>';
         }
 
-        echo $message;
+        return redirect()->route('productos.index')
+            ->with('success', 'Productos cargados correctamente');
     }
 }
