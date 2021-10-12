@@ -41,6 +41,10 @@ Route::resource('productos', ProductoController::class)
 ->middleware(['auth:sanctum', 'verified']);
 
 Route::middleware(['auth:sanctum', 'verified'])
+->post('/producto/saveExcel/', [ProductoController::class,'saveExcel'])
+->name('producto.saveExcel');
+
+Route::middleware(['auth:sanctum', 'verified'])
 ->get('/usuario/create/', [homeController::class,'userCreate'])
 ->name('usuario.create');
 

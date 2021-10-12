@@ -6,7 +6,7 @@
 
         <div class="card">
 
-            <form action="{{ route('producto.store') }}" method="POST">
+            <form action="{{ route('producto.saveExcel') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                     <div class="form-group">

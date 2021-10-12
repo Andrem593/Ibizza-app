@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Producto;
+use App\Marca;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 
 /**
  * Class ProductoController
@@ -105,5 +107,65 @@ class ProductoController extends Controller
 
         return redirect()->route('productos.index')
             ->with('success', 'Producto deleted successfully');
+    }
+
+    public function productoUpload(){
+        return view('producto.upload');
+    }
+
+    public function saveExcel(Request $request)
+    {
+
+
+        // include 'vendor/autoload.php';
+
+        if ($_FILES["excel"]["name"] != '') {
+            $allowed_extension = array('xls', 'csv', 'xlsx');
+            $file_array = explode(".", $_FILES["excel"]["name"]);
+            $file_extension = end($file_array);
+
+            if (in_array($file_extension, $allowed_extension)) {
+                $file_name = time() . '.' . $file_extension;
+                move_uploaded_file($_FILES["excel"]["tmp_name"], $file_name);
+                $file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_name);
+                $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($file_type);
+
+                $spreadsheet = $reader->load($file_name);
+
+                unlink($file_name);
+
+                $data = $spreadsheet->getActiveSheet()->toArray();
+
+                foreach ($data as $key => $row) {
+                    if($key >= 1){
+                        $insert_data = array(
+                            'sku'  => $row[1],
+                            'nombre_producto'  => $row[2],
+                            'descripcion'  => $row[3],
+                            'marca'  => $row[4],
+                            'seccion'  => $row[5],
+                            'clasificacion'  => $row[6],
+                            'proveedor'  => $row[7],
+                            'estilo'  => $row[8],
+                            'talla'  => $row[9],
+                            'cantidad_inicial'  => $row[10],
+                            'stock'  => $row[11],
+                            'valor_venta'  => $row[12],
+                            'ultima_venta'  => $row[13]
+                        );
+    
+                        Producto::create($insert_data);
+                    }
+                    
+                }
+                $message = '<div class="alert alert-success">Data Imported Successfully</div>';
+            } else {
+                $message = '<div class="alert alert-danger">Only .xls .csv or .xlsx file allowed</div>';
+            }
+        } else {
+            $message = '<div class="alert alert-danger">Please Select File</div>';
+        }
+
+        echo $message;
     }
 }
