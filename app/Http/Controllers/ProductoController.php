@@ -140,26 +140,27 @@ class ProductoController extends Controller
                 foreach ($data as $key => $row) {
                     if ($key >= 1) {
 
-                        // $proveedor = DB::table('proveedores')
-                        // ->select('id')
-                        // ->where('nombre', 'like', '%'. $row[7] .'%')                        
-                        // ->first();
+                        $marca_id = DB::table('marcas')->where('nombre', 'like', '%' . $row[4] . '%')->value('id');
 
-                        $proveedor = DB::table('proveedores')->where('nombre', 'like', '%' . $row[7] . '%')->value('id');
+                        if (empty($marca_id)) {
+                            $marca_id = DB::table('marcas')->insertGetId(
+                                array('nombre' => $row[4], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
+                            );
+                        }
 
-                        if (empty($proveedor)) {
+                        $proveedor_id = DB::table('proveedores')->where('nombre', 'like', '%' . $row[7] . '%')->value('id');
+
+                        if (empty($proveedor_id)) {
                             $proveedor_id = DB::table('proveedores')->insertGetId(
                                 array('nombre' => $row[7], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
                             );
-                        } else {
-                            $proveedor_id = $proveedor;
                         }
 
                         $insert_data = array(
                             'sku'  => $row[1],
                             'nombre_producto'  => $row[2],
                             'descripcion'  => $row[3],
-                            'marca'  => $row[4],
+                            'marca_id'  => $marca_id,
                             'seccion'  => $row[5],
                             'clasificacion'  => $row[6],
                             'proveedor_id'  => $proveedor_id,

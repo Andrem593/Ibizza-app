@@ -23,7 +23,8 @@ class Marca extends Model
     
     static $rules = [
 		'nombre' => 'required|unique:marcas|max:255',
-		'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    'estado' => 'required',
     ];
 
     protected $perPage = 20;
@@ -33,7 +34,7 @@ class Marca extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombre','imagen'];
+    protected $fillable = ['nombre','imagen','estado'];
 
 
 

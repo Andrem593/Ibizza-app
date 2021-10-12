@@ -15,8 +15,8 @@ class CreateProveedoresTable extends Migration
     {
         Schema::create('proveedores', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nombre', 100);
-            $table->char('estado', 10)->default('ACTIVO');
+            $table->string('nombre');
+            $table->char('estado', 1)->default('A');
             $table->timestamps();
         });
     }

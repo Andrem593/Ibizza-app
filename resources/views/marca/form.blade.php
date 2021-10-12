@@ -16,7 +16,7 @@
         <x-adminlte-input-file name="imagen" class="{{ $errors->has('imagen') ? 'is-invalid' : '' }}" igroup-size="sm" label="Imágen" legend="Seleccionar" placeholder="Escoger una imágen...">
             
             <x-slot name="prependSlot">
-                <div class="input-group-text bg-lightblue">
+                <div class="input-group-text btn-ibizza">
                     <i class="fas fa-upload"></i>
                 </div>
             </x-slot>
@@ -28,6 +28,6 @@
 
     </div>
     <div class="box-footer mt20">
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" class="btn btn-ibizza">Guardar</button>
     </div>
 </div>
