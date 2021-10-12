@@ -9,7 +9,7 @@
             <form action="{{ route('producto.saveExcel') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="marca">Marca de Producto</label>
                         <select class="custom-select form-control-border border-width-2" id="marca" name="marca">
                             <option value="">Seleccione una marca</option>

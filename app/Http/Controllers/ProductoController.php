@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Producto;
 use App\Marca;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ProductoController
@@ -109,7 +109,8 @@ class ProductoController extends Controller
             ->with('success', 'Producto deleted successfully');
     }
 
-    public function productoUpload(){
+    public function productoUpload()
+    {
         return view('producto.upload');
     }
 
@@ -137,7 +138,23 @@ class ProductoController extends Controller
                 $data = $spreadsheet->getActiveSheet()->toArray();
 
                 foreach ($data as $key => $row) {
-                    if($key >= 1){
+                    if ($key >= 1) {
+
+                        // $proveedor = DB::table('proveedores')
+                        // ->select('id')
+                        // ->where('nombre', 'like', '%'. $row[7] .'%')                        
+                        // ->first();
+
+                        $proveedor = DB::table('proveedores')->where('nombre', 'like', '%' . $row[7] . '%')->value('id');
+
+                        if (empty($proveedor)) {
+                            $proveedor_id = DB::table('proveedores')->insertGetId(
+                                array('nombre' => $row[7], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
+                            );
+                        } else {
+                            $proveedor_id = $proveedor;
+                        }
+
                         $insert_data = array(
                             'sku'  => $row[1],
                             'nombre_producto'  => $row[2],
@@ -145,7 +162,7 @@ class ProductoController extends Controller
                             'marca'  => $row[4],
                             'seccion'  => $row[5],
                             'clasificacion'  => $row[6],
-                            'proveedor'  => $row[7],
+                            'proveedor'  => $proveedor_id,
                             'estilo'  => $row[8],
                             'talla'  => $row[9],
                             'cantidad_inicial'  => $row[10],
@@ -153,10 +170,9 @@ class ProductoController extends Controller
                             'valor_venta'  => $row[12],
                             'ultima_venta'  => $row[13]
                         );
-    
+
                         Producto::create($insert_data);
                     }
-                    
                 }
                 $message = '<div class="alert alert-success">Data Imported Successfully</div>';
             } else {
