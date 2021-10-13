@@ -116,8 +116,9 @@ class ProductoController extends Controller
 
     public function saveExcel(Request $request)
     {
-
-
+        $request->validate([
+            'excel'=>'required'   
+        ]);
         // include 'vendor/autoload.php';
 
         if ($_FILES["excel"]["name"] != '') {
