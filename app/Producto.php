@@ -50,7 +50,8 @@ class Producto extends Model
 		'seccion' => 'required',
 		'clasificacion' => 'required',
 		'proveedor_id' => 'required',
-		'estilo' => 'required',
+    'estilo' => 'required',
+    'color' => 'required',
 		'talla' => 'required',
 		'cantidad_inicial' => 'required',
 		'stock' => 'required',
@@ -66,7 +67,7 @@ class Producto extends Model
      *
      * @var array
      */
-    protected $fillable = ['sku', 'nombre_producto', 'descripcion', 'marca_id', 'seccion', 'clasificacion', 'proveedor_id', 'estilo', 'talla', 'cantidad_inicial', 'stock', 'valor_venta', 'ultima_venta', 'estado'];
+    protected $fillable = ['sku', 'nombre_producto', 'descripcion', 'marca_id', 'seccion', 'clasificacion', 'proveedor_id', 'estilo', 'color', 'talla', 'cantidad_inicial', 'stock', 'valor_venta', 'ultima_venta', 'estado'];
 
 
 
