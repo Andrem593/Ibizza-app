@@ -25,6 +25,7 @@ class Productos extends Migration
             $table->string('clasificacion')->nullable();
             $table->integer('proveedor_id');
             $table->string('estilo')->nullable();
+            $table->string('color')->nullable();
             $table->string('talla')->nullable();
             $table->integer('cantidad_inicial')->nullable();
             $table->integer('stock')->nullable();
