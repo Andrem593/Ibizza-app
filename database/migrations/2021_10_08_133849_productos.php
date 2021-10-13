@@ -21,17 +21,18 @@ class Productos extends Migration
             $table->string('descripcion')->nullable();
 
             $table->string('marca_id')->nullable();
-            $table->string('seccion')->nullable();
-            $table->string('clasificacion')->nullable();
+            $table->string('grupo',100)->nullable();
+            $table->string('seccion',100)->nullable();
+            $table->string('clasificacion',100)->nullable();
             $table->integer('proveedor_id');
-            $table->string('estilo')->nullable();
-            $table->string('color')->nullable();
+            $table->string('estilo',100)->nullable();
+            $table->string('color',100)->nullable();
             $table->string('talla')->nullable();
             $table->integer('cantidad_inicial')->nullable();
             $table->integer('stock')->nullable();
             
             $table->float('valor_venta', 8, 2)->nullable();
-            $table->string('ultima_venta')->nullable();
+            $table->date('ultima_venta')->nullable();
             $table->char('estado', 1)->default('A');
             
             // $table->string('linea')->nullable();
