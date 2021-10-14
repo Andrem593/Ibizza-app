@@ -4,7 +4,6 @@ use App\Http\Controllers\Admi\homeController;
 use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ProductoController;
 /*
@@ -29,6 +28,10 @@ Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/producto/upload', [ProductoController::class,'productoUpload'])
 ->name('producto.upload');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/producto/datatable', [ProductoController::class,'productoDataTable'])
+->name('producto.datatable');
 
 Route::resource('marcas', MarcaController::class)
 ->middleware(['auth:sanctum', 'verified']);

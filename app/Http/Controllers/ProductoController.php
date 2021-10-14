@@ -117,7 +117,7 @@ class ProductoController extends Controller
     public function saveExcel(Request $request)
     {
         $request->validate([
-            'excel'=>'required'   
+            'excel' => 'required'
         ]);
         // include 'vendor/autoload.php';
 
@@ -149,11 +149,11 @@ class ProductoController extends Controller
                             );
                         }
 
-                        $proveedor_id = DB::table('proveedores')->where('nombre', 'like', '%' . $row[7] . '%')->value('id');
+                        $proveedor_id = DB::table('proveedores')->where('nombre', 'like', '%' . $row[8] . '%')->value('id');
 
                         if (empty($proveedor_id)) {
                             $proveedor_id = DB::table('proveedores')->insertGetId(
-                                array('nombre' => $row[7], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
+                                array('nombre' => $row[8], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
                             );
                         }
 
@@ -162,15 +162,16 @@ class ProductoController extends Controller
                             'nombre_producto'  => $row[2],
                             'descripcion'  => $row[3],
                             'marca_id'  => $marca_id,
-                            'seccion'  => $row[5],
-                            'clasificacion'  => $row[6],
+                            'grupo' => $row[5],
+                            'seccion'  => $row[6],
+                            'clasificacion'  => $row[7],
                             'proveedor_id'  => $proveedor_id,
-                            'estilo'  => $row[8],
-                            'talla'  => $row[9],
-                            'cantidad_inicial'  => $row[10],
-                            'stock'  => $row[11],
-                            'valor_venta'  => $row[12],
-                            'ultima_venta'  => $row[13]
+                            'estilo'  => $row[9],
+                            'talla'  => $row[10],
+                            'cantidad_inicial'  => $row[11],
+                            'stock'  => $row[12],
+                            'valor_venta'  => $row[13],
+                            'ultima_venta'  => $row[14]
                         );
 
                         Producto::create($insert_data);
@@ -186,5 +187,21 @@ class ProductoController extends Controller
 
         return redirect()->route('productos.index')
             ->with('success', 'Productos cargados correctamente');
+    }
+    public function productoDataTable()
+    {
+        $response = '';
+        if ($_POST['funcion'] == 'listar_todo') {
+            $productos = DB::table('productos')
+            ->join('proveedores', 'proveedores.id', '=', 'productos.proveedor_id')
+            ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
+            ->select('productos.*', 'marcas.nombre AS nombre_marca', 'proveedores.nombre AS nombre_proveedor')
+            ->get();
+            if (count($productos) == 0) {
+                $productos = 'no data';
+            }
+            $response = json_encode($productos);
+        }
+        return $response;
     }
 }

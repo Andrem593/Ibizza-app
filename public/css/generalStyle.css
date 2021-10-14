@@ -21,7 +21,6 @@
     background-color: #008f94 !important;
 }
 
-
 /* recuadros de login se adapten al 50% de la pantalla */
 @media (min-width: 800px){
     .recuadro {
