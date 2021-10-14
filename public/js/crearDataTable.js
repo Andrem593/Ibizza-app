@@ -33,6 +33,7 @@ function crearTabla(data, ruta) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
     });
+    let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
     let dataTable = $('#datatable').DataTable({
 
         destroy: true,
@@ -51,7 +52,10 @@ function crearTabla(data, ruta) {
         },
         "columns": [
             {
-                "defaultContent": `<button class ="btn btn-ibizza btn-sm"type ="button"> <i class="fas fa-edit"></i></button>`
+                "data": 'id',
+                "render": function(data, type, row) {
+                    return '<a href="/productos/'+data+'/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>'+btnEliminar;
+                }
             },
             {
                 "data": "id"
@@ -108,7 +112,8 @@ function crearTabla(data, ruta) {
             [10, 25, 50, "Todo"]
         ],
         "language": espanol,
-        //para usar los botones   
+        //para usar los botones
+        responsive:false,   
         autoWidth:false,
         dom: 'Bfrtilp',
         buttons: [{
@@ -140,4 +145,10 @@ function crearTabla(data, ruta) {
         dataTable.clear();
         dataTable.draw();
     }
+    $('#datatable tbody').on('click', '.eliminar', function() {
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#elemento_eliminar').html(data.nombre_producto);
+        $('#id_eliminar').val(data.id)
+        $('#form_eliminar').attr('action', "/productos/"+data.id);
+    })
 }

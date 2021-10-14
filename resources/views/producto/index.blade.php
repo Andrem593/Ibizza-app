@@ -33,7 +33,8 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="datatable" class="display table table-striped table-sm table-hover fw-bold" style="font-size: 10px">
+                            <table id="datatable" class="display table table-striped table-sm table-hover fw-bold"
+                                style="font-size: 10px">
                                 <thead class="bg-ibizza">
                                     <tr>
                                         <th></th>
@@ -63,7 +64,36 @@
                     </div>
                 </div>
                 @push('css')
-                    <link rel="stylesheet" href="/css/botonesDataTable.css">                  
+                    <link rel="stylesheet" href="/css/botonesDataTable.css">
+                @endpush
+                @push('modals')
+                    <div class="modal" id="eliminar" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Eliminar Elemento</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="form_eliminar" action="" method="POST">
+                                        <div class="form-group">
+                                            <label for="">Seguro de Eliminar Producto: </label>
+                                            <label id="elemento_eliminar"></label>
+                                            <input type="hidden" id="id_eliminar">
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endpush
                 @Push('scripts')
                     <script src="/js/crearDataTable.js"></script>
@@ -75,6 +105,7 @@
                             let ruta = '/producto/datatable'
                             crearTabla(data, ruta);
                         });
+
                     </script>
                 @endpush
             </div>

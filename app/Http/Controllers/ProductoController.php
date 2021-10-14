@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Producto;
-use App\Marca;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Marcas;
 
 /**
  * Class ProductoController
@@ -50,7 +51,7 @@ class ProductoController extends Controller
         $producto = Producto::create($request->all());
 
         return redirect()->route('productos.index')
-            ->with('success', 'Producto created successfully.');
+            ->with('success', 'Producto Creado Correctamente.');
     }
 
     /**
@@ -75,8 +76,9 @@ class ProductoController extends Controller
     public function edit($id)
     {
         $producto = Producto::find($id);
-
-        return view('producto.edit', compact('producto'));
+        $marcas = DB::table('marcas')->get();
+        $proveedores = DB::table('proveedores')->get();
+        return view('producto.edit', compact('producto','marcas','proveedores'));
     }
 
     /**
@@ -93,7 +95,7 @@ class ProductoController extends Controller
         $producto->update($request->all());
 
         return redirect()->route('productos.index')
-            ->with('success', 'Producto updated successfully');
+            ->with('success', 'Producto Actualizado Correctamente');
     }
 
     /**
@@ -106,7 +108,7 @@ class ProductoController extends Controller
         $producto = Producto::find($id)->delete();
 
         return redirect()->route('productos.index')
-            ->with('success', 'Producto deleted successfully');
+            ->with('success', 'Producto Eliminado Correctamente');
     }
 
     public function productoUpload()

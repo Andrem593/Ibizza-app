@@ -43,22 +43,9 @@ class Producto extends Model
 {
     
     static $rules = [
-		'sku' => 'required',
-		'nombre_producto' => 'required',
-		'descripcion' => 'required',
-    'marca_id' => 'required',
-    'grupo' => 'required',
-		'seccion' => 'required',
-		'clasificacion' => 'required',
-		'proveedor_id' => 'required',
-    'estilo' => 'required',
-    'color' => 'required',
-		'talla' => 'required',
-		'cantidad_inicial' => 'required',
-		'stock' => 'required',
-		'valor_venta' => 'required',
-		'ultima_venta' => 'required',
-		'estado' => 'required'
+    'sku' => 'required',
+    'nombre_producto' => 'required',
+    'valor_venta' => 'required',
     ];
 
     protected $perPage = 20;
