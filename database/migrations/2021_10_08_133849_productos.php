@@ -32,7 +32,7 @@ class Productos extends Migration
             $table->integer('stock')->nullable();
             
             $table->float('valor_venta', 8, 2)->nullable();
-            $table->date('ultima_venta')->nullable();
+            $table->datetime('ultima_venta')->nullable();
             $table->char('estado', 1)->default('A');
             
             // $table->string('linea')->nullable();
