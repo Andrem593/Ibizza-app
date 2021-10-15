@@ -32,7 +32,7 @@
 
                                     <td class="my-auto">{{ $marca->nombre }}</td>
                                     <td class="my-auto"><img src="/storage/images/marca/{{ $marca->imagen }}"
-                                            width="100px" class="img-circle elevation-2 img-fluid"
+                                            width="100px" class="rounded img-fluid"
                                             style="max-height: 80px; width: auto">
                                     </td>
                                     <td class="my-auto">{{ $marca->estado }}</td>

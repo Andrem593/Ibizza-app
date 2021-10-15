@@ -191,7 +191,7 @@ function crearTablaMarca(data, ruta) {
                     if (data != '' && data != null) {
                         image = '/storage/images/marca/' + data
                     }
-                    return '<img src="' + image + '" width="50px" class="img-circle elevation-2 img-fluid" style="height: 50px; object-fit: cover">';
+                    return '<img src="' + image + '" width="50px" class="rounded img-fluid" style="height: 50px; object-fit: cover">';
                 }
             },
             {
