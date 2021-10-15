@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Marca;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class MarcaController
@@ -132,5 +133,19 @@ class MarcaController extends Controller
 
         return redirect()->route('marcas.index')
             ->with('success', 'Se eliminó la marca');
+    }
+
+    public function marcaDataTable()
+    {
+        $response = '';
+        if ($_POST['funcion'] == 'listar_todo') {
+            $marcas = DB::table('marcas')
+            ->get();
+            if (count($marcas) == 0) {
+                $marcas = 'no data';
+            }
+            $response = json_encode($marcas);
+        }
+        return $response;
     }
 }

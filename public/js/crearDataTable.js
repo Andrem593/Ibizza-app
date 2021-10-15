@@ -50,11 +50,10 @@ function crearTabla(data, ruta) {
                 }
             },
         },
-        "columns": [
-            {
+        "columns": [{
                 "data": 'id',
                 "render": function(data, type, row) {
-                    return '<a href="/productos/'+data+'/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>'+btnEliminar;
+                    return '<a href="/productos/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
                 }
             },
             {
@@ -104,7 +103,7 @@ function crearTabla(data, ruta) {
             },
             {
                 "data": "estado"
-            }                                    
+            }
 
         ],
         "lengthMenu": [
@@ -113,8 +112,8 @@ function crearTabla(data, ruta) {
         ],
         "language": espanol,
         //para usar los botones
-        responsive:false,   
-        autoWidth:false,
+        responsive: false,
+        autoWidth: false,
         dom: 'Bfrtilp',
         buttons: [{
                 extend: 'excelHtml5',
@@ -149,6 +148,109 @@ function crearTabla(data, ruta) {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#elemento_eliminar').html(data.nombre_producto);
         $('#id_eliminar').val(data.id)
-        $('#form_eliminar').attr('action', "/productos/"+data.id);
+        $('#form_eliminar').attr('action', "/productos/" + data.id);
+    })
+}
+
+function crearTablaMarca(data, ruta) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
+    let dataTable = $('#datatable').DataTable({
+
+        destroy: true,
+        "processing": true,
+        "ajax": {
+            "url": ruta,
+            "method": "POST",
+            "data": data,
+            "dataSrc": function(json) {
+                if (json == 'no data') {
+                    return [];
+                } else {
+                    return json;
+                }
+            },
+        },
+        "columns": [{
+                "data": 'id',
+                "render": function(data, type, row) {
+                    return '<a href="/marcas/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
+                }
+            },
+            {
+                "data": "nombre"
+            },
+            {
+                "data": "imagen",
+                "render": function(data, type, row) {
+                    let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                    if (data != '' && data != null) {
+                        image = '/storage/images/marca/' + data
+                    }
+                    return '<img src="' + image + '" width="50px" class="img-circle elevation-2 img-fluid" style="height: 50px; object-fit: cover">';
+                }
+            },
+            {
+                "data": "estado"
+            }
+
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "Todo"]
+        ],
+        "columnDefs": [{
+                "targets": [0],
+                "orderable": false,
+                "searchable": false
+            },
+            { "width": "1%", "targets": 0 }
+        ],
+        "order": [
+            [1, 'asc']
+        ],
+        "language": espanol,
+        //para usar los botones
+        responsive: false,
+        autoWidth: false,
+        dom: 'Bfrtilp',
+        buttons: [{
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> ',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> ',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger',
+                pageSize: 'TABLOID',
+                orientation: 'landscape'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> ',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info',
+                exportOptions: {
+                    stripHtml: false
+                }
+            },
+        ]
+    });
+    if (dataTable.length == 0) {
+        dataTable.clear();
+        dataTable.draw();
+    }
+    $('#datatable tbody').on('click', '.eliminar', function() {
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#elemento_eliminar').html(data.nombre);
+        $('#id_eliminar').val(data.id)
+        $('#form_eliminar').attr('action', "/marcas/" + data.id);
     })
 }
