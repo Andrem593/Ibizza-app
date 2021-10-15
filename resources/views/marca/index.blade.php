@@ -15,17 +15,17 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table  id="datatable" class="display table table-striped table-sm table-hover fw-bold" style="font-size: 10px">
-                        <thead class="thead bg-ibizza">
+                    <table id="datatable" class="display table table-striped table-sm table-hover fw-bold" style="font-size: 10px">
+                        <thead class="bg-ibizza">
                             <tr>
                                 <th></th>
-
                                 <th>Nombre</th>
                                 <th>Imagen</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody>
+<<<<<<< HEAD
                             {{-- @foreach ($marcas as $marca)
                                 <tr>
                                     <td class="my-auto">{{ ++$i }}</td>
@@ -59,6 +59,9 @@
                                     </td>
                                 </tr>
                             @endforeach --}}
+=======
+                            
+>>>>>>> 36d593e931f7e4a0f2d8863aa27526c7831e1f0e
                         </tbody>
                     </table>
                 </div>
