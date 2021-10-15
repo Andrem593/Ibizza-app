@@ -1,73 +1,82 @@
-@extends('layouts.app')
+<x-app-layout>
+    @section('title', 'Proveedor')
+        <x-slot name="header">
+            PROVEEDOR
+            <a href="{{ route('proveedores.create') }}" class="btn btn-secondary btn-sm float-right"
+                data-placement="left">
+                {{ __('Nuevo Proveedor') }}
+            </a>
+        </x-slot>
 
-@section('template_title')
-    Proveedor
-@endsection
+        <div class="card">
 
-@section('content')
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif
 
-                            <span id="card_title">
-                                {{ __('Proveedor') }}
-                            </span>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="datatable" class="display table table-striped table-sm table-hover fw-bol">
+                        <thead class="bg-ibizza">
+                            <tr>
+                                <th></th>
+                                <th>Nombre</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-                             <div class="float-right">
-                                <a href="{{ route('proveedores.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
-                                </a>
-                              </div>
+        @push('css')
+            <link rel="stylesheet" href="/css/botonesDataTable.css">
+        @endpush
+        @push('modals')
+            <div class="modal" id="eliminar" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Eliminar Elemento</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                    </div>
-                    @if ($message = Session::get('success'))
-                        <div class="alert alert-success">
-                            <p>{{ $message }}</p>
+                        <div class="modal-body">
+                            <form id="form_eliminar" action="" method="POST">
+                                <div class="form-group">
+                                    <label for="">Seguro de Eliminar Proveedor: </label>
+                                    <label id="elemento_eliminar"></label>
+                                    <input type="hidden" id="id_eliminar">
+                                </div>
                         </div>
-                    @endif
-
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead class="thead">
-                                    <tr>
-                                        <th>No</th>
-                                        
-										<th>Nombre</th>
-										<th>Estado</th>
-
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($proveedores as $proveedor)
-                                        <tr>
-                                            <td>{{ ++$i }}</td>
-                                            
-											<td>{{ $proveedor->nombre }}</td>
-											<td>{{ $proveedor->estado }}</td>
-
-                                            <td>
-                                                <form action="{{ route('proveedores.destroy',$proveedor->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('proveedores.show',$proveedor->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('proveedores.edit',$proveedor->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
                         </div>
                     </div>
                 </div>
-                {!! $proveedores->links() !!}
             </div>
-        </div>
-    </div>
-@endsection
+        @endpush
+        @Push('scripts')
+            <script src="/js/crearDataTable.js"></script>
+            <script>
+                $(document).ready(function() {
+                    var data = {
+                        funcion: 'listar_todo',
+                    }
+                    let ruta = '/proveedor/datatable'
+                    crearTablaProveedor(data, ruta);
+                });
+
+            </script>
+        @endpush
+</x-app-layout>

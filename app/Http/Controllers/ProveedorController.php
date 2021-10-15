@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Proveedor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ProveedorController
@@ -18,10 +19,7 @@ class ProveedorController extends Controller
      */
     public function index()
     {
-        $proveedores = Proveedor::paginate();
-
-        return view('proveedor.index', compact('proveedores'))
-            ->with('i', (request()->input('page', 1) - 1) * $proveedores->perPage());
+        return view('proveedor.index');
     }
 
     /**
@@ -105,5 +103,19 @@ class ProveedorController extends Controller
 
         return redirect()->route('proveedores.index')
             ->with('success', 'Proveedor deleted successfully');
+    }
+
+    public function proveedorDataTable()
+    {
+        $response = '';
+        if ($_POST['funcion'] == 'listar_todo') {
+            $proveedores = DB::table('proveedores')
+            ->get();
+            if (count($proveedores) == 0) {
+                $proveedores = 'no data';
+            }
+            $response = json_encode($proveedores);
+        }
+        return $response;
     }
 }

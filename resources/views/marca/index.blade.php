@@ -15,50 +15,17 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table  id="datatable" class="display table table-striped table-sm table-hover fw-bold" style="font-size: 10px">
-                        <thead class="thead bg-ibizza">
+                    <table id="datatable" class="display table table-striped table-sm table-hover fw-bold" style="font-size: 10px">
+                        <thead class="bg-ibizza">
                             <tr>
                                 <th></th>
-
                                 <th>Nombre</th>
                                 <th>Imagen</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($marcas as $marca)
-                                <tr>
-                                    <td class="my-auto">{{ ++$i }}</td>
-
-                                    <td class="my-auto">{{ $marca->nombre }}</td>
-                                    <td class="my-auto"><img src="/storage/images/marca/{{ $marca->imagen }}"
-                                            width="100px" class="img-circle elevation-2 img-fluid"
-                                            style="max-height: 80px; width: auto">
-                                    </td>
-                                    <td class="my-auto">{{ $marca->estado }}</td>
-
-                                    <td class="my-auto">
-                                        <form action="{{ route('marcas.destroy', $marca->id) }}" method="POST">
-
-                                            <div class="btn-group">
-                                                <a class="btn btn-secondary"
-                                                    href="{{ route('marcas.show', $marca->id) }}">
-                                                    <i class="fa fa-fw fa-eye"></i> Ver
-                                                </a>
-                                                <a class="btn btn-primary" href="{{ route('marcas.edit', $marca->id) }}">
-                                                    <i class="fa fa-fw fa-edit"></i> Editar
-                                                </a>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger"
-                                                    href="{{ route('marcas.show', $marca->id) }}">
-                                                    <i class="fa fa-fw fa-trash"></i> Eliminar
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach --}}
+                            
                         </tbody>
                     </table>
                 </div>

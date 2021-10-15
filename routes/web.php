@@ -58,6 +58,10 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::resource('proveedores', ProveedorController::class)
 ->middleware(['auth:sanctum', 'verified']);
 
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/proveedor/datatable', [ProveedorController::class,'proveedorDataTable'])
+->name('proveedor.datatable');
+
 // USUARIO
 
 Route::middleware(['auth:sanctum', 'verified'])

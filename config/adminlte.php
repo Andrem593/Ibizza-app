@@ -274,6 +274,11 @@ return [
             'route'  => 'marcas.index'
         ],
         [
+            'text'    => 'Provedor',
+            'icon'    => 'fas fa-truck',
+            'route'  => 'proveedores.index'
+        ],
+        [
             'text'    => 'Usuarios',
             'icon'    => 'fas fa-users',
             'can'   =>'usuario.create',
