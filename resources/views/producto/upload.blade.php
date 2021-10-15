@@ -46,7 +46,7 @@
                     @section('plugins.BsCustomFileInput', true)
 
                     <x-adminlte-input-file name="excel" class=""
-                        igroup-size="sm" label="Carga archivo (.xls, .xlsx)" legend="Seleccionar" placeholder="Escoger un archivo .xls o .xlsx">
+                        igroup-size="sm" label="Carga archivo (.xls, .xlsx)" legend="Seleccionar" placeholder="Escoger un archivo .xls o .xlsx" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
 
                         <x-slot name="prependSlot">
                             <div class="input-group-text btn-ibizza">
@@ -56,11 +56,11 @@
                         
                     </x-adminlte-input-file>
 
-                    @error('excel')
+                    {{-- @error('excel')
                         <div class="alert alert-danger p-1" role="alert">
                             <i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}
                         </div>
-                    @enderror
+                    @enderror --}}
 
                 </div>
                 <!-- /.card-body -->

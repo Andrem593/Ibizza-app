@@ -119,7 +119,7 @@ class ProductoController extends Controller
     public function saveExcel(Request $request)
     {
         $request->validate([
-            'excel' => 'required'
+            'excel' => 'required|max:10000|mimes:xlsx,xls'
         ]);
         // include 'vendor/autoload.php';
 
@@ -143,37 +143,37 @@ class ProductoController extends Controller
                 foreach ($data as $key => $row) {
                     if ($key >= 1) {
 
-                        $marca_id = DB::table('marcas')->where('nombre', 'like', '%' . $row[4] . '%')->value('id');
+                        $marca_id = DB::table('marcas')->where('nombre', 'like', '%' . $row[3] . '%')->value('id');
 
                         if (empty($marca_id)) {
                             $marca_id = DB::table('marcas')->insertGetId(
-                                array('nombre' => $row[4], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
+                                array('nombre' => $row[3], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
                             );
                         }
 
-                        $proveedor_id = DB::table('proveedores')->where('nombre', 'like', '%' . $row[8] . '%')->value('id');
+                        $proveedor_id = DB::table('proveedores')->where('nombre', 'like', '%' . $row[7] . '%')->value('id');
 
                         if (empty($proveedor_id)) {
                             $proveedor_id = DB::table('proveedores')->insertGetId(
-                                array('nombre' => $row[8], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
+                                array('nombre' => $row[7], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
                             );
                         }
 
                         $insert_data = array(
-                            'sku'  => $row[1],
-                            'nombre_producto'  => $row[2],
-                            'descripcion'  => $row[3],
+                            'sku'  => $row[0],
+                            'nombre_producto'  => $row[1],
+                            'descripcion'  => $row[2],
                             'marca_id'  => $marca_id,
-                            'grupo' => $row[5],
-                            'seccion'  => $row[6],
-                            'clasificacion'  => $row[7],
+                            'grupo' => $row[4],
+                            'seccion'  => $row[5],
+                            'clasificacion'  => $row[6],
                             'proveedor_id'  => $proveedor_id,
-                            'estilo'  => $row[9],
-                            'talla'  => $row[10],
-                            'cantidad_inicial'  => $row[11],
-                            'stock'  => $row[12],
-                            'valor_venta'  => $row[13],
-                            'ultima_venta'  => $row[14]
+                            'estilo'  => $row[8],
+                            'talla'  => $row[9],
+                            'cantidad_inicial'  => $row[10],
+                            'stock'  => $row[11],
+                            'valor_venta'  => $row[12],
+                            'ultima_venta'  => $row[13]
                         );
 
                         Producto::create($insert_data);
