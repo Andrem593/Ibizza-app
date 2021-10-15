@@ -18,7 +18,7 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="datatable" class="display table table-striped table-sm table-hover fw-bol">
+                    <table id="datatable" class="display table table-striped table-sm table-hover fw-bold" style="font-size: 10px">
                         <thead class="bg-ibizza">
                             <tr>
                                 <th></th>
