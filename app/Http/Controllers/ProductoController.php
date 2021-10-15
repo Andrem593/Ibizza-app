@@ -78,7 +78,7 @@ class ProductoController extends Controller
         $producto = Producto::find($id);
         $marcas = DB::table('marcas')->get();
         $proveedores = DB::table('proveedores')->get();
-        return view('producto.edit', compact('producto','marcas','proveedores'));
+        return view('producto.edit', compact('producto', 'marcas', 'proveedores'));
     }
 
     /**
@@ -121,70 +121,59 @@ class ProductoController extends Controller
         $request->validate([
             'excel' => 'required|max:10000|mimes:xlsx,xls'
         ]);
-        // include 'vendor/autoload.php';
 
-        if ($_FILES["excel"]["name"] != '') {
-            $allowed_extension = array('xls', 'csv', 'xlsx');
-            $file_array = explode(".", $_FILES["excel"]["name"]);
-            $file_extension = end($file_array);
+        $file_array = explode(".", $_FILES["excel"]["name"]);
+        $file_extension = end($file_array);
 
-            if (in_array($file_extension, $allowed_extension)) {
-                $file_name = time() . '.' . $file_extension;
-                move_uploaded_file($_FILES["excel"]["tmp_name"], $file_name);
-                $file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_name);
-                $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($file_type);
+        $file_name = time() . '.' . $file_extension;
+        move_uploaded_file($_FILES["excel"]["tmp_name"], $file_name);
+        $file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_name);
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($file_type);
 
-                $spreadsheet = $reader->load($file_name);
+        $spreadsheet = $reader->load($file_name);
 
-                unlink($file_name);
+        unlink($file_name);
 
-                $data = $spreadsheet->getActiveSheet()->toArray();
+        $data = $spreadsheet->getActiveSheet()->toArray();
 
-                foreach ($data as $key => $row) {
-                    if ($key >= 1) {
+        foreach ($data as $key => $row) {
+            if ($key >= 1) {
 
-                        $marca_id = DB::table('marcas')->where('nombre', 'like', '%' . $row[3] . '%')->value('id');
+                $marca_id = DB::table('marcas')->where('nombre', 'like', '%' . $row[3] . '%')->value('id');
 
-                        if (empty($marca_id)) {
-                            $marca_id = DB::table('marcas')->insertGetId(
-                                array('nombre' => $row[3], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
-                            );
-                        }
-
-                        $proveedor_id = DB::table('proveedores')->where('nombre', 'like', '%' . $row[7] . '%')->value('id');
-
-                        if (empty($proveedor_id)) {
-                            $proveedor_id = DB::table('proveedores')->insertGetId(
-                                array('nombre' => $row[7], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
-                            );
-                        }
-
-                        $insert_data = array(
-                            'sku'  => $row[0],
-                            'nombre_producto'  => $row[1],
-                            'descripcion'  => $row[2],
-                            'marca_id'  => $marca_id,
-                            'grupo' => $row[4],
-                            'seccion'  => $row[5],
-                            'clasificacion'  => $row[6],
-                            'proveedor_id'  => $proveedor_id,
-                            'estilo'  => $row[8],
-                            'talla'  => $row[9],
-                            'cantidad_inicial'  => $row[10],
-                            'stock'  => $row[11],
-                            'valor_venta'  => $row[12],
-                            'ultima_venta'  => $row[13]
-                        );
-
-                        Producto::create($insert_data);
-                    }
+                if (empty($marca_id)) {
+                    $marca_id = DB::table('marcas')->insertGetId(
+                        array('nombre' => $row[3], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
+                    );
                 }
-                $message = '<div class="alert alert-success">Data Imported Successfully</div>';
-            } else {
-                $message = '<div class="alert alert-danger">Only .xls .csv or .xlsx file allowed</div>';
+
+                $proveedor_id = DB::table('proveedores')->where('nombre', 'like', '%' . $row[7] . '%')->value('id');
+
+                if (empty($proveedor_id)) {
+                    $proveedor_id = DB::table('proveedores')->insertGetId(
+                        array('nombre' => $row[7], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
+                    );
+                }
+
+                $insert_data = array(
+                    'sku'  => $row[0],
+                    'nombre_producto'  => $row[1],
+                    'descripcion'  => $row[2],
+                    'marca_id'  => $marca_id,
+                    'grupo' => $row[4],
+                    'seccion'  => $row[5],
+                    'clasificacion'  => $row[6],
+                    'proveedor_id'  => $proveedor_id,
+                    'estilo'  => $row[8],
+                    'talla'  => $row[9],
+                    'cantidad_inicial'  => $row[10],
+                    'stock'  => $row[11],
+                    'valor_venta'  => $row[12],
+                    'ultima_venta'  => $row[13]
+                );
+
+                Producto::create($insert_data);
             }
-        } else {
-            $message = '<div class="alert alert-danger">Please Select File</div>';
         }
 
         return redirect()->route('productos.index')
@@ -195,10 +184,10 @@ class ProductoController extends Controller
         $response = '';
         if ($_POST['funcion'] == 'listar_todo') {
             $productos = DB::table('productos')
-            ->join('proveedores', 'proveedores.id', '=', 'productos.proveedor_id')
-            ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
-            ->select('productos.*', 'marcas.nombre AS nombre_marca', 'proveedores.nombre AS nombre_proveedor')
-            ->get();
+                ->join('proveedores', 'proveedores.id', '=', 'productos.proveedor_id')
+                ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
+                ->select('productos.*', 'marcas.nombre AS nombre_marca', 'proveedores.nombre AS nombre_proveedor')
+                ->get();
             if (count($productos) == 0) {
                 $productos = 'no data';
             }
