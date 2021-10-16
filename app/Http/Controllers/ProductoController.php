@@ -6,7 +6,7 @@ use App\Producto;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Marcas;
+use Intervention\Image\Facades\Image;
 
 /**
  * Class ProductoController
@@ -95,7 +95,13 @@ class ProductoController extends Controller
         
         if ($request->file('imagen_path')) {
             $image = time() . '.' . $request->imagen_path->extension();
-            $request->imagen_path->move(public_path('storage/images/productos'), $image);
+            // $request->imagen_path->move(public_path('storage/images/productos'), $image);
+            $ruta = public_path('storage/images/productos/').$image; 
+            Image::make($request->file('imagen_path'))
+            ->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->save($ruta);
             $requestData['imagen_path'] = $image;
         }
         $producto->update($requestData);

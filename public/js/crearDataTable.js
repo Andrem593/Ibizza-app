@@ -66,7 +66,7 @@ function crearTabla(data, ruta) {
                     if (data != '' && data != null) {
                         image = '/storage/images/productos/' + data
                     }
-                    return '<center><img  src="'+image+'"class="rounded" width="60" height="60" /> </center>';
+                    return '<center><img  src="'+image+'"class="rounded" width="80" height="60" /> </center>';
                 }
             },
             {
