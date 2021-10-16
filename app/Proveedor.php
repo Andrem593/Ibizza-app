@@ -24,6 +24,8 @@ class Proveedor extends Model
 		'estado' => 'required',
     ];
 
+    protected $table = 'proveedores';
+
     protected $perPage = 20;
 
     /**

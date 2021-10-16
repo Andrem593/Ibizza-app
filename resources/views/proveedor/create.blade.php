@@ -1,22 +1,30 @@
-@extends('layouts.app')
+<x-app-layout>
+    @section('title', 'Proveedor')
+    {{-- @endsection --}}
 
-@section('template_title')
-    Create Proveedor
-@endsection
+    <x-slot name="header">
+        <h5 class="text-center">Proveedor</h5>
+    </x-slot>
 
-@section('content')
-    <section class="content container-fluid">
-        <div class="row">
+    <div class="mx-auto">
+        <div class="">
             <div class="col-md-12">
 
                 @includeif('partials.errors')
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <span class="card-title">Create Proveedor</span>
+                        <span class="card-title">Nuevo Proveedor</span>
+                        <div class="float-right">
+                            <a href="{{ route('proveedores.index') }}" class="btn btn-ibizza btn-sm float-right"
+                                data-placement="left">
+                                {{ __('Regresar') }}
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('proveedores.store') }}"  role="form" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('proveedores.store') }}" role="form"
+                            enctype="multipart/form-data">
                             @csrf
 
                             @include('proveedor.form')
@@ -26,5 +34,5 @@
                 </div>
             </div>
         </div>
-    </section>
-@endsection
+    </div>
+</x-app-layout>
