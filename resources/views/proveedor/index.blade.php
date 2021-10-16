@@ -1,7 +1,7 @@
 <x-app-layout>
     @section('title', 'Proveedor')
         <x-slot name="header">
-            PROVEEDOR
+            PROVEEDORES
             <a href="{{ route('proveedores.create') }}" class="btn btn-secondary btn-sm float-right"
                 data-placement="left">
                 {{ __('Nuevo Proveedor') }}
