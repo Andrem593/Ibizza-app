@@ -20,5 +20,6 @@
 			Nueva imagen
 			<input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="imagen_path" size="40" wire:model="image"  onchange='$("#upload-file-info").html($(this).val());'>
 		</a>
-	</div>
+    </div>
+    @error('image') <span class="text-danger">{{ $message }}</span> @enderror
 </div>
