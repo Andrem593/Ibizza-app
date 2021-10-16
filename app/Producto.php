@@ -55,7 +55,7 @@ class Producto extends Model
      *
      * @var array
      */
-    protected $fillable = ['sku', 'nombre_producto', 'descripcion', 'marca_id', 'grupo', 'seccion', 'clasificacion', 'proveedor_id', 'estilo', 'color', 'talla', 'cantidad_inicial', 'stock', 'valor_venta', 'ultima_venta', 'estado'];
+    protected $fillable = ['sku','imagen_path', 'nombre_producto', 'descripcion', 'marca_id', 'grupo', 'seccion', 'clasificacion', 'proveedor_id', 'estilo', 'color', 'talla', 'cantidad_inicial', 'stock', 'valor_venta', 'ultima_venta', 'estado'];
 
 
 

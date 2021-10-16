@@ -91,8 +91,14 @@ class ProductoController extends Controller
     public function update(Request $request, Producto $producto)
     {
         request()->validate(Producto::$rules);
-
-        $producto->update($request->all());
+        $requestData = $request->all();
+        
+        if ($request->file('imagen_path')) {
+            $image = time() . '.' . $request->imagen_path->extension();
+            $request->imagen_path->move(public_path('storage/images/productos'), $image);
+            $requestData['imagen_path'] = $image;
+        }
+        $producto->update($requestData);
 
         return redirect()->route('productos.index')
             ->with('success', 'Producto Actualizado Correctamente');

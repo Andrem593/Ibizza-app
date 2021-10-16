@@ -25,43 +25,7 @@
                             </tr>
                         </thead>
                         <tbody>
-<<<<<<< HEAD
-                            {{-- @foreach ($marcas as $marca)
-                                <tr>
-                                    <td class="my-auto">{{ ++$i }}</td>
-
-                                    <td class="my-auto">{{ $marca->nombre }}</td>
-                                    <td class="my-auto"><img src="/storage/images/marca/{{ $marca->imagen }}"
-                                            width="100px" class="rounded img-fluid"
-                                            style="max-height: 80px; width: auto">
-                                    </td>
-                                    <td class="my-auto">{{ $marca->estado }}</td>
-
-                                    <td class="my-auto">
-                                        <form action="{{ route('marcas.destroy', $marca->id) }}" method="POST">
-
-                                            <div class="btn-group">
-                                                <a class="btn btn-secondary"
-                                                    href="{{ route('marcas.show', $marca->id) }}">
-                                                    <i class="fa fa-fw fa-eye"></i> Ver
-                                                </a>
-                                                <a class="btn btn-primary" href="{{ route('marcas.edit', $marca->id) }}">
-                                                    <i class="fa fa-fw fa-edit"></i> Editar
-                                                </a>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger"
-                                                    href="{{ route('marcas.show', $marca->id) }}">
-                                                    <i class="fa fa-fw fa-trash"></i> Eliminar
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach --}}
-=======
-                            
->>>>>>> 36d593e931f7e4a0f2d8863aa27526c7831e1f0e
+                
                         </tbody>
                     </table>
                 </div>

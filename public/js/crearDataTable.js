@@ -60,6 +60,16 @@ function crearTabla(data, ruta) {
                 "data": "id"
             },
             {
+                "data": "imagen_path",
+                "render": function(data, type, row) {
+                    let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                    if (data != '' && data != null) {
+                        image = '/storage/images/productos/' + data
+                    }
+                    return '<center><img  src="'+image+'"class="rounded" width="60" height="60" /> </center>';
+                }
+            },
+            {
                 "data": "sku"
             },
             {

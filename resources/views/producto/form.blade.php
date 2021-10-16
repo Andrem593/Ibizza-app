@@ -2,7 +2,7 @@
     <div class="box-body">
         <div class="row">
             <div class="col-4 text-center">
-                <img src="https://www.blackwallst.directory/images/NoImageAvailable.png" class="mx-auto rounded" alt="imagen-producto" style="width:15rem">
+                @livewire('imagen',['ruta_imagen'=>"$producto->imagen_path"])
             </div>
             <div class="col">
                 <div class="row form-group">

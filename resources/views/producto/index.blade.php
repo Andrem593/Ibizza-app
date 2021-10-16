@@ -39,6 +39,7 @@
                                     <tr>
                                         <th></th>
                                         <th>ID</th>
+                                        <th>FOTO</th>
                                         <th>SKU</th>
                                         <th>NOMBRE</th>
                                         <th>DESCRIPCION</th>
