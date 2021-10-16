@@ -171,11 +171,10 @@ class ProductoController extends Controller
                     'clasificacion'  => $row[6],
                     'proveedor_id'  => $proveedor_id,
                     'estilo'  => $row[8],
-                    'talla'  => $row[9],
-                    'cantidad_inicial'  => $row[10],
-                    'stock'  => $row[11],
-                    'valor_venta'  => $row[12],
-                    'ultima_venta'  => $row[13]
+                    'color'  => $row[9],
+                    'talla'  => $row[10],
+                    'cantidad_inicial'  => $row[11],
+                    'valor_venta'  => $row[12]
                 );
 
                 Producto::create($insert_data);
