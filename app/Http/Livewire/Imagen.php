@@ -11,6 +11,7 @@ class Imagen extends Component
     
     public $ruta_imagen,$image;
 
+
     public function render()
     { 
         return view('livewire.imagen');
