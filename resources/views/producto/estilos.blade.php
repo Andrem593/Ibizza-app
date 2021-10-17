@@ -83,6 +83,9 @@
                     <div class="modal" id="editar" tabindex="-1" role="dialog">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
+                                <div id="carga" class="overlay" style="visibility: hidden">
+                                    <i class="fas fa-2x fa-sync fa-spin"></i>
+                                </div>
                                 <div class="modal-header">
                                     <h5 class="modal-title">Editar Elemento</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -110,6 +113,17 @@
                 @Push('scripts')
                     <script src="/js/crearDataTable.js"></script>
                     <script>
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: false,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
                         $(document).ready(function() {
                             var data = {
                                 funcion: 'listar_estilos',
@@ -137,8 +151,24 @@
                                 data: formData,
                                 contentType: false,
                                 processData: false,
+                                beforeSend: function() {
+                                    $('#carga').css('visibility','visible');
+                                },
                                 success: function(response) {
-                                    console.log(response);
+                                    $('#carga').css('visibility','hidden');
+                                    $('#editar .close').click();
+                                    if (response['message'] != 'error') {
+                                        Toast.fire({
+                                            icon: 'success',
+                                            title: 'Se modificaron ' + response['num'] +
+                                                ' registros'
+                                        })
+                                    } else {
+                                        Toast.fire({
+                                            icon: 'error',
+                                            title: 'Error al editar'
+                                        })
+                                    }
                                 }
                             })
                         })

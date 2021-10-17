@@ -248,6 +248,11 @@ function crearTablaEstilos(data, ruta) {
     }
     $('#datatable tbody').on('click', '.eliminar', function() {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#texto').html('EDITAR LA IMAGEN DEL ESTILO '+data.estilo+' Y EL COLOR '+data.color);
+        $('#estilo').val(data.estilo);
+        $('#color').val(data.color);
+        $('#imagen_path').val(data.imagen_path);
+
     })
     $('#datatable tbody').on('click', '.editar', function() {
         let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';

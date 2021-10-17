@@ -235,6 +235,16 @@ class ProductoController extends Controller
                     'imagen_path' => $image
                 ]);
             
+            if ($response > 0 ) {
+                $response = [
+                    'num' => $response,
+                    'message'=> 'Actualizado correctamente'
+                ];
+            }else{
+                $response = [
+                    'message'=> 'error'
+                ];
+            }
             json_encode($response);
         }
 
