@@ -127,11 +127,7 @@
                             }
                         })
                         $(document).ready(function() {
-                            var data = {
-                                funcion: 'listar_estilos',
-                            }
-                            let ruta = '/producto/datatable';
-                            crearTablaEstilos(data, ruta);
+                            crearDataTable();
                         });
 
                         $('#form_editar').submit(e => {
@@ -160,6 +156,7 @@
                                     $('#carga').css('visibility','hidden');
                                     $('#editar .close').click();
                                     if (response['message'] != 'error') {
+                                        crearDataTable();
                                         Toast.fire({
                                             icon: 'success',
                                             title: 'Se modificaron ' + response['num'] +
@@ -198,6 +195,7 @@
                                     $('#carga2').css('visibility','hidden');
                                     $('#eliminar .close').click();
                                     if (response['message'] != 'error') {
+                                        crearDataTable();
                                         Toast.fire({
                                             icon: 'success',
                                             title: 'Se Elimino la imagen de ' + response['num'] +
@@ -212,7 +210,13 @@
                                 }
                             })
                         })
-
+                        function crearDataTable() {
+                            var data = {
+                                funcion: 'listar_estilos',
+                            }
+                            let ruta = '/producto/datatable';
+                            crearTablaEstilos(data, ruta);
+                        }
                     </script>
                 @endpush
             </div>
