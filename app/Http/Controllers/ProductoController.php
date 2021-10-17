@@ -92,16 +92,16 @@ class ProductoController extends Controller
     {
         request()->validate(Producto::$rules);
         $requestData = $request->all();
-        
+
         if ($request->file('imagen_path')) {
             $image = time() . '.' . $request->imagen_path->extension();
             // $request->imagen_path->move(public_path('storage/images/productos'), $image);
-            $ruta = public_path('storage/images/productos/').$image; 
+            $ruta = public_path('storage/images/productos/') . $image;
             Image::make($request->file('imagen_path'))
-            ->resize(1200, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->save($ruta);
+                ->resize(1200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($ruta);
             $requestData['imagen_path'] = $image;
         }
         $producto->update($requestData);
@@ -190,7 +190,7 @@ class ProductoController extends Controller
         return redirect()->route('productos.index')
             ->with('success', 'Productos cargados correctamente');
     }
-    public function productoDataTable()
+    public function productoDataTable(Request $request)
     {
         $response = '';
         if ($_POST['funcion'] == 'listar_todo') {
@@ -204,6 +204,44 @@ class ProductoController extends Controller
             }
             $response = json_encode($productos);
         }
+
+        if ($_POST['funcion'] == 'listar_estilos') {
+            $productos = DB::table('productos')
+                ->distinct()
+                ->select('imagen_path', 'estilo', 'color')
+                ->get();
+            if (count($productos) == 0) {
+                $productos = 'no data';
+            }
+            $response = json_encode($productos);
+        }
+        if ($_POST['funcion'] == 'editar_estilo') {
+
+            if (!empty($_FILES["file"])) {
+
+                $image = time() . '.' . $_FILES["file"]['name'];
+                $ruta = public_path('storage/images/productos/') . $image;
+                Image::make($_FILES["file"]["tmp_name"])
+                    ->resize(1200, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })
+                    ->save($ruta);
+            }
+            $ant_img = empty($_POST['ant_img']) ? null : $_POST['ant_img']; 
+            $response = Producto::where('color', $_POST['color'])
+                ->where('estilo', $_POST['estilo'])
+                ->where('imagen_path', $ant_img)
+                ->update([
+                    'imagen_path' => $image
+                ]);
+            
+            json_encode($response);
+        }
+
         return $response;
+    }
+    public function productoEstilos()
+    {
+        return view('producto.estilos');
     }
 }

@@ -266,6 +266,11 @@ return [
                     'route'  => 'productos.index',
                     'icon'    => 'fas fa-box-open',
                 ],
+                [
+                    'text' => 'Estilos y Color',
+                    'route'  => 'producto.estilos',
+                    'icon'    => 'fas fa-palette',
+                ],
             ]
         ],
         [

@@ -37,6 +37,10 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->post('/producto/datatable', [ProductoController::class,'productoDataTable'])
 ->name('producto.datatable');
 
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/producto/estilos', [ProductoController::class,'productoEstilos'])
+->name('producto.estilos');
+
 Route::resource('productos', ProductoController::class)
 ->middleware(['auth:sanctum', 'verified']);
 

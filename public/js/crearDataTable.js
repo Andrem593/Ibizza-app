@@ -161,7 +161,108 @@ function crearTabla(data, ruta) {
         $('#form_eliminar').attr('action', "/productos/" + data.id);
     })
 }
+function crearTablaEstilos(data, ruta) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    let btnEliminar = '<button class ="eliminar btn btn-danger"type ="button" data-toggle = "modal" data-target = "#eliminar"> <i class="fas fa-trash"></i></button>';
+    let btnEditar = '<a class ="editar btn btn-ibizza me-2" data-toggle = "modal" data-target = "#editar"> <i class="fas fa-edit"></i></a>'
+    let dataTable = $('#datatable').DataTable({
 
+        destroy: true,
+        "processing": true,
+        "ajax": {
+            "url": ruta,
+            "method": "POST",
+            "data": data,
+            "dataSrc": function(json) {
+                if (json == 'no data') {
+                    return [];
+                } else {
+                    return json;
+                }
+            },
+        },
+        "columns": [
+            {
+                "data": "imagen_path",
+                "render": function(data, type, row) {
+                    let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                    if (data != '' && data != null) {
+                        image = '/storage/images/productos/' + data
+                    }
+                    return '<center><img  src="'+image+'"class="rounded" width="80" height="60" /> </center>';
+                }
+            },
+            {
+                "data": "estilo"
+            },
+            {
+                "data": "color"
+            },
+            {
+                "data": 'id',
+                "defaultContent":  btnEditar + btnEliminar
+            },
+
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "Todo"]
+        ],
+        "language": espanol,
+        //para usar los botones
+        responsive: false,
+        autoWidth: false,
+        dom: 'Bfrtilp',
+        buttons: [{
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> ',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> ',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger',
+                pageSize: 'TABLOID',
+                orientation: 'landscape'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> ',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info',
+                exportOptions: {
+                    stripHtml: false
+                }
+            },
+        ]
+    });
+    if (dataTable.length == 0) {
+        dataTable.clear();
+        dataTable.draw();
+    }
+    $('#datatable tbody').on('click', '.eliminar', function() {
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+    })
+    $('#datatable tbody').on('click', '.editar', function() {
+        let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#texto').html('EDITAR LA IMAGEN DEL ESTILO '+data.estilo+' Y EL COLOR '+data.color);
+        $('#estilo').val(data.estilo);
+        $('#color').val(data.color);
+        $('#imagen_path').val(data.imagen_path);
+        if(data.imagen_path != null){
+            $('#imagen_defecto').attr('src','/storage/images/productos/'+data.imagen_path);
+        }else{
+             $('#imagen_defecto').attr('src',image);
+        }
+    })
+}
 function crearTablaMarca(data, ruta) {
     $.ajaxSetup({
         headers: {
