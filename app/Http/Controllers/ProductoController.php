@@ -238,6 +238,7 @@ class ProductoController extends Controller
             if ($response > 0 ) {
                 $response = [
                     'num' => $response,
+                    'message'=> 'actualizado'
                 ];
             }else{
                 $response = [
@@ -255,7 +256,8 @@ class ProductoController extends Controller
             ]);
             if ($response > 0 ) {
                 $response = [
-                    'num' => $response
+                    'num' => $response,
+                    'message'=> 'actualizado'
                 ];
             }else{
                 $response = [
