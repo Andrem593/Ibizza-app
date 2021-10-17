@@ -1,12 +1,23 @@
 <x-app-layout>
     @section('title', 'Marcas')
         <x-slot name="header">
-            MARCAS
-            <a href="{{ route('marcas.create') }}" class="btn btn-secondary btn-sm float-right" data-placement="left">
-                {{ __('Nueva Marca') }}
-            </a>
+            <h5 class="text-center">Marcas</h5>
         </x-slot>
         <div class="card">
+            <div class="card-header">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+
+                    <span id="card_title">
+                        {{ __('Marcas') }}
+                    </span>
+
+                    <div class="float-right">
+                        <a href="{{ route('marcas.create') }}" class="btn btn-ibizza btn-sm float-right" data-placement="left">
+                            {{ __('Nueva Marca') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
             @if ($message = Session::get('success'))
                 <div class="alert alert-success">
                     <p>{{ $message }}</p>
@@ -14,17 +25,18 @@
             @endif
 
             <div class="card-body">
-                <div class="table-responsive">
-                    <table id="datatable" class="display table table-striped table-sm table-hover fw-bold" style="font-size: 10px">
-                        <thead class="bg-ibizza">
-                            <tr>
+                <div class="table-responsive p-3">
+                    <table id="datatable" class="display table table-striped table-sm table-hover fw-bold" >
+                        <thead class="bg-ibizza text-center">
+                            <tr>                                
+                                <th>IMAGEN</th>
+                                <th>NOMBRE</th>
+                                <th>ESTADO</th>
                                 <th></th>
-                                <th>Nombre</th>
-                                <th>Imagen</th>
-                                <th>Estado</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="text-center">
+
                         </tbody>
                     </table>
                 </div>

@@ -66,7 +66,7 @@ function crearTabla(data, ruta) {
                     if (data != '' && data != null) {
                         image = '/storage/images/productos/' + data
                     }
-                    return '<center><img  src="'+image+'"class="rounded" width="80" height="60" /> </center>';
+                    return '<center><img  src="' + image + '"class="rounded" width="80" height="60" /> </center>';
                 }
             },
             {
@@ -161,6 +161,7 @@ function crearTabla(data, ruta) {
         $('#form_eliminar').attr('action', "/productos/" + data.id);
     })
 }
+
 function crearTablaEstilos(data, ruta) {
     $.ajaxSetup({
         headers: {
@@ -185,15 +186,14 @@ function crearTablaEstilos(data, ruta) {
                 }
             },
         },
-        "columns": [
-            {
+        "columns": [{
                 "data": "imagen_path",
                 "render": function(data, type, row) {
                     let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
                     if (data != '' && data != null) {
                         image = '/storage/images/productos/' + data
                     }
-                    return '<center><img  src="'+image+'"class="rounded" width="80" height="60" /> </center>';
+                    return '<center><img  src="' + image + '"class="rounded" width="80" height="60" /> </center>';
                 }
             },
             {
@@ -204,7 +204,7 @@ function crearTablaEstilos(data, ruta) {
             },
             {
                 "data": 'id',
-                "defaultContent":  btnEditar + btnEliminar
+                "defaultContent": btnEditar + btnEliminar
             },
 
         ],
@@ -248,7 +248,7 @@ function crearTablaEstilos(data, ruta) {
     }
     $('#datatable tbody').on('click', '.eliminar', function() {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
-        $('#texto2').html('SEGURO DE ELIMINAR LA IMAGEN DEL ESTILO '+data.estilo+' Y EL COLOR '+data.color);
+        $('#texto2').html('SEGURO DE ELIMINAR LA IMAGEN DEL ESTILO ' + data.estilo + ' Y EL COLOR ' + data.color);
         $('#estilo2').val(data.estilo);
         $('#color2').val(data.color);
         $('#imagen_path2').val(data.imagen_path);
@@ -257,17 +257,18 @@ function crearTablaEstilos(data, ruta) {
     $('#datatable tbody').on('click', '.editar', function() {
         let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
         let data = $('#datatable').DataTable().row($(this).parents()).data();
-        $('#texto').html('EDITAR LA IMAGEN DEL ESTILO '+data.estilo+' Y EL COLOR '+data.color);
+        $('#texto').html('EDITAR LA IMAGEN DEL ESTILO ' + data.estilo + ' Y EL COLOR ' + data.color);
         $('#estilo').val(data.estilo);
         $('#color').val(data.color);
         $('#imagen_path').val(data.imagen_path);
-        if(data.imagen_path != null){
-            $('#imagen_defecto').attr('src','/storage/images/productos/'+data.imagen_path);
-        }else{
-             $('#imagen_defecto').attr('src',image);
+        if (data.imagen_path != null) {
+            $('#imagen_defecto').attr('src', '/storage/images/productos/' + data.imagen_path);
+        } else {
+            $('#imagen_defecto').attr('src', image);
         }
     })
 }
+
 function crearTablaMarca(data, ruta) {
     $.ajaxSetup({
         headers: {
@@ -292,26 +293,34 @@ function crearTablaMarca(data, ruta) {
             },
         },
         "columns": [{
-                "data": 'id',
-                "render": function(data, type, row) {
-                    return '<a href="/marcas/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
-                }
-            },
-            {
-                "data": "nombre"
-            },
-            {
                 "data": "imagen",
                 "render": function(data, type, row) {
                     let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
                     if (data != '' && data != null) {
                         image = '/storage/images/marca/' + data
                     }
-                    return '<img src="' + image + '" width="50px" class="rounded img-fluid" style="height: 50px; object-fit: cover">';
+                    return '<img src="' + image + '" class="rounded" width="80" height="60" >';
                 }
             },
             {
-                "data": "estado"
+                "data": "nombre"
+            },
+
+            {
+                "data": "estado",
+                "render": function(data, type, row) {
+                    let estado = '<span class="badge bg-danger">Inactivo</span>';
+                    if (data == 'A') {
+                        estado = '<span class="badge bg-success">Activo</span>'
+                    }
+                    return estado;
+                }
+            },
+            {
+                "data": 'id',
+                "render": function(data, type, row) {
+                    return '<a href="/marcas/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
+                }
             }
 
         ],
@@ -320,11 +329,11 @@ function crearTablaMarca(data, ruta) {
             [10, 25, 50, "Todo"]
         ],
         "columnDefs": [{
-                "targets": [0],
+                "targets": [3],
                 "orderable": false,
                 "searchable": false
             },
-            { "width": "1%", "targets": 0 }
+            //{ "width": "1%", "targets": 0 }
         ],
         "order": [
             [1, 'asc']
@@ -395,32 +404,38 @@ function crearTablaProveedor(data, ruta) {
             },
         },
         "columns": [{
+                "data": "nombre"
+            },
+            {
+                "data": "estado",
+                "render": function(data, type, row) {
+                    let estado = '<span class="badge bg-danger">Inactivo</span>';
+                    if (data == 'A') {
+                        estado = '<span class="badge bg-success">Activo</span>'
+                    }
+                    return estado;
+                }
+            },
+            {
                 "data": 'id',
                 "render": function(data, type, row) {
                     return '<a href="/proveedores/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
                 }
-            },
-            {
-                "data": "nombre"
-            },
-            {
-                "data": "estado"
             }
-
         ],
         "lengthMenu": [
             [10, 25, 50, -1],
             [10, 25, 50, "Todo"]
         ],
         "columnDefs": [{
-                "targets": [0],
+                "targets": [2],
                 "orderable": false,
                 "searchable": false
             },
-            { "width": "1%", "targets": 0 }
+            //{ "width": "1%", "targets": 0 }
         ],
         "order": [
-            [1, 'asc']
+            [0, 'asc']
         ],
         "language": espanol,
         //para usar los botones
