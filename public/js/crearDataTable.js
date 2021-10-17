@@ -248,10 +248,10 @@ function crearTablaEstilos(data, ruta) {
     }
     $('#datatable tbody').on('click', '.eliminar', function() {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
-        $('#texto').html('EDITAR LA IMAGEN DEL ESTILO '+data.estilo+' Y EL COLOR '+data.color);
-        $('#estilo').val(data.estilo);
-        $('#color').val(data.color);
-        $('#imagen_path').val(data.imagen_path);
+        $('#texto2').html('SEGURO DE ELIMINAR LA IMAGEN DEL ESTILO '+data.estilo+' Y EL COLOR '+data.color);
+        $('#estilo2').val(data.estilo);
+        $('#color2').val(data.color);
+        $('#imagen_path2').val(data.imagen_path);
 
     })
     $('#datatable tbody').on('click', '.editar', function() {

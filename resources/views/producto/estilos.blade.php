@@ -56,6 +56,9 @@
                     <div class="modal" id="eliminar" tabindex="-1" role="dialog">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
+                                <div id="carga2" class="overlay" style="visibility: hidden">
+                                    <i class="fas fa-2x fa-sync fa-spin"></i>
+                                </div>
                                 <div class="modal-header">
                                     <h5 class="modal-title">Eliminar Elemento</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -63,12 +66,11 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="form_eliminar" action="" method="POST">
-                                        <div class="form-group">
-                                            <label for="">Seguro de Eliminar Producto: </label>
-                                            <label id="elemento_eliminar"></label>
-                                            <input type="hidden" id="id_eliminar">
-                                        </div>
+                                    <div id="texto2" class="alert alert-danger w-100 text-center" role="alert"></div>
+                                    <form id="form_eliminar" enctype="multipart/form-data">
+                                        <input type="hidden" name="estilos" id="estilo2">
+                                        <input type="hidden" name="color" id="color2">
+                                        <input type="hidden" name="ant_img" id="imagen_path2">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -167,6 +169,44 @@
                                         Toast.fire({
                                             icon: 'error',
                                             title: 'Error al editar'
+                                        })
+                                    }
+                                }
+                            })
+                        })
+                        $('#form_eliminar').submit(e => {
+                            e.preventDefault();
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                            });
+                            var formData = new FormData();
+                            formData.append('funcion', 'eliminar_estilo');
+                            formData.append('estilo', $('#estilo2').val());
+                            formData.append('color', $('#color2').val());
+                            formData.append('ant_img', $('#imagen_path2').val());
+                            $.post({
+                                url: '/producto/datatable',
+                                data: formData,
+                                contentType: false,
+                                processData: false,
+                                beforeSend: function() {
+                                    $('#carga2').css('visibility','visible');
+                                },
+                                success: function(response) {
+                                    $('#carga2').css('visibility','hidden');
+                                    $('#eliminar .close').click();
+                                    if (response['message'] != 'error') {
+                                        Toast.fire({
+                                            icon: 'success',
+                                            title: 'Se Elimino la imagen de ' + response['num'] +
+                                                ' registros'
+                                        })
+                                    } else {
+                                        Toast.fire({
+                                            icon: 'error',
+                                            title: 'Error al eliminar'
                                         })
                                     }
                                 }

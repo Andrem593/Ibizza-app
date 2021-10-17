@@ -238,7 +238,24 @@ class ProductoController extends Controller
             if ($response > 0 ) {
                 $response = [
                     'num' => $response,
-                    'message'=> 'Actualizado correctamente'
+                ];
+            }else{
+                $response = [
+                    'message'=> 'error'
+                ];
+            }
+            json_encode($response);
+        }
+        if ($_POST['funcion'] == 'eliminar_estilo') {
+            $response = Producto::where('color', $_POST['color'])
+            ->where('estilo', $_POST['estilo'])
+            ->where('imagen_path', $_POST['ant_img'])
+            ->update([
+                'imagen_path' => null
+            ]);
+            if ($response > 0 ) {
+                $response = [
+                    'num' => $response
                 ];
             }else{
                 $response = [
