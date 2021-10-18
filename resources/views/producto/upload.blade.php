@@ -5,7 +5,21 @@
         </x-slot>
 
         <div class="card">
+            <div class="card-header">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
 
+                    <span id="card_title">
+                        {{ __('Producto') }}
+                    </span>
+
+                    <div class="float-right">
+                        <a href="{{ route('productos.index') }}" class="btn btn-ibizza btn-sm float-right"
+                            data-placement="left">
+                            {{ __('Regresar') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
             <form action="{{ route('producto.saveExcel') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">

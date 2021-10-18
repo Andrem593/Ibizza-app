@@ -18,6 +18,10 @@
                             </span>
 
                             <div class="float-right">
+                                <a href="{{ route('producto.estilos') }}" class="btn btn-ibizza btn-sm ms-2 float-right"
+                                    data-placement="left">
+                                    {{ __('Estilos y Color') }}
+                                </a>
                                 <a href="{{ route('producto.upload') }}" class="btn btn-ibizza btn-sm float-right"
                                     data-placement="left">
                                     {{ __('Carga Productos') }}

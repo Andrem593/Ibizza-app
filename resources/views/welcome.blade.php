@@ -90,7 +90,7 @@
         </nav>
         </div>
         <div class="container">
-            <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel" height="50vh">
+            <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel" height="60vh">
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
                         aria-current="true" aria-label="Slide 1"></button>
@@ -101,16 +101,16 @@
                 </div>
                 <div class="carousel-inner">
                     <div class="carousel-item active" data-bs-interval="8000">
-                        <img src="/img/carrousel/banner_ibizza.png" class="img-fluid" alt="..."
-                            style="width: 100%; height: 50vh;">
+                        <img src="/img/carrousel/banner_ibizza.jpg" class="img-fluid" alt="..."
+                            style="width: 100%; height: 60vh;">
                     </div>
-                    <div class="carousel-item" data-bs-interval="2000">
-                        <img src="/img/carrousel/banner_ibizza2.png" class="img-fluid" alt="..."
-                            style="width: 100%; height: 50vh;">
+                    <div class="carousel-item">
+                        <img src="/img/carrousel/banner_ibizza2.jpg" class="img-fluid" alt="..."
+                            style="width: 100%; height: 60vh;">
                     </div>
                     <div class="carousel-item">
                         <img src="/img/carrousel/banner_ibizza2.png" class="img-fluid" alt="..."
-                            style="width: 100%; height: 50vh;">
+                            style="width: 100%; height: 60vh;">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
