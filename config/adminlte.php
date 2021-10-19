@@ -293,6 +293,11 @@ return [
                     'route'  => 'usuario.create',
                     'icon'    => 'fas fa-user-plus',
                 ],
+                [
+                    'text'    => 'Empresarias',
+                    'icon'    => 'fab fa-slideshare',
+                    'route'  => 'empresarias.index'
+                ],
             ]
         ],
 
