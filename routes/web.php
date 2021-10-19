@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admi\homeController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\EmpresariaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\MarcaController;
@@ -81,3 +82,8 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::resource('roles', RoleController::class)
 ->middleware(['auth:sanctum', 'verified'])
 ->names('admin.roles');
+
+// EMPRESARIA
+
+Route::resource('empresarias', EmpresariaController::class)
+->middleware(['auth:sanctum', 'verified']);
