@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Empresaria;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 /**
@@ -32,7 +33,8 @@ class EmpresariaController extends Controller
     public function create()
     {
         $empresaria = new Empresaria();
-        return view('empresaria.create', compact('empresaria'));
+        $provincias = DB::table('provincias')->get();
+        return view('empresaria.create', compact('empresaria','provincias'));
     }
 
     /**

@@ -27,15 +27,22 @@
             <div class="col">
                 <div class="form-group">
                     {{ Form::label('fecha_nacimiento') }}
-                    {{ Form::text('fecha_nacimiento', $empresaria->fecha_nacimiento, ['class' => 'form-control' . ($errors->has('fecha_nacimiento') ? ' is-invalid' : ''), 'placeholder' => 'Fecha Nacimiento']) }}
+                    {{ Form::date('fecha_nacimiento', $empresaria->fecha_nacimiento, ['class' => 'form-control' . ($errors->has('fecha_nacimiento') ? ' is-invalid' : ''), 'placeholder' => 'Fecha Nacimiento']) }}
                     {!! $errors->first('fecha_nacimiento', '<div class="invalid-feedback">:message</p>') !!}
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     {{ Form::label('telefono') }}
-                    {{ Form::text('telefono', $empresaria->telefono, ['class' => 'form-control' . ($errors->has('telefono') ? ' is-invalid' : ''), 'placeholder' => 'Telefono']) }}
-                    {!! $errors->first('telefono', '<div class="invalid-feedback">:message</p>') !!}
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                        </div>
+                        <input type="text" class="form-control"
+                        data-inputmask='"mask": "999-999-9999"' data-mask="" inputmode="text">
+                        {!! $errors->first('telefono', '<div class="invalid-feedback">:message</p>') !!}
+                    </div>
                 </div>
             </div>
             <div class="col">
@@ -89,4 +96,13 @@
     <div class="box-footer mt20">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
+    @push('js')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"
+            integrity="sha512-6Jym48dWwVjfmvB0Hu3/4jn4TODd6uvkxdi9GNbBHwZ4nGcRxJUCaTkL3pVY6XUQABqFo3T58EMXFQztbjvAFQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            $('[data-mask]').inputmask();
+
+        </script>
+    @endpush
 </div>
