@@ -73,7 +73,7 @@
             <div class="col">
                 <div class="form-group">
                     {{ Form::label('email') }}
-                    {{ Form::text('email', $empresaria->id_ciudad, ['class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'placeholder' => 'email de empresaria']) }}
+                    {{ Form::text('email', $empresaria->id_ciudad, ['class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'placeholder' => 'Email de empresaria']) }}
                     {!! $errors->first('email', '<div class="invalid-feedback">:message</p>') !!}
                 </div>
             </div>
