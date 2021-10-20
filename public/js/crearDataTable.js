@@ -546,7 +546,7 @@ function crearTablaEmpresarias(data, ruta) {
             {
                 "data": 'id',
                 "render": function(data, type, row) {
-                    return '<a href="/marcas/' + data + '/edit" class ="btn btn-ibizza me-1 btn-sm"> <i class="fas fa-edit"></i></a>' + btnEliminar;
+                    return '<a href="/empresarias/' + data + '/edit" class ="btn btn-ibizza me-1 btn-sm"> <i class="fas fa-edit"></i></a>' + btnEliminar;
                 }
             }
 
@@ -601,8 +601,8 @@ function crearTablaEmpresarias(data, ruta) {
     }
     $('#datatable tbody').on('click', '.eliminar', function() {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
-        $('#elemento_eliminar').html(data.nombre);
+        $('#elemento_eliminar').html(data.nombres);
         $('#id_eliminar').val(data.id)
-        $('#form_eliminar').attr('action', "/marcas/" + data.id);
+        $('#form_eliminar').attr('action', "/empresarias/" + data.id);
     })
 }

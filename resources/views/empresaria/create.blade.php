@@ -16,7 +16,7 @@
                             <a href="{{ route('empresarias.index') }}" class="btn btn-ibizza btn-sm float-right"  data-placement="left">
                                 <i class="fas fa-chevron-left me-1"></i>{{ __('Regresar') }}
                             </a>
-                          </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('empresarias.store') }}"  role="form" enctype="multipart/form-data">

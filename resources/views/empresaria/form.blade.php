@@ -92,14 +92,14 @@
             <div class="col">
                 <div class="form-group">
                     {{ Form::label('email') }}
-                    {{ Form::email('email', $empresaria->email, ['class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'placeholder' => 'Email de empresaria']) }}
+                    {{ Form::email('email', $empresaria->email, ['class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'placeholder' => 'Email de empresaria' ,'id'=>'email']) }}
                     {!! $errors->first('email', '<div class="invalid-feedback">:message</p> </div>') !!}
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     {{ Form::label('Contraseña') }}
-                    <input type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : ''}}" name="password" placeholder="Crea una contraseña para tu empresaria">
+                    <input id="password" type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : ''}}" name="password" placeholder="Crea una contraseña para tu empresaria">
                     {!! $errors->first('password', '<div class="invalid-feedback">:message</p> </div>') !!}
                 </div>
             </div>

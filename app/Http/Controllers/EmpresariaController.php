@@ -52,6 +52,14 @@ class EmpresariaController extends Controller
     public function store(Request $request)
     {
         request()->validate(Empresaria::$rules);
+        $userData = [
+            'name'=>trim(strtoupper($request->nombres)),
+            'email'=>trim($request->email),
+            'password'=>Hash::make($request->password),
+            'role'=>'Empresaria'
+        ];
+        $user = User::create($userData);
+        $user->roles()->sync(2);// 2 es el id de el rol de empresaria 
         $empresariaData = [
             'cedula'=> trim($request->cedula),
             'nombres'=> trim(strtoupper($request->nombres)),
@@ -62,15 +70,8 @@ class EmpresariaController extends Controller
             'telefono'=> trim($request->telefono),
             'id_ciudad'=> $request->id_ciudad,
             'vendedor'=> Auth::user()->id,
+            'id_usuario'=>$user->id
         ];
-        $userData = [
-            'name'=>trim(strtoupper($request->nombres)),
-            'email'=>trim($request->email),
-            'password'=>Hash::make($request->password),
-            'role'=>'Empresaria'
-        ];
-        $user = User::create($userData);
-        $user->roles()->sync(2);// 2 es el id de el rol de empresaria 
         Empresaria::create($empresariaData);
         
         return redirect()->route('empresarias.index')
@@ -86,8 +87,8 @@ class EmpresariaController extends Controller
     public function show($id)
     {
         $empresaria = Empresaria::find($id);
-
-        return view('empresaria.show', compact('empresaria'));
+        $provincias = DB::table('provincias')->get();
+        return view('empresaria.show', compact('empresaria','provincias'));
     }
 
     /**
@@ -99,8 +100,8 @@ class EmpresariaController extends Controller
     public function edit($id)
     {
         $empresaria = Empresaria::find($id);
-
-        return view('empresaria.edit', compact('empresaria'));
+        $provincias = DB::table('provincias')->get();
+        return view('empresaria.edit', compact('empresaria','provincias'));
     }
 
     /**
@@ -113,8 +114,20 @@ class EmpresariaController extends Controller
     public function update(Request $request, Empresaria $empresaria)
     {
         request()->validate(Empresaria::$rules);
+        $empresariaData = [
+            'cedula'=> trim($request->cedula),
+            'nombres'=> trim(strtoupper($request->nombres)),
+            'apellidos'=> trim(strtoupper($request->apellidos)),
+            'fecha_nacimiento'=> $request->fecha_nacimiento,
+            'direccion'=> trim(strtoupper($request->direccion)),
+            'tipo_cliente'=> trim(strtoupper($request->tipo_cliente)),
+            'telefono'=> trim($request->telefono),
+            'id_ciudad'=> $request->id_ciudad,
+            'vendedor'=> Auth::user()->id,
+        ];
 
-        $empresaria->update($request->all());
+        $empresaria->update($empresariaData);
+        
 
         return redirect()->route('empresarias.index')
             ->with('success', 'Empresaria updated successfully');
@@ -127,8 +140,9 @@ class EmpresariaController extends Controller
      */
     public function destroy($id)
     {
-        $empresaria = Empresaria::find($id)->delete();
-
+        $empresaria = Empresaria::find($id);
+        User::find($empresaria->id_usuario)->delete();
+        Empresaria::find($id)->delete();
         return redirect()->route('empresarias.index')
             ->with('success', 'Empresaria Eliminada correctamente');
     }
