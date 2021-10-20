@@ -245,12 +245,14 @@ return [
             'text' => 'Dashboard',
             'route'  => 'dashboard',
             'icon'    => 'fas fa-tachometer-alt',
+            'can'   => 'dashboard',
         ],
         ['header' => 'ADMINISTRACIÓN'],
         [
             'text' => 'Lista de Roles',
             'route'  => 'admin.roles.index',
             'icon'    => 'fas fa-user-cog',
+            'can'   => 'dashboard',
         ],
         [
             'text'    => 'Productos',
@@ -276,27 +278,30 @@ return [
         [
             'text'    => 'Marcas',
             'icon'    => 'fas fa-copyright',
-            'route'  => 'marcas.index'
+            'route'  => 'marcas.index',
+            'can'   =>'marcas.index',
         ],
         [
             'text'    => 'Provedor',
             'icon'    => 'fas fa-truck',
-            'route'  => 'proveedores.index'
+            'route'  => 'proveedores.index',
+            'can'   =>'proveedores.index',
         ],
         [
             'text'    => 'Usuarios',
-            'icon'    => 'fas fa-users',
-            'can'   =>'usuario.create',
+            'icon'    => 'fas fa-users',            
             'submenu' => [
                 [
                     'text' => 'Crear',
                     'route'  => 'usuario.create',
                     'icon'    => 'fas fa-user-plus',
+                    'can'   =>'usuario.create',
                 ],
                 [
                     'text'    => 'Empresarias',
                     'icon'    => 'fab fa-slideshare',
-                    'route'  => 'empresarias.index'
+                    'route'  => 'empresarias.index',
+                    'can'   =>'empresarias.index',
                 ],
             ]
         ],

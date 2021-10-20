@@ -19,6 +19,10 @@ class EmpresariaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('can:empresarias.index');
+    }
     public function index()
     {
         $empresarias = Empresaria::paginate();
