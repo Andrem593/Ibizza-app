@@ -139,4 +139,15 @@ class EmpresariaController extends Controller
             ->get();
         return json_encode($ciudades);
     }
+    public function empresariaDatatable(){
+        $response = '';
+        if ($_POST['funcion'] == 'listar_todo') {
+            $empresarias = Empresaria::all();
+            if (count($empresarias) == 0) {
+                $empresarias = 'no data';
+            }
+            $response = json_encode($empresarias);
+        }
+        return $response;
+    }
 }

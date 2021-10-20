@@ -15,8 +15,8 @@
                             </span>
 
                              <div class="float-right">
-                                <a href="{{ route('empresarias.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
+                                <a href="{{ route('empresarias.create') }}" class="btn btn-ibizza btn-sm float-right"  data-placement="left">
+                                    <i class="fas fa-address-card me-1"></i>{{ __('Crear Empresaria') }}
                                 </a>
                               </div>
                         </div>
@@ -28,59 +28,45 @@
                     @endif
 
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead class="thead">
+                        <div class="table-responsive p-3">
+                            <table id="datatable" class="display table table-striped table-sm table-hover fw-bold">
+                                <thead class="bg-ibizza text-center">
                                     <tr>
-                                        <th>No</th>
-                                        
-										<th>Cedula</th>
-										<th>Nombres</th>
-										<th>Apellidos</th>
-										<th>Fecha Nacimiento</th>
-										<th>Direccion</th>
-										<th>Tipo Cliente</th>
-										<th>Estado</th>
-										<th>Telefono</th>
-										<th>Id Ciudad</th>
-										<th>Vendedor</th>
-
+                                        <th>ID</th>
+                                        <th>CEDULA</th>
+                                        <th>NOMBRES</th>
+                                        <th>FECHA NACIMIENTO</th>
+                                        <th>TELEFONO</th>
+                                        <th>CIUDAD</th>
+                                        <th>CLIENTE</th>
+                                        <th>VENDEDOR</th>
+                                        <th>ESTADO</th>
                                         <th></th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach ($empresarias as $empresaria)
-                                        <tr>
-                                            <td>{{ ++$i }}</td>
-                                            
-											<td>{{ $empresaria->cedula }}</td>
-											<td>{{ $empresaria->nombres }}</td>
-											<td>{{ $empresaria->apellidos }}</td>
-											<td>{{ $empresaria->fecha_nacimiento }}</td>
-											<td>{{ $empresaria->direccion }}</td>
-											<td>{{ $empresaria->tipo_cliente }}</td>
-											<td>{{ $empresaria->estado }}</td>
-											<td>{{ $empresaria->telefono }}</td>
-											<td>{{ $empresaria->id_ciudad }}</td>
-											<td>{{ $empresaria->vendedor }}</td>
+                                <tbody class="text-center">
 
-                                            <td>
-                                                <form action="{{ route('empresarias.destroy',$empresaria->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('empresarias.show',$empresaria->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('empresarias.edit',$empresaria->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                {!! $empresarias->links() !!}
+                @push('css')
+                    <link rel="stylesheet" href="/css/botonesDataTable.css">
+                @endpush
+                @Push('scripts')
+            <script src="/js/crearDataTable.js"></script>
+            <script>
+                $(document).ready(function() {
+                    var data = {
+                        funcion: 'listar_todo',
+                    }
+                    let ruta = '/empresaria/datatable'
+                    crearTablaEmpresarias(data, ruta);
+                });
+
+            </script>
+        @endpush
             </div>
         </div>
     </div>

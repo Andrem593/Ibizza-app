@@ -91,3 +91,7 @@ Route::resource('empresarias', EmpresariaController::class)
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/empresaria/ciudad', [EmpresariaController::class,'consultarCiudad'])
 ->name('empresaria.ciudad');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/empresaria/datatable', [EmpresariaController::class,'empresariaDatatable'])
+->name('empresaria.datatable');
