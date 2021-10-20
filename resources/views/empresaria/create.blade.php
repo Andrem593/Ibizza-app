@@ -1,7 +1,7 @@
 <x-app-layout>
     @section('title', 'Empresarias')
     <x-slot name="header">
-        <h5 class="text-center">Marcas</h5>
+        <h5 class="text-center">Empresarias</h5>
     </x-slot>
     <section class="content container-fluid">
         <div class="row">

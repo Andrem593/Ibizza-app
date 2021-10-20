@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Empresaria;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 /**
  * Class EmpresariaController
  * @package App\Http\Controllers
@@ -34,7 +36,7 @@ class EmpresariaController extends Controller
     {
         $empresaria = new Empresaria();
         $provincias = DB::table('provincias')->get();
-        return view('empresaria.create', compact('empresaria','provincias'));
+        return view('empresaria.create', compact('empresaria', 'provincias'));
     }
 
     /**
@@ -46,11 +48,29 @@ class EmpresariaController extends Controller
     public function store(Request $request)
     {
         request()->validate(Empresaria::$rules);
-
-        $empresaria = Empresaria::create($request->all());
-
+        $empresariaData = [
+            'cedula'=> trim($request->cedula),
+            'nombres'=> trim(strtoupper($request->nombres)),
+            'apellidos'=> trim(strtoupper($request->apellidos)),
+            'fecha_nacimiento'=> $request->fecha_nacimiento,
+            'direccion'=> trim(strtoupper($request->direccion)),
+            'tipo_cliente'=> trim(strtoupper($request->tipo_cliente)),
+            'telefono'=> trim($request->telefono),
+            'id_ciudad'=> $request->id_ciudad,
+            'vendedor'=> Auth::user()->id,
+        ];
+        $userData = [
+            'name'=>trim(strtoupper($request->nombres)),
+            'email'=>trim($request->email),
+            'password'=>Hash::make($request->password),
+            'role'=>'Empresaria'
+        ];
+        $user = User::create($userData);
+        $user->roles()->sync(2);// 2 es el id de el rol de empresaria 
+        Empresaria::create($empresariaData);
+        
         return redirect()->route('empresarias.index')
-            ->with('success', 'Empresaria created successfully.');
+            ->with('success', 'Empresaria Creada Correctamente.');
     }
 
     /**
@@ -106,6 +126,13 @@ class EmpresariaController extends Controller
         $empresaria = Empresaria::find($id)->delete();
 
         return redirect()->route('empresarias.index')
-            ->with('success', 'Empresaria deleted successfully');
+            ->with('success', 'Empresaria Eliminada correctamente');
+    }
+    public function consultarCiudad()
+    {
+        $ciudades = DB::table('ciudades')
+            ->where('provincia_id', '=', $_POST['id_provincia'])
+            ->get();
+        return json_encode($ciudades);
     }
 }

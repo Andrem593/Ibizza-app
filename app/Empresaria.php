@@ -30,10 +30,11 @@ class Empresaria extends Model
     static $rules = [
 		'cedula' => 'required',
 		'nombres' => 'required',
-		'apellidos' => 'required',
-		'estado' => 'required',
-		'id_ciudad' => 'required',
-		'vendedor' => 'required',
+    'apellidos' => 'required',
+    'tipo_cliente' => 'required',
+    'id_ciudad' => 'required',
+    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+    'password' => ['required', 'string', 'min:8']
     ];
 
     protected $perPage = 20;

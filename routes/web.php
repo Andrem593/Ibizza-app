@@ -87,3 +87,7 @@ Route::resource('roles', RoleController::class)
 
 Route::resource('empresarias', EmpresariaController::class)
 ->middleware(['auth:sanctum', 'verified']);
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/empresaria/ciudad', [EmpresariaController::class,'consultarCiudad'])
+->name('empresaria.ciudad');
