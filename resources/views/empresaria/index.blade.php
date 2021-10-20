@@ -32,7 +32,6 @@
                             <table id="datatable" class="display table table-striped table-sm table-hover fw-bold">
                                 <thead class="bg-ibizza text-center">
                                     <tr>
-                                        <th>ID</th>
                                         <th>CEDULA</th>
                                         <th>NOMBRES</th>
                                         <th>FECHA NACIMIENTO</th>

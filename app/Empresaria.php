@@ -28,7 +28,7 @@ class Empresaria extends Model
 {
     
     static $rules = [
-		'cedula' => 'required',
+		'cedula' => ['required', 'max:10','unique:empresarias'],
 		'nombres' => 'required',
     'apellidos' => 'required',
     'tipo_cliente' => 'required',

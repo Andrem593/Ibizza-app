@@ -501,9 +501,7 @@ function crearTablaEmpresarias(data, ruta) {
                 }
             },
         },
-        "columns": [{
-                "data": "id"
-            },
+        "columns": [
             {
                 "data": "cedula"
             },
@@ -520,7 +518,7 @@ function crearTablaEmpresarias(data, ruta) {
                 "data": "telefono"
             },
             {
-                "data": "id_ciudad"
+                "data": "nombre_ciudad"
             },
             {
                 "data": "tipo_cliente",
@@ -533,7 +531,7 @@ function crearTablaEmpresarias(data, ruta) {
                 }
             },
             {
-                "data": "vendedor"
+                "data": "nombre_vendedor"
             },
             {
                 "data": "estado",
@@ -558,14 +556,14 @@ function crearTablaEmpresarias(data, ruta) {
             [10, 25, 50, "Todo"]
         ],
         "columnDefs": [{
-                "targets": [9],
+                "targets": [8],
                 "orderable": false,
                 "searchable": false
             },
             //{ "width": "1%", "targets": 0 }
         ],
         "order": [
-            [1, 'asc']
+            [0, 'asc']
         ],
         "language": espanol,
         //para usar los botones

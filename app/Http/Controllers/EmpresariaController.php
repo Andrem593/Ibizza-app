@@ -142,7 +142,11 @@ class EmpresariaController extends Controller
     public function empresariaDatatable(){
         $response = '';
         if ($_POST['funcion'] == 'listar_todo') {
-            $empresarias = Empresaria::all();
+            $empresarias = DB::table('empresarias')
+            ->join('ciudades','empresarias.id_ciudad','=', 'ciudades.id')
+            ->join('users','users.id', '=', 'empresarias.vendedor')
+            ->select('empresarias.*','ciudades.descripcion as nombre_ciudad','users.name as nombre_vendedor')
+            ->get();
             if (count($empresarias) == 0) {
                 $empresarias = 'no data';
             }

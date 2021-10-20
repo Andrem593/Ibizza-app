@@ -39,8 +39,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                         </div>
-                        <input type="text" name="telefono" class="form-control" data-inputmask='"mask": "999-999-9999"' data-mask=""
-                            inputmode="text">
+                        <input type="text" id="telefono" name="telefono" class="form-control">
                         {!! $errors->first('telefono', '<div class="invalid-feedback">:message</p> </div>') !!}
                     </div>
                 </div>
@@ -114,7 +113,7 @@
             integrity="sha512-6Jym48dWwVjfmvB0Hu3/4jn4TODd6uvkxdi9GNbBHwZ4nGcRxJUCaTkL3pVY6XUQABqFo3T58EMXFQztbjvAFQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script>
-            $('[data-mask]').inputmask();
+            $('#telefono').inputmask("999-999-9999", {"placeholder": ""});
             $('#provincia').change(e => {
                 if ($('#provincia').val() != 0) {
                     $('#ciudad').attr('disabled', false)
