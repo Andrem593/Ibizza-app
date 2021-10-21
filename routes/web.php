@@ -21,7 +21,7 @@ use App\Http\Controllers\ProveedorController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome2');
 });
 
 Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard', function () {

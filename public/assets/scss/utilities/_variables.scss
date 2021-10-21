@@ -1,0 +1,144 @@
+//-------------------------------------------------
+// Common Default Variable SCSS
+//-------------------------------------------------
+
+// Font Family
+$fontfamilyfjallaone: "Fjalla One";
+$fontfamilymontserrat: "Montserrat";
+$fontfamilypoppins: "Poppins, sans-serif";
+$fontfamily: "Poppins, sans-serif";
+
+// iconfont
+$EcIcons: "EcIcons";
+
+// Site main Color
+$main-primary-color: #3474d4;
+$main-primary-trans-color: rgba(68, 68, 68, .7);
+$main-secondary-color: #555;
+
+// different Themes Color
+$theme-1-color: #3474d4;
+$theme-2-color: #7f77fd;
+$theme-3-color: #ff764b;
+$theme-4-color: #009688;
+$theme-5-color: #db3a5d;
+
+// Site main text Color
+$main-text-color: #444444; // Site main Text color
+$main-second-text-color: #777777; // Site second Text color
+$el-main-text-color: #777;
+$header-background-color: #f6f6f6; // Site header background color
+$footer-title-color: #202b3a; // Site Footer title color
+$el-product-bg: #fff;
+$white-background-color: #ffffff; // white background color
+$white-text-color: #ffffff; // white text color
+
+$flot-btn-bg: #ffffff; // flot cart button background color
+$cart-count-text-color: #ffffff; // flot cart count text color
+
+$recent-purchase-bg: #ffffff; // recent purchase white background color
+$recent-title-white: #777; // recent purchase title white color
+$recent-sub-title-white: #444; // recent purchase sub title white color
+$card-bg-white: #fff;
+$breadcrumb-background-color: #efefef; // Site breadcrumb background color
+
+// Site Black & white Color
+$white-color: #ffffff;
+$black-color: #000000;
+$text-color-777: #777;
+$text-color-999: #999;
+
+// Description on shop page
+$description-bg: #f5f5f5;
+$description-text: #777;
+
+// Site Header Bg Color
+$header-bg-color: #ffffff;
+
+// Site Footer Title Color
+$footer-heading-color: #202b3a; 
+
+// Site Section Heading FontSize
+$section-heading-fontsize: 30px;
+$section-sub-heading-fontsize: 63px;
+
+// Site Bootstrap h1 h2 h3 h4 h5 h6 Color
+$default-heading-color: #212121;
+
+// Site background transparent
+$transparent: transparent;
+
+// Site Border Color
+$border-color-1: #eeeeee;
+$border-color-2: #dddddd;
+$border-color-3: #d9d9d9;
+$border-color-4: #ededed;
+$border-color-5: #ebebeb;
+$border-color-6: #f1f1f1;
+$border-color-7: #f4f4f4;
+$default-border-color: #d9d9d9;
+
+// Social Site Color
+$main-fb-color: #3b5998;
+$main-twitter-color: #1da1f2;
+$main-instagram-color: #e44a73;
+$main-linkedin-color: #0073b2;
+
+// Site Font-Size
+$site-default-font-size: 14px;
+$section-title-font-size: 36px;
+$section-sub-title-font-size: 63px;
+$breadcrumb-font-size: 39px;
+$product-title-font-size: 20px;
+$product-price-font-size: 18px;
+$sidebar-title-font-size: 18px;
+
+// Site fontsize
+$fontsize-12px: 12px;
+$fontsize-14px: 14px;
+$fontsize-16px: 16px;
+$fontsize-18px: 18px;
+$fontsize-20px: 20px;
+$fontsize-22px: 22px;
+
+// Site font-weight
+$font-weight-400: 400;
+$font-weight-500: 500;
+$font-weight-600: 600;
+$font-weight-700: 700;
+
+$liststyle: none;
+$textdecoration: none;
+
+// Site text aling
+$textcenter: center;
+$textright: right;
+$textleft: left;
+
+// Site text transform
+$uppercase: uppercase;
+$capitalize: capitalize;
+
+//Site flote Direction
+$floatleft: left;
+$floatright: right;
+
+// Site position
+$absolute: absolute;
+$relative: relative;
+
+// Site Width
+$width-100: 100%;
+
+// Site direction
+$ltr: ltr;
+$rtl: rtl;
+
+$alpha-06: 0.06;
+$alpha-6: 0.6;
+$alpha-20: 0.2;
+$alpha-15: 0.15;
+$alpha-45: 0.45;
+$alpha-1: 0.1;
+$alpha-5: 0.5;
+$alpha-2: 0.2;
