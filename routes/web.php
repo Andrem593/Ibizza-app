@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admi\homeController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\EmpresariaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userController;
@@ -57,6 +58,15 @@ Route::resource('marcas', MarcaController::class)
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/marca/datatable', [MarcaController::class,'marcaDataTable'])
 ->name('marca.datatable');
+
+// CATALOGO
+
+Route::resource('catalogos', CatalogoController::class)
+->middleware(['auth:sanctum', 'verified']);
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/catalogo/datatable', [CatalogoController::class,'catalogoDataTable'])
+->name('catalogo.datatable');
 
 // PROVEEDOR
 

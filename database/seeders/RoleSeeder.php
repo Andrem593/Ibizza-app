@@ -35,6 +35,10 @@ class RoleSeeder extends Seeder
             'description' => 'Modulo Marcas'
         ])->syncRoles([$role1]);
         Permission::create([
+            'name' => 'catalogos.index',
+            'description' => 'Modulo Catalogos'
+        ])->syncRoles([$role1]);
+        Permission::create([
             'name' => 'proveedores.index',
             'description' => 'Modulo Proveedores'
         ])->syncRoles([$role1]);
