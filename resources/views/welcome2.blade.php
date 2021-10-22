@@ -30,6 +30,7 @@
 
      <!-- Main Style -->
      <link rel="stylesheet" href="assets/css/demo1.css" />
+     <link rel="stylesheet" href="assets/css/skin-04.css">
      <link rel="stylesheet" href="assets/css/responsive.css" />
 
      <!-- Background css -->
@@ -711,16 +712,12 @@
                                                                      src="storage/images/productos/{{ $producto->imagen_path }}"
                                                                      alt="Product" />
                                                              </a>
-                                                             <span class="percentage">20%</span>
                                                              <a href="#" class="quickview" data-link-action="quickview"
                                                                  title="Quick view" data-bs-toggle="modal"
                                                                  data-bs-target="#ec_quickview_modal"><img
                                                                      src="assets/images/icons/quickview.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                              <div class="ec-pro-actions">
-                                                                 <a href="compare.html" class="ec-btn-group compare"
-                                                                     title="Compare"><img src="assets/images/icons/compare.svg"
-                                                                         class="svg_img pro_svg" alt="" /></a>
                                                                  <button title="Add To Cart" class=" add-to-cart"><img
                                                                          src="assets/images/icons/cart.svg"
                                                                          class="svg_img pro_svg" alt="" /> Add To Cart</button>
@@ -742,40 +739,28 @@
                                                              <i class="ecicon eci-star"></i>
                                                          </div>
                                                          <span class="ec-price">
-                                                             <span class="old-price">{{ $producto->valor_venta }}</span>
-                                                             <span class="new-price">{{ $producto->valor_venta }}</span>
+                                                             <span class="old-price">${{ $producto->valor_venta }}</span>
+                                                             <span class="new-price">${{ number_format($producto->valor_venta,2)  }}</span>
                                                          </span>
                                                          <div class="ec-pro-option">
                                                              <div class="ec-pro-color">
                                                                  <span class="ec-pro-opt-label">Color</span>
-                                                                 <ul class="ec-opt-swatch ec-change-img">
-                                                                     <li class="active"><a href="#" class="ec-opt-clr-img"
-                                                                             data-src="assets/images/product-image/6_1.jpg"
-                                                                             data-src-hover="assets/images/product-image/6_1.jpg"
-                                                                             data-tooltip="Gray"><span
-                                                                                 style="background-color:#e8c2ff;"></span></a>
-                                                                     </li>
-                                                                     <li><a href="#" class="ec-opt-clr-img"
-                                                                             data-src="assets/images/product-image/6_2.jpg"
-                                                                             data-src-hover="assets/images/product-image/6_2.jpg"
-                                                                             data-tooltip="Orange"><span
-                                                                                 style="background-color:#9cfdd5;"></span></a>
-                                                                     </li>
-                                                                 </ul>
+                                                                 <select class="p-0">
+                                                                     @foreach ($productos_all as $val)
+                                                                         @if ($producto->clasificacion == $val->clasificacion)
+                                                                             <option> {{ $val->color }} </option>
+                                                                         @endif
+                                                                     @endforeach
+                                                                 </select>
                                                              </div>
                                                              <div class="ec-pro-size">
                                                                  <span class="ec-pro-opt-label">Size</span>
                                                                  <ul class="ec-opt-size">
-                                                                     <li class="active"><a href="#" class="ec-opt-sz"
-                                                                             data-old="$25.00" data-new="$20.00"
-                                                                             data-tooltip="Small">S</a></li>
-                                                                     <li><a href="#" class="ec-opt-sz" data-old="$27.00"
-                                                                             data-new="$22.00" data-tooltip="Medium">M</a></li>
-                                                                     <li><a href="#" class="ec-opt-sz" data-old="$30.00"
-                                                                             data-new="$25.00" data-tooltip="Large">X</a></li>
-                                                                     <li><a href="#" class="ec-opt-sz" data-old="$35.00"
-                                                                             data-new="$30.00" data-tooltip="Extra Large">XL</a>
-                                                                     </li>
+                                                                     @foreach ($productos_tallas as $val)
+                                                                         @if ($producto->color == $val->color)
+                                                                             <li><a href="#" class="ec-opt-sz">{{$val->talla}}</a></li>
+                                                                         @endif
+                                                                     @endforeach                                                                     
                                                                  </ul>
                                                              </div>
                                                          </div>
@@ -783,8 +768,7 @@
                                                  </div>
                                              </div>
                                          @endforeach
-                                         <div class="col-sm-12 shop-all-btn"><a href="shop-left-sidebar-col-3.html">Ver todos
-                                                 los Productos<a></div>
+                                         <div class="col-sm-12 shop-all-btn"><a href="shop-left-sidebar-col-3.html">Ver todos los Productos<a></div>
                                      </div>
                                  </div>
                                  <!-- ec 1st Product tab end -->
@@ -3601,36 +3585,28 @@
                                  <!-- instagram item -->
                                  <div class="ec-insta-item">
                                      <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/1.jpg"
+                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/1.png"
                                                  alt="insta"></a>
                                      </div>
                                  </div>
                                  <!-- instagram item -->
                                  <div class="ec-insta-item">
                                      <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/2.jpg"
+                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/2.png"
                                                  alt="insta"></a>
                                      </div>
                                  </div>
                                  <!-- instagram item -->
                                  <div class="ec-insta-item">
                                      <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/3.jpg"
+                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/3.png"
                                                  alt="insta"></a>
                                      </div>
                                  </div>
                                  <!-- instagram item -->
                                  <div class="ec-insta-item">
                                      <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/4.jpg"
-                                                 alt="insta"></a>
-                                     </div>
-                                 </div>
-                                 <!-- instagram item -->
-                                 <!-- instagram item -->
-                                 <div class="ec-insta-item">
-                                     <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/5.jpg"
+                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/4.png"
                                                  alt="insta"></a>
                                      </div>
                                  </div>
@@ -3638,7 +3614,7 @@
                                  <!-- instagram item -->
                                  <div class="ec-insta-item">
                                      <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/6.jpg"
+                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/5.png"
                                                  alt="insta"></a>
                                      </div>
                                  </div>
@@ -3646,7 +3622,15 @@
                                  <!-- instagram item -->
                                  <div class="ec-insta-item">
                                      <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/7.jpg"
+                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/6.png"
+                                                 alt="insta"></a>
+                                     </div>
+                                 </div>
+                                 <!-- instagram item -->
+                                 <!-- instagram item -->
+                                 <div class="ec-insta-item">
+                                     <div class="ec-insta-inner">
+                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/7.png"
                                                  alt="insta"></a>
                                      </div>
                                  </div>
@@ -3988,43 +3972,19 @@
                              <ul>
                                  <!-- Start Single Contact List -->
                                  <li>
-                                     <a class="ec-list" data-number="918866774266"
-                                         data-message="Please help me! I have got wrong product - ORDER ID is : #654321485">
+                                     <a class="ec-list" data-number="593967402331"
+                                         data-message="¡Hola! Necesito ayuda en un pedido ">
                                          <div class="d-flex bd-highlight">
                                              <!-- Profile Picture -->
                                              <div class="ec-img-cont">
-                                                 <img src="assets/images/whatsapp/profile_01.jpg" class="ec-user-img"
-                                                     alt="Profile image">
-                                                 <span class="ec-status-icon"></span>
-                                             </div>
-                                             <!-- Display Name & Last Seen -->
-                                             <div class="ec-user-info">
-                                                 <span>Sahar Darya</span>
-                                                 <p>Sahar left 7 mins ago</p>
-                                             </div>
-                                             <!-- Chat iCon -->
-                                             <div class="ec-chat-icon">
-                                                 <i class="fa fa-whatsapp"></i>
-                                             </div>
-                                         </div>
-                                     </a>
-                                 </li>
-                                 <!--/ End Single Contact List -->
-                                 <!-- Start Single Contact List -->
-                                 <li>
-                                     <a class="ec-list" data-number="918866774266"
-                                         data-message="Please help me! I have got wrong product - ORDER ID is : #654321485">
-                                         <div class="d-flex bd-highlight">
-                                             <!-- Profile Picture -->
-                                             <div class="ec-img-cont">
-                                                 <img src="assets/images/whatsapp/profile_02.jpg" class="ec-user-img"
+                                                 <img src="assets/images/favicon/logo_ibizza_verde.svg" class="ec-user-img"
                                                      alt="Profile image">
                                                  <span class="ec-status-icon ec-online"></span>
                                              </div>
                                              <!-- Display Name & Last Seen -->
                                              <div class="ec-user-info">
-                                                 <span>Yolduz Rafi</span>
-                                                 <p>Yolduz is online</p>
+                                                 <span>Ibizza</span>
+                                                 <p>Ibizza está en linea</p>
                                              </div>
                                              <!-- Chat iCon -->
                                              <div class="ec-chat-icon">
@@ -4036,43 +3996,19 @@
                                  <!--/ End Single Contact List -->
                                  <!-- Start Single Contact List -->
                                  <li>
-                                     <a class="ec-list" data-number="918866774266"
-                                         data-message="Please help me! I have got wrong product - ORDER ID is : #654321485">
+                                     <a class="ec-list" data-number="593967402331"
+                                         data-message="¡Hola! Necesito ayuda en un pedido ">
                                          <div class="d-flex bd-highlight">
                                              <!-- Profile Picture -->
                                              <div class="ec-img-cont">
-                                                 <img src="assets/images/whatsapp/profile_03.jpg" class="ec-user-img"
+                                                 <img src="assets/images/favicon/logo_ibizza_verde.svg" class="ec-user-img"
                                                      alt="Profile image">
                                                  <span class="ec-status-icon ec-offline"></span>
                                              </div>
                                              <!-- Display Name & Last Seen -->
                                              <div class="ec-user-info">
-                                                 <span>Nargis Hawa</span>
-                                                 <p>Nargis left 30 mins ago</p>
-                                             </div>
-                                             <!-- Chat iCon -->
-                                             <div class="ec-chat-icon">
-                                                 <i class="fa fa-whatsapp"></i>
-                                             </div>
-                                         </div>
-                                     </a>
-                                 </li>
-                                 <!--/ End Single Contact List -->
-                                 <!-- Start Single Contact List -->
-                                 <li>
-                                     <a class="ec-list" data-number="918866774266"
-                                         data-message="Please help me! I have got wrong product - ORDER ID is : #654321485">
-                                         <div class="d-flex bd-highlight">
-                                             <!-- Profile Picture -->
-                                             <div class="ec-img-cont">
-                                                 <img src="assets/images/whatsapp/profile_04.jpg" class="ec-user-img"
-                                                     alt="Profile image">
-                                                 <span class="ec-status-icon ec-offline"></span>
-                                             </div>
-                                             <!-- Display Name & Last Seen -->
-                                             <div class="ec-user-info">
-                                                 <span>Khadija Mehr</span>
-                                                 <p>Khadija left 50 mins ago</p>
+                                                 <span>D'pisar</span>
+                                                 <p>activo hace 7 min</p>
                                              </div>
                                              <!-- Chat iCon -->
                                              <div class="ec-chat-icon">
@@ -4099,70 +4035,7 @@
                  <!-- Whatsapp end -->
 
                  <!-- Feature tools -->
-                 <div class="ec-tools-sidebar-overlay"></div>
-                 <div class="ec-tools-sidebar">
-                     <div class="tool-title">
-                         <h3>Configuraciones</h3>
-                     </div>
-                     <a href="#" class="ec-tools-sidebar-toggle in-out">
-                         <img alt="icon" src="assets/images/common/settings.png">
-                     </a>
-                     <div class="ec-tools-detail">
-                         <div class="ec-tools-sidebar-content ec-change-color ec-color-desc">
-                             <h3>Color Scheme</h3>
-                             <ul class="bg-panel">
-                                 <li class="active" data-color="01"><a href="#" class="colorcode1"></a></li>
-                                 <li data-color="02"><a href="#" class="colorcode2"></a></li>
-                                 <li data-color="03"><a href="#" class="colorcode3"></a></li>
-                                 <li data-color="04"><a href="#" class="colorcode4"></a></li>
-                                 <li data-color="05"><a href="#" class="colorcode5"></a></li>
-                             </ul>
-                         </div>
-                         <div class="ec-tools-sidebar-content">
-                             <h3>Backgroung</h3>
-                             <ul class="bg-panel">
-                                 <li class="bg"><a class="back-bg-1" id="bg-1">Background-1</a></li>
-                                 <li class="bg"><a class="back-bg-2" id="bg-2">Background-2</a></li>
-                                 <li class="bg"><a class="back-bg-3" id="bg-3">Background-3</a></li>
-                                 <li class="bg"><a class="back-bg-4" id="bg-4">Default</a></li>
-                             </ul>
-                         </div>
-                         <div class="ec-tools-sidebar-content">
-                             <h3>Full Screen mode</h3>
-                             <div class="ec-fullscreen-mode">
-                                 <div class="ec-fullscreen-switch">
-                                     <div class="ec-fullscreen-btn">Mode</div>
-                                     <div class="ec-fullscreen-on">On</div>
-                                     <div class="ec-fullscreen-off">Off</div>
-                                 </div>
-                             </div>
-                         </div>
-                         <div class="ec-tools-sidebar-content">
-                             <h3>Dark mode</h3>
-                             <div class="ec-change-mode">
-                                 <div class="ec-mode-switch">
-                                     <div class="ec-mode-btn">Mode</div>
-                                     <div class="ec-mode-on">On</div>
-                                     <div class="ec-mode-off">Off</div>
-                                 </div>
-                             </div>
-                         </div>
-                         <div class="ec-tools-sidebar-content">
-                             <h3>RTL mode</h3>
-                             <div class="ec-change-rtl">
-                                 <div class="ec-rtl-switch">
-                                     <div class="ec-rtl-btn">Rtl</div>
-                                     <div class="ec-rtl-on">On</div>
-                                     <div class="ec-rtl-off">Off</div>
-                                 </div>
-                             </div>
-                         </div>
-                         <div class="ec-tools-sidebar-content">
-                             <h3>Clear local storage</h3>
-                             <a class="clear-cach" href="javascript:void(0)">Clear Cache & Default</a>
-                         </div>
-                     </div>
-                 </div>
+
                  <!-- Feature tools end -->
 
                  <!-- Vendor JS -->
