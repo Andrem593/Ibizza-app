@@ -139,8 +139,10 @@ class MarcaController extends Controller
     {
         $response = '';
         if ($_POST['funcion'] == 'listar_todo') {
-            $marcas = DB::table('marcas')
-            ->get();
+            // $marcas = DB::table('marcas')
+            // ->get();
+
+            $marcas = Marca::all();
             if (count($marcas) == 0) {
                 $marcas = 'no data';
             }

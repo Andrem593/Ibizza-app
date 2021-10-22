@@ -282,6 +282,12 @@ return [
             'can'   =>'marcas.index',
         ],
         [
+            'text'    => 'Catalogos',
+            'icon'    => 'fas fa-book-open',
+            'route'  => 'catalogos.index',
+            'can'   =>'catalogos.index',
+        ],
+        [
             'text'    => 'Provedor',
             'icon'    => 'fas fa-truck',
             'route'  => 'proveedores.index',
