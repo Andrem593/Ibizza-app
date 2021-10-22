@@ -100,7 +100,7 @@
                          <div class="ec-header-bottons">
                              <!-- Header User Start -->
                              <div class="ec-header-user dropdown">
-                                 <button class="dropdown-toggle" data-bs-toggle="dropdown"><img
+                                 <button class="dropdown-toggle" data-bs-toggle="dropdown"><img loading='lazy'
                                          src="assets/images/icons/user.svg" class="svg_img header_svg"
                                          alt="" /></button>
                                  <ul class="dropdown-menu dropdown-menu-right">
@@ -121,21 +121,21 @@
                                  <!-- Header User End -->
                                  <!-- Header Cart Start -->
                                  <a href="wishlist.html" class="ec-header-btn ec-header-wishlist">
-                                     <div class="header-icon"><img src="assets/images/icons/wishlist.svg"
+                                     <div class="header-icon"><img loading='lazy' src="assets/images/icons/wishlist.svg"
                                              class="svg_img header_svg" alt="" /></div>
                                      <span class="ec-header-count">4</span>
                                  </a>
                                  <!-- Header Cart End -->
                                  <!-- Header Cart Start -->
                                  <a href="#ec-side-cart" class="ec-header-btn ec-side-toggle">
-                                     <div class="header-icon"><img src="assets/images/icons/cart.svg"
+                                     <div class="header-icon"><img loading='lazy' src="assets/images/icons/cart.svg"
                                              class="svg_img header_svg" alt="" /></div>
-                                     <span class="ec-header-count cart-count-lable">3</span>
+                                     <span class="ec-header-count cart-count-lable">0</span>
                                  </a>
                                  <!-- Header Cart End -->
                                  <!-- Header menu Start -->
                                  <a href="#ec-mobile-menu" class="ec-header-btn ec-side-toggle d-lg-none">
-                                     <img src="assets/images/icons/menu.svg" class="svg_img header_svg" alt="icon" />
+                                     <img loading='lazy' src="assets/images/icons/menu.svg" class="svg_img header_svg" alt="icon" />
                                  </a>
                                  <!-- Header menu End -->
                              </div>
@@ -153,9 +153,9 @@
                              <!-- Ec Header Logo Start -->
                              <div class="align-self-center">
                                  <div class="header-logo">
-                                     <a href="{{ url('/') }}"><img class="p-1" src="assets/images/logo/logo_ibizza.svg"
+                                     <a href="{{ url('/') }}"><img loading='lazy' class="p-1" src="assets/images/logo/logo_ibizza.svg"
                                              alt="Logo Ibizza" />
-                                         <img class="dark-logo" src="assets/images/logo/dark-logo.png" alt="Site Logo"
+                                         <img loading='lazy' class="dark-logo" src="assets/images/logo/dark-logo.png" alt="Site Logo"
                                              style="display: none;" /></a>
                                  </div>
                              </div>
@@ -167,7 +167,7 @@
                                      <form class="ec-btn-group-form" action="#">
                                          <input class="form-control" placeholder="Ingresa el nombre de un Producto..."
                                              type="text">
-                                         <button class="submit" type="submit"><img src="assets/images/icons/search.svg"
+                                         <button class="submit" type="submit"><img loading='lazy' src="assets/images/icons/search.svg"
                                                  class="svg_img header_svg" alt="" /></button>
                                      </form>
                                  </div>
@@ -180,7 +180,7 @@
 
                                      <!-- Header User Start -->
                                      <div class="ec-header-user dropdown">
-                                         <button class="dropdown-toggle" data-bs-toggle="dropdown"><img
+                                         <button class="dropdown-toggle" data-bs-toggle="dropdown"><img loading='lazy'
                                                  src="assets/images/icons/user.svg" class="svg_img header_svg"
                                                  alt="" /></button>
                                          <ul class="dropdown-menu dropdown-menu-right">
@@ -201,16 +201,16 @@
                                          <!-- Header User End -->
                                          <!-- Header wishlist Start -->
                                          <a href="wishlist.html" class="ec-header-btn ec-header-wishlist">
-                                             <div class="header-icon"><img src="assets/images/icons/wishlist.svg"
+                                             <div class="header-icon"><img loading='lazy' src="assets/images/icons/wishlist.svg"
                                                      class="svg_img header_svg" alt="" /></div>
                                              <span class="ec-header-count">4</span>
                                          </a>
                                          <!-- Header wishlist End -->
                                          <!-- Header Cart Start -->
                                          <a href="#ec-side-cart" class="ec-header-btn ec-side-toggle">
-                                             <div class="header-icon"><img src="assets/images/icons/cart.svg"
+                                             <div class="header-icon"><img loading='lazy' src="assets/images/icons/cart.svg"
                                                      class="svg_img header_svg" alt="" /></div>
-                                             <span class="ec-header-count cart-count-lable">3</span>
+                                             <span class="ec-header-count cart-count-lable">0</span>
                                          </a>
                                          <!-- Header Cart End -->
                                      </div>
@@ -228,7 +228,7 @@
                              <!-- Ec Header Logo Start -->
                              <div class="col">
                                  <div class="header-logo">
-                                     <a href="index.html"><img src="assets/images/logo/logo_ibizza.svg" alt="Logo Ibizza" /><img
+                                     <a href="index.html"><img loading='lazy' src="assets/images/logo/logo_ibizza.svg" alt="Logo Ibizza" /><img loading='lazy'
                                              class="dark-logo" src="assets/images/logo/dark-logo.png" alt="Site Logo"
                                              style="display: none;" /></a>
                                  </div>
@@ -240,7 +240,7 @@
                                      <form class="ec-btn-group-form" action="#">
                                          <input class="form-control" placeholder="Ingresa el nombre de un Producto..."
                                              type="text">
-                                         <button class="submit" type="submit"><img src="assets/images/icons/search.svg"
+                                         <button class="submit" type="submit"><img loading='lazy' src="assets/images/icons/search.svg"
                                                  class="svg_img header_svg" alt="icon" /></button>
                                      </form>
                                  </div>
@@ -314,16 +314,16 @@
                                                  </li>
                                                  <li>
                                                      <ul class="ec-main-banner w-100">
-                                                         <li><a class="p-0" href="shop-left-sidebar-col-3.html"><img
+                                                         <li><a class="p-0" href="shop-left-sidebar-col-3.html"><img loading='lazy'
                                                                      class="img-responsive"
                                                                      src="assets/images/menu-banner/1.jpg" alt=""></a></li>
-                                                         <li><a class="p-0" href="shop-left-sidebar-col-4.html"><img
+                                                         <li><a class="p-0" href="shop-left-sidebar-col-4.html"><img loading='lazy'
                                                                      class="img-responsive"
                                                                      src="assets/images/menu-banner/2.jpg" alt=""></a></li>
-                                                         <li><a class="p-0" href="shop-right-sidebar-col-3.html"><img
+                                                         <li><a class="p-0" href="shop-right-sidebar-col-3.html"><img loading='lazy'
                                                                      class="img-responsive"
                                                                      src="assets/images/menu-banner/3.jpg" alt=""></a></li>
-                                                         <li><a class="p-0" href="shop-right-sidebar-col-4.html"><img
+                                                         <li><a class="p-0" href="shop-right-sidebar-col-4.html"><img loading='lazy'
                                                                      class="img-responsive"
                                                                      src="assets/images/menu-banner/4.jpg" alt=""></a></li>
                                                      </ul>
@@ -434,7 +434,7 @@
                                                  <li><a href="shop-list-left-sidebar.html">Shop left sidebar</a></li>
                                              </ul>
                                          </li>
-                                         <li><a class="p-0" href="shop-left-sidebar-col-3.html"><img class="img-responsive"
+                                         <li><a class="p-0" href="shop-left-sidebar-col-3.html"><img loading='lazy' class="img-responsive"
                                                      src="assets/images/menu-banner/1.jpg" alt=""></a>
                                          </li>
                                      </ul>
@@ -554,42 +554,7 @@
                              <button class="ec-close">×</button>
                          </div>
                          <ul class="eccart-pro-items">
-                             <li>
-                                 <a href="product-left-sidebar.html" class="sidekka_pro_img"><img
-                                         src="assets/images/product-image/6_1.jpg" alt="product"></a>
-                                 <div class="ec-pro-content">
-                                     <a href="product-left-sidebar.html" class="cart_pro_title">T-shirt For Women</a>
-                                     <span class="cart-price"><span>$76.00</span> x 1</span>
-                                     <div class="qty-plus-minus">
-                                         <input class="qty-input" type="text" name="ec_qtybtn" value="1" />
-                                     </div>
-                                     <a href="javascript:void(0)" class="remove">×</a>
-                                 </div>
-                             </li>
-                             <li>
-                                 <a href="product-left-sidebar.html" class="sidekka_pro_img"><img
-                                         src="assets/images/product-image/12_1.jpg" alt="product"></a>
-                                 <div class="ec-pro-content">
-                                     <a href="product-left-sidebar.html" class="cart_pro_title">Women Leather Shoes</a>
-                                     <span class="cart-price"><span>$64.00</span> x 1</span>
-                                     <div class="qty-plus-minus">
-                                         <input class="qty-input" type="text" name="ec_qtybtn" value="1" />
-                                     </div>
-                                     <a href="javascript:void(0)" class="remove">×</a>
-                                 </div>
-                             </li>
-                             <li>
-                                 <a href="product-left-sidebar.html" class="sidekka_pro_img"><img
-                                         src="assets/images/product-image/3_1.jpg" alt="product"></a>
-                                 <div class="ec-pro-content">
-                                     <a href="product-left-sidebar.html" class="cart_pro_title">Girls Nylon Purse</a>
-                                     <span class="cart-price"><span>$59.00</span> x 1</span>
-                                     <div class="qty-plus-minus">
-                                         <input class="qty-input" type="text" name="ec_qtybtn" value="1" />
-                                     </div>
-                                     <a href="javascript:void(0)" class="remove">×</a>
-                                 </div>
-                             </li>
+                            <li><p class="emp-cart-msg">Tu carrito está vacio!</p></li>
                          </ul>
                      </div>
                      <div class="ec-cart-bottom">
@@ -598,15 +563,15 @@
                                  <tbody>
                                      <tr>
                                          <td class="text-left">Sub-Total :</td>
-                                         <td class="text-right">$300.00</td>
+                                         <td class="text-right">$0</td>
                                      </tr>
                                      <tr>
-                                         <td class="text-left">VAT (12%) :</td>
-                                         <td class="text-right">$36.00</td>
+                                         <td class="text-left">IVA (12%) :</td>
+                                         <td class="text-right">$0</td>
                                      </tr>
                                      <tr>
                                          <td class="text-left">Total :</td>
-                                         <td class="text-right primary-color">$336.00</td>
+                                         <td class="text-right primary-color">$0</td>
                                      </tr>
                                  </tbody>
                              </table>
@@ -705,23 +670,23 @@
                                                      <div class="ec-pro-image-outer">
                                                          <div class="ec-pro-image">
                                                              <a href="product-left-sidebar.html" class="image">
-                                                                 <img class="main-image"
+                                                                 <img loading='lazy' class="main-image"
                                                                      src="storage/images/productos/{{ $producto->imagen_path }}"
                                                                      alt="Product" />
-                                                                 <img class="hover-image"
+                                                                 <img loading='lazy' class="hover-image"
                                                                      src="storage/images/productos/{{ $producto->imagen_path }}"
                                                                      alt="Product" />
                                                              </a>
                                                              <a href="#" class="quickview" data-link-action="quickview"
                                                                  title="Quick view" data-bs-toggle="modal"
-                                                                 data-bs-target="#ec_quickview_modal"><img
+                                                                 data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                      src="assets/images/icons/quickview.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                              <div class="ec-pro-actions">
-                                                                 <button title="Add To Cart" class=" add-to-cart"><img
+                                                                 <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                          src="assets/images/icons/cart.svg"
                                                                          class="svg_img pro_svg" alt="" /> Add To Cart</button>
-                                                                 <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                                 <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                          src="assets/images/icons/wishlist.svg"
                                                                          class="svg_img pro_svg" alt="" /></a>
                                                              </div>
@@ -781,25 +746,25 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/6_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/6_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/6_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/6_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -859,9 +824,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/7_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/7_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/7_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/7_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -870,17 +835,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -940,9 +905,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/2_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/2_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/2_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/2_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -951,17 +916,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -1001,24 +966,24 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/4_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/4_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/4_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/4_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -1073,9 +1038,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/5_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/5_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/5_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/5_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="flags">
@@ -1083,17 +1048,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -1150,9 +1115,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/8_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/8_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/8_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/8_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -1161,17 +1126,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -1221,9 +1186,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/10_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/10_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/10_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/10_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -1232,17 +1197,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -1311,9 +1276,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/9_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/9_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/9_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/9_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -1322,17 +1287,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -1406,9 +1371,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/9_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/9_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/9_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/9_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -1417,17 +1382,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -1492,25 +1457,25 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/6_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/6_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/6_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/6_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -1570,9 +1535,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/8_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/8_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/8_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/8_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -1581,17 +1546,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -1641,9 +1606,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/3_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/3_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/3_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/3_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -1652,17 +1617,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -1717,9 +1682,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/11_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/11_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/11_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/11_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -1728,18 +1693,18 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To
                                                                  Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -1796,9 +1761,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/12_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/12_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/12_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/12_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -1807,18 +1772,18 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To
                                                                  Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -1889,25 +1854,25 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/13_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/13_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/13_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/13_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To
                                                                  Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -1964,25 +1929,25 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/14_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/14_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/14_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/14_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -2061,9 +2026,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/1_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/1_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/1_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/1_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -2072,17 +2037,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -2147,9 +2112,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/15_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/15_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/15_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/15_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -2158,17 +2123,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -2238,9 +2203,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/16_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/16_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/16_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/16_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -2249,17 +2214,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -2314,9 +2279,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/17_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/17_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/17_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/17_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -2325,17 +2290,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -2390,9 +2355,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/9_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/9_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/9_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/9_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -2401,17 +2366,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -2476,25 +2441,25 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/6_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/6_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/6_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/6_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -2554,9 +2519,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/8_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/8_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/8_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/8_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -2565,17 +2530,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -2625,9 +2590,9 @@
                                                  <div class="ec-pro-image-outer">
                                                      <div class="ec-pro-image">
                                                          <a href="product-left-sidebar.html" class="image">
-                                                             <img class="main-image" src="assets/images/product-image/3_1.jpg"
+                                                             <img loading='lazy' class="main-image" src="assets/images/product-image/3_1.jpg"
                                                                  alt="Product" />
-                                                             <img class="hover-image" src="assets/images/product-image/3_2.jpg"
+                                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/3_2.jpg"
                                                                  alt="Product" />
                                                          </a>
                                                          <span class="percentage">20%</span>
@@ -2636,17 +2601,17 @@
                                                          </span>
                                                          <a href="#" class="quickview" data-link-action="quickview"
                                                              title="Quick view" data-bs-toggle="modal"
-                                                             data-bs-target="#ec_quickview_modal"><img
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                                  alt="" /></a>
                                                          <div class="ec-pro-actions">
                                                              <a href="compare.html" class="ec-btn-group compare"
-                                                                 title="Compare"><img src="assets/images/icons/compare.svg"
+                                                                 title="Compare"><img loading='lazy' src="assets/images/icons/compare.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
-                                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg"
                                                                      alt="" /> Add To Cart</button>
-                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                                      src="assets/images/icons/wishlist.svg"
                                                                      class="svg_img pro_svg" alt="" /></a>
                                                          </div>
@@ -2720,7 +2685,7 @@
                              <div class="row">
                                  <div class="banner-block col-lg-6 col-md-12 margin-b-30" data-animation="slideInRight">
                                      <div class="bnr-overlay">
-                                         <img src="assets/images/banner/2.jpg" alt="" />
+                                         <img loading='lazy' src="assets/images/banner/2.jpg" alt="" />
                                          <div class="banner-text">
                                              <span class="ec-banner-stitle">Nuevo Catalogo</span>
                                              <span class="ec-banner-title">Exclusivo<br> para hombres</span>
@@ -2733,7 +2698,7 @@
                                  </div>
                                  <div class="banner-block col-lg-6 col-md-12" data-animation="slideInLeft">
                                      <div class="bnr-overlay">
-                                         <img src="assets/images/banner/3.jpg" alt="" />
+                                         <img loading='lazy' src="assets/images/banner/3.jpg" alt="" />
                                          <div class="banner-text">
                                              <span class="ec-banner-stitle">Nuevo Catalogo</span>
                                              <span class="ec-banner-title">Exclusivo<br> para Mujeres</span>
@@ -2772,26 +2737,26 @@
                          <div class="col-lg-3">
                              <ul class="ec-cat-tab-nav nav">
                                  <li class="cat-item"><a class="cat-link active" data-bs-toggle="tab" href="#tab-cat-1">
-                                         <div class="cat-icons"><img class="cat-icon" src="assets/images/icons/cat_1.png"
-                                                 alt="cat-icon"><img class="cat-icon-hover"
+                                         <div class="cat-icons"><img loading='lazy' class="cat-icon" src="assets/images/icons/cat_1.png"
+                                                 alt="cat-icon"><img loading='lazy' class="cat-icon-hover"
                                                  src="assets/images/icons/cat_1_1.png" alt="cat-icon"></div>
                                          <div class="cat-desc"><span>Ropa</span><span>440 Productos</span></div>
                                      </a></li>
                                  <li class="cat-item"><a class="cat-link" data-bs-toggle="tab" href="#tab-cat-2">
-                                         <div class="cat-icons"><img class="cat-icon" src="assets/images/icons/cat_2.png"
-                                                 alt="cat-icon"><img class="cat-icon-hover"
+                                         <div class="cat-icons"><img loading='lazy' class="cat-icon" src="assets/images/icons/cat_2.png"
+                                                 alt="cat-icon"><img loading='lazy' class="cat-icon-hover"
                                                  src="assets/images/icons/cat_2_1.png" alt="cat-icon"></div>
                                          <div class="cat-desc"><span>Relojes</span><span>510 Productos</span></div>
                                      </a></li>
                                  <li class="cat-item"><a class="cat-link" data-bs-toggle="tab" href="#tab-cat-3">
-                                         <div class="cat-icons"><img class="cat-icon" src="assets/images/icons/cat_3.png"
-                                                 alt="cat-icon"><img class="cat-icon-hover"
+                                         <div class="cat-icons"><img loading='lazy' class="cat-icon" src="assets/images/icons/cat_3.png"
+                                                 alt="cat-icon"><img loading='lazy' class="cat-icon-hover"
                                                  src="assets/images/icons/cat_3_1.png" alt="cat-icon"></div>
                                          <div class="cat-desc"><span>Bolsos</span><span>620 Productos</span></div>
                                      </a></li>
                                  <li class="cat-item"><a class="cat-link" data-bs-toggle="tab" href="#tab-cat-4">
-                                         <div class="cat-icons"><img class="cat-icon" src="assets/images/icons/cat_4.png"
-                                                 alt="cat-icon"><img class="cat-icon-hover"
+                                         <div class="cat-icons"><img loading='lazy' class="cat-icon" src="assets/images/icons/cat_4.png"
+                                                 alt="cat-icon"><img loading='lazy' class="cat-icon-hover"
                                                  src="assets/images/icons/cat_4_1.png" alt="cat-icon"></div>
                                          <div class="cat-desc"><span>Zapatos</span><span>320 Productos</span></div>
                                      </a></li>
@@ -2805,7 +2770,7 @@
                                  <!-- 1st Category tab end -->
                                  <div class="tab-pane fade show active" id="tab-cat-1">
                                      <div class="row">
-                                         <img src="assets/images/cat-banner/1.jpg" alt="" />
+                                         <img loading='lazy' src="assets/images/cat-banner/1.jpg" alt="" />
                                      </div>
                                      <span class="panel-overlay">
                                          <a href="shop-left-sidebar-col-3.html" class="btn btn-primary">Ver Todos</a>
@@ -2814,7 +2779,7 @@
                                  <!-- 1st Category tab end -->
                                  <div class="tab-pane fade" id="tab-cat-2">
                                      <div class="row">
-                                         <img src="assets/images/cat-banner/2.jpg" alt="" />
+                                         <img loading='lazy' src="assets/images/cat-banner/2.jpg" alt="" />
                                      </div>
                                      <span class="panel-overlay">
                                          <a href="shop-left-sidebar-col-3.html" class="btn btn-primary">Ver Todos</a>
@@ -2824,7 +2789,7 @@
                                  <!-- 3rd Category tab start -->
                                  <div class="tab-pane fade" id="tab-cat-3">
                                      <div class="row">
-                                         <img src="assets/images/cat-banner/3.jpg" alt="" />
+                                         <img loading='lazy' src="assets/images/cat-banner/3.jpg" alt="" />
                                      </div>
                                      <span class="panel-overlay">
                                          <a href="shop-left-sidebar-col-3.html" class="btn btn-primary">Ver Todos</a>
@@ -2834,7 +2799,7 @@
                                  <!-- 4th Category tab start -->
                                  <div class="tab-pane fade" id="tab-cat-4">
                                      <div class="row">
-                                         <img src="assets/images/cat-banner/4.jpg" alt="" />
+                                         <img loading='lazy' src="assets/images/cat-banner/4.jpg" alt="" />
                                      </div>
                                      <span class="panel-overlay">
                                          <a href="shop-left-sidebar-col-3.html" class="btn btn-primary">Ver Todos</a>
@@ -2867,10 +2832,10 @@
                                      <div class="ec-fs-pro-inner">
                                          <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
                                              <div class="ec-fs-pro-image">
-                                                 <a href="product-left-sidebar.html" class="image"><img class="main-image"
+                                                 <a href="product-left-sidebar.html" class="image"><img loading='lazy' class="main-image"
                                                          src="assets/images/product-image/1_1.jpg" alt="Product" /></a>
                                                  <a href="#" class="quickview" data-link-action="quickview" title="Quick view"
-                                                     data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img
+                                                     data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                          src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                          alt="" /></a>
                                              </div>
@@ -2910,10 +2875,10 @@
                                      <div class="ec-fs-pro-inner">
                                          <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
                                              <div class="ec-fs-pro-image">
-                                                 <a href="product-left-sidebar.html" class="image"><img class="main-image"
+                                                 <a href="product-left-sidebar.html" class="image"><img loading='lazy' class="main-image"
                                                          src="assets/images/product-image/3_1.jpg" alt="Product" /></a>
                                                  <a href="#" class="quickview" data-link-action="quickview" title="Quick view"
-                                                     data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img
+                                                     data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                          src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                          alt="" /></a>
                                              </div>
@@ -2966,10 +2931,10 @@
                                      <div class="ec-fs-pro-inner">
                                          <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
                                              <div class="ec-fs-pro-image">
-                                                 <a href="product-left-sidebar.html" class="image"><img class="main-image"
+                                                 <a href="product-left-sidebar.html" class="image"><img loading='lazy' class="main-image"
                                                          src="assets/images/product-image/8_1.jpg" alt="Product" /></a>
                                                  <a href="#" class="quickview" data-link-action="quickview" title="Quick view"
-                                                     data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img
+                                                     data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                          src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                          alt="" /></a>
                                              </div>
@@ -3008,10 +2973,10 @@
                                      <div class="ec-fs-pro-inner">
                                          <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
                                              <div class="ec-fs-pro-image">
-                                                 <a href="product-left-sidebar.html" class="image"><img class="main-image"
+                                                 <a href="product-left-sidebar.html" class="image"><img loading='lazy' class="main-image"
                                                          src="assets/images/product-image/10_1.jpg" alt="Product" /></a>
                                                  <a href="#" class="quickview" data-link-action="quickview" title="Quick view"
-                                                     data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img
+                                                     data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                          src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
                                                          alt="" /></a>
                                              </div>
@@ -3063,7 +3028,7 @@
                          <div class="ec_ser_content ec_ser_content_1 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
                              <div class="ec_ser_inner">
                                  <div class="ec-service-image">
-                                     <img src="assets/images/icons/service_1.svg" class="svg_img" alt="" />
+                                     <img loading='lazy' src="assets/images/icons/service_1.svg" class="svg_img" alt="" />
                                  </div>
                                  <div class="ec-service-desc">
                                      <h2>Envio Gratuito</h2>
@@ -3074,7 +3039,7 @@
                          <div class="ec_ser_content ec_ser_content_2 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
                              <div class="ec_ser_inner">
                                  <div class="ec-service-image">
-                                     <img src="assets/images/icons/service_2.svg" class="svg_img" alt="" />
+                                     <img loading='lazy' src="assets/images/icons/service_2.svg" class="svg_img" alt="" />
                                  </div>
                                  <div class="ec-service-desc">
                                      <h2>Soporte 24X7</h2>
@@ -3085,7 +3050,7 @@
                          <div class="ec_ser_content ec_ser_content_3 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
                              <div class="ec_ser_inner">
                                  <div class="ec-service-image">
-                                     <img src="assets/images/icons/service_3.svg" class="svg_img" alt="" />
+                                     <img loading='lazy' src="assets/images/icons/service_3.svg" class="svg_img" alt="" />
                                  </div>
                                  <div class="ec-service-desc">
                                      <h2>Devoluciones de 30 Días</h2>
@@ -3096,7 +3061,7 @@
                          <div class="ec_ser_content ec_ser_content_4 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
                              <div class="ec_ser_inner">
                                  <div class="ec-service-image">
-                                     <img src="assets/images/icons/service_4.svg" class="svg_img" alt="" />
+                                     <img loading='lazy' src="assets/images/icons/service_4.svg" class="svg_img" alt="" />
                                  </div>
                                  <div class="ec-service-desc">
                                      <h2>Pagos seguros</h2>
@@ -3117,7 +3082,7 @@
                          <div class="col-xl-6 col-lg-7 col-md-7 col-sm-7 align-self-center ec-offer-content">
                              <h2 class="ec-offer-title">Gafas de Sol</h2>
                              <h3 class="ec-offer-stitle" data-animation="slideInDown">Super Ofertas</h3>
-                             <span class="ec-offer-img" data-animation="zoomIn"><img src="assets/images/offer-image/1.png"
+                             <span class="ec-offer-img" data-animation="zoomIn"><img loading='lazy' src="assets/images/offer-image/1.png"
                                      alt="offer image" /></span>
                              <span class="ec-offer-desc">Descripción de Gafas de sol</span>
                              <span class="ec-offer-price">$40.00</span>
@@ -3147,22 +3112,22 @@
                                  <div class="ec-pro-image-outer">
                                      <div class="ec-pro-image">
                                          <a href="product-left-sidebar.html" class="image">
-                                             <img class="main-image" src="assets/images/product-image/9_1.jpg" alt="Product" />
-                                             <img class="hover-image" src="assets/images/product-image/9_2.jpg" alt="Product" />
+                                             <img loading='lazy' class="main-image" src="assets/images/product-image/9_1.jpg" alt="Product" />
+                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/9_2.jpg" alt="Product" />
                                          </a>
                                          <span class="flags">
                                              <span class="sale">Sale</span>
                                          </span>
                                          <a href="#" class="quickview" data-link-action="quickview" title="Quick view"
-                                             data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img
+                                             data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg" alt="" /></a>
                                          <div class="ec-pro-actions">
-                                             <a href="compare.html" class="ec-btn-group compare" title="Compare"><img
+                                             <a href="compare.html" class="ec-btn-group compare" title="Compare"><img loading='lazy'
                                                      src="assets/images/icons/compare.svg" class="svg_img pro_svg" alt="" /></a>
-                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg" alt="" /> Add To
                                                  Cart</button>
-                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                      src="assets/images/icons/wishlist.svg" class="svg_img pro_svg"
                                                      alt="" /></a>
                                          </div>
@@ -3226,23 +3191,23 @@
                                  <div class="ec-pro-image-outer">
                                      <div class="ec-pro-image">
                                          <a href="product-left-sidebar.html" class="image">
-                                             <img class="main-image" src="assets/images/product-image/11_1.jpg" alt="Product" />
-                                             <img class="hover-image" src="assets/images/product-image/11_2.jpg"
+                                             <img loading='lazy' class="main-image" src="assets/images/product-image/11_1.jpg" alt="Product" />
+                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/11_2.jpg"
                                                  alt="Product" />
                                          </a>
                                          <span class="flags">
                                              <span class="new">New</span>
                                          </span>
                                          <a href="#" class="quickview" data-link-action="quickview" title="Quick view"
-                                             data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img
+                                             data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg" alt="" /></a>
                                          <div class="ec-pro-actions">
-                                             <a href="compare.html" class="ec-btn-group compare" title="Compare"><img
+                                             <a href="compare.html" class="ec-btn-group compare" title="Compare"><img loading='lazy'
                                                      src="assets/images/icons/compare.svg" class="svg_img pro_svg" alt="" /></a>
-                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg" alt="" /> Add To
                                                  Cart</button>
-                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                      src="assets/images/icons/wishlist.svg" class="svg_img pro_svg"
                                                      alt="" /></a>
                                          </div>
@@ -3297,21 +3262,21 @@
                                  <div class="ec-pro-image-outer">
                                      <div class="ec-pro-image">
                                          <a href="product-left-sidebar.html" class="image">
-                                             <img class="main-image" src="assets/images/product-image/12_1.jpg" alt="Product" />
-                                             <img class="hover-image" src="assets/images/product-image/12_2.jpg"
+                                             <img loading='lazy' class="main-image" src="assets/images/product-image/12_1.jpg" alt="Product" />
+                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/12_2.jpg"
                                                  alt="Product" />
                                          </a>
                                          <span class="percentage">5%</span>
                                          <a href="#" class="quickview" data-link-action="quickview" title="Quick view"
-                                             data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img
+                                             data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg" alt="" /></a>
                                          <div class="ec-pro-actions">
-                                             <a href="compare.html" class="ec-btn-group compare" title="Compare"><img
+                                             <a href="compare.html" class="ec-btn-group compare" title="Compare"><img loading='lazy'
                                                      src="assets/images/icons/compare.svg" class="svg_img pro_svg" alt="" /></a>
-                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg" alt="" /> Add To
                                                  Cart</button>
-                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                      src="assets/images/icons/wishlist.svg" class="svg_img pro_svg"
                                                      alt="" /></a>
                                          </div>
@@ -3379,20 +3344,20 @@
                                  <div class="ec-pro-image-outer">
                                      <div class="ec-pro-image">
                                          <a href="product-left-sidebar.html" class="image">
-                                             <img class="main-image" src="assets/images/product-image/13_1.jpg" alt="Product" />
-                                             <img class="hover-image" src="assets/images/product-image/13_2.jpg"
+                                             <img loading='lazy' class="main-image" src="assets/images/product-image/13_1.jpg" alt="Product" />
+                                             <img loading='lazy' class="hover-image" src="assets/images/product-image/13_2.jpg"
                                                  alt="Product" />
                                          </a>
                                          <a href="#" class="quickview" data-link-action="quickview" title="Quick view"
-                                             data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img
+                                             data-bs-toggle="modal" data-bs-target="#ec_quickview_modal"><img loading='lazy'
                                                  src="assets/images/icons/quickview.svg" class="svg_img pro_svg" alt="" /></a>
                                          <div class="ec-pro-actions">
-                                             <a href="compare.html" class="ec-btn-group compare" title="Compare"><img
+                                             <a href="compare.html" class="ec-btn-group compare" title="Compare"><img loading='lazy'
                                                      src="assets/images/icons/compare.svg" class="svg_img pro_svg" alt="" /></a>
-                                             <button title="Add To Cart" class=" add-to-cart"><img
+                                             <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
                                                      src="assets/images/icons/cart.svg" class="svg_img pro_svg" alt="" /> Add To
                                                  Cart</button>
-                                             <a class="ec-btn-group wishlist" title="Wishlist"><img
+                                             <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
                                                      src="assets/images/icons/wishlist.svg" class="svg_img pro_svg"
                                                      alt="" /></a>
                                          </div>
@@ -3466,9 +3431,9 @@
                          <div class="ec-test-outer">
                              <ul id="ec-testimonial-slider">
                                  <li class="ec-test-item">
-                                     <img src="assets/images/testimonial/top-quotes.svg" class="svg_img test_svg top" alt="" />
+                                     <img loading='lazy' src="assets/images/testimonial/top-quotes.svg" class="svg_img test_svg top" alt="" />
                                      <div class="ec-test-inner">
-                                         <div class="ec-test-img"><img alt="testimonial" title="testimonial"
+                                         <div class="ec-test-img"><img loading='lazy' alt="testimonial" title="testimonial"
                                                  src="assets/images/testimonial/1.jpg" /></div>
                                          <div class="ec-test-content">
                                              <div class="ec-test-desc">Lorem Ipsum is simply dummy text of the printing and
@@ -3487,13 +3452,13 @@
                                              </div>
                                          </div>
                                      </div>
-                                     <img src="assets/images/testimonial/bottom-quotes.svg" class="svg_img test_svg bottom"
+                                     <img loading='lazy' src="assets/images/testimonial/bottom-quotes.svg" class="svg_img test_svg bottom"
                                          alt="" />
                                  </li>
                                  <li class="ec-test-item ">
-                                     <img src="assets/images/testimonial/top-quotes.svg" class="svg_img test_svg top" alt="" />
+                                     <img loading='lazy' src="assets/images/testimonial/top-quotes.svg" class="svg_img test_svg top" alt="" />
                                      <div class="ec-test-inner">
-                                         <div class="ec-test-img"><img alt="testimonial" title="testimonial"
+                                         <div class="ec-test-img"><img loading='lazy' alt="testimonial" title="testimonial"
                                                  src="assets/images/testimonial/2.jpg" /></div>
                                          <div class="ec-test-content">
                                              <div class="ec-test-desc">Lorem Ipsum is simply dummy text of the printing and
@@ -3511,13 +3476,13 @@
                                              </div>
                                          </div>
                                      </div>
-                                     <img src="assets/images/testimonial/bottom-quotes.svg" class="svg_img test_svg bottom"
+                                     <img loading='lazy' src="assets/images/testimonial/bottom-quotes.svg" class="svg_img test_svg bottom"
                                          alt="" />
                                  </li>
                                  <li class="ec-test-item">
-                                     <img src="assets/images/testimonial/top-quotes.svg" class="svg_img test_svg top" alt="" />
+                                     <img loading='lazy' src="assets/images/testimonial/top-quotes.svg" class="svg_img test_svg top" alt="" />
                                      <div class="ec-test-inner">
-                                         <div class="ec-test-img"><img alt="testimonial" title="testimonial"
+                                         <div class="ec-test-img"><img loading='lazy' alt="testimonial" title="testimonial"
                                                  src="assets/images/testimonial/3.jpg" /></div>
                                          <div class="ec-test-content">
                                              <div class="ec-test-desc">Lorem Ipsum is simply dummy text of the printing and
@@ -3535,7 +3500,7 @@
                                              </div>
                                          </div>
                                      </div>
-                                     <img src="assets/images/testimonial/bottom-quotes.svg" class="svg_img test_svg bottom"
+                                     <img loading='lazy' src="assets/images/testimonial/bottom-quotes.svg" class="svg_img test_svg bottom"
                                          alt="" />
                                  </li>
                              </ul>
@@ -3554,7 +3519,7 @@
                              <ul id="ec-brand-slider">
                                  @foreach ($marcas as $marca)
                                      <li class="ec-brand-item" data-animation="zoomIn">
-                                         <div class="ec-brand-img"><a href="#"><img alt="brand" title="brand"
+                                         <div class="ec-brand-img"><a href="#"><img loading='lazy' alt="brand" title="brand"
                                                      src="storage/images/marca/{{ $marca->imagen }}" /></a></div>
                                      </li>
                                  @endforeach
@@ -3585,36 +3550,28 @@
                                  <!-- instagram item -->
                                  <div class="ec-insta-item">
                                      <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/1.png"
+                                         <a href="#" target="_blank"><img loading='lazy' src="assets/images/instragram-image/1.png"
                                                  alt="insta"></a>
                                      </div>
                                  </div>
                                  <!-- instagram item -->
                                  <div class="ec-insta-item">
                                      <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/2.png"
+                                         <a href="#" target="_blank"><img loading='lazy' src="assets/images/instragram-image/2.png"
                                                  alt="insta"></a>
                                      </div>
                                  </div>
                                  <!-- instagram item -->
                                  <div class="ec-insta-item">
                                      <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/3.png"
+                                         <a href="#" target="_blank"><img loading='lazy' src="assets/images/instragram-image/3.png"
                                                  alt="insta"></a>
                                      </div>
                                  </div>
                                  <!-- instagram item -->
                                  <div class="ec-insta-item">
                                      <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/4.png"
-                                                 alt="insta"></a>
-                                     </div>
-                                 </div>
-                                 <!-- instagram item -->
-                                 <!-- instagram item -->
-                                 <div class="ec-insta-item">
-                                     <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/5.png"
+                                         <a href="#" target="_blank"><img loading='lazy' src="assets/images/instragram-image/4.png"
                                                  alt="insta"></a>
                                      </div>
                                  </div>
@@ -3622,7 +3579,7 @@
                                  <!-- instagram item -->
                                  <div class="ec-insta-item">
                                      <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/6.png"
+                                         <a href="#" target="_blank"><img loading='lazy' src="assets/images/instragram-image/5.png"
                                                  alt="insta"></a>
                                      </div>
                                  </div>
@@ -3630,7 +3587,15 @@
                                  <!-- instagram item -->
                                  <div class="ec-insta-item">
                                      <div class="ec-insta-inner">
-                                         <a href="#" target="_blank"><img src="assets/images/instragram-image/7.png"
+                                         <a href="#" target="_blank"><img loading='lazy' src="assets/images/instragram-image/6.png"
+                                                 alt="insta"></a>
+                                     </div>
+                                 </div>
+                                 <!-- instagram item -->
+                                 <!-- instagram item -->
+                                 <div class="ec-insta-item">
+                                     <div class="ec-insta-inner">
+                                         <a href="#" target="_blank"><img loading='lazy' src="assets/images/instragram-image/7.png"
                                                  alt="insta"></a>
                                      </div>
                                  </div>
@@ -3660,8 +3625,8 @@
                              <div class="row">
                                  <div class="col-sm-12 col-lg-3 ec-footer-contact">
                                      <div class="ec-footer-widget">
-                                         <div class="ec-footer-logo"><a href="#"><img src="assets/images/logo/logo_ibizza.svg"
-                                                     alt=""><img class="dark-footer-logo" src="assets/images/logo/dark-logo.png"
+                                         <div class="ec-footer-logo"><a href="#"><img loading='lazy' src="assets/images/logo/logo_ibizza.svg"
+                                                     alt=""><img loading='lazy' class="dark-footer-logo" src="assets/images/logo/dark-logo.png"
                                                      alt="Site Logo" style="display: none;" /></a></div>
                                          <h4 class="ec-footer-heading">Contactanos</h4>
                                          <div class="ec-footer-links">
@@ -3776,7 +3741,7 @@
                                  <div class="col footer-bottom-right">
                                      <div class="footer-bottom-payment d-flex justify-content-end">
                                          <div class="payment-link">
-                                             <img src="assets/images/icons/payment.png" alt="">
+                                             <img loading='lazy' src="assets/images/icons/payment.png" alt="">
                                          </div>
 
                                      </div>
@@ -3800,36 +3765,36 @@
                                      <!-- Swiper -->
                                      <div class="qty-product-cover">
                                          <div class="qty-slide">
-                                             <img class="img-responsive" src="assets/images/product-image/3_1.jpg" alt="">
+                                             <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_1.jpg" alt="">
                                          </div>
                                          <div class="qty-slide">
-                                             <img class="img-responsive" src="assets/images/product-image/3_2.jpg" alt="">
+                                             <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_2.jpg" alt="">
                                          </div>
                                          <div class="qty-slide">
-                                             <img class="img-responsive" src="assets/images/product-image/3_3.jpg" alt="">
+                                             <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_3.jpg" alt="">
                                          </div>
                                          <div class="qty-slide">
-                                             <img class="img-responsive" src="assets/images/product-image/3_4.jpg" alt="">
+                                             <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_4.jpg" alt="">
                                          </div>
                                          <div class="qty-slide">
-                                             <img class="img-responsive" src="assets/images/product-image/3_5.jpg" alt="">
+                                             <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_5.jpg" alt="">
                                          </div>
                                      </div>
                                      <div class="qty-nav-thumb">
                                          <div class="qty-slide">
-                                             <img class="img-responsive" src="assets/images/product-image/3_1.jpg" alt="">
+                                             <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_1.jpg" alt="">
                                          </div>
                                          <div class="qty-slide">
-                                             <img class="img-responsive" src="assets/images/product-image/3_2.jpg" alt="">
+                                             <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_2.jpg" alt="">
                                          </div>
                                          <div class="qty-slide">
-                                             <img class="img-responsive" src="assets/images/product-image/3_3.jpg" alt="">
+                                             <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_3.jpg" alt="">
                                          </div>
                                          <div class="qty-slide">
-                                             <img class="img-responsive" src="assets/images/product-image/3_4.jpg" alt="">
+                                             <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_4.jpg" alt="">
                                          </div>
                                          <div class="qty-slide">
-                                             <img class="img-responsive" src="assets/images/product-image/3_5.jpg" alt="">
+                                             <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_5.jpg" alt="">
                                          </div>
                                      </div>
                                  </div>
@@ -3886,7 +3851,7 @@
                                                  <input class="qty-input" type="text" name="ec_qtybtn" value="1" />
                                              </div>
                                              <div class="ec-quickview-cart ">
-                                                 <button class="btn btn-primary"><img src="assets/images/icons/cart.svg"
+                                                 <button class="btn btn-primary"><img loading='lazy' src="assets/images/icons/cart.svg"
                                                          class="svg_img pro_svg" alt="" /> Add To Cart</button>
                                              </div>
                                          </div>
@@ -3908,32 +3873,32 @@
                  <div class="container">
                      <div class="ec-nav-panel">
                          <div class="ec-nav-panel-icons">
-                             <a href="#ec-mobile-menu" class="navbar-toggler-btn ec-header-btn ec-side-toggle"><img
+                             <a href="#ec-mobile-menu" class="navbar-toggler-btn ec-header-btn ec-side-toggle"><img loading='lazy'
                                      src="assets/images/icons/menu.svg" class="svg_img header_svg" alt="icon" /></a>
                          </div>
                          <div class="ec-nav-panel-icons">
-                             <a href="#ec-side-cart" class="toggle-cart ec-header-btn ec-side-toggle"><img
+                             <a href="#ec-side-cart" class="toggle-cart ec-header-btn ec-side-toggle"><img loading='lazy'
                                      src="assets/images/icons/cart.svg" class="svg_img header_svg" alt="icon" /><span
-                                     class="ec-cart-noti ec-header-count cart-count-lable">3</span></a>
+                                     class="ec-cart-noti ec-header-count cart-count-lable">0</span></a>
                          </div>
                          <div class="ec-nav-panel-icons">
-                             <a href="{{ url('/') }}" class="ec-header-btn"><img src="assets/images/icons/home.svg"
+                             <a href="{{ url('/') }}" class="ec-header-btn"><img loading='lazy' src="assets/images/icons/home.svg"
                                      class="svg_img header_svg" alt="icon" /></a>
                          </div>
                          <div class="ec-nav-panel-icons">
-                             <a href="wishlist.html" class="ec-header-btn"><img src="assets/images/icons/wishlist.svg"
+                             <a href="wishlist.html" class="ec-header-btn"><img loading='lazy' src="assets/images/icons/wishlist.svg"
                                      class="svg_img header_svg" alt="icon" /><span class="ec-cart-noti">4</span></a>
                          </div>
                          <div class="ec-nav-panel-icons">
                              @if (Route::has('login'))
 
                                  @auth
-                                     <a href="{{ url('/dashboard') }}" class="ec-header-btn"><img
+                                     <a href="{{ url('/dashboard') }}" class="ec-header-btn"><img loading='lazy'
                                              src="assets/images/icons/user.svg" class="svg_img header_svg" alt="icon" /></a>
 
                                  @else
 
-                                     <a href="{{ route('login') }}" class="ec-header-btn"><img src="assets/images/icons/user.svg"
+                                     <a href="{{ route('login') }}" class="ec-header-btn"><img loading='lazy' src="assets/images/icons/user.svg"
                                              class="svg_img header_svg" alt="icon" /></a>
                                  @endif
                                  @endif
@@ -3951,9 +3916,9 @@
                  <!-- Cart Floating Button -->
                  <div class="ec-cart-float">
                      <a href="#ec-side-cart" class="ec-header-btn ec-side-toggle">
-                         <div class="header-icon"><img src="assets/images/icons/cart.svg" class="svg_img header_svg" alt="cart" />
+                         <div class="header-icon"><img loading='lazy' src="assets/images/icons/cart.svg" class="svg_img header_svg" alt="cart" />
                          </div>
-                         <span class="ec-cart-count cart-count-lable">3</span>
+                         <span class="ec-cart-count cart-count-lable">0</span>
                      </a>
                  </div>
                  <!-- Cart Floating Button end -->
@@ -3977,7 +3942,7 @@
                                          <div class="d-flex bd-highlight">
                                              <!-- Profile Picture -->
                                              <div class="ec-img-cont">
-                                                 <img src="assets/images/favicon/logo_ibizza_verde.svg" class="ec-user-img"
+                                                 <img loading='lazy' src="assets/images/favicon/logo_ibizza_verde.svg" class="ec-user-img"
                                                      alt="Profile image">
                                                  <span class="ec-status-icon ec-online"></span>
                                              </div>
@@ -4001,7 +3966,7 @@
                                          <div class="d-flex bd-highlight">
                                              <!-- Profile Picture -->
                                              <div class="ec-img-cont">
-                                                 <img src="assets/images/favicon/logo_ibizza_verde.svg" class="ec-user-img"
+                                                 <img loading='lazy' src="assets/images/favicon/logo_ibizza_verde.svg" class="ec-user-img"
                                                      alt="Profile image">
                                                  <span class="ec-status-icon ec-offline"></span>
                                              </div>
@@ -4026,7 +3991,7 @@
                      <div class="ec-right-bottom">
                          <div class="ec-box">
                              <div class="ec-button rotateBackward">
-                                 <img class="whatsapp" src="assets/images/common/whatsapp.png" alt="whatsapp icon">
+                                 <img loading='lazy' class="whatsapp" src="assets/images/common/whatsapp.png" alt="whatsapp icon">
                              </div>
                          </div>
                      </div>

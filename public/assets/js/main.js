@@ -1,4 +1,22 @@
-
+//cargar todo los elemtos en session
+var productos;
+window.onload = function () {
+    console.log(localStorage.length)
+    if(localStorage.length > 0){
+        $('.cart-count-lable').html(localStorage.getItem('cartCount'));
+        product = localStorage.getItem('html_p');
+        product = JSON.parse(product)
+        console.log(product)
+        for (let i = 0; i < product.length; i++) {            
+            // Remove Empty message    
+            $(".emp-cart-msg").parent().remove();       
+            $('.eccart-pro-items').append(product[i]['p_html']);    
+        }
+        productos = product;
+    }else{
+       productos = [];
+    }
+}
 // Function To Create New Cookie 
 function ecCreateCookie(cookieName,cookieValue,daysToExpire)
 {
@@ -343,14 +361,13 @@ function ecCheckCookie()
         }
 	});
 
-    /*----------------------------- Sidekka And SideMenu -----------------------------------*/
+    /*----------------------------- SideIbizzaCart And SideMenu -----------------------------------*/
     $("body").on("click", ".add-to-cart", function(){
-
         $(".ec-cart-float").fadeIn();
 
         var count = $(".cart-count-lable").html();        
         count++;
-
+        localStorage.setItem('cartCount',count);
         $(".cart-count-lable").html(count);
 
         // Remove Empty message    
@@ -362,9 +379,9 @@ function ecCheckCookie()
         
         // get an image url
         var img_url = $(this).parents().parents().children(".image").find(".main-image").attr("src");
-        var p_name = $(this).parents().parents().parents().find(".ec-pro-title").children().html();
-        var p_price = $(this).parents().parents().parents().find(".ec-price").children(".new-price").html();
-        
+        var p_name = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-pro-title a").html();
+        var p_price = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-price .new-price").html();
+        console.log(p_price)
         var p_html = '<li>'+
                         '<a href="product-left-sidebar.html" class="sidekka_pro_img"><img src="'+ img_url +'" alt="product"></a>'+
                         '<div class="ec-pro-content">'+
@@ -376,6 +393,9 @@ function ecCheckCookie()
                             '<a href="javascript:void(0)" class="remove">×</a>'+
                         '</div>'+
                     '</li>';
+        let objeto = {'p_html': p_html}
+        productos.push(objeto);
+        localStorage.setItem('html_p',JSON.stringify(productos));
 
         $('.eccart-pro-items').append(p_html);    
         
@@ -420,11 +440,12 @@ function ecCheckCookie()
             
             $(this).closest("li").remove();
             if (cart_product_count == 1) {
-                $('.eccart-pro-items').html('<li><p class="emp-cart-msg">Your cart is empty!</p></li>');
+                $('.eccart-pro-items').html('<li><p class="emp-cart-msg">Tu carrito está vacio!</p></li>');
             }
 
             var count = $(".cart-count-lable").html();            
             count--;
+            localStorage.setItem('cartCount',count);
             $(".cart-count-lable").html(count);
 
             cart_product_count--;
