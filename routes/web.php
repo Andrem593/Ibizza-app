@@ -8,6 +8,7 @@ use App\Http\Controllers\userController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\webController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,7 @@ use App\Http\Controllers\ProveedorController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome2');
-});
+Route::get('/', webController::class);
 
 Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
