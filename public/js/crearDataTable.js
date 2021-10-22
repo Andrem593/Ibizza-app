@@ -448,7 +448,7 @@ function crearTablaCatalogo(data, ruta) {
             [10, 25, 50, "Todo"]
         ],
         "columnDefs": [{
-                "targets": [3],
+                "targets": [6],
                 "orderable": false,
                 "searchable": false
             },

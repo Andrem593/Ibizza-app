@@ -1,31 +1,23 @@
-@extends('layouts.app')
+<x-app-layout>
+    @section('title', 'Marcas')
+    <x-slot name="header">
+        EDITAR MARCA
+        <a class="btn btn-secondary btn-sm float-right" href="{{ route('catalogos.index') }}" data-placement="left">
+            Regresar</a>
+    </x-slot>
 
-@section('template_title')
-    Update Catalogo
-@endsection
+    @includeif('partials.errors')
 
-@section('content')
-    <section class="content container-fluid">
-        <div class="">
-            <div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" action="{{ route('catalogos.update', $catalogo->id) }}" role="form"
+                enctype="multipart/form-data">
+                {{ method_field('PATCH') }}
+                @csrf
 
-                @includeif('partials.errors')
+                @include('catalogo.form')
 
-                <div class="card card-default">
-                    <div class="card-header">
-                        <span class="card-title">Update Catalogo</span>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('catalogos.update', $catalogo->id) }}"  role="form" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
-                            @csrf
-
-                            @include('catalogo.form')
-
-                        </form>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
-    </section>
-@endsection
+    </div>
+</x-app-layout>
