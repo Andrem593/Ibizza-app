@@ -106,4 +106,19 @@ class CatalogoController extends Controller
         return redirect()->route('catalogos.index')
             ->with('success', 'Catalogo deleted successfully');
     }
+
+    public function catalogoDataTable()
+    {
+        $response = '';
+        if ($_POST['funcion'] == 'listar_todo') {
+
+            $catalogos = Catalogo::all();
+            if (count($catalogos) == 0) {
+                $catalogos = 'no data';
+            }
+            $response = json_encode($catalogos);
+        }
+        return $response;
+    }
+
 }

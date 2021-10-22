@@ -26,59 +26,72 @@
         @endif
 
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
+            <div class="table-responsive p-3">
+                <table id="datatable" class="table table-striped table-hover">
                     <thead class="bg-ibizza text-center">
                         <tr>
-                            <th>No</th>
+                            <th>Foto</th>
 
                             <th>Nombre</th>
                             <th>Descripcion</th>
-                            <th>Foto Path</th>
-                            <th>Pdf Path</th>
-                            <th>Fecha Publicacion</th>
+                            <th>Fecha Publicación</th>
                             <th>Fecha Fin Catalogo</th>
                             <th>Estado</th>
-                            <th>Premio Id</th>
 
                             <th></th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
-                        @foreach ($catalogos as $catalogo)
-                            <tr>
-                                <td>{{ ++$i }}</td>
-
-                                <td>{{ $catalogo->nombre }}</td>
-                                <td>{{ $catalogo->descripcion }}</td>
-                                <td>{{ $catalogo->foto_path }}</td>
-                                <td>{{ $catalogo->pdf_path }}</td>
-                                <td>{{ $catalogo->fecha_publicacion }}</td>
-                                <td>{{ $catalogo->fecha_fin_catalogo }}</td>
-                                <td>{{ $catalogo->estado }}</td>
-                                <td>{{ $catalogo->premio_id }}</td>
-
-                                <td>
-                                    <form action="{{ route('catalogos.destroy', $catalogo->id) }}" method="POST">
-                                        <a class="btn btn-sm btn-primary "
-                                            href="{{ route('catalogos.show', $catalogo->id) }}"><i
-                                                class="fa fa-fw fa-eye"></i> Show</a>
-                                        <a class="btn btn-sm btn-success"
-                                            href="{{ route('catalogos.edit', $catalogo->id) }}"><i
-                                                class="fa fa-fw fa-edit"></i> Edit</a>
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"><i
-                                                class="fa fa-fw fa-trash"></i> Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
+                        
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    {!! $catalogos->links() !!}
+
+    @push('css')
+        <link rel="stylesheet" href="/css/botonesDataTable.css">
+    @endpush
+    @push('modals')
+        <div class="modal" id="eliminar" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar Elemento</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form_eliminar" action="" method="POST">
+                            <div class="form-group">
+                                <label for="">Seguro de Eliminar Producto: </label>
+                                <label id="elemento_eliminar"></label>
+                                <input type="hidden" id="id_eliminar">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endpush
+    @Push('scripts')
+        <script src="/js/crearDataTable.js"></script>
+        <script>
+            $(document).ready(function() {
+                var data = {
+                    funcion: 'listar_todo',
+                }
+                let ruta = '/catalogo/datatable'
+                crearTablaCatalogo(data, ruta);
+            });
+        </script>
+    @endpush
 
 </x-app-layout>

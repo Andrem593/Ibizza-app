@@ -380,6 +380,125 @@ function crearTablaMarca(data, ruta) {
     })
 }
 
+function crearTablaCatalogo(data, ruta) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
+    let dataTable = $('#datatable').DataTable({
+
+        destroy: true,
+        "processing": true,
+        "ajax": {
+            "url": ruta,
+            "method": "POST",
+            "data": data,
+            "dataSrc": function(json) {
+                if (json == 'no data') {
+                    return [];
+                } else {
+                    return json;
+                }
+            },
+        },
+        "columns": [{
+                "data": "foto_path",
+                "render": function(data, type, row) {
+                    let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                    if (data != '' && data != null) {
+                        image = '/storage/images/catalogo/' + data
+                    }
+                    return '<img src="' + image + '" class="rounded" width="80" height="60" >';
+                }
+            },
+            {
+                "data": "nombre"
+            },
+            {
+                "data": "descripcion"
+            },
+            {
+                "data": "fecha_publicacion"
+            },
+            {
+                "data": "fecha_fin_catalogo"
+            },
+            {
+                "data": "estado",
+                "render": function(data, type, row) {
+                    let estado = '<span class="badge bg-danger">Inactivo</span>';
+                    if (data == 'A') {
+                        estado = '<span class="badge bg-success">Activo</span>'
+                    }
+                    return estado;
+                }
+            },
+            {
+                "data": 'id',
+                "render": function(data, type, row) {
+                    return '<a href="/catalogos/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
+                }
+            }
+
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "Todo"]
+        ],
+        "columnDefs": [{
+                "targets": [3],
+                "orderable": false,
+                "searchable": false
+            },
+            //{ "width": "1%", "targets": 0 }
+        ],
+        "order": [
+            [1, 'asc']
+        ],
+        "language": espanol,
+        //para usar los botones
+        responsive: false,
+        autoWidth: false,
+        dom: 'Bfrtilp',
+        buttons: [{
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> ',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> ',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger',
+                pageSize: 'TABLOID',
+                orientation: 'landscape'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> ',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info',
+                exportOptions: {
+                    stripHtml: false
+                }
+            },
+        ]
+    });
+    if (dataTable.length == 0) {
+        dataTable.clear();
+        dataTable.draw();
+    }
+    $('#datatable tbody').on('click', '.eliminar', function() {
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#elemento_eliminar').html(data.nombre);
+        $('#id_eliminar').val(data.id)
+        $('#form_eliminar').attr('action', "/catalogos/" + data.id);
+    })
+}
+
 function crearTablaProveedor(data, ruta) {
     $.ajaxSetup({
         headers: {
@@ -478,6 +597,7 @@ function crearTablaProveedor(data, ruta) {
         $('#form_eliminar').attr('action', "/proveedores/" + data.id);
     })
 }
+
 function crearTablaEmpresarias(data, ruta) {
     $.ajaxSetup({
         headers: {
@@ -501,14 +621,13 @@ function crearTablaEmpresarias(data, ruta) {
                 }
             },
         },
-        "columns": [
-            {
+        "columns": [{
                 "data": "cedula"
             },
             {
                 "data": "nombres",
-                'render': function (data,type,row) {
-                    return data+" "+row['apellidos'];
+                'render': function(data, type, row) {
+                    return data + " " + row['apellidos'];
                 }
             },
             {
@@ -524,10 +643,10 @@ function crearTablaEmpresarias(data, ruta) {
                 "data": "tipo_cliente",
                 "render": function(data, type, row) {
                     let color = 'bg-success'
-                    if (data == 'CONTINUA') {color = 'bg-info'}
-                    if (data == 'BAJA') {color = 'bg-danger'}
-                    if (data == 'INACTIVA-1' || data == 'INACTIVA-2'||data == 'INACTIVA-3') {color = 'bg-warning text-dark'}
-                    return '<span class="badge '+color+' w-100 p-2">'+data+'</span>';
+                    if (data == 'CONTINUA') { color = 'bg-info' }
+                    if (data == 'BAJA') { color = 'bg-danger' }
+                    if (data == 'INACTIVA-1' || data == 'INACTIVA-2' || data == 'INACTIVA-3') { color = 'bg-warning text-dark' }
+                    return '<span class="badge ' + color + ' w-100 p-2">' + data + '</span>';
                 }
             },
             {
