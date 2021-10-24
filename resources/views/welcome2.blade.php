@@ -15,8 +15,8 @@
 
      <!-- site Favicon -->
      <link rel="icon" href="assets/images/favicon/Logo_ibizza_verde.svg" sizes="32x32" />
-     <link rel="apple-touch-icon" href="assets/images/favicon/Logo_ibizza.svg" />
-     <meta name="msapplication-TileImage" content="assets/images/favicon/Logo_ibizza.svg" />
+     <link rel="apple-touch-icon" href="assets/images/favicon/Logo_ibizza.png" />
+     <meta name="msapplication-TileImage" content="assets/images/favicon/Logo_ibizza.png" />
 
      <!-- css Icon Font -->
      <link rel="stylesheet" href="assets/css/vendor/ecicons.min.css" />
@@ -156,7 +156,7 @@
                              <!-- Ec Header Logo Start -->
                              <div class="align-self-center">
                                  <div class="header-logo">
-                                     <a href="{{ url('/') }}"><img loading='lazy' class="p-1" src="assets/images/logo/logo_ibizza.svg"
+                                     <a href="{{ url('/') }}"><img loading='lazy' class="p-1" src="assets/images/logo/logo_ibizza.png"
                                              alt="Logo Ibizza" />
                                          <img loading='lazy' class="dark-logo" src="assets/images/logo/dark-logo.png" alt="Site Logo"
                                              style="display: none;" /></a>
@@ -231,7 +231,7 @@
                              <!-- Ec Header Logo Start -->
                              <div class="col">
                                  <div class="header-logo">
-                                     <a href="index.html"><img loading='lazy' src="assets/images/logo/logo_ibizza.svg" alt="Logo Ibizza" /><img loading='lazy'
+                                     <a href="index.html"><img loading='lazy' src="assets/images/logo/logo_ibizza.png" alt="Logo Ibizza" /><img loading='lazy'
                                              class="dark-logo" src="assets/images/logo/dark-logo.png" alt="Site Logo"
                                              style="display: none;" /></a>
                                  </div>
@@ -3526,7 +3526,7 @@
                              <div class="row">
                                  <div class="col-sm-12 col-lg-3 ec-footer-contact">
                                      <div class="ec-footer-widget">
-                                         <div class="ec-footer-logo"><a href="#"><img loading='lazy' src="assets/images/logo/logo_ibizza.svg"
+                                         <div class="ec-footer-logo"><a href="#"><img loading='lazy' src="assets/images/logo/logo_ibizza.png"
                                                      alt=""><img loading='lazy' class="dark-footer-logo" src="assets/images/logo/dark-logo.png"
                                                      alt="Site Logo" style="display: none;" /></a></div>
                                          <h4 class="ec-footer-heading">Contactanos</h4>
