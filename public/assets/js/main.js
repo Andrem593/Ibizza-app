@@ -1,4 +1,5 @@
 // Funcion para enviar datos a session sobre el carrito
+
 $("body").on("click", ".add-to-cart", function(){
     var clasificacion = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-pro-title a").html();
     var color = $(this).parents().parents().parents().children(".ec-pro-content").find('.ec-pro-option .ec-pro-color .p-0').val();
@@ -371,7 +372,6 @@ function ecCheckCookie()
 
         var count = $(".cart-count-lable").html();        
         count++;
-        localStorage.setItem('cartCount',count);
         $(".cart-count-lable").html(count);
 
         // Remove Empty message    
@@ -442,11 +442,30 @@ function ecCheckCookie()
                 $('.eccart-pro-items').html('<li><p class="emp-cart-msg">Tu carrito está vacio!</p></li>');
             }
 
-            var count = $(".cart-count-lable").html();            
-            count--;
+            var count = $(".cart-count-lable").html();    
+            // AM QUITAR LA CANTIDAD DE ELEMENTOS QUE HAYA ESCOGIDO   
+            count = count - $(this).parents().children(".ec-pro-content").find(".card-qty").html()
             $(".cart-count-lable").html(count);
 
             cart_product_count--;
+            //AM FUNCION DE REMOVER ARTICULOS DEL CARRITO DEL MODELO CART
+            let data = {
+                'id' : $(this).parents().children(".ec-pro-content").find(".idItemCart").html()
+            }
+            $.post({
+                url: '/delete',
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if(response.message == 'deleted'){
+                        $('#subTotal').html('$'+response.subtotal);
+                        $('#tax').html('$'+response.tax);
+                        $('#total').html('$'+response.total);
+                    }
+                }
+            })
         });    
         
     })();

@@ -13,7 +13,8 @@
                                     alt="product"></a>
                             <div class="ec-pro-content">
                                 <a href="product-left-sidebar.html" class="cart_pro_title">{{ $item->name }}</a>
-                                <span class="cart-price"><span>{{ $item->price}}</span> x {{$item->qty}}</span>
+                                <span class="cart-price"><span>{{ $item->price}}</span> x <span class="card-qty">{{$item->qty}}</span></span>
+                                <span class="idItemCart d-none">{{ $item->rowId}}</span>
                                 <a href="javascript:void(0)" class="remove">×</a>
                             </div>
                         </li>
@@ -31,15 +32,15 @@
                     <tbody>
                         <tr>
                             <td class="text-left">Sub-Total :</td>
-                            <td class="text-right">${{Cart::subtotal()}}</td>
+                            <td id="subTotal" class="text-right">${{Cart::subtotal()}}</td>
                         </tr>
                         <tr>
                             <td class="text-left">IVA (12%) :</td>
-                            <td class="text-right">${{Cart::tax()}}</td>
+                            <td id="tax" class="text-right">${{Cart::tax()}}</td>
                         </tr>
                         <tr>
                             <td class="text-left">Total :</td>
-                            <td class="text-right primary-color">${{Cart::total()}}</td>
+                            <td id="total" class="text-right primary-color">${{Cart::total()}}</td>
                         </tr>
                     </tbody>
                 </table>

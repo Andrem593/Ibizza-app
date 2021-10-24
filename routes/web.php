@@ -22,8 +22,13 @@ use App\Http\Controllers\webController;
 |
 */
 
-Route::get('/', webController::class)->name('web');
+//RUTAS PAGINA PRINCIPAL
 
+Route::get('/', webController::class)->name('web');
+Route::post('/store', [webController::class,'addToCart']);
+Route::post('/delete', [webController::class,'deleteToCart']);
+
+// RUTAS DASHBOARD
 Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
@@ -49,7 +54,6 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->post('/producto/saveExcel/', [ProductoController::class,'saveExcel'])
 ->name('producto.saveExcel');
 
-Route::post('/store', [ProductoController::class,'addToCart']);
 // MARCA
 
 Route::resource('marcas', MarcaController::class)
