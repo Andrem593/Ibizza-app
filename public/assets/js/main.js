@@ -1,22 +1,26 @@
-//cargar todo los elemtos en session
-var productos;
-window.onload = function () {
-    console.log(localStorage.length)
-    if(localStorage.length > 0){
-        $('.cart-count-lable').html(localStorage.getItem('cartCount'));
-        product = localStorage.getItem('html_p');
-        product = JSON.parse(product)
-        console.log(product)
-        for (let i = 0; i < product.length; i++) {            
-            // Remove Empty message    
-            $(".emp-cart-msg").parent().remove();       
-            $('.eccart-pro-items').append(product[i]['p_html']);    
-        }
-        productos = product;
-    }else{
-       productos = [];
+// Funcion para enviar datos a session sobre el carrito
+$("body").on("click", ".add-to-cart", function(){
+    var clasificacion = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-pro-title a").html();
+    var color = $(this).parents().parents().parents().children(".ec-pro-content").find('.ec-pro-option .ec-pro-color .p-0').val();
+    var talla = $(this).parents().parents().parents().children(".ec-pro-content").find('.ec-pro-option .ec-pro-size .ec-opt-size .active .ec-opt-sz').html();
+    data = {
+        'clasificacion' : clasificacion,
+        'color':color,
+        'talla':talla,
     }
-}
+    $.post({
+        url: '/store',
+        data: data,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response == 'add'){
+                Livewire.emit('render')
+            }
+        }
+    })
+});
 // Function To Create New Cookie 
 function ecCreateCookie(cookieName,cookieValue,daysToExpire)
 {
@@ -371,33 +375,28 @@ function ecCheckCookie()
         $(".cart-count-lable").html(count);
 
         // Remove Empty message    
-        $(".emp-cart-msg").parent().remove();        
+        // $(".emp-cart-msg").parent().remove();        
 
         setTimeout(function(){ 
             $(".ec-cart-float").fadeOut(); 
         }, 5000);
         
-        // get an image url
-        var img_url = $(this).parents().parents().children(".image").find(".main-image").attr("src");
-        var p_name = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-pro-title a").html();
-        var p_price = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-price .new-price").html();
-        console.log(p_price)
-        var p_html = '<li>'+
-                        '<a href="product-left-sidebar.html" class="sidekka_pro_img"><img src="'+ img_url +'" alt="product"></a>'+
-                        '<div class="ec-pro-content">'+
-                            '<a href="product-left-sidebar.html" class="cart_pro_title">'+ p_name +'</a>'+
-                        '<span class="cart-price"><span>'+ p_price +'</span> x 1</span>'+
-                            '<div class="qty-plus-minus"><div class="dec ec_qtybtn">-</div>'+
-                                '<input class="qty-input" type="text" name="ec_qtybtn" value="1">'+
-                            '<div class="inc ec_qtybtn">+</div></div>'+
-                            '<a href="javascript:void(0)" class="remove">×</a>'+
-                        '</div>'+
-                    '</li>';
-        let objeto = {'p_html': p_html}
-        productos.push(objeto);
-        localStorage.setItem('html_p',JSON.stringify(productos));
-
-        $('.eccart-pro-items').append(p_html);    
+        // // get an image url
+        // var img_url = $(this).parents().parents().children(".image").find(".main-image").attr("src");
+        // var p_name = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-pro-title a").html();
+        // var p_price = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-price .new-price").html();
+        // var p_html = '<li>'+
+        //                 '<a href="product-left-sidebar.html" class="sidekka_pro_img"><img src="'+ img_url +'" alt="product"></a>'+
+        //                 '<div class="ec-pro-content">'+
+        //                     '<a href="product-left-sidebar.html" class="cart_pro_title">'+ p_name +'</a>'+
+        //                 '<span class="cart-price"><span>'+ p_price +'</span> x 1</span>'+
+        //                     '<div class="qty-plus-minus"><div class="dec ec_qtybtn">-</div>'+
+        //                         '<input class="qty-input" type="text" name="ec_qtybtn" value="1">'+
+        //                     '<div class="inc ec_qtybtn">+</div></div>'+
+        //                     '<a href="javascript:void(0)" class="remove">×</a>'+
+        //                 '</div>'+
+        //             '</li>';
+        // $('.eccart-pro-items').append(p_html);    
         
     });
 
@@ -445,7 +444,6 @@ function ecCheckCookie()
 
             var count = $(".cart-count-lable").html();            
             count--;
-            localStorage.setItem('cartCount',count);
             $(".cart-count-lable").html(count);
 
             cart_product_count--;
