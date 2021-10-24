@@ -1,32 +1,22 @@
 <x-app-layout>
-    @section('title', 'Crear Marca')
-    {{-- @endsection --}}
-    <x-slot name="header">
-        <h5 class="text-center">Crear Marca</h5>
-    </x-slot>
-    <div class="recuadro mx-auto">
-        <div class="row">
-            <div class="col-md-12">
+    @section('title', 'Marcas')
+        <x-slot name="header">
+            CREAR MARCA
+            <a class="btn btn-secondary btn-sm float-right" href="{{ route('marcas.index') }}" data-placement="left"> Regresar</a>
+        </x-slot>
+    
 
-                @includeif('partials.errors')
-                <div class="card shadow">
-                    <div class="card-header bg-dark p-3">
-                        <span class="card-title">Nueva Marca</span>
-                        <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('marcas.index') }}"> Regresar</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('marcas.store') }}" role="form"
-                            enctype="multipart/form-data">
-                            @csrf
+        @includeif('partials.errors')
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="{{ route('marcas.store') }}" role="form"
+                    enctype="multipart/form-data">
+                    @csrf
 
-                            @include('marca.form')
+                    @include('marca.form')
 
-                        </form>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
-    </div>
+
 </x-app-layout>

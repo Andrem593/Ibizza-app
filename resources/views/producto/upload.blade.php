@@ -5,11 +5,25 @@
         </x-slot>
 
         <div class="card">
+            <div class="card-header">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
 
-            <form action="{{ route('producto.store') }}" method="POST">
+                    <span id="card_title">
+                        {{ __('Producto') }}
+                    </span>
+
+                    <div class="float-right">
+                        <a href="{{ route('productos.index') }}" class="btn btn-ibizza btn-sm float-right"
+                            data-placement="left">
+                            {{ __('Regresar') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <form action="{{ route('producto.saveExcel') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="marca">Marca de Producto</label>
                         <select class="custom-select form-control-border border-width-2" id="marca" name="marca">
                             <option value="">Seleccione una marca</option>
@@ -46,7 +60,7 @@
                     @section('plugins.BsCustomFileInput', true)
 
                     <x-adminlte-input-file name="excel" class=""
-                        igroup-size="sm" label="Carga archivo (.xls, .xlsx)" legend="Seleccionar" placeholder="Escoger un archivo .xls o .xlsx">
+                        igroup-size="sm" label="Carga archivo (.xls, .xlsx)" legend="Seleccionar" placeholder="Escoger un archivo .xls o .xlsx" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
 
                         <x-slot name="prependSlot">
                             <div class="input-group-text btn-ibizza">
@@ -56,11 +70,11 @@
                         
                     </x-adminlte-input-file>
 
-                    @error('excel')
+                    {{-- @error('excel')
                         <div class="alert alert-danger p-1" role="alert">
                             <i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}
                         </div>
-                    @enderror
+                    @enderror --}}
 
                 </div>
                 <!-- /.card-body -->

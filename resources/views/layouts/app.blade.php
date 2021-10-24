@@ -11,7 +11,7 @@
 @section('css')
     <link rel="stylesheet" href="/css/generalStyle.css">
     <!-- Styles -->
-
+    @stack('css')
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     @livewireStyles
 

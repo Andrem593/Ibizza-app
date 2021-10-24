@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Marca;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
 
 /**
  * Class MarcaController
@@ -18,10 +20,9 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        $marcas = Marca::paginate();
+        // $marcas = Marca::paginate();
 
-        return view('marca.index', compact('marcas'))
-            ->with('i', (request()->input('page', 1) - 1) * $marcas->perPage());
+        return view('marca.index');
     }
 
     /**
@@ -98,21 +99,21 @@ class MarcaController extends Controller
      */
     public function update(Request $request, Marca $marca)
     {
-        request()->validate([
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        request()->validate(Marca::$rules);
 
         $input = $request->all();
 
-        if ($image = $request->file('imagen')) {
+        if ($request->file('imagen')) {
 
             $profileImage = time().'.'.$request->imagen->extension();
-            //$image->move($destinationPath, $profileImage);
-            // $request->imagen->storeAs('images', $profileImage);
-            $request->imagen->move(public_path('storage/images/marca'), $profileImage);
-            $input['imagen'] = "$profileImage";
-        }else{
-            unset($input['imagen']);
+
+            $ruta = public_path('storage/images/marca/').$profileImage; 
+            Image::make($request->file('imagen'))
+            ->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->save($ruta);
+            $input['imagen'] = $profileImage;
         }
           
         $marca->update($input);
@@ -132,5 +133,19 @@ class MarcaController extends Controller
 
         return redirect()->route('marcas.index')
             ->with('success', 'Se eliminó la marca');
+    }
+
+    public function marcaDataTable()
+    {
+        $response = '';
+        if ($_POST['funcion'] == 'listar_todo') {
+
+            $marcas = Marca::all();
+            if (count($marcas) == 0) {
+                $marcas = 'no data';
+            }
+            $response = json_encode($marcas);
+        }
+        return $response;
     }
 }

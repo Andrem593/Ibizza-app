@@ -17,7 +17,8 @@ class Marcas extends Migration
         Schema::create('marcas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
-            $table->string('imagen');
+            $table->string('imagen')->nullable();
+            $table->char('estado', 1)->default('A');
             $table->timestamps();
         });
     }

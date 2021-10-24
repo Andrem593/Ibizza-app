@@ -26,5 +26,21 @@ class RoleSeeder extends Seeder
             'name' => 'usuario.create',
             'description' => 'Crear Usuarios'
         ])->syncRoles([$role1]);
+        Permission::create([
+            'name' => 'empresarias.index',
+            'description' => 'Modulo Empresarias'
+        ])->syncRoles([$role1]);
+        Permission::create([
+            'name' => 'marcas.index',
+            'description' => 'Modulo Marcas'
+        ])->syncRoles([$role1]);
+        Permission::create([
+            'name' => 'catalogos.index',
+            'description' => 'Modulo Catalogos'
+        ])->syncRoles([$role1]);
+        Permission::create([
+            'name' => 'proveedores.index',
+            'description' => 'Modulo Proveedores'
+        ])->syncRoles([$role1]);
     }
 }

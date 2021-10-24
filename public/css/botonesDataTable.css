@@ -1,0 +1,10 @@
+/*para alinear los botones y cuadro de busqueda*/
+.btn-group, .btn-group-vertical {
+    position: relative !important;
+    top: 35px;
+  }
+  @media screen and (max-width: 500px){
+    .btn-group, .btn-group-vertical {
+      position: relative !important;
+    }
+  }  

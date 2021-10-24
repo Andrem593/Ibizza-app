@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Producto;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
+use Cart;
 /**
  * Class ProductoController
  * @package App\Http\Controllers
@@ -48,7 +51,7 @@ class ProductoController extends Controller
         $producto = Producto::create($request->all());
 
         return redirect()->route('productos.index')
-            ->with('success', 'Producto created successfully.');
+            ->with('success', 'Producto Creado Correctamente.');
     }
 
     /**
@@ -73,8 +76,9 @@ class ProductoController extends Controller
     public function edit($id)
     {
         $producto = Producto::find($id);
-
-        return view('producto.edit', compact('producto'));
+        $marcas = DB::table('marcas')->get();
+        $proveedores = DB::table('proveedores')->get();
+        return view('producto.edit', compact('producto', 'marcas', 'proveedores'));
     }
 
     /**
@@ -87,11 +91,23 @@ class ProductoController extends Controller
     public function update(Request $request, Producto $producto)
     {
         request()->validate(Producto::$rules);
+        $requestData = $request->all();
 
-        $producto->update($request->all());
+        if ($request->file('imagen_path')) {
+            $image = time() . '.' . $request->imagen_path->extension();
+            // $request->imagen_path->move(public_path('storage/images/productos'), $image);
+            $ruta = public_path('storage/images/productos/') . $image;
+            Image::make($request->file('imagen_path'))
+                ->resize(1200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($ruta);
+            $requestData['imagen_path'] = $image;
+        }
+        $producto->update($requestData);
 
         return redirect()->route('productos.index')
-            ->with('success', 'Producto updated successfully');
+            ->with('success', 'Producto Actualizado Correctamente');
     }
 
     /**
@@ -104,6 +120,157 @@ class ProductoController extends Controller
         $producto = Producto::find($id)->delete();
 
         return redirect()->route('productos.index')
-            ->with('success', 'Producto deleted successfully');
+            ->with('success', 'Producto Eliminado Correctamente');
+    }
+
+    public function productoUpload()
+    {
+        return view('producto.upload');
+    }
+
+    public function saveExcel(Request $request)
+    {
+        $request->validate([
+            'excel' => 'required|max:10000|mimes:xlsx,xls'
+        ]);
+
+        $file_array = explode(".", $_FILES["excel"]["name"]);
+        $file_extension = end($file_array);
+
+        $file_name = time() . '.' . $file_extension;
+        move_uploaded_file($_FILES["excel"]["tmp_name"], $file_name);
+        $file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_name);
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($file_type);
+
+        $spreadsheet = $reader->load($file_name);
+
+        unlink($file_name);
+
+        $data = $spreadsheet->getActiveSheet()->toArray();
+
+        foreach ($data as $key => $row) {
+            if ($key >= 1) {
+
+                $marca_id = DB::table('marcas')->where('nombre', 'like', '%' . $row[3] . '%')->value('id');
+
+                if (empty($marca_id)) {
+                    $marca_id = DB::table('marcas')->insertGetId(
+                        array('nombre' => $row[3], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
+                    );
+                }
+
+                $proveedor_id = DB::table('proveedores')->where('nombre', 'like', '%' . $row[7] . '%')->value('id');
+
+                if (empty($proveedor_id)) {
+                    $proveedor_id = DB::table('proveedores')->insertGetId(
+                        array('nombre' => $row[7], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
+                    );
+                }
+
+                $insert_data = array(
+                    'sku'  => $row[0],
+                    'nombre_producto'  => $row[1],
+                    'descripcion'  => $row[2],
+                    'marca_id'  => $marca_id,
+                    'grupo' => $row[4],
+                    'seccion'  => $row[5],
+                    'clasificacion'  => $row[6],
+                    'proveedor_id'  => $proveedor_id,
+                    'estilo'  => $row[8],
+                    'color'  => $row[9],
+                    'talla'  => $row[10],
+                    'cantidad_inicial'  => $row[11],
+                    'valor_venta'  => $row[12]
+                );
+
+                Producto::create($insert_data);
+            }
+        }
+
+        return redirect()->route('productos.index')
+            ->with('success', 'Productos cargados correctamente');
+    }
+    public function productoDataTable(Request $request)
+    {
+        $response = '';
+        if ($_POST['funcion'] == 'listar_todo') {
+            $productos = DB::table('productos')
+                ->join('proveedores', 'proveedores.id', '=', 'productos.proveedor_id')
+                ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
+                ->select('productos.*', 'marcas.nombre AS nombre_marca', 'proveedores.nombre AS nombre_proveedor')
+                ->get();
+            if (count($productos) == 0) {
+                $productos = 'no data';
+            }
+            $response = json_encode($productos);
+        }
+
+        if ($_POST['funcion'] == 'listar_estilos') {
+            $productos = DB::table('productos')
+                ->distinct()
+                ->select('imagen_path', 'estilo', 'color')
+                ->get();
+            if (count($productos) == 0) {
+                $productos = 'no data';
+            }
+            $response = json_encode($productos);
+        }
+        if ($_POST['funcion'] == 'editar_estilo') {
+
+            if (!empty($_FILES["file"])) {
+
+                $image = time() . '.' . $_FILES["file"]['name'];
+                $ruta = public_path('storage/images/productos/') . $image;
+                Image::make($_FILES["file"]["tmp_name"])
+                    ->resize(1200, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })
+                    ->save($ruta);
+            }
+            $ant_img = empty($_POST['ant_img']) ? null : $_POST['ant_img']; 
+            $response = Producto::where('color', $_POST['color'])
+                ->where('estilo', $_POST['estilo'])
+                ->where('imagen_path', $ant_img)
+                ->update([
+                    'imagen_path' => $image
+                ]);
+            
+            if ($response > 0 ) {
+                $response = [
+                    'num' => $response,
+                    'message'=> 'actualizado'
+                ];
+            }else{
+                $response = [
+                    'message'=> 'error'
+                ];
+            }
+            json_encode($response);
+        }
+        if ($_POST['funcion'] == 'eliminar_estilo') {
+            $response = Producto::where('color', $_POST['color'])
+            ->where('estilo', $_POST['estilo'])
+            ->where('imagen_path', $_POST['ant_img'])
+            ->update([
+                'imagen_path' => null
+            ]);
+            if ($response > 0 ) {
+                $response = [
+                    'num' => $response,
+                    'message'=> 'actualizado'
+                ];
+            }else{
+                $response = [
+                    'message'=> 'error'
+                ];
+            }
+            json_encode($response);
+        }
+
+        return $response;
+    }
+    public function productoEstilos()
+    {
+        return view('producto.estilos');
     }
 }

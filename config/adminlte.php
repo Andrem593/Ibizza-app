@@ -245,12 +245,14 @@ return [
             'text' => 'Dashboard',
             'route'  => 'dashboard',
             'icon'    => 'fas fa-tachometer-alt',
+            'can'   => 'dashboard',
         ],
         ['header' => 'ADMINISTRACIÓN'],
         [
             'text' => 'Lista de Roles',
             'route'  => 'admin.roles.index',
             'icon'    => 'fas fa-user-cog',
+            'can'   => 'dashboard',
         ],
         [
             'text'    => 'Productos',
@@ -262,26 +264,50 @@ return [
                     'icon'    => 'fas fa-cloud-upload-alt',
                 ],
                 [
-                    'text' => 'CRUD',
+                    'text' => 'Lista Productos',
                     'route'  => 'productos.index',
                     'icon'    => 'fas fa-box-open',
+                ],
+                [
+                    'text' => 'Estilos y Color',
+                    'route'  => 'producto.estilos',
+                    'icon'    => 'fas fa-palette',
                 ],
             ]
         ],
         [
             'text'    => 'Marcas',
             'icon'    => 'fas fa-copyright',
-            'route'  => 'marcas.index'
+            'route'  => 'marcas.index',
+            'can'   =>'marcas.index',
+        ],
+        [
+            'text'    => 'Catalogos',
+            'icon'    => 'fas fa-book-open',
+            'route'  => 'catalogos.index',
+            'can'   =>'catalogos.index',
+        ],
+        [
+            'text'    => 'Provedor',
+            'icon'    => 'fas fa-truck',
+            'route'  => 'proveedores.index',
+            'can'   =>'proveedores.index',
         ],
         [
             'text'    => 'Usuarios',
-            'icon'    => 'fas fa-users',
-            'can'   =>'usuario.create',
+            'icon'    => 'fas fa-users',            
             'submenu' => [
                 [
                     'text' => 'Crear',
                     'route'  => 'usuario.create',
                     'icon'    => 'fas fa-user-plus',
+                    'can'   =>'usuario.create',
+                ],
+                [
+                    'text'    => 'Empresarias',
+                    'icon'    => 'fab fa-slideshare',
+                    'route'  => 'empresarias.index',
+                    'can'   =>'empresarias.index',
                 ],
             ]
         ],
@@ -341,22 +367,32 @@ return [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-colvis-2.0.1/b-html5-2.0.1/b-print-2.0.1/datatables.min.js',
                 ],
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
+                    'location' => '//cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-colvis-2.0.1/b-html5-2.0.1/b-print-2.0.1/datatables.min.css',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css',
                 ],
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
@@ -412,6 +448,26 @@ return [
                     'type' => 'js',
                     'asset' => true,
                     'location' => 'vendor/bs-custom-file-input/bs-custom-file-input.min.js',
+                ],
+            ],
+        ],
+        'TempusDominusBs4' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/moment/moment.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css',
                 ],
             ],
         ],

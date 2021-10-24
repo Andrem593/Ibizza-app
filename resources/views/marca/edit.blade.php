@@ -1,32 +1,22 @@
 <x-app-layout>
-    @section('title', 'Editar Marca')
-    <x-slot name="header">
-        <h5 class="text-center">Editar Marca</h5>
-    </x-slot>
-    <div class="recuadro mx-auto">
-        <div class="">
-            <div class="col-md-12">
+    @section('title', 'Marcas')
+        <x-slot name="header">
+            EDITAR MARCA
+            <a class="btn btn-secondary btn-sm float-right" href="{{ route('marcas.index') }}" data-placement="left"> Regresar</a>
+        </x-slot>
+    
 
-                @includeif('partials.errors')
+        @includeif('partials.errors')
 
-                <div class="card card-default shadow">
-                    <div class="card-header bg-dark p-3">
-                        <span class="card-title">Actualizar Marca</span>
-                        <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('marcas.index') }}"> Regresar</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('marcas.update', $marca->id) }}"  role="form" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
-                            @csrf
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="{{ route('marcas.update', $marca->id) }}"  role="form" enctype="multipart/form-data">
+                    {{ method_field('PATCH') }}
+                    @csrf
 
-                            @include('marca.form')
+                    @include('marca.form')
 
-                        </form>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
-    </section>
 </x-app-layout>
