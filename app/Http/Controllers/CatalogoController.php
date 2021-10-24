@@ -45,7 +45,19 @@ class CatalogoController extends Controller
     {
         request()->validate(Catalogo::$rules);
 
-        $catalogo = Catalogo::create($request->all());
+        $input = $request->all();
+
+        if ($image = $request->file('foto_path')) {
+            //$destinationPath = 'image/';
+            //$profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $profileImage = $request->nombre.'_'.date("Ymd").'.'.$request->foto_path->extension();
+            //$image->move($destinationPath, $profileImage);
+            // $request->foto_path->storeAs('images', $profileImage);
+            $request->foto_path->move(public_path('storage/images/catalogo'), $profileImage);
+            $input['foto_path'] = "$profileImage";
+        }
+
+        Catalogo::create($input);
 
         return redirect()->route('catalogos.index')
             ->with('success', 'Catalogo created successfully.');

@@ -3,7 +3,7 @@
 
         <div class="row">
             <div class="col-4 text-center">
-                @livewire('image',['ruta_imagen'=>"$marca->imagen", 'path' => '/storage/images/marca/'])
+                @livewire('image',['ruta_imagen'=>"$marca->imagen", 'path' => '/storage/images/marca/', 'name' => 'imagen'])
             </div>
             <div class="col">
                 <div class="form-group">

@@ -1,20 +1,20 @@
 <x-app-layout>
-    @section('title', 'Catalogo')
+    @section('title', 'Catálogo')
     <x-slot name="header">
-        <h5 class="text-center">Catalogo</h5>
+        <h5 class="text-center">Catálogo</h5>
     </x-slot>
     <div class="card">
         <div class="card-header">
             <div style="display: flex; justify-content: space-between; align-items: center;">
 
                 <span id="card_title">
-                    {{ __('Catalogo') }}
+                    {{ __('Catálogo') }}
                 </span>
 
                 <div class="float-right">
                     <a href="{{ route('catalogos.create') }}" class="btn btn-ibizza btn-sm float-right"
                         data-placement="left">
-                        {{ __('Nuevo Catalogo') }}
+                        {{ __('Nuevo Catálogo') }}
                     </a>
                 </div>
             </div>

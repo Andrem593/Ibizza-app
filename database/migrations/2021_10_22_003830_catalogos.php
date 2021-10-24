@@ -20,9 +20,9 @@ class Catalogos extends Migration
             $table->text('descripcion');
             $table->string('foto_path', 50)->nullable();
             $table->string('pdf_path', 50)->nullable();
-            $table->datetime('fecha_publicacion')->nullable();
-            $table->datetime('fecha_fin_catalogo')->nullable();
-            $table->char('estado', 1)->default('A');
+            $table->date('fecha_publicacion')->nullable();
+            $table->date('fecha_fin_catalogo')->nullable();
+            $table->char('estado', 12)->default('SIN PUBLICAR');
             $table->integer('premio_id')->nullable();
             $table->timestamps();
         });

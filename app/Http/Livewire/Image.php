@@ -9,7 +9,7 @@ class Image extends Component
 {
     use WithFileUploads;
     
-    public $ruta_imagen, $path, $image;
+    public $name, $ruta_imagen, $path, $image;
 
     public function render()
     {

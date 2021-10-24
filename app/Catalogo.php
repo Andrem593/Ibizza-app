@@ -28,7 +28,10 @@ class Catalogo extends Model
     static $rules = [
 		'nombre' => 'required',
 		'descripcion' => 'required',
-		'estado' => 'required',
+    ];
+
+    protected $attributes = [
+      'estado' => 'SIN PUBLICAR',
     ];
 
     protected $perPage = 20;

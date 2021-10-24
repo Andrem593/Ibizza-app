@@ -3,7 +3,7 @@
 
         <div class="row">
             <div class="col-sm-4 text-center">
-                @livewire('image',['ruta_imagen'=>"$catalogo->foto_path", 'path' => '/storage/images/catalogo/'])
+                @livewire('image',['ruta_imagen'=>"$catalogo->foto_path", 'path' => '/storage/images/catalogo/', 'name' => 'foto_path'])
             </div>
             <div class="col">
                 <div class="form-group">
@@ -19,10 +19,14 @@
                 <div class="row form-group">
                     <div class="col">
                         @php
-                            $config = ['format' => 'L'];
+                            $config = [
+                                'format' => 'YYYY-MM-DD',
+                                'minDate' => "js:moment().format()",
+                                'defaultDate' => "js:moment().format()"
+                            ];
                         @endphp
                         <x-adminlte-input-date name="fecha_publicacion" :config="$config"
-                            placeholder="Fecha Publicación" label="Fecha Publicación">
+                            placeholder="Fecha Publicación" label="Fecha Publicación" value="{{$catalogo->fecha_publicacion}}">
                             <x-slot name="appendSlot"
                                 class="form-control{{ $errors->has('fecha_publicacion') ? ' is-invalid' : '' }}">
                                 <div class="input-group-text btn-ibizza">
@@ -37,9 +41,26 @@
                     </div>
 
                     <div class="col">
-                        {{ Form::label('fecha_fin_catálogo') }}
-                        {{ Form::text('fecha_fin_catalogo', $catalogo->fecha_fin_catalogo, ['class' => 'form-control' . ($errors->has('fecha_fin_catalogo') ? ' is-invalid' : ''), 'placeholder' => 'Fecha Fin Catálogo']) }}
+                        @php
+                            $config = [
+                                'format' => 'YYYY-MM-DD',
+                                'minDate' => "js:moment().format()"
+                            ];
+                        @endphp
+                        <x-adminlte-input-date name="fecha_fin_catalogo" :config="$config"
+                            placeholder="Fecha Fin Catálogo" label="Fecha Fin Catálogo" value="{{$catalogo->fecha_fin_catalogo}}">
+                            <x-slot name="appendSlot"
+                                class="form-control{{ $errors->has('fecha_fin_catalogo') ? ' is-invalid' : '' }}">
+                                <div class="input-group-text btn-ibizza">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </x-slot>
+                        </x-adminlte-input-date>
                         {!! $errors->first('fecha_fin_catalogo', '<div class="invalid-feedback">:message</p>') !!}
+
+                        {{-- {{ Form::label('fecha_fin_catálogo') }}
+                        {{ Form::text('fecha_fin_catalogo', $catalogo->fecha_fin_catalogo, ['class' => 'form-control' . ($errors->has('fecha_fin_catalogo') ? ' is-invalid' : ''), 'placeholder' => 'Fecha Fin Catálogo']) }}
+                        {!! $errors->first('fecha_fin_catalogo', '<div class="invalid-feedback">:message</p>') !!} --}}
                     </div>
                     <div class="col">
                         {{ Form::label('estado') }}
