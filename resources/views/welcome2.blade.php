@@ -11,6 +11,7 @@
      <meta name="description"
          content="Se parte de nuestras empresarias y genera ingresos extras vendiendo el fabuloso catalogo de Ibizza">
      <meta name="author" content="AM DESINGS">
+     <meta name="csrf-token" content="{{ csrf_token() }}">
 
      <!-- site Favicon -->
      <link rel="icon" href="assets/images/favicon/Logo_ibizza_verde.svg" sizes="32x32" />
@@ -35,6 +36,8 @@
 
      <!-- Background css -->
      <link rel="stylesheet" id="bg-switcher-css" href="assets/css/backgrounds/bg-4.css">
+
+     @livewireStyles
  </head>
 
  <body>
@@ -130,7 +133,7 @@
                                  <a href="#ec-side-cart" class="ec-header-btn ec-side-toggle">
                                      <div class="header-icon"><img loading='lazy' src="assets/images/icons/cart.svg"
                                              class="svg_img header_svg" alt="" /></div>
-                                     <span class="ec-header-count cart-count-lable">0</span>
+                                     <span class="ec-header-count cart-count-lable">{{Cart::count()}}</span>
                                  </a>
                                  <!-- Header Cart End -->
                                  <!-- Header menu Start -->
@@ -210,7 +213,7 @@
                                          <a href="#ec-side-cart" class="ec-header-btn ec-side-toggle">
                                              <div class="header-icon"><img loading='lazy' src="assets/images/icons/cart.svg"
                                                      class="svg_img header_svg" alt="" /></div>
-                                             <span class="ec-header-count cart-count-lable">0</span>
+                                             <span class="ec-header-count cart-count-lable">{{Cart::count()}}</span>
                                          </a>
                                          <!-- Header Cart End -->
                                      </div>
@@ -546,43 +549,7 @@
 
              <!-- ekka Cart Start -->
              <div class="ec-side-cart-overlay"></div>
-             <div id="ec-side-cart" class="ec-side-cart">
-                 <div class="ec-cart-inner">
-                     <div class="ec-cart-top">
-                         <div class="ec-cart-title">
-                             <span class="cart_title">Ibizza Cart</span>
-                             <button class="ec-close">×</button>
-                         </div>
-                         <ul class="eccart-pro-items">
-                            <li><p class="emp-cart-msg">Tu carrito está vacio!</p></li>
-                         </ul>
-                     </div>
-                     <div class="ec-cart-bottom">
-                         <div class="cart-sub-total">
-                             <table class="table cart-table">
-                                 <tbody>
-                                     <tr>
-                                         <td class="text-left">Sub-Total :</td>
-                                         <td class="text-right">$0</td>
-                                     </tr>
-                                     <tr>
-                                         <td class="text-left">IVA (12%) :</td>
-                                         <td class="text-right">$0</td>
-                                     </tr>
-                                     <tr>
-                                         <td class="text-left">Total :</td>
-                                         <td class="text-right primary-color">$0</td>
-                                     </tr>
-                                 </tbody>
-                             </table>
-                         </div>
-                         <div class="cart_btn">
-                             <a href="cart.html" class="btn btn-primary">Ver Carrito</a>
-                             <a href="checkout.html" class="btn btn-secondary">Checkout</a>
-                         </div>
-                     </div>
-                 </div>
-             </div>
+             @livewire('ibizza-side-cart')
              <!-- ekka Cart End -->
 
              <!-- Main Slider Start -->
@@ -664,74 +631,8 @@
                                      <div class="row">
                                          <!-- Product Content -->
                                          @foreach ($productos as $producto)
-                                             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 mb-6  ec-product-content"
-                                                 data-animation="fadeIn">
-                                                 <div class="ec-product-inner">
-                                                     <div class="ec-pro-image-outer">
-                                                         <div class="ec-pro-image">
-                                                             <a href="product-left-sidebar.html" class="image">
-                                                                 <img loading='lazy' class="main-image"
-                                                                     src="storage/images/productos/{{ $producto->imagen_path }}"
-                                                                     alt="Product" />
-                                                                 <img loading='lazy' class="hover-image"
-                                                                     src="storage/images/productos/{{ $producto->imagen_path }}"
-                                                                     alt="Product" />
-                                                             </a>
-                                                             <a href="#" class="quickview" data-link-action="quickview"
-                                                                 title="Quick view" data-bs-toggle="modal"
-                                                                 data-bs-target="#ec_quickview_modal"><img loading='lazy'
-                                                                     src="assets/images/icons/quickview.svg"
-                                                                     class="svg_img pro_svg" alt="" /></a>
-                                                             <div class="ec-pro-actions">
-                                                                 <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
-                                                                         src="assets/images/icons/cart.svg"
-                                                                         class="svg_img pro_svg" alt="" /> Add To Cart</button>
-                                                                 <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
-                                                                         src="assets/images/icons/wishlist.svg"
-                                                                         class="svg_img pro_svg" alt="" /></a>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                     <div class="ec-pro-content">
-                                                         <h5 class="ec-pro-title"><a
-                                                                 href="product-left-sidebar.html">{{ $producto->clasificacion }}</a>
-                                                         </h5>
-                                                         <div class="ec-pro-rating">
-                                                             <i class="ecicon eci-star fill"></i>
-                                                             <i class="ecicon eci-star fill"></i>
-                                                             <i class="ecicon eci-star fill"></i>
-                                                             <i class="ecicon eci-star fill"></i>
-                                                             <i class="ecicon eci-star"></i>
-                                                         </div>
-                                                         <span class="ec-price">
-                                                             <span class="old-price">${{ $producto->valor_venta }}</span>
-                                                             <span class="new-price">${{ number_format($producto->valor_venta,2)  }}</span>
-                                                         </span>
-                                                         <div class="ec-pro-option">
-                                                             <div class="ec-pro-color">
-                                                                 <span class="ec-pro-opt-label">Color</span>
-                                                                 <select class="p-0">
-                                                                     @foreach ($productos_all as $val)
-                                                                         @if ($producto->clasificacion == $val->clasificacion)
-                                                                             <option> {{ $val->color }} </option>
-                                                                         @endif
-                                                                     @endforeach
-                                                                 </select>
-                                                             </div>
-                                                             <div class="ec-pro-size">
-                                                                 <span class="ec-pro-opt-label">Size</span>
-                                                                 <ul class="ec-opt-size">
-                                                                     @foreach ($productos_tallas as $val)
-                                                                         @if ($producto->color == $val->color)
-                                                                             <li><a href="#" class="ec-opt-sz">{{$val->talla}}</a></li>
-                                                                         @endif
-                                                                     @endforeach                                                                     
-                                                                 </ul>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                             </div>
+                                            
+                                            @livewire('card-productos' , ['id_producto'=>$producto->id,'imagen' => $producto->imagen_path,'clasificacion' => $producto->clasificacion ,'valor_venta' => $producto->valor_venta,'color' => $producto->color])
                                          @endforeach
                                          <div class="col-sm-12 shop-all-btn"><a href="shop-left-sidebar-col-3.html">Ver todos los Productos<a></div>
                                      </div>
@@ -3879,7 +3780,7 @@
                          <div class="ec-nav-panel-icons">
                              <a href="#ec-side-cart" class="toggle-cart ec-header-btn ec-side-toggle"><img loading='lazy'
                                      src="assets/images/icons/cart.svg" class="svg_img header_svg" alt="icon" /><span
-                                     class="ec-cart-noti ec-header-count cart-count-lable">0</span></a>
+                                     class="ec-cart-noti ec-header-count cart-count-lable">{{Cart::count()}}</span></a>
                          </div>
                          <div class="ec-nav-panel-icons">
                              <a href="{{ url('/') }}" class="ec-header-btn"><img loading='lazy' src="assets/images/icons/home.svg"
@@ -3918,7 +3819,7 @@
                      <a href="#ec-side-cart" class="ec-header-btn ec-side-toggle">
                          <div class="header-icon"><img loading='lazy' src="assets/images/icons/cart.svg" class="svg_img header_svg" alt="cart" />
                          </div>
-                         <span class="ec-cart-count cart-count-lable">0</span>
+                         <span class="ec-cart-count cart-count-lable">{{Cart::count()}}</span>
                      </a>
                  </div>
                  <!-- Cart Floating Button end -->
@@ -4023,6 +3924,8 @@
                  <!-- Main Js -->
                  <script src="assets/js/vendor/index.js"></script>
                  <script src="assets/js/main.js"></script>
+
+                 @livewireScripts
              </body>
 
              </html>
