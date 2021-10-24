@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Catalogo;
+use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 
 /**
@@ -47,14 +48,26 @@ class CatalogoController extends Controller
 
         $input = $request->all();
 
-        if ($image = $request->file('foto_path')) {
-            //$destinationPath = 'image/';
-            //$profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $profileImage = $request->nombre.'_'.date("Ymd").'.'.$request->foto_path->extension();
-            //$image->move($destinationPath, $profileImage);
-            // $request->foto_path->storeAs('images', $profileImage);
-            $request->foto_path->move(public_path('storage/images/catalogo'), $profileImage);
+        if ($request->file('foto_path')) {
+            $profileImage = time().'.'.$request->foto_path->extension();
+            $ruta = public_path('storage/images/catalogo/').$profileImage; 
+            Image::make($request->file('foto_path'))
+            ->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->save($ruta);
             $input['foto_path'] = "$profileImage";
+        }
+
+        if ($request->file('pdf_path')) {
+            $profilePDF = str_replace(' ', '_', $request->nombre).'_'.date("Ymd").'.'.$request->pdf_path->extension();
+            $ruta = public_path('storage/images/catalogo/').$profilePDF; 
+            Image::make($request->file('pdf_path'))
+            ->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->save($ruta);
+            $input['pdf_path'] = "$profilePDF";
         }
 
         Catalogo::create($input);
@@ -100,7 +113,31 @@ class CatalogoController extends Controller
     {
         request()->validate(Catalogo::$rules);
 
-        $catalogo->update($request->all());
+        $input = $request->all();
+
+        if ($request->file('foto_path')) {
+            $profileImage = time().'.'.$request->foto_path->extension();
+            $ruta = public_path('storage/images/catalogo/').$profileImage; 
+            Image::make($request->file('foto_path'))
+            ->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->save($ruta);
+            $input['foto_path'] = "$profileImage";
+        }
+
+        if ($request->file('pdf_path')) {
+            $profilePDF = str_replace(' ', '_', $request->nombre).'_'.date("Ymd").'.'.$request->pdf_path->extension();
+            $ruta = public_path('storage/images/catalogo/').$profilePDF; 
+            Image::make($request->file('pdf_path'))
+            ->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->save($ruta);
+            $input['pdf_path'] = "$profilePDF";
+        }
+
+        $catalogo->update($input);
 
         return redirect()->route('catalogos.index')
             ->with('success', 'Catalogo updated successfully');

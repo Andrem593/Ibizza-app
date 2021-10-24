@@ -21,8 +21,8 @@
                         @php
                             $config = [
                                 'format' => 'YYYY-MM-DD',
-                                'minDate' => "js:moment().format()",
-                                'defaultDate' => "js:moment().format()"
+                                //'minDate' => "js:moment().format()",
+                                //'defaultDate' => "js:moment().format()"
                             ];
                         @endphp
                         <x-adminlte-input-date name="fecha_publicacion" :config="$config"
@@ -41,12 +41,12 @@
                     </div>
 
                     <div class="col">
-                        @php
+                        {{-- @php
                             $config = [
                                 'format' => 'YYYY-MM-DD',
                                 'minDate' => "js:moment().format()"
                             ];
-                        @endphp
+                        @endphp --}}
                         <x-adminlte-input-date name="fecha_fin_catalogo" :config="$config"
                             placeholder="Fecha Fin Catálogo" label="Fecha Fin Catálogo" value="{{$catalogo->fecha_fin_catalogo}}">
                             <x-slot name="appendSlot"
@@ -80,6 +80,9 @@
                         </x-slot>
 
                     </x-adminlte-input-file>
+                    @if(!empty($catalogo->pdf_path))
+                    <a href="/storage/images/catalogo/{{ $catalogo->pdf_path }}" target="_blank">{{ $catalogo->pdf_path }}</a>
+                    @endif
                     {{-- <div class="form-group">
                     {{ Form::label('Subir PDF') }}
                     {{ Form::text('pdf_path', $catalogo->pdf_path, ['class' => 'form-control' . ($errors->has('pdf_path') ? ' is-invalid' : ''), 'placeholder' => 'Pdf Path']) }}
