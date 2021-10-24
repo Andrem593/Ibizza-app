@@ -1,5 +1,5 @@
 // Funcion para enviar datos a session sobre el carrito
-
+//
 $("body").on("click", ".add-to-cart", function(){
     var clasificacion = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-pro-title a").html();
     var color = $(this).parents().parents().parents().children(".ec-pro-content").find('.ec-pro-option .ec-pro-color .p-0').val();
