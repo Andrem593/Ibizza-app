@@ -5,6 +5,10 @@
             <div class="col-sm-4 text-center">
                 @livewire('image',['ruta_imagen'=>"$catalogo->foto_path", 'path' => '/storage/images/catalogo/', 'name'
                 => 'foto_path'])
+
+                @if (!empty($catalogo->pdf_path))
+                <x-adminlte-button label="Ver Catálogo cargado" data-toggle="modal" data-target="#modalCustom" class="btn-ibizza" icon="fas fa-book-open"/>
+                @endif
             </div>
             <div class="col">
                 <div class="form-group">
@@ -71,6 +75,8 @@
                         {!! $errors->first('estado', '<div class="invalid-feedback">:message</p>') !!}
                     </div>
                 </div>
+
+                
                 @section('plugins.BsCustomFileInput', true)
 
                     <x-adminlte-input-file name="pdf_path" class="" igroup-size="sm" label="Carga archivo (.pdf)"
@@ -83,11 +89,7 @@
                         </x-slot>
 
                     </x-adminlte-input-file>
-                    @if (!empty($catalogo->pdf_path))
-                        <x-adminlte-button label="Open Modal" data-toggle="modal" data-target="#modalCustom" class="bg-teal"/>
-                        <a href="/storage/pdf/catalogo/{{ $catalogo->pdf_path }}"
-                            target="_blank">{{ $catalogo->pdf_path }}</a>
-                    @endif
+                    
                     {{-- <div class="form-group">
                     {{ Form::label('Subir PDF') }}
                     {{ Form::text('pdf_path', $catalogo->pdf_path, ['class' => 'form-control' . ($errors->has('pdf_path') ? ' is-invalid' : ''), 'placeholder' => 'Pdf Path']) }}
@@ -103,12 +105,13 @@
     </div>
 
     {{-- Custom --}}
-<x-adminlte-modal id="modalCustom" title="Account Policy" size="lg" theme="teal"
-icon="fas fa-bell" v-centered static-backdrop scrollable>
-<div style="height:800px;">Read the account policies...</div>
+<x-adminlte-modal id="modalCustom" title="Catálogo {{ !empty($catalogo->pdf_path) ? $catalogo->nombre : '' }}" size="lg" theme="teal"
+icon="fas fa-book-open" v-centered static-backdrop scrollable>
+<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="/storage/pdf/catalogo/{{ $catalogo->pdf_path }}#toolbar=0"></object>
 <x-slot name="footerSlot">
-    <x-adminlte-button class="mr-auto" theme="success" label="Accept"/>
-    <x-adminlte-button theme="danger" label="Dismiss" data-dismiss="modal"/>
+    {{-- <x-adminlte-button class="mr-auto" theme="success" label="Decargar"/> --}}
+    <a href="/storage/pdf/catalogo/{{ $catalogo->pdf_path }}" target="_blank" class="btn btn-ibizza mr-auto">Descargar</a>
+    <x-adminlte-button theme="danger" label="Cerrar" data-dismiss="modal"/>
 </x-slot>
 </x-adminlte-modal>
 {{-- Example button to open modal --}}
