@@ -75,13 +75,12 @@
                     <div class="col">
                         @php
                             $configSwitch = [
-                                'onColor' => 'success',
                                 'state' => !empty($catalogo->estado) && $catalogo->estado == 'PUBLICADO' ? true : false,
                             ];
                         @endphp
                         @section('plugins.BootstrapSwitch', true)
                             <x-adminlte-input-switch id="estado" name="estado" data-on-text="PUBLICADO"
-                                data-off-text="SIN PUBLICAR" label="Publicado" igroup-size="sm" data-on-color="teal" :config="$configSwitch" />
+                                data-off-text="SIN PUBLICAR" label="Estado" igroup-size="sm" data-on-color="teal" :config="$configSwitch" />
                             {{-- {{ Form::label('estado') }}
                             {{ Form::text('estado', $catalogo->estado, ['class' => 'form-control' . ($errors->has('estado') ? ' is-invalid' : ''), 'placeholder' => 'Estado']) }}
                             {!! $errors->first('estado', '<div class="invalid-feedback">:message</p>') !!} --}}
