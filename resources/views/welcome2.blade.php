@@ -547,10 +547,10 @@
              </header>
              <!-- Header End  -->
 
-             <!-- ekka Cart Start -->
+             <!-- ibizza Cart Start -->
              <div class="ec-side-cart-overlay"></div>
              @livewire('ibizza-side-cart')
-             <!-- ekka Cart End -->
+             <!-- ibizza Cart End -->
 
              <!-- Main Slider Start -->
              <div class="sticky-header-next-sec ec-main-slider section section-space-pb">

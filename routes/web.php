@@ -27,6 +27,9 @@ use App\Http\Controllers\webController;
 Route::get('/', webController::class)->name('web');
 Route::post('/store', [webController::class,'addToCart']);
 Route::post('/delete', [webController::class,'deleteToCart']);
+Route::get('/carrito', function () {
+    return view('web.carrito');
+});
 
 // RUTAS DASHBOARD
 Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard', function () {
