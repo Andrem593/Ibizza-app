@@ -61,12 +61,7 @@ class CatalogoController extends Controller
 
         if ($request->file('pdf_path')) {
             $profilePDF = str_replace(' ', '_', $request->nombre).'_'.date("Ymd").'.'.$request->pdf_path->extension();
-            $ruta = public_path('storage/images/catalogo/').$profilePDF; 
-            Image::make($request->file('pdf_path'))
-            ->resize(1200, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->save($ruta);
+            $request->pdf_path->move(public_path('storage/pdf/catalogo'), $profilePDF);
             $input['pdf_path'] = "$profilePDF";
         }
 

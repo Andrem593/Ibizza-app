@@ -3,7 +3,8 @@
 
         <div class="row">
             <div class="col-sm-4 text-center">
-                @livewire('image',['ruta_imagen'=>"$catalogo->foto_path", 'path' => '/storage/images/catalogo/', 'name' => 'foto_path'])
+                @livewire('image',['ruta_imagen'=>"$catalogo->foto_path", 'path' => '/storage/images/catalogo/', 'name'
+                => 'foto_path'])
             </div>
             <div class="col">
                 <div class="form-group">
@@ -26,7 +27,8 @@
                             ];
                         @endphp
                         <x-adminlte-input-date name="fecha_publicacion" :config="$config"
-                            placeholder="Fecha Publicación" label="Fecha Publicación" value="{{$catalogo->fecha_publicacion}}">
+                            placeholder="Fecha Publicación" label="Fecha Publicación"
+                            value="{{ $catalogo->fecha_publicacion }}">
                             <x-slot name="appendSlot"
                                 class="form-control{{ $errors->has('fecha_publicacion') ? ' is-invalid' : '' }}">
                                 <div class="input-group-text btn-ibizza">
@@ -48,7 +50,8 @@
                             ];
                         @endphp --}}
                         <x-adminlte-input-date name="fecha_fin_catalogo" :config="$config"
-                            placeholder="Fecha Fin Catálogo" label="Fecha Fin Catálogo" value="{{$catalogo->fecha_fin_catalogo}}">
+                            placeholder="Fecha Fin Catálogo" label="Fecha Fin Catálogo"
+                            value="{{ $catalogo->fecha_fin_catalogo }}">
                             <x-slot name="appendSlot"
                                 class="form-control{{ $errors->has('fecha_fin_catalogo') ? ' is-invalid' : '' }}">
                                 <div class="input-group-text btn-ibizza">
@@ -80,8 +83,10 @@
                         </x-slot>
 
                     </x-adminlte-input-file>
-                    @if(!empty($catalogo->pdf_path))
-                    <a href="/storage/images/catalogo/{{ $catalogo->pdf_path }}" target="_blank">{{ $catalogo->pdf_path }}</a>
+                    @if (!empty($catalogo->pdf_path))
+                        <x-adminlte-button label="Open Modal" data-toggle="modal" data-target="#modalCustom" class="bg-teal"/>
+                        <a href="/storage/pdf/catalogo/{{ $catalogo->pdf_path }}"
+                            target="_blank">{{ $catalogo->pdf_path }}</a>
                     @endif
                     {{-- <div class="form-group">
                     {{ Form::label('Subir PDF') }}
@@ -96,3 +101,14 @@
             <button type="submit" class="btn btn-ibizza w-100">Guardar</button>
         </div>
     </div>
+
+    {{-- Custom --}}
+<x-adminlte-modal id="modalCustom" title="Account Policy" size="lg" theme="teal"
+icon="fas fa-bell" v-centered static-backdrop scrollable>
+<div style="height:800px;">Read the account policies...</div>
+<x-slot name="footerSlot">
+    <x-adminlte-button class="mr-auto" theme="success" label="Accept"/>
+    <x-adminlte-button theme="danger" label="Dismiss" data-dismiss="modal"/>
+</x-slot>
+</x-adminlte-modal>
+{{-- Example button to open modal --}}
