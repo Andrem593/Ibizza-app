@@ -428,9 +428,9 @@ function crearTablaCatalogo(data, ruta) {
             {
                 "data": "estado",
                 "render": function(data, type, row) {
-                    let estado = '<span class="badge bg-danger">Inactivo</span>';
-                    if (data == 'A') {
-                        estado = '<span class="badge bg-success">Activo</span>'
+                    let estado = '<span class="badge bg-secondary">Sin publicar</span>';
+                    if (data == 'PUBLICADO') {
+                        estado = '<span class="badge bg-success">Publicado</span>'
                     }
                     return estado;
                 }
