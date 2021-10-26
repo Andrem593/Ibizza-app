@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Catalogo;
+use Carbon\Carbon;
 use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 
@@ -174,7 +175,8 @@ class CatalogoController extends Controller
     
     public function catalogoProducto()
     {
-        return view('catalogo.catalogoProducto');
+        $catalogo = Catalogo::whereDate('fecha_fin_catalogo', '>=', Carbon::today())->get();
+        return view('catalogo.catalogoProducto', compact('catalogo'));
     }
 
 }
