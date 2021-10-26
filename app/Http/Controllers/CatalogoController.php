@@ -171,5 +171,10 @@ class CatalogoController extends Controller
         }
         return $response;
     }
+    
+    public function catalogoProducto()
+    {
+        return view('catalogo.catalogoProducto');
+    }
 
 }

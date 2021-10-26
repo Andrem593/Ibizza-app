@@ -282,10 +282,21 @@ return [
             'can'   =>'marcas.index',
         ],
         [
-            'text'    => 'Catalogos',
+            'text'    => 'Catálogos',
             'icon'    => 'fas fa-book-open',
-            'route'  => 'catalogos.index',
-            'can'   =>'catalogos.index',
+            'submenu' => [
+                [
+                    'text' => 'Crear Catálogo',
+                    'route'  => 'catalogos.index',
+                    'icon'    => 'fas fa-folder-plus',
+                ],
+                [
+                    'text' => 'Asignar Productos',
+                    'route'  => 'catalogo.catalogoProducto',
+                    'icon'    => 'fas fa-book-reader',
+                ],
+            ],
+            'can'   =>'catalogos.index'
         ],
         [
             'text'    => 'Provedor',

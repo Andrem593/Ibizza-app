@@ -75,6 +75,10 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->post('/catalogo/datatable', [CatalogoController::class,'catalogoDataTable'])
 ->name('catalogo.datatable');
 
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/catalogo/catalogoProducto', [CatalogoController::class,'catalogoProducto'])
+->name('catalogo.catalogoProducto');
+
 // PROVEEDOR
 
 Route::resource('proveedores', ProveedorController::class)
