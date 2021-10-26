@@ -1,7 +1,7 @@
 <x-app-layout>
     @section('title', 'Catálogo')
         <x-slot name="header">
-            <h5 class="text-center">Catálogo</h5>
+            <h5 class="text-center">Asignar productos</h5>
         </x-slot>
         <div class="card">
             <div class="card-header">
@@ -27,14 +27,15 @@
 
             <div class="card-body">
             @section('plugins.BootstrapSelect', true)
-
-                <select id="mySelect" class="selectpicker show-tick" data-live-search="true">
-                    <option value="">Seleccionar un catálogo</option>
-                    @foreach ($catalogo as $item)
-                        <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}">{{ $item->nombre }}</option>
-                    @endforeach
-                </select>
-
+                <div class="form-group">
+                    <select id="mySelect" class="selectpicker show-tick" data-live-search="true" data-width="100%">
+                        <option value="">Seleccionar un catálogo</option>
+                        @foreach ($catalogo as $item)
+                            <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}">{{ $item->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
                 <div class="table-responsive p-3">
                     <table id="datatable" class="table table-striped table-hover">
@@ -101,8 +102,8 @@
                     let ruta = '/catalogo/datatable'
                     crearTablaCatalogo(data, ruta);
 
-                    $('#mySelect').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
-                    console.log(e);
+                    $('#mySelect').on('changed.bs.select', function(e, clickedIndex, isSelected, previousValue) {
+                        console.log($('#mySelect').val());
                     });
 
                 });
