@@ -28,10 +28,11 @@
             <div class="card-body">
             @section('plugins.BootstrapSelect', true)
 
-                <select class="selectpicker" data-live-search="true">
-                    <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-                    <option data-tokens="mustard">Burger, Shake and a Smile</option>
-                    <option data-tokens="frosting">Sugar, Spice and all things nice</option>
+                <select id="mySelect" class="selectpicker show-tick" data-live-search="true">
+                    <option value="">Seleccionar un catálogo</option>
+                    @foreach ($catalogo as $item)
+                        <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}">{{ $item->nombre }}</option>
+                    @endforeach
                 </select>
 
 
@@ -100,7 +101,10 @@
                     let ruta = '/catalogo/datatable'
                     crearTablaCatalogo(data, ruta);
 
-                    $('select').selectpicker();
+                    $('#mySelect').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                    console.log(e);
+                    });
+
                 });
 
             </script>
