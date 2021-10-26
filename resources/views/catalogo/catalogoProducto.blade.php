@@ -41,15 +41,8 @@
                     <table id="datatable" class="table table-striped table-hover">
                         <thead class="bg-ibizza text-center">
                             <tr>
-                                <th>Foto</th>
-
-                                <th>Nombre</th>
-                                <th>Descripcion</th>
-                                <th>Fecha Publicación</th>
-                                <th>Fecha Fin Catalogo</th>
-                                <th>Estado</th>
-
                                 <th></th>
+                                <th>Producto</th>
                             </tr>
                         </thead>
                         <tbody class="text-center">
@@ -96,14 +89,24 @@
             <script src="/js/crearDataTable.js"></script>
             <script>
                 $(document).ready(function() {
-                    var data = {
-                        funcion: 'listar_todo',
-                    }
-                    let ruta = '/catalogo/datatable'
-                    crearTablaCatalogo(data, ruta);
+                    // var data = {
+                    //     funcion: 'listar_todo',
+                    // }
+                    // let ruta = '/catalogo/datatable'
+                    // crearTablaCatalogo(data, ruta);
 
                     $('#mySelect').on('changed.bs.select', function(e, clickedIndex, isSelected, previousValue) {
                         console.log($('#mySelect').val());
+
+                        let id_catalogo = $('#mySelect').val();
+                        let ruta = '/catalogo/datatable';
+
+                        var data = {
+                            funcion: 'listar_catalogo_producto',
+                            id_catalogo
+                        }
+                        
+                        crearTablaCatalogoProducto(data, ruta);
                     });
 
                 });

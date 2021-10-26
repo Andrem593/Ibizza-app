@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Catalogo;
+use App\Models\Catalogo_has_Producto;
+use App\Producto;
 use Carbon\Carbon;
 use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class CatalogoController
@@ -169,6 +172,32 @@ class CatalogoController extends Controller
                 $catalogos = 'no data';
             }
             $response = json_encode($catalogos);
+        }
+        if ($_POST['funcion'] == 'listar_catalogo_producto') {
+
+            $catalogo_id = $_POST['id_catalogo'];
+
+            // $productos = DB::table('productos')
+            // ->where('catalogo_has_productos.catalogo_id', '=', $catalogo_id)
+            // ->leftJoin('catalogo_has_productos', 'productos.id', '=', 'catalogo_has_productos.producto_id')
+            // ->get();
+
+            // $productos = DB::table('productos')
+            //     ->groupBy('estilo')
+            //     ->get();
+
+            $productos = Producto::addSelect(['en_catalogo' => Catalogo_has_Producto::select('producto_id')
+                ->whereColumn('producto_id', 'id')
+                // ->orderBy('arrived_at', 'desc')
+                ->limit(1)
+            ])
+            ->groupBy('estilo')
+            ->get();
+
+            if (count($productos) == 0) {
+                $productos = 'no data';
+            }
+            $response = json_encode($productos);
         }
         return $response;
     }

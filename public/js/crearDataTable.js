@@ -499,6 +499,75 @@ function crearTablaCatalogo(data, ruta) {
     })
 }
 
+function crearTablaCatalogoProducto(data, ruta) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
+    let dataTable = $('#datatable').DataTable({
+
+        destroy: true,
+        "processing": true,
+        "ajax": {
+            "url": ruta,
+            "method": "POST",
+            "data": data,
+            "dataSrc": function(json) {
+                if (json == 'no data') {
+                    return [];
+                } else {
+                    return json;
+                }
+            },
+        },
+        "columns": [{
+                "data": "id",
+                "render": function(data, type, row) {
+                    let estado = '<div class="form-check"><input class="form-check-input" type="checkbox"></div>';
+                    if (data == 'PUBLICADO') {
+                        estado = '<span class="badge bg-success">Publicado</span>'
+                    }
+                    return estado;
+                }
+            },
+            {
+                "data": "nombre_producto"
+            },
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "Todo"]
+        ],
+        "columnDefs": [{
+                "targets": [0],
+                "orderable": false,
+                "searchable": false
+            },
+            //{ "width": "1%", "targets": 0 }
+        ],
+        "order": [
+            [0, 'asc']
+        ],
+        "language": espanol,
+        //para usar los botones
+        responsive: false,
+        autoWidth: false,
+
+    });
+    if (dataTable.length == 0) {
+        dataTable.clear();
+        dataTable.draw();
+    }
+    $('#datatable tbody').on('click', '.eliminar', function() {
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#elemento_eliminar').html(data.nombre);
+        $('#id_eliminar').val(data.id)
+        $('#form_eliminar').attr('action', "/catalogos/" + data.id);
+    })
+}
+
 function crearTablaProveedor(data, ruta) {
     $.ajaxSetup({
         headers: {
