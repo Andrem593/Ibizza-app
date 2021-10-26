@@ -186,9 +186,9 @@ class CatalogoController extends Controller
             //     ->groupBy('estilo')
             //     ->get();
 
-            $productos = Producto::addSelect(['en_catalogo' => Catalogo_has_Producto::select('producto_id')
-                ->whereColumn('producto_id', 'id')
-                // ->orderBy('arrived_at', 'desc')
+            $productos = Producto::addSelect(['en_catalogo' => Catalogo_has_Producto::select('estilo')
+                ->whereColumn('estilo', 'productos.estilo')
+                ->where('catalogo_id', $catalogo_id)
                 ->limit(1)
             ])
             ->groupBy('estilo')

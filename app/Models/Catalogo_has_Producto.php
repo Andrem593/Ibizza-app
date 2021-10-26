@@ -11,5 +11,5 @@ class Catalogo_has_Producto extends Model
 
     protected $table = 'catalogo_has_productos';
 
-    protected $fillable = ['catalogo_id','producto_id'];
+    protected $fillable = ['catalogo_id','producto_id','estilo'];
 }

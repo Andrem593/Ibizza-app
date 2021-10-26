@@ -17,7 +17,8 @@ class CatalogoHasProductos extends Migration
         Schema::create('catalogo_has_productos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('catalogo_id');
-            $table->integer('producto_id');
+            $table->integer('producto_id')->nullable();
+            $table->string('estilo',100);
             $table->timestamps();
         });
     }

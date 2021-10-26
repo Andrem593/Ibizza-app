@@ -42,7 +42,9 @@
                         <thead class="bg-ibizza text-center">
                             <tr>
                                 <th></th>
+                                <th>Foto</th>
                                 <th>Producto</th>
+                                <th>Estilo</th>
                             </tr>
                         </thead>
                         <tbody class="text-center">
@@ -106,7 +108,12 @@
                             id_catalogo
                         }
                         
-                        crearTablaCatalogoProducto(data, ruta);
+                        if(id_catalogo != ''){
+                            crearTablaCatalogoProducto(data, ruta);
+                        }else{
+                            dataTable.clear();
+                            dataTable.draw();
+                        }                        
                     });
 
                 });

@@ -526,14 +526,27 @@ function crearTablaCatalogoProducto(data, ruta) {
                 "data": "id",
                 "render": function(data, type, row) {
                     let estado = '<div class="form-check"><input class="form-check-input" type="checkbox"></div>';
-                    if (data == 'PUBLICADO') {
-                        estado = '<span class="badge bg-success">Publicado</span>'
+                    if (row['en_catalogo'] != null) {
+                        estado = '<div class="form-check"><input class="form-check-input" type="checkbox" checked></div>'
                     }
                     return estado;
                 }
             },
             {
+                "data": "imagen_path",
+                "render": function(data, type, row) {
+                    let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                    if (data != '' && data != null) {
+                        image = '/storage/images/productos/' + data
+                    }
+                    return '<center><img  src="' + image + '"class="rounded" width="80" height="60" /> </center>';
+                }
+            },
+            {
                 "data": "nombre_producto"
+            },
+            {
+                "data": "estilo"
             },
         ],
         "lengthMenu": [
@@ -541,14 +554,14 @@ function crearTablaCatalogoProducto(data, ruta) {
             [10, 25, 50, "Todo"]
         ],
         "columnDefs": [{
-                "targets": [0],
+                "targets": [0, 1],
                 "orderable": false,
                 "searchable": false
             },
             //{ "width": "1%", "targets": 0 }
         ],
         "order": [
-            [0, 'asc']
+            [2, 'asc']
         ],
         "language": espanol,
         //para usar los botones
