@@ -632,7 +632,7 @@ function crearTablaCatalogoProducto(data, ruta) {
 
             $.ajax({
                 type: 'POST',
-                url: 'catalogo/asignarProducto',
+                url: '/catalogo/asignarProducto',
                 data: {
                     jsonData: JSON.stringify(jsonData)
                 },

@@ -212,7 +212,13 @@ class CatalogoController extends Controller
     {
         
         $catalogo = Catalogo::whereDate('fecha_fin_catalogo', '>=', Carbon::today())->get();
-        return view('catalogo.catalogoProducto', compact('catalogo'));
+
+        $json_data = array(
+            'mensaje' => 'ok',
+            'estado' => true
+        );
+
+        return json_encode($json_data);
     }
 
 }
