@@ -79,6 +79,10 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->get('/catalogo/catalogoProducto', [CatalogoController::class,'catalogoProducto'])
 ->name('catalogo.catalogoProducto');
 
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/catalogo/asignarProducto', [CatalogoController::class,'asignarProducto'])
+->name('catalogo.asignarProducto');
+
 // PROVEEDOR
 
 Route::resource('proveedores', ProveedorController::class)

@@ -525,9 +525,9 @@ function crearTablaCatalogoProducto(data, ruta) {
         "columns": [{
                 "data": "id",
                 "render": function(data, type, row) {
-                    let estado = '<div class="form-check"><input class="form-check-input" type="checkbox"></div>';
+                    let estado = '<div class="form-check"><input class="form-check-input chk_seleccionar" type="checkbox"></div>';
                     if (row['en_catalogo'] != null) {
-                        estado = '<div class="form-check"><input class="form-check-input" type="checkbox" checked></div>'
+                        estado = '<div class="form-check"><input class="form-check-input chk_seleccionar" type="checkbox" checked></div>'
                     }
                     return estado;
                 }
@@ -567,18 +567,110 @@ function crearTablaCatalogoProducto(data, ruta) {
         //para usar los botones
         responsive: false,
         autoWidth: false,
-
+        initComplete: function(row, data, start, end, display) {
+            $(document).on('click', '.btn_asignar', myBtnAsignar);
+        },
+        dom: "Bfrtip",
+        buttons: {
+            buttons: [{
+                text: "Asignar productos al Catálogo",
+                action: function(e, dt, node, config) {
+                    //trigger the bootstrap modal
+                }
+            }],
+            dom: {
+                button: {
+                    tag: "button",
+                    className: "btn btn-ibizza btn_asignar"
+                },
+                buttonLiner: {
+                    tag: null
+                }
+            }
+        }
     });
     if (dataTable.length == 0) {
         dataTable.clear();
         dataTable.draw();
     }
-    $('#datatable tbody').on('click', '.eliminar', function() {
-        let data = $('#datatable').DataTable().row($(this).parents()).data();
-        $('#elemento_eliminar').html(data.nombre);
-        $('#id_eliminar').val(data.id)
-        $('#form_eliminar').attr('action', "/catalogos/" + data.id);
-    })
+
+    $('#all').on('click', function() {
+        if (this.checked) {
+            $('.chk_seleccionar').each(function() {
+                this.checked = true;
+            });
+        } else {
+            $('.chk_seleccionar').each(function() {
+                this.checked = false;
+            });
+        }
+    });
+
+    function myBtnAsignar() {
+        console.log("hola");
+        let data = [];
+
+        dataTable.rows().every(function() {
+            //if (this.data().terminado == 0) {
+            data.push({
+                estilo: this.data().estilo,
+                asignar: $(dataTable.cell(this.index(), 0).node()).find('input').is(':checked') ? 1 : 0
+            });
+
+
+            //}
+        });
+        console.log(data);
+
+        if (data.length !== 0) {
+            let catalogo_id = $('#mySelect').val();
+
+            let jsonData = {
+                catalogo_id,
+                data
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: 'catalogo/asignarProducto',
+                data: {
+                    jsonData: JSON.stringify(jsonData)
+                },
+                success: function(msg) {
+                    dataJson = JSON.parse(msg);
+                    //console.log(dataJson.mensaje);
+                    if (dataJson.estado) {
+                        if (dataJson.mensaje == 'ok') {
+                            Swal.fire({
+                                text: "Se actualizaron los diagnósticos correctamente.",
+                                icon: 'success',
+                                allowOutsideClick: false,
+                                didDestroy: () => {
+                                    limpiar();
+                                    //dataTable.draw();
+                                    dataTable.ajax.reload();
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                text: dataJson.mensaje,
+                                icon: 'warning',
+                                didDestroy: () => {}
+                            });
+                        }
+                    } else {
+                        Swal.fire({
+                            text: dataJson.mensaje,
+                            icon: 'error',
+                            didDestroy: () => {}
+                        });
+                        //console.log(dataJson.mensaje);
+                    }
+                }
+            });
+        }
+    }
+
 }
 
 function crearTablaProveedor(data, ruta) {

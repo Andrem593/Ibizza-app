@@ -208,4 +208,11 @@ class CatalogoController extends Controller
         return view('catalogo.catalogoProducto', compact('catalogo'));
     }
 
+    public function asignarProducto()
+    {
+        
+        $catalogo = Catalogo::whereDate('fecha_fin_catalogo', '>=', Carbon::today())->get();
+        return view('catalogo.catalogoProducto', compact('catalogo'));
+    }
+
 }
