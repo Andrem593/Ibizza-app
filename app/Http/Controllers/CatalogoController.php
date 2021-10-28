@@ -197,6 +197,7 @@ class CatalogoController extends Controller
             if (count($productos) == 0) {
                 $productos = 'no data';
             }
+            
             $response = json_encode($productos);
         }
         return $response;
@@ -210,8 +211,28 @@ class CatalogoController extends Controller
 
     public function asignarProducto()
     {
-        
-        $catalogo = Catalogo::whereDate('fecha_fin_catalogo', '>=', Carbon::today())->get();
+        $jsonData = !empty($_POST['jsonData']) ? json_decode($_POST['jsonData']) : null;
+
+        $catalogo_id = $jsonData->catalogo_id;
+
+        foreach ($jsonData->data as $key => $value) {
+
+            $catalogohasProductos = Catalogo_has_Producto::where('catalogo_id', $catalogo_id)
+            ->where('estilo', $value->estilo)->limit(1)->get();
+
+            if (count($catalogohasProductos) > 0) {
+                if($value->asignar == 0){
+                    Catalogo_has_Producto::where('id', $catalogohasProductos->first()->id)->delete();
+                }
+            }else{
+                if($value->asignar == 1){
+                    Catalogo_has_Producto::insert([
+                        'catalogo_id' => $catalogo_id,
+                        'estilo' => $value->estilo
+                    ]);
+                }
+            }
+        }
 
         $json_data = array(
             'mensaje' => 'ok',

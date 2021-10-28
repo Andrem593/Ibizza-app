@@ -620,7 +620,7 @@ function crearTablaCatalogoProducto(data, ruta) {
 
             //}
         });
-        console.log(data);
+
 
         if (data.length !== 0) {
             let catalogo_id = $('#mySelect').val();
@@ -629,6 +629,8 @@ function crearTablaCatalogoProducto(data, ruta) {
                 catalogo_id,
                 data
             }
+
+            console.log(jsonData);
 
             $.ajax({
                 type: 'POST',
@@ -642,12 +644,12 @@ function crearTablaCatalogoProducto(data, ruta) {
                     if (dataJson.estado) {
                         if (dataJson.mensaje == 'ok') {
                             Swal.fire({
-                                text: "Se actualizaron los diagnósticos correctamente.",
+                                text: "Se actualizó el catalogo.",
                                 icon: 'success',
                                 allowOutsideClick: false,
                                 didDestroy: () => {
-                                    limpiar();
-                                    //dataTable.draw();
+                                    // limpiar();
+                                    // //dataTable.draw();
                                     dataTable.ajax.reload();
                                 }
                             });
