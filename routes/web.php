@@ -84,10 +84,14 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->post('/catalogo/asignarProducto', [CatalogoController::class,'asignarProducto'])
 ->name('catalogo.asignarProducto');
 
-// CATALOGO
+// PREMIO
 
 Route::resource('premios', PremioController::class)
 ->middleware(['auth:sanctum', 'verified']);
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/premio/datatable', [PremioController::class,'premioDataTable'])
+->name('premio.datatable');
 
 // PROVEEDOR
 

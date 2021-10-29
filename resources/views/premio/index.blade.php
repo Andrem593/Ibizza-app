@@ -1,73 +1,94 @@
-@extends('layouts.app')
+<x-app-layout>
+    @section('title', 'Premios')
+    <x-slot name="header">
+        <h5 class="text-center">Premios</h5>
+    </x-slot>
+    <div class="card">
+        <div class="card-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
 
-@section('template_title')
-    Premio
-@endsection
+                <span id="card_title">
+                    {{ __('Premio') }}
+                </span>
 
-@section('content')
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-
-                            <span id="card_title">
-                                {{ __('Premio') }}
-                            </span>
-
-                             <div class="float-right">
-                                <a href="{{ route('premios.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
-                                </a>
-                              </div>
-                        </div>
-                    </div>
-                    @if ($message = Session::get('success'))
-                        <div class="alert alert-success">
-                            <p>{{ $message }}</p>
-                        </div>
-                    @endif
-
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead class="thead">
-                                    <tr>
-                                        <th>No</th>
-                                        
-										<th>Condicion</th>
-										<th>Descripcion</th>
-
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($premios as $premio)
-                                        <tr>
-                                            <td>{{ ++$i }}</td>
-                                            
-											<td>{{ $premio->condicion }}</td>
-											<td>{{ $premio->descripcion }}</td>
-
-                                            <td>
-                                                <form action="{{ route('premios.destroy',$premio->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('premios.show',$premio->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('premios.edit',$premio->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <div class="float-right">
+                    <a href="{{ route('premios.create') }}" class="btn btn-ibizza btn-sm float-right"
+                        data-placement="left">
+                        {{ __('Nuevo Premio') }}
+                    </a>
                 </div>
-                {!! $premios->links() !!}
+            </div>
+        </div>
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
+
+        <div class="card-body">
+            <div class="table-responsive p-3">
+                <table id="datatable" class="display table table-striped table-sm table-hover fw-bold">
+                    <thead class="thead">
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Catálogo</th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-@endsection
+    {!! $premios->links() !!}
+
+    @push('css')
+        <link rel="stylesheet" href="/css/botonesDataTable.css">
+    @endpush
+    @push('modals')
+        <div class="modal" id="eliminar" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar Elemento</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form_eliminar" action="" method="POST">
+                            <div class="form-group">
+                                <label for="">Seguro de Eliminar Producto: </label>
+                                <label id="elemento_eliminar"></label>
+                                <input type="hidden" id="id_eliminar">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endpush
+    @Push('scripts')
+        <script src="/js/crearDataTable.js"></script>
+        <script>
+            $(document).ready(function() {
+                var data = {
+                    funcion: 'listar_todo',
+                }
+                let ruta = '/premio/datatable';
+
+                crearTablaPremio(data, ruta);
+            });
+        </script>
+    @endpush
+
+</x-app-layout>

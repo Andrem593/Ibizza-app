@@ -106,4 +106,18 @@ class PremioController extends Controller
         return redirect()->route('premios.index')
             ->with('success', 'Premio deleted successfully');
     }
+
+    public function premioDataTable()
+    {
+        $response = '';
+        if ($_POST['funcion'] == 'listar_todo') {
+
+            $premios = Premio::all();
+            if (count($premios) == 0) {
+                $premios = 'no data';
+            }
+            $response = json_encode($premios);
+        }
+        return $response;
+    }
 }

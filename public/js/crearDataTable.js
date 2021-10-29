@@ -499,7 +499,7 @@ function crearTablaCatalogo(data, ruta) {
     })
 }
 
-function crearTablaCatalogoProducto(data, ruta) {
+function crearTablaPremio(data, ruta) {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -523,156 +523,74 @@ function crearTablaCatalogoProducto(data, ruta) {
             },
         },
         "columns": [{
-                "data": "id",
+                "data": "descripcion"
+            },
+
+            {
+                "data": "catalogo"
+            },
+            {
+                "data": 'id',
                 "render": function(data, type, row) {
-                    let estado = '<div class="form-check"><input class="form-check-input chk_seleccionar" type="checkbox"></div>';
-                    if (row['en_catalogo'] != null) {
-                        estado = '<div class="form-check"><input class="form-check-input chk_seleccionar" type="checkbox" checked></div>'
-                    }
-                    return estado;
+                    return '<a href="/premios/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
                 }
-            },
-            {
-                "data": "imagen_path",
-                "render": function(data, type, row) {
-                    let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
-                    if (data != '' && data != null) {
-                        image = '/storage/images/productos/' + data
-                    }
-                    return '<center><img  src="' + image + '"class="rounded" width="80" height="60" /> </center>';
-                }
-            },
-            {
-                "data": "nombre_producto"
-            },
-            {
-                "data": "estilo"
-            },
+            }
+
         ],
         "lengthMenu": [
             [10, 25, 50, -1],
             [10, 25, 50, "Todo"]
         ],
         "columnDefs": [{
-                "targets": [0, 1],
+                "targets": [2],
                 "orderable": false,
                 "searchable": false
             },
             //{ "width": "1%", "targets": 0 }
         ],
         "order": [
-            [2, 'asc']
+            [0, 'asc']
         ],
         "language": espanol,
         //para usar los botones
         responsive: false,
         autoWidth: false,
-        initComplete: function(row, data, start, end, display) {
-            $(document).on('click', '.btn_asignar', myBtnAsignar);
-        },
-        dom: "Bfrtip",
-        buttons: {
-            buttons: [{
-                text: "Asignar productos al Catálogo",
-                action: function(e, dt, node, config) {
-                    //trigger the bootstrap modal
+        dom: 'Bfrtilp',
+        buttons: [{
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> ',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> ',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger',
+                pageSize: 'TABLOID',
+                orientation: 'landscape'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> ',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info',
+                exportOptions: {
+                    stripHtml: false
                 }
-            }],
-            dom: {
-                button: {
-                    tag: "button",
-                    className: "btn btn-ibizza btn_asignar"
-                },
-                buttonLiner: {
-                    tag: null
-                }
-            }
-        }
+            },
+        ]
     });
     if (dataTable.length == 0) {
         dataTable.clear();
         dataTable.draw();
     }
-
-    $('#all').on('click', function() {
-        if (this.checked) {
-            $('.chk_seleccionar').each(function() {
-                this.checked = true;
-            });
-        } else {
-            $('.chk_seleccionar').each(function() {
-                this.checked = false;
-            });
-        }
-    });
-
-    function myBtnAsignar() {
-        console.log("hola");
-        let data = [];
-
-        dataTable.rows().every(function() {
-            //if (this.data().terminado == 0) {
-            data.push({
-                estilo: this.data().estilo,
-                asignar: $(dataTable.cell(this.index(), 0).node()).find('input').is(':checked') ? 1 : 0
-            });
-
-
-            //}
-        });
-
-
-        if (data.length !== 0) {
-            let catalogo_id = $('#mySelect').val();
-
-            let jsonData = {
-                catalogo_id,
-                data
-            }
-
-            console.log(jsonData);
-
-            $.ajax({
-                type: 'POST',
-                url: '/catalogo/asignarProducto',
-                data: {
-                    jsonData: JSON.stringify(jsonData)
-                },
-                success: function(msg) {
-                    dataJson = JSON.parse(msg);
-                    //console.log(dataJson.mensaje);
-                    if (dataJson.estado) {
-                        if (dataJson.mensaje == 'ok') {
-                            Swal.fire({
-                                text: "Se actualizó el catalogo.",
-                                icon: 'success',
-                                allowOutsideClick: false,
-                                didDestroy: () => {
-                                    // limpiar();
-                                    // //dataTable.draw();
-                                    dataTable.ajax.reload();
-                                }
-                            });
-                        } else {
-                            Swal.fire({
-                                text: dataJson.mensaje,
-                                icon: 'warning',
-                                didDestroy: () => {}
-                            });
-                        }
-                    } else {
-                        Swal.fire({
-                            text: dataJson.mensaje,
-                            icon: 'error',
-                            didDestroy: () => {}
-                        });
-                        //console.log(dataJson.mensaje);
-                    }
-                }
-            });
-        }
-    }
-
+    $('#datatable tbody').on('click', '.eliminar', function() {
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#elemento_eliminar').html(data.nombre);
+        $('#id_eliminar').val(data.id)
+        $('#form_eliminar').attr('action', "/premios/" + data.id);
+    })
 }
 
 function crearTablaProveedor(data, ruta) {
