@@ -295,6 +295,11 @@ return [
                     'route'  => 'catalogo.catalogoProducto',
                     'icon'    => 'fas fa-book-reader',
                 ],
+                [
+                    'text' => 'Premios',
+                    'route'  => 'premios.index',
+                    'icon'    => 'fas fa-gifts',
+                ]
             ],
             'can'   =>'catalogos.index'
         ],

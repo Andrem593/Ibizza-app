@@ -7,6 +7,7 @@ use App\Http\Controllers\EmpresariaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\MarcaController;
+use App\Http\Controllers\PremioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\webController;
@@ -82,6 +83,11 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/catalogo/asignarProducto', [CatalogoController::class,'asignarProducto'])
 ->name('catalogo.asignarProducto');
+
+// CATALOGO
+
+Route::resource('premios', PremioController::class)
+->middleware(['auth:sanctum', 'verified']);
 
 // PROVEEDOR
 

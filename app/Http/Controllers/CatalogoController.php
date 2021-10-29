@@ -53,25 +53,25 @@ class CatalogoController extends Controller
         $input = $request->all();
 
         if ($request->file('foto_path')) {
-            $profileImage = time().'.'.$request->foto_path->extension();
-            $ruta = public_path('storage/images/catalogo/').$profileImage; 
+            $profileImage = time() . '.' . $request->foto_path->extension();
+            $ruta = public_path('storage/images/catalogo/') . $profileImage;
             Image::make($request->file('foto_path'))
-            ->resize(1200, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->save($ruta);
+                ->resize(1200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($ruta);
             $input['foto_path'] = "$profileImage";
         }
 
         if ($request->file('pdf_path')) {
-            $profilePDF = str_replace(' ', '_', $request->nombre).'_'.date("Ymd").'.'.$request->pdf_path->extension();
+            $profilePDF = str_replace(' ', '_', $request->nombre) . '_' . date("Ymd") . '.' . $request->pdf_path->extension();
             $request->pdf_path->move(public_path('storage/pdf/catalogo'), $profilePDF);
             $input['pdf_path'] = "$profilePDF";
         }
 
-        if($request->estado){
+        if ($request->estado) {
             $input['estado'] = "PUBLICADO";
-        }else{
+        } else {
             $input['estado'] = "SIN PUBLICAR";
         }
 
@@ -121,25 +121,25 @@ class CatalogoController extends Controller
         $input = $request->all();
 
         if ($request->file('foto_path')) {
-            $profileImage = time().'.'.$request->foto_path->extension();
-            $ruta = public_path('storage/images/catalogo/').$profileImage; 
+            $profileImage = time() . '.' . $request->foto_path->extension();
+            $ruta = public_path('storage/images/catalogo/') . $profileImage;
             Image::make($request->file('foto_path'))
-            ->resize(1200, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->save($ruta);
+                ->resize(1200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($ruta);
             $input['foto_path'] = "$profileImage";
         }
 
         if ($request->file('pdf_path')) {
-            $profilePDF = str_replace(' ', '_', $request->nombre).'_'.date("Ymd").'.'.$request->pdf_path->extension();
+            $profilePDF = str_replace(' ', '_', $request->nombre) . '_' . date("Ymd") . '.' . $request->pdf_path->extension();
             $request->pdf_path->move(public_path('storage/pdf/catalogo'), $profilePDF);
             $input['pdf_path'] = "$profilePDF";
         }
 
-        if($request->estado){
+        if ($request->estado) {
             $input['estado'] = "PUBLICADO";
-        }else{
+        } else {
             $input['estado'] = "SIN PUBLICAR";
         }
 
@@ -186,23 +186,24 @@ class CatalogoController extends Controller
             //     ->groupBy('estilo')
             //     ->get();
 
-            $productos = Producto::addSelect(['en_catalogo' => Catalogo_has_Producto::select('estilo')
-                ->whereColumn('estilo', 'productos.estilo')
-                ->where('catalogo_id', $catalogo_id)
-                ->limit(1)
+            $productos = Producto::addSelect([
+                'en_catalogo' => Catalogo_has_Producto::select('estilo')
+                    ->whereColumn('estilo', 'productos.estilo')
+                    ->where('catalogo_id', $catalogo_id)
+                    ->limit(1)
             ])
-            ->groupBy('estilo')
-            ->get();
+                ->groupBy('estilo')
+                ->get();
 
             if (count($productos) == 0) {
                 $productos = 'no data';
             }
-            
+
             $response = json_encode($productos);
         }
         return $response;
     }
-    
+
     public function catalogoProducto()
     {
         $catalogo = Catalogo::whereDate('fecha_fin_catalogo', '>=', Carbon::today())->get();
@@ -218,17 +219,19 @@ class CatalogoController extends Controller
         foreach ($jsonData->data as $key => $value) {
 
             $catalogohasProductos = Catalogo_has_Producto::where('catalogo_id', $catalogo_id)
-            ->where('estilo', $value->estilo)->limit(1)->get();
+                ->where('estilo', $value->estilo)->limit(1)->get();
 
             if (count($catalogohasProductos) > 0) {
-                if($value->asignar == 0){
+                if ($value->asignar == 0) {
                     Catalogo_has_Producto::where('id', $catalogohasProductos->first()->id)->delete();
                 }
-            }else{
-                if($value->asignar == 1){
+            } else {
+                if ($value->asignar == 1) {
                     Catalogo_has_Producto::insert([
                         'catalogo_id' => $catalogo_id,
-                        'estilo' => $value->estilo
+                        'estilo' => $value->estilo,
+                        'created_at' =>  \Carbon\Carbon::now(),
+                        'updated_at' => \Carbon\Carbon::now()
                     ]);
                 }
             }
@@ -241,5 +244,4 @@ class CatalogoController extends Controller
 
         return json_encode($json_data);
     }
-
 }
