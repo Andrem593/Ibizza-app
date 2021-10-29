@@ -28,7 +28,7 @@
         <div class="card-body">
             <div class="table-responsive p-3">
                 <table id="datatable" class="display table table-striped table-sm table-hover fw-bold">
-                    <thead class="thead">
+                    <thead class="bg-ibizza text-center">
                         <tr>
                             <th>Descripción</th>
                             <th>Catálogo</th>
@@ -36,7 +36,7 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
 
                     </tbody>
                 </table>

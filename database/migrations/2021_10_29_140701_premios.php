@@ -17,7 +17,8 @@ class Premios extends Migration
         Schema::create('premios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('condicion')->nullable();
-            $table->string('descripcion', 50);            
+            $table->string('descripcion', 50);           
+            $table->integer('catalogo_id');
             $table->timestamps();
         });
     }

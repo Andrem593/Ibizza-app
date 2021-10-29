@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Catalogo;
 use App\Premio;
 use Illuminate\Http\Request;
 
@@ -32,7 +33,8 @@ class PremioController extends Controller
     public function create()
     {
         $premio = new Premio();
-        return view('premio.create', compact('premio'));
+        $catalogo = Catalogo::all();
+        return view('premio.create', compact('premio', 'catalogo'));
     }
 
     /**
@@ -46,6 +48,7 @@ class PremioController extends Controller
         request()->validate(Premio::$rules);
 
         $premio = Premio::create($request->all());
+        
 
         return redirect()->route('premios.index')
             ->with('success', 'Premio created successfully.');
@@ -112,7 +115,9 @@ class PremioController extends Controller
         $response = '';
         if ($_POST['funcion'] == 'listar_todo') {
 
-            $premios = Premio::all();
+            $premios = Premio::join('catalogos', 'premios.catalogo_id', '=', 'catalogos.id')
+            ->select('premios.descripcion', 'catalogos.nombre')
+            ->get();
             if (count($premios) == 0) {
                 $premios = 'no data';
             }

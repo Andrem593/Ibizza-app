@@ -169,7 +169,7 @@
                     initComplete: function(row, data, start, end, display) {
                         $(document).on('click', '.btn_asignar', myBtnAsignar);
                     },
-                    dom: "Bfrtip",
+                    dom: "Bfrtilp",
                     buttons: {
                         buttons: [{
                             text: "Actualizar Catálogo",

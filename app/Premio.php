@@ -21,6 +21,7 @@ class Premio extends Model
     
     static $rules = [
 		'descripcion' => 'required',
+    'catalogo_id' => 'required',
     ];
 
     protected $perPage = 20;
@@ -30,7 +31,7 @@ class Premio extends Model
      *
      * @var array
      */
-    protected $fillable = ['condicion','descripcion'];
+    protected $fillable = ['condicion','descripcion','catalogo_id'];
 
 
 
