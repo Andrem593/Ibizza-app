@@ -17,64 +17,11 @@
             </select>
         </div>
         <div class="form-group">
-            @section('plugins.Select2', true)
+            
             {{ Form::label('condición') }}
-            <div id="nueva_condicion">
-                <div class="row">
-                    <div class="col">
-                        <select id="nombre_tabla" class="selectpicker show-tick" data-live-search="true"
-                            data-width="100%">
-                            <option value="0">Seleccionar tabla</option>
-                            <option value="marcas" data-tokens="">Marca</option>
-                            <option value="empresarias" data-tokens="">Empresaria</option>
-                            <option value="pedidos" data-tokens="">Venta</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="nueva_regla" class="d-none">
-                    <div class="row py-2 clone-div">
-                        <div class="col col-sm-4">
-                            <select name="nombreTabla" class="nombreTabla no-editable" data-width="100%">
-                                <option value="">Seleccionar campo</option>
-                                <option value="marcas">Descripción</option>
-                                <option value="empresarias">Empresaria</option>
-                                <option value="pedidos">Venta</option>
-                            </select>
-                        </div>
-                        <div class="col col-sm-2">
-                            <select name="operador" class="operador no-editable" data-width="100%">
-                                <option value="">Operador</option>
-                                <option value="=">igual</option>
-                                <option value=">">mayor que</option>
-                                <option value="<">menor que</option>
-                                <option value=">=">mayor igual que</option>
-                                <option value="<=">menor igual que</option>
-                                <option value="contiene">contiene</option>
-                                <option value="no contiene">no contiene</option>
-                            </select>
-                        </div>
-                        <div class="col col-sm-4">
-                            <select name="valor" class="valor editable" data-width="100%">
-                                <option value="">Ingrese un valor</option>
-                                <option value="marcas">Nueva</option>
-                                <option value="empresarias">Compras consecutivas</option>
-                                <option value="pedidos">Venta</option>
-                            </select>
-                        </div>
-                        <div class="col col-sm-1">
-                            <select name="condicion" class="condicion no-editable" data-width="100%">
-                                <option value="and">Y</option>
-                                <option value="or">O</option>
-                            </select>
-                        </div>
-                        <div class="col col-sm-1">
-                            <button id="btn_regla" class="btn btn-ibizza"><i class="fas fa-plus"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button id="btn_condicion" class="btn btn-ibizza btn-block btn-sm d-none"><i class="fas fa-plus"></i>
-                Agregar condición</button>
+            
+            <livewire:condicion />
+            
             <div class="table-responsive p-3">
                 <table id="example" class="display table table-striped table-sm table-hover fw-bold">
                     <thead class="bg-ibizza text-center">
@@ -242,9 +189,21 @@
                     dataTableCondiciones.clear().draw();
                     dataTableCondiciones.rows.add(arrayFinal).draw();
 
-                    $('#nueva_condicion').removeClass('d-none');
-                    $('#nueva_regla').removeClass('d-none');
-                    $('#btn_condicion').removeClass('d-none');
+                    
+
+                    
+
+                    Livewire.emit('recargar');
+
+                    Livewire.hook('message.processed', (message, component) => {
+                        inicializar_select();
+                    })
+
+                    
+
+                    //$('#nueva_condicion').removeClass('d-none');
+                    //$('#nueva_regla').addClass('d-none');
+                    //$('#btn_condicion').addClass('d-none');
 
                     // $('#nueva_condicion').empty();
                     
@@ -252,7 +211,7 @@
                     // console.log(someText);
                     // $('#nueva_condicion').append(someText);
 
-                    $('#nueva_condicion').html('<div class="row"> <div class="col"> <select id="nombre_tabla" class="selectpicker show-tick" data-live-search="true" data-width="100%"> <option value="0">Seleccionar tabla</option> <option value="marcas" data-tokens="">Marca</option> <option value="empresarias" data-tokens="">Empresaria</option> <option value="pedidos" data-tokens="">Venta</option> </select> </div> </div> <div id="nueva_regla" class="d-none"> <div class="row py-2 clone-div"> <div class="col col-sm-4"> <select name="nombreTabla" class="nombreTabla no-editable" data-width="100%"> <option value="">Seleccionar campo</option> <option value="marcas">Descripción</option> <option value="empresarias">Empresaria</option> <option value="pedidos">Venta</option> </select> </div> <div class="col col-sm-2"> <select name="operador" class="operador no-editable" data-width="100%"> <option value="">Operador</option> <option value="=">igual</option> <option value=">">mayor que</option> <option value="<">menor que</option> <option value=">=">mayor igual que</option> <option value="<=">menor igual que</option> <option value="contiene">contiene</option> <option value="no contiene">no contiene</option> </select> </div> <div class="col col-sm-4"> <select name="valor" class="valor editable" data-width="100%"> <option value="">Ingrese un valor</option> <option value="marcas">Nueva</option> <option value="empresarias">Compras consecutivas</option> <option value="pedidos">Venta</option> </select> </div> <div class="col col-sm-1"> <select name="condicion" class="condicion no-editable" data-width="100%"> <option value="and">Y</option> <option value="or">O</option> </select> </div> <div class="col col-sm-1"> <button id="btn_regla" class="btn btn-ibizza"><i class="fas fa-plus"></i></button> </div> </div> </div>');
+                    // $('#nueva_condicion').html('<div class="row"> <div class="col"> <select id="nombre_tabla" class="selectpicker show-tick" data-live-search="true" data-width="100%"> <option value="0">Seleccionar tabla</option> <option value="marcas" data-tokens="">Marca</option> <option value="empresarias" data-tokens="">Empresaria</option> <option value="pedidos" data-tokens="">Venta</option> </select> </div> </div> <div id="nueva_regla" class="d-none"> <div class="row py-2 clone-div"> <div class="col col-sm-4"> <select name="nombreTabla" class="nombreTabla no-editable" data-width="100%"> <option value="">Seleccionar campo</option> <option value="marcas">Descripción</option> <option value="empresarias">Empresaria</option> <option value="pedidos">Venta</option> </select> </div> <div class="col col-sm-2"> <select name="operador" class="operador no-editable" data-width="100%"> <option value="">Operador</option> <option value="=">igual</option> <option value=">">mayor que</option> <option value="<">menor que</option> <option value=">=">mayor igual que</option> <option value="<=">menor igual que</option> <option value="contiene">contiene</option> <option value="no contiene">no contiene</option> </select> </div> <div class="col col-sm-4"> <select name="valor" class="valor editable" data-width="100%"> <option value="">Ingrese un valor</option> <option value="marcas">Nueva</option> <option value="empresarias">Compras consecutivas</option> <option value="pedidos">Venta</option> </select> </div> <div class="col col-sm-1"> <select name="condicion" class="condicion no-editable" data-width="100%"> <option value="and">Y</option> <option value="or">O</option> </select> </div> <div class="col col-sm-1"> <button id="btn_regla" class="btn btn-ibizza"><i class="fas fa-plus"></i></button> </div> </div> </div>');
 
                 } else {
                     alert('Hay condiciones incompletas, por favor revisar');
