@@ -48,7 +48,7 @@
                         <option value="or">O</option>
                     </select>
                 </div>
-                <div class="col col-sm-1">
+                <div class="col col-sm-1 remover_regla">
                     <button id="btn_regla" class="btn btn-ibizza"><i class="fas fa-plus"></i></button>
                 </div>
             </div>

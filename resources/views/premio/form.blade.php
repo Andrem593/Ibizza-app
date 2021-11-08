@@ -78,7 +78,7 @@
         $(document).ready(function() {
             let arrayFinal = [];
 
-            let clone = $("#nueva_condicion").clone();
+            let clone = "";
             console.log(clone);
 
             let dataTableCondiciones = $('#example').DataTable({
@@ -119,11 +119,21 @@
                 console.log(valor);
                 if (valor != '0') {
                     $('#nueva_regla').removeClass('d-none');
-                    $('#btn_condicion').removeClass('d-none');
+                    $('#btn_condicion').removeClass('d-none');                    
+                    if(clone == ""){
+                        $('.editable, .no-editable').select2('destroy');
+                        clone = $( ".clone-div" ).clone(true);
+                        clone.find('.remover_regla').html('<button class="btn btn-danger removeRegla"><i class="fas fa-minus"></i></button>');
+                        
+                        inicializar_select();
+                    }
+                    
                 } else {
+                    clone = "";
                     $('#nueva_regla').addClass('d-none');
                     $('#btn_condicion').addClass('d-none');
                 }
+                console.log(clone);
             });
 
             inicializar_select();
@@ -188,8 +198,8 @@
 
                     arrayFinal.push({
                         'nombre_tabla': tabla,
-                        'condicion': condClean,
-                        'descripcion': nameClean
+                        'condicion': $.trim(condClean),
+                        'descripcion': $.trim(nameClean)
                     });
                     console.log(arrayFinal);
 
@@ -201,10 +211,9 @@
                     Livewire.emit('recargar');
 
                     Livewire.hook('message.processed', (message, component) => {
+                        clone = "";
                         inicializar_select();
-                    })
-
-
+                    })                    
 
                     //$('#nueva_condicion').removeClass('d-none');
                     //$('#nueva_regla').addClass('d-none');
@@ -223,13 +232,17 @@
                 }
             });
 
-            $('#btn_regla').on('click', function(e) {
+            $(document).on('click', '#btn_regla', function(e) {
                 e.preventDefault();
+                //$('.editable, .no-editable').select2('destroy');
+                //clone.appendTo( "#nueva_regla" );
+                $('#nueva_regla').append(clone);
 
-                $('#nueva_regla').append(
-                    '<div class="regla row py-2"> <div class="col col-sm-4"> <select name="nombreTabla" class="nombreTabla no-editable" data-width="100%"> <option value="">Seleccionar campo</option> <option value="marcas">Descripción</option> <option value="empresarias">Empresaria</option> <option value="pedidos">Venta</option> </select> </div> <div class="col col-sm-2"> <select name="operador" class="operador no-editable" data-width="100%"> <option value="">Operador</option> <option value="=">igual</option> <option value=">">mayor que</option> <option value="<">menor que</option> <option value=">=">mayor igual que</option> <option value="<=">menor igual que</option> <option value="contiene">contiene</option> <option value="no contiene">no contiene</option> </select> </div> <div class="col col-sm-4"> <select name="valor" class="valor editable" data-width="100%"> <option value="">Ingrese un valor</option> <option value="marcas">Nueva</option> <option value="empresarias">Compras consecutivas</option> <option value="pedidos">Venta</option> </select> </div> <div class="col col-sm-1"> <select name="condicion" class="condicion no-editable" data-width="100%"> <option value="and">Y</option> <option value="or">O</option> </select> </div> <div class="col col-sm-1"> <button class="btn btn-danger removeRegla"><i class="fas fa-minus"></i></button> </div> </div>'
-                );
-                inicializar_select();
+                // $('#nueva_regla').append(
+                //     '<div class="regla row py-2"> <div class="col col-sm-4"> <select name="nombreTabla" class="nombreTabla no-editable" data-width="100%"> <option value="">Seleccionar campo</option> <option value="marcas">Descripción</option> <option value="empresarias">Empresaria</option> <option value="pedidos">Venta</option> </select> </div> <div class="col col-sm-2"> <select name="operador" class="operador no-editable" data-width="100%"> <option value="">Operador</option> <option value="=">igual</option> <option value=">">mayor que</option> <option value="<">menor que</option> <option value=">=">mayor igual que</option> <option value="<=">menor igual que</option> <option value="contiene">contiene</option> <option value="no contiene">no contiene</option> </select> </div> <div class="col col-sm-4"> <select name="valor" class="valor editable" data-width="100%"> <option value="">Ingrese un valor</option> <option value="marcas">Nueva</option> <option value="empresarias">Compras consecutivas</option> <option value="pedidos">Venta</option> </select> </div> <div class="col col-sm-1"> <select name="condicion" class="condicion no-editable" data-width="100%"> <option value="and">Y</option> <option value="or">O</option> </select> </div> <div class="col col-sm-1"> <button class="btn btn-danger removeRegla"><i class="fas fa-minus"></i></button> </div> </div>'
+                // );
+                
+                //inicializar_select();
             });
 
             $('#example').on('click', '.remove', function(e) {
@@ -246,7 +259,7 @@
 
             $(document).on('click', 'button.removeRegla', function(e) {
                 e.preventDefault();
-                $(this).closest('div.regla').remove();
+                $(this).closest('div.clone-div').remove();
             });
 
 
