@@ -108,7 +108,9 @@
                 $(".editable").select2({
                     tags: true
                 });
-                $(".no-editable").select2({});
+                $(".no-editable").select2({
+                    minimumResultsForSearch: Infinity
+                });
             }
 
             $('#nombre_tabla').on('change', function(e) {

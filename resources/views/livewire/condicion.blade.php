@@ -5,7 +5,7 @@
             <div class="col">
                 {{-- @section('plugins.Select2', true) --}}
                 <select id="nombre_tabla" class="no-editable" data-width="100%">
-                    <option value="0">Seleccionar tabla</option>
+                    <option value="0" selected>Seleccionar tabla</option>
                     <option value="marcas" >Marca</option>
                     <option value="empresarias" >Empresaria</option>
                     <option value="pedidos" >Venta</option>
@@ -16,7 +16,7 @@
             <div class="row py-2 clone-div">
                 <div class="col col-sm-4">
                     <select name="nombreTabla" class="nombreTabla no-editable" data-width="100%">
-                        <option value="">Seleccionar campo</option>
+                        <option value="" selected>Seleccionar campo</option>
                         <option value="marcas">Descripción</option>
                         <option value="empresarias">Empresaria</option>
                         <option value="pedidos">Venta</option>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="col col-sm-2">
                     <select name="operador" class="operador no-editable" data-width="100%">
-                        <option value="">Operador</option>
+                        <option value="" selected>Operador</option>
                         <option value="=">igual</option>
                         <option value=">">mayor que</option>
                         <option value="<">menor que</option>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="col col-sm-4">
                     <select name="valor" class="valor editable" data-width="100%">
-                        <option value="">Ingrese un valor</option>
+                        <option value="" selected>Ingrese un valor</option>
                         <option value="marcas">Nueva</option>
                         <option value="empresarias">Compras consecutivas</option>
                         <option value="pedidos">Venta</option>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="col col-sm-1">
                     <select name="condicion" class="condicion no-editable" data-width="100%">
-                        <option value="and">Y</option>
+                        <option value="and" selected>Y</option>
                         <option value="or">O</option>
                     </select>
                 </div>
