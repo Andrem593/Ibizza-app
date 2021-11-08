@@ -17,16 +17,17 @@
             </select>
         </div>
         <div class="form-group">
-            
+
             {{ Form::label('condición') }}
-            
+
             <livewire:condicion />
-            
+
             <div class="table-responsive p-3">
                 <table id="example" class="display table table-striped table-sm table-hover fw-bold">
                     <thead class="bg-ibizza text-center">
-                        <th>item</th>
-                        <th>detalle</th>
+                        <th>Descripción</th>
+                        <th>Condición</th>
+                        <th></th>
                     </thead>
                     <tbody class="text-center">
 
@@ -87,6 +88,12 @@
                     },
                     {
                         'data': 'descripcion'
+                    },
+                    {
+                        'data': 'descripcion',
+                        "render": function(data, type, row) {
+                            return '<button class="remove">DEL</button>';
+                        }
                     },
                 ],
                 "paging": false,
@@ -178,9 +185,9 @@
                     let tabla = $('#nombre_tabla').val();
 
                     arrayFinal.push({
-                        'nombre_tabla' : tabla,
-                        'condicion' : condClean,
-                        'descripcion' : nameClean
+                        'nombre_tabla': tabla,
+                        'condicion': condClean,
+                        'descripcion': nameClean
                     });
                     console.log(arrayFinal);
 
@@ -189,24 +196,20 @@
                     dataTableCondiciones.clear().draw();
                     dataTableCondiciones.rows.add(arrayFinal).draw();
 
-                    
-
-                    
-
                     Livewire.emit('recargar');
 
                     Livewire.hook('message.processed', (message, component) => {
                         inicializar_select();
                     })
 
-                    
+
 
                     //$('#nueva_condicion').removeClass('d-none');
                     //$('#nueva_regla').addClass('d-none');
                     //$('#btn_condicion').addClass('d-none');
 
                     // $('#nueva_condicion').empty();
-                    
+
                     // let someText = $.parseHTML(clone[0].innerHTML);
                     // console.log(someText);
                     // $('#nueva_condicion').append(someText);
@@ -225,6 +228,18 @@
                     '<div class="regla row py-2"> <div class="col col-sm-4"> <select name="nombreTabla" class="nombreTabla no-editable" data-width="100%"> <option value="">Seleccionar campo</option> <option value="marcas">Descripción</option> <option value="empresarias">Empresaria</option> <option value="pedidos">Venta</option> </select> </div> <div class="col col-sm-2"> <select name="operador" class="operador no-editable" data-width="100%"> <option value="">Operador</option> <option value="=">igual</option> <option value=">">mayor que</option> <option value="<">menor que</option> <option value=">=">mayor igual que</option> <option value="<=">menor igual que</option> <option value="contiene">contiene</option> <option value="no contiene">no contiene</option> </select> </div> <div class="col col-sm-4"> <select name="valor" class="valor editable" data-width="100%"> <option value="">Ingrese un valor</option> <option value="marcas">Nueva</option> <option value="empresarias">Compras consecutivas</option> <option value="pedidos">Venta</option> </select> </div> <div class="col col-sm-1"> <select name="condicion" class="condicion no-editable" data-width="100%"> <option value="and">Y</option> <option value="or">O</option> </select> </div> <div class="col col-sm-1"> <button class="btn btn-danger removeRegla"><i class="fas fa-minus"></i></button> </div> </div>'
                 );
                 inicializar_select();
+            });
+
+            $('#example').on('click', '.remove', function(e) {
+                e.preventDefault();
+                console.log(dataTableCondiciones.row($(this).parents()).index());
+                arrayFinal.splice(dataTableCondiciones.row($(this).parents()).index(), 1);
+                //console.log($(this).index());
+                dataTableCondiciones.row($(this).parents())
+                    .remove()
+                    .draw();
+                console.log(arrayFinal);
+                
             });
 
             $(document).on('click', 'button.removeRegla', function(e) {
