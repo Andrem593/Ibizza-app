@@ -11,7 +11,7 @@
                 </select>
             </div>
         </div>
-        <div id="nueva_regla" class="d-none">
+        <div id="nueva_regla">
             <div class="row py-2 clone-div">
                 <div class="col col-sm-4">
                     <select name="campo" class="campo no-editable" data-width="100%">
@@ -53,6 +53,6 @@
             </div>
         </div>
     </div>
-    <button id="btn_condicion" class="btn btn-ibizza btn-block btn-sm d-none"><i class="fas fa-plus"></i>
+    <button id="btn_condicion" class="btn btn-ibizza btn-block btn-sm"><i class="fas fa-plus"></i>
         Agregar condición</button>
 </div>

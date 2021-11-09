@@ -10,7 +10,8 @@
                 <div class="form-group">
                     {{ Form::label('Catálogo') }}
                     @section('plugins.BootstrapSelect', true)
-                    <select name="catalogo_id" class="selectpicker show-tick" data-live-search="true" data-width="100%">
+                    <select id="cmb_catalogo" name="catalogo_id" class="selectpicker show-tick" data-live-search="true"
+                        data-width="100%">
                         <option value="">Seleccionar un catálogo</option>
                         @foreach ($catalogo as $item)
                             <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}">
@@ -29,37 +30,11 @@
                     <livewire:condicion />
 
                 </div>
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="col-4">
-                <div class="table-responsive p-3">
-                    <table id="datatable" class="table table-striped table-hover">
-                        <thead class="bg-ibizza text-center">
-                            <tr>
-                                <th>Seleccionar<br>
-                                    <div class="form-check"><input id="all" class="form-check-input"
-                                            type="checkbox">
-                                    </div>
-                                </th>
-                                <th>Foto</th>
-                                <th>Producto</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col">
                 <div class="table-responsive p-3">
                     <table id="example" class="display table table-striped table-sm table-hover fw-bold">
                         <thead class="bg-ibizza text-center">
                             <th>Descripción</th>
-                            <th>Condición</th>
+                            <th>Condición</th>                            
                             <th></th>
                         </thead>
                         <tbody class="text-center">
@@ -68,6 +43,26 @@
                     </table>
                 </div>
             </div>
+
+        </div>
+
+        <div class="table-responsive p-3">
+            <table id="datatable" class="table table-striped table-hover">
+                <thead class="bg-ibizza text-center">
+                    <tr>
+                        <th>Seleccionar<br>
+                            <div class="form-check"><input id="all" class="form-check-input" type="checkbox">
+                            </div>
+                        </th>
+                        <th>Foto</th>
+                        <th>Producto</th>
+                        <th>Estilo</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+
+                </tbody>
+            </table>
         </div>
         {{-- <div class="form-group">
             {{ Form::label('condición') }}
@@ -75,9 +70,9 @@
             {!! $errors->first('condicion', '<div class="invalid-feedback">:message</p>') !!}
         </div> --}}
     </div>
-    <div class="box-footer mt20">
+    {{-- <div class="box-footer mt20">
         <button type="submit" class="btn btn-ibizza w-100">GUARDAR</button>
-    </div>
+    </div> --}}
 </div>
 @push('js')
     <script>
@@ -134,18 +129,6 @@
 
                 destroy: true,
                 "processing": true,
-                // "ajax": {
-                //     "url": ruta,
-                //     "method": "POST",
-                //     "data": data,
-                //     "dataSrc": function(json) {
-                //         if (json == 'no data') {
-                //             return [];
-                //         } else {
-                //             return json;
-                //         }
-                //     },
-                // },
                 "data": [],
                 "columns": [{
                         "data": "id",
@@ -174,6 +157,9 @@
                     {
                         "data": "nombre_producto"
                     },
+                    {
+                        "data": "estilo"
+                    },
                 ],
                 "lengthMenu": [
                     [-1, 10, 25, 50],
@@ -194,12 +180,12 @@
                 responsive: false,
                 autoWidth: false,
                 initComplete: function(row, data, start, end, display) {
-                    //$(document).on('click', '.btn_asignar', myBtnAsignar);
+                    $(document).on('click', '.btn_guardar', myBtnGuardar);
                 },
                 dom: "Bfrtilp",
                 buttons: {
                     buttons: [{
-                        text: "Seleccionar Premios",
+                        text: "GUARDAR",
                         action: function(e, dt, node, config) {
                             //trigger the bootstrap modal
                         }
@@ -207,12 +193,124 @@
                     dom: {
                         button: {
                             tag: "button",
-                            className: "btn btn-ibizza btn_asignar"
+                            className: "btn btn-ibizza btn_guardar"
                         },
                         buttonLiner: {
                             tag: null
                         }
                     }
+                }
+            });
+
+            if (dataTable.length == 0) {
+                dataTable.clear();
+                dataTable.draw();
+            }
+
+            $('#all').on('click', function() {
+                if (this.checked) {
+                    $('.chk_seleccionar').each(function() {
+                        this.checked = true;
+                    });
+                } else {
+                    $('.chk_seleccionar').each(function() {
+                        this.checked = false;
+                    });
+                }
+            });
+
+            function myBtnGuardar() {
+                let data = [];
+
+                dataTable.rows().every(function() {
+                    //if (this.data().terminado == 0) {
+                    data.push({
+                        estilo: this.data().estilo,
+                        asignar: $(dataTable.cell(this.index(), 0).node()).find('input').is(
+                            ':checked') ? 1 : 0
+                    });
+
+
+                    //}
+                });
+
+
+                if (data.length !== 0) {
+                    let catalogo_id = $('#mySelect').val();
+
+                    let jsonData = {
+                        catalogo_id,
+                        data
+                    }
+
+                    console.log(jsonData);
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/catalogo/asignarProducto',
+                        data: {
+                            jsonData: JSON.stringify(jsonData)
+                        },
+                        success: function(msg) {
+                            dataJson = JSON.parse(msg);
+                            //console.log(dataJson.mensaje);
+                            if (dataJson.estado) {
+                                if (dataJson.mensaje == 'ok') {
+                                    Swal.fire({
+                                        text: "Se actualizó el catalogo.",
+                                        icon: 'success',
+                                        allowOutsideClick: false,
+                                        didDestroy: () => {
+                                            // limpiar();
+                                            // //dataTable.draw();
+                                            //dataTable.ajax.reload();
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        text: dataJson.mensaje,
+                                        icon: 'warning',
+                                        didDestroy: () => {}
+                                    });
+                                }
+                            } else {
+                                Swal.fire({
+                                    text: dataJson.mensaje,
+                                    icon: 'error',
+                                    didDestroy: () => {}
+                                });
+                                //console.log(dataJson.mensaje);
+                            }
+                        }
+                    });
+                }
+            }
+
+            $('#cmb_catalogo').on('changed.bs.select', function(e, clickedIndex, isSelected, previousValue) {
+
+
+                let id_catalogo = $('#cmb_catalogo').val();
+                let ruta = '/premio/datatable';
+
+                var data = {
+                    funcion: 'listar_premio_producto',
+                    id_catalogo
+                }
+
+                if (id_catalogo != '') {
+                    $.ajax({
+                        url: "/premio/datatable",
+                        type: "POST",
+                        data: data,
+                    }).done(function(result) {
+
+                        result = JSON.parse(result);
+                        console.log(result);
+                        dataTable.clear().draw();
+                        dataTable.rows.add(result).draw();
+                    })
+                } else {
+                    dataTable.clear().draw();
                 }
             });
 
@@ -240,7 +338,7 @@
                 "language": espanol
             });
 
-            
+
 
             $('#nombre_tabla').on('change', function(e) {
 
@@ -251,22 +349,22 @@
                     if (valor == 'empresarias') {
                         $('.campo').html(
                             '<option value="" selected>Seleccionar campo</option><option value="tipo_cliente">Tipo Cliente</option>'
-                            );
+                        );
                     } else if (valor == 'pedidos') {
                         $('.campo').html(
                             '<option value="" selected>Seleccionar campo</option><option value="total_factura">Total factura</option>'
-                            );
+                        );
                     }
 
-                    $('#nueva_regla').removeClass('d-none');
-                    $('#btn_condicion').removeClass('d-none');
+                    // $('#nueva_regla').removeClass('d-none');
+                    // $('#btn_condicion').removeClass('d-none');
                 } else {
-                    $('#nueva_regla').addClass('d-none');
-                    $('#btn_condicion').addClass('d-none');
+                    // $('#nueva_regla').addClass('d-none');
+                    // $('#btn_condicion').addClass('d-none');
                 }
             });
 
-            
+
 
             $('#btn_condicion').on('click', function(e) {
                 e.preventDefault();
