@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Catalogo;
 use App\Premio;
+use App\Producto;
 use Illuminate\Http\Request;
 
 /**
@@ -49,9 +50,12 @@ class PremioController extends Controller
 
         $premio = Premio::create($request->all());
         
+        $json_data = array(
+            'mensaje' => 'ok',
+            'estado' => true
+        );
 
-        return redirect()->route('premios.index')
-            ->with('success', 'Premio created successfully.');
+        return json_encode($json_data);
     }
 
     /**
@@ -122,6 +126,17 @@ class PremioController extends Controller
                 $premios = 'no data';
             }
             $response = json_encode($premios);
+        }
+        if ($_POST['funcion'] == 'listar_premio_producto') {
+
+            $productos = Producto::groupBy('estilo')
+                ->get();
+
+            if (count($productos) == 0) {
+                $productos = 'no data';
+            }
+
+            $response = json_encode($productos);
         }
         return $response;
     }

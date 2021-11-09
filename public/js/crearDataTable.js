@@ -527,7 +527,7 @@ function crearTablaPremio(data, ruta) {
             },
 
             {
-                "data": "catalogo"
+                "data": "nombre"
             },
             {
                 "data": 'id',

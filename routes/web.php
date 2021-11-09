@@ -93,6 +93,10 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->post('/premio/datatable', [PremioController::class,'premioDataTable'])
 ->name('premio.datatable');
 
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/premio/store', [PremioController::class,'store'])
+->name('premio.store');
+
 // PROVEEDOR
 
 Route::resource('proveedores', ProveedorController::class)

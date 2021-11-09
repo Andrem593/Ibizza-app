@@ -177,15 +177,6 @@ class CatalogoController extends Controller
 
             $catalogo_id = $_POST['id_catalogo'];
 
-            // $productos = DB::table('productos')
-            // ->where('catalogo_has_productos.catalogo_id', '=', $catalogo_id)
-            // ->leftJoin('catalogo_has_productos', 'productos.id', '=', 'catalogo_has_productos.producto_id')
-            // ->get();
-
-            // $productos = DB::table('productos')
-            //     ->groupBy('estilo')
-            //     ->get();
-
             $productos = Producto::addSelect([
                 'en_catalogo' => Catalogo_has_Producto::select('estilo')
                     ->whereColumn('estilo', 'productos.estilo')

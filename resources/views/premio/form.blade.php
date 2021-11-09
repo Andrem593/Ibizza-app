@@ -4,7 +4,7 @@
             <div class="col-4">
                 <div class="form-group">
                     {{ Form::label('descripción') }}
-                    {{ Form::text('descripcion', $premio->descripcion, ['class' => 'form-control' . ($errors->has('descripcion') ? ' is-invalid' : ''), 'placeholder' => 'Descripcion']) }}
+                    {{ Form::text('descripcion', $premio->descripcion, ['id' => 'txt_descripcion', 'class' => 'form-control' . ($errors->has('descripcion') ? ' is-invalid' : ''), 'placeholder' => 'Descripcion']) }}
                     {!! $errors->first('descripcion', '<div class="invalid-feedback">:message</p>') !!}
                 </div>
                 <div class="form-group">
@@ -34,7 +34,7 @@
                     <table id="example" class="display table table-striped table-sm table-hover fw-bold">
                         <thead class="bg-ibizza text-center">
                             <th>Descripción</th>
-                            <th>Condición</th>                            
+                            <th>Condición</th>
                             <th></th>
                         </thead>
                         <tbody class="text-center">
@@ -219,71 +219,93 @@
                 }
             });
 
-            function myBtnGuardar() {
+            function myBtnGuardar(e) {
+                e.preventDefault();
+
+                let descripcion = $('#txt_descripcion').val();
+                let catalogo_id = $('#cmb_catalogo').val();
+                let condicion = '';
+                let premio = '';
+
+                if (arrayFinal.length !== 0) {
+                    condicion = JSON.stringify(arrayFinal)
+                }
+
                 let data = [];
 
                 dataTable.rows().every(function() {
-                    //if (this.data().terminado == 0) {
                     data.push({
                         estilo: this.data().estilo,
                         asignar: $(dataTable.cell(this.index(), 0).node()).find('input').is(
                             ':checked') ? 1 : 0
                     });
-
-
-                    //}
                 });
 
 
                 if (data.length !== 0) {
-                    let catalogo_id = $('#mySelect').val();
+                    premio = JSON.stringify(data)
+                }
 
-                    let jsonData = {
-                        catalogo_id,
-                        data
-                    }
-
-                    console.log(jsonData);
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '/catalogo/asignarProducto',
-                        data: {
-                            jsonData: JSON.stringify(jsonData)
-                        },
-                        success: function(msg) {
-                            dataJson = JSON.parse(msg);
-                            //console.log(dataJson.mensaje);
-                            if (dataJson.estado) {
-                                if (dataJson.mensaje == 'ok') {
-                                    Swal.fire({
-                                        text: "Se actualizó el catalogo.",
-                                        icon: 'success',
-                                        allowOutsideClick: false,
-                                        didDestroy: () => {
-                                            // limpiar();
-                                            // //dataTable.draw();
-                                            //dataTable.ajax.reload();
-                                        }
-                                    });
+                if (descripcion != '') {
+                    if (catalogo_id != '') {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/premio/store',
+                            data: {
+                                descripcion,
+                                catalogo_id,
+                                condicion,
+                                premio
+                            },
+                            success: function(msg) {
+                                dataJson = JSON.parse(msg);
+                                //console.log(dataJson.mensaje);
+                                if (dataJson.estado) {
+                                    if (dataJson.mensaje == 'ok') {
+                                        Swal.fire({
+                                            text: "Se creó el premio correctamente.",
+                                            icon: 'success',
+                                            allowOutsideClick: false,
+                                            didDestroy: () => {
+                                                window.location.href = "{{ route('premios.index')}}";
+                                            }
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            text: dataJson.mensaje,
+                                            icon: 'warning',
+                                            didDestroy: () => {}
+                                        });
+                                    }
                                 } else {
                                     Swal.fire({
                                         text: dataJson.mensaje,
-                                        icon: 'warning',
+                                        icon: 'error',
                                         didDestroy: () => {}
                                     });
+                                    //console.log(dataJson.mensaje);
                                 }
-                            } else {
-                                Swal.fire({
-                                    text: dataJson.mensaje,
-                                    icon: 'error',
-                                    didDestroy: () => {}
-                                });
-                                //console.log(dataJson.mensaje);
                             }
+                        });
+                    } else {
+                        Swal.fire({
+                            text: 'Catálogo es obligatorio',
+                            icon: 'warning',
+                            didDestroy: () => {
+                                $('#cmb_catalogo').focus();
+                            }
+                        });
+                    }
+                } else {
+                    Swal.fire({
+                        text: 'Descripción es obligatoria',
+                        icon: 'warning',
+                        didDestroy: () => {
+                            $('#txt_descripcion').focus();
                         }
                     });
                 }
+
             }
 
             $('#cmb_catalogo').on('changed.bs.select', function(e, clickedIndex, isSelected, previousValue) {
