@@ -17,7 +17,8 @@ class PremioHasProductos extends Migration
         Schema::create('premio_has_productos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('premio_id');
-            $table->integer('producto_id');
+            $table->integer('producto_id')->nullable();
+            $table->string('estilo',100);
             $table->timestamps();
         });
     }

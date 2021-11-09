@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Catalogo;
+use App\Models\Premio_has_Producto;
 use App\Premio;
 use App\Producto;
 use Illuminate\Http\Request;
@@ -50,10 +51,25 @@ class PremioController extends Controller
 
         $premio = Premio::create($request->all());
 
-        $premio_id = $premio->id;       
+        $premio_id = $premio->id;
 
-        
-        
+        if (!empty($request->premio)) {
+
+            $premio = json_decode($request->premio);
+
+            foreach ($premio as $key => $value) {
+
+                if ($value->asignar == 1) {
+                    Premio_has_Producto::insert([
+                        'premio_id' => $premio_id,
+                        'estilo' => $value->estilo,
+                        'created_at' =>  \Carbon\Carbon::now(),
+                        'updated_at' => \Carbon\Carbon::now()
+                    ]);
+                }
+            }
+        }
+
         $json_data = array(
             'mensaje' => 'ok',
             'estado' => true
@@ -124,8 +140,8 @@ class PremioController extends Controller
         if ($_POST['funcion'] == 'listar_todo') {
 
             $premios = Premio::join('catalogos', 'premios.catalogo_id', '=', 'catalogos.id')
-            ->select('premios.descripcion', 'catalogos.nombre')
-            ->get();
+                ->select('premios.descripcion', 'catalogos.nombre')
+                ->get();
             if (count($premios) == 0) {
                 $premios = 'no data';
             }
