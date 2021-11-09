@@ -49,6 +49,10 @@ class PremioController extends Controller
         request()->validate(Premio::$rules);
 
         $premio = Premio::create($request->all());
+
+        $premio_id = $premio->id;       
+
+        
         
         $json_data = array(
             'mensaje' => 'ok',

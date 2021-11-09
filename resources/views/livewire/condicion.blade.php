@@ -36,9 +36,13 @@
                 <div class="col col-sm-4">
                     <select name="valor" class="valor editable" data-width="100%">
                         <option value="" selected>Ingrese un valor</option>
-                        <option value="marcas">Nueva</option>
-                        <option value="empresarias">Compras consecutivas</option>
-                        <option value="pedidos">Venta</option>
+                        <option value="NUEVA">Nueva</option>
+                        <option value="CONTINUA">Continua</option>
+                        <option value="INACTIVA-1">Inactiva 1</option>
+                        <option value="INACTIVA-2">Inactiva 2</option>
+                        <option value="INACTIVA-3">Inactiva 3</option>
+                        <option value="REACTIVA">Reactiva</option>
+                        <option value="BAJA">Baja</option>
                     </select>
                 </div>
                 <div class="col col-sm-1">

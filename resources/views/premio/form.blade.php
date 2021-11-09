@@ -250,7 +250,7 @@
                     if (catalogo_id != '') {
                         $.ajax({
                             type: 'POST',
-                            url: '/premio/store',
+                            url: '/premios',
                             data: {
                                 descripcion,
                                 catalogo_id,
