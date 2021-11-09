@@ -6,18 +6,17 @@
                 {{-- @section('plugins.Select2', true) --}}
                 <select id="nombre_tabla" class="no-editable" data-width="100%">
                     <option value="0" selected>Seleccionar tabla</option>
-                    <option value="marcas" >Marca</option>
-                    <option value="empresarias" >Empresaria</option>
-                    <option value="pedidos" >Venta</option>
+                    <option value="empresarias">Empresaria</option>
+                    <option value="pedidos">Pedido</option>
                 </select>
             </div>
         </div>
         <div id="nueva_regla" class="d-none">
             <div class="row py-2 clone-div">
                 <div class="col col-sm-4">
-                    <select name="nombreTabla" class="nombreTabla no-editable" data-width="100%">
+                    <select name="campo" class="campo no-editable" data-width="100%">
                         <option value="" selected>Seleccionar campo</option>
-                        <option value="marcas">Descripción</option>
+                        <option value="tipo_cliente">Tipo Cliente</option>
                         <option value="empresarias">Empresaria</option>
                         <option value="pedidos">Venta</option>
                     </select>

@@ -1,39 +1,48 @@
 <div class="box box-info padding-1">
     <div class="box-body">
-        <div class="form-group">
-            {{ Form::label('descripción') }}
-            {{ Form::text('descripcion', $premio->descripcion, ['class' => 'form-control' . ($errors->has('descripcion') ? ' is-invalid' : ''), 'placeholder' => 'Descripcion']) }}
-            {!! $errors->first('descripcion', '<div class="invalid-feedback">:message</p>') !!}
-        </div>
-        <div class="form-group">
-            {{ Form::label('Catálogo') }}
-            @section('plugins.BootstrapSelect', true)
-            <select name="catalogo_id" class="selectpicker show-tick" data-live-search="true" data-width="100%">
-                <option value="">Seleccionar un catálogo</option>
-                @foreach ($catalogo as $item)
-                    <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}">{{ $item->nombre }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    {{ Form::label('descripción') }}
+                    {{ Form::text('descripcion', $premio->descripcion, ['class' => 'form-control' . ($errors->has('descripcion') ? ' is-invalid' : ''), 'placeholder' => 'Descripcion']) }}
+                    {!! $errors->first('descripcion', '<div class="invalid-feedback">:message</p>') !!}
+                </div>
+                <div class="form-group">
+                    {{ Form::label('Catálogo') }}
+                    @section('plugins.BootstrapSelect', true)
+                    <select name="catalogo_id" class="selectpicker show-tick" data-live-search="true" data-width="100%">
+                        <option value="">Seleccionar un catálogo</option>
+                        @foreach ($catalogo as $item)
+                            <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}">{{ $item->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
-            {{ Form::label('condición') }}
-
-            <livewire:condicion />
-
-            <div class="table-responsive p-3">
-                <table id="example" class="display table table-striped table-sm table-hover fw-bold">
-                    <thead class="bg-ibizza text-center">
-                        <th>Descripción</th>
-                        <th>Condición</th>
-                        <th></th>
-                    </thead>
-                    <tbody class="text-center">
-
-                    </tbody>
-                </table>
             </div>
+            <div class="col">
+                <div class="form-group">
+
+                    {{ Form::label('condición') }}
+        
+                    <livewire:condicion />
+        
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="table-responsive p-3">
+            <table id="example" class="display table table-striped table-sm table-hover fw-bold">
+                <thead class="bg-ibizza text-center">
+                    <th>Descripción</th>
+                    <th>Condición</th>
+                    <th></th>
+                </thead>
+                <tbody class="text-center">
+
+                </tbody>
+            </table>
         </div>
         {{-- <div class="form-group">
             {{ Form::label('condición') }}
@@ -98,6 +107,7 @@
                 "info": false,
                 "responsive": false,
                 "autoWidth": false,
+                "searching": false,
                 "language": espanol
             });
 
@@ -115,6 +125,13 @@
                 let valor = $('#nombre_tabla').val();
                 console.log(valor);
                 if (valor != '0') {
+
+                    if(valor == 'empresarias'){
+                        $('.campo').html('<option value="" selected>Seleccionar campo</option><option value="tipo_cliente">Tipo Cliente</option>');
+                    }else if(valor == 'pedidos'){
+                        $('.campo').html('<option value="" selected>Seleccionar campo</option><option value="total_factura">Total factura</option>');
+                    }
+
                     $('#nueva_regla').removeClass('d-none');
                     $('#btn_condicion').removeClass('d-none');                    
                 } else {
@@ -128,7 +145,7 @@
             $('#btn_condicion').on('click', function(e) {
                 e.preventDefault();
 
-                let nombreTablaArray = $.map($(".nombreTabla"), function(element) {
+                let campoArray = $.map($(".campo"), function(element) {
                     return {
                         name: element.options[element.selectedIndex].text,
                         value: element.value
@@ -155,7 +172,7 @@
                 });
 
                 let flag = 0;
-                $.each(nombreTablaArray, function(key, value) {
+                $.each(campoArray, function(key, value) {
                     if (value.value == '' || operadorArray[key].value == '' || valorArray[key]
                         .value == '') {
                         flag = 1;
@@ -166,7 +183,7 @@
 
                     let condiciones = '';
                     let nombres = '';
-                    $.each(nombreTablaArray, function(key, value) {
+                    $.each(campoArray, function(key, value) {
                         console.log(key);
                         condiciones += ' ' + value.value + ' ' + operadorArray[key].value + ' ' +
                             valorArray[key].value + ' ' + condicionArray[key].value;
