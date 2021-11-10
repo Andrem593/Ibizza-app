@@ -10,9 +10,13 @@ class webController extends Controller
 {
     public function __invoke()
     {
-        $productos = DB::table('productos')->groupBy('grupo','seccion','clasificacion')->get();
+        $productos = DB::table('catalogo_has_productos')->join('catalogos','catalogos.id','=','catalogo_has_productos.catalogo_id')
+        ->join('productos','productos.estilo','=','catalogo_has_productos.estilo')
+        ->where('catalogos.estado','=','PUBLICADO')
+        ->groupBy('productos.grupo','productos.seccion','productos.clasificacion')->get();
         $marcas = DB::table('marcas')->where('imagen','<>','')->get();
-        return view('welcome2',compact('marcas','productos'));
+        $catalogos = DB::table('catalogos')->where('estado','=','PUBLICADO')->get();
+        return view('welcome2',compact('marcas','productos','catalogos'));
     }
     public function addToCart(Request $request){
         if (!empty($request->talla)) {

@@ -2575,29 +2575,32 @@
              </section>
              <!-- ec Product tab Area End -->
 
-             <!-- ec Banner Section Start -->
+             <!-- ec Banner Section Start || SECCION DE CATALOGO AM -->
              <section class="ec-banner section section-space-p">
                  <h2 class="d-none">Banner</h2>
                  <div class="container">
                      <!-- ec Banners Start -->
-                     <div class="ec-banner-inner">
+                     <div class="">
                          <!--ec Banner Start -->
-                         <div class="ec-banner-block ec-banner-block-2">
+                         <div class="d-flex justify-content-center">
                              <div class="row">
-                                 <div class="banner-block col-lg-6 col-md-12 margin-b-30" data-animation="slideInRight">
-                                     <div class="bnr-overlay">
-                                         <img loading='lazy' src="assets/images/banner/2.jpg" alt="" />
-                                         <div class="banner-text">
-                                             <span class="ec-banner-stitle">Nuevo Catalogo</span>
-                                             <span class="ec-banner-title">Exclusivo<br> para hombres</span>
-                                             <span class="ec-banner-discount">30% descuento</span>
-                                         </div>
-                                         <div class="banner-content">
-                                             <span class="ec-banner-btn"><a href="#">Ver Catalogo</a></span>
-                                         </div>
-                                     </div>
-                                 </div>
-                                 <div class="banner-block col-lg-6 col-md-12" data-animation="slideInLeft">
+                                 @if ($catalogos->count() > 0)
+                                    @foreach ($catalogos as $catalogo )                                        
+                                        <div class="banner-block col margin-b-30" data-animation="slideInRight">
+                                            <div class="bnr-overlay">
+                                                <img loading='lazy' src="storage/images/catalogo/{{$catalogo->foto_path}}" alt="" style="width: 40rem"/>
+                                                <div class="banner-text">
+                                                    <span class="ec-banner-stitle">{{$catalogo->nombre}}</span>
+                                                    <span class="ec-banner-title" style="width: 60%">{{$catalogo->descripcion}}</span>
+                                                </div>
+                                                <div class="banner-content">
+                                                    <span class="ec-banner-btn"><a href="#">Ver Catalogo</a></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach    
+                                 @endif
+                                 {{-- <div class="banner-block col-lg-6 col-md-12" data-animation="slideInLeft">
                                      <div class="bnr-overlay">
                                          <img loading='lazy' src="assets/images/banner/3.jpg" alt="" />
                                          <div class="banner-text">
@@ -2610,7 +2613,7 @@
                                              <span class="ec-banner-btn"><a href="#">Ver Catalogo</a></span>
                                          </div>
                                      </div>
-                                 </div>
+                                 </div> --}}
                              </div>
                              <!-- ec Banner End -->
                          </div>

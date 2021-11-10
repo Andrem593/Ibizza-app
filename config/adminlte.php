@@ -242,11 +242,16 @@ return [
             'text' => 'Buscar',
         ],
         [
+            'text' => 'Web',
+            'route'  => 'web',
+            'icon'    => 'fas fa-laptop',
+        ],
+        [
             'text' => 'Dashboard',
             'route'  => 'dashboard',
             'icon'    => 'fas fa-tachometer-alt',
             'can'   => 'dashboard',
-        ],
+        ],        
         ['header' => 'ADMINISTRACIÓN'],
         [
             'text' => 'Lista de Roles',
