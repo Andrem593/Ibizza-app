@@ -2584,36 +2584,41 @@
                          <!--ec Banner Start -->
                          <div class="d-flex justify-content-center">
                              <div class="row">
-                                 @if ($catalogos->count() > 0)
-                                    @foreach ($catalogos as $catalogo )                                        
-                                        <div class="banner-block col margin-b-30" data-animation="slideInRight">
-                                            <div class="bnr-overlay">
-                                                <img loading='lazy' src="storage/images/catalogo/{{$catalogo->foto_path}}" alt="" style="width: 40rem"/>
-                                                <div class="banner-text">
-                                                    <span class="ec-banner-stitle">{{$catalogo->nombre}}</span>
-                                                    <span class="ec-banner-title" style="width: 60%">{{$catalogo->descripcion}}</span>
-                                                </div>
-                                                <div class="banner-content">
-                                                    <span class="ec-banner-btn"><a href="#">Ver Catalogo</a></span>
-                                                </div>
+                                @if ($catalogos->count() > 0)
+                                @foreach ($catalogos as $key => $catalogo )                 
+                                <div class="banner-block col margin-b-30" data-animation="{{ (($key + 1) % 2) == 0 ? 'slideInLeft' : 'slideInRight'}}">
+                                        <div class="bnr-overlay">
+                                            <img loading='lazy' src="storage/images/catalogo/{{$catalogo->foto_path}}" alt="" style="width: 40rem"/>
+                                            <div class="banner-text">
+                                                <span class="ec-banner-stitle">{{$catalogo->nombre}}</span>
+                                                <span class="ec-banner-title" style="width: 60%">{{$catalogo->descripcion}}</span>
+                                            </div>
+                                            <div class="banner-content">
+                                                <span class="ec-banner-btn"><a data-bs-toggle="modal" data-bs-target="#modalCustom">Ver Catalogo</a></span>
                                             </div>
                                         </div>
-                                    @endforeach    
-                                 @endif
-                                 {{-- <div class="banner-block col-lg-6 col-md-12" data-animation="slideInLeft">
-                                     <div class="bnr-overlay">
-                                         <img loading='lazy' src="assets/images/banner/3.jpg" alt="" />
-                                         <div class="banner-text">
-                                             <span class="ec-banner-stitle">Nuevo Catalogo</span>
-                                             <span class="ec-banner-title">Exclusivo<br> para Mujeres</span>
-                                             <span class="ec-banner-discount">Compra 10 acticulos y obten <br>10%
-                                                 Descuento</span>
-                                         </div>
-                                         <div class="banner-content">
-                                             <span class="ec-banner-btn"><a href="#">Ver Catalogo</a></span>
-                                         </div>
-                                     </div>
-                                 </div> --}}
+                                    </div>
+                                    <div class="modal fade" id="modalCustom" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">{{$catalogo->nombre}}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <object class="PDFdoc" width="100%" height="500px" type="application/pdf"
+                                                        data="/storage/pdf/catalogo/{{ $catalogo->pdf_path }}#toolbar=0"></object>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach    
+                                @endif
+                                 {{-- modal de descargar pdf --}}
                              </div>
                              <!-- ec Banner End -->
                          </div>
