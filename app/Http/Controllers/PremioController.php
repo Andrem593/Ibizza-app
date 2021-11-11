@@ -99,7 +99,7 @@ class PremioController extends Controller
      */
     public function edit($id)
     {
-        $premio = Premio::find($id);        
+        $premio = Premio::find($id);   
         $catalogo = Catalogo::all();
 
         return view('premio.edit', compact('premio','catalogo'));

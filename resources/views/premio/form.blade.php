@@ -14,7 +14,7 @@
                         data-width="100%">
                         <option value="">Seleccionar un catálogo</option>
                         @foreach ($catalogo as $item)
-                            @if($item->id == $premio->id)
+                            @if($item->id == $premio->catalogo_id)
                             <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}" selected>
                                 {{ $item->nombre }}
                             </option>
@@ -28,6 +28,9 @@
                 </div>
 
             </div>
+
+            <input id="conArray" type="hidden" value="{{ !empty($premio->condicion) ? $premio->condicion : '' }}">
+
             <div class="col">
                 <div class="form-group">
 
@@ -505,7 +508,13 @@
                 $(this).closest('div.clone-div').remove();
             });
 
+            let conArray = $('#conArray').val();
+            if(conArray != ''){
 
+                dataTableCondiciones.clear().draw();
+                dataTableCondiciones.rows.add(JSON.parse(conArray)).draw();
+                console.log(JSON.parse(conArray));
+            }
 
         });
     </script>
