@@ -75,16 +75,16 @@
                     <div class="col">
                         @php
                             $configSwitch = [
+                                'onText' => 'PUBLICADO',
+                                'offText' => 'SIN PUBLICAR',
                                 'state' => !empty($catalogo->estado) && $catalogo->estado == 'PUBLICADO' ? true : false,
                             ];
                         @endphp
                         @section('plugins.BootstrapSwitch', true)
                             @if(!empty($catalogo->estado) && $catalogo->estado == 'PUBLICADO')
-                            <x-adminlte-input-switch name="estado" data-on-text="PUBLICADO"
-                                data-off-text="SIN PUBLICAR" label="Estado" igroup-size="sm" data-on-color="teal" :config="$configSwitch" checked/>
+                            <x-adminlte-input-switch name="estado" label="Estado" igroup-size="sm" data-on-color="teal" :config="$configSwitch" checked/>
                             @else
-                            <x-adminlte-input-switch name="estado" data-on-text="PUBLICADO"
-                                data-off-text="SIN PUBLICAR" label="Estado" igroup-size="sm" data-on-color="teal" :config="$configSwitch" />
+                            <x-adminlte-input-switch name="estado" label="Estado" igroup-size="sm" data-on-color="teal" :config="$configSwitch" />
                             @endif
                         </div>
                     </div>
