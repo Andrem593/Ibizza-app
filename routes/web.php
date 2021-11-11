@@ -26,6 +26,7 @@ use App\Http\Controllers\webController;
 //RUTAS PAGINA PRINCIPAL
 
 Route::get('/', webController::class)->name('web');
+Route::get('/tienda', [webController::class,'tienda'])->name('web.tienda');
 Route::post('/store', [webController::class,'addToCart']);
 Route::post('/delete', [webController::class,'deleteToCart']);
 Route::get('/carrito', function () {

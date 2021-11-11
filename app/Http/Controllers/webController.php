@@ -38,4 +38,11 @@ class webController extends Controller
         json_encode($response);
         return $response;
     }
+    public function tienda(){
+        $productos = DB::table('catalogo_has_productos')->join('catalogos','catalogos.id','=','catalogo_has_productos.catalogo_id')
+        ->join('productos','productos.estilo','=','catalogo_has_productos.estilo')
+        ->where('catalogos.estado','=','PUBLICADO')
+        ->groupBy('productos.grupo','productos.seccion','productos.clasificacion')->get();
+        return view('ecomerce.tienda',compact('productos'));
+    }
 }

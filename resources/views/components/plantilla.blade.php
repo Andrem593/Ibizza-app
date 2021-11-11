@@ -397,7 +397,7 @@
                                             </ul>
                                         </li>
                                         <li class="dropdown"><span class="main-label-note-new" data-toggle="tooltip"
-                                                title="NEW"></span><a href="javascript:void(0)">Tienda</a>
+                                                title="NEW"></span><a href="{{route('web.tienda')}}">Tienda</a>
                                         </li>
                                     </ul>
                                 </div>
