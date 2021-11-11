@@ -102,7 +102,22 @@ class PremioController extends Controller
         $premio = Premio::find($id);   
         $catalogo = Catalogo::all();
 
-        return view('premio.edit', compact('premio','catalogo'));
+        $productos = Producto::addSelect([
+            'en_premio' => Premio_has_Producto::select('estilo')
+                ->whereColumn('estilo', 'productos.estilo')
+                ->where('premio_id', $premio->id)
+                ->limit(1)
+        ])
+            ->groupBy('estilo')
+            ->get();
+
+        if (count($productos) == 0) {
+            $productos = 'no data';
+        }
+
+        //$response = json_encode($productos);
+
+        return view('premio.edit', compact('premio','catalogo','productos'));
     }
 
     /**

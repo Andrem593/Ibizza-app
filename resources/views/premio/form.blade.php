@@ -14,14 +14,14 @@
                         data-width="100%">
                         <option value="">Seleccionar un catálogo</option>
                         @foreach ($catalogo as $item)
-                            @if($item->id == $premio->catalogo_id)
-                            <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}" selected>
-                                {{ $item->nombre }}
-                            </option>
+                            @if ($item->id == $premio->catalogo_id)
+                                <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}" selected>
+                                    {{ $item->nombre }}
+                                </option>
                             @else
-                            <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}">
-                                {{ $item->nombre }}
-                            </option>
+                                <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}">
+                                    {{ $item->nombre }}
+                                </option>
                             @endif
                         @endforeach
                     </select>
@@ -30,6 +30,7 @@
             </div>
 
             <input id="conArray" type="hidden" value="{{ !empty($premio->condicion) ? $premio->condicion : '' }}">
+            <input type="text" value="{{ $productos }}">
 
             <div class="col">
                 <div class="form-group">
@@ -69,7 +70,23 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-
+                    
+                    @foreach ($productos as $value)
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    @empty($value->en_premio)
+                                    <input class="form-check-input chk_seleccionar"
+                                        type="checkbox">
+                                    @else
+                                        <input class="form-check-input chk_seleccionar"
+                                            type="checkbox" checked>
+                                    @endempty
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    
                 </tbody>
             </table>
         </div>
@@ -138,38 +155,38 @@
 
                 destroy: true,
                 "processing": true,
-                "data": [],
-                "columns": [{
-                        "data": "id",
-                        "render": function(data, type, row) {
-                            let estado =
-                                '<div class="form-check"><input class="form-check-input chk_seleccionar" type="checkbox"></div>';
-                            if (row['en_catalogo'] != null) {
-                                estado =
-                                    '<div class="form-check"><input class="form-check-input chk_seleccionar" type="checkbox" checked></div>'
-                            }
-                            return estado;
-                        }
-                    },
-                    {
-                        "data": "imagen_path",
-                        "render": function(data, type, row) {
-                            let image =
-                                'https://www.blackwallst.directory/images/NoImageAvailable.png';
-                            if (data != '' && data != null) {
-                                image = '/storage/images/productos/' + data
-                            }
-                            return '<center><img  src="' + image +
-                                '"class="rounded" width="80" height="60" /> </center>';
-                        }
-                    },
-                    {
-                        "data": "nombre_producto"
-                    },
-                    {
-                        "data": "estilo"
-                    },
-                ],
+                //"data": [],
+                // "columns": [{
+                //         "data": "id",
+                //         "render": function(data, type, row) {
+                //             let estado =
+                //                 '<div class="form-check"><input class="form-check-input chk_seleccionar" type="checkbox"></div>';
+                //             if (row['en_catalogo'] != null) {
+                //                 estado =
+                //                     '<div class="form-check"><input class="form-check-input chk_seleccionar" type="checkbox" checked></div>'
+                //             }
+                //             return estado;
+                //         }
+                //     },
+                //     {
+                //         "data": "imagen_path",
+                //         "render": function(data, type, row) {
+                //             let image =
+                //                 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                //             if (data != '' && data != null) {
+                //                 image = '/storage/images/productos/' + data
+                //             }
+                //             return '<center><img  src="' + image +
+                //                 '"class="rounded" width="80" height="60" /> </center>';
+                //         }
+                //     },
+                //     {
+                //         "data": "nombre_producto"
+                //     },
+                //     {
+                //         "data": "estilo"
+                //     },
+                // ],
                 "lengthMenu": [
                     [-1, 10, 25, 50],
                     ["Todo", 10, 25, 50]
@@ -276,7 +293,8 @@
                                             icon: 'success',
                                             allowOutsideClick: false,
                                             didDestroy: () => {
-                                                window.location.href = "{{ route('premios.index')}}";
+                                                window.location.href =
+                                                    "{{ route('premios.index') }}";
                                             }
                                         });
                                     } else {
@@ -508,8 +526,10 @@
                 $(this).closest('div.clone-div').remove();
             });
 
+            
+
             let conArray = $('#conArray').val();
-            if(conArray != ''){
+            if (conArray != '') {
 
                 dataTableCondiciones.clear().draw();
                 dataTableCondiciones.rows.add(JSON.parse(conArray)).draw();
