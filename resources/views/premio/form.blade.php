@@ -14,9 +14,15 @@
                         data-width="100%">
                         <option value="">Seleccionar un catálogo</option>
                         @foreach ($catalogo as $item)
+                            @if($item->id == $premio->id)
+                            <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}" selected>
+                                {{ $item->nombre }}
+                            </option>
+                            @else
                             <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}">
                                 {{ $item->nombre }}
                             </option>
+                            @endif
                         @endforeach
                     </select>
                 </div>

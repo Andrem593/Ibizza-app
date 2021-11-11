@@ -1,31 +1,27 @@
-@extends('layouts.app')
+<x-app-layout>
+    @section('title', 'Premios')
+    <x-slot name="header">
+        PREMIO
+        <a class="btn btn-secondary btn-sm float-right" href="{{ route('premios.index') }}" data-placement="left">
+            Regresar</a>
+    </x-slot>
 
-@section('template_title')
-    Update Premio
-@endsection
+    @includeif('partials.errors')
 
-@section('content')
-    <section class="content container-fluid">
-        <div class="">
-            <div class="col-md-12">
-
-                @includeif('partials.errors')
-
-                <div class="card card-default">
-                    <div class="card-header">
-                        <span class="card-title">Update Premio</span>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('premios.update', $premio->id) }}"  role="form" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
-                            @csrf
-
-                            @include('premio.form')
-
-                        </form>
-                    </div>
-                </div>
-            </div>
+    <div class="card card-default">
+        <div class="card-header">
+            <span class="card-title">Actualizar Premio</span>
         </div>
-    </section>
-@endsection
+        <div class="card-body">
+            <form method="POST" action="{{ route('premios.update', $premio->id) }}" role="form"
+                enctype="multipart/form-data">
+                {{ method_field('PATCH') }}
+                @csrf
+
+                @include('premio.form')
+
+            </form>
+        </div>
+    </div>
+
+</x-app-layout>

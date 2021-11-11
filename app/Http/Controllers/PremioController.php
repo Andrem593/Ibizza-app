@@ -99,9 +99,10 @@ class PremioController extends Controller
      */
     public function edit($id)
     {
-        $premio = Premio::find($id);
+        $premio = Premio::find($id);        
+        $catalogo = Catalogo::all();
 
-        return view('premio.edit', compact('premio'));
+        return view('premio.edit', compact('premio','catalogo'));
     }
 
     /**
@@ -140,7 +141,7 @@ class PremioController extends Controller
         if ($_POST['funcion'] == 'listar_todo') {
 
             $premios = Premio::join('catalogos', 'premios.catalogo_id', '=', 'catalogos.id')
-                ->select('premios.descripcion', 'catalogos.nombre')
+                ->select('premios.id', 'premios.descripcion', 'catalogos.nombre')
                 ->get();
             if (count($premios) == 0) {
                 $premios = 'no data';

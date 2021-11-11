@@ -75,15 +75,17 @@
                     <div class="col">
                         @php
                             $configSwitch = [
+                                'onText' => 'PUBLICADO',
+                                'offText' => 'SIN PUBLICAR',
                                 'state' => !empty($catalogo->estado) && $catalogo->estado == 'PUBLICADO' ? true : false,
                             ];
                         @endphp
                         @section('plugins.BootstrapSwitch', true)
-                            <x-adminlte-input-switch id="estado" name="estado" data-on-text="PUBLICADO"
-                                data-off-text="SIN PUBLICAR" label="Estado" igroup-size="sm" data-on-color="teal" :config="$configSwitch" />
-                            {{-- {{ Form::label('estado') }}
-                            {{ Form::text('estado', $catalogo->estado, ['class' => 'form-control' . ($errors->has('estado') ? ' is-invalid' : ''), 'placeholder' => 'Estado']) }}
-                            {!! $errors->first('estado', '<div class="invalid-feedback">:message</p>') !!} --}}
+                            @if(!empty($catalogo->estado) && $catalogo->estado == 'PUBLICADO')
+                            <x-adminlte-input-switch name="estado" label="Estado" igroup-size="sm" data-on-color="teal" :config="$configSwitch" checked/>
+                            @else
+                            <x-adminlte-input-switch name="estado" label="Estado" igroup-size="sm" data-on-color="teal" :config="$configSwitch" />
+                            @endif
                         </div>
                     </div>
 
