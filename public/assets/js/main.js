@@ -1053,17 +1053,16 @@ function ecCheckCookie()
         });
     });
 
-    /*----------------------------- Load More Category -------------------------------- */
+    /*----------------------------- Carga Mas Categorias A.M -------------------------------- */
     $(document).ready(function() {
         $(".ec-more-toggle").click(function() {
             var elem = $(".ec-more-toggle #ec-more-toggle").text();
-            if (elem == "More Categories") {
-                $(".ec-more-toggle #ec-more-toggle").text("Less Categories");
+            if (elem == "Mas Categorias") {
+                $(".ec-more-toggle #ec-more-toggle").text("Menos Categorias");
                 $(".ec-more-toggle").toggleClass('active');
                 $("#ec-more-toggle-content").slideDown();
             } else {
-
-                $(".ec-more-toggle  #ec-more-toggle").text("More Categories");
+                $(".ec-more-toggle  #ec-more-toggle").text("Mas Categorias");
                 $(".ec-more-toggle").removeClass('active');
                 $("#ec-more-toggle-content").slideUp();
             }
@@ -1587,3 +1586,13 @@ function ecCheckCookie()
     });
 
 })(jQuery);
+// script para enviar informacion de pdf al modal
+$('.btn-modal').click(function(){
+    let nombre = $(this).parents().parents().parents().children(".banner-text").find(".nombre-catalogo").text();
+    let ruta_pdf = $(this).parents().parents().parents().children(".banner-text").find(".pdf_path").val();
+    if ($('#titulo_catalogo').text() != nombre) {                            
+        $('#titulo_catalogo').text(nombre);
+        $('#catalogo').attr('data','/storage/pdf/catalogo/'+ruta_pdf+'#toolbar=0')
+        $('#btn-descargar').attr('href','/storage/pdf/catalogo/'+ruta_pdf)
+    }
+ })

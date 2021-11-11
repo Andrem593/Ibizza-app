@@ -391,7 +391,7 @@
                                              </ul>
                                          </li>
                                          <li class="dropdown"><span class="main-label-note-new" data-toggle="tooltip"
-                                                 title="NEW"></span><a href="javascript:void(0)">Tienda</a>
+                                                 title="NEW"></span><a href="{{route('web.tienda')}}">Tienda</a>
                                          </li>
                                      </ul>
                                  </div>
@@ -2590,35 +2590,36 @@
                                         <div class="bnr-overlay">
                                             <img loading='lazy' src="storage/images/catalogo/{{$catalogo->foto_path}}" alt="" style="width: 40rem"/>
                                             <div class="banner-text">
-                                                <span class="ec-banner-stitle">{{$catalogo->nombre}}</span>
+                                                <span class="nombre-catalogo ec-banner-stitle">{{$catalogo->nombre}}</span>
                                                 <span class="ec-banner-title" style="width: 60%">{{$catalogo->descripcion}}</span>
+                                                <input type="hidden" class='pdf_path' value="{{ $catalogo->pdf_path }}">
                                             </div>
                                             <div class="banner-content">
-                                                <span class="ec-banner-btn"><a data-bs-toggle="modal" data-bs-target="#modalCustom">Ver Catalogo</a></span>
+                                                <span class="ec-banner-btn"><a class="btn-modal" data-bs-toggle="modal" data-bs-target="#modalCustom">Ver Catalogo</a></span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>                                    
+                                @endforeach    
+                                @endif
+                                    {{-- modal de descargar pdf --}}
                                     <div class="modal fade" id="modalCustom" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">{{$catalogo->nombre}}</h5>
+                                                <h5 class="modal-title" id="titulo_catalogo"></h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <object class="PDFdoc" width="100%" height="500px" type="application/pdf"
-                                                        data="/storage/pdf/catalogo/{{ $catalogo->pdf_path }}#toolbar=0"></object>
+                                                <object id="catalogo" class="PDFdoc" width="100%" height="500px" type="application/pdf"
+                                                        ></object>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
-                                            </div>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                <a id="btn-descargar" type="button" target="_blank" class="btn btn-primary">Descargar</a>
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach    
-                                @endif
-                                 {{-- modal de descargar pdf --}}
+                                </div>
                              </div>
                              <!-- ec Banner End -->
                          </div>

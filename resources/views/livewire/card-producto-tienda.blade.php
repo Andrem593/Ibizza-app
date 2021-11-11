@@ -1,13 +1,13 @@
-<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 mb-6  ec-product-content" data-animation="fadeIn">
+<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 mb-6 pro-gl-content">
     <div class="ec-product-inner">
         <div class="ec-pro-image-outer">
             <div class="ec-pro-image">
                 <a href="product-left-sidebar.html" class="image">
-                    <img loading='lazy' class="main-image" src="storage/images/productos/{{ $imagen }}"
-                        alt="Product" />
-                    <img loading='lazy' class="hover-image"
+                    <img load='lazy' class="main-image"
                         src="storage/images/productos/{{ $imagen }}" alt="Product" />
-                </a>
+                    <img load='lazy' class="hover-image"
+                        src="storage/images/productos/{{ $imagen }}" alt="Product" />
+                </a>                
                 <a href="#" class="quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal"
                     data-bs-target="#ec_quickview_modal"><img loading='lazy' src="assets/images/icons/quickview.svg"
                         class="svg_img pro_svg" alt="" /></a>
@@ -21,8 +21,8 @@
             </div>
         </div>
         <div class="ec-pro-content">
-            <h5 class="ec-pro-title"><a href="product-left-sidebar.html">{{ $clasificacion }}</a>
-            </h5>
+            <h5 class="ec-pro-title"><a href="product-left-sidebar.html">Round Neck
+                    T-Shirt</a></h5>
             <div class="ec-pro-rating">
                 <i class="ecicon eci-star fill"></i>
                 <i class="ecicon eci-star fill"></i>
@@ -30,6 +30,9 @@
                 <i class="ecicon eci-star fill"></i>
                 <i class="ecicon eci-star"></i>
             </div>
+            <div class="ec-pro-list-desc">Lorem Ipsum is simply dummy text of the
+                printing and typesetting industry. Lorem Ipsum is simply dutmmy text
+                ever since the 1500s, when an unknown printer took a galley.</div>
             <span class="ec-price">
                 <span class="old-price">${{ $valor_venta }}</span>
                 <span class="new-price">${{ number_format($valor_venta, 2) }}</span>
