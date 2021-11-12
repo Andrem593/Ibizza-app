@@ -177,6 +177,8 @@ class PremioController extends Controller
     {
         $premio = Premio::find($id)->delete();
 
+        Premio_has_Producto::where('premio_id', $id)->delete();
+
         return redirect()->route('premios.index')
             ->with('success', 'Premio deleted successfully');
     }

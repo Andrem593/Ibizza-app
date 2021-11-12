@@ -158,6 +158,8 @@ class CatalogoController extends Controller
     {
         $catalogo = Catalogo::find($id)->delete();
 
+        Catalogo_has_Producto::where('catalogo_id', $id)->delete();
+
         return redirect()->route('catalogos.index')
             ->with('success', 'Catalogo deleted successfully');
     }

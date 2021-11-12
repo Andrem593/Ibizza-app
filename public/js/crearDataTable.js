@@ -587,7 +587,7 @@ function crearTablaPremio(data, ruta) {
     }
     $('#datatable tbody').on('click', '.eliminar', function() {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
-        $('#elemento_eliminar').html(data.nombre);
+        $('#elemento_eliminar').html(data.descripcion);
         $('#id_eliminar').val(data.id)
         $('#form_eliminar').attr('action', "/premios/" + data.id);
     })

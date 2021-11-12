@@ -53,7 +53,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Eliminar Elemento</h5>
+                        <h5 class="modal-title">Eliminar Premio</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -61,7 +61,7 @@
                     <div class="modal-body">
                         <form id="form_eliminar" action="" method="POST">
                             <div class="form-group">
-                                <label for="">Seguro de Eliminar Producto: </label>
+                                <label for="">Seguro de Eliminar Premio: </label>
                                 <label id="elemento_eliminar"></label>
                                 <input type="hidden" id="id_eliminar">
                             </div>
