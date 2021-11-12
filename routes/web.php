@@ -29,6 +29,8 @@ Route::get('/', webController::class)->name('web');
 Route::get('/tienda', [webController::class,'tienda'])->name('web.tienda');
 Route::get('/carro-compras', [webController::class,'carrito'])->name('web.carro-compras');
 Route::get('/detalle-producto/{estilo}', [webController::class,'detalle_producto'])->name('web.detalle-producto');
+Route::post('tallas-x-color',[webController::class,'tallas_x_color'])->name('web.tallas-color');
+Route::post('stock-x-talla',[webController::class,'stock_x_color'])->name('web.stock-talla');
 Route::post('/store', [webController::class,'addToCart']);
 Route::post('/delete', [webController::class,'deleteToCart']);
 Route::get('/carrito', function () {

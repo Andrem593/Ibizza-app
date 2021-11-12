@@ -1003,7 +1003,7 @@
                 <!-- Main Js -->
                 <script src="{{url('assets/js/vendor/index.js')}}"></script>
                 <script src="{{url('assets/js/main.js')}}"></script>
-
+                @stack('js')
                 @livewireScripts
             </body>
 

@@ -1233,13 +1233,13 @@ function ecCheckCookie()
         focusOnSelect: true
     });
 
-    /*----------------------------- single product countdowntimer  ------------------------------ */
-    $("#ec-single-countdown").countdowntimer({
-        startDate : "2021/11/01 00:00:00",
-        dateAndTime : "2021/12/01 00:00:00",
-        labelsFormat : true,
-        displayFormat : "DHMS"
-    });
+    // /*----------------------------- single product countdowntimer  ------------------------------ */
+    // $("#ec-single-countdown").countdowntimer({
+    //     startDate : "2021/11/01 00:00:00",
+    //     dateAndTime : "2021/12/01 00:00:00",
+    //     labelsFormat : true,
+    //     displayFormat : "DHMS"
+    // });
 
     /*----------------------------- Single Product Color and Size Click to Active -------------------------------- */
     $(document).ready(function() {

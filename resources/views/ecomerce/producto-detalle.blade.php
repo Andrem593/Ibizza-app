@@ -53,6 +53,7 @@
                                 <div class="single-pro-desc">
                                     <div class="single-pro-content">
                                         <h5 class="ec-single-title">{{$productos_color[0]->clasificacion}}</h5>
+                                        <input type="hidden" id="estilo_producto" value="{{$productos_color[0]->estilo}}">
                                         <div class="ec-single-rating-wrap">
                                             <div class="ec-single-rating">
                                                 <i class="ecicon eci-star fill"></i>
@@ -68,7 +69,11 @@
                                             <div class="ec-single-sales-inner">
                                                 <div class="ec-single-sales-title">sales accelerators</div>                                                
                                                 <div class="ec-single-sales-progress">
-                                                    <span class="ec-single-progress-desc">¡Date Prisa! hay {{$productos_color[0]->stock}} en stock</span>
+                                                    @if ($productos_color[0]->stock > 0)                                                        
+                                                        <span id="stock2" class="ec-single-progress-desc">¡Date Prisa! hay {{$productos_color[0]->stock}} en stock</span>
+                                                    @else
+                                                    <span id="stock2" class="ec-single-progress-desc">¡Lo sentimos! No hay stock de este producto</span>
+                                                    @endif
                                                     <span class="ec-single-progressbar"></span>
                                                 </div>
                                                 <div class="ec-single-sales-countdown">
@@ -80,76 +85,65 @@
                                         </div>
                                         <div class="ec-single-price-stoke">
                                             <div class="ec-single-price">
-                                                <span class="ec-single-ps-title">Precio tan bajo como</span>
+                                                <span class="ec-single-ps-title">Precio:</span>
                                                 <span class="new-price">${{$productos_color[0]->valor_venta}}</span>
                                             </div>
                                             <div class="ec-single-stoke">
-                                                <span class="ec-single-ps-title">IN STOCK</span>
-                                                <span class="ec-single-sku">SKU#: WH12</span>
+                                                <span class="ec-single-ps-title">En stock</span>
+                                                <span id="stock" class="ec-single-sku">{{$productos_color[0]->stock}}</span>
                                             </div>
                                         </div>
 
                                         <div class="ec-pro-variation">
-                                            <div class="ec-pro-variation-inner ec-pro-variation-size">
-                                                <span>SIZE</span>
-                                                <div class="ec-pro-variation-content">
-                                                    <ul>
-                                                        <li class="active"><span>S</span></li>
-                                                        <li><span>M</span></li>
-                                                        <li><span>L</span></li>
-                                                        <li><span>XL</span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
                                             <div class="ec-pro-variation-inner ec-pro-variation-color">
                                                 <span>Color</span>
                                                 <div class="ec-pro-variation-content">
-                                                    <ul>
-                                                        <li class="active"><span
-                                                                style="background-color:#1b4a87"></span></li>
-                                                        <li><span style="background-color:#5f94d6"></span></li>
-                                                        <li><span style="background-color:#72aea2"></span></li>
-                                                        <li><span style="background-color:#c79782"></span></li>
-                                                    </ul>
+                                                    <select class="form-select"  id="color_producto">
+                                                        @foreach ($productos_color as $producto)
+                                                            <option value="{{$producto->color}}">{{$producto->color}}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
+                                            <div class="ec-pro-variation-inner ec-pro-variation-size">
+                                                <span>Tallas</span>
+                                                <div class="ec-pro-variation-content">
+                                                    <ul>                                                        
+                                                        <li class="active talla"><span>{{$productos_color[0]->talla}}</span></li>
+                                                        @foreach ($tallas as $talla )
+                                                            @if ($talla->talla != $productos_color[0]->talla)
+                                                                <li class="talla"><span>{{$talla->talla}}</span></li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>                                            
                                         </div>
                                         <div class="ec-single-qty">
                                             <div class="qty-plus-minus">
                                                 <input class="qty-input" type="text" name="ec_qtybtn" value="1" />
                                             </div>
                                             <div class="ec-single-cart ">
-                                                <button class="btn btn-primary">Add To Cart</button>
+                                                @if ($productos_color[0]->stock == 0 )
+                                                    <button id="addToCart" class="btn btn-primary" disabled>Add To Cart</button>
+                                                @else
+                                                    <button id="addToCart" class="btn btn-primary">Add To Cart</button>
+                                                @endif
                                             </div>
                                             <div class="ec-single-wishlist">
                                                 <a class="ec-btn-group wishlist" title="Wishlist"><img
                                                         src="{{url('assets/images/icons/wishlist.svg')}}" class="svg_img pro_svg"
                                                         alt="" /></a>
-                                            </div>
-                                            <div class="ec-single-quickview">
-                                                <a href="#" class="ec-btn-group quickview" data-link-action="quickview"
-                                                    title="Quick view" data-bs-toggle="modal"
-                                                    data-bs-target="#ec_quickview_modal"><img
-                                                        src="{{url('assets/images/icons/quickview.svg')}}" class="svg_img pro_svg"
-                                                        alt="" /></a>
-                                            </div>
+                                            </div>                                     
                                         </div>
                                         <div class="ec-single-social">
                                             <ul class="mb-0">
                                                 <li class="list-inline-item facebook"><a href="#"><i
                                                             class="ecicon eci-facebook"></i></a></li>
-                                                <li class="list-inline-item twitter"><a href="#"><i
-                                                            class="ecicon eci-twitter"></i></a></li>
                                                 <li class="list-inline-item instagram"><a href="#"><i
                                                             class="ecicon eci-instagram"></i></a></li>
-                                                <li class="list-inline-item youtube-play"><a href="#"><i
-                                                            class="ecicon eci-youtube-play"></i></a></li>
-                                                <li class="list-inline-item behance"><a href="#"><i
-                                                            class="ecicon eci-behance"></i></a></li>
                                                 <li class="list-inline-item whatsapp"><a href="#"><i
                                                             class="ecicon eci-whatsapp"></i></a></li>
-                                                <li class="list-inline-item plus"><a href="#"><i
-                                                            class="ecicon eci-plus"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -165,130 +159,20 @@
                                 <ul class="nav nav-tabs">
                                     <li class="nav-item">
                                         <a class="nav-link active" data-bs-toggle="tab"
-                                            data-bs-target="#ec-spt-nav-details" role="tablist">Detail</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#ec-spt-nav-info"
-                                            role="tablist">More Information</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#ec-spt-nav-review"
-                                            role="tablist">Reviews</a>
+                                            data-bs-target="#ec-spt-nav-details" role="tablist">Detalles</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="tab-content  ec-single-pro-tab-content">
                                 <div id="ec-spt-nav-details" class="tab-pane fade show active">
                                     <div class="ec-single-pro-tab-desc">
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                            Lorem Ipsum has been the industry's standard dummy text ever since the
-                                            1500s, when an unknown printer took a galley of type and scrambled it to
-                                            make a type specimen book. It has survived not only five centuries, but also
-                                            the leap into electronic typesetting, remaining essentially unchanged.
-                                        </p>
+                                        <p>{{$productos_color[0]->descripcion}}</p>
                                         <ul>
-                                            <li>Any Product types that You want - Simple, Configurable</li>
-                                            <li>Downloadable/Digital Products, Virtual Products</li>
-                                            <li>Inventory Management with Backordered items</li>
-                                            <li>Flatlock seams throughout.</li>
+                                            <li id="sku">SKU: {{$productos_color[0]->sku}}</li>
+                                            <li>Detalles de fabricación del producto</li>
+                                            <li>etc</li>
+                                            <li>etc</li>
                                         </ul>
-                                    </div>
-                                </div>
-                                <div id="ec-spt-nav-info" class="tab-pane fade">
-                                    <div class="ec-single-pro-tab-moreinfo">
-                                        <ul>
-                                            <li><span>Weight</span> 1000 g</li>
-                                            <li><span>Dimensions</span> 35 × 30 × 7 cm</li>
-                                            <li><span>Color</span> Black, Pink, Red, White</li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div id="ec-spt-nav-review" class="tab-pane fade">
-                                    <div class="row">
-                                        <div class="ec-t-review-wrapper">
-                                            <div class="ec-t-review-item">
-                                                <div class="ec-t-review-avtar">
-                                                    <img src="{{url('assets/images/review-image/1.jpg')}}" alt="" />
-                                                </div>
-                                                <div class="ec-t-review-content">
-                                                    <div class="ec-t-review-top">
-                                                        <div class="ec-t-review-name">Jeny Doe</div>
-                                                        <div class="ec-t-review-rating">
-                                                            <i class="ecicon eci-star fill"></i>
-                                                            <i class="ecicon eci-star fill"></i>
-                                                            <i class="ecicon eci-star fill"></i>
-                                                            <i class="ecicon eci-star fill"></i>
-                                                            <i class="ecicon eci-star-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="ec-t-review-bottom">
-                                                        <p>Lorem Ipsum is simply dummy text of the printing and
-                                                            typesetting industry. Lorem Ipsum has been the industry's
-                                                            standard dummy text ever since the 1500s, when an unknown
-                                                            printer took a galley of type and scrambled it to make a
-                                                            type specimen.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="ec-t-review-item">
-                                                <div class="ec-t-review-avtar">
-                                                    <img src="{{url('assets/images/review-image/2.jpg')}}" alt="" />
-                                                </div>
-                                                <div class="ec-t-review-content">
-                                                    <div class="ec-t-review-top">
-                                                        <div class="ec-t-review-name">Linda Morgus</div>
-                                                        <div class="ec-t-review-rating">
-                                                            <i class="ecicon eci-star fill"></i>
-                                                            <i class="ecicon eci-star fill"></i>
-                                                            <i class="ecicon eci-star fill"></i>
-                                                            <i class="ecicon eci-star-o"></i>
-                                                            <i class="ecicon eci-star-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="ec-t-review-bottom">
-                                                        <p>Lorem Ipsum is simply dummy text of the printing and
-                                                            typesetting industry. Lorem Ipsum has been the industry's
-                                                            standard dummy text ever since the 1500s, when an unknown
-                                                            printer took a galley of type and scrambled it to make a
-                                                            type specimen.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="ec-ratting-content">
-                                            <h3>Add a Review</h3>
-                                            <div class="ec-ratting-form">
-                                                <form action="#">
-                                                    <div class="ec-ratting-star">
-                                                        <span>Your rating:</span>
-                                                        <div class="ec-t-review-rating">
-                                                            <i class="ecicon eci-star fill"></i>
-                                                            <i class="ecicon eci-star fill"></i>
-                                                            <i class="ecicon eci-star-o"></i>
-                                                            <i class="ecicon eci-star-o"></i>
-                                                            <i class="ecicon eci-star-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="ec-ratting-input">
-                                                        <input name="your-name" placeholder="Name" type="text" />
-                                                    </div>
-                                                    <div class="ec-ratting-input">
-                                                        <input name="your-email" placeholder="Email*" type="email"
-                                                            required />
-                                                    </div>
-                                                    <div class="ec-ratting-input form-submit">
-                                                        <textarea name="your-commemt"
-                                                            placeholder="Enter Your Comment"></textarea>
-                                                        <button class="btn btn-primary" type="submit"
-                                                            value="Submit">Submit</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -477,4 +361,69 @@
         </div>
     </section>
     <!-- End Single product -->
+    @push('js')        
+        <script>    
+            /*----------------------------- Contador de tiempo restante de catalogo ------------------------------ */
+            $("#ec-single-countdown").countdowntimer({
+                startDate : "{{str_replace('-','/',$catalogo->fecha_publicacion).' 00:00:00'}}",
+                dateAndTime : "{{str_replace('-','/',$catalogo->fecha_fin_catalogo).' 00:00:00'}}",
+                labelsFormat : true,
+                displayFormat : "DHMS"
+            });
+            $('#color_producto').change(function (event) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                });
+                let data = {
+                    'color':  $(this).val(),
+                    'estilo': $('#estilo_producto').val(),
+                }
+                $.post({
+                    url: '{{route("web.tallas-color")}}',
+                    data: data,
+                    success: function(response) {
+                       let data = JSON.parse(response)
+                       $('.ec-pro-variation-content ul').html(' ')
+                       $.each(data, function (i,v) {
+                           if (i == 0) {
+                                $('.ec-pro-variation-content ul').append('<li class="active talla"><span>'+v['talla']+'</span></li>')
+                           }else{
+                               $('.ec-pro-variation-content ul').append('<li class="talla"><span>'+v['talla']+'</span></li>')
+                           }
+                       })
+                    }
+                })
+            })
+            $(document).on('click', '.talla', function () {                
+                $(this).addClass('active').siblings().removeClass('active');
+                let data = {
+                    'talla':  $(this).text(),
+                    'estilo': $('#estilo_producto').val(),
+                    'color': $('#color_producto').val(),
+                }
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                });
+                $.post({
+                    url: '{{route("web.stock-talla")}}',
+                    data: data,
+                    success: function(response) {
+                       let data = JSON.parse(response)
+                       $('#stock').text(data.stock);
+                       if( parseInt(data.stock) != 0){
+                            $('#stock2').html('¡Date Prisa! hay '+data.stock+' en stock')
+                            $('#addToCart').attr('disabled',false);
+                       }else{
+                            $('#stock2').html('¡Lo sentimos! No hay stock de este producto')
+                            $('#addToCart').attr('disabled',true);
+                       }
+                    }
+                })
+            });
+        </script>
+    @endpush
 </x-plantilla>

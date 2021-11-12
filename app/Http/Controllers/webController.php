@@ -50,6 +50,22 @@ class webController extends Controller
     }
     public function detalle_producto($estilo){  
         $productos_color = Producto::where('estilo',$estilo)->groupBy('color')->get();
-        return view('ecomerce.producto-detalle',compact('productos_color'));
+        $catalogo = DB::table('catalogo_has_productos')->join('catalogos','catalogos.id','=','catalogo_has_productos.catalogo_id')
+        ->join('productos','productos.estilo','=','catalogo_has_productos.estilo')
+        ->select('catalogos.*')
+        ->where('productos.estilo','=',$estilo)
+        ->groupBy('color')->first();
+        $tallas = Producto::where('estilo',$estilo)->where('color',$productos_color[0]->color)->get();
+        return view('ecomerce.producto-detalle',compact('productos_color','catalogo','tallas'));
+    }
+    public function tallas_x_color(Request $request){
+        $tallas = Producto::where('estilo',$request->estilo)->select('talla')->where('color',$request->color)->get();
+        $tallas = json_encode($tallas);
+        return $tallas;
+    }
+    public function stock_x_color(Request $request){
+        $stock = Producto::where('estilo',$request->estilo)->where('color',$request->color)->where('talla',$request->talla)->first();
+        $stock = json_encode($stock);
+        return $stock;
     }
 }
