@@ -1285,8 +1285,8 @@ function ecCheckCookie()
     }
     
     /*----------------------------- Cart Page Qty Plus Minus Button  ------------------------------ */
-    var CartQtyPlusMinus = $(".cart-qty-plus-minus");
-    CartQtyPlusMinus.append('<div class="ec_cart_qtybtn"><div class="inc ec_qtybtn">+</div><div class="dec ec_qtybtn">-</div></div>');
+    // var CartQtyPlusMinus = $(".cart-qty-plus-minus");
+    // CartQtyPlusMinus.append('<div class="ec_cart_qtybtn"><div class="inc ec_qtybtn" wire:click="incremento">+</div><div class="dec ec_qtybtn" wire:click="decremento">-</div></div>');
     $(".cart-qty-plus-minus .ec_cart_qtybtn .ec_qtybtn").on("click", function() {
         var $cartqtybutton = $(this);
         var CartQtyoldValue = $cartqtybutton.parent().parent().find("input").val();
@@ -1596,3 +1596,8 @@ $('.btn-modal').click(function(){
         $('#btn-descargar').attr('href','/storage/pdf/catalogo/'+ruta_pdf)
     }
  })
+ // funcion eliminar item del carrito
+//  $('.ec-cart-pro-remove').click(function(){
+//      $(this).parent().html(' ');
+//  })
+ 

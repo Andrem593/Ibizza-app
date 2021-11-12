@@ -27,6 +27,7 @@ use App\Http\Controllers\webController;
 
 Route::get('/', webController::class)->name('web');
 Route::get('/tienda', [webController::class,'tienda'])->name('web.tienda');
+Route::get('/carro-compras', [webController::class,'carrito'])->name('web.carro-compras');
 Route::post('/store', [webController::class,'addToCart']);
 Route::post('/delete', [webController::class,'deleteToCart']);
 Route::get('/carrito', function () {

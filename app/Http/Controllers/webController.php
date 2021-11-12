@@ -45,4 +45,7 @@ class webController extends Controller
         ->groupBy('productos.grupo','productos.seccion','productos.clasificacion')->get();
         return view('ecomerce.tienda',compact('productos'));
     }
+    public function carrito(){       
+        return view('ecomerce.carrito');
+    }
 }

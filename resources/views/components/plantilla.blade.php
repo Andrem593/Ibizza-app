@@ -37,9 +37,21 @@
     <!-- Background css -->
     <link rel="stylesheet" id="bg-switcher-css" href="assets/css/backgrounds/bg-4.css">
     <style>
-        ul{
-            padding-left: 0!important
+        ul {
+            padding-left: 0 !important
         }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
     </style>
     @livewireStyles
 </head>
@@ -397,7 +409,7 @@
                                             </ul>
                                         </li>
                                         <li class="dropdown"><span class="main-label-note-new" data-toggle="tooltip"
-                                                title="NEW"></span><a href="{{route('web.tienda')}}">Tienda</a>
+                                                title="NEW"></span><a href="{{ route('web.tienda') }}">Tienda</a>
                                         </li>
                                     </ul>
                                 </div>
