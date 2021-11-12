@@ -47,7 +47,7 @@
 
         </div>
 
-        <div class="table-responsive p-3">
+        <div class="table-responsive p-1">
             <table id="datatable" class="table table-striped table-hover">
                 <thead class="bg-ibizza text-center">
                     <tr>
@@ -67,6 +67,9 @@
         </div>
     </div>
 </div>
+@push('css')
+        <link rel="stylesheet" href="/css/botonesDataTable.css">
+    @endpush
 @push('js')
     <script>
         let espanol = {
@@ -419,48 +422,60 @@
                     }
                 });
 
-                if (!flag) {
+                let nombre_tabla = $('#nombre_tabla').val();
 
-                    let condiciones = '';
-                    let nombres = '';
-                    $.each(campoArray, function(key, value) {
-                        console.log(key);
-                        condiciones += ' ' + value.value + ' ' + operadorArray[key].value + ' ' +
-                            valorArray[key].value + ' ' + condicionArray[key].value;
-                        nombres += ' ' + value.name + ' ' + operadorArray[key].name + ' ' +
-                            valorArray[key].name + ' ' + condicionArray[key].name;
+                if(nombre_tabla != ""){
+                    if (!flag) {
+    
+                        let condiciones = '';
+                        let nombres = '';
+                        $.each(campoArray, function(key, value) {
+                            console.log(key);
+                            condiciones += ' ' + value.value + ' ' + operadorArray[key].value + ' ' +
+                                valorArray[key].value + ' ' + condicionArray[key].value;
+                            nombres += ' ' + value.name + ' ' + operadorArray[key].name + ' ' +
+                                valorArray[key].name + ' ' + condicionArray[key].name;
+                        });
+                        let condPart = condiciones.split(' ');
+                        condPart.pop();
+                        let condClean = condPart.toString().replace(/,/g, ' ');
+    
+                        let namePart = nombres.split(' ');
+                        namePart.pop();
+                        let nameClean = namePart.toString().replace(/,/g, ' ');
+    
+                        let tabla = $('#nombre_tabla').val();
+    
+                        arrayFinal.push({
+                            'nombre_tabla': tabla,
+                            'condicion': $.trim(condClean),
+                            'descripcion': $.trim(nameClean)
+                        });
+                        console.log(arrayFinal);
+                        
+                        dataTableCondiciones.clear().draw();
+                        dataTableCondiciones.rows.add(arrayFinal).draw();
+    
+                        Livewire.emit('recargar');
+    
+                        Livewire.hook('message.processed', (message, component) => {
+                            inicializar_select();
+                        });
+                    } else {
+                        Swal.fire({
+                            text: 'Hay condiciones incompletas, por favor revisar',
+                            icon: 'warning',
+                            didDestroy: () => {
+                            }
+                        });
+                    }
+                }else{
+                    Swal.fire({
+                        text: 'Seleccionar la tabla',
+                        icon: 'warning',
+                        didDestroy: () => {
+                        }
                     });
-                    let condPart = condiciones.split(' ');
-                    condPart.pop();
-                    let condClean = condPart.toString().replace(/,/g, ' ');
-
-                    let namePart = nombres.split(' ');
-                    namePart.pop();
-                    let nameClean = namePart.toString().replace(/,/g, ' ');
-
-                    let tabla = $('#nombre_tabla').val();
-
-                    arrayFinal.push({
-                        'nombre_tabla': tabla,
-                        'condicion': $.trim(condClean),
-                        'descripcion': $.trim(nameClean)
-                    });
-                    console.log(arrayFinal);
-
-                    // let result = JSON.parse(arrayFinal);
-                    // console.log(result);
-                    dataTableCondiciones.clear().draw();
-                    dataTableCondiciones.rows.add(arrayFinal).draw();
-
-                    Livewire.emit('recargar');
-
-                    Livewire.hook('message.processed', (message, component) => {
-                        inicializar_select();
-                    })
-
-
-                } else {
-                    alert('Hay condiciones incompletas, por favor revisar');
                 }
             });
 

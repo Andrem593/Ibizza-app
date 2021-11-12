@@ -11,7 +11,7 @@
                     {{ Form::label('Catálogo') }}
                     @section('plugins.BootstrapSelect', true)
                     <select id="cmb_catalogo" name="catalogo_id" class="selectpicker show-tick" data-live-search="true"
-                        data-width="100%">
+                        data-width="100%" disabled>
                         <option value="">Seleccionar un catálogo</option>
                         @foreach ($catalogo as $item)
                             @if ($item->id == $premio->catalogo_id)
@@ -30,7 +30,6 @@
             </div>
 
             <input id="conArray" type="hidden" value="{{ !empty($premio->condicion) ? $premio->condicion : '' }}">
-            <input type="text" value="{{ $productos }}">
 
             <div class="col">
                 <div class="form-group">
@@ -56,7 +55,7 @@
 
         </div>
 
-        <div class="table-responsive p-3">
+        <div class="table-responsive p-1">
             <table id="datatable" class="table table-striped table-hover">
                 <thead class="bg-ibizza text-center">
                     <tr>
@@ -70,23 +69,38 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    
+
                     @foreach ($productos as $value)
                         <tr>
                             <td>
                                 <div class="form-check">
                                     @empty($value->en_premio)
-                                    <input class="form-check-input chk_seleccionar"
-                                        type="checkbox">
+                                        <input class="form-check-input chk_seleccionar" type="checkbox">
                                     @else
-                                        <input class="form-check-input chk_seleccionar"
-                                            type="checkbox" checked>
+                                        <input class="form-check-input chk_seleccionar" type="checkbox" checked>
                                     @endempty
                                 </div>
                             </td>
+                            <td>
+                                <center>
+                                    @empty($value->imagen_path)
+                                        <img src="https://www.blackwallst.directory/images/NoImageAvailable.png"
+                                            class="rounded" width="80" height="60" />
+                                    @else
+                                        <img src="/storage/images/productos/{{ $value->imagen_path }}"
+                                            class="rounded" width="80" height="60" />
+                                    @endempty
+                                </center>
+                            </td>
+                            <td>
+                                {{ $value->nombre_producto }}
+                            </td>
+                            <td>
+                                {{ $value->estilo }}
+                            </td>
                         </tr>
                     @endforeach
-                    
+
                 </tbody>
             </table>
         </div>
@@ -100,6 +114,9 @@
         <button type="submit" class="btn btn-ibizza w-100">GUARDAR</button>
     </div> --}}
 </div>
+@push('css')
+    <link rel="stylesheet" href="/css/botonesDataTable.css">
+@endpush
 @push('js')
     <script>
         let espanol = {
@@ -153,43 +170,24 @@
 
             let dataTable = $('#datatable').DataTable({
 
-                destroy: true,
+                //destroy: true,
                 "processing": true,
-                //"data": [],
-                // "columns": [{
-                //         "data": "id",
-                //         "render": function(data, type, row) {
-                //             let estado =
-                //                 '<div class="form-check"><input class="form-check-input chk_seleccionar" type="checkbox"></div>';
-                //             if (row['en_catalogo'] != null) {
-                //                 estado =
-                //                     '<div class="form-check"><input class="form-check-input chk_seleccionar" type="checkbox" checked></div>'
-                //             }
-                //             return estado;
-                //         }
-                //     },
-                //     {
-                //         "data": "imagen_path",
-                //         "render": function(data, type, row) {
-                //             let image =
-                //                 'https://www.blackwallst.directory/images/NoImageAvailable.png';
-                //             if (data != '' && data != null) {
-                //                 image = '/storage/images/productos/' + data
-                //             }
-                //             return '<center><img  src="' + image +
-                //                 '"class="rounded" width="80" height="60" /> </center>';
-                //         }
-                //     },
-                //     {
-                //         "data": "nombre_producto"
-                //     },
-                //     {
-                //         "data": "estilo"
-                //     },
-                // ],
                 "lengthMenu": [
                     [-1, 10, 25, 50],
                     ["Todo", 10, 25, 50]
+                ],
+                "columns": [{
+                        "data": "id"
+                    },
+                    {
+                        "data": "imagen_path"
+                    },
+                    {
+                        "data": "nombre_producto"
+                    },
+                    {
+                        "data": "estilo"
+                    },
                 ],
                 "columnDefs": [{
                         "targets": [0, 1],
@@ -228,10 +226,10 @@
                 }
             });
 
-            if (dataTable.length == 0) {
-                dataTable.clear();
-                dataTable.draw();
-            }
+            // if (dataTable.length == 0) {
+            //     dataTable.clear();
+            //     dataTable.draw();
+            // }
 
             $('#all').on('click', function() {
                 if (this.checked) {
@@ -272,57 +270,48 @@
                     premio = JSON.stringify(data)
                 }
 
+                console.log(data);
                 if (descripcion != '') {
-                    if (catalogo_id != '') {
-                        $.ajax({
-                            type: 'POST',
-                            url: '/premios',
-                            data: {
-                                descripcion,
-                                catalogo_id,
-                                condicion,
-                                premio
-                            },
-                            success: function(msg) {
-                                dataJson = JSON.parse(msg);
-                                //console.log(dataJson.mensaje);
-                                if (dataJson.estado) {
-                                    if (dataJson.mensaje == 'ok') {
-                                        Swal.fire({
-                                            text: "Se creó el premio correctamente.",
-                                            icon: 'success',
-                                            allowOutsideClick: false,
-                                            didDestroy: () => {
-                                                window.location.href =
-                                                    "{{ route('premios.index') }}";
-                                            }
-                                        });
-                                    } else {
-                                        Swal.fire({
-                                            text: dataJson.mensaje,
-                                            icon: 'warning',
-                                            didDestroy: () => {}
-                                        });
-                                    }
+                    $.ajax({
+                        type: 'PATCH',
+                        url: '{{ route('premios.update', $premio->id) }}',
+                        data: {
+                            descripcion,
+                            catalogo_id,
+                            condicion,
+                            premio
+                        },
+                        success: function(msg) {
+                            dataJson = JSON.parse(msg);
+                            //console.log(dataJson.mensaje);
+                            if (dataJson.estado) {
+                                if (dataJson.mensaje == 'ok') {
+                                    Swal.fire({
+                                        text: "Se actualizó el premio correctamente.",
+                                        icon: 'success',
+                                        allowOutsideClick: false,
+                                        didDestroy: () => {
+                                            window.location.href =
+                                                "{{ route('premios.index') }}";
+                                        }
+                                    });
                                 } else {
                                     Swal.fire({
                                         text: dataJson.mensaje,
-                                        icon: 'error',
+                                        icon: 'warning',
                                         didDestroy: () => {}
                                     });
-                                    //console.log(dataJson.mensaje);
                                 }
+                            } else {
+                                Swal.fire({
+                                    text: dataJson.mensaje,
+                                    icon: 'error',
+                                    didDestroy: () => {}
+                                });
+                                //console.log(dataJson.mensaje);
                             }
-                        });
-                    } else {
-                        Swal.fire({
-                            text: 'Catálogo es obligatorio',
-                            icon: 'warning',
-                            didDestroy: () => {
-                                $('#cmb_catalogo').focus();
-                            }
-                        });
-                    }
+                        }
+                    });
                 } else {
                     Swal.fire({
                         text: 'Descripción es obligatoria',
@@ -334,34 +323,6 @@
                 }
 
             }
-
-            $('#cmb_catalogo').on('changed.bs.select', function(e, clickedIndex, isSelected, previousValue) {
-
-
-                let id_catalogo = $('#cmb_catalogo').val();
-                let ruta = '/premio/datatable';
-
-                var data = {
-                    funcion: 'listar_premio_producto',
-                    id_catalogo
-                }
-
-                if (id_catalogo != '') {
-                    $.ajax({
-                        url: "/premio/datatable",
-                        type: "POST",
-                        data: data,
-                    }).done(function(result) {
-
-                        result = JSON.parse(result);
-                        console.log(result);
-                        dataTable.clear().draw();
-                        dataTable.rows.add(result).draw();
-                    })
-                } else {
-                    dataTable.clear().draw();
-                }
-            });
 
             let dataTableCondiciones = $('#example').DataTable({
                 "data": [],
@@ -452,49 +413,62 @@
                     }
                 });
 
-                if (!flag) {
+                let nombre_tabla = $('#nombre_tabla').val();
 
-                    let condiciones = '';
-                    let nombres = '';
-                    $.each(campoArray, function(key, value) {
-                        console.log(key);
-                        condiciones += ' ' + value.value + ' ' + operadorArray[key].value + ' ' +
-                            valorArray[key].value + ' ' + condicionArray[key].value;
-                        nombres += ' ' + value.name + ' ' + operadorArray[key].name + ' ' +
-                            valorArray[key].name + ' ' + condicionArray[key].name;
+                if(nombre_tabla != ""){
+                    if (!flag) {
+    
+                        let condiciones = '';
+                        let nombres = '';
+                        $.each(campoArray, function(key, value) {
+                            console.log(key);
+                            condiciones += ' ' + value.value + ' ' + operadorArray[key].value + ' ' +
+                                valorArray[key].value + ' ' + condicionArray[key].value;
+                            nombres += ' ' + value.name + ' ' + operadorArray[key].name + ' ' +
+                                valorArray[key].name + ' ' + condicionArray[key].name;
+                        });
+                        let condPart = condiciones.split(' ');
+                        condPart.pop();
+                        let condClean = condPart.toString().replace(/,/g, ' ');
+    
+                        let namePart = nombres.split(' ');
+                        namePart.pop();
+                        let nameClean = namePart.toString().replace(/,/g, ' ');
+    
+                        let tabla = $('#nombre_tabla').val();
+    
+                        arrayFinal.push({
+                            'nombre_tabla': tabla,
+                            'condicion': $.trim(condClean),
+                            'descripcion': $.trim(nameClean)
+                        });
+                        console.log(arrayFinal);
+                        
+                        dataTableCondiciones.clear().draw();
+                        dataTableCondiciones.rows.add(arrayFinal).draw();
+    
+                        Livewire.emit('recargar');
+    
+                        Livewire.hook('message.processed', (message, component) => {
+                            inicializar_select();
+                        });
+                    } else {
+                        Swal.fire({
+                            text: 'Hay condiciones incompletas, por favor revisar',
+                            icon: 'warning',
+                            didDestroy: () => {
+                            }
+                        });
+                    }
+                }else{
+                    Swal.fire({
+                        text: 'Seleccionar la tabla',
+                        icon: 'warning',
+                        didDestroy: () => {
+                        }
                     });
-                    let condPart = condiciones.split(' ');
-                    condPart.pop();
-                    let condClean = condPart.toString().replace(/,/g, ' ');
-
-                    let namePart = nombres.split(' ');
-                    namePart.pop();
-                    let nameClean = namePart.toString().replace(/,/g, ' ');
-
-                    let tabla = $('#nombre_tabla').val();
-
-                    arrayFinal.push({
-                        'nombre_tabla': tabla,
-                        'condicion': $.trim(condClean),
-                        'descripcion': $.trim(nameClean)
-                    });
-                    console.log(arrayFinal);
-
-                    // let result = JSON.parse(arrayFinal);
-                    // console.log(result);
-                    dataTableCondiciones.clear().draw();
-                    dataTableCondiciones.rows.add(arrayFinal).draw();
-
-                    Livewire.emit('recargar');
-
-                    Livewire.hook('message.processed', (message, component) => {
-                        inicializar_select();
-                    })
-
-
-                } else {
-                    alert('Hay condiciones incompletas, por favor revisar');
                 }
+
             });
 
             $(document).on('click', '#btn_regla', function(e) {
@@ -526,13 +500,11 @@
                 $(this).closest('div.clone-div').remove();
             });
 
-            
-
             let conArray = $('#conArray').val();
             if (conArray != '') {
-
                 dataTableCondiciones.clear().draw();
                 dataTableCondiciones.rows.add(JSON.parse(conArray)).draw();
+                arrayFinal = JSON.parse(conArray);
                 console.log(JSON.parse(conArray));
             }
 
