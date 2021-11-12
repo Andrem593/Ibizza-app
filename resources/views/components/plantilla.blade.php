@@ -14,28 +14,28 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- site Favicon -->
-    <link rel="icon" href="assets/images/favicon/Logo_ibizza_verde.svg" sizes="32x32" />
-    <link rel="apple-touch-icon" href="assets/images/favicon/Logo_ibizza.svg" />
-    <meta name="msapplication-TileImage" content="assets/images/favicon/Logo_ibizza.svg" />
+    <link rel="icon" href="{{url('assets/images/favicon/Logo_ibizza_verde.svg')}}" sizes="32x32" />
+    <link rel="apple-touch-icon" href="{{url('assets/images/favicon/Logo_ibizza.svg')}}" />
+    <meta name="msapplication-TileImage" content="{{url('assets/images/favicon/Logo_ibizza.svg')}}" />
 
     <!-- css Icon Font -->
-    <link rel="stylesheet" href="assets/css/vendor/ecicons.min.css" />
+    <link rel="stylesheet" href="{{url('assets/css/vendor/ecicons.min.css')}}" />
 
     <!-- css All Plugins Files -->
-    <link rel="stylesheet" href="assets/css/plugins/animate.css" />
-    <link rel="stylesheet" href="assets/css/plugins/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="assets/css/plugins/jquery-ui.min.css" />
-    <link rel="stylesheet" href="assets/css/plugins/countdownTimer.css" />
-    <link rel="stylesheet" href="assets/css/plugins/slick.min.css" />
-    <link rel="stylesheet" href="assets/css/plugins/bootstrap.css" />
+    <link rel="stylesheet" href="{{url('assets/css/plugins/animate.css')}}" />
+    <link rel="stylesheet" href="{{url('assets/css/plugins/swiper-bundle.min.css')}}" />
+    <link rel="stylesheet" href="{{url('assets/css/plugins/jquery-ui.min.css')}}" />
+    <link rel="stylesheet" href="{{url('assets/css/plugins/countdownTimer.css')}}" />
+    <link rel="stylesheet" href="{{url('assets/css/plugins/slick.min.css')}}" />
+    <link rel="stylesheet" href="{{url('assets/css/plugins/bootstrap.css')}}" />
 
     <!-- Main Style -->
-    <link rel="stylesheet" href="assets/css/demo1.css" />
-    <link rel="stylesheet" href="assets/css/skin-04.css">
-    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <link rel="stylesheet" href="{{url('assets/css/demo1.css')}}" />
+    <link rel="stylesheet" href="{{url('assets/css/skin-04.css')}}">
+    <link rel="stylesheet" href="{{url('assets/css/responsive.css')}}" />
 
     <!-- Background css -->
-    <link rel="stylesheet" id="bg-switcher-css" href="assets/css/backgrounds/bg-4.css">
+    <link rel="stylesheet" id="bg-switcher-css" href="{{url('assets/css/backgrounds/bg-4.css')}}">
     <style>
         ul {
             padding-left: 0 !important
@@ -120,7 +120,7 @@
                             <!-- Header User Start -->
                             <div class="ec-header-user dropdown">
                                 <button class="dropdown-toggle" data-bs-toggle="dropdown"><img loading='lazy'
-                                        src="assets/images/icons/user.svg" class="svg_img header_svg" alt="" /></button>
+                                        src="{{url('assets/images/icons/user.svg')}}" class="svg_img header_svg" alt="" /></button>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     @if (Route::has('login'))
 
@@ -139,21 +139,21 @@
                                 <!-- Header User End -->
                                 <!-- Header Cart Start -->
                                 <a href="wishlist.html" class="ec-header-btn ec-header-wishlist">
-                                    <div class="header-icon"><img loading='lazy' src="assets/images/icons/wishlist.svg"
+                                    <div class="header-icon"><img loading='lazy' src="{{url('assets/images/icons/wishlist.svg')}}"
                                             class="svg_img header_svg" alt="" /></div>
                                     <span class="ec-header-count">4</span>
                                 </a>
                                 <!-- Header Cart End -->
                                 <!-- Header Cart Start -->
                                 <a href="#ec-side-cart" class="ec-header-btn ec-side-toggle">
-                                    <div class="header-icon"><img loading='lazy' src="assets/images/icons/cart.svg"
+                                    <div class="header-icon"><img loading='lazy' src="{{url('assets/images/icons/cart.svg')}}"
                                             class="svg_img header_svg" alt="" /></div>
                                     <span class="ec-header-count cart-count-lable">{{ Cart::count() }}</span>
                                 </a>
                                 <!-- Header Cart End -->
                                 <!-- Header menu Start -->
                                 <a href="#ec-mobile-menu" class="ec-header-btn ec-side-toggle d-lg-none">
-                                    <img loading='lazy' src="assets/images/icons/menu.svg" class="svg_img header_svg"
+                                    <img loading='lazy' src="{{url('assets/images/icons/menu.svg')}}" class="svg_img header_svg"
                                         alt="icon" />
                                 </a>
                                 <!-- Header menu End -->
@@ -173,8 +173,8 @@
                             <div class="align-self-center">
                                 <div class="header-logo">
                                     <a href="{{ url('/') }}"><img loading='lazy' class="p-1"
-                                            src="assets/images/logo/logo_ibizza.svg" alt="Logo Ibizza" />
-                                        <img loading='lazy' class="dark-logo" src="assets/images/logo/dark-logo.png"
+                                            src="{{url('assets/images/logo/logo_ibizza.svg')}}" alt="Logo Ibizza" />
+                                        <img loading='lazy' class="dark-logo" src="{{url('assets/images/logo/dark-logo.png')}}"
                                             alt="Site Logo" style="display: none;" /></a>
                                 </div>
                             </div>
@@ -187,7 +187,7 @@
                                         <input class="form-control" placeholder="Ingresa el nombre de un Producto..."
                                             type="text">
                                         <button class="submit" type="submit"><img loading='lazy'
-                                                src="assets/images/icons/search.svg" class="svg_img header_svg"
+                                                src="{{url('assets/images/icons/search.svg')}}" class="svg_img header_svg"
                                                 alt="" /></button>
                                     </form>
                                 </div>
@@ -201,7 +201,7 @@
                                     <!-- Header User Start -->
                                     <div class="ec-header-user dropdown">
                                         <button class="dropdown-toggle" data-bs-toggle="dropdown"><img loading='lazy'
-                                                src="assets/images/icons/user.svg" class="svg_img header_svg"
+                                                src="{{url('assets/images/icons/user.svg')}}" class="svg_img header_svg"
                                                 alt="" /></button>
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             @if (Route::has('login'))
@@ -221,14 +221,14 @@
                                         <!-- Header User End -->
                                         <!-- Header wishlist Start -->
                                         <a href="wishlist.html" class="ec-header-btn ec-header-wishlist">
-                                            <div class="header-icon"><img loading='lazy' src="assets/images/icons/wishlist.svg"
+                                            <div class="header-icon"><img loading='lazy' src="{{url('assets/images/icons/wishlist.svg')}}"
                                                     class="svg_img header_svg" alt="" /></div>
                                             <span class="ec-header-count">4</span>
                                         </a>
                                         <!-- Header wishlist End -->
                                         <!-- Header Cart Start -->
                                         <a href="#ec-side-cart" class="ec-header-btn ec-side-toggle">
-                                            <div class="header-icon"><img loading='lazy' src="assets/images/icons/cart.svg"
+                                            <div class="header-icon"><img loading='lazy' src="{{url('assets/images/icons/cart.svg')}}"
                                                     class="svg_img header_svg" alt="" /></div>
                                             <span class="ec-header-count cart-count-lable">{{ Cart::count() }}</span>
                                         </a>
@@ -248,9 +248,9 @@
                             <!-- Ec Header Logo Start -->
                             <div class="col">
                                 <div class="header-logo">
-                                    <a href="index.html"><img loading='lazy' src="assets/images/logo/logo_ibizza.svg"
+                                    <a href="index.html"><img loading='lazy' src="{{url('assets/images/logo/logo_ibizza.svg')}}"
                                             alt="Logo Ibizza" /><img loading='lazy' class="dark-logo"
-                                            src="assets/images/logo/dark-logo.png" alt="Site Logo" style="display: none;" /></a>
+                                            src="{{url('assets/images/logo/dark-logo.png')}}" alt="Site Logo" style="display: none;" /></a>
                                 </div>
                             </div>
                             <!-- Ec Header Logo End -->
@@ -261,7 +261,7 @@
                                         <input class="form-control" placeholder="Ingresa el nombre de un Producto..."
                                             type="text">
                                         <button class="submit" type="submit"><img loading='lazy'
-                                                src="assets/images/icons/search.svg" class="svg_img header_svg"
+                                                src="{{url('assets/images/icons/search.svg')}}" class="svg_img header_svg"
                                                 alt="icon" /></button>
                                     </form>
                                 </div>
@@ -337,16 +337,16 @@
                                                     <ul class="ec-main-banner w-100">
                                                         <li><a class="p-0" href="shop-left-sidebar-col-3.html"><img
                                                                     loading='lazy' class="img-responsive"
-                                                                    src="assets/images/menu-banner/1.jpg" alt=""></a></li>
+                                                                    src="{{url('assets/images/menu-banner/1.jpg')}}" alt=""></a></li>
                                                         <li><a class="p-0" href="shop-left-sidebar-col-4.html"><img
                                                                     loading='lazy' class="img-responsive"
-                                                                    src="assets/images/menu-banner/2.jpg" alt=""></a></li>
+                                                                    src="{{url('assets/images/menu-banner/2.jpg')}}" alt=""></a></li>
                                                         <li><a class="p-0" href="shop-right-sidebar-col-3.html"><img
                                                                     loading='lazy' class="img-responsive"
-                                                                    src="assets/images/menu-banner/3.jpg" alt=""></a></li>
+                                                                    src="{{url('assets/images/menu-banner/3.jpg')}}" alt=""></a></li>
                                                         <li><a class="p-0" href="shop-right-sidebar-col-4.html"><img
                                                                     loading='lazy' class="img-responsive"
-                                                                    src="assets/images/menu-banner/4.jpg" alt=""></a></li>
+                                                                    src="{{url('assets/images/menu-banner/4.jpg')}}" alt=""></a></li>
                                                     </ul>
                                                 </li>
                                             </ul>
@@ -456,7 +456,7 @@
                                             </ul>
                                         </li>
                                         <li><a class="p-0" href="shop-left-sidebar-col-3.html"><img loading='lazy'
-                                                    class="img-responsive" src="assets/images/menu-banner/1.jpg" alt=""></a>
+                                                    class="img-responsive" src="{{url('assets/images/menu-banner/1.jpg')}}" alt=""></a>
                                         </li>
                                     </ul>
                                 </li>
@@ -591,8 +591,8 @@
                                 <div class="col-sm-12 col-lg-3 ec-footer-contact">
                                     <div class="ec-footer-widget">
                                         <div class="ec-footer-logo"><a href="#"><img loading='lazy'
-                                                    src="assets/images/logo/logo_ibizza.svg" alt=""><img loading='lazy'
-                                                    class="dark-footer-logo" src="assets/images/logo/dark-logo.png"
+                                                    src="{{url('assets/images/logo/logo_ibizza.svg')}}" alt=""><img loading='lazy'
+                                                    class="dark-footer-logo" src="{{url('assets/images/logo/dark-logo.png')}}"
                                                     alt="Site Logo" style="display: none;" /></a></div>
                                         <h4 class="ec-footer-heading">Contactanos</h4>
                                         <div class="ec-footer-links">
@@ -707,7 +707,7 @@
                                 <div class="col footer-bottom-right">
                                     <div class="footer-bottom-payment d-flex justify-content-end">
                                         <div class="payment-link">
-                                            <img loading='lazy' src="assets/images/icons/payment.png" alt="">
+                                            <img loading='lazy' src="{{url('assets/images/icons/payment.png')}}" alt="">
                                         </div>
 
                                     </div>
@@ -731,45 +731,45 @@
                                     <!-- Swiper -->
                                     <div class="qty-product-cover">
                                         <div class="qty-slide">
-                                            <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_1.jpg"
+                                            <img loading='lazy' class="img-responsive" src="{{url('assets/images/product-image/3_1.jpg')}}"
                                                 alt="">
                                         </div>
                                         <div class="qty-slide">
-                                            <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_2.jpg"
+                                            <img loading='lazy' class="img-responsive" src="{{url('assets/images/product-image/3_2.jpg')}}"
                                                 alt="">
                                         </div>
                                         <div class="qty-slide">
-                                            <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_3.jpg"
+                                            <img loading='lazy' class="img-responsive" src="{{url('assets/images/product-image/3_3.jpg')}}"
                                                 alt="">
                                         </div>
                                         <div class="qty-slide">
-                                            <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_4.jpg"
+                                            <img loading='lazy' class="img-responsive" src="{{url('assets/images/product-image/3_4.jpg')}}"
                                                 alt="">
                                         </div>
                                         <div class="qty-slide">
-                                            <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_5.jpg"
+                                            <img loading='lazy' class="img-responsive" src="{{url('assets/images/product-image/3_5.jpg')}}"
                                                 alt="">
                                         </div>
                                     </div>
                                     <div class="qty-nav-thumb">
                                         <div class="qty-slide">
-                                            <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_1.jpg"
+                                            <img loading='lazy' class="img-responsive" src="{{url('assets/images/product-image/3_1.jpg')}}"
                                                 alt="">
                                         </div>
                                         <div class="qty-slide">
-                                            <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_2.jpg"
+                                            <img loading='lazy' class="img-responsive" src="{{url('assets/images/product-image/3_2.jpg')}}"
                                                 alt="">
                                         </div>
                                         <div class="qty-slide">
-                                            <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_3.jpg"
+                                            <img loading='lazy' class="img-responsive" src="{{url('assets/images/product-image/3_3.jpg')}}"
                                                 alt="">
                                         </div>
                                         <div class="qty-slide">
-                                            <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_4.jpg"
+                                            <img loading='lazy' class="img-responsive" src="{{url('assets/images/product-image/3_4.jpg')}}"
                                                 alt="">
                                         </div>
                                         <div class="qty-slide">
-                                            <img loading='lazy' class="img-responsive" src="assets/images/product-image/3_5.jpg"
+                                            <img loading='lazy' class="img-responsive" src="{{url('assets/images/product-image/3_5.jpg')}}"
                                                 alt="">
                                         </div>
                                     </div>
@@ -828,7 +828,7 @@
                                             </div>
                                             <div class="ec-quickview-cart ">
                                                 <button class="btn btn-primary"><img loading='lazy'
-                                                        src="assets/images/icons/cart.svg" class="svg_img pro_svg" alt="" /> Add
+                                                        src="{{url('assets/images/icons/cart.svg')}}" class="svg_img pro_svg" alt="" /> Add
                                                     To Cart</button>
                                             </div>
                                         </div>
@@ -851,21 +851,21 @@
                     <div class="ec-nav-panel">
                         <div class="ec-nav-panel-icons">
                             <a href="#ec-mobile-menu" class="navbar-toggler-btn ec-header-btn ec-side-toggle"><img
-                                    loading='lazy' src="assets/images/icons/menu.svg" class="svg_img header_svg"
+                                    loading='lazy' src="{{url('assets/images/icons/menu.svg')}}" class="svg_img header_svg"
                                     alt="icon" /></a>
                         </div>
                         <div class="ec-nav-panel-icons">
                             <a href="#ec-side-cart" class="toggle-cart ec-header-btn ec-side-toggle"><img loading='lazy'
-                                    src="assets/images/icons/cart.svg" class="svg_img header_svg" alt="icon" /><span
+                                    src="{{url('assets/images/icons/cart.svg')}}" class="svg_img header_svg" alt="icon" /><span
                                     class="ec-cart-noti ec-header-count cart-count-lable">{{ Cart::count() }}</span></a>
                         </div>
                         <div class="ec-nav-panel-icons">
                             <a href="{{ url('/') }}" class="ec-header-btn"><img loading='lazy'
-                                    src="assets/images/icons/home.svg" class="svg_img header_svg" alt="icon" /></a>
+                                    src="{{url('assets/images/icons/home.svg')}}" class="svg_img header_svg" alt="icon" /></a>
                         </div>
                         <div class="ec-nav-panel-icons">
                             <a href="wishlist.html" class="ec-header-btn"><img loading='lazy'
-                                    src="assets/images/icons/wishlist.svg" class="svg_img header_svg" alt="icon" /><span
+                                    src="{{url('assets/images/icons/wishlist.svg')}}" class="svg_img header_svg" alt="icon" /><span
                                     class="ec-cart-noti">4</span></a>
                         </div>
                         <div class="ec-nav-panel-icons">
@@ -873,12 +873,12 @@
 
                                 @auth
                                     <a href="{{ url('/dashboard') }}" class="ec-header-btn"><img loading='lazy'
-                                            src="assets/images/icons/user.svg" class="svg_img header_svg" alt="icon" /></a>
+                                            src="{{url('assets/images/icons/user.svg')}}" class="svg_img header_svg" alt="icon" /></a>
 
                                 @else
 
                                     <a href="{{ route('login') }}" class="ec-header-btn"><img loading='lazy'
-                                            src="assets/images/icons/user.svg" class="svg_img header_svg" alt="icon" /></a>
+                                            src="{{url('assets/images/icons/user.svg')}}" class="svg_img header_svg" alt="icon" /></a>
                                 @endif
                                 @endif
                             </div>
@@ -895,7 +895,7 @@
                 <!-- Cart Floating Button -->
                 <div class="ec-cart-float">
                     <a href="#ec-side-cart" class="ec-header-btn ec-side-toggle">
-                        <div class="header-icon"><img loading='lazy' src="assets/images/icons/cart.svg" class="svg_img header_svg"
+                        <div class="header-icon"><img loading='lazy' src="{{url('assets/images/icons/cart.svg')}}" class="svg_img header_svg"
                                 alt="cart" />
                         </div>
                         <span class="ec-cart-count cart-count-lable">{{ Cart::count() }}</span>
@@ -922,7 +922,7 @@
                                         <div class="d-flex bd-highlight">
                                             <!-- Profile Picture -->
                                             <div class="ec-img-cont">
-                                                <img loading='lazy' src="assets/images/favicon/logo_ibizza_verde.svg"
+                                                <img loading='lazy' src="{{url('assets/images/favicon/logo_ibizza_verde.svg')}}"
                                                     class="ec-user-img" alt="Profile image">
                                                 <span class="ec-status-icon ec-online"></span>
                                             </div>
@@ -946,7 +946,7 @@
                                         <div class="d-flex bd-highlight">
                                             <!-- Profile Picture -->
                                             <div class="ec-img-cont">
-                                                <img loading='lazy' src="assets/images/favicon/logo_ibizza_verde.svg"
+                                                <img loading='lazy' src="{{url('assets/images/favicon/logo_ibizza_verde.svg')}}"
                                                     class="ec-user-img" alt="Profile image">
                                                 <span class="ec-status-icon ec-offline"></span>
                                             </div>
@@ -971,7 +971,7 @@
                     <div class="ec-right-bottom">
                         <div class="ec-box">
                             <div class="ec-button rotateBackward">
-                                <img loading='lazy' class="whatsapp" src="assets/images/common/whatsapp.png" alt="whatsapp icon">
+                                <img loading='lazy' class="whatsapp" src="{{url('assets/images/common/whatsapp.png')}}" alt="whatsapp icon">
                             </div>
                         </div>
                     </div>
@@ -984,25 +984,25 @@
                 <!-- Feature tools end -->
 
                 <!-- Vendor JS -->
-                <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
-                <script src="assets/js/vendor/popper.min.js"></script>
-                <script src="assets/js/vendor/bootstrap.min.js"></script>
-                <script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-                <script src="assets/js/vendor/modernizr-3.11.2.min.js"></script>
+                <script src="{{url('assets/js/vendor/jquery-3.5.1.min.js')}}"></script>
+                <script src="{{url('assets/js/vendor/popper.min.js')}}"></script>
+                <script src="{{url('assets/js/vendor/bootstrap.min.js')}}"></script>
+                <script src="{{url('assets/js/vendor/jquery-migrate-3.3.0.min.js')}}"></script>
+                <script src="{{url('assets/js/vendor/modernizr-3.11.2.min.js')}}"></script>
 
                 <!--Plugins JS-->
-                <script src="assets/js/plugins/swiper-bundle.min.js"></script>
-                <script src="assets/js/plugins/countdownTimer.min.js"></script>
-                <script src="assets/js/plugins/scrollup.js"></script>
-                <script src="assets/js/plugins/jquery.zoom.min.js"></script>
-                <script src="assets/js/plugins/slick.min.js"></script>
-                <script src="assets/js/plugins/infiniteslidev2.js"></script>
-                <script src="assets/js/vendor/jquery.magnific-popup.min.js"></script>
-                <script src="assets/js/plugins/jquery.sticky-sidebar.js"></script>
+                <script src="{{url('assets/js/plugins/swiper-bundle.min.js')}}"></script>
+                <script src="{{url('assets/js/plugins/countdownTimer.min.js')}}"></script>
+                <script src="{{url('assets/js/plugins/scrollup.js')}}"></script>
+                <script src="{{url('assets/js/plugins/jquery.zoom.min.js')}}"></script>
+                <script src="{{url('assets/js/plugins/slick.min.js')}}"></script>
+                <script src="{{url('assets/js/plugins/infiniteslidev2.js')}}"></script>
+                <script src="{{url('assets/js/vendor/jquery.magnific-popup.min.js')}}"></script>
+                <script src="{{url('assets/js/plugins/jquery.sticky-sidebar.js')}}"></script>
 
                 <!-- Main Js -->
-                <script src="assets/js/vendor/index.js"></script>
-                <script src="assets/js/main.js"></script>
+                <script src="{{url('assets/js/vendor/index.js')}}"></script>
+                <script src="{{url('assets/js/main.js')}}"></script>
 
                 @livewireScripts
             </body>

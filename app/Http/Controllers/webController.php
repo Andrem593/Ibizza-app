@@ -48,4 +48,8 @@ class webController extends Controller
     public function carrito(){       
         return view('ecomerce.carrito');
     }
+    public function detalle_producto($estilo){  
+        $productos_color = Producto::where('estilo',$estilo)->groupBy('color')->get();
+        return view('ecomerce.producto-detalle',compact('productos_color'));
+    }
 }

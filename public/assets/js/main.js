@@ -1235,8 +1235,8 @@ function ecCheckCookie()
 
     /*----------------------------- single product countdowntimer  ------------------------------ */
     $("#ec-single-countdown").countdowntimer({
-        startDate : "2021/10/01 00:00:00",
-        dateAndTime : "2022/01/01 00:00:00",
+        startDate : "2021/11/01 00:00:00",
+        dateAndTime : "2021/12/01 00:00:00",
         labelsFormat : true,
         displayFormat : "DHMS"
     });

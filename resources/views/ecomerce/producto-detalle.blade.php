@@ -6,13 +6,13 @@
                 <div class="col-12">
                     <div class="row ec_breadcrumb_inner">
                         <div class="col-md-6 col-sm-12">
-                            <h2 class="ec-breadcrumb-title">Single Products</h2>
+                            <h2 class="ec-breadcrumb-title">Detalle de Producto</h2>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <!-- ec-breadcrumb-list start -->
                             <ul class="ec-breadcrumb-list">
-                                <li class="ec-breadcrumb-item"><a href="index.html">Home</a></li>
-                                <li class="ec-breadcrumb-item active">Products</li>
+                                <li class="ec-breadcrumb-item"><a href="{{route('web')}}">Home</a></li>
+                                <li class="ec-breadcrumb-item active">Producto</li>
                             </ul>
                             <!-- ec-breadcrumb-list end -->
                         </div>
@@ -35,54 +35,24 @@
                                 <div class="single-pro-img">
                                     <div class="single-product-scroll">
                                         <div class="single-product-cover">
-                                            <div class="single-slide zoom-image-hover">
-                                                <img class="img-responsive" src="assets/images/product-image/9_1.jpg"
-                                                    alt="">
-                                            </div>
-                                            <div class="single-slide zoom-image-hover">
-                                                <img class="img-responsive" src="assets/images/product-image/9_2.jpg"
-                                                    alt="">
-                                            </div>
-                                            <div class="single-slide zoom-image-hover">
-                                                <img class="img-responsive" src="assets/images/product-image/9_3.jpg"
-                                                    alt="">
-                                            </div>
-                                            <div class="single-slide zoom-image-hover">
-                                                <img class="img-responsive" src="assets/images/product-image/9_4.jpg"
-                                                    alt="">
-                                            </div>
-                                            <div class="single-slide zoom-image-hover">
-                                                <img class="img-responsive" src="assets/images/product-image/9_3.jpg"
-                                                    alt="">
-                                            </div>
+                                            @foreach ($productos_color as $producto )                                                
+                                                <div class="single-slide zoom-image-hover">
+                                                    <img class="img-responsive" src="{{'../storage/images/productos/'.$producto->imagen_path}}" alt="{{$producto->estilo}}">
+                                                </div>
+                                            @endforeach
                                         </div>
                                         <div class="single-nav-thumb">
-                                            <div class="single-slide">
-                                                <img class="img-responsive" src="assets/images/product-image/9_1.jpg"
-                                                    alt="">
-                                            </div>
-                                            <div class="single-slide">
-                                                <img class="img-responsive" src="assets/images/product-image/9_2.jpg"
-                                                    alt="">
-                                            </div>
-                                            <div class="single-slide">
-                                                <img class="img-responsive" src="assets/images/product-image/9_3.jpg"
-                                                    alt="">
-                                            </div>
-                                            <div class="single-slide">
-                                                <img class="img-responsive" src="assets/images/product-image/9_4.jpg"
-                                                    alt="">
-                                            </div>
-                                            <div class="single-slide">
-                                                <img class="img-responsive" src="assets/images/product-image/9_3.jpg"
-                                                    alt="">
-                                            </div>
+                                            @foreach ($productos_color as $producto )                                                                                                
+                                                <div class="single-slide">
+                                                    <img class="img-responsive" src="{{'../storage/images/productos/'.$producto->imagen_path}}" alt="{{$producto->estilo}}">
+                                                </div>
+                                            @endforeach                                            
                                         </div>
                                     </div>
                                 </div>
                                 <div class="single-pro-desc">
                                     <div class="single-pro-content">
-                                        <h5 class="ec-single-title">Unisex Cotton Neck Hoodie</h5>
+                                        <h5 class="ec-single-title">{{$productos_color[0]->clasificacion}}</h5>
                                         <div class="ec-single-rating-wrap">
                                             <div class="ec-single-rating">
                                                 <i class="ecicon eci-star fill"></i>
@@ -91,34 +61,27 @@
                                                 <i class="ecicon eci-star fill"></i>
                                                 <i class="ecicon eci-star-o"></i>
                                             </div>
-                                            <span class="ec-read-review"><a href="#ec-spt-nav-review">Be the first to
-                                                    review this product</a></span>
                                         </div>
-                                        <div class="ec-single-desc">Lorem Ipsum is simply dummy text of the printing and
-                                            typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                                            text ever since the 1990</div>
+                                        <div class="ec-single-desc">{{$productos_color[0]->descripcion}}</div>
 
                                         <div class="ec-single-sales">
                                             <div class="ec-single-sales-inner">
-                                                <div class="ec-single-sales-title">sales accelerators</div>
-                                                <div class="ec-single-sales-visitor">real time <span>18</span> visitor
-                                                    right now!</div>
+                                                <div class="ec-single-sales-title">sales accelerators</div>                                                
                                                 <div class="ec-single-sales-progress">
-                                                    <span class="ec-single-progress-desc">Hurry up!left 17 in
-                                                        stock</span>
+                                                    <span class="ec-single-progress-desc">¡Date Prisa! hay {{$productos_color[0]->stock}} en stock</span>
                                                     <span class="ec-single-progressbar"></span>
                                                 </div>
                                                 <div class="ec-single-sales-countdown">
                                                     <div class="ec-single-countdown"><span
                                                             id="ec-single-countdown"></span></div>
-                                                    <div class="ec-single-count-desc">Time is Running Out!</div>
+                                                    <div class="ec-single-count-desc">Finaliza el Catalogo!</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="ec-single-price-stoke">
                                             <div class="ec-single-price">
-                                                <span class="ec-single-ps-title">As low as</span>
-                                                <span class="new-price">$68.00</span>
+                                                <span class="ec-single-ps-title">Precio tan bajo como</span>
+                                                <span class="new-price">${{$productos_color[0]->valor_venta}}</span>
                                             </div>
                                             <div class="ec-single-stoke">
                                                 <span class="ec-single-ps-title">IN STOCK</span>
@@ -160,14 +123,14 @@
                                             </div>
                                             <div class="ec-single-wishlist">
                                                 <a class="ec-btn-group wishlist" title="Wishlist"><img
-                                                        src="assets/images/icons/wishlist.svg" class="svg_img pro_svg"
+                                                        src="{{url('assets/images/icons/wishlist.svg')}}" class="svg_img pro_svg"
                                                         alt="" /></a>
                                             </div>
                                             <div class="ec-single-quickview">
                                                 <a href="#" class="ec-btn-group quickview" data-link-action="quickview"
                                                     title="Quick view" data-bs-toggle="modal"
                                                     data-bs-target="#ec_quickview_modal"><img
-                                                        src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
+                                                        src="{{url('assets/images/icons/quickview.svg')}}" class="svg_img pro_svg"
                                                         alt="" /></a>
                                             </div>
                                         </div>
@@ -246,7 +209,7 @@
                                         <div class="ec-t-review-wrapper">
                                             <div class="ec-t-review-item">
                                                 <div class="ec-t-review-avtar">
-                                                    <img src="assets/images/review-image/1.jpg" alt="" />
+                                                    <img src="{{url('assets/images/review-image/1.jpg')}}" alt="" />
                                                 </div>
                                                 <div class="ec-t-review-content">
                                                     <div class="ec-t-review-top">
@@ -271,7 +234,7 @@
                                             </div>
                                             <div class="ec-t-review-item">
                                                 <div class="ec-t-review-avtar">
-                                                    <img src="assets/images/review-image/2.jpg" alt="" />
+                                                    <img src="{{url('assets/images/review-image/2.jpg')}}" alt="" />
                                                 </div>
                                                 <div class="ec-t-review-content">
                                                     <div class="ec-t-review-top">
@@ -335,197 +298,13 @@
                 </div>
                 <!-- Sidebar Area Start -->
                 <div class="ec-pro-leftside ec-common-leftside col-lg-3 col-md-12">
-                    <div class="ec-sidebar-wrap">
-                        <!-- Sidebar Category Block -->
-                        <div class="ec-sidebar-block">
-                            <div class="ec-sb-title">
-                                <h3 class="ec-sidebar-title">Category</h3>
-                            </div>
-                            <div class="ec-sb-block-content">
-                                <ul>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">clothes</div>
-                                        <ul style="display: block;">
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Men <span>-25</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Women <span>-52</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Boy <span>-40</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Girl <span>-35</span></a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="ec-sb-block-content">
-                                <ul>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">shoes</div>
-                                        <ul>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Men <span>-25</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Women <span>-52</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Boy <span>-40</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Girl <span>-35</span></a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="ec-sb-block-content">
-                                <ul>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">bag</div>
-                                        <ul>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Men <span>-25</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Women <span>-52</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Boy <span>-40</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Girl <span>-35</span></a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="ec-sb-block-content">
-                                <ul>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">cosmetics</div>
-                                        <ul>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Men <span>-25</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Women <span>-52</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Boy <span>-40</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Girl <span>-35</span></a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="ec-sb-block-content">
-                                <ul>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">electronics</div>
-                                        <ul>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Men <span>-25</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Women <span>-52</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Boy <span>-40</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Girl <span>-35</span></a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="ec-sb-block-content">
-                                <ul>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">phone</div>
-                                        <ul>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Men <span>-25</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Women <span>-52</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Boy <span>-40</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Girl <span>-35</span></a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="ec-sb-block-content">
-                                <ul>
-                                    <li>
-                                        <div class="ec-sidebar-block-item">accessories</div>
-                                        <ul>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Men <span>-25</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Women <span>-52</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Boy <span>-40</span></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="ec-sidebar-sub-item"><a href="#">Girl <span>-35</span></a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- Sidebar Category Block -->
-                    </div>
                     <div class="ec-sidebar-slider">
                         <div class="ec-sb-slider-title">Best Sellers</div>
                         <div class="ec-sb-pro-sl">
                             <div>
                                 <div class="ec-sb-pro-sl-item">
                                     <a href="product-left-sidebar.html" class="sidekka_pro_img"><img
-                                            src="assets/images/product-image/1_1.jpg" alt="product" /></a>
+                                            src="{{url('assets/images/product-image/1_1.jpg')}}" alt="product" /></a>
                                     <div class="ec-pro-content">
                                         <h5 class="ec-pro-title"><a href="product-left-sidebar.html">Beautiful Teddy
                                                 Bear</a></h5>
@@ -546,7 +325,7 @@
                             <div>
                                 <div class="ec-sb-pro-sl-item">
                                     <a href="product-left-sidebar.html" class="sidekka_pro_img"><img
-                                            src="assets/images/product-image/2_1.jpg" alt="product" /></a>
+                                            src="{{url('assets/images/product-image/2_1.jpg')}}" alt="product" /></a>
                                     <div class="ec-pro-content">
                                         <h5 class="ec-pro-title"><a href="product-left-sidebar.html">Gym Backpack</a>
                                         </h5>
@@ -567,7 +346,7 @@
                             <div>
                                 <div class="ec-sb-pro-sl-item">
                                     <a href="product-left-sidebar.html" class="sidekka_pro_img"><img
-                                            src="assets/images/product-image/3_1.jpg" alt="product" /></a>
+                                            src="{{url('assets/images/product-image/3_1.jpg')}}" alt="product" /></a>
                                     <div class="ec-pro-content">
                                         <h5 class="ec-pro-title"><a href="product-left-sidebar.html">Beautiful Purse for
                                                 Women</a></h5>
@@ -588,7 +367,7 @@
                             <div>
                                 <div class="ec-sb-pro-sl-item">
                                     <a href="product-left-sidebar.html" class="sidekka_pro_img"><img
-                                            src="assets/images/product-image/4_1.jpg" alt="product" /></a>
+                                            src="{{url('assets/images/product-image/4_1.jpg')}}" alt="product" /></a>
                                     <div class="ec-pro-content">
                                         <h5 class="ec-pro-title"><a href="product-left-sidebar.html">Wool Felt Long Brim
                                                 Hat</a></h5>
@@ -609,7 +388,7 @@
                             <div>
                                 <div class="ec-sb-pro-sl-item">
                                     <a href="product-left-sidebar.html" class="sidekka_pro_img"><img
-                                            src="assets/images/product-image/5_1.jpg" alt="product" /></a>
+                                            src="{{url('assets/images/product-image/5_1.jpg')}}" alt="product" /></a>
                                     <div class="ec-pro-content">
                                         <h5 class="ec-pro-title"><a href="product-left-sidebar.html">Black Leather
                                                 Belt</a></h5>
@@ -630,7 +409,7 @@
                             <div>
                                 <div class="ec-sb-pro-sl-item">
                                     <a href="product-left-sidebar.html" class="sidekka_pro_img"><img
-                                            src="assets/images/product-image/6_2.jpg" alt="product" /></a>
+                                            src="{{url('assets/images/product-image/6_2.jpg')}}" alt="product" /></a>
                                     <div class="ec-pro-content">
                                         <h5 class="ec-pro-title"><a href="product-left-sidebar.html">Beautiful Tee for
                                                 Women</a></h5>
@@ -651,7 +430,7 @@
                             <div>
                                 <div class="ec-sb-pro-sl-item">
                                     <a href="product-left-sidebar.html" class="sidekka_pro_img"><img
-                                            src="assets/images/product-image/7_1.jpg" alt="product" /></a>
+                                            src="{{url('assets/images/product-image/7_1.jpg')}}" alt="product" /></a>
                                     <div class="ec-pro-content">
                                         <h5 class="ec-pro-title"><a href="product-left-sidebar.html">Cotton Shirt for
                                                 Men</a></h5>
@@ -672,7 +451,7 @@
                             <div>
                                 <div class="ec-sb-pro-sl-item">
                                     <a href="product-left-sidebar.html" class="sidekka_pro_img"><img
-                                            src="assets/images/product-image/8_2.jpg" alt="product" /></a>
+                                            src="{{url('assets/images/product-image/8_2.jpg')}}" alt="product" /></a>
                                     <div class="ec-pro-content">
                                         <h5 class="ec-pro-title"><a href="product-left-sidebar.html">I Watch for Men</a>
                                         </h5>
