@@ -5,7 +5,7 @@
             <div class="col">
                 {{-- @section('plugins.Select2', true) --}}
                 <select id="nombre_tabla" class="no-editable" data-width="100%">
-                    <option value="0" selected>Seleccionar tabla</option>
+                    <option value="" selected>Seleccionar tabla</option>
                     <option value="empresarias">Empresaria</option>
                     <option value="pedidos">Pedido</option>
                 </select>

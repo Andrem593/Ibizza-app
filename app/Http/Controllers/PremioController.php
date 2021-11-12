@@ -99,10 +99,25 @@ class PremioController extends Controller
      */
     public function edit($id)
     {
-        $premio = Premio::find($id);   
+        $premio = Premio::find($id);
         $catalogo = Catalogo::all();
 
-        return view('premio.edit', compact('premio','catalogo'));
+        $productos = Producto::addSelect([
+            'en_premio' => Premio_has_Producto::select('estilo')
+                ->whereColumn('estilo', 'productos.estilo')
+                ->where('premio_id', $premio->id)
+                ->limit(1)
+        ])
+            ->groupBy('estilo')
+            ->get();
+
+        if (count($productos) == 0) {
+            $productos = 'no data';
+        }
+
+        //$response = json_encode($productos);
+
+        return view('premio.edit', compact('premio', 'catalogo', 'productos'));
     }
 
     /**
@@ -115,11 +130,42 @@ class PremioController extends Controller
     public function update(Request $request, Premio $premio)
     {
         request()->validate(Premio::$rules);
-
         $premio->update($request->all());
 
-        return redirect()->route('premios.index')
-            ->with('success', 'Premio updated successfully');
+        $premio_id = $premio->id;
+
+        if (!empty($request->premio)) {
+
+            $premio = json_decode($request->premio);
+
+            foreach ($premio as $key => $value) {
+
+                $premiohasProductos = Premio_has_Producto::where('premio_id', $premio_id)
+                    ->where('estilo', $value->estilo)->limit(1)->get();
+
+                if (count($premiohasProductos) > 0) {
+                    if ($value->asignar == 0) {
+                        Premio_has_Producto::where('id', $premiohasProductos->first()->id)->delete();
+                    }
+                } else {
+                    if ($value->asignar == 1) {
+                        Premio_has_Producto::insert([
+                            'premio_id' => $premio_id,
+                            'estilo' => $value->estilo,
+                            'created_at' =>  \Carbon\Carbon::now(),
+                            'updated_at' => \Carbon\Carbon::now()
+                        ]);
+                    }
+                }
+            }
+        }
+
+        $json_data = array(
+            'mensaje' => 'ok',
+            'estado' => true
+        );
+
+        return json_encode($json_data);
     }
 
     /**
@@ -130,6 +176,8 @@ class PremioController extends Controller
     public function destroy($id)
     {
         $premio = Premio::find($id)->delete();
+
+        Premio_has_Producto::where('premio_id', $id)->delete();
 
         return redirect()->route('premios.index')
             ->with('success', 'Premio deleted successfully');

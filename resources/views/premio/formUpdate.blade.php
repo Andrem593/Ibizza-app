@@ -11,17 +11,25 @@
                     {{ Form::label('Catálogo') }}
                     @section('plugins.BootstrapSelect', true)
                     <select id="cmb_catalogo" name="catalogo_id" class="selectpicker show-tick" data-live-search="true"
-                        data-width="100%">
+                        data-width="100%" disabled>
                         <option value="">Seleccionar un catálogo</option>
                         @foreach ($catalogo as $item)
-                            <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}">
-                                {{ $item->nombre }}
-                            </option>
+                            @if ($item->id == $premio->catalogo_id)
+                                <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}" selected>
+                                    {{ $item->nombre }}
+                                </option>
+                            @else
+                                <option value="{{ $item->id }}" data-tokens="{{ $item->nombre }}">
+                                    {{ $item->nombre }}
+                                </option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
 
             </div>
+
+            <input id="conArray" type="hidden" value="{{ !empty($premio->condicion) ? $premio->condicion : '' }}">
 
             <div class="col">
                 <div class="form-group">
@@ -62,14 +70,53 @@
                 </thead>
                 <tbody class="text-center">
 
+                    @foreach ($productos as $value)
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    @empty($value->en_premio)
+                                        <input class="form-check-input chk_seleccionar" type="checkbox">
+                                    @else
+                                        <input class="form-check-input chk_seleccionar" type="checkbox" checked>
+                                    @endempty
+                                </div>
+                            </td>
+                            <td>
+                                <center>
+                                    @empty($value->imagen_path)
+                                        <img src="https://www.blackwallst.directory/images/NoImageAvailable.png"
+                                            class="rounded" width="80" height="60" />
+                                    @else
+                                        <img src="/storage/images/productos/{{ $value->imagen_path }}"
+                                            class="rounded" width="80" height="60" />
+                                    @endempty
+                                </center>
+                            </td>
+                            <td>
+                                {{ $value->nombre_producto }}
+                            </td>
+                            <td>
+                                {{ $value->estilo }}
+                            </td>
+                        </tr>
+                    @endforeach
+
                 </tbody>
             </table>
         </div>
+        {{-- <div class="form-group">
+            {{ Form::label('condición') }}
+            {{ Form::text('condicion', $premio->condicion, ['class' => 'form-control' . ($errors->has('condicion') ? ' is-invalid' : ''), 'placeholder' => 'Condicion']) }}
+            {!! $errors->first('condicion', '<div class="invalid-feedback">:message</p>') !!}
+        </div> --}}
     </div>
+    {{-- <div class="box-footer mt20">
+        <button type="submit" class="btn btn-ibizza w-100">GUARDAR</button>
+    </div> --}}
 </div>
 @push('css')
-        <link rel="stylesheet" href="/css/botonesDataTable.css">
-    @endpush
+    <link rel="stylesheet" href="/css/botonesDataTable.css">
+@endpush
 @push('js')
     <script>
         let espanol = {
@@ -123,32 +170,17 @@
 
             let dataTable = $('#datatable').DataTable({
 
-                destroy: true,
+                //destroy: true,
                 "processing": true,
-                "data": [],
+                "lengthMenu": [
+                    [-1, 10, 25, 50],
+                    ["Todo", 10, 25, 50]
+                ],
                 "columns": [{
-                        "data": "id",
-                        "render": function(data, type, row) {
-                            let estado =
-                                '<div class="form-check"><input class="form-check-input chk_seleccionar" type="checkbox"></div>';
-                            if (row['en_catalogo'] != null) {
-                                estado =
-                                    '<div class="form-check"><input class="form-check-input chk_seleccionar" type="checkbox" checked></div>'
-                            }
-                            return estado;
-                        }
+                        "data": "id"
                     },
                     {
-                        "data": "imagen_path",
-                        "render": function(data, type, row) {
-                            let image =
-                                'https://www.blackwallst.directory/images/NoImageAvailable.png';
-                            if (data != '' && data != null) {
-                                image = '/storage/images/productos/' + data
-                            }
-                            return '<center><img  src="' + image +
-                                '"class="rounded" width="80" height="60" /> </center>';
-                        }
+                        "data": "imagen_path"
                     },
                     {
                         "data": "nombre_producto"
@@ -156,10 +188,6 @@
                     {
                         "data": "estilo"
                     },
-                ],
-                "lengthMenu": [
-                    [-1, 10, 25, 50],
-                    ["Todo", 10, 25, 50]
                 ],
                 "columnDefs": [{
                         "targets": [0, 1],
@@ -198,10 +226,10 @@
                 }
             });
 
-            if (dataTable.length == 0) {
-                dataTable.clear();
-                dataTable.draw();
-            }
+            // if (dataTable.length == 0) {
+            //     dataTable.clear();
+            //     dataTable.draw();
+            // }
 
             $('#all').on('click', function() {
                 if (this.checked) {
@@ -242,57 +270,48 @@
                     premio = JSON.stringify(data)
                 }
 
+                console.log(data);
                 if (descripcion != '') {
-                    if (catalogo_id != '') {
-                        $.ajax({
-                            type: 'POST',
-                            url: '/premios',
-                            data: {
-                                descripcion,
-                                catalogo_id,
-                                condicion,
-                                premio
-                            },
-                            success: function(msg) {
-                                dataJson = JSON.parse(msg);
-                                //console.log(dataJson.mensaje);
-                                if (dataJson.estado) {
-                                    if (dataJson.mensaje == 'ok') {
-                                        Swal.fire({
-                                            text: "Se creó el premio correctamente.",
-                                            icon: 'success',
-                                            allowOutsideClick: false,
-                                            didDestroy: () => {
-                                                window.location.href =
-                                                    "{{ route('premios.index') }}";
-                                            }
-                                        });
-                                    } else {
-                                        Swal.fire({
-                                            text: dataJson.mensaje,
-                                            icon: 'warning',
-                                            didDestroy: () => {}
-                                        });
-                                    }
+                    $.ajax({
+                        type: 'PATCH',
+                        url: '{{ route('premios.update', $premio->id) }}',
+                        data: {
+                            descripcion,
+                            catalogo_id,
+                            condicion,
+                            premio
+                        },
+                        success: function(msg) {
+                            dataJson = JSON.parse(msg);
+                            //console.log(dataJson.mensaje);
+                            if (dataJson.estado) {
+                                if (dataJson.mensaje == 'ok') {
+                                    Swal.fire({
+                                        text: "Se actualizó el premio correctamente.",
+                                        icon: 'success',
+                                        allowOutsideClick: false,
+                                        didDestroy: () => {
+                                            window.location.href =
+                                                "{{ route('premios.index') }}";
+                                        }
+                                    });
                                 } else {
                                     Swal.fire({
                                         text: dataJson.mensaje,
-                                        icon: 'error',
+                                        icon: 'warning',
                                         didDestroy: () => {}
                                     });
-                                    //console.log(dataJson.mensaje);
                                 }
+                            } else {
+                                Swal.fire({
+                                    text: dataJson.mensaje,
+                                    icon: 'error',
+                                    didDestroy: () => {}
+                                });
+                                //console.log(dataJson.mensaje);
                             }
-                        });
-                    } else {
-                        Swal.fire({
-                            text: 'Catálogo es obligatorio',
-                            icon: 'warning',
-                            didDestroy: () => {
-                                $('#cmb_catalogo').focus();
-                            }
-                        });
-                    }
+                        }
+                    });
                 } else {
                     Swal.fire({
                         text: 'Descripción es obligatoria',
@@ -304,34 +323,6 @@
                 }
 
             }
-
-            $('#cmb_catalogo').on('changed.bs.select', function(e, clickedIndex, isSelected, previousValue) {
-
-
-                let id_catalogo = $('#cmb_catalogo').val();
-                let ruta = '/premio/datatable';
-
-                var data = {
-                    funcion: 'listar_premio_producto',
-                    id_catalogo
-                }
-
-                if (id_catalogo != '') {
-                    $.ajax({
-                        url: "/premio/datatable",
-                        type: "POST",
-                        data: data,
-                    }).done(function(result) {
-
-                        result = JSON.parse(result);
-                        console.log(result);
-                        dataTable.clear().draw();
-                        dataTable.rows.add(result).draw();
-                    })
-                } else {
-                    dataTable.clear().draw();
-                }
-            });
 
             let dataTableCondiciones = $('#example').DataTable({
                 "data": [],
@@ -477,6 +468,7 @@
                         }
                     });
                 }
+
             });
 
             $(document).on('click', '#btn_regla', function(e) {
@@ -508,6 +500,13 @@
                 $(this).closest('div.clone-div').remove();
             });
 
+            let conArray = $('#conArray').val();
+            if (conArray != '') {
+                dataTableCondiciones.clear().draw();
+                dataTableCondiciones.rows.add(JSON.parse(conArray)).draw();
+                arrayFinal = JSON.parse(conArray);
+                console.log(JSON.parse(conArray));
+            }
 
         });
     </script>
