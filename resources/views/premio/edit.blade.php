@@ -18,7 +18,7 @@
                 {{ method_field('PATCH') }}
                 @csrf
 
-                @include('premio.form')
+                @include('premio.formUpdate')
 
             </form>
         </div>
