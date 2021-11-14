@@ -36,6 +36,7 @@ Route::post('/delete', [webController::class,'deleteToCart']);
 Route::get('/carrito', function () {
     return view('web.carrito');
 });
+Route::get('/autocompletar', [webController::class,'autocompletar'])->name('web.autocompletar');
 
 // RUTAS DASHBOARD
 Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard', function () {
