@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class CardProductoTienda extends Component
 {
-    public $id_producto ,$imagen,$clasificacion,$valor_venta,$color,$descripcion;
+    public $id_producto ,$imagen,$clasificacion,$valor_venta,$color,$descripcion,$estilo;
     public function render()
     {
         $productos_all = DB::table('productos')->groupBy('color')->get();

@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="ec-pro-content">
-            <h5 class="ec-pro-title"><a href="product-left-sidebar.html">{{ $clasificacion }}</a>
+            <h5 class="ec-pro-title"><a href="{{route('web.detalle-producto', $estilo)}}">{{ $clasificacion }}</a>
             </h5>
             <div class="ec-pro-rating">
                 <i class="ecicon eci-star fill"></i>

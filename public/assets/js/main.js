@@ -1,4 +1,4 @@
-// Funcion para enviar datos a session sobre el carrito
+// Funcion para enviar datos a session sobre el carrito A.M
 
 $("body").on("click", ".add-to-cart", function(){
     var clasificacion = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-pro-title a").html();
@@ -22,6 +22,39 @@ $("body").on("click", ".add-to-cart", function(){
         }
     })
 });
+// Funcion vista detalle de producto add to cart A.M 
+$("body").on("click", ".add-to-cart-product", function(){
+    $(".ec-cart-float").fadeIn();
+
+    var count = $(".cart-count-lable").html();        
+    count++;
+    $(".cart-count-lable").html(count);
+
+    setTimeout(function(){ 
+        $(".ec-cart-float").fadeOut(); 
+    }, 5000);
+});
+
+$("body").on("click", ".add-to-cart-product", function(){
+    data = {
+        'clasificacion' : $('.clasificacion').text(),
+        'color':$('#color_producto').val(),
+        'talla': $(this).parents().parents().children(".ec-pro-variation").find(".active").text()
+    }
+    $.post({
+        url: '/store',
+        data: data,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            if(response == 'add'){
+                Livewire.emit('render')
+            }
+        }
+    })
+});
+
 // Function To Create New Cookie 
 function ecCreateCookie(cookieName,cookieValue,daysToExpire)
 {
@@ -381,22 +414,6 @@ function ecCheckCookie()
             $(".ec-cart-float").fadeOut(); 
         }, 5000);
         
-        // // get an image url
-        // var img_url = $(this).parents().parents().children(".image").find(".main-image").attr("src");
-        // var p_name = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-pro-title a").html();
-        // var p_price = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-price .new-price").html();
-        // var p_html = '<li>'+
-        //                 '<a href="product-left-sidebar.html" class="sidekka_pro_img"><img src="'+ img_url +'" alt="product"></a>'+
-        //                 '<div class="ec-pro-content">'+
-        //                     '<a href="product-left-sidebar.html" class="cart_pro_title">'+ p_name +'</a>'+
-        //                 '<span class="cart-price"><span>'+ p_price +'</span> x 1</span>'+
-        //                     '<div class="qty-plus-minus"><div class="dec ec_qtybtn">-</div>'+
-        //                         '<input class="qty-input" type="text" name="ec_qtybtn" value="1">'+
-        //                     '<div class="inc ec_qtybtn">+</div></div>'+
-        //                     '<a href="javascript:void(0)" class="remove">×</a>'+
-        //                 '</div>'+
-        //             '</li>';
-        // $('.eccart-pro-items').append(p_html);    
         
     });
 

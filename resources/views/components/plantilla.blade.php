@@ -54,6 +54,7 @@
 
     </style>
     @livewireStyles
+    @method('css')
 </head>
 
 <body>
@@ -127,11 +128,11 @@
                                         @auth
                                             <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Dashboard</a>
                                             </li>
-                                            <li><a class="dropdown-item" href="checkout.html">Checkout</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('web.checkout')}}">Checkout</a></li>
                                         @else
                                             <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
                                             <li><a class="dropdown-item" href="register.html">Registrar</a></li>
-                                            <li><a class="dropdown-item" href="checkout.html">Checkout</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('web.checkout')}}">Checkout</a></li>
                                         @endif
                                         @endif
                                     </ul>
@@ -209,11 +210,11 @@
                                                 @auth
                                                     <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Dashboard</a>
                                                     </li>
-                                                    <li><a class="dropdown-item" href="checkout.html">Checkout</a></li>
+                                                    <li><a class="dropdown-item" href="{{ route('web.checkout')}}">Checkout</a></li>
                                                 @else
                                                     <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
                                                     <li><a class="dropdown-item" href="register.html">Registro</a></li>
-                                                    <li><a class="dropdown-item" href="checkout.html">Checkout</a></li>
+                                                    <li><a class="dropdown-item" href="{{route('web.checkout')}}">Checkout</a></li>
                                                 @endif
                                                 @endif
                                             </ul>
@@ -398,7 +399,7 @@
                                                 <li><a href="about-us.html">About Us</a></li>
                                                 <li><a href="contact-us.html">Contact Us</a></li>
                                                 <li><a href="cart.html">Cart</a></li>
-                                                <li><a href="checkout.html">Checkout</a></li>
+                                                <li><a href="{{ route('web.checkout')}}">Checkout</a></li>
                                                 <li><a href="compare.html">Compare</a></li>
                                                 <li><a href="faq.html">FAQ</a></li>
                                                 <li><a href="login.html">Login</a></li>
@@ -497,7 +498,7 @@
                                         <li><a href="about-us.html">About Us</a></li>
                                         <li><a href="contact-us.html">Contact Us</a></li>
                                         <li><a href="cart.html">Cart</a></li>
-                                        <li><a href="checkout.html">Checkout</a></li>
+                                        <li><a href="{{ route('web.checkout')}}">Checkout</a></li>
                                         <li><a href="compare.html">Compare</a></li>
                                         <li><a href="faq.html">FAQ</a></li>
                                         <li><a href="login.html">Login</a></li>

@@ -33,6 +33,7 @@ Route::post('tallas-x-color',[webController::class,'tallas_x_color'])->name('web
 Route::post('stock-x-talla',[webController::class,'stock_x_color'])->name('web.stock-talla');
 Route::post('/store', [webController::class,'addToCart']);
 Route::post('/delete', [webController::class,'deleteToCart']);
+Route::get('checkout-ibizza',[webController::class,'checkout_view'])->name('web.checkout');
 Route::get('/carrito', function () {
     return view('web.carrito');
 });

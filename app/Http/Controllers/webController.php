@@ -102,4 +102,7 @@ class webController extends Controller
 
         return response()->json($response);
     }
+    public function checkout_view(){
+        return view('ecomerce.checkout');
+    }
 }
