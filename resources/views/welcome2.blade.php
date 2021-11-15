@@ -171,7 +171,7 @@
                              <div class="align-self-center">
                                  <div class="header-search">
                                      <form class="ec-btn-group-form" action="#">
-                                         <input id="txt_search" class="form-control" placeholder="Ingresa el nombre de un Producto..."
+                                         <input class="form-control txt_search" placeholder="Ingresa el nombre de un Producto..."
                                              type="text">
                                          <button class="submit" type="submit"><img loading='lazy'
                                                  src="assets/images/icons/search.svg" class="svg_img header_svg"
@@ -247,7 +247,7 @@
                              <div class="col">
                                  <div class="header-search">
                                      <form class="ec-btn-group-form" action="#">
-                                         <input id="txt_search2" class="form-control"
+                                         <input class="form-control txt_search"
                                              placeholder="Ingresa el nombre de un Producto..." type="text">
                                          <button class="submit" type="submit"><img loading='lazy'
                                                  src="assets/images/icons/search.svg" class="svg_img header_svg"
@@ -4076,7 +4076,7 @@
                  <script type="text/javascript">
                      var path = "{{ route('web.autocompletar') }}";
 
-                     $('#txt_search').autocomplete({
+                     $('.txt_search').autocomplete({
                          source: function(request, response) {
                              $.getJSON(path, {
                                      term: request.term
@@ -4085,7 +4085,7 @@
                              );
                          },
                          focus: function(event, ui) {
-                             $("#txt_search").val(ui.item.value);
+                             $(".txt_search").val(ui.item.value);
                              return false;
                          },
                          minLength: 1,
