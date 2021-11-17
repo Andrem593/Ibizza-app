@@ -2,7 +2,7 @@
     <div class="ec-product-inner">
         <div class="ec-pro-image-outer">
             <div class="ec-pro-image">
-                <a href="product-left-sidebar.html" class="image">
+                <a href="{{route('web.detalle-producto', $estilo)}}" class="image">
                     <img load='lazy' class="main-image"
                         src="storage/images/productos/{{ $imagen }}" alt="Product" />
                     <img load='lazy' class="hover-image"

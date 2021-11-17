@@ -69,7 +69,8 @@ class EmpresariaController extends Controller
             'tipo_cliente'=> trim(strtoupper($request->tipo_cliente)),
             'telefono'=> trim($request->telefono),
             'id_ciudad'=> $request->id_ciudad,
-            'vendedor'=> Auth::user()->id
+            'vendedor'=> Auth::user()->id,
+            'id_user'=> $user->id
         ];
         Empresaria::create($empresariaData);
         

@@ -29,84 +29,85 @@
                     <!-- checkout content Start -->
                     <div class="ec-checkout-content">
                         <div class="ec-checkout-inner">
-                            @auth                                
-                            <div class="ec-checkout-wrap margin-bottom-30">
-                                <div class="ec-checkout-block ec-check-new">
-                                    <h3 class="ec-checkout-title">Nuevo Cliente</h3>
-                                    <div class="ec-check-block-content">
-                                        <div class="ec-check-subtitle">Opciones Checkout</div>
-                                        <form action="#">
-                                            <span class="ec-new-option">
-                                                <span>
-                                                    <input type="radio" id="account1" name="radio-group" checked>
-                                                    <label for="account1">Registrarme como Empresaria</label>
+                            @empty(Auth::user())                                
+                                <div class="ec-checkout-wrap margin-bottom-30">
+                                    <div class="ec-checkout-block ec-check-new">
+                                        <h3 class="ec-checkout-title">Nuevo Cliente</h3>
+                                        <div class="ec-check-block-content">
+                                            <div class="ec-check-subtitle">Opciones Checkout</div>
+                                            <form action="#">
+                                                <span class="ec-new-option">
+                                                    <span>
+                                                        <input type="radio" id="account1" name="radio-group" checked>
+                                                        <label for="account1">Registrarme como Empresaria</label>
+                                                    </span>
                                                 </span>
-                                            </span>
-                                        </form>
-                                        <div class="ec-new-desc">Si deseas ser parte de nuestras empresarias solo dale click al boton continuar para poder comunicarte
-                                            con uno de nuestro asesores y puedas hacer tu primera compra.
+                                            </form>
+                                            <div class="ec-new-desc">Si deseas ser parte de nuestras empresarias solo dale click al boton continuar para poder comunicarte
+                                                con uno de nuestro asesores y puedas hacer tu primera compra.
+                                            </div>
+                                            <div class="ec-new-btn"><a href="#" class="btn btn-primary">Continuar</a></div>
+
                                         </div>
-                                        <div class="ec-new-btn"><a href="#" class="btn btn-primary">Continuar</a></div>
-
                                     </div>
-                                </div>
-                                <div class="ec-checkout-block ec-check-login">
-                                    <h3 class="ec-checkout-title">Soy Cliente</h3>
-                                    <div class="ec-check-login-form">
-                                        <form action="#" method="post">
-                                            <span class="ec-check-login-wrap">
-                                                <label>Email</label>
-                                                <input type="text" name="name" placeholder="Enter your email address"
-                                                    required />
-                                            </span>
-                                            <span class="ec-check-login-wrap">
-                                                <label>Contraseña</label>
-                                                <input type="password" name="password" placeholder="Enter your password"
-                                                    required />
-                                            </span>
+                                    <div class="ec-checkout-block ec-check-login">
+                                        <h3 class="ec-checkout-title">Soy Cliente</h3>
+                                        <div class="ec-check-login-form">
+                                            <form action="#" method="post">
+                                                <span class="ec-check-login-wrap">
+                                                    <label>Email</label>
+                                                    <input type="text" name="name" placeholder="Enter your email address"
+                                                        required />
+                                                </span>
+                                                <span class="ec-check-login-wrap">
+                                                    <label>Contraseña</label>
+                                                    <input type="password" name="password" placeholder="Enter your password"
+                                                        required />
+                                                </span>
 
-                                            <span class="ec-check-login-wrap ec-check-login-btn">
-                                                <button class="btn btn-primary" type="submit">Login</button>
-                                                <a class="ec-check-login-fp" href="#">Forgot Password?</a>
-                                            </span>
-                                        </form>
+                                                <span class="ec-check-login-wrap ec-check-login-btn">
+                                                    <button class="btn btn-primary" type="submit">Login</button>
+                                                    <a class="ec-check-login-fp" href="#">Forgot Password?</a>
+                                                </span>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            @endauth                            
+                                </div>                                                         
+                            @endempty                             
+                                                        
                             <div class="ec-checkout-wrap margin-bottom-30 padding-bottom-3">
                                 <div class="ec-checkout-block ec-check-bill">
                                     <h3 class="ec-checkout-title">Detalles de Facturación</h3>
                                     <div class="ec-bl-block-content">
-                                        <div class="ec-check-subtitle">Checkout Options</div>
+                                        <div class="ec-check-subtitle">Opciones de pago</div>
                                         <span class="ec-bill-option">
                                             <span>
                                                 <input type="radio" id="bill1" name="radio-group">
-                                                <label for="bill1">I want to use an existing address</label>
+                                                <label for="bill1">Usar dirección existente</label>
                                             </span>
                                             <span>
                                                 <input type="radio" id="bill2" name="radio-group" checked>
-                                                <label for="bill2">I want to use new address</label>
+                                                <label for="bill2">quiero usar una nueva direccion</label>
                                             </span>
                                         </span>
                                         <div class="ec-check-bill-form">
                                             <form action="#" method="post">
                                                 <span class="ec-bill-wrap ec-bill-half">
-                                                    <label>First Name*</label>
+                                                    <label>Nombres</label>
                                                     <input type="text" name="firstname"
                                                         placeholder="Enter your first name" required />
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
-                                                    <label>Last Name*</label>
+                                                    <label>Apellidos</label>
                                                     <input type="text" name="lastname"
                                                         placeholder="Enter your last name" required />
                                                 </span>
                                                 <span class="ec-bill-wrap">
-                                                    <label>Address</label>
-                                                    <input type="text" name="address" placeholder="Address Line 1" />
+                                                    <label>Dirección</label>
+                                                    <input type="text" name="address" placeholder="ingrese la direccion de entrega del pedido" />
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
-                                                    <label>City *</label>
+                                                    <label>Ciudad</label>
                                                     <span class="ec-bl-select-inner">
                                                         <select name="ec_select_city" id="ec-select-city"
                                                             class="ec-bill-select">
@@ -120,11 +121,11 @@
                                                     </span>
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
-                                                    <label>Post Code</label>
+                                                    <label>Codigo Postal</label>
                                                     <input type="text" name="postalcode" placeholder="Post Code" />
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
-                                                    <label>Country *</label>
+                                                    <label>Pais</label>
                                                     <span class="ec-bl-select-inner">
                                                         <select name="ec_select_country" id="ec-select-country"
                                                             class="ec-bill-select">
@@ -138,7 +139,7 @@
                                                     </span>
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
-                                                    <label>Region State</label>
+                                                    <label>Provincia</label>
                                                     <span class="ec-bl-select-inner">
                                                         <select name="ec_select_state" id="ec-select-state"
                                                             class="ec-bill-select">
@@ -159,7 +160,7 @@
 
                             </div>
                             <span class="ec-check-order-btn">
-                                <a class="btn btn-primary" href="#">Place Order</a>
+                                <a class="btn btn-primary" href="#">Realizar Pedido</a>
                             </span>
                         </div>
                     </div>
@@ -171,187 +172,75 @@
                         <!-- Sidebar Summary Block -->
                         <div class="ec-sidebar-block">
                             <div class="ec-sb-title">
-                                <h3 class="ec-sidebar-title">Summary</h3>
+                                <h3 class="ec-sidebar-title">Resumen</h3>
                             </div>
                             <div class="ec-sb-block-content">
                                 <div class="ec-checkout-summary">
                                     <div>
-                                        <span class="text-left">Sub-Total</span>
-                                        <span class="text-right">$80.00</span>
+                                        <span class="text-left">Total de Productos</span>
+                                        <span class="text-right">{{ Cart::count() }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-left">Delivery Charges</span>
-                                        <span class="text-right">$80.00</span>
-                                    </div>
-                                    <div>
-                                        <span class="text-left">Coupan Discount</span>
-                                        <span class="text-right"><a class="ec-checkout-coupan">Apply Coupan</a></span>
-                                    </div>
-                                    <div class="ec-checkout-coupan-content">
-                                        <form class="ec-checkout-coupan-form" name="ec-checkout-coupan-form"
-                                            method="post" action="#">
-                                            <input class="ec-coupan" type="text" required=""
-                                                placeholder="Enter Your Coupan Code" name="ec-coupan" value="">
-                                            <button class="ec-coupan-btn button btn-primary" type="submit"
-                                                name="subscribe" value="">Apply</button>
-                                        </form>
-                                    </div>
+                                        <span class="text-left">Ganacia estimada</span>
+                                        <span class="text-right">${{ number_format(Cart::total() * 0.4, 2) }}</span>
+                                    </div>                                    
                                     <div class="ec-checkout-summary-total">
-                                        <span class="text-left">Total Amount</span>
-                                        <span class="text-right">$80.00</span>
+                                        <span class="text-left">Total a Pagar</span>
+                                        <span class="text-right">${{ Cart::total() }}</span>
                                     </div>
                                 </div>
-                                <div class="ec-checkout-pro">
-                                    <div class="col-sm-12 mb-6">
-                                        <div class="ec-product-inner">
-                                            <div class="ec-pro-image-outer">
-                                                <div class="ec-pro-image">
-                                                    <a href="product-left-sidebar.html" class="image">
-                                                        <img class="main-image"
-                                                            src="assets/images/product-image/1_1.jpg" alt="Product" />
-                                                        <img class="hover-image"
-                                                            src="assets/images/product-image/1_2.jpg" alt="Product" />
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="ec-pro-content">
-                                                <h5 class="ec-pro-title"><a href="product-left-sidebar.html">Baby toy
-                                                        teddy bear</a></h5>
-                                                <div class="ec-pro-rating">
-                                                    <i class="ecicon eci-star fill"></i>
-                                                    <i class="ecicon eci-star fill"></i>
-                                                    <i class="ecicon eci-star fill"></i>
-                                                    <i class="ecicon eci-star fill"></i>
-                                                    <i class="ecicon eci-star"></i>
-                                                </div>
-                                                <span class="ec-price">
-                                                    <span class="old-price">$95.00</span>
-                                                    <span class="new-price">$79.00</span>
-                                                </span>
-                                                <div class="ec-pro-option">
-                                                    <div class="ec-pro-color">
-                                                        <span class="ec-pro-opt-label">Color</span>
-                                                        <ul class="ec-opt-swatch ec-change-img">
-                                                            <li class="active"><a href="#" class="ec-opt-clr-img"
-                                                                    data-src="assets/images/product-image/1_1.jpg"
-                                                                    data-src-hover="assets/images/product-image/1_1.jpg"
-                                                                    data-tooltip="Gray"><span
-                                                                        style="background-color:#6d4c36;"></span></a>
-                                                            </li>
-                                                            <li><a href="#" class="ec-opt-clr-img"
-                                                                    data-src="assets/images/product-image/1_2.jpg"
-                                                                    data-src-hover="assets/images/product-image/1_2.jpg"
-                                                                    data-tooltip="Orange"><span
-                                                                        style="background-color:#ffb0e1;"></span></a>
-                                                            </li>
-                                                            <li><a href="#" class="ec-opt-clr-img"
-                                                                    data-src="assets/images/product-image/1_3.jpg"
-                                                                    data-src-hover="assets/images/product-image/1_3.jpg"
-                                                                    data-tooltip="Green"><span
-                                                                        style="background-color:#8beeff;"></span></a>
-                                                            </li>
-                                                            <li><a href="#" class="ec-opt-clr-img"
-                                                                    data-src="assets/images/product-image/1_4.jpg"
-                                                                    data-src-hover="assets/images/product-image/1_4.jpg"
-                                                                    data-tooltip="Sky Blue"><span
-                                                                        style="background-color:#74f8d1;"></span></a>
-                                                            </li>
-                                                        </ul>
+                                @if (!empty($productoPremio))
+                                    @foreach ($productoPremio as $producto )                                        
+                                        <div class="ec-checkout-pro">
+                                            <h3 class="ec-sidebar-title">Premios por pedido</h3>                                                                                
+                                            <div class="col-sm-12 mb-6">
+                                                <div class="ec-product-inner">
+                                                    <div class="ec-pro-image-outer">
+                                                        <div class="ec-pro-image">
+                                                            <a href="{{route('web.detalle-producto', $producto->estilo)}}" class="image">
+                                                                <img class="main-image"
+                                                                    src="storage/images/productos/{{ $producto->imagen_path }}" alt="Product" />
+                                                                <img class="hover-image"
+                                                                    src="storage/images/productos/{{ $producto->imagen_path }}" alt="Product" />
+                                                            </a>
+                                                        </div>
                                                     </div>
-                                                    <div class="ec-pro-size">
-                                                        <span class="ec-pro-opt-label">Size</span>
-                                                        <ul class="ec-opt-size">
-                                                            <li class="active"><a href="#" class="ec-opt-sz"
-                                                                    data-old="$95.00" data-new="$79.00"
-                                                                    data-tooltip="Small">S</a></li>
-                                                            <li><a href="#" class="ec-opt-sz" data-old="$90.00"
-                                                                    data-new="$70.00" data-tooltip="Medium">M</a></li>
-                                                            <li><a href="#" class="ec-opt-sz" data-old="$80.00"
-                                                                    data-new="$60.00" data-tooltip="Large">X</a></li>
-                                                            <li><a href="#" class="ec-opt-sz" data-old="$70.00"
-                                                                    data-new="$50.00" data-tooltip="Extra Large">XL</a>
-                                                            </li>
-                                                        </ul>
+                                                    <div class="ec-pro-content">
+                                                        <h5 class="ec-pro-title"><a href="{{route('web.detalle-producto', $producto->estilo)}}">{{ $producto->clasificacion }}</a></h5>
+                                                        <span class="ec-price">
+                                                            <span class="old-price">${{$producto->valor_venta}}</span>
+                                                            <span class="new-price">$Gratis</span>
+                                                        </span>
+                                                        <div class="ec-pro-option">
+                                                            <div class="ec-pro-color">
+                                                                <span class="ec-pro-opt-label">Color</span>
+                                                                <select class="p-0">
+                                                                    <option value="">opciones color</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="ec-pro-size">
+                                                                <span class="ec-pro-opt-label">Size</span>
+                                                                <ul class="ec-opt-size">
+                                                                    <li class="active"><a href="#" class="ec-opt-sz"
+                                                                        data-tooltip="Small">S</a></li>
+                                                                    <li><a href="#" class="ec-opt-sz" data-tooltip="Medium">M</a></li>
+                                                                    <li><a href="#" class="ec-opt-sz" data-tooltip="Large">X</a></li>
+                                                                    <li><a href="#" class="ec-opt-sz" data-tooltip="Extra Large">XL</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-12 mb-0">
-                                        <div class="ec-product-inner">
-                                            <div class="ec-pro-image-outer">
-                                                <div class="ec-pro-image">
-                                                    <a href="product-left-sidebar.html" class="image">
-                                                        <img class="main-image"
-                                                            src="assets/images/product-image/8_1.jpg" alt="Product" />
-                                                        <img class="hover-image"
-                                                            src="assets/images/product-image/8_2.jpg" alt="Product" />
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="ec-pro-content">
-                                                <h5 class="ec-pro-title"><a href="product-left-sidebar.html">Smart I
-                                                        watch 2GB</a></h5>
-                                                <div class="ec-pro-rating">
-                                                    <i class="ecicon eci-star fill"></i>
-                                                    <i class="ecicon eci-star fill"></i>
-                                                    <i class="ecicon eci-star fill"></i>
-                                                    <i class="ecicon eci-star fill"></i>
-                                                    <i class="ecicon eci-star"></i>
-                                                </div>
-                                                <span class="ec-price">
-                                                    <span class="old-price">$58.00</span>
-                                                    <span class="new-price">$45.00</span>
-                                                </span>
-                                                <div class="ec-pro-option">
-                                                    <div class="ec-pro-color">
-                                                        <span class="ec-pro-opt-label">Color</span>
-                                                        <ul class="ec-opt-swatch ec-change-img">
-                                                            <li class="active"><a href="#" class="ec-opt-clr-img"
-                                                                    data-src="assets/images/product-image/8_2.jpg"
-                                                                    data-src-hover="assets/images/product-image/8_2.jpg"
-                                                                    data-tooltip="Gray"><span
-                                                                        style="background-color:#f3f3f3;"></span></a>
-                                                            </li>
-                                                            <li><a href="#" class="ec-opt-clr-img"
-                                                                    data-src="assets/images/product-image/8_3.jpg"
-                                                                    data-src-hover="assets/images/product-image/8_3.jpg"
-                                                                    data-tooltip="Orange"><span
-                                                                        style="background-color:#fac7f3;"></span></a>
-                                                            </li>
-                                                            <li><a href="#" class="ec-opt-clr-img"
-                                                                    data-src="assets/images/product-image/8_4.jpg"
-                                                                    data-src-hover="assets/images/product-image/8_4.jpg"
-                                                                    data-tooltip="Green"><span
-                                                                        style="background-color:#c5f1ff;"></span></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="ec-pro-size">
-                                                        <span class="ec-pro-opt-label">Size</span>
-                                                        <ul class="ec-opt-size">
-                                                            <li class="active"><a href="#" class="ec-opt-sz"
-                                                                    data-old="$48.00" data-new="$45.00"
-                                                                    data-tooltip="Small">S</a></li>
-                                                            <li><a href="#" class="ec-opt-sz" data-old="$90.00"
-                                                                    data-new="$70.00" data-tooltip="Medium">M</a></li>
-                                                            <li><a href="#" class="ec-opt-sz" data-old="$80.00"
-                                                                    data-new="$60.00" data-tooltip="Large">X</a></li>
-                                                            <li><a href="#" class="ec-opt-sz" data-old="$70.00"
-                                                                    data-new="$50.00" data-tooltip="Extra Large">XL</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                         <!-- Sidebar Summary Block -->
                     </div>
-                    <div class="ec-sidebar-wrap ec-checkout-del-wrap">
+                    {{-- <div class="ec-sidebar-wrap ec-checkout-del-wrap">
                         <!-- Sidebar Summary Block -->
                         <div class="ec-sidebar-block">
                             <div class="ec-sb-title">
@@ -383,30 +272,28 @@
                             </div>
                         </div>
                         <!-- Sidebar Summary Block -->
-                    </div>
+                    </div> --}}
                     <div class="ec-sidebar-wrap ec-checkout-pay-wrap">
                         <!-- Sidebar Payment Block -->
                         <div class="ec-sidebar-block">
                             <div class="ec-sb-title">
-                                <h3 class="ec-sidebar-title">Payment Method</h3>
+                                <h3 class="ec-sidebar-title">Metodo de pago</h3>
                             </div>
                             <div class="ec-sb-block-content">
                                 <div class="ec-checkout-pay">
-                                    <div class="ec-pay-desc">Please select the preferred payment method to use on this
-                                        order.</div>
+                                    <div class="ec-pay-desc">Por favor seleccione su metodo de pago preferido.</div>
                                     <form action="#">
                                         <span class="ec-pay-option">
                                             <span>
                                                 <input type="radio" id="pay1" name="radio-group" checked>
-                                                <label for="pay1">Cash On Delivery</label>
-                                            </span>
+                                                <label for="pay1">Contra entrega</label>
+                                            </span>                                            
                                         </span>
                                         <span class="ec-pay-commemt">
-                                            <span class="ec-pay-opt-head">Add Comments About Your Order</span>
-                                            <textarea name="your-commemt" placeholder="Comments"></textarea>
+                                            <span class="ec-pay-opt-head">Agrega comentarios a tu pedido</span>
+                                            <textarea name="your-commemt" placeholder="Comentarios"></textarea>
                                         </span>
-                                        <span class="ec-pay-agree"><input type="checkbox" value=""><a href="#">I have
-                                                read and agree to the <span>Terms & Conditions</span></a><span
+                                        <span class="ec-pay-agree"><input type="checkbox" value="" checked><a href="#">He leído y acepto los <span>Terminos y condiciones</span></a><span
                                                 class="checked"></span></span>
                                     </form>
                                 </div>
@@ -418,7 +305,7 @@
                         <!-- Sidebar Payment Block -->
                         <div class="ec-sidebar-block">
                             <div class="ec-sb-title">
-                                <h3 class="ec-sidebar-title">Payment Method</h3>
+                                <h3 class="ec-sidebar-title">Metodos de Pago</h3>
                             </div>
                             <div class="ec-sb-block-content">
                                 <div class="ec-check-pay-img-inner">

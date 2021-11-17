@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Catalogo;
+use App\Empresaria;
+use App\Premio;
 use Illuminate\Support\Facades\DB;
 use App\Producto;
 use Illuminate\Http\Request;
 use Cart;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 class webController extends Controller
 {
@@ -103,6 +106,27 @@ class webController extends Controller
         return response()->json($response);
     }
     public function checkout_view(){
-        return view('ecomerce.checkout');
+        $catalogos = Catalogo::where('estado','PUBLICADO')->get();
+        $condiciones = [];
+        $productoPremio = [];     
+        foreach ($catalogos as $catalogo) {
+            $condicion = Premio::where('catalogo_id',$catalogo->id)->first();
+            if (!empty($condicion) ) {        
+                array_push($condiciones,$condicion);
+            }
+        }
+        $condicion = json_decode($condiciones[0]->condicion);
+        if (!empty(Auth::user())) {            
+            if (Auth::user()->role == 'Empresaria') { 
+                $premio = DB::table($condicion[0]->nombre_tabla)->whereRaw($condicion[0]->condicion)->get();
+                foreach ($premio as  $val) {
+                    if ($val->id_user == Auth::user()->id) {
+                        $pro = DB::table('premio_has_productos')->join('productos','productos.estilo','=','premio_has_productos.estilo')->where('premio_id',$condiciones[0]->id)->first();
+                        array_push($productoPremio,$pro); 
+                    }
+                }
+            }
+        }
+        return view('ecomerce.checkout',compact('productoPremio'));        
     }
 }

@@ -2,11 +2,9 @@
     <div class="ec-product-inner">
         <div class="ec-pro-image-outer">
             <div class="ec-pro-image">
-                <a href="product-left-sidebar.html" class="image">
-                    <img loading='lazy' class="main-image" src="storage/images/productos/{{ $imagen }}"
-                        alt="Product" />
-                    <img loading='lazy' class="hover-image"
-                        src="storage/images/productos/{{ $imagen }}" alt="Product" />
+                <a href="{{route('web.detalle-producto', $estilo)}}" class="image">
+                    <img loading='lazy' class="main-image" src="storage/images/productos/{{ $imagen }}" />
+                    <img loading='lazy' class="hover-image" src="storage/images/productos/{{ $imagen }}" />
                 </a>
                 <a href="#" class="quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal"
                     data-bs-target="#ec_quickview_modal"><img loading='lazy' src="assets/images/icons/quickview.svg"

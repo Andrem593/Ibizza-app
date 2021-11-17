@@ -25,6 +25,7 @@ class Empresarias extends Migration
             $table->string('telefono')->nullable();
             $table->integer('id_ciudad');
             $table->integer('vendedor');
+            $table->integer('id_user');
             $table->timestamps();
         });
     }

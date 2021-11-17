@@ -128,7 +128,7 @@
                                         @auth
                                             <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Dashboard</a>
                                             </li>
-                                            <li><a class="dropdown-item" href="{{ route('web.checkout')}}">Checkout</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('logout')}}">cerrar sesión</a></li>
                                         @else
                                             <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
                                             <li><a class="dropdown-item" href="register.html">Registrar</a></li>
@@ -210,7 +210,12 @@
                                                 @auth
                                                     <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Dashboard</a>
                                                     </li>
-                                                    <li><a class="dropdown-item" href="{{ route('web.checkout')}}">Checkout</a></li>
+                                                    <li>
+                                                        <form action="{{ route('logout')}}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="dropdown-item">cerrar sesión</button>
+                                                        </form>
+                                                    </li>
                                                 @else
                                                     <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
                                                     <li><a class="dropdown-item" href="register.html">Registro</a></li>
