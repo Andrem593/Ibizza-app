@@ -139,7 +139,7 @@
                                                     <span class="ec-bl-select-inner">
                                                         <select name="provincia" id="ec-select-state"
                                                             class="ec-bill-select">
-                                                            <option>{{$ubicacion[0]->provincia}}</option>
+                                                            <option>{{!empty($ubicacion[0]) ? $ubicacion[0]->provincia : ''}}</option>
                                                         </select>
                                                     </span>
                                                 </span>
@@ -148,7 +148,7 @@
                                                     <span class="ec-bl-select-inner">
                                                         <select name="ciudad" id="ec-select-city"
                                                             class="ec-bill-select">
-                                                            <option>{{$ubicacion[0]->ciudad}}</option>
+                                                            <option>{{!empty($ubicacion[0]) ? $ubicacion[0]->ciudad : ''}}</option>
                                                         </select>
                                                     </span>
                                                 </span>
