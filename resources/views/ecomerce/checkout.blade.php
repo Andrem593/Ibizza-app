@@ -11,7 +11,7 @@
                         <div class="col-md-6 col-sm-12">
                             <!-- ec-breadcrumb-list start -->
                             <ul class="ec-breadcrumb-list">
-                                <li class="ec-breadcrumb-item"><a href="{{route('web')}}">Home</a></li>
+                                <li class="ec-breadcrumb-item"><a href="{{ route('web') }}">Home</a></li>
                                 <li class="ec-breadcrumb-item active">Checkout</li>
                             </ul>
                             <!-- ec-breadcrumb-list end -->
@@ -29,7 +29,7 @@
                     <!-- checkout content Start -->
                     <div class="ec-checkout-content">
                         <div class="ec-checkout-inner">
-                            @empty(Auth::user())                                
+                            @empty(Auth::user())
                                 <div class="ec-checkout-wrap margin-bottom-30">
                                     <div class="ec-checkout-block ec-check-new">
                                         <h3 class="ec-checkout-title">Nuevo Cliente</h3>
@@ -43,38 +43,51 @@
                                                     </span>
                                                 </span>
                                             </form>
-                                            <div class="ec-new-desc">Si deseas ser parte de nuestras empresarias solo dale click al boton continuar para poder comunicarte
+                                            <div class="ec-new-desc">Si deseas ser parte de nuestras empresarias solo dale
+                                                click al boton continuar para poder comunicarte
                                                 con uno de nuestro asesores y puedas hacer tu primera compra.
                                             </div>
-                                            <div class="ec-new-btn"><a href="#" class="btn btn-primary">Continuar</a></div>
+                                            <div class="ec-new-btn"><a href="#" class="btn btn-primary ec-list"
+                                                    data-number="593967402331"
+                                                    data-message="¡Hola! Quiero registrarme como empresaria">Continuar</a>
+                                            </div>
 
                                         </div>
                                     </div>
                                     <div class="ec-checkout-block ec-check-login">
                                         <h3 class="ec-checkout-title">Soy Cliente</h3>
                                         <div class="ec-check-login-form">
-                                            <form action="#" method="post">
+                                            <form method="POST" action="{{ route('login') }}">
+                                                @csrf
                                                 <span class="ec-check-login-wrap">
-                                                    <label>Email</label>
-                                                    <input type="text" name="name" placeholder="Enter your email address"
-                                                        required />
+                                                    <x-jet-label value="{{ __('Email') }}" />
+
+                                                    <x-jet-input class="{{ $errors->has('email') ? 'is-invalid' : '' }}"
+                                                        type="email" name="email" :value="old('email')" placeholder='Ingresa tu correo' required />
+                                                    <x-jet-input-error for="email"></x-jet-input-error>
                                                 </span>
                                                 <span class="ec-check-login-wrap">
-                                                    <label>Contraseña</label>
-                                                    <input type="password" name="password" placeholder="Enter your password"
-                                                        required />
+                                                    <x-jet-label value="{{ __('Password') }}" />
+
+                                                    <x-jet-input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                        type="password" name="password" placeholder='ingrese su contraseña' required autocomplete="current-password" />
+                                                    <x-jet-input-error for="password"></x-jet-input-error>
                                                 </span>
 
                                                 <span class="ec-check-login-wrap ec-check-login-btn">
                                                     <button class="btn btn-primary" type="submit">Login</button>
-                                                    <a class="ec-check-login-fp" href="#">Forgot Password?</a>
+                                                    @if (Route::has('password.request'))
+                                                        <a class="text-muted me-3" href="{{ route('password.request') }}">
+                                                            {{ __('Olvidate tu contraseña?') }}
+                                                        </a>
+                                                    @endif
                                                 </span>
                                             </form>
                                         </div>
                                     </div>
-                                </div>                                                         
-                            @endempty                             
-                                                        
+                                </div>
+                            @endempty
+
                             <div class="ec-checkout-wrap margin-bottom-30 padding-bottom-3">
                                 <div class="ec-checkout-block ec-check-bill">
                                     <h3 class="ec-checkout-title">Detalles de Facturación</h3>
@@ -82,11 +95,11 @@
                                         <div class="ec-check-subtitle">Opciones de pago</div>
                                         <span class="ec-bill-option">
                                             <span>
-                                                <input type="radio" id="bill1" name="radio-group">
+                                                <input type="radio" id="bill1" name="radio-group" checked>
                                                 <label for="bill1">Usar dirección existente</label>
                                             </span>
                                             <span>
-                                                <input type="radio" id="bill2" name="radio-group" checked>
+                                                <input type="radio" id="bill2" name="radio-group">
                                                 <label for="bill2">quiero usar una nueva direccion</label>
                                             </span>
                                         </span>
@@ -94,64 +107,55 @@
                                             <form action="#" method="post">
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Nombres</label>
-                                                    <input type="text" name="firstname"
+                                                    <input type="text" name="nombres" value="{{$empresaria->nombres}}"
                                                         placeholder="Enter your first name" required />
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Apellidos</label>
-                                                    <input type="text" name="lastname"
+                                                    <input type="text" name="apellidos" value="{{$empresaria->apellidos}}"
                                                         placeholder="Enter your last name" required />
                                                 </span>
                                                 <span class="ec-bill-wrap">
                                                     <label>Dirección</label>
-                                                    <input type="text" name="address" placeholder="ingrese la direccion de entrega del pedido" />
+                                                    <input type="text" name="direccion" value="{{$empresaria->direccion}}"
+                                                        placeholder="ingrese la direccion de entrega del pedido" />
+                                                </span>
+                                                <span class="ec-bill-wrap ec-bill-half">
+                                                    <label>Pais</label>
+                                                    <span class="ec-bl-select-inner">
+                                                        <select name="pais" id="ec-select-country"
+                                                            class="ec-bill-select" disabled>
+                                                            <option selected disabled>ECUADOR</option>
+                                                        </select>
+                                                    </span>
+                                                </span>
+                                                @php
+                                                    $ubicacion = DB::table('ciudades')->join('provincias','ciudades.provincia_id','=','provincias.id')
+                                                                    ->select('ciudades.id','ciudades.descripcion as ciudad','provincias.descripcion as provincia','provincias.id as id_provincia')
+                                                                    ->where('ciudades.id',$empresaria->id_ciudad)->get();
+                                                @endphp
+                                                <span class="ec-bill-wrap ec-bill-half">
+                                                    <label>Provincia</label>
+                                                    <span class="ec-bl-select-inner">
+                                                        <select name="provincia" id="ec-select-state"
+                                                            class="ec-bill-select">
+                                                            <option>{{$ubicacion[0]->provincia}}</option>
+                                                        </select>
+                                                    </span>
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Ciudad</label>
                                                     <span class="ec-bl-select-inner">
-                                                        <select name="ec_select_city" id="ec-select-city"
+                                                        <select name="ciudad" id="ec-select-city"
                                                             class="ec-bill-select">
-                                                            <option selected disabled>City</option>
-                                                            <option value="1">City 1</option>
-                                                            <option value="2">City 2</option>
-                                                            <option value="3">City 3</option>
-                                                            <option value="4">City 4</option>
-                                                            <option value="5">City 5</option>
+                                                            <option>{{$ubicacion[0]->ciudad}}</option>
                                                         </select>
                                                     </span>
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Codigo Postal</label>
-                                                    <input type="text" name="postalcode" placeholder="Post Code" />
-                                                </span>
-                                                <span class="ec-bill-wrap ec-bill-half">
-                                                    <label>Pais</label>
-                                                    <span class="ec-bl-select-inner">
-                                                        <select name="ec_select_country" id="ec-select-country"
-                                                            class="ec-bill-select">
-                                                            <option selected disabled>Country</option>
-                                                            <option value="1">Country 1</option>
-                                                            <option value="2">Country 2</option>
-                                                            <option value="3">Country 3</option>
-                                                            <option value="4">Country 4</option>
-                                                            <option value="5">Country 5</option>
-                                                        </select>
-                                                    </span>
-                                                </span>
-                                                <span class="ec-bill-wrap ec-bill-half">
-                                                    <label>Provincia</label>
-                                                    <span class="ec-bl-select-inner">
-                                                        <select name="ec_select_state" id="ec-select-state"
-                                                            class="ec-bill-select">
-                                                            <option selected disabled>Region/State</option>
-                                                            <option value="1">Region/State 1</option>
-                                                            <option value="2">Region/State 2</option>
-                                                            <option value="3">Region/State 3</option>
-                                                            <option value="4">Region/State 4</option>
-                                                            <option value="5">Region/State 5</option>
-                                                        </select>
-                                                    </span>
-                                                </span>
+                                                    <input type="text" name="postalcode" placeholder="ingrese el codigo postal" />
+                                                </span>                                                
                                             </form>
                                         </div>
 
@@ -183,57 +187,16 @@
                                     <div>
                                         <span class="text-left">Ganacia estimada</span>
                                         <span class="text-right">${{ number_format(Cart::total() * 0.4, 2) }}</span>
-                                    </div>                                    
+                                    </div>
                                     <div class="ec-checkout-summary-total">
                                         <span class="text-left">Total a Pagar</span>
                                         <span class="text-right">${{ Cart::total() }}</span>
                                     </div>
                                 </div>
                                 @if (!empty($productoPremio))
-                                    @foreach ($productoPremio as $producto )                                        
-                                        <div class="ec-checkout-pro">
-                                            <h3 class="ec-sidebar-title">Premios por pedido</h3>                                                                                
-                                            <div class="col-sm-12 mb-6">
-                                                <div class="ec-product-inner">
-                                                    <div class="ec-pro-image-outer">
-                                                        <div class="ec-pro-image">
-                                                            <a href="{{route('web.detalle-producto', $producto->estilo)}}" class="image">
-                                                                <img class="main-image"
-                                                                    src="storage/images/productos/{{ $producto->imagen_path }}" alt="Product" />
-                                                                <img class="hover-image"
-                                                                    src="storage/images/productos/{{ $producto->imagen_path }}" alt="Product" />
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="ec-pro-content">
-                                                        <h5 class="ec-pro-title"><a href="{{route('web.detalle-producto', $producto->estilo)}}">{{ $producto->clasificacion }}</a></h5>
-                                                        <span class="ec-price">
-                                                            <span class="old-price">${{$producto->valor_venta}}</span>
-                                                            <span class="new-price">$Gratis</span>
-                                                        </span>
-                                                        <div class="ec-pro-option">
-                                                            <div class="ec-pro-color">
-                                                                <span class="ec-pro-opt-label">Color</span>
-                                                                <select class="p-0">
-                                                                    <option value="">opciones color</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="ec-pro-size">
-                                                                <span class="ec-pro-opt-label">Size</span>
-                                                                <ul class="ec-opt-size">
-                                                                    <li class="active"><a href="#" class="ec-opt-sz"
-                                                                        data-tooltip="Small">S</a></li>
-                                                                    <li><a href="#" class="ec-opt-sz" data-tooltip="Medium">M</a></li>
-                                                                    <li><a href="#" class="ec-opt-sz" data-tooltip="Large">X</a></li>
-                                                                    <li><a href="#" class="ec-opt-sz" data-tooltip="Extra Large">XL</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    @foreach ($productoPremio as $producto)
+                                        @livewire('card-premio',['id_producto'=>$producto->id,'imagen'=>$producto->imagen_path,'clasificacion'=>$producto->clasificacion,
+                                        'pvp'=>$producto->valor_venta,'color'=>$producto->color,'estilo'=>$producto->estilo])
                                     @endforeach
                                 @endif
                             </div>
@@ -287,14 +250,15 @@
                                             <span>
                                                 <input type="radio" id="pay1" name="radio-group" checked>
                                                 <label for="pay1">Contra entrega</label>
-                                            </span>                                            
+                                            </span>
                                         </span>
                                         <span class="ec-pay-commemt">
                                             <span class="ec-pay-opt-head">Agrega comentarios a tu pedido</span>
                                             <textarea name="your-commemt" placeholder="Comentarios"></textarea>
                                         </span>
-                                        <span class="ec-pay-agree"><input type="checkbox" value="" checked><a href="#">He leído y acepto los <span>Terminos y condiciones</span></a><span
-                                                class="checked"></span></span>
+                                        <span class="ec-pay-agree"><input type="checkbox" value="" checked><a
+                                                href="#">He leído y acepto los <span>Terminos y
+                                                    condiciones</span></a><span class="checked"></span></span>
                                     </form>
                                 </div>
                             </div>
@@ -342,6 +306,7 @@
     @push('js')
         <script>
             $('body').addClass('checkout_page')
+
         </script>
     @endpush
 </x-plantilla>

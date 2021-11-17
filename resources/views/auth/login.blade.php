@@ -22,7 +22,7 @@
 
                         <x-jet-input class="{{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email"
                             :value="old('email')" required />
-                        <x-jet-input-error for="email"></x-jet-input-error>
+                        <x-jet-input-error class="mb-2" for="email"></x-jet-input-error>
                     </div>
 
                     <div class="mb-3">

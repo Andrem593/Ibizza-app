@@ -108,7 +108,8 @@ class webController extends Controller
     public function checkout_view(){
         $catalogos = Catalogo::where('estado','PUBLICADO')->get();
         $condiciones = [];
-        $productoPremio = [];     
+        $productoPremio = [];  
+        $empresaria = new Empresaria();   
         foreach ($catalogos as $catalogo) {
             $condicion = Premio::where('catalogo_id',$catalogo->id)->first();
             if (!empty($condicion) ) {        
@@ -121,12 +122,13 @@ class webController extends Controller
                 $premio = DB::table($condicion[0]->nombre_tabla)->whereRaw($condicion[0]->condicion)->get();
                 foreach ($premio as  $val) {
                     if ($val->id_user == Auth::user()->id) {
+                        $empresaria = $val;
                         $pro = DB::table('premio_has_productos')->join('productos','productos.estilo','=','premio_has_productos.estilo')->where('premio_id',$condiciones[0]->id)->first();
                         array_push($productoPremio,$pro); 
                     }
                 }
             }
         }
-        return view('ecomerce.checkout',compact('productoPremio'));        
+        return view('ecomerce.checkout',compact('productoPremio','empresaria'));        
     }
 }
