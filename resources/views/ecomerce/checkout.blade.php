@@ -104,20 +104,20 @@
                                             </span>
                                         </span>
                                         <div class="ec-check-bill-form">
-                                            <form action="#" method="post">
+                                            <form id="form_datos" action="#" method="post">
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Nombres</label>
-                                                    <input type="text" name="nombres" value="{{$empresaria->nombres}}"
+                                                    <input type="text" id="nombres" name="nombres" value="{{$empresaria->nombres}}"
                                                         placeholder="Enter your first name" required />
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Apellidos</label>
-                                                    <input type="text" name="apellidos" value="{{$empresaria->apellidos}}"
+                                                    <input type="text" id="apellidos" name="apellidos" value="{{$empresaria->apellidos}}"
                                                         placeholder="Enter your last name" required />
                                                 </span>
                                                 <span class="ec-bill-wrap">
                                                     <label>Dirección</label>
-                                                    <input type="text" name="direccion" value="{{$empresaria->direccion}}"
+                                                    <input type="text" id="direccion" name="direccion" value="{{$empresaria->direccion}}"
                                                         placeholder="ingrese la direccion de entrega del pedido" />
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
@@ -137,7 +137,7 @@
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Provincia</label>
                                                     <span class="ec-bl-select-inner">
-                                                        <select name="provincia" id="ec-select-state"
+                                                        <select name="provincia" id="provincia"
                                                             class="ec-bill-select">
                                                             <option>{{!empty($ubicacion[0]) ? $ubicacion[0]->provincia : ''}}</option>
                                                         </select>
@@ -146,7 +146,7 @@
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Ciudad</label>
                                                     <span class="ec-bl-select-inner">
-                                                        <select name="ciudad" id="ec-select-city"
+                                                        <select name="ciudad" id="ciudad"
                                                             class="ec-bill-select">
                                                             <option>{{!empty($ubicacion[0]) ? $ubicacion[0]->ciudad : ''}}</option>
                                                         </select>
@@ -154,7 +154,7 @@
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Codigo Postal</label>
-                                                    <input type="text" name="postalcode" placeholder="ingrese el codigo postal" />
+                                                    <input type="text" name="postalcode" id="codigo_postal" placeholder="ingrese el codigo postal" />
                                                 </span>                                                
                                             </form>
                                         </div>
@@ -164,7 +164,7 @@
 
                             </div>
                             <span class="ec-check-order-btn">
-                                <a class="btn btn-primary" href="#">Realizar Pedido</a>
+                                <a class="btn btn-primary" id="tomar_pedido">Realizar Pedido</a>
                             </span>
                         </div>
                     </div>
@@ -182,7 +182,7 @@
                                 <div class="ec-checkout-summary">
                                     <div>
                                         <span class="text-left">Total de Productos</span>
-                                        <span class="text-right">{{ Cart::count() }}</span>
+                                        <span class="text-right" id="total_productos">{{ Cart::count() }}</span>
                                     </div>
                                     <div>
                                         <span class="text-left">Ganacia estimada</span>
@@ -190,15 +190,24 @@
                                     </div>
                                     <div class="ec-checkout-summary-total">
                                         <span class="text-left">Total a Pagar</span>
-                                        <span class="text-right">${{ Cart::total() }}</span>
+                                        <span class="text-right" id="total_pagar">${{ Cart::total() }}</span>
                                     </div>
                                 </div>
-                                @if (!empty($productoPremio))
-                                    @foreach ($productoPremio as $producto)
-                                        @livewire('card-premio',['id_producto'=>$producto->id,'imagen'=>$producto->imagen_path,'clasificacion'=>$producto->clasificacion,
-                                        'pvp'=>$producto->valor_venta,'color'=>$producto->color,'estilo'=>$producto->estilo])
-                                    @endforeach
-                                @endif
+                                <div class="ec-checkout-pro">
+                                    <h3 class="ec-sidebar-title">Premios por pedido</h3>                                    
+                                    @if (!empty($productoPremio))
+                                        <input type="hidden" id="premio" value="tiene premio">
+                                        @foreach ($productoPremio as $producto)
+                                            @livewire('card-premio',['id_producto'=>$producto->id,'imagen'=>$producto->imagen_path,'clasificacion'=>$producto->clasificacion,
+                                            'pvp'=>$producto->valor_venta,'color'=>$producto->color,'estilo'=>$producto->estilo])
+                                        @endforeach
+                                    @else
+                                        <div>
+                                            <input type="hidden" id="premio" value="no tiene premio">
+                                            <p>Tu pedido no incluye premio</p>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                         <!-- Sidebar Summary Block -->
@@ -305,8 +314,36 @@
     </section>
     @push('js')
         <script>
-            $('body').addClass('checkout_page')
-
+            $('body').addClass('checkout_page');
+            $('#tomar_pedido').click(function() {
+                let productosPremio = [];
+                let total = $('#total_pagar').text().split('$')
+                let data = {
+                    nombres: $('#nombres').val(),
+                    apellidos: $('#apellidos').val(),
+                    direccion: $('#direccion').val(),
+                    provincia: $('#provincia').val(),
+                    ciudad: $('#ciudad').val(),
+                    codigo_postal: $('#coidgo_postal').val(),
+                    total_pagar: total[1],
+                    total_productos: $('#total_productos').text(),
+                    premio: $('#premio').val()
+                }
+                if($('#premio').val() == "tiene premio"){
+                    let premios = $('.datos-premios')
+                    $.each(premios,function(i,v) {
+                        let data = {
+                            nombre : $(this).find('.ec-pro-title a').text(),
+                            precio : 0,
+                            color: $(this).find('.ec-pro-color .p-1').val(),
+                            talla: $(this).find('.ec-pro-size ul .active').text()
+                        }
+                        productosPremio.push(data);
+                    })
+                }
+                console.log(data);
+                console.log(productosPremio);
+            })
         </script>
     @endpush
 </x-plantilla>

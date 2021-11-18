@@ -18,7 +18,7 @@ class webController extends Controller
         $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->where('catalogos.estado', '=', 'PUBLICADO')
-            ->groupBy('productos.grupo', 'productos.seccion', 'productos.clasificacion')->get();
+            ->groupBy('productos.estilo')->get();
         $marcas = DB::table('marcas')->where('imagen', '<>', '')->get();
         $catalogos = DB::table('catalogos')->where('estado', '=', 'PUBLICADO')->get();
         return view('welcome2', compact('marcas', 'productos', 'catalogos'));
@@ -50,7 +50,7 @@ class webController extends Controller
         $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->where('catalogos.estado', '=', 'PUBLICADO')
-            ->groupBy('productos.grupo', 'productos.seccion', 'productos.clasificacion')->get();
+            ->groupBy('productos.estilo')->get();
         return view('ecomerce.tienda', compact('productos'));
     }
     public function carrito()
@@ -114,17 +114,19 @@ class webController extends Controller
             $condicion = Premio::where('catalogo_id',$catalogo->id)->first();
             if (!empty($condicion) ) {        
                 array_push($condiciones,$condicion);
+                $reglas = json_decode($condiciones[0]->condicion);
             }
         }
-        $condicion = json_decode($condiciones[0]->condicion);
-        if (!empty(Auth::user())) {            
+        
+        if (!empty(Auth::user())) {   
             if (Auth::user()->role == 'Empresaria') { 
-                $premio = DB::table($condicion[0]->nombre_tabla)->whereRaw($condicion[0]->condicion)->get();
-                foreach ($premio as  $val) {
-                    if ($val->id_user == Auth::user()->id) {
-                        $empresaria = $val;
-                        $pro = DB::table('premio_has_productos')->join('productos','productos.estilo','=','premio_has_productos.estilo')->where('premio_id',$condiciones[0]->id)->first();
-                        array_push($productoPremio,$pro); 
+                $empresaria = Empresaria::where('id_user',Auth::user()->id)->first();
+                if (!empty($condicion)) {                
+                    $premio = DB::table($reglas[0]->nombre_tabla)->whereRaw($reglas[0]->condicion)->get();
+                    foreach ($premio as  $val) {
+                        if ($val->id_user == Auth::user()->id) {
+                            $productoPremio = DB::table('premio_has_productos')->join('productos','productos.estilo','=','premio_has_productos.estilo')->where('premio_id',$condiciones[0]->id)->groupBy('productos.estilo')->get();
+                        }
                     }
                 }
             }

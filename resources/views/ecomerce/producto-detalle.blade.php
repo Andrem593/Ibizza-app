@@ -83,6 +83,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="ec-single-price-stoke">
                                             <div class="ec-single-price">
                                                 <span class="ec-single-ps-title">Precio:</span>
@@ -222,7 +223,7 @@
         <script>    
             /*----------------------------- Contador de tiempo restante de catalogo ------------------------------ */
             $("#ec-single-countdown").countdowntimer({
-                startDate : "{{str_replace('-','/',$catalogo->fecha_publicacion).' 00:00:00'}}",
+                startDate : "{{str_replace('-','/',date('Y-m-d')).' '.date('h:i:s')}}",
                 dateAndTime : "{{str_replace('-','/',$catalogo->fecha_fin_catalogo).' 00:00:00'}}",
                 labelsFormat : true,
                 displayFormat : "DHMS"

@@ -20,6 +20,12 @@
     color: #fff !important;
     background-color: #008f94 !important;
 }
+.text-light{
+    color: #000000 !important;
+}
+.search-title{
+    color: #000000 !important;
+}
 
 /* recuadros de login se adapten al 50% de la pantalla */
 @media (min-width: 800px){

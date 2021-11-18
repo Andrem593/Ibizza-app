@@ -34,12 +34,12 @@
                 <span class="old-price">${{ $valor_venta }}</span>
                 <span class="new-price">${{ number_format($valor_venta, 2) }}</span>
             </span>
-            <div class="ec-pro-option">
-                <div class="ec-pro-color">
+            <div class="ec-pro-option row d-flex justify-content-start">
+                <div class="ec-pro-color row mx-auto mb-1">
                     <span class="ec-pro-opt-label">Color</span>
                     <select class="p-0">
                         @foreach ($productos_all as $val)
-                            @if ($clasificacion == $val->clasificacion)
+                            @if ($estilo == $val->estilo)
                                 <option> {{ $val->color }} </option>
                             @endif
                         @endforeach
@@ -47,7 +47,7 @@
                 </div>
                 <div class="ec-pro-size">
                     <span class="ec-pro-opt-label">Talla</span>
-                    <ul class="ec-opt-size">
+                    <ul class="ec-opt-size d-flex justify-content-start flex-wrap">
                         @foreach ($productos_tallas as $val)
                             @if ($color == $val->color)
                                 <li><a href="#" class="ec-opt-sz">{{ $val->talla }}</a></li>

@@ -23481,7 +23481,6 @@ h4.ec-faq-title::after, .ec-faq-title.h4::after {
 .single-pro-content .ec-pro-variation .ec-pro-variation-inner .ec-pro-variation-content li {
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
-  width: 30px;
   height: 30px;
   cursor: pointer;
   background-color: #f5f5f5;
@@ -29002,7 +29001,6 @@ i.ecicon.eci-star-o {
   font-size: 12px;
   -webkit-transition: all 0.4s ease-out 0s;
   transition: all 0.4s ease-out 0s;
-  width: 20px;
   height: 20px;
   text-align: center;
 }
