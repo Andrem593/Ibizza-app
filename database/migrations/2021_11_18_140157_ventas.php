@@ -17,9 +17,12 @@ class Ventas extends Migration
             $table->id();
             $table->integer('id_vendedor');
             $table->integer('id_empresaria');
+            $table->string('factura_identificacion');
+            $table->string('factura_nombres');
             $table->string('direccion_envio');
+            $table->string('codigo_postal');
             $table->string('observaciones');
-            $table->integer('id_pedido');
+            $table->text('id_pedidos');
             $table->integer('cantidad_total');
             $table->float('total_venta',8,2);
             $table->float('total_p_empresaria',8,2);

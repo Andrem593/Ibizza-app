@@ -2,8 +2,8 @@
 
 $("body").on("click", ".add-to-cart", function(){
     var clasificacion = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-pro-title a").html();
-    var color = $(this).parents().parents().parents().children(".ec-pro-content").find('.ec-pro-option .ec-pro-color .p-0').val();
-    var talla = $(this).parents().parents().parents().children(".ec-pro-content").find('.ec-pro-option .ec-pro-size .ec-opt-size .active .ec-opt-sz').html();
+    var color = $(this).parents().parents().parents().children(".ec-pro-content").find('.ec-pro-color .p-1').val();
+    var talla = $(this).parents().parents().parents().children(".ec-pro-content").find('.ec-pro-size ul .active a').text();
     data = {
         'clasificacion' : clasificacion,
         'color':color,
