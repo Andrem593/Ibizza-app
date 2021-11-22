@@ -17,4 +17,10 @@ class CardProductos extends Component
         $productos_tallas = DB::table('productos')->get();
         return view('livewire.card-productos',compact('productos_all','productos_tallas'));
     }
+
+    public function quickView($estilo)
+    {
+        $this->emit('quickView', $estilo);
+        
+    }
 }

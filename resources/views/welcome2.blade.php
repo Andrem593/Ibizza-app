@@ -3782,8 +3782,9 @@
              </footer>
              <!-- Footer Area End -->
 
+             <livewire:modal-quick-view />
              <!-- Modal -->
-             <div class="modal fade" id="ec_quickview_modal" tabindex="-1" role="dialog">
+             {{-- <div class="modal fade" id="ec_quickview_modal" tabindex="-1" role="dialog">
                  <div class="modal-dialog modal-dialog-centered" role="document">
                      <div class="modal-content">
                          <button type="button" class="btn-close qty_close" data-bs-dismiss="modal"
@@ -3904,7 +3905,7 @@
                          </div>
                      </div>
                  </div>
-             </div>
+             </div> --}}
              <!-- Modal end -->
 
              <!-- Newsletter Modal Start -->
