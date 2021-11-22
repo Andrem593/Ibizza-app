@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Catalogo;
 use App\Empresaria;
+use App\Models\Pedido;
+use App\Models\Venta;
 use App\Premio;
 use Illuminate\Support\Facades\DB;
 use App\Producto;
@@ -132,5 +134,48 @@ class webController extends Controller
             }
         }
         return view('ecomerce.checkout',compact('productoPremio','empresaria'));        
+    }
+    public function dataCheckout(Request $request){
+        $productos_pedidos = Cart::content();
+        $id_pedidos = '';
+        $empresaria = Empresaria::where('cedula',$request->cedula)->first();
+        $venta = Venta::create([
+            'id_vendedor'=>$empresaria->vendedor,
+            'id_empresaria'=>$empresaria->id,
+            'factura_identificacion'=>$request->cedula,
+            'factura_nombres'=>($request->nombres.' '.$request->apellidos),
+            'direccion_envio'=>$request->direccion,
+            'codigo_postal'=>$request->codigo_postal,
+            'cantidad_total'=>$request->total_productos,
+            'total_venta'=>$request->total_pagar,
+            'estado'=>'PEDIDO'
+        ]);
+        foreach ($productos_pedidos as $producto) {            
+            $pedido = Pedido::create([
+                'id_producto'=>$producto->id,
+                'id_venta'=>$venta->id,
+                'cantidad'=>$producto->qty,
+                'precio'=>$producto->price,
+                'total'=>number_format(($producto->price * $producto->qty),2),
+                'estado'=>'PEDIDO',
+                'usuario'=> Auth::user()->id,
+            ]);
+            $id_pedidos .= $pedido->id.'|';
+        }
+        Venta::where('id',$venta->id)->update([
+            'id_pedidos'=>$id_pedidos
+        ]);
+        // Cart::destroy();                
+        $response = [];
+        if(!empty($venta)){
+            $response['id_venta'] = $venta->id;
+        }
+        return $response;
+    }
+    public function detalle_pedido($id_venta){
+        $pedidos = Pedido::where('id_venta',$id_venta)->join('productos','productos.id','=','pedidos.id_producto')->select('pedidos.*','productos.clasificacion as nombre_producto','productos.talla as talla_producto','productos.color as color_producto')->get();
+        $i = 1;
+        $venta = Venta::find($id_venta);
+        return view('ecomerce.detalle-pedido',compact('pedidos','i','venta'));
     }
 }

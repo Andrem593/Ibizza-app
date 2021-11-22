@@ -23,7 +23,7 @@ use App\Http\Controllers\webController;
 |
 */
 
-//RUTAS PAGINA PRINCIPAL
+//RUTAS PAGINA PRINCIPAL & FUNCIONES DE E-COMERCE
 
 Route::get('/', webController::class)->name('web');
 Route::get('/tienda', [webController::class,'tienda'])->name('web.tienda');
@@ -34,10 +34,9 @@ Route::post('stock-x-talla',[webController::class,'stock_x_color'])->name('web.s
 Route::post('/store', [webController::class,'addToCart']);
 Route::post('/delete', [webController::class,'deleteToCart']);
 Route::get('checkout-ibizza',[webController::class,'checkout_view'])->name('web.checkout');
-Route::get('/carrito', function () {
-    return view('web.carrito');
-});
 Route::get('/autocompletar', [webController::class,'autocompletar'])->name('web.autocompletar');
+Route::post('chekout',[webController::class,'dataCheckout'])->name('web.checkout-productos');
+Route::get('detalle-pedido-ibizza/{id_venta}',[webController::class,'detalle_pedido'])->name('web.detalle_pedido');
 
 // RUTAS DASHBOARD
 Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard', function () {

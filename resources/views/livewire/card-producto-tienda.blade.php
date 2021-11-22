@@ -37,7 +37,7 @@
             <div class="ec-pro-option row d-flex justify-content-start">
                 <div class="ec-pro-color row mx-auto mb-1">
                     <span class="ec-pro-opt-label">Color</span>
-                    <select class="p-0">
+                    <select class="p-1">
                         @foreach ($productos_all as $val)
                             @if ($estilo == $val->estilo)
                                 <option> {{ $val->color }} </option>

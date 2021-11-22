@@ -63,14 +63,17 @@
                                                     <x-jet-label value="{{ __('Email') }}" />
 
                                                     <x-jet-input class="{{ $errors->has('email') ? 'is-invalid' : '' }}"
-                                                        type="email" name="email" :value="old('email')" placeholder='Ingresa tu correo' required />
+                                                        type="email" name="email" :value="old('email')"
+                                                        placeholder='Ingresa tu correo' required />
                                                     <x-jet-input-error for="email"></x-jet-input-error>
                                                 </span>
                                                 <span class="ec-check-login-wrap">
                                                     <x-jet-label value="{{ __('Password') }}" />
 
-                                                    <x-jet-input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                                        type="password" name="password" placeholder='ingrese su contraseña' required autocomplete="current-password" />
+                                                    <x-jet-input
+                                                        class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                        type="password" name="password" placeholder='ingrese su contraseña'
+                                                        required autocomplete="current-password" />
                                                     <x-jet-input-error for="password"></x-jet-input-error>
                                                 </span>
 
@@ -105,20 +108,30 @@
                                         </span>
                                         <div class="ec-check-bill-form">
                                             <form id="form_datos" action="#" method="post">
+                                                <span class="ec-bill-wrap">
+                                                    <label>Número de identificacion</label>
+                                                    <input type="number" id="cedula" name="cedula"
+                                                        value="{{ $empresaria->cedula }}"
+                                                        placeholder="Ingrese su número de cedula" required />
+                                                </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Nombres</label>
-                                                    <input type="text" id="nombres" name="nombres" value="{{$empresaria->nombres}}"
-                                                        placeholder="Enter your first name" required />
+                                                    <input type="text" id="nombres" name="nombres"
+                                                        value="{{ $empresaria->nombres }}"
+                                                        placeholder="Ingrese sus nombres" required />
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Apellidos</label>
-                                                    <input type="text" id="apellidos" name="apellidos" value="{{$empresaria->apellidos}}"
-                                                        placeholder="Enter your last name" required />
+                                                    <input type="text" id="apellidos" name="apellidos"
+                                                        value="{{ $empresaria->apellidos }}"
+                                                        placeholder="Ingrese sus apellidos" required />
                                                 </span>
                                                 <span class="ec-bill-wrap">
                                                     <label>Dirección</label>
-                                                    <input type="text" id="direccion" name="direccion" value="{{$empresaria->direccion}}"
-                                                        placeholder="ingrese la direccion de entrega del pedido" />
+                                                    <input type="text" id="direccion" name="direccion"
+                                                        value="{{ $empresaria->direccion }}"
+                                                        placeholder="ingrese la direccion de entrega del pedido"
+                                                        required />
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Pais</label>
@@ -130,32 +143,37 @@
                                                     </span>
                                                 </span>
                                                 @php
-                                                    $ubicacion = DB::table('ciudades')->join('provincias','ciudades.provincia_id','=','provincias.id')
-                                                                    ->select('ciudades.id','ciudades.descripcion as ciudad','provincias.descripcion as provincia','provincias.id as id_provincia')
-                                                                    ->where('ciudades.id',$empresaria->id_ciudad)->get();
+                                                    $ubicacion = DB::table('ciudades')
+                                                        ->join('provincias', 'ciudades.provincia_id', '=', 'provincias.id')
+                                                        ->select('ciudades.id', 'ciudades.descripcion as ciudad', 'provincias.descripcion as provincia', 'provincias.id as id_provincia')
+                                                        ->where('ciudades.id', $empresaria->id_ciudad)
+                                                        ->get();
                                                 @endphp
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Provincia</label>
                                                     <span class="ec-bl-select-inner">
-                                                        <select name="provincia" id="provincia"
-                                                            class="ec-bill-select">
-                                                            <option>{{!empty($ubicacion[0]) ? $ubicacion[0]->provincia : ''}}</option>
+                                                        <select name="provincia" id="provincia" class="ec-bill-select">
+                                                            <option>
+                                                                {{ !empty($ubicacion[0]) ? $ubicacion[0]->provincia : '' }}
+                                                            </option>
                                                         </select>
                                                     </span>
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Ciudad</label>
                                                     <span class="ec-bl-select-inner">
-                                                        <select name="ciudad" id="ciudad"
-                                                            class="ec-bill-select">
-                                                            <option>{{!empty($ubicacion[0]) ? $ubicacion[0]->ciudad : ''}}</option>
+                                                        <select name="ciudad" id="ciudad" class="ec-bill-select">
+                                                            <option>
+                                                                {{ !empty($ubicacion[0]) ? $ubicacion[0]->ciudad : '' }}
+                                                            </option>
                                                         </select>
                                                     </span>
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Codigo Postal</label>
-                                                    <input type="text" name="postalcode" id="codigo_postal" placeholder="ingrese el codigo postal" />
-                                                </span>                                                
+                                                    <input type="text" name="postalcode" id="codigo_postal"
+                                                        placeholder="ingrese el codigo postal" required />
+                                                </span>
                                             </form>
                                         </div>
 
@@ -164,7 +182,7 @@
 
                             </div>
                             <span class="ec-check-order-btn">
-                                <a class="btn btn-primary" id="tomar_pedido">Realizar Pedido</a>
+                                <a class="btn btn-primary w-100" id="tomar_pedido">Realizar Pedido</a>
                             </span>
                         </div>
                     </div>
@@ -194,7 +212,7 @@
                                     </div>
                                 </div>
                                 <div class="ec-checkout-pro">
-                                    <h3 class="ec-sidebar-title">Premios por pedido</h3>                                    
+                                    <h3 class="ec-sidebar-title">Premios por pedido</h3>
                                     @if (!empty($productoPremio))
                                         <input type="hidden" id="premio" value="tiene premio">
                                         @foreach ($productoPremio as $producto)
@@ -313,37 +331,68 @@
         </div>
     </section>
     @push('js')
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             $('body').addClass('checkout_page');
             $('#tomar_pedido').click(function() {
                 let productosPremio = [];
                 let total = $('#total_pagar').text().split('$')
-                let data = {
+                let datos = {
+                    cedula:$('#cedula').val(),
                     nombres: $('#nombres').val(),
                     apellidos: $('#apellidos').val(),
                     direccion: $('#direccion').val(),
                     provincia: $('#provincia').val(),
                     ciudad: $('#ciudad').val(),
-                    codigo_postal: $('#coidgo_postal').val(),
+                    codigo_postal: $('#codigo_postal').val(),
                     total_pagar: total[1],
                     total_productos: $('#total_productos').text(),
                     premio: $('#premio').val()
                 }
-                if($('#premio').val() == "tiene premio"){
+                if ($('#premio').val() == "tiene premio") {
                     let premios = $('.datos-premios')
-                    $.each(premios,function(i,v) {
+                    $.each(premios, function(i, v) {
                         let data = {
-                            nombre : $(this).find('.ec-pro-title a').text(),
-                            precio : 0,
+                            nombre: $(this).find('.ec-pro-title a').text(),
+                            precio: 0,
                             color: $(this).find('.ec-pro-color .p-1').val(),
                             talla: $(this).find('.ec-pro-size ul .active').text()
                         }
-                        productosPremio.push(data);
+                        if ($(this).find('.ec-pro-size ul .active').text() == '') {
+                            Swal.fire(
+                                'Debe escoger la talla y \n el color del premio!',
+                                '',
+                                'info'
+                            )
+                        } else {
+                            productosPremio.push(data);
+                        }
                     })
                 }
-                console.log(data);
-                console.log(productosPremio);
+                datos['premios'] = productosPremio; 
+                data_checkout(datos)           
             })
+
+            function data_checkout(datos) {        
+                $.post({
+                    url: "{{route('web.checkout-productos')}}",
+                    data: datos,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    beforeSend: function() {                        
+                    },
+                    success: function(response) {
+                        if(response != ''){
+                            let id_ventas = response.id_venta
+                            let url = 'detalle-pedido-ibizza/'+id_ventas
+
+                            $(location).attr('href',url);
+                        }
+                    }
+                })
+            }
+
         </script>
     @endpush
 </x-plantilla>
