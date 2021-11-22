@@ -180,6 +180,7 @@ class ProductoController extends Controller
                     'color'  => $row[9],
                     'talla'  => $row[10],
                     'cantidad_inicial'  => $row[11],
+                    'stock'  => $row[11],
                     'valor_venta'  => $row[12]
                 );
 
