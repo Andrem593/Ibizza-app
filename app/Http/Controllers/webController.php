@@ -158,6 +158,9 @@ class webController extends Controller
         $productos_pedidos = Cart::content();
         $id_pedidos = '';
         $empresaria = Empresaria::where('cedula', $request->cedula)->first();
+        if ($empresaria->tipo_cliente == 'NUEVA') {            
+            Empresaria::where('id',$empresaria->id)->update('tipo_cliente','CONTINUA');
+        }
         $venta = Venta::create([
             'id_vendedor' => $empresaria->vendedor,
             'id_empresaria' => $empresaria->id,
@@ -179,12 +182,15 @@ class webController extends Controller
                 'estado' => 'PEDIDO',
                 'usuario' => Auth::user()->id,
             ]);
+            $pro = Producto::where('id',$producto->id)->first();
+            $nuevo_stock= $pro->stock - $producto->qty;
+            Producto::where('id',$producto->id)->update('stock',$nuevo_stock);
             $id_pedidos .= $pedido->id . '|';
         }
         Venta::where('id', $venta->id)->update([
             'id_pedidos' => $id_pedidos
         ]);
-        // Cart::destroy();                
+        Cart::destroy();                
         $response = [];
         if (!empty($venta)) {
             $response['id_venta'] = $venta->id;
