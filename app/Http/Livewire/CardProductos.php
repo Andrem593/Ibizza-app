@@ -20,7 +20,15 @@ class CardProductos extends Component
 
     public function quickView($estilo)
     {
-        $this->emit('quickView', $estilo);
+        $productos_color = Producto::where('estilo', $estilo)->groupBy('color')->get();
+        $catalogo = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+            ->select('catalogos.*')
+            ->where('productos.estilo', '=', $estilo)
+            ->groupBy('color')->first();
+        $tallas = Producto::where('estilo', $estilo)->where('color', $productos_color[0]->color)->get();
+
+        $this->productos_color = 2;
         
     }
 }
