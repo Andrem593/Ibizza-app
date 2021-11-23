@@ -35,6 +35,8 @@ Route::post('/store', [webController::class,'addToCart']);
 Route::post('/delete', [webController::class,'deleteToCart']);
 Route::get('checkout-ibizza',[webController::class,'checkout_view'])->name('web.checkout');
 Route::get('/autocompletar', [webController::class,'autocompletar'])->name('web.autocompletar');
+Route::get('/autocompletar-empresaria', [webController::class,'autocompletar_empresaria'])->name('web.autocompletar-empresaria');
+Route::post('/data-empresaria', [webController::class,'data_empresaria'])->name('web.data-empresaria');
 Route::post('chekout',[webController::class,'dataCheckout'])->name('web.checkout-productos');
 Route::get('detalle-pedido-ibizza/{id_venta}',[webController::class,'detalle_pedido'])->name('web.detalle_pedido');
 

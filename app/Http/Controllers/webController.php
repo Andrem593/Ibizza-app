@@ -101,81 +101,152 @@ class webController extends Controller
             $response[] = array("value" => $producto->nombre_producto, "estilo" => $producto->estilo, "seccion" => $producto->seccion, "imagen_path" => $producto->imagen_path);
         }
 
-        if(count($response)==0){
+        if (count($response) == 0) {
             $response[] = array("value" => "");
         }
 
         return response()->json($response);
     }
-    public function checkout_view(){
-        $catalogos = Catalogo::where('estado','PUBLICADO')->get();
+    public function checkout_view()
+    {
+        $catalogos = Catalogo::where('estado', 'PUBLICADO')->get();
         $condiciones = [];
-        $productoPremio = [];  
-        $empresaria = new Empresaria();   
+        $productoPremio = [];
+        $empresaria = new Empresaria();
         foreach ($catalogos as $catalogo) {
-            $condicion = Premio::where('catalogo_id',$catalogo->id)->first();
-            if (!empty($condicion) ) {        
-                array_push($condiciones,$condicion);
-                $reglas = json_decode($condiciones[0]->condicion);
+            $condicion = Premio::where('catalogo_id', $catalogo->id)->get();
+            if (!empty($condicion)) {
+                foreach ($condicion as  $value) {
+                    array_push($condiciones, $value);
+                }
             }
         }
-        
-        if (!empty(Auth::user())) {   
-            if (Auth::user()->role == 'Empresaria') { 
-                $empresaria = Empresaria::where('id_user',Auth::user()->id)->first();
-                if (!empty($condicion)) {                
-                    $premio = DB::table($reglas[0]->nombre_tabla)->whereRaw($reglas[0]->condicion)->get();
-                    foreach ($premio as  $val) {
-                        if ($val->id_user == Auth::user()->id) {
-                            $productoPremio = DB::table('premio_has_productos')->join('productos','productos.estilo','=','premio_has_productos.estilo')->where('premio_id',$condiciones[0]->id)->groupBy('productos.estilo')->get();
+        if (!empty(Auth::user())) {
+            if (Auth::user()->role == 'Empresaria') {
+                $empresaria = Empresaria::where('id_user', Auth::user()->id)->first();
+                if (!empty($condiciones)) {
+                    foreach ($condiciones as $i => $condicion) {
+                        $reglas = json_decode($condicion->condicion);
+                        if ($reglas[0]->nombre_tabla == 'empresarias') {
+                            $premio = DB::table($reglas[0]->nombre_tabla)->whereRaw($reglas[0]->condicion)->get();
+                            foreach ($premio as  $val) {
+                                if ($val->id_user == Auth::user()->id) {
+                                    $producto = DB::table('premio_has_productos')->join('productos', 'productos.estilo', '=', 'premio_has_productos.estilo')->where('premio_id', $condicion->id)->groupBy('productos.estilo')->get();
+                                    foreach ($producto as  $value) {
+                                        array_push($productoPremio, $value);
+                                    }
+                                }
+                            }
+                        }
+                        if ($reglas[0]->nombre_tabla == 'pedidos') {
+                            $rule = $reglas[0]->condicion;
+                            $total_factura = Cart::total();
+                            $rule  = str_replace('total_factura', $total_factura, $rule);
+                            //pendiente validar por total de factura
                         }
                     }
                 }
             }
         }
-        return view('ecomerce.checkout',compact('productoPremio','empresaria'));        
+        return view('ecomerce.checkout', compact('productoPremio', 'empresaria'));
     }
-    public function dataCheckout(Request $request){
+    public function dataCheckout(Request $request)
+    {
         $productos_pedidos = Cart::content();
         $id_pedidos = '';
-        $empresaria = Empresaria::where('cedula',$request->cedula)->first();
+        $empresaria = Empresaria::where('cedula', $request->cedula)->first();
         $venta = Venta::create([
-            'id_vendedor'=>$empresaria->vendedor,
-            'id_empresaria'=>$empresaria->id,
-            'factura_identificacion'=>$request->cedula,
-            'factura_nombres'=>($request->nombres.' '.$request->apellidos),
-            'direccion_envio'=>$request->direccion,
-            'codigo_postal'=>$request->codigo_postal,
-            'cantidad_total'=>$request->total_productos,
-            'total_venta'=>$request->total_pagar,
-            'estado'=>'PEDIDO'
+            'id_vendedor' => $empresaria->vendedor,
+            'id_empresaria' => $empresaria->id,
+            'factura_identificacion' => $request->cedula,
+            'factura_nombres' => ($request->nombres . ' ' . $request->apellidos),
+            'direccion_envio' => $request->direccion,
+            'codigo_postal' => $request->codigo_postal,
+            'cantidad_total' => $request->total_productos,
+            'total_venta' => $request->total_pagar,
+            'estado' => 'PEDIDO'
         ]);
-        foreach ($productos_pedidos as $producto) {            
+        foreach ($productos_pedidos as $producto) {
             $pedido = Pedido::create([
-                'id_producto'=>$producto->id,
-                'id_venta'=>$venta->id,
-                'cantidad'=>$producto->qty,
-                'precio'=>$producto->price,
-                'total'=>number_format(($producto->price * $producto->qty),2),
-                'estado'=>'PEDIDO',
-                'usuario'=> Auth::user()->id,
+                'id_producto' => $producto->id,
+                'id_venta' => $venta->id,
+                'cantidad' => $producto->qty,
+                'precio' => $producto->price,
+                'total' => number_format(($producto->price * $producto->qty), 2),
+                'estado' => 'PEDIDO',
+                'usuario' => Auth::user()->id,
             ]);
-            $id_pedidos .= $pedido->id.'|';
+            $id_pedidos .= $pedido->id . '|';
         }
-        Venta::where('id',$venta->id)->update([
-            'id_pedidos'=>$id_pedidos
+        Venta::where('id', $venta->id)->update([
+            'id_pedidos' => $id_pedidos
         ]);
         // Cart::destroy();                
         $response = [];
-        if(!empty($venta)){
+        if (!empty($venta)) {
             $response['id_venta'] = $venta->id;
         }
         return $response;
     }
-    public function detalle_pedido($id_venta){
-        $pedidos = Pedido::where('id_venta',$id_venta)->join('productos','productos.id','=','pedidos.id_producto')->select('pedidos.*','productos.clasificacion as nombre_producto','productos.talla as talla_producto','productos.color as color_producto')->get();
+    public function detalle_pedido($id_venta)
+    {
+        $pedidos = Pedido::where('id_venta', $id_venta)->join('productos', 'productos.id', '=', 'pedidos.id_producto')->select('pedidos.*', 'productos.clasificacion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')->get();
         $i = 1;
         $venta = Venta::find($id_venta);
-        return view('ecomerce.detalle-pedido',compact('pedidos','i','venta'));
+        return view('ecomerce.detalle-pedido', compact('pedidos', 'i', 'venta'));
+    }
+    public function autocompletar_empresaria(Request $request)
+    {
+        $empresarias = Empresaria::where('cedula', 'LIKE', '%' . $request->term . '%')
+            ->orWhere('nombres', 'LIKE', '%' . $request->term . '%')->get();
+        $response = [];
+        foreach ($empresarias as $empresaria) {
+            array_push($response, ($empresaria->cedula . ' | ' . $empresaria->nombres));
+        }
+        return json_encode($response);
+    }
+    public function data_empresaria(Request $request)
+    {
+        $empresaria = Empresaria::where('cedula', $request->cedula)->orWhere('nombres', $request->nombres)
+            ->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')
+            ->join('provincias', 'provincias.id', '=', 'ciudades.provincia_id')
+            ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'provincias.descripcion as nombre_provincia')->first();
+        $json = [];
+        $json['empresaria'] = $empresaria;
+        $catalogos = Catalogo::where('estado', 'PUBLICADO')->get();
+        $condiciones = [];
+        $productoPremio = [];
+        foreach ($catalogos as $catalogo) {
+            $condicion = Premio::where('catalogo_id', $catalogo->id)->get();
+            if (!empty($condicion)) {
+                foreach ($condicion as  $value) {
+                    array_push($condiciones, $value);
+                }
+            }
+        }
+        if (!empty($condiciones)) {
+            foreach ($condiciones as $i => $condicion) {
+                $reglas = json_decode($condicion->condicion);
+                if ($reglas[0]->nombre_tabla == 'empresarias') {
+                    $premio = DB::table($reglas[0]->nombre_tabla)->whereRaw($reglas[0]->condicion)->get();
+                    foreach ($premio as  $val) {
+                        if ($val->id_user == $empresaria->id_user) {
+                            $producto = DB::table('premio_has_productos')->join('productos', 'productos.estilo', '=', 'premio_has_productos.estilo')->where('premio_id', $condicion->id)->groupBy('productos.estilo')->get();
+                            foreach ($producto as  $value) {
+                                array_push($productoPremio, $value);
+                            }
+                        }
+                    }
+                }
+                if ($reglas[0]->nombre_tabla == 'pedidos') {
+                    $rule = $reglas[0]->condicion;
+                    $total_factura = Cart::total();
+                    $rule  = str_replace('total_factura', $total_factura, $rule);
+                    //pendiente validar por total de factura
+                }
+            }
+            $json['premios'] = $productoPremio;
+        }
+        return json_encode($json);
     }
 }

@@ -90,7 +90,31 @@
                                     </div>
                                 </div>
                             @endempty
-
+                            @if (!empty(Auth::user()))
+                                @if (Auth::user()->role != 'Empresaria')
+                                    <div class="ec-checkout-wrap margin-bottom-30">
+                                        <div class="ec-checkout-block ec-check-new">
+                                            <h3 class="ec-checkout-title">Asignación de Empresarias para vendedores</h3>
+                                            <div class="ec-check-block-content">
+                                                <div class="ec-check-subtitle">Escoge la empresaria</div>
+                                                <div class="row mx-0">
+                                                    <select id="tipo_busqueda" class="form-select my-auto">
+                                                        <option value="cedula">CEDULA</option>
+                                                        <option value="nombre">NOMBRES</option>
+                                                    </select>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" id="search"
+                                                            placeholder="Ingrese datos de empresaria">
+                                                    </div>
+                                                </div>
+                                                <div class="ec-new-btn"><a id="asignarEmpresaria"
+                                                        class="btn btn-primary">Continuar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endif
                             <div class="ec-checkout-wrap margin-bottom-30 padding-bottom-3">
                                 <div class="ec-checkout-block ec-check-bill">
                                     <h3 class="ec-checkout-title">Detalles de Facturación</h3>
@@ -220,7 +244,7 @@
                                             'pvp'=>$producto->valor_venta,'color'=>$producto->color,'estilo'=>$producto->estilo])
                                         @endforeach
                                     @else
-                                        <div>
+                                        <div id="premios_despues">
                                             <input type="hidden" id="premio" value="no tiene premio">
                                             <p>Tu pedido no incluye premio</p>
                                         </div>
@@ -332,13 +356,24 @@
     </section>
     @push('js')
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
         <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
             $('body').addClass('checkout_page');
             $('#tomar_pedido').click(function() {
                 let productosPremio = [];
                 let total = $('#total_pagar').text().split('$')
                 let datos = {
-                    cedula:$('#cedula').val(),
+                    cedula: $('#cedula').val(),
                     nombres: $('#nombres').val(),
                     apellidos: $('#apellidos').val(),
                     direccion: $('#direccion').val(),
@@ -349,6 +384,7 @@
                     total_productos: $('#total_productos').text(),
                     premio: $('#premio').val()
                 }
+                let continuar = 0;
                 if ($('#premio').val() == "tiene premio") {
                     let premios = $('.datos-premios')
                     $.each(premios, function(i, v) {
@@ -359,40 +395,152 @@
                             talla: $(this).find('.ec-pro-size ul .active').text()
                         }
                         if ($(this).find('.ec-pro-size ul .active').text() == '') {
+                            continuar++;
+                        } else {
+                            productosPremio.push(data);
+                        }
+                    })
+                }
+                datos['premios'] = productosPremio;
+                let total_pedido = $('#total_pagar').text().split('$');
+
+                if ($('#codigo_postal').val() != '' && $('#cedula').val() != '' && $('#nombres').val() != '' && $(
+                        '#apellidos').val() != '' && $('#direccion').val() != '' && $('#ciudad').val() != '') {
+                    if (total_pedido[1] > 0) {
+                        if (continuar > 0) {
                             Swal.fire(
                                 'Debe escoger la talla y \n el color del premio!',
                                 '',
                                 'info'
                             )
                         } else {
-                            productosPremio.push(data);
+                            data_checkout(datos)
                         }
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'no puedes continuar si tu total es 0'
+                        })
+                    }
+                } else {
+                    Toast.fire({
+                        icon: 'info',
+                        title: 'Verifique que todos los campos de la facturacion esten completos '
                     })
                 }
-                datos['premios'] = productosPremio; 
-                data_checkout(datos)           
             })
 
-            function data_checkout(datos) {        
+            function data_checkout(datos) {
                 $.post({
-                    url: "{{route('web.checkout-productos')}}",
+                    url: "{{ route('web.checkout-productos') }}",
                     data: datos,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    beforeSend: function() {                        
-                    },
+                    beforeSend: function() {},
                     success: function(response) {
-                        if(response != ''){
+                        if (response != '') {
                             let id_ventas = response.id_venta
-                            let url = 'detalle-pedido-ibizza/'+id_ventas
+                            let url = 'detalle-pedido-ibizza/' + id_ventas
 
-                            $(location).attr('href',url);
+                            $(location).attr('href', url);
                         }
                     }
                 })
             }
+            $('#search').autocomplete({
+                source: function(request, response) {
+                    $.getJSON("{{ route('web.autocompletar-empresaria') }}", {
+                            term: request.term
+                        },
+                        response
+                    );
+                },
+            })
+            $('#asignarEmpresaria').click(function() {
+                datos = $('#search').val();
+                datos = datos.split(' | ');
+                data = {
+                    cedula: datos[0],
+                    nombres: datos[1]
+                }
+                $.post({
+                    url: "{{ route('web.data-empresaria') }}",
+                    data: data,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        response = JSON.parse(response);
 
+                        if (response != null) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Datos de empresaria agregados'
+                            })
+                            $('#cedula').val(response['empresaria']['cedula'])
+                            $('#nombres').val(response['empresaria']['nombres'])
+                            $('#apellidos').val(response['empresaria']['apellidos'])
+                            $('#direccion').val(response['empresaria']['direccion'])
+                            $('#provincia').html('');
+                            $('#provincia').append('<option>' + response['empresaria']['nombre_provincia'] +
+                                '</option>')
+                            $('#ciudad').html('');
+                            $('#ciudad').append('<option>' + response['empresaria']['nombre_ciudad'] + '</option>')
+
+                            if (response['premios'] != null) {
+                                $('#premios_despues').html('');
+                                $.each(response['premios'],function(i,v) {
+                                    console.log(v);
+                                    agregar_cards_premios(v);
+                                })
+                            }
+                        } else {
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'no encontramos registro de la empresaria'
+                            })
+                        }
+                    }
+                })
+            })
+            function agregar_cards_premios(val) {
+                let ruta = './detalle-producto/'+val['estilo']
+                $('#premios_despues').append('<div class="col-sm-12 mb-6">'+
+                '<div class="ec-product-inner">'+
+                        '<div class="ec-pro-image-outer">'+
+                            '<div class="ec-pro-image">'+
+                                '<a href="'+ruta+'" class="image">'+
+                                    '<img class="main-image" src="storage/images/productos/'+val['imagen_path']+'" alt="Product" />'+
+                                    '<img class="hover-image" src="storage/images/productos/'+val['imagen_path']+'" alt="Product" />'+
+                               ' </a>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="ec-pro-content datos-premios">'+
+                            '<h5 class="ec-pro-title"><a href="'+ruta+'">'+val['clasificacion']+'</a>'+
+                            '</h5>'+
+                            '<span class="ec-price">'+
+                                '<span class="old-price">$'+val['valor_venta']+'</span>'+
+                                '<span class="new-price">$Gratis</span>'+
+                            '</span>'+
+                            '<div class="ec-pro-option">'+
+                                '<div class="ec-pro-color">'+
+                                   ' <span class="ec-pro-opt-label">Color</span>'+
+                                   ' <select class="p-1">'+
+                                        
+                                    '</select>'+
+                                '</div>'+
+                                '<div class="ec-pro-size">'+
+                                    '<span class="ec-pro-opt-label">Size</span>'+
+                                    '<ul class="ec-opt-size">'+
+                                        
+                                    '</ul>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>')
+            }
         </script>
     @endpush
 </x-plantilla>
