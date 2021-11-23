@@ -278,13 +278,18 @@ return [
                     'route'  => 'producto.estilos',
                     'icon'    => 'fas fa-palette',
                 ],
+                [
+                    'text'    => 'Marcas',
+                    'icon'    => 'fas fa-copyright',
+                    'route'  => 'marcas.index',
+                    'can'   =>'marcas.index',
+                ],
             ]
         ],
         [
-            'text'    => 'Marcas',
-            'icon'    => 'fas fa-copyright',
-            'route'  => 'marcas.index',
-            'can'   =>'marcas.index',
+            'text'    => 'Ventas',
+            'icon'    => 'fas fa-shopping-cart',
+            'route'  => 'ventas.index',
         ],
         [
             'text'    => 'Catálogos',

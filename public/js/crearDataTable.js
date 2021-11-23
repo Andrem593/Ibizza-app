@@ -819,3 +819,117 @@ function crearTablaEmpresarias(data, ruta) {
         $('#form_eliminar').attr('action', "/empresarias/" + data.id);
     })
 }
+
+function crearTablaVentas(data,ruta) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
+    let dataTable = $('#datatable').DataTable({
+
+        destroy: true,
+        "processing": true,
+        "ajax": {
+            "url": ruta,
+            "method": "POST",
+            "data": data,
+            "dataSrc": function(json) {
+                if (json == 'no data') {
+                    return [];
+                } else {
+                    return json;
+                }
+            },
+        },
+        "columns": [
+            {
+                "data": "factura_identificacion",                
+            },
+            {
+                "data": "factura_nombres"
+            },
+
+            {
+                "data": "direccion_envio"
+            },
+            {
+                "data": 'codigo_postal'
+            },
+            {
+                "data": 'observaciones'
+            },
+            {
+                "data": 'cantidad_total'
+            },
+            {
+                "data": 'total_venta'
+            },
+            {
+                "data": 'estado'
+            },
+            {
+                "data": 'created_at',
+                "render": function (data,type,row) {
+                    data = data.split('T');
+                    return data[0];
+                }
+            },
+            {
+                "data": 'id',
+                "render": function (data, type, row) {
+                    return '<a href="" class ="btn btn-ibizza btn-sm" style="width:30px"><i class="fas fa-eye"></i></a>'
+                }
+            }
+
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "Todo"]
+        ],
+        "columnDefs": [{
+                "targets": [3],
+                "orderable": false,
+                "searchable": false
+            },
+            //{ "width": "1%", "targets": 0 }
+        ],
+        "order": [
+            [1, 'asc']
+        ],
+        "language": espanol,
+        //para usar los botones
+        responsive: false,
+        autoWidth: false,
+        dom: 'Bfrtilp',
+        buttons: [{
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> ',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> ',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger',
+                pageSize: 'TABLOID',
+                orientation: 'landscape'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> ',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info',
+                exportOptions: {
+                    stripHtml: false
+                }
+            },
+        ]
+    });
+    if (dataTable.length == 0) {
+        dataTable.clear();
+        dataTable.draw();
+    }
+}

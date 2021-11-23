@@ -159,7 +159,7 @@ class webController extends Controller
         $id_pedidos = '';
         $empresaria = Empresaria::where('cedula', $request->cedula)->first();
         if ($empresaria->tipo_cliente == 'NUEVA') {            
-            Empresaria::where('id',$empresaria->id)->update('tipo_cliente','CONTINUA');
+            Empresaria::find($empresaria->id)->update(['tipo_cliente'=>'CONTINUA']);
         }
         $venta = Venta::create([
             'id_vendedor' => $empresaria->vendedor,
@@ -184,7 +184,7 @@ class webController extends Controller
             ]);
             $pro = Producto::where('id',$producto->id)->first();
             $nuevo_stock= $pro->stock - $producto->qty;
-            Producto::where('id',$producto->id)->update('stock',$nuevo_stock);
+            Producto::where('id',$producto->id)->update(['stock'=>$nuevo_stock]);
             $id_pedidos .= $pedido->id . '|';
         }
         Venta::where('id', $venta->id)->update([
@@ -202,7 +202,7 @@ class webController extends Controller
         $pedidos = Pedido::where('id_venta', $id_venta)->join('productos', 'productos.id', '=', 'pedidos.id_producto')->select('pedidos.*', 'productos.clasificacion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')->get();
         $i = 1;
         $venta = Venta::find($id_venta);
-        return view('ecomerce.detalle-pedido', compact('pedidos', 'i', 'venta'));
+        return view('ecomerce.detalle-pedido', compact('pedidos', 'i', 'venta','id_venta'));
     }
     public function autocompletar_empresaria(Request $request)
     {
@@ -269,5 +269,10 @@ class webController extends Controller
             }
         }
         return json_encode($json);
+    }
+    public function tracking_pedido($id_venta)
+    {
+        $venta = Venta::where('ventas.id',$id_venta)->join('users','users.id','=','ventas.id_vendedor')->select('ventas.*','users.name')->first();
+        return view('ecomerce.track-order',compact('venta'));
     }
 }

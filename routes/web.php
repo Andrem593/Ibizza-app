@@ -10,6 +10,7 @@ use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\PremioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\VentaController;
 use App\Http\Controllers\webController;
 
 /*
@@ -39,6 +40,9 @@ Route::get('/autocompletar-empresaria', [webController::class,'autocompletar_emp
 Route::post('/data-empresaria', [webController::class,'data_empresaria'])->name('web.data-empresaria');
 Route::post('chekout',[webController::class,'dataCheckout'])->name('web.checkout-productos');
 Route::get('detalle-pedido-ibizza/{id_venta}',[webController::class,'detalle_pedido'])->name('web.detalle_pedido');
+Route::get('tracking-ibizza/{id_venta}',[webController::class,'tracking_pedido'])->name('web.tracking-pedido');
+// RUTAS EMPRESARIAS LOGEADAS 
+
 
 // RUTAS DASHBOARD
 Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard', function () {
@@ -139,3 +143,12 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/empresaria/datatable', [EmpresariaController::class,'empresariaDatatable'])
 ->name('empresaria.datatable');
+
+//ventas
+
+Route::resource('ventas', VentaController::class)
+->middleware(['auth:sanctum', 'verified']);
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/ventas/datatable', [VentaController::class,'ventasDataTable'])
+->name('venta.datatable');

@@ -25159,6 +25159,15 @@ i.ecicon.eci-star-o {
   z-index: 9;
   position: relative;
 }
+.btn-ibizza{
+  color: #fff !important;
+  background-color: #009a9e !important;
+  border-color: #009a9e !important;
+}
+.bg-ibizza{
+  color: #fff !important;
+  background-color: #008f94 !important;
+}
 #ec-progressbar li .ec-progressbar-track:after {
   content: "";
   width: 100%;

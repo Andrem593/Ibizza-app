@@ -358,6 +358,31 @@
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
         <script>
+            $('.ec-opt-size').each(function() {
+                $(document).on('mouseenter', 'li', function() {
+                    // alert("1");
+                    onSizeChange($(this));
+                });
+
+                $(document).on('click', 'li', function() {
+                    // alert("2");
+                    onSizeChange($(this));
+                });
+
+                function onSizeChange(thisObj) {
+                    // alert("3");
+                    var $this = thisObj;
+                    var $old_data = $this.find('a').attr('data-old');
+                    var $new_data = $this.find('a').attr('data-new');
+                    var $old_price = $this.closest('.ec-pro-content').find('.old-price');
+                    var $new_price = $this.closest('.ec-pro-content').find('.new-price');
+
+                    $old_price.text($old_data);
+                    $new_price.text($new_data);
+
+                    $this.addClass('active').siblings().removeClass('active');
+                }
+            });
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -483,14 +508,17 @@
                             $('#apellidos').val(response['empresaria']['apellidos'])
                             $('#direccion').val(response['empresaria']['direccion'])
                             $('#provincia').html('');
-                            $('#provincia').append('<option>' + response['empresaria']['nombre_provincia'] +
+                            $('#provincia').append('<option>' + response['empresaria'][
+                                    'nombre_provincia'
+                                ] +
                                 '</option>')
                             $('#ciudad').html('');
-                            $('#ciudad').append('<option>' + response['empresaria']['nombre_ciudad'] + '</option>')
+                            $('#ciudad').append('<option>' + response['empresaria']['nombre_ciudad'] +
+                                '</option>')
 
                             if (response['premios'] != null) {
                                 $('#premios_despues').html('');
-                                $.each(response['premios'],function(i,v) {
+                                $.each(response['premios'], function(i, v) {
                                     agregar_cards_premios(v);
                                 })
                             }
@@ -503,52 +531,56 @@
                     }
                 })
             })
+
             function agregar_cards_premios(val) {
-                let ruta = './detalle-producto/'+val['estilo']
+                let ruta = './detalle-producto/' + val['estilo']
                 let option_colores = ''
                 let option_tallas = ''
-                $.each(val['colores'],function(i,v) {
-                    option_colores += '<option value="'+v+'">'+v+'</option>'
+                $.each(val['colores'], function(i, v) {
+                    option_colores += '<option value="' + v + '">' + v + '</option>'
                 })
-                $.each(val['tallas'],function(i,v) {
-                    option_tallas += '<li><a href="#" class="ec-opt-sz">'+v+'</a></li>'
+                $.each(val['tallas'], function(i, v) {
+                    option_tallas += '<li><a href="#" class="ec-opt-sz">' + v + '</a></li>'
                 })
                 $('#premio').val('tiene premio');
-                $('#premios_despues').append('<div class="col-sm-12 mb-6">'+
-                '<div class="ec-product-inner">'+
-                        '<div class="ec-pro-image-outer">'+
-                            '<div class="ec-pro-image">'+
-                                '<a href="'+ruta+'" class="image">'+
-                                    '<img class="main-image" src="storage/images/productos/'+val['imagen_path']+'" alt="Product" />'+
-                                    '<img class="hover-image" src="storage/images/productos/'+val['imagen_path']+'" alt="Product" />'+
-                               ' </a>'+
-                            '</div>'+
-                        '</div>'+
-                        '<div class="ec-pro-content datos-premios">'+
-                            '<h5 class="ec-pro-title"><a href="'+ruta+'">'+val['clasificacion']+'</a>'+
-                            '</h5>'+
-                            '<span class="ec-price">'+
-                                '<span class="old-price">$'+val['valor_venta']+'</span>'+
-                                '<span class="new-price">$Gratis</span>'+
-                            '</span>'+
-                            '<div class="ec-pro-option">'+
-                                '<div class="ec-pro-color">'+
-                                   ' <span class="ec-pro-opt-label">Color</span>'+
-                                   ' <select class="p-1">'+
-                                        option_colores+
-                                    '</select>'+
-                                '</div>'+
-                                '<div class="ec-pro-size">'+
-                                    '<span class="ec-pro-opt-label">Size</span>'+
-                                    '<ul class="ec-opt-size">'+
-                                        option_tallas+
-                                    '</ul>'+
-                                '</div>'+
-                            '</div>'+
-                        '</div>'+
-                    '</div>'+
-                '</div>')
+                $('#premios_despues').append('<div class="col-sm-12 mb-6">' +
+                    '<div class="ec-product-inner">' +
+                    '<div class="ec-pro-image-outer">' +
+                    '<div class="ec-pro-image">' +
+                    '<a href="' + ruta + '" class="image">' +
+                    '<img class="main-image" src="storage/images/productos/' + val['imagen_path'] +
+                    '" alt="Product" />' +
+                    '<img class="hover-image" src="storage/images/productos/' + val['imagen_path'] +
+                    '" alt="Product" />' +
+                    ' </a>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="ec-pro-content datos-premios">' +
+                    '<h5 class="ec-pro-title"><a href="' + ruta + '">' + val['clasificacion'] + '</a>' +
+                    '</h5>' +
+                    '<span class="ec-price">' +
+                    '<span class="old-price">$' + val['valor_venta'] + '</span>' +
+                    '<span class="new-price">$Gratis</span>' +
+                    '</span>' +
+                    '<div class="ec-pro-option">' +
+                    '<div class="ec-pro-color">' +
+                    ' <span class="ec-pro-opt-label">Color</span>' +
+                    ' <select class="p-1">' +
+                    option_colores +
+                    '</select>' +
+                    '</div>' +
+                    '<div class="ec-pro-size">' +
+                    '<span class="ec-pro-opt-label">Size</span>' +
+                    '<ul class="ec-opt-size">' +
+                    option_tallas +
+                    '</ul>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>')
             }
+
         </script>
     @endpush
 </x-plantilla>

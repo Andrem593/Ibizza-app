@@ -74,7 +74,7 @@
                         <div class="ec-sb-block-content">
                             <div class="table-responsive">
                                 <table class="table table-hover">
-                                    <thead class="table-dark">
+                                    <thead class="bg-ibizza">
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Productos</th>
@@ -125,6 +125,9 @@
                                     </div>
                                 </div>
 
+                            </div>
+                            <div class="mx-auto text-center">
+                                <a href="{{route('web.tracking-pedido',$id_venta)}}" class="btn btn-ibizza w-100 mx-auto my-2">VER SEGUIMIENTO</a>
                             </div>
                         </div>
 
