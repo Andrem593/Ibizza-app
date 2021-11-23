@@ -877,7 +877,7 @@ function ecCheckCookie()
 
     /*----------------------------- Size Hover To Active -------------------------------- */
     $('.ec-opt-size').each(function() {
-        $(this).on('mouseenter', 'li', function() {
+        $(document).on('mouseenter', 'li', function() {
             // alert("1");
             onSizeChange($(this));
         });

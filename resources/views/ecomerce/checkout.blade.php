@@ -244,8 +244,8 @@
                                             'pvp'=>$producto->valor_venta,'color'=>$producto->color,'estilo'=>$producto->estilo])
                                         @endforeach
                                     @else
+                                        <input type="hidden" id="premio" value="no tiene premio">
                                         <div id="premios_despues">
-                                            <input type="hidden" id="premio" value="no tiene premio">
                                             <p>Tu pedido no incluye premio</p>
                                         </div>
                                     @endif
@@ -491,7 +491,6 @@
                             if (response['premios'] != null) {
                                 $('#premios_despues').html('');
                                 $.each(response['premios'],function(i,v) {
-                                    console.log(v);
                                     agregar_cards_premios(v);
                                 })
                             }
@@ -506,6 +505,15 @@
             })
             function agregar_cards_premios(val) {
                 let ruta = './detalle-producto/'+val['estilo']
+                let option_colores = ''
+                let option_tallas = ''
+                $.each(val['colores'],function(i,v) {
+                    option_colores += '<option value="'+v+'">'+v+'</option>'
+                })
+                $.each(val['tallas'],function(i,v) {
+                    option_tallas += '<li><a href="#" class="ec-opt-sz">'+v+'</a></li>'
+                })
+                $('#premio').val('tiene premio');
                 $('#premios_despues').append('<div class="col-sm-12 mb-6">'+
                 '<div class="ec-product-inner">'+
                         '<div class="ec-pro-image-outer">'+
@@ -527,13 +535,13 @@
                                 '<div class="ec-pro-color">'+
                                    ' <span class="ec-pro-opt-label">Color</span>'+
                                    ' <select class="p-1">'+
-                                        
+                                        option_colores+
                                     '</select>'+
                                 '</div>'+
                                 '<div class="ec-pro-size">'+
                                     '<span class="ec-pro-opt-label">Size</span>'+
                                     '<ul class="ec-opt-size">'+
-                                        
+                                        option_tallas+
                                     '</ul>'+
                                 '</div>'+
                             '</div>'+
