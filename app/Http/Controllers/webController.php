@@ -91,8 +91,11 @@ class webController extends Controller
         $term = $data['term'];
 
         $productos = Producto::select()
-            ->where('nombre_producto', 'LIKE', '%' . $term . '%')
-            ->groupBy('estilo')
+            ->join('catalogo_has_productos', 'catalogo_has_productos.estilo', '=', 'productos.estilo')
+            ->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+            ->where('catalogos.estado', 'PUBLICADO')
+            ->where('productos.nombre_producto', 'LIKE', '%' . $term . '%')
+            ->groupBy('productos.estilo')
             ->get();
 
         $response = array();
