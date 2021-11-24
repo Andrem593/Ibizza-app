@@ -181,7 +181,12 @@ class ProductoController extends Controller
                     'talla'  => $row[10],
                     'cantidad_inicial'  => $row[11],
                     'stock'  => $row[11],
-                    'valor_venta'  => $row[12]
+                    'valor_venta'  => $row[12],
+                    'nombre_mostrar'  => $row[13],
+                    'categoria'  => $row[14],
+                    'subcategoria'  => $row[15],
+                    'precio_empresaria'  => $row[16],
+                    'descuento'  => $row[17]
                 );
 
                 Producto::create($insert_data);

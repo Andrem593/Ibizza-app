@@ -20,7 +20,7 @@ class Productos extends Migration
             $table->string('imagen_path')->nullable();;
             $table->string('nombre_producto');
             $table->string('descripcion')->nullable();
-
+            
             $table->string('marca_id')->nullable();
             $table->string('grupo',100)->nullable();
             $table->string('seccion',100)->nullable();
@@ -36,6 +36,11 @@ class Productos extends Migration
             $table->datetime('ultima_venta')->nullable();
             $table->char('estado', 1)->default('A');
             
+            $table->string('nombre_mostrar')->nullable();
+            $table->string('categoria')->nullable();
+            $table->string('subcategoria')->nullable();
+            $table->float('descuento', 8, 2)->nullable();
+            $table->float('precio_empresaria', 8, 2)->nullable();
             // $table->string('linea')->nullable();
             // $table->string('color')->nullable();
             // $table->string('nombre_color')->nullable();

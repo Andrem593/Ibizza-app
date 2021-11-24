@@ -369,9 +369,21 @@
                         $('.campo').html(
                             '<option value="" selected>Seleccionar campo</option><option value="tipo_cliente">Tipo Cliente</option>'
                         );
+                        $('.operador').html(
+                            '<option value="=">igual</option>'
+                        );
+                        $('.valor').html(
+                            '<option value="" selected>Seleccione un estado</option><option value="`NUEVA`">Nueva</option><option value="`CONTINUA`">Continua</option><option value="`INACTIVA-1`">Inactiva 1</option><option value="`INACTIVA-2`">Inactiva 2</option><option value="`INACTIVA-3`">Inactiva 3</option><option value="`REACTIVA`">Reactiva</option><option value="`BAJA`">Baja</option>'
+                        );
                     } else if (valor == 'pedidos') {
                         $('.campo').html(
                             '<option value="" selected>Seleccionar campo</option><option value="total_factura">Total factura</option>'
+                        );
+                        $('.operador').html(
+                            '<option value="" selected>Operador</option><option value=">=">mayor igual que</option><option value=">">mayor que</option>'
+                        );
+                        $('.valor').html(
+                            '<option value="" selected>Ingrese un valor</option>'
                         );
                     }
 
@@ -406,13 +418,13 @@
                         value: element.value
                     };
                 });
-                console.log(operadorArray);
-                let condicionArray = $.map($(".condicion"), function(element) {
-                    return {
-                        name: element.options[element.selectedIndex].text,
-                        value: element.value
-                    };
-                });
+                // console.log(operadorArray);
+                // let condicionArray = $.map($(".condicion"), function(element) {
+                //     return {
+                //         name: element.options[element.selectedIndex].text,
+                //         value: element.value
+                //     };
+                // });
 
                 let flag = 0;
                 $.each(campoArray, function(key, value) {
@@ -431,25 +443,25 @@
                         let nombres = '';
                         $.each(campoArray, function(key, value) {
                             console.log(key);
-                            condiciones += ' ' + value.value + ' ' + operadorArray[key].value + ' ' +
-                                valorArray[key].value + ' ' + condicionArray[key].value;
-                            nombres += ' ' + value.name + ' ' + operadorArray[key].name + ' ' +
-                                valorArray[key].name + ' ' + condicionArray[key].name;
+                            condiciones += value.value + ' ' + operadorArray[key].value + ' ' +
+                                valorArray[key].value; // + ' ' + condicionArray[key].value;
+                            nombres += value.name + ' ' + operadorArray[key].name + ' ' +
+                                valorArray[key].name;// + ' ' + condicionArray[key].name;
                         });
-                        let condPart = condiciones.split(' ');
-                        condPart.pop();
-                        let condClean = condPart.toString().replace(/,/g, ' ');
+                        // let condPart = condiciones.split(' ');
+                        // condPart.pop();
+                        // let condClean = condPart.toString().replace(/,/g, ' ');
     
-                        let namePart = nombres.split(' ');
-                        namePart.pop();
-                        let nameClean = namePart.toString().replace(/,/g, ' ');
+                        // let namePart = nombres.split(' ');
+                        // namePart.pop();
+                        // let nameClean = namePart.toString().replace(/,/g, ' ');
     
                         let tabla = $('#nombre_tabla').val();
     
                         arrayFinal.push({
                             'nombre_tabla': tabla,
-                            'condicion': $.trim(condClean),
-                            'descripcion': $.trim(nameClean)
+                            'condicion': $.trim(condiciones),
+                            'descripcion': $.trim(nombres)
                         });
                         console.log(arrayFinal);
                         
