@@ -31812,12 +31812,12 @@ input[type=email]:focus::-webkit-input-placeholder {
 .ec-vendor-dashboard .ec-vendor-sidebar .ec-sidebar-block .ec-vendor-block .ec-vendor-block-bg, .ec-vendor-uploads .ec-vendor-sidebar .ec-sidebar-block .ec-vendor-block .ec-vendor-block-bg {
   width: 100%;
   height: 200px;
-  background-image: url(../images/banner/7.jpg);
+  background-image: url(.../img/carrousel/banner_ibizza.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-blend-mode: overlay;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .ec-vendor-dashboard .ec-vendor-sidebar .ec-sidebar-block .ec-vendor-block .ec-vendor-block-detail, .ec-vendor-uploads .ec-vendor-sidebar .ec-sidebar-block .ec-vendor-block .ec-vendor-block-detail {
   display: -webkit-box;
@@ -32347,7 +32347,7 @@ input[type=email]:focus::-webkit-input-placeholder {
   background-position: center;
   background-repeat: no-repeat;
   background-blend-mode: overlay;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .ec-vendor-profile-card .ec-vendor-block-profile .ec-vendor-block-img .ec-vendor-block-detail {
   display: -webkit-box;
@@ -32402,12 +32402,12 @@ input[type=email]:focus::-webkit-input-placeholder {
 .ec-vendor-setting-card .ec-vendor-block-bg {
   width: 100%;
   height: 200px;
-  background-image: url(../images/banner/7.jpg);
+  background-image: url(.../img/carrousel/banner_ibizza.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-blend-mode: overlay;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.2);
   position: relative;
 }
 .ec-vendor-setting-card .ec-vendor-block-bg a {
@@ -32457,7 +32457,7 @@ input[type=email]:focus::-webkit-input-placeholder {
 #edit_modal .ec-vendor-block-bg {
   width: 100%;
   height: 200px;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.2);
   position: relative;
 }
 #edit_modal .ec-vendor-block-bg .btns {
@@ -32646,13 +32646,18 @@ input[type=email]:focus::-webkit-input-placeholder {
 .ec-user-account .ec-vendor-block-bg {
   width: 100%;
   height: 200px;
-  background-image: url(../images/banner/8.jpg) !important;
+  background-image: url(/img/carrousel/banner_ibizza.jpg)!important;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-blend-mode: overlay;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.2);
   position: relative;
+  transition: 0.3s ease-out;
+}
+.ec-vendor-block-bg:hover {
+  background-color: rgba(255, 255, 255, 0);
+  transition: 0.3s ease-in;
 }
 .ec-user-account .border-none {
   border: none;
