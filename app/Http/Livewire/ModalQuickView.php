@@ -26,7 +26,7 @@ class ModalQuickView extends Component
             ->groupBy('color')->first();
         $tallas = Producto::where('estilo', $estilo)->where('color', $productos_color[0]->color)->get();
 
-        $this->productos_color = $estilo;
+        $this->productos_color = $productos_color;
         
     }
 }
