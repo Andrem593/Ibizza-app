@@ -199,7 +199,10 @@ class webController extends Controller
     }
     public function detalle_pedido($id_venta)
     {
-        $pedidos = Pedido::where('id_venta', $id_venta)->join('productos', 'productos.id', '=', 'pedidos.id_producto')->select('pedidos.*', 'productos.clasificacion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')->get();
+        $pedidos = Pedido::where('id_venta', $id_venta)
+        ->join('productos', 'productos.id', '=', 'pedidos.id_producto')
+        ->select('pedidos.*', 'productos.clasificacion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')
+        ->get();
         $i = 1;
         $venta = Venta::find($id_venta);
         return view('ecomerce.detalle-pedido', compact('pedidos', 'i', 'venta','id_venta'));
@@ -274,5 +277,33 @@ class webController extends Controller
     {
         $venta = Venta::where('ventas.id',$id_venta)->join('users','users.id','=','ventas.id_vendedor')->select('ventas.*','users.name')->first();
         return view('ecomerce.track-order',compact('venta'));
+    }
+    public function historial_compras(){
+        $empresaria = Empresaria::where('id_user',Auth::user()->id)->first();
+        $ventas = Venta::where('id_empresaria',$empresaria->id)->get();
+        return view('ecomerce.historial-compra',compact('ventas','empresaria'));
+    }
+    public function perfil_empresaria(){
+        $empresaria = Empresaria::where('id_user',Auth::user()->id)->join('ciudades','ciudades.id','=','empresarias.id_ciudad')
+        ->join('provincias','provincias.id','=','ciudades.provincia_id')
+        ->join('users','empresarias.vendedor','=','users.id')
+        ->select('empresarias.*','ciudades.descripcion as nombre_ciudad','provincias.descripcion as nombre_provincia','users.email as correo_vendedor','users.name as nombre_vendedor')
+        ->first();
+        return view('ecomerce.perfil-empresaria',compact('empresaria'));
+    }
+    public function detalle_compra_empresaria($id_venta){
+        $venta = Venta::where('id',$id_venta)->first();
+        $empresaria = Empresaria::where('empresarias.id',$venta->id_empresaria)
+        ->join('ciudades','ciudades.id','=','empresarias.id_ciudad')
+        ->join('provincias','provincias.id','=','ciudades.provincia_id')
+        ->join('users','empresarias.vendedor','=','users.id')
+        ->select('empresarias.*','ciudades.descripcion as nombre_ciudad','provincias.descripcion as nombre_provincia','users.email as correo_vendedor','users.name as nombre_vendedor')
+        ->first();
+        $pedidos = Pedido::where('id_venta',$venta->id)
+        ->join('productos', 'productos.id', '=', 'pedidos.id_producto')
+        ->select('pedidos.*', 'productos.clasificacion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')
+        ->get();
+        $i=1;
+        return view('ecomerce.factura-compra',compact('venta','empresaria','pedidos','i'));
     }
 }

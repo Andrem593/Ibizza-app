@@ -42,7 +42,14 @@ Route::post('chekout',[webController::class,'dataCheckout'])->name('web.checkout
 Route::get('detalle-pedido-ibizza/{id_venta}',[webController::class,'detalle_pedido'])->name('web.detalle_pedido');
 Route::get('tracking-ibizza/{id_venta}',[webController::class,'tracking_pedido'])->name('web.tracking-pedido');
 // RUTAS EMPRESARIAS LOGEADAS 
+Route::get('historial-compras-empresaria',[webController::class,'historial_compras'])
+->middleware(['auth:sanctum', 'verified'])->name('web.historial-compras');
 
+Route::get('detalle-compras-empresaria/{id_venta}',[webController::class,'detalle_compra_empresaria'])
+->middleware(['auth:sanctum', 'verified'])->name('web.detalle-compra-empresaria');
+
+Route::get('perfil-empresaria',[webController::class,'perfil_empresaria'])
+->middleware(['auth:sanctum', 'verified'])->name('web.perfil-empresaria');
 
 // RUTAS DASHBOARD
 Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard', function () {

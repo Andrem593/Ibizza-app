@@ -126,9 +126,16 @@
                                     @if (Route::has('login'))
 
                                         @auth
-                                            <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Dashboard</a>
-                                            </li>
-                                            <li><a class="dropdown-item" href="{{ route('logout')}}">cerrar sesión</a></li>
+                                            @can('dashboard')
+                                            <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Dashboard</a></li> 
+                                            @else
+                                            <li> <a href="{{route('web.perfil-empresaria') }}" class="dropdown-item">Perfil</a></li>                                              
+                                            @endcan
+                                            <form action="{{ route('logout')}}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item">cerrar sesión</button>
+                                            </form>
+                                            <li><a class="dropdown-item" href="{{ route('web.checkout')}}">Checkout</a></li>
                                         @else
                                             <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
                                             <li><a class="dropdown-item" href="register.html">Registrar</a></li>
@@ -208,14 +215,16 @@
                                             @if (Route::has('login'))
 
                                                 @auth
-                                                    <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Dashboard</a>
-                                                    </li>
-                                                    <li>
-                                                        <form action="{{ route('logout')}}" method="POST">
-                                                            @csrf
-                                                            <button type="submit" class="dropdown-item">cerrar sesión</button>
-                                                        </form>
-                                                    </li>
+                                                    @can('dashboard')
+                                                    <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Dashboard</a></li> 
+                                                    @else
+                                                    <li> <a href="{{route('web.perfil-empresaria') }}" class="dropdown-item">Perfil</a></li>                                              
+                                                    @endcan
+                                                    <form action="{{ route('logout')}}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="dropdown-item">cerrar sesión</button>
+                                                    </form>
+                                                    <li><a class="dropdown-item" href="{{ route('web.checkout')}}">Checkout</a></li>
                                                 @else
                                                     <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
                                                     <li><a class="dropdown-item" href="register.html">Registro</a></li>
@@ -254,7 +263,7 @@
                             <!-- Ec Header Logo Start -->
                             <div class="col">
                                 <div class="header-logo">
-                                    <a href="index.html"><img loading='lazy' src="{{url('assets/images/logo/logo_ibizza.svg')}}"
+                                    <a href="{{route('web')}}"><img loading='lazy' src="{{url('assets/images/logo/logo_ibizza.svg')}}"
                                             alt="Logo Ibizza" /><img loading='lazy' class="dark-logo"
                                             src="{{url('assets/images/logo/dark-logo.png')}}" alt="Site Logo" style="display: none;" /></a>
                                 </div>
@@ -433,7 +442,7 @@
                     <div class="ec-menu-inner">
                         <div class="ec-menu-content">
                             <ul>
-                                <li><a href="index.html">Home</a></li>
+                                <li><a href="{{route('web')}}">Home</a></li>
                                 <li><a href="javascript:void(0)">Categorias</a>
                                     <ul class="sub-menu">
                                         <li>
@@ -878,9 +887,13 @@
                             @if (Route::has('login'))
 
                                 @auth
-                                    <a href="{{ url('/dashboard') }}" class="ec-header-btn"><img loading='lazy'
-                                            src="{{url('assets/images/icons/user.svg')}}" class="svg_img header_svg" alt="icon" /></a>
-
+                                    @can('dashboard')
+                                        <a href="{{ url('/dashboard') }}" class="ec-header-btn"><img loading='lazy'
+                                            src="assets/images/icons/user.svg" class="svg_img header_svg" alt="icon" /></a>                                               
+                                    @else
+                                        <a href="{{ route('web.perfil-empresaria') }}" class="ec-header-btn"><img loading='lazy'
+                                            src="assets/images/icons/user.svg" class="svg_img header_svg" alt="icon" /></a>
+                                    @endcan
                                 @else
 
                                     <a href="{{ route('login') }}" class="ec-header-btn"><img loading='lazy'
