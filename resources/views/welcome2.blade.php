@@ -4145,6 +4145,9 @@
                          
                          $('.qty-product-cover').slick('init');
                          $('.qty-nav-thumb').slick('init');
+                         var QtyPlusMinus = $(".qty-plus-minus");
+                        QtyPlusMinus.prepend('<div class="dec ec_qtybtn">-</div>');
+                        QtyPlusMinus.append('<div class="inc ec_qtybtn">+</div>');
                          
                      });
 
@@ -4154,7 +4157,8 @@
                     });
                  </script>
 
-                 @livewireScripts
+                @stack('js')
+                @livewireScripts
              </body>
 
              </html>

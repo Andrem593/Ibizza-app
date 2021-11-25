@@ -70,18 +70,8 @@
                                     <span>Talla</span>
                                     <div class="ec-pro-variation-content">
                                         <ul class="ec-opt-size">
-<<<<<<< HEAD
-                                            <li class="active"><a href="#" class="ec-opt-sz" data-tooltip="Small">S</a>
-                                            </li>
-                                            <li><a href="#" class="ec-opt-sz" data-tooltip="Medium">M</a>
-                                            </li>
-                                            <li><a href="#" class="ec-opt-sz" data-tooltip="Large">X</a>
-                                            </li>
-                                            <li><a href="#" class="ec-opt-sz" data-tooltip="Extra Large">XL</a>
-=======
                                             <li class="active talla">
                                                 <span>{{ isset($productos_color) ? $productos_color[0]->talla : '' }}</span>
->>>>>>> ccc5624601ee6d1b6bdeed7cfca30fc2f5f33bc7
                                             </li>
                                             @isset($productos_color)
                                                 @foreach ($tallas as $talla)
