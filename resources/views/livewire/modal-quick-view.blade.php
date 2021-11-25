@@ -32,9 +32,7 @@
                     </div>
                     <div class="col-md-7 col-sm-12 col-xs-12">
                         <div class="quickview-pro-content">
-                            <h5 class="ec-quick-title"><a href="product-left-sidebar.html">Handbag leather purse
-                                    for women</a>
-                            </h5>
+                            <h5 class="ec-quick-title clasificacion">{{$productos_color[0]->clasificacion}}</h5>
                             <input type="hidden" wire:model="productos_color">
                             <div class="ec-quickview-rating">
                                 <i class="ecicon eci-star fill"></i>
