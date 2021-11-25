@@ -4147,6 +4147,10 @@
                          $('.qty-nav-thumb').slick('init');
                          
                      });
+
+                     $('#ec_quickview_modal').on('hidden.bs.modal', function (e) {
+                        $('#prueba').hide();
+                    });
                  </script>
 
                  @livewireScripts
