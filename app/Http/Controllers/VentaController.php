@@ -27,7 +27,7 @@ class VentaController extends Controller
     public function datosVentas(Request $request)
     {
         $pedidos = Pedido::where('id_venta',$request->id_venta)->get();
-
+        
         return json_encode($pedidos);
     }
 }
