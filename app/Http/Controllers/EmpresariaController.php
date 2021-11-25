@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 /**
  * Class EmpresariaController
  * @package App\Http\Controllers
@@ -21,7 +22,7 @@ class EmpresariaController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('can:empresarias.index');
+        // $this->middleware('can:empresarias.index');
     }
     public function index()
     {
@@ -133,11 +134,7 @@ class EmpresariaController extends Controller
             ->with('success', 'Empresaria updated successfully');
     }
 
-    /**
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
+
     public function destroy($id)
     {
         $empresaria = Empresaria::find($id);
@@ -167,5 +164,35 @@ class EmpresariaController extends Controller
             $response = json_encode($empresarias);
         }
         return $response;
+    }
+    public function update_perfil(Request $request)
+    {
+        $empresaria = Empresaria::find($request->id_empresaria);
+        $empresaria->update([
+            'nombres'=>$request->nombres,
+            'apellidos'=>$request->apellidos,
+            'direccion'=>$request->direccion,
+            'telefono'=>$request->telefono
+        ]);
+        $user = User::find($empresaria->id_user);
+        $image = $user->profile_photo_path;
+        if ($request->file('foto_perfil')) {
+            $image = time() . '.' . $request->foto_perfil->extension();
+            // $request->imagen_path->move(public_path('storage/images/productos'), $image);
+            $ruta = public_path('storage/profile-photos/') . $image;
+            Image::make($request->file('foto_perfil'))
+                ->resize(1200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($ruta);
+            $image = "profile-photos/".$image;
+        }
+        $user->update([
+            'name'=>$request->nombres." ".$request->apellidos,
+            'email'=>$request->email,
+            'profile_photo_path'=>$image,
+        ]);
+        return redirect()->route('web.perfil-empresaria')
+            ->with('success', 'Datos Actualizado Correctamente');
     }
 }
