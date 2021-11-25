@@ -18,6 +18,7 @@ class ModalQuickView extends Component
 
     public function quickView($estilo)
     {
+        $this->dispatchBrowserEvent('contentChanged');
         $productos_color = Producto::where('estilo', $estilo)->groupBy('color')->get();
         $catalogo = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
@@ -28,7 +29,6 @@ class ModalQuickView extends Component
 
         $this->productos_color = $productos_color;
 
-        $this->dispatchBrowserEvent('contentChanged');
         
     }
 }
