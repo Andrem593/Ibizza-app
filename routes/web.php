@@ -51,8 +51,12 @@ Route::get('detalle-compras-empresaria/{id_venta}',[webController::class,'detall
 
 Route::get('perfil-empresaria',[webController::class,'perfil_empresaria'])
 ->middleware(['auth:sanctum', 'verified'])->name('web.perfil-empresaria');
+
 Route::post('update-information-empresaria',[EmpresariaController::class,'update_perfil'])
 ->middleware(['auth:sanctum', 'verified'])->name('web.update-information-empresaria');
+
+Route::get('seguimiento-pedidos',[webController::class,'seguimiento_pedidos'])
+->middleware(['auth:sanctum', 'verified'])->name('web.seguimiento-pedidos');
 
 // RUTAS DASHBOARD
 Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard', function () {
@@ -162,3 +166,7 @@ Route::resource('ventas', VentaController::class)
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/ventas/datatable', [VentaController::class,'ventasDataTable'])
 ->name('venta.datatable');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/ventas/datos-ventas', [VentaController::class,'datosVentas'])
+->name('venta.datos-ventas');

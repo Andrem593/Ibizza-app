@@ -306,4 +306,9 @@ class webController extends Controller
         $i=1;
         return view('ecomerce.factura-compra',compact('venta','empresaria','pedidos','i'));
     }
+    public function seguimiento_pedidos(){
+        $empresaria = Empresaria::where('id_user',Auth::user()->id)->first();
+        $ventas = Venta::where('id_empresaria',$empresaria->id)->get();
+        return view('ecomerce.seguimiento-pedidos',compact('ventas','empresaria'));
+    }
 }

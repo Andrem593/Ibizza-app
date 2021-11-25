@@ -1,8 +1,15 @@
 <div wire:ignore.self class="modal fade" id="ec_quickview_modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div wire:loading.delay wire:target="quickView" class="overlay d-flex justify-content-center align-items-center">
+            {{-- <div wire:loading.delay wire:target="quickView"
+                class="overlay d-flex justify-content-center align-items-center">
                 <i class="fas fa-2x fa-sync fa-spin"></i>
+            </div> --}}
+
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </div>
             {{-- <div wire:loading.delay.longest wire:target="quickView" >
                 <h1>prueba</h1>
@@ -74,8 +81,8 @@
                                     <span>Size</span>
                                     <div class="ec-pro-variation-content">
                                         <ul class="ec-opt-size">
-                                            <li class="active"><a href="#" class="ec-opt-sz"
-                                                    data-tooltip="Small">S</a></li>
+                                            <li class="active"><a href="#" class="ec-opt-sz" data-tooltip="Small">S</a>
+                                            </li>
                                             <li><a href="#" class="ec-opt-sz" data-tooltip="Medium">M</a>
                                             </li>
                                             <li><a href="#" class="ec-opt-sz" data-tooltip="Large">X</a>

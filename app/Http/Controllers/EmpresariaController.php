@@ -188,7 +188,7 @@ class EmpresariaController extends Controller
             $image = "profile-photos/".$image;
         }
         $user->update([
-            'name'=>$request->nombres." ".$request->apellidos,
+            'name'=>$request->nombres,
             'email'=>$request->email,
             'profile_photo_path'=>$image,
         ]);

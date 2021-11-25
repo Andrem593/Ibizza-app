@@ -826,7 +826,6 @@ function crearTablaVentas(data,ruta) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
     });
-    let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
     let dataTable = $('#datatable').DataTable({
 
         destroy: true,
@@ -844,6 +843,9 @@ function crearTablaVentas(data,ruta) {
             },
         },
         "columns": [
+            {
+                "data": "id",                
+            },
             {
                 "data": "factura_identificacion",                
             },
@@ -879,7 +881,7 @@ function crearTablaVentas(data,ruta) {
             {
                 "data": 'id',
                 "render": function (data, type, row) {
-                    return '<a href="" class ="btn btn-ibizza btn-sm" style="width:30px"><i class="fas fa-eye"></i></a>'
+                    return '<a class ="btn btn-ibizza btn-sm editar" data-bs-toggle="modal" data-bs-target="#editar" style="width:30px"><i class="fas fa-eye"></i></a>'
                 }
             }
 
@@ -932,4 +934,21 @@ function crearTablaVentas(data,ruta) {
         dataTable.clear();
         dataTable.draw();
     }
+    $('#datatable tbody').on('click', '.editar', function() {
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#id_venta').text(data.id);
+        let dato = {
+            id_venta: data.id,
+        }
+        $.post({
+            url: '/ventas/datos-ventas',
+            data: dato,
+            beforeSend: function() {
+                $('#carga').css('visibility','visible');
+            },
+            success: function(response) {
+                $('#carga').css('visibility','hidden')
+            }
+        })        
+    })
 }

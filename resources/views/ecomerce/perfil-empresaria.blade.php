@@ -80,6 +80,9 @@
                                                 y cambiar la información de tu cuenta, como la dirección, email,
                                                 telefonos y podras ver todo el
                                                 historial de tus pedidos.</p>
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
                                         </div>
                                         <h5>Información de la cuenta</h5>
 

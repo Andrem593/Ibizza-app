@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pedido;
 use Illuminate\Http\Request;
 use App\Models\Venta;
 
@@ -22,5 +23,11 @@ class VentaController extends Controller
             $response = json_encode($ventas);
         }
         return $response;
+    }
+    public function datosVentas(Request $request)
+    {
+        $pedidos = Pedido::where('id_venta',$request->id_venta)->get();
+
+        return json_encode($pedidos);
     }
 }
