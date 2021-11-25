@@ -4,7 +4,7 @@
            
             <button type="button" class="btn-close qty_close" data-bs-dismiss="modal" aria-label="Close"></button>
             <div class="modal-body">
-                <div id="prueba" class="row">
+                <div id="qv_modal" class="row">
                     <div class="col-md-5 col-sm-12 col-xs-12">
                         <!-- Swiper -->
                         <div class="qty-product-cover">
@@ -92,6 +92,11 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div id="qv_spinner" class="d-flex justify-content-center bg-ibizza p-3 d-none">
+                    <div class="spinner-border" role="status">
+                    <span class="sr-only">cargando...</span>
                     </div>
                 </div>
             </div>

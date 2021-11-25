@@ -4149,7 +4149,8 @@
                      });
 
                      $('#ec_quickview_modal').on('hidden.bs.modal', function (e) {
-                        $('#prueba').hide();
+                        $('#qv_modal').hide();
+                        $('#qv_spinner').removeClass('d-none');
                     });
                  </script>
 
