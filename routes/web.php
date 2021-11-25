@@ -1,5 +1,6 @@
 <?php
 
+use App\Empresaria;
 use App\Http\Controllers\Admi\homeController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\CatalogoController;
@@ -50,6 +51,8 @@ Route::get('detalle-compras-empresaria/{id_venta}',[webController::class,'detall
 
 Route::get('perfil-empresaria',[webController::class,'perfil_empresaria'])
 ->middleware(['auth:sanctum', 'verified'])->name('web.perfil-empresaria');
+Route::post('update-information-empresaria',[EmpresariaController::class,'update_perfil'])
+->middleware(['auth:sanctum', 'verified'])->name('web.update-information-empresaria');
 
 // RUTAS DASHBOARD
 Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard', function () {
