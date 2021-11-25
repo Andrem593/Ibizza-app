@@ -94,8 +94,8 @@
                         </div>
                     </div>
                 </div>
-                <div id="qv_spinner" class="d-flex justify-content-center bg-ibizza p-3 d-none">
-                    <div class="spinner-border" role="status">
+                <div id="qv_spinner" class="d-flex justify-content-center d-none">
+                    <div class="spinner-border-qv" role="status">
                     <span class="sr-only">cargando...</span>
                     </div>
                 </div>
