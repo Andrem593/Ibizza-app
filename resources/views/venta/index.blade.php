@@ -60,9 +60,9 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <table class="table table-borderless">
+                            <table id="tabla_factura" class="table table-hover table-striped p-4">
                                 <thead>
-                                    <tr>
+                                    <tr class="bg-ibizza">
                                         <th scope="col">#</th>
                                         <th scope="col">Productos</th>
                                         <th scope="col">Color</th>
@@ -72,39 +72,46 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td class="border-none" colspan="4">
+                                        <td class="border-none" colspan="3">
                                             <span></span>
                                         </td>
-                                        <td class="border-color" colspan="1">
+                                        <td class="border-color" colspan="2">
                                             <span><strong>Sub Total</strong></span>
                                         </td>
                                         <td class="border-color">
-                                            <span>$</span>
+                                            $<span id="subtotal"></span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="border-none" colspan="4">
+                                        <td class="border-none" colspan="3">
                                             <span></span>
                                         </td>
-                                        <td class="border-color" colspan="1">
+                                        <td class="border-color" colspan="2">
                                             <span><strong>IVA (12%)</strong></span>
                                         </td>
                                         <td class="border-color">
-                                            <span>$</span>
+                                            $<span id="iva"></span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="border-none m-m15" colspan="4"><span
+                                        <td class="border-none m-m15" colspan="3"><span
                                                 class="note-text-color"></span></td>
-                                        <td class="border-color m-m15" colspan="1">
+                                        <td class="border-color m-m15" colspan="2">
                                             <span><strong>Total</strong></span>
                                         </td>
                                         <td class="border-color m-m15">
-                                            <span>$</span>
+                                            $<span id="total_fac"></span>
                                         </td>
                                     </tr>
                                 </tfoot>

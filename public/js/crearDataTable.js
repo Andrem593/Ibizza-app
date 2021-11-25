@@ -948,6 +948,30 @@ function crearTablaVentas(data,ruta) {
             },
             success: function(response) {
                 $('#carga').css('visibility','hidden')
+                let data = JSON.parse(response);
+                $('#tabla_factura tbody').html('');
+                let total_factura = 0
+                $.each(data,function(i,v){
+                    let total =  v['precio'] * v['cantidad'];
+                    total = total.toFixed(2);
+                    $('#tabla_factura tbody').append('<tr>'+
+                    '<td>'+v['id']+'</td>'+
+                    '<td>'+v['nombre_producto']+'</td>'+
+                    '<td>'+v['color_producto']+'</td>'+
+                    '<td>'+v['talla_producto']+'</td>'+
+                    '<td>'+v['cantidad']+'</td>'+
+                    '<td>$'+total+'</td>'+                    
+                    '</tr>')
+                    total_factura = parseFloat(total) + parseFloat(total_factura) ;
+                })
+                total_factura = total_factura.toFixed(2)
+                let iva = total_factura * 0.12
+                iva = iva.toFixed(2)
+                $('#subtotal').text(total_factura);
+                $('#iva').text(iva);
+                total_factura = parseFloat(total_factura) + parseFloat(iva);
+                total_factura = total_factura.toFixed(2)
+                $('#total_fac').text(total_factura);
             }
         })        
     })
