@@ -97,13 +97,4 @@
         </div>
     </div>
 
-    @push('js')
-        <script>
-            $('.qty-product-cover').slick('remove');
-            $('.qty-nav-thumb').slick('remove');
-            $('.qty-product-cover').slick('slickAdd');
-            $('.qty-nav-thumb').slick('slickAdd');
-        </script>
-    @endpush
-
 </div>

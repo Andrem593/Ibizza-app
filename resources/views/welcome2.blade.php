@@ -112,20 +112,24 @@
                                      @if (Route::has('login'))
 
                                          @auth
-                                            @can('dashboard')
-                                             <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Dashboard</a></li> 
-                                            @else
-                                             <li> <a href="{{route('web.perfil-empresaria') }}" class="dropdown-item">Perfil</a></li>                                              
-                                            @endcan
-                                            <form action="{{ route('logout')}}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="dropdown-item">cerrar sesión</button>
-                                            </form>
-                                             <li><a class="dropdown-item" href="{{ route('web.checkout')}}">Checkout</a></li>
+                                             @can('dashboard')
+                                                 <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Dashboard</a>
+                                                 </li>
+                                             @else
+                                                 <li> <a href="{{ route('web.perfil-empresaria') }}"
+                                                         class="dropdown-item">Perfil</a></li>
+                                             @endcan
+                                             <form action="{{ route('logout') }}" method="POST">
+                                                 @csrf
+                                                 <button type="submit" class="dropdown-item">cerrar sesión</button>
+                                             </form>
+                                             <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Checkout</a>
+                                             </li>
                                          @else
                                              <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
                                              <li><a class="dropdown-item" href="register.html">Registrar</a></li>
-                                             <li><a class="dropdown-item" href="{{ route('web.checkout')}}">Checkout</a></li>
+                                             <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Checkout</a>
+                                             </li>
                                          @endif
                                          @endif
                                      </ul>
@@ -178,8 +182,8 @@
                              <div class="align-self-center">
                                  <div class="header-search">
                                      <form class="ec-btn-group-form" action="#">
-                                         <input class="form-control txt_search" placeholder="Ingresa el nombre de un Producto..."
-                                             type="text">
+                                         <input class="form-control txt_search"
+                                             placeholder="Ingresa el nombre de un Producto..." type="text">
                                          <button class="submit" type="submit"><img loading='lazy'
                                                  src="assets/images/icons/search.svg" class="svg_img header_svg"
                                                  alt="" /></button>
@@ -201,20 +205,24 @@
                                              @if (Route::has('login'))
 
                                                  @auth
-                                                    @can('dashboard')
-                                                    <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Dashboard</a></li>
-                                                    @else
-                                                    <li> <a href="{{ route('web.perfil-empresaria') }}" class="dropdown-item">Perfil</a></li>                         
-                                                    @endcan
-                                                    <form action="{{ route('logout')}}" method="POST">
-                                                        @csrf
-                                                        <button type="submit" class="dropdown-item">cerrar sesión</button>
-                                                    </form>
-                                                     <li><a class="dropdown-item" href="{{ route('web.checkout')}}">Checkout</a></li>
+                                                     @can('dashboard')
+                                                         <li> <a href="{{ url('/dashboard') }}"
+                                                                 class="dropdown-item">Dashboard</a></li>
+                                                     @else
+                                                         <li> <a href="{{ route('web.perfil-empresaria') }}"
+                                                                 class="dropdown-item">Perfil</a></li>
+                                                     @endcan
+                                                     <form action="{{ route('logout') }}" method="POST">
+                                                         @csrf
+                                                         <button type="submit" class="dropdown-item">cerrar sesión</button>
+                                                     </form>
+                                                     <li><a class="dropdown-item"
+                                                             href="{{ route('web.checkout') }}">Checkout</a></li>
                                                  @else
                                                      <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
                                                      <li><a class="dropdown-item" href="register.html">Registro</a></li>
-                                                     <li><a class="dropdown-item" href="{{ route('web.checkout')}}">Checkout</a></li>
+                                                     <li><a class="dropdown-item"
+                                                             href="{{ route('web.checkout') }}">Checkout</a></li>
                                                  @endif
                                                  @endif
                                              </ul>
@@ -407,7 +415,7 @@
                                                  <li><a href="about-us.html">About Us</a></li>
                                                  <li><a href="contact-us.html">Contact Us</a></li>
                                                  <li><a href="cart.html">Cart</a></li>
-                                                 <li><a href="{{ route('web.checkout')}}">Checkout</a></li>
+                                                 <li><a href="{{ route('web.checkout') }}">Checkout</a></li>
                                                  <li><a href="compare.html">Compare</a></li>
                                                  <li><a href="faq.html">FAQ</a></li>
                                                  <li><a href="login.html">Login</a></li>
@@ -506,7 +514,7 @@
                                          <li><a href="about-us.html">About Us</a></li>
                                          <li><a href="contact-us.html">Contact Us</a></li>
                                          <li><a href="cart.html">Cart</a></li>
-                                         <li><a href="{{ route('web.checkout')}}">Checkout</a></li>
+                                         <li><a href="{{ route('web.checkout') }}">Checkout</a></li>
                                          <li><a href="compare.html">Compare</a></li>
                                          <li><a href="faq.html">FAQ</a></li>
                                          <li><a href="login.html">Login</a></li>
@@ -664,7 +672,8 @@
 
                                              @livewire('card-productos' , ['id_producto'=>$producto->id,'imagen' =>
                                              $producto->imagen_path,'clasificacion' => $producto->clasificacion ,'valor_venta'
-                                             => $producto->valor_venta,'color' => $producto->color, 'estilo' => $producto->estilo])
+                                             => $producto->valor_venta,'color' => $producto->color, 'estilo' =>
+                                             $producto->estilo])
                                          @endforeach
                                          <div class="col-sm-12 shop-all-btn"><a href="shop-left-sidebar-col-3.html">Ver todos
                                                  los Productos<a></div>
@@ -2118,7 +2127,8 @@
                                                          <div class="ec-pro-color">
                                                              <span class="ec-pro-opt-label">Color</span>
                                                              <ul class="ec-opt-swatch ec-change-img">
-                                                                 <li class="active"><a href="#" class="ec-opt-clr-img"
+                                                                 <li class="active"><a href="#"
+                                                                         class="ec-opt-clr-img"
                                                                          data-src="assets/images/product-image/15_1.jpg"
                                                                          data-src-hover="assets/images/product-image/15_1.jpg"
                                                                          data-tooltip="Gray"><span
@@ -3953,13 +3963,13 @@
                              @if (Route::has('login'))
 
                                  @auth
-                                    @can('dashboard')
-                                        <a href="{{ url('/dashboard') }}" class="ec-header-btn"><img loading='lazy'
-                                            src="assets/images/icons/user.svg" class="svg_img header_svg" alt="icon" /></a>                                               
-                                    @else
-                                        <a href="{{ route('web.perfil-empresaria') }}" class="ec-header-btn"><img loading='lazy'
-                                            src="assets/images/icons/user.svg" class="svg_img header_svg" alt="icon" /></a>
-                                    @endcan
+                                     @can('dashboard')
+                                         <a href="{{ url('/dashboard') }}" class="ec-header-btn"><img loading='lazy'
+                                                 src="assets/images/icons/user.svg" class="svg_img header_svg" alt="icon" /></a>
+                                     @else
+                                         <a href="{{ route('web.perfil-empresaria') }}" class="ec-header-btn"><img loading='lazy'
+                                                 src="assets/images/icons/user.svg" class="svg_img header_svg" alt="icon" /></a>
+                                     @endcan
                                  @else
 
                                      <a href="{{ route('login') }}" class="ec-header-btn"><img loading='lazy'
@@ -4109,25 +4119,34 @@
                          },
                          minLength: 1,
                          select: function(event, ui) {
-                            let url = "{{ route('web.detalle-producto', ':id') }}";
-                            url = url.replace(':id', ui.item.estilo);
-                            document.location.href=url;
+                             let url = "{{ route('web.detalle-producto', ':id') }}";
+                             url = url.replace(':id', ui.item.estilo);
+                             document.location.href = url;
                              //get_datos_afiliado(ui.item.data);
                              //console.log('You selected: ' + ui.item.value + ', ' + ui.item.data);
                          }
                      }).autocomplete("instance")._renderItem = function(ul, item) {
-                        if (item.value) {
-                            let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
-                            if (item.imagen_path != '' && item.imagen_path != null) {
-                                image = '/storage/images/productos/' + item.imagen_path
-                            }
-                             return $("<li>").append("<div><img src='"+image+"' class='rounded p-2' width='50' height='50' /><span>" + item.value + "</span></div>")
+                         if (item.value) {
+                             let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                             if (item.imagen_path != '' && item.imagen_path != null) {
+                                 image = '/storage/images/productos/' + item.imagen_path
+                             }
+                             return $("<li>").append("<div><img src='" + image +
+                                     "' class='rounded p-2' width='50' height='50' /><span>" + item.value + "</span></div>")
                                  .appendTo(ul);
                          } else {
                              return $("<li class='ui-state-disabled'>").append("<div>Produco no encontrado</div>").appendTo(ul);
                          }
 
                      };
+
+
+                     window.addEventListener('contentChanged', event => {
+                         
+                         $('.qty-product-cover').slick('init');
+                         $('.qty-nav-thumb').slick('init');
+                         
+                     });
                  </script>
 
                  @livewireScripts

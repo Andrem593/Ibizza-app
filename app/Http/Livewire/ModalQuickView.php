@@ -27,6 +27,8 @@ class ModalQuickView extends Component
         $tallas = Producto::where('estilo', $estilo)->where('color', $productos_color[0]->color)->get();
 
         $this->productos_color = $productos_color;
+
+        $this->dispatchBrowserEvent('contentChanged');
         
     }
 }
