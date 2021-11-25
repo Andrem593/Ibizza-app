@@ -1,6 +1,12 @@
-<div wire:ignore.self wire:loading class="modal fade" id="ec_quickview_modal" tabindex="-1" role="dialog">
+<div wire:ignore.self class="modal fade" id="ec_quickview_modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
+            <div wire:loading.delay wire:target="quickView" class="overlay d-flex justify-content-center align-items-center">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+            </div>
+            {{-- <div wire:loading.delay.longest wire:target="quickView" >
+                <h1>prueba</h1>
+            </div> --}}
             <button type="button" class="btn-close qty_close" data-bs-dismiss="modal" aria-label="Close"></button>
             <div class="modal-body">
                 <div class="row">
