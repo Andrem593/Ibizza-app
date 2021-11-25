@@ -9,6 +9,8 @@ use Livewire\Component;
 class ModalQuickView extends Component
 {
     public $productos_color;
+    public $tallas;
+    //public $catalogo;
     
     protected $listeners = ['quickView'];
 
@@ -29,6 +31,8 @@ class ModalQuickView extends Component
         $tallas = Producto::where('estilo', $estilo)->where('color', $productos_color[0]->color)->get();
 
         $this->productos_color = $productos_color;
+        $this->tallas = $tallas;
+        //$this->catalogo = $catalogo;
         
     }
 }

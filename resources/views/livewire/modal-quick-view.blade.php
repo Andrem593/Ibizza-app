@@ -1,7 +1,7 @@
 <div wire:ignore.self class="modal fade" id="ec_quickview_modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-           
+
             <button type="button" class="btn-close qty_close" data-bs-dismiss="modal" aria-label="Close"></button>
             <div class="modal-body">
                 <div id="qv_modal" class="row">
@@ -32,7 +32,8 @@
                     </div>
                     <div class="col-md-7 col-sm-12 col-xs-12">
                         <div class="quickview-pro-content">
-                            <h5 class="ec-quick-title clasificacion">{{$productos_color[0]->clasificacion}}</h5>
+                            <h5 class="ec-quick-title clasificacion">
+                                {{ isset($productos_color) ? $productos_color[0]->clasificacion : '' }}</h5>
                             <input type="hidden" wire:model="productos_color">
                             <div class="ec-quickview-rating">
                                 <i class="ecicon eci-star fill"></i>
@@ -42,31 +43,34 @@
                                 <i class="ecicon eci-star"></i>
                             </div>
 
-                            <div class="ec-quickview-desc">Lorem Ipsum is simply dummy text of the printing and
-                                typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                since the 1500s,</div>
+                            <div class="ec-quickview-desc">
+                                {{ isset($productos_color) ? $productos_color[0]->descripcion : '' }}</div>
                             <div class="ec-quickview-price">
-                                <span class="old-price">$100.00</span>
-                                <span class="new-price">$80.00</span>
+                                <span
+                                    class="new-price">${{ isset($productos_color) ? $productos_color[0]->valor_venta : '' }}</span>
+                                {{-- <span class="old-price">$100.00</span>
+                                <span class="new-price">$80.00</span> --}}
                             </div>
 
                             <div class="ec-pro-variation">
                                 <div class="ec-pro-variation-inner ec-pro-variation-color">
+                                    <input type="hidden" id="estilo_producto" value="{{isset($productos_color) ? $productos_color[0]->estilo : ''}}">
                                     <span>Color</span>
                                     <div class="ec-pro-color">
-                                        <ul class="ec-opt-swatch">
-                                            <li><span style="background-color:#ebbf60;"></span></li>
-                                            <li><span style="background-color:#75e3ff;"></span></li>
-                                            <li><span style="background-color:#11f7d8;"></span></li>
-                                            <li><span style="background-color:#acff7c;"></span></li>
-                                            <li><span style="background-color:#e996fa;"></span></li>
-                                        </ul>
+                                        <select class="form-select" id="color_producto">
+                                            @isset($productos_color)
+                                                @foreach ($productos_color as $producto)
+                                                    <option value="{{ $producto->color }}">{{ $producto->color }}</option>
+                                                @endforeach
+                                            @endisset
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="ec-pro-variation-inner ec-pro-variation-size ec-pro-size">
-                                    <span>Size</span>
+                                    <span>Talla</span>
                                     <div class="ec-pro-variation-content">
                                         <ul class="ec-opt-size">
+<<<<<<< HEAD
                                             <li class="active"><a href="#" class="ec-opt-sz" data-tooltip="Small">S</a>
                                             </li>
                                             <li><a href="#" class="ec-opt-sz" data-tooltip="Medium">M</a>
@@ -74,9 +78,21 @@
                                             <li><a href="#" class="ec-opt-sz" data-tooltip="Large">X</a>
                                             </li>
                                             <li><a href="#" class="ec-opt-sz" data-tooltip="Extra Large">XL</a>
+=======
+                                            <li class="active talla">
+                                                <span>{{ isset($productos_color) ? $productos_color[0]->talla : '' }}</span>
+>>>>>>> ccc5624601ee6d1b6bdeed7cfca30fc2f5f33bc7
                                             </li>
+                                            @isset($productos_color)
+                                                @foreach ($tallas as $talla)
+                                                    @if ($talla->talla != $productos_color[0]->talla)
+                                                        <li class="talla"><span>{{ $talla->talla }}</span></li>
+                                                    @endif
+                                                @endforeach
+                                            @endisset
                                         </ul>
                                     </div>
+
                                 </div>
                             </div>
                             <div class="ec-quickview-qty">
@@ -84,21 +100,88 @@
                                     <input class="qty-input" type="text" name="ec_qtybtn" value="1" />
                                 </div>
                                 <div class="ec-quickview-cart ">
-                                    <button class="btn btn-primary"><img loading='lazy'
-                                            src="assets/images/icons/cart.svg" class="svg_img pro_svg" alt="" />
-                                        Add To Cart</button>
+                                    @isset($productos_color)
+                                        @if ($productos_color[0]->stock == 0)
+                                            <button id="addToCart" class="btn btn-primary add-to-cart-product" disabled>Add
+                                                To Cart</button>
+                                        @else
+                                            <button id="addToCart" class="btn btn-primary add-to-cart-product">Add To
+                                                Cart</button>
+                                        @endif
+                                    @endisset
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
                 <div id="qv_spinner" class="d-flex justify-content-center d-none">
                     <div class="spinner-border-qv" role="status">
-                    <span class="sr-only">cargando...</span>
+                        <span class="sr-only">cargando...</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    @push('js')
+        <script>
+            $('#color_producto').change(function(event) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                });
+                let data = {
+                    'color': $(this).val(),
+                    'estilo': $('#estilo_producto').val(),
+                }
+                $.post({
+                    url: '{{ route('web.tallas-color') }}',
+                    data: data,
+                    success: function(response) {
+                        let data = JSON.parse(response)
+                        $('.ec-pro-variation-content ul').html(' ')
+                        $.each(data, function(i, v) {
+                            if (i == 0) {
+                                $('.ec-pro-variation-content ul').append(
+                                    '<li class="active talla"><span>' + v['talla'] +
+                                    '</span></li>')
+                            } else {
+                                $('.ec-pro-variation-content ul').append(
+                                    '<li class="talla"><span>' + v['talla'] + '</span></li>')
+                            }
+                        })
+                    }
+                })
+            })
+            $(document).on('click', '.talla', function() {
+                $(this).addClass('active').siblings().removeClass('active');
+                let data = {
+                    'talla': $(this).text(),
+                    'estilo': $('#estilo_producto').val(),
+                    'color': $('#color_producto').val(),
+                }
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                });
+                $.post({
+                    url: '{{ route('web.stock-talla') }}',
+                    data: data,
+                    success: function(response) {
+                        let data = JSON.parse(response)
+                        // $('#stock').text(data.stock);
+                        // if (parseInt(data.stock) != 0) {
+                        //     $('#stock2').html('¡Date Prisa! hay ' + data.stock + ' en stock')
+                        //     $('#addToCart').attr('disabled', false);
+                        // } else {
+                        //     $('#stock2').html('¡Lo sentimos! No hay stock de este producto')
+                        //     $('#addToCart').attr('disabled', true);
+                        // }
+                    }
+                })
+            });
+        </script>
+    @endpush
 </div>
