@@ -1,21 +1,16 @@
 <div wire:ignore.self class="modal fade" id="ec_quickview_modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div wire:loading.delay wire:target="quickView" class="overlay d-flex justify-content-center align-items-center">
-                <i class="fas fa-2x fa-sync fa-spin"></i>
-            </div>
-            {{-- <div wire:loading.delay.longest wire:target="quickView" >
-                <h1>prueba</h1>
-            </div> --}}
+           
             <button type="button" class="btn-close qty_close" data-bs-dismiss="modal" aria-label="Close"></button>
             <div class="modal-body">
-                <div class="row">
+                <div id="prueba" class="row">
                     <div class="col-md-5 col-sm-12 col-xs-12">
                         <!-- Swiper -->
                         <div class="qty-product-cover">
                             @isset($productos_color)
                                 @foreach ($productos_color as $producto)
-                                    <div class="qty-slide">
+                                    <div class="qty-slide" wire:loading.remove wire:target="quickView">
                                         <img loading='lazy' class="img-responsive"
                                             src="{{ '../storage/images/productos/' . $producto->imagen_path }}"
                                             alt="{{ $producto->estilo }}">
@@ -26,7 +21,7 @@
                         <div class="qty-nav-thumb">
                             @isset($productos_color)
                                 @foreach ($productos_color as $producto)
-                                    <div class="qty-slide">
+                                    <div class="qty-slide" wire:loading.remove wire:target="quickView">
                                         <img loading='lazy' class="img-responsive"
                                             src="{{ '../storage/images/productos/' . $producto->imagen_path }}"
                                             alt="{{ $producto->estilo }}">
