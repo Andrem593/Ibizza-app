@@ -58,7 +58,10 @@
                         <div class="shop-pro-inner">
                             <div class="row">
                                 @foreach ($productos as $producto)
-                                    @livewire('card-producto-tienda' , ['id_producto'=>$producto->id,'imagen' => $producto->imagen_path,'clasificacion' => $producto->clasificacion ,'valor_venta' => $producto->valor_venta,'color' => $producto->color,'descripcion' =>$producto->descripcion,'estilo' =>$producto->estilo])
+                                    @livewire('card-producto-tienda' , ['id_producto'=>$producto->id,'imagen' =>
+                                    $producto->imagen_path,'clasificacion' => $producto->clasificacion ,'valor_venta'
+                                    => $producto->valor_venta,'color' => $producto->color, 'estilo' =>
+                                    $producto->estilo,'nombre_producto'=>$producto->nombre_mostrar,'precio_empresaria'=>$producto->precio_empresaria,'descuento'=>$producto->descuento])
                                 @endforeach
                             </div>
                         </div>

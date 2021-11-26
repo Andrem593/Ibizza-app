@@ -172,6 +172,27 @@
                     }
                 })
             });
+            $('.ec-opt-size').each(function() {
+
+                $(document).on('click', 'li', function() {
+                    // alert("2");
+                    onSizeChange($(this));
+                });
+
+                function onSizeChange(thisObj) {
+                    // alert("3");
+                    var $this = thisObj;
+                    var $old_data = $this.find('a').attr('data-old');
+                    var $new_data = $this.find('a').attr('data-new');
+                    var $old_price = $this.closest('.ec-pro-content').find('.old-price');
+                    var $new_price = $this.closest('.ec-pro-content').find('.new-price');
+
+                    $old_price.text($old_data);
+                    $new_price.text($new_data);
+
+                    $this.addClass('active').siblings().removeClass('active');
+                }
+            });
         </script>
     @endpush
 </div>
