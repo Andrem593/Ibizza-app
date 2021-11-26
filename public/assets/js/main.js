@@ -1,11 +1,11 @@
 // Funcion para enviar datos a session sobre el carrito A.M
 
 $("body").on("click", ".add-to-cart", function() {
-    var clasificacion = $(this).parents().parents().parents().children(".ec-pro-content").find(".ec-pro-title a").html();
+    var estilo = $(this).parents().parents().parents().children(".ec-pro-content").find(".estilo-producto").val();
     var color = $(this).parents().parents().parents().children(".ec-pro-content").find('.ec-pro-color .p-1').val();
     var talla = $(this).parents().parents().parents().children(".ec-pro-content").find('.ec-pro-size ul .active a').text();
     data = {
-        'clasificacion': clasificacion,
+        'estilo': estilo,
         'color': color,
         'talla': talla,
     }

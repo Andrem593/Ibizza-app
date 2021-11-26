@@ -9,11 +9,11 @@ use Cart;
 
 class CardProductos extends Component
 {
-    public $id_producto ,$imagen,$clasificacion,$valor_venta,$color,$estilo;
+    public $id_producto ,$imagen,$clasificacion,$valor_venta,$color,$estilo,$nombre_producto,$precio_empresaria,$descuento;
 
     public function render()
     {
-        $productos_all = DB::table('productos')->groupBy('color')->get();
+        $productos_all = Producto::where('estilo',$this->estilo)->groupBy('color')->get();
         $productos_tallas = DB::table('productos')->get();
         return view('livewire.card-productos',compact('productos_all','productos_tallas'));
     }

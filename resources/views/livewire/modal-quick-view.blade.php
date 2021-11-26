@@ -70,18 +70,8 @@
                                     <span>Talla</span>
                                     <div class="ec-pro-variation-content">
                                         <ul class="ec-opt-size">
-<<<<<<< HEAD
-                                            <li class="active"><a href="#" class="ec-opt-sz" data-tooltip="Small">S</a>
-                                            </li>
-                                            <li><a href="#" class="ec-opt-sz" data-tooltip="Medium">M</a>
-                                            </li>
-                                            <li><a href="#" class="ec-opt-sz" data-tooltip="Large">X</a>
-                                            </li>
-                                            <li><a href="#" class="ec-opt-sz" data-tooltip="Extra Large">XL</a>
-=======
                                             <li class="active talla">
                                                 <span>{{ isset($productos_color) ? $productos_color[0]->talla : '' }}</span>
->>>>>>> ccc5624601ee6d1b6bdeed7cfca30fc2f5f33bc7
                                             </li>
                                             @isset($productos_color)
                                                 @foreach ($tallas as $talla)
@@ -181,6 +171,27 @@
                         // }
                     }
                 })
+            });
+            $('.ec-opt-size').each(function() {
+
+                $(document).on('click', 'li', function() {
+                    // alert("2");
+                    onSizeChange($(this));
+                });
+
+                function onSizeChange(thisObj) {
+                    // alert("3");
+                    var $this = thisObj;
+                    var $old_data = $this.find('a').attr('data-old');
+                    var $new_data = $this.find('a').attr('data-new');
+                    var $old_price = $this.closest('.ec-pro-content').find('.old-price');
+                    var $new_price = $this.closest('.ec-pro-content').find('.new-price');
+
+                    $old_price.text($old_data);
+                    $new_price.text($new_data);
+
+                    $this.addClass('active').siblings().removeClass('active');
+                }
             });
         </script>
     @endpush

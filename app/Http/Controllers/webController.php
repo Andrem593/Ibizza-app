@@ -19,20 +19,42 @@ class webController extends Controller
     {
         $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-            ->where('catalogos.estado', '=', 'PUBLICADO')
-            ->groupBy('productos.estilo')->get();
+            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
+            ->groupBy('productos.estilo')->limit(8)->get();      
+        $productos_hombres = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
+            ->where('categoria','Hombre')
+            ->groupBy('productos.estilo')->limit(8)->get();            
+        $productos_mujer = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+        ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
+        ->where('categoria','Mujer')
+        ->groupBy('productos.estilo')->limit(8)->get();
+        $productos_niños = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
+            ->where('categoria','Niñas')->orWhere('categoria','Niños')
+            ->groupBy('productos.estilo')->limit(8)->get();      
         $marcas = DB::table('marcas')->where('imagen', '<>', '')->get();
+        $subcategorias = Producto::select(DB::raw('count(nombre_mostrar) as cantidad_productos, subcategoria'))
+        ->groupBy('subcategoria')->limit(4)->get();
         $catalogos = DB::table('catalogos')->where('estado', '=', 'PUBLICADO')->get();
-        return view('welcome2', compact('marcas', 'productos', 'catalogos'));
+        return view('welcome2', compact('marcas', 'productos', 'catalogos','productos_hombres','productos_mujer','productos_niños','subcategorias'));
     }
     public function addToCart(Request $request)
     {
         if (!empty($request->talla)) {
-            $producto = Producto::where('color', $request->color)->where('clasificacion', $request->clasificacion)->where('talla', $request->talla)->first();
+            $producto = Producto::where('color', $request->color)->where('estilo', $request->estilo)->where('talla', $request->talla)->first();
         } else {
-            $producto = Producto::where('color', $request->color)->where('clasificacion', $request->clasificacion)->first();
+            $producto = Producto::where('color', $request->color)->where('estilo', $request->estilo)->first();
         }
-        $cart = Cart::add($producto->id, $producto->nombre_producto, 1, $producto->valor_venta, ['image' => $producto->imagen_path])->associate('App\Models\Producto');
+        if ($producto->descuento != '') {
+            $precio = $producto->precio_empresaria - ($producto->precio_empresaria * ($producto->descuento/100));
+        }else{
+            $precio =  $producto->precio_empresaria;
+        }
+        $cart = Cart::add($producto->id, $producto->nombre_mostrar, 1, number_format($precio,2), ['image' => $producto->imagen_path])->associate('App\Models\Producto');
         return 'add';
     }
     public function deleteToCart(Request $request)
