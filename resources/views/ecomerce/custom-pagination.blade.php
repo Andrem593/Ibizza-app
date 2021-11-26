@@ -7,6 +7,7 @@
     <li><a class="next" href="#">Next <i class="ecicon eci-angle-right"></i></a></li>
 </ul> --}}
 @if ($paginator->hasPages())
+<span>Mostrando {{ $paginator->firstItem(). "-" .$paginator->lastItem() }} de {{ $paginator->total() }} Producto(s)</span>
 <nav aria-label="Page navigation example">
     <ul class="ec-pro-pagination-inner">
         @if ($paginator->onFirstPage())
