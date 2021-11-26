@@ -38,9 +38,17 @@ class webController extends Controller
             ->groupBy('productos.estilo')->limit(8)->get();      
         $marcas = DB::table('marcas')->where('imagen', '<>', '')->get();
         $subcategorias = Producto::select(DB::raw('count(nombre_mostrar) as cantidad_productos, subcategoria'))
-        ->groupBy('subcategoria')->limit(4)->get();
+        ->groupBy('subcategoria')->orderBy('cantidad_productos','DESC')->limit(4)->get();
         $catalogos = DB::table('catalogos')->where('estado', '=', 'PUBLICADO')->get();
-        return view('welcome2', compact('marcas', 'productos', 'catalogos','productos_hombres','productos_mujer','productos_niños','subcategorias'));
+        $poco_stock = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+        ->groupBy('productos.estilo')
+        ->orderBy('productos.stock')->limit(2)->get();
+        $descuentos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+        ->groupBy('productos.estilo')
+        ->orderBy('productos.descuento', 'desc')->limit(2)->get();
+        return view('welcome2', compact('marcas', 'productos', 'catalogos','productos_hombres','productos_mujer','productos_niños','subcategorias','poco_stock','descuentos'));
     }
     public function addToCart(Request $request)
     {

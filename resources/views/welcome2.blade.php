@@ -890,102 +890,63 @@
                          <div class="ec-fre-section col-lg-6 col-md-6 col-sm-6 margin-b-30" data-animation="slideInRight">
                              <div class="col-md-12 text-left">
                                  <div class="section-title">
-                                     <h2 class="ec-bg-title">Futuros Productos</h2>
-                                     <h2 class="ec-title">Futuros Productos</h2>
+                                     <h2 class="ec-bg-title">Pocas Unidades</h2>
+                                     <h2 class="ec-title">Pocas Unidades</h2>
                                  </div>
                              </div>
 
                              <div class="ec-fre-products">
-                                 <div class="ec-fs-product">
-                                     <div class="ec-fs-pro-inner">
-                                         <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
-                                             <div class="ec-fs-pro-image">
-                                                 <a href="product-left-sidebar.html" class="image"><img
-                                                         loading='lazy' class="main-image"
-                                                         src="assets/images/product-image/1_1.jpg" alt="Product" /></a>
-                                                 <a href="#" class="quickview" data-link-action="quickview"
-                                                     title="Quick view" data-bs-toggle="modal"
-                                                     data-bs-target="#ec_quickview_modal"><img loading='lazy'
-                                                         src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
-                                                         alt="" /></a>
-                                             </div>
-                                         </div>
-                                         <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
-                                             <h5 class="ec-fs-pro-title"><a href="product-left-sidebar.html">Baby Toy
-                                                     Teddybear</a>
-                                             </h5>
-                                             <div class="ec-fs-pro-rating">
-                                                 <span class="ec-fs-rating-icon">
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star"></i>
-                                                 </span>
-                                                 <span class="ec-fs-rating-text">4 Review</span>
-                                             </div>
-                                             <div class="ec-fs-price">
-                                                 <span class="old-price">$549.00</span>
-                                                 <span class="new-price">$480.00</span>
-                                             </div>
+                                 @php
+                                     $i = 1;
+                                 @endphp
+                                 @foreach ($poco_stock as $value)
+                                    <div class="ec-fs-product">
+                                        <div class="ec-fs-pro-inner">
+                                            <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
+                                                <div class="ec-fs-pro-image">
+                                                    <a href="{{route('web.detalle-producto', $value->estilo)}}" class="image"><img
+                                                            loading='lazy' class="main-image"
+                                                            src="storage/images/productos/{{ $value->imagen_path }}" style="object-fit: cover" /></a>
+                                                    <a href="#" class="quickview" data-link-action="quickview"
+                                                        title="Quick view" data-bs-toggle="modal"
+                                                        data-bs-target="#ec_quickview_modal"><img loading='lazy'
+                                                            src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
+                                                            alt="" /></a>
+                                                </div>
+                                            </div>
+                                            <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
+                                                <h5 class="ec-fs-pro-title"><a href="{{route('web.detalle-producto', $value->estilo)}}">{{ $value->nombre_mostrar }}</a>
+                                                </h5>
+                                                <div class="ec-fs-pro-rating">
+                                                    <span class="ec-fs-rating-icon">
+                                                        <i class="ecicon eci-star fill"></i>
+                                                        <i class="ecicon eci-star fill"></i>
+                                                        <i class="ecicon eci-star fill"></i>
+                                                        <i class="ecicon eci-star fill"></i>
+                                                        <i class="ecicon eci-star"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="ec-fs-price">
+                                                    @empty(!$value->descuento)                        
+                                                        <span class="old-price">${{ $value->precio_empresaria }}</span>
+                                                        <span class="new-price">${{ number_format(($value->precio_empresaria-($value->precio_empresaria * ($value->descuento /100))), 2) }}</span>
+                                                    @else
+                                                        <span class="new-price">${{ number_format($value->precio_empresaria, 2) }}</span>
+                                                    @endempty
+                                                </div>
 
-                                             <div class="countdowntimer"><span id="ec-fs-count-1"></span></div>
-                                             <div class="ec-fs-pro-desc">Lorem Ipsum is simply dummy text the printing and
-                                                 typesetting.
-                                             </div>
-                                             <div class="ec-fs-pro-book">Total Booking: <span>25</span></div>
-                                             <div class="ec-fs-pro-btn">
-                                                 <a href="#" class="btn btn-lg btn-secondary">Remind Me</a>
-                                                 <a href="#" class="btn btn-lg btn-primary">Book Now</a>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
-                                 <div class="ec-fs-product">
-                                     <div class="ec-fs-pro-inner">
-                                         <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
-                                             <div class="ec-fs-pro-image">
-                                                 <a href="product-left-sidebar.html" class="image"><img
-                                                         loading='lazy' class="main-image"
-                                                         src="assets/images/product-image/3_1.jpg" alt="Product" /></a>
-                                                 <a href="#" class="quickview" data-link-action="quickview"
-                                                     title="Quick view" data-bs-toggle="modal"
-                                                     data-bs-target="#ec_quickview_modal"><img loading='lazy'
-                                                         src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
-                                                         alt="" /></a>
-                                             </div>
-                                         </div>
-                                         <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
-                                             <h5 class="ec-fs-pro-title"><a href="product-left-sidebar.html">Leather Purse For
-                                                     Women</a>
-                                             </h5>
-                                             <div class="ec-fs-pro-rating">
-                                                 <span class="ec-fs-rating-icon">
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                 </span>
-                                                 <span class="ec-fs-rating-text">4 Review</span>
-                                             </div>
-                                             <div class="ec-fs-price">
-                                                 <span class="old-price">$300.00</span>
-                                                 <span class="new-price">$250.00</span>
-                                             </div>
-
-                                             <div class="countdowntimer"><span id="ec-fs-count-2"></span></div>
-                                             <div class="ec-fs-pro-desc">Lorem Ipsum is simply dummy text the printing and
-                                                 typesetting.
-                                             </div>
-                                             <div class="ec-fs-pro-book">Total Booking: <span>25</span></div>
-                                             <div class="ec-fs-pro-btn">
-                                                 <a href="#" class="btn btn-lg btn-secondary">Remind Me</a>
-                                                 <a href="#" class="btn btn-lg btn-primary">Book Now</a>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
+                                                <div class="countdowntimer"><span id="{{'ec-fs-count-'.$i++}}"></span></div>
+                                                <div class="ec-fs-pro-desc">{{$value->descripcion}}
+                                                </div>
+                                                <div class="ec-fs-pro-book">Total de stock: <span>{{$value->stock}}</span></div>
+                                                <div class="ec-fs-pro-btn">
+                                                    <a href="#" class="btn btn-lg btn-secondary">Recordarme</a>
+                                                    <a href="{{route('web.detalle-producto', $value->estilo)}}" class="btn btn-lg btn-primary">Comprar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 @endforeach
                              </div>
                          </div>
                          <!--  Feature Section End -->
@@ -999,95 +960,54 @@
                              </div>
 
                              <div class="ec-spe-products">
-                                 <div class="ec-fs-product">
-                                     <div class="ec-fs-pro-inner">
-                                         <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
-                                             <div class="ec-fs-pro-image">
-                                                 <a href="product-left-sidebar.html" class="image"><img
-                                                         loading='lazy' class="main-image"
-                                                         src="assets/images/product-image/8_1.jpg" alt="Product" /></a>
-                                                 <a href="#" class="quickview" data-link-action="quickview"
-                                                     title="Quick view" data-bs-toggle="modal"
-                                                     data-bs-target="#ec_quickview_modal"><img loading='lazy'
-                                                         src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
-                                                         alt="" /></a>
-                                             </div>
-                                         </div>
-                                         <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
-                                             <h5 class="ec-fs-pro-title"><a href="product-left-sidebar.html">Smart watch
-                                                     Firebolt</a>
-                                             </h5>
-                                             <div class="ec-fs-pro-rating">
-                                                 <span class="ec-fs-rating-icon">
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star"></i>
-                                                 </span>
-                                                 <span class="ec-fs-rating-text">4 Review</span>
-                                             </div>
-                                             <div class="ec-fs-price">
-                                                 <span class="old-price">$200.00</span>
-                                                 <span class="new-price">$180.00</span>
-                                             </div>
-                                             <div class="countdowntimer"><span id="ec-fs-count-3"></span></div>
-                                             <div class="ec-fs-pro-desc">Lorem Ipsum is simply dummy text the printing and
-                                                 typesetting.
-                                             </div>
-                                             <div class="ec-fs-pro-book">Total Booking: <span>25</span></div>
-                                             <div class="ec-fs-pro-btn">
-                                                 <a href="#" class="btn btn-lg btn-secondary">Remind Me</a>
-                                                 <a href="#" class="btn btn-lg btn-primary">Book Now</a>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
-                                 <div class="ec-fs-product">
-                                     <div class="ec-fs-pro-inner">
-                                         <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
-                                             <div class="ec-fs-pro-image">
-                                                 <a href="product-left-sidebar.html" class="image"><img
-                                                         loading='lazy' class="main-image"
-                                                         src="assets/images/product-image/10_1.jpg" alt="Product" /></a>
-                                                 <a href="#" class="quickview" data-link-action="quickview"
-                                                     title="Quick view" data-bs-toggle="modal"
-                                                     data-bs-target="#ec_quickview_modal"><img loading='lazy'
-                                                         src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
-                                                         alt="" /></a>
-                                             </div>
-                                         </div>
-                                         <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
-                                             <h5 class="ec-fs-pro-title"><a href="product-left-sidebar.html">Casual Shoes
-                                                     Men</a>
-                                             </h5>
-                                             <div class="ec-fs-pro-rating">
-                                                 <span class="ec-fs-rating-icon">
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                     <i class="ecicon eci-star fill"></i>
-                                                 </span>
-                                                 <span class="ec-fs-rating-text">4 Review</span>
-                                             </div>
-                                             <div class="ec-fs-price">
-                                                 <span class="old-price">$120.00</span>
-                                                 <span class="new-price">$95.00</span>
-                                             </div>
+                                 @foreach ($descuentos as $value )
+                                    <div class="ec-fs-product">
+                                        <div class="ec-fs-pro-inner">
+                                            <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
+                                                <div class="ec-fs-pro-image">
+                                                    <a href="{{route('web.detalle-producto', $value->estilo)}}" class="image"><img
+                                                            loading='lazy' class="main-image"
+                                                            src="storage/images/productos/{{ $value->imagen_path }}" style="object-fit: cover" /></a>
+                                                    <a href="#" class="quickview" data-link-action="quickview"
+                                                        title="Quick view" data-bs-toggle="modal"
+                                                        data-bs-target="#ec_quickview_modal"><img loading='lazy'
+                                                            src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
+                                                            alt="" /></a>
+                                                </div>
+                                            </div>
+                                            <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
+                                                <h5 class="ec-fs-pro-title"><a href="{{route('web.detalle-producto', $value->estilo)}}">{{ $value->nombre_mostrar }}</a>
+                                                </h5>
+                                                <div class="ec-fs-pro-rating">
+                                                    <span class="ec-fs-rating-icon">
+                                                        <i class="ecicon eci-star fill"></i>
+                                                        <i class="ecicon eci-star fill"></i>
+                                                        <i class="ecicon eci-star fill"></i>
+                                                        <i class="ecicon eci-star fill"></i>
+                                                        <i class="ecicon eci-star"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="ec-fs-price">
+                                                    @empty(!$value->descuento)                        
+                                                        <span class="old-price">${{ $value->precio_empresaria }}</span>
+                                                        <span class="new-price">${{ number_format(($value->precio_empresaria-($value->precio_empresaria * ($value->descuento /100))), 2) }}</span>
+                                                    @else
+                                                        <span class="new-price">${{ number_format($value->precio_empresaria, 2) }}</span>
+                                                    @endempty
+                                                </div>
 
-                                             <div class="countdowntimer"><span id="ec-fs-count-4"></span></div>
-                                             <div class="ec-fs-pro-desc">Lorem Ipsum is simply dummy text the printing and
-                                                 typesetting.
-                                             </div>
-                                             <div class="ec-fs-pro-book">Total Booking: <span>25</span></div>
-                                             <div class="ec-fs-pro-btn">
-                                                 <a href="#" class="btn btn-lg btn-secondary">Remind Me</a>
-                                                 <a href="#" class="btn btn-lg btn-primary">Book Now</a>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
+                                                <div class="countdowntimer"><span id="{{'ec-fs-count-'.$i}}"></span></div>
+                                                <div class="ec-fs-pro-desc">{{$value->descripcion}}
+                                                </div>
+                                                <div class="ec-fs-pro-book">Total de stock: <span>{{$value->stock}}</span></div>
+                                                <div class="ec-fs-pro-btn">
+                                                    <a href="#" class="btn btn-lg btn-secondary">Recordarme</a>
+                                                    <a href="{{route('web.detalle-producto', $value->estilo)}}" class="btn btn-lg btn-primary">Comprar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 @endforeach
                              </div>
                          </div>
                          <!--  Special Section End -->
@@ -1155,7 +1075,7 @@
              <!--services Section End -->
 
              <!--  offer Section Start -->
-             <section class="section ec-offer-section section-space-p section-space-m">
+             {{-- <section class="section ec-offer-section section-space-p section-space-m">
                  <h2 class="d-none">Ofertas</h2>
                  <div class="container">
                      <div class="row justify-content-end">
@@ -1171,7 +1091,7 @@
                          </div>
                      </div>
                  </div>
-             </section>
+             </section> --}}
              <!-- offer Section End -->
 
              <!-- New Product Start -->
