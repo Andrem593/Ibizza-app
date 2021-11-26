@@ -2200,6 +2200,9 @@
                          
                          $('.qty-product-cover').slick('init');
                          $('.qty-nav-thumb').slick('init');
+                         var QtyPlusMinus = $(".qty-plus-minus");
+                        QtyPlusMinus.prepend('<div class="dec ec_qtybtn">-</div>');
+                        QtyPlusMinus.append('<div class="inc ec_qtybtn">+</div>');
                          
                      });
 
@@ -2208,8 +2211,14 @@
                         $('#qv_spinner').removeClass('d-none');
                     });
                  </script>
+<<<<<<< HEAD
                  @stack('js')
                  @livewireScripts
+=======
+
+                @stack('js')
+                @livewireScripts
+>>>>>>> 875b0f036f98e0ba4ffcecdde3845e72c4e77262
              </body>
 
 </html>
