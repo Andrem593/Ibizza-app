@@ -68,7 +68,7 @@
                         <!-- Ec Pagination Start -->
                         <div class="ec-pro-pagination">
                             <span>Mostrando 1-12 of 21 Productos(s)</span>
-                            {!! $productos->links() !!}
+                            {!! $productos->links('ecomerce.custom-pagination') !!}
                             {{-- <ul class="ec-pro-pagination-inner">
                                 <li><a class="active" href="#">1</a></li>
                                 <li><a href="#">2</a></li>
