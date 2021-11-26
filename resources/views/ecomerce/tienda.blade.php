@@ -65,14 +65,15 @@
                         <!-- Ec Pagination Start -->
                         <div class="ec-pro-pagination">
                             <span>Mostrando 1-12 of 21 Productos(s)</span>
-                            <ul class="ec-pro-pagination-inner">
+                            {!! $productos->links() !!}
+                            {{-- <ul class="ec-pro-pagination-inner">
                                 <li><a class="active" href="#">1</a></li>
                                 <li><a href="#">2</a></li>
                                 <li><a href="#">3</a></li>
                                 <li><a href="#">4</a></li>
                                 <li><a href="#">5</a></li>
                                 <li><a class="next" href="#">Next <i class="ecicon eci-angle-right"></i></a></li>
-                            </ul>
+                            </ul> --}}
                         </div>
                         <!-- Ec Pagination End -->
                     </div>

@@ -52,7 +52,7 @@ class webController extends Controller
         $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->where('catalogos.estado', '=', 'PUBLICADO')
-            ->groupBy('productos.estilo')->get();
+            ->groupBy('productos.estilo')->paginate(8);
         return view('ecomerce.tienda', compact('productos'));
     }
     public function carrito()
