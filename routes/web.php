@@ -29,6 +29,7 @@ use App\Http\Controllers\webController;
 
 Route::get('/', webController::class)->name('web');
 Route::get('/tienda', [webController::class,'tienda'])->name('web.tienda');
+Route::get('/tienda/{orderBy}',[webController::class,'tiendaOrder'])->name('web.tiendaOrderBy');
 Route::get('/carro-compras', [webController::class,'carrito'])->name('web.carro-compras');
 Route::get('/detalle-producto/{estilo}', [webController::class,'detalle_producto'])->name('web.detalle-producto');
 Route::post('tallas-x-color',[webController::class,'tallas_x_color'])->name('web.tallas-color');

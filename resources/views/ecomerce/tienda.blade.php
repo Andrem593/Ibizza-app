@@ -31,9 +31,9 @@
                     <div class="ec-pro-list-top d-flex">
                         <div class="col-md-6 ec-grid-list">
                             <div class="ec-gl-btn">
-                                <button class="btn btn-grid active"><img src="assets/images/icons/grid.svg"
+                                <button class="btn btn-grid active"><img src="{{url('assets/images/icons/grid.svg')}}"
                                         class="svg_img gl_svg" alt="" /></button>
-                                <button class="btn btn-list"><img src="assets/images/icons/list.svg"
+                                <button class="btn btn-list"><img src="{{url('assets/images/icons/list.svg')}}"
                                         class="svg_img gl_svg" alt="" /></button>
                             </div>
                         </div>
@@ -42,11 +42,10 @@
                             <div class="ec-select-inner">
                                 <select name="ec-select" id="ec-select">
                                     <option selected disabled>Posición</option>
-                                    <option value="1">Relevancia</option>
-                                    <option value="nombre:asc">Nombre, A a Z</option>
-                                    <option value="nombre:desc">Nombre, Z a A</option>
-                                    <option value="precio:asc">Precio, +bajo al +alto</option>
-                                    <option value="precio:desc">Price, +alto al +bajo</option>
+                                    <option value="nombre_mostrar asc">Nombre, A a Z</option>
+                                    <option value="nombre_mostrar desc">Nombre, Z a A</option>
+                                    <option value="precio_empresaria asc">Precio, +bajo al +alto</option>
+                                    <option value="precio_empresaria desc">Price, +alto al +bajo</option>
                                 </select>
                             </div>
                         </div>
@@ -68,15 +67,7 @@
                         <!-- Ec Pagination Start -->
                         <div class="ec-pro-pagination">
                             
-                            {!! $productos->links('ecomerce.custom-pagination') !!}
-                            {{-- <ul class="ec-pro-pagination-inner">
-                                <li><a class="active" href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a class="next" href="#">Next <i class="ecicon eci-angle-right"></i></a></li>
-                            </ul> --}}
+                            {!! $productos->links('ecomerce.custom-pagination') !!}                            
                         </div>
                         <!-- Ec Pagination End -->
                     </div>
@@ -96,56 +87,25 @@
                                 </div>
                                 <div class="ec-sb-block-content">
                                     <ul>
-                                        <li>
-                                            <div class="ec-sidebar-block-item">
-                                                <input type="checkbox" /> <a href="#">clothes</a><span
-                                                    class="checked"></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item">
-                                                <input type="checkbox" /> <a href="#">Bags</a><span
-                                                    class="checked"></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item">
-                                                <input type="checkbox" /> <a href="#">Shoes</a><span
-                                                    class="checked"></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item">
-                                                <input type="checkbox" /> <a href="#">cosmetics</a><span
-                                                    class="checked"></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item">
-                                                <input type="checkbox" /> <a href="#">electrics</a><span
-                                                    class="checked"></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item">
-                                                <input type="checkbox" /> <a href="#">phone</a><span
-                                                    class="checked"></span>
-                                            </div>
-                                        </li>
+                                        @foreach ($categorias as $val)
+                                            <li>
+                                                <div class="ec-sidebar-block-item">
+                                                    <input type="checkbox" /> <a href="#">{{$val->categoria}}</a><span
+                                                        class="checked"></span>
+                                                </div>
+                                            </li>
+                                        @endforeach                                        
+                                        
                                         <li id="ec-more-toggle-content" style="padding: 0; display: none;">
                                             <ul>
-                                                <li>
-                                                    <div class="ec-sidebar-block-item">
-                                                        <input type="checkbox" /> <a href="#">Watch</a><span
-                                                            class="checked"></span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="ec-sidebar-block-item">
-                                                        <input type="checkbox" /> <a href="#">Cap</a><span
-                                                            class="checked"></span>
-                                                    </div>
-                                                </li>
+                                                @foreach ($subcategorias as $val)                                                    
+                                                    <li>
+                                                        <div class="ec-sidebar-block-item">
+                                                            <input type="checkbox" /> <a href="#">{{$val->subcategoria}}</a><span
+                                                                class="checked"></span>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
                                             </ul>
                                         </li>
                                         <li>
@@ -167,7 +127,7 @@
                                     <ul>
                                         <li>
                                             <div class="ec-sidebar-block-item">
-                                                <input type="checkbox" value="" checked /><a href="#">S</a><span
+                                                <input type="checkbox" value="" /><a href="#">S</a><span
                                                     class="checked"></span>
                                             </div>
                                         </li>
@@ -179,72 +139,10 @@
                                         </li>
                                         <li>
                                             <div class="ec-sidebar-block-item">
-                                                <input type="checkbox" value="" /> <a href="#">L</a><span
+                                                <input type="checkbox" value="" /> <a href="#">G</a><span
                                                     class="checked"></span>
                                             </div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item">
-                                                <input type="checkbox" value="" /><a href="#">XL</a><span
-                                                    class="checked"></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item">
-                                                <input type="checkbox" value="" /><a href="#">XXL</a><span
-                                                    class="checked"></span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- Sidebar Color item -->
-                            <div class="ec-sidebar-block ec-sidebar-block-clr">
-                                <div class="ec-sb-title">
-                                    <h3 class="ec-sidebar-title">Color</h3>
-                                </div>
-                                <div class="ec-sb-block-content">
-                                    <ul>
-                                        <li>
-                                            <div class="ec-sidebar-block-item"><span
-                                                    style="background-color:#c4d6f9;"></span></div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item"><span
-                                                    style="background-color:#ff748b;"></span></div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item"><span
-                                                    style="background-color:#000000;"></span></div>
-                                        </li>
-                                        <li class="active">
-                                            <div class="ec-sidebar-block-item"><span
-                                                    style="background-color:#2bff4a;"></span></div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item"><span
-                                                    style="background-color:#ff7c5e;"></span></div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item"><span
-                                                    style="background-color:#f155ff;"></span></div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item"><span
-                                                    style="background-color:#ffef00;"></span></div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item"><span
-                                                    style="background-color:#c89fff;"></span></div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item"><span
-                                                    style="background-color:#7bfffa;"></span></div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item"><span
-                                                    style="background-color:#56ffc1;"></span></div>
-                                        </li>
+                                        </li>                                        
                                     </ul>
                                 </div>
                             </div>
@@ -278,16 +176,7 @@
             $(document).on('change', '#ec-select', function(){
                 let orderby, orderway;
                 let order = $('#ec-select').val();
-                let url = '{{ url()->full() }}';
-                orderSplit = order.split(':');
-                orderby = orderSplit[0];
-                orderway = orderSplit[1];
-
-                if(url.includes('?')){
-                    url = url + '&orderby='+ orderby + '&orderway=' + orderway;
-                }else{
-                    url = url + '?orderby='+ orderby + '&orderway=' + orderway;
-                }
+                let url = "/tienda/"+order;
                 $(location).attr('href', url);
                 //console.log(url);
             });

@@ -4,22 +4,22 @@
             <div class="ec-pro-image">
                 <a href="{{route('web.detalle-producto', $estilo)}}" class="image">
                     <img load='lazy' class="main-image"
-                        src="storage/images/productos/{{ $imagen }}" alt="{{$estilo}}" width="300rem" height="200rem" style="object-fit: cover" />
+                        src="../storage/images/productos/{{ $imagen }}" alt="{{$estilo}}" width="300rem" height="200rem" style="object-fit: cover" />
                     <img load='lazy' class="hover-image"
-                        src="storage/images/productos/{{ $imagen }}" alt="{{$estilo}}" width="300rem" height="200rem" style="object-fit: cover" />
+                        src="../storage/images/productos/{{ $imagen }}" alt="{{$estilo}}" width="300rem" height="200rem" style="object-fit: cover" />
                 </a>
                 @empty(!$descuento)
                     <span class="percentage">{{$descuento}}%</span>
                 @endempty                
                 <a href="#" class="quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal"
-                    data-bs-target="#ec_quickview_modal"><img loading='lazy' src="assets/images/icons/quickview.svg"
+                    data-bs-target="#ec_quickview_modal"><img loading='lazy' src="{{url('assets/images/icons/quickview.svg')}}"
                         class="svg_img pro_svg" alt="" /></a>
                 <div class="ec-pro-actions">
                     <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
-                            src="assets/images/icons/cart.svg" class="svg_img pro_svg" alt="" /> Add To
+                            src="{{url('assets/images/icons/cart.svg')}}" class="svg_img pro_svg" alt="" /> Add To
                         Cart</button>
                     <a class="ec-btn-group wishlist" title="Wishlist"><img loading='lazy'
-                            src="assets/images/icons/wishlist.svg" class="svg_img pro_svg" alt="" /></a>
+                            src="{{url('assets/images/icons/wishlist.svg')}}" class="svg_img pro_svg" alt="" /></a>
                 </div>
             </div>
         </div>
