@@ -1,4 +1,7 @@
 <x-plantilla>
+    @push('css')
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @endpush
     <!-- Ec breadcrumb start -->
     <div class="sticky-header-next-sec  ec-breadcrumb section-space-mb">
         <div class="container">
@@ -90,64 +93,32 @@
                                         @foreach ($categorias as $val)
                                             <li>
                                                 <div class="ec-sidebar-block-item">
-                                                    <input type="checkbox" /> <a href="#">{{$val->categoria}}</a><span
-                                                        class="checked"></span>
+                                                    <a href="{{route('web.tiendaOrderBy',['categoria-'.$val->categoria,'productos.id'])}}">{{$val->categoria." ($val->cantidad_productos)"}}</a>                                                        
                                                 </div>
                                             </li>
-                                        @endforeach                                        
-                                        
-                                        <li id="ec-more-toggle-content" style="padding: 0; display: none;">
-                                            <ul>
-                                                @foreach ($subcategorias as $val)                                                    
-                                                    <li>
-                                                        <div class="ec-sidebar-block-item">
-                                                            <input type="checkbox" /> <a href="#">{{$val->subcategoria}}</a><span
-                                                                class="checked"></span>
-                                                        </div>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item ec-more-toggle">
-                                                <span class="checked"></span><span id="ec-more-toggle">Mas
-                                                    Categorias</span>
-                                            </div>
-                                        </li>
-
+                                        @endforeach                                                                                                         
                                     </ul>
                                 </div>
                             </div>
                             <!-- Sidebar Size Block -->
                             <div class="ec-sidebar-block">
                                 <div class="ec-sb-title">
-                                    <h3 class="ec-sidebar-title">Tallas</h3>
+                                    <h3 class="ec-sidebar-title">Sub-Categorias</h3>
                                 </div>
                                 <div class="ec-sb-block-content">
                                     <ul>
-                                        <li>
-                                            <div class="ec-sidebar-block-item">
-                                                <input type="checkbox" value="" /><a href="#">S</a><span
-                                                    class="checked"></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item">
-                                                <input type="checkbox" value="" /><a href="#">M</a><span
-                                                    class="checked"></span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="ec-sidebar-block-item">
-                                                <input type="checkbox" value="" /> <a href="#">G</a><span
-                                                    class="checked"></span>
-                                            </div>
-                                        </li>                                        
+                                        @foreach ($subcategorias as $val)                                                    
+                                            <li>
+                                                <div class="ec-sidebar-block-item">
+                                                    <a href="{{route('web.tiendaOrderBy',['subcategoria-'.$val->subcategoria,'productos.id'])}}">{{$val->subcategoria." ($val->cantidad_productos)"}}</a>
+                                                </div>
+                                            </li>
+                                        @endforeach                                  
                                     </ul>
                                 </div>
                             </div>
                             <!-- Sidebar Price Block -->
-                            <div class="ec-sidebar-block">
+                            {{-- <div class="ec-sidebar-block">
                                 <div class="ec-sb-title">
                                     <h3 class="ec-sidebar-title">Precio</h3>
                                 </div>
@@ -164,7 +135,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -176,7 +147,11 @@
             $(document).on('change', '#ec-select', function(){
                 let orderby, orderway;
                 let order = $('#ec-select').val();
-                let url = "/tienda/"+order;
+                let actual = window.location.pathname;
+
+                actual = actual.split('/')
+                let category = actual[2]; 
+                let url = '/tienda/'+category+"/"+order;
                 $(location).attr('href', url);
                 //console.log(url);
             });

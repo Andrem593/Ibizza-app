@@ -99,28 +99,47 @@ class webController extends Controller
         $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->where('catalogos.estado', '=', 'PUBLICADO')
-            ->groupBy('productos.estilo')->paginate(12);
+            ->groupBy('productos.estilo')->paginate(16);
         $categorias =DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-            ->distinct()
-            ->select('productos.categoria')
+            ->selectRaw('count(productos.nombre_mostrar) as cantidad_productos, productos.categoria')
+            ->groupBy('categoria')
             ->get();
         $subcategorias =DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-            ->distinct()
-            ->select('productos.subcategoria')
+            ->selectRaw('count(nombre_mostrar) as cantidad_productos, productos.subcategoria')
+            ->groupBy('subcategoria')
             ->get();
         //$productos->paginate(8);
         return view('ecomerce.tienda', compact('productos','categorias','subcategorias'));
     }
-    public function tiendaOrder($orderBy)
+    public function tiendaOrder($category,$orderBy)
     {
-        $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        if ($category != 'all') {
+            $category = explode('-',$category);
+            $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+            ->where('catalogos.estado', '=', 'PUBLICADO')->where($category[0],$category[1])
+            ->orderByRaw($orderBy)
+            ->groupBy('productos.estilo')->paginate(16);
+        }else {
+            $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->where('catalogos.estado', '=', 'PUBLICADO')
             ->orderByRaw($orderBy)
-            ->groupBy('productos.estilo')->paginate(12);
-        return view('ecomerce.tienda', compact('productos'));     
+            ->groupBy('productos.estilo')->paginate(16);
+        }
+        $categorias =DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+            ->selectRaw('count(productos.nombre_mostrar) as cantidad_productos, productos.categoria')
+            ->groupBy('categoria')
+            ->get();
+        $subcategorias =DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+            ->selectRaw('count(nombre_mostrar) as cantidad_productos, productos.subcategoria')
+            ->groupBy('subcategoria')
+            ->get();
+        return view('ecomerce.tienda', compact('productos','categorias','subcategorias'));     
     }
     public function carrito()
     {
