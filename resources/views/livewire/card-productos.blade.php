@@ -3,11 +3,16 @@
         <div class="ec-pro-image-outer">
             <div class="ec-pro-image">
                 <a href="{{route('web.detalle-producto', $estilo)}}" class="image">
-                    <img loading='lazy' class="main-image" src="storage/images/productos/{{ $imagen }}" width="300rem" height="200rem" style="object-fit: cover" />
-                    <img loading='lazy' class="hover-image" src="storage/images/productos/{{ $imagen }}" width="300rem" height="200rem" style="object-fit: cover" />
+                    <img loading='lazy' class="main-image" src="storage/images/productos/{{ $imagen }}" width="100%" height="200rem" style="object-fit: cover" />
+                    <img loading='lazy' class="hover-image" src="storage/images/productos/{{ $imagen }}" width="100%" height="200rem" style="object-fit: cover" />
                 </a>
                 @empty(!$descuento)
                     <span class="percentage">{{$descuento}}%</span>
+                @endempty
+                @empty(!$nuevo)
+                    <span class="flags">
+                        <span class="new">Nuevo</span>
+                    </span>
                 @endempty
                 {{-- <a href="#" class="quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal"
                     data-bs-target="#ec_quickview_modal"><img loading='lazy' src="assets/images/icons/quickview.svg"

@@ -37,7 +37,7 @@ $("body").on("click", ".add-to-cart-product", function() {
 
 $("body").on("click", ".add-to-cart-product", function() {
     data = {
-        'clasificacion': $('.clasificacion').text(),
+        'estilo': $('#estilo_producto').val(),
         'color': $('#color_producto').val(),
         'talla': $(this).parents().parents().children(".ec-pro-variation").find(".active").text()
     }
@@ -169,7 +169,7 @@ function ecCheckCookie() {
                 default:
                     //some other protocol
             }
-        }, 3000);
+        }, 100);
     });
 
     /*----------------------------- Animate On Scroll --------------------*/
@@ -614,33 +614,33 @@ function ecCheckCookie() {
     });
 
     /*----------------------------- Product Countdown --------------------- */
-    $("#ec-fs-count-1").countdowntimer({
-        startDate: "2021/10/01 00:00:00",
-        dateAndTime: "2022/01/01 00:00:00",
-        labelsFormat: true,
-        displayFormat: "DHMS"
-    });
+    // $("#ec-fs-count-1").countdowntimer({
+    //     startDate: "2021/10/01 00:00:00",
+    //     dateAndTime: "2022/01/01 00:00:00",
+    //     labelsFormat: true,
+    //     displayFormat: "DHMS"
+    // });
 
-    $("#ec-fs-count-2").countdowntimer({
-        startDate: "2021/10/01 00:00:00",
-        dateAndTime: "2022/01/01 00:00:00",
-        labelsFormat: true,
-        displayFormat: "DHMS"
-    });
+    // $("#ec-fs-count-2").countdowntimer({
+    //     startDate: "2021/10/01 00:00:00",
+    //     dateAndTime: "2022/01/01 00:00:00",
+    //     labelsFormat: true,
+    //     displayFormat: "DHMS"
+    // });
 
-    $("#ec-fs-count-3").countdowntimer({
-        startDate: "2021/10/01 00:00:00",
-        dateAndTime: "2022/01/01 00:00:00",
-        labelsFormat: true,
-        displayFormat: "DHMS"
-    });
+    // $("#ec-fs-count-3").countdowntimer({
+    //     startDate: "2021/10/01 00:00:00",
+    //     dateAndTime: "2022/01/01 00:00:00",
+    //     labelsFormat: true,
+    //     displayFormat: "DHMS"
+    // });
 
-    $("#ec-fs-count-4").countdowntimer({
-        startDate: "2021/10/01 00:00:00",
-        dateAndTime: "2022/01/01 00:00:00",
-        labelsFormat: true,
-        displayFormat: "DHMS"
-    });
+    // $("#ec-fs-count-4").countdowntimer({
+    //     startDate: "2021/10/01 00:00:00",
+    //     dateAndTime: "2022/01/01 00:00:00",
+    //     labelsFormat: true,
+    //     displayFormat: "DHMS"
+    // });
 
     /*----------------------------- Feature Product Slider   -------------------------------- */
     $('.ec-fre-products').slick({

@@ -19,6 +19,7 @@ class webController extends Controller
     {
         $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+<<<<<<< HEAD
             ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado', 'A')
             ->groupBy('productos.estilo')->limit(8)->get();
         $productos_hombres = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
@@ -36,11 +37,34 @@ class webController extends Controller
             ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado', 'A')
             ->where('categoria', 'Niñas')->orWhere('categoria', 'Niños')
             ->groupBy('productos.estilo')->limit(8)->get();
+=======
+            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
+            ->where('productos.stock','>',0)
+            ->groupBy('productos.estilo')->limit(8)->get();      
+        $productos_hombres = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
+            ->where('productos.stock','>',0)
+            ->where('categoria','Hombre')
+            ->groupBy('productos.estilo')->limit(8)->get();            
+        $productos_mujer = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+        ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
+        ->where('productos.stock','>',0)
+        ->where('categoria','Mujer')
+        ->groupBy('productos.estilo')->limit(8)->get();
+        $productos_niños = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')->where('productos.stock','>',0)
+            ->where('categoria','Niñas')->orWhere('categoria','Niños')
+            ->groupBy('productos.estilo')->limit(8)->get();      
+>>>>>>> cc55071fc10383d6d20b29315a22380de9a5d404
         $marcas = DB::table('marcas')->where('imagen', '<>', '')->get();
         $subcategorias = Producto::select(DB::raw('count(nombre_mostrar) as cantidad_productos, subcategoria'))
             ->groupBy('subcategoria')->orderBy('cantidad_productos', 'DESC')->limit(4)->get();
         $catalogos = DB::table('catalogos')->where('estado', '=', 'PUBLICADO')->get();
         $poco_stock = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+<<<<<<< HEAD
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->groupBy('productos.estilo')
             ->orderBy('productos.stock')->limit(2)->get();
@@ -49,9 +73,29 @@ class webController extends Controller
             ->groupBy('productos.estilo')
             ->orderBy('productos.descuento', 'desc')->limit(2)->get();
         return view('welcome2', compact('marcas', 'productos', 'catalogos', 'productos_hombres', 'productos_mujer', 'productos_niños', 'subcategorias', 'poco_stock', 'descuentos'));
+=======
+        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+        ->where('productos.stock','>',0)
+        ->groupBy('productos.estilo')
+        ->orderBy('productos.stock')->limit(2)->get();
+        $descuentos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+        ->where('productos.stock','>',0)
+        ->groupBy('productos.estilo')
+        ->orderBy('productos.descuento', 'desc')->limit(2)->get();
+        $ultimos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+        ->where('productos.stock','>',0)
+        ->groupBy('productos.estilo')
+        ->orderBy('productos.created_at', 'asc')->limit(4)->get();        
+        return view('welcome2', compact('marcas', 'productos', 'catalogos','productos_hombres','productos_mujer','productos_niños','subcategorias','poco_stock','descuentos','ultimos'));
+>>>>>>> cc55071fc10383d6d20b29315a22380de9a5d404
     }
     public function addToCart(Request $request)
     {
+        if (!empty($request->talla) && !empty($request->color)) {
+            $producto = Producto::where('estilo', $request->estilo)->where('talla', $request->talla)->first();
+        }
         if (!empty($request->talla)) {
             $producto = Producto::where('color', $request->color)->where('estilo', $request->estilo)->where('talla', $request->talla)->first();
         } else {
