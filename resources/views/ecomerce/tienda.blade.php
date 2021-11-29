@@ -43,10 +43,10 @@
                                 <select name="ec-select" id="ec-select">
                                     <option selected disabled>Posición</option>
                                     <option value="1">Relevancia</option>
-                                    <option value="2">Nombre, A a Z</option>
-                                    <option value="3">Nombre, Z a A</option>
-                                    <option value="4">Precio, +bajo al +alto</option>
-                                    <option value="5">Price, +alto al +bajo</option>
+                                    <option value="nombre:asc">Nombre, A a Z</option>
+                                    <option value="nombre:desc">Nombre, Z a A</option>
+                                    <option value="precio:asc">Precio, +bajo al +alto</option>
+                                    <option value="precio:desc">Price, +alto al +bajo</option>
                                 </select>
                             </div>
                         </div>
@@ -273,5 +273,25 @@
             </div>
         </div>
     </section>
+    @push('js')
+        <script>
+            $(document).on('change', '#ec-select', function(){
+                let orderby, orderway;
+                let order = $('#ec-select').val();
+                let url = '{{ url()->full() }}';
+                orderSplit = order.split(':');
+                orderby = orderSplit[0];
+                orderway = orderSplit[1];
+
+                if(url.includes('?')){
+                    url = url + '&orderby='+ orderby + '&orderway=' + orderway;
+                }else{
+                    url = url + '?orderby='+ orderby + '&orderway=' + orderway;
+                }
+                $(location).attr('href', url);
+                //console.log(url);
+            });
+        </script>        
+    @endpush
     <!-- End Shop page -->
 </x-plantilla>
