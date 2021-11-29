@@ -44,6 +44,7 @@ class webController extends Controller
             ->groupBy('subcategoria')->orderBy('cantidad_productos', 'DESC')->limit(4)->get();
         $catalogos = DB::table('catalogos')->where('estado', '=', 'PUBLICADO')->get();
         $poco_stock = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+<<<<<<< HEAD
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->groupBy('productos.estilo')
             ->orderBy('productos.stock')->limit(2)->get();
@@ -51,12 +52,28 @@ class webController extends Controller
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->groupBy('productos.estilo')
             ->orderBy('productos.descuento', 'desc')->limit(2)->get();
+=======
+        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+        ->where('productos.stock','>',0)
+        ->groupBy('productos.estilo')
+        ->orderBy('productos.stock')->limit(2)->get();
+        $descuentos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+        ->where('productos.stock','>',0)
+        ->groupBy('productos.estilo')
+        ->orderBy('productos.descuento', 'desc')->limit(2)->get();
+>>>>>>> 197a8533a51c0ed5befc8466c375e6717d65031c
         $ultimos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
         ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
         ->where('productos.stock','>',0)
         ->groupBy('productos.estilo')
+<<<<<<< HEAD
         ->orderBy('productos.created_at', 'asc')->limit(4)->get();
         return view('welcome2', compact('marcas', 'productos', 'catalogos', 'productos_hombres', 'productos_mujer', 'productos_niños', 'subcategorias', 'poco_stock', 'descuentos','ultimos'));
+=======
+        ->orderBy('productos.created_at', 'asc')->limit(4)->get();        
+        return view('welcome2', compact('marcas', 'productos', 'catalogos','productos_hombres','productos_mujer','productos_niños','subcategorias','poco_stock','descuentos','ultimos'));
+>>>>>>> 197a8533a51c0ed5befc8466c375e6717d65031c
     }
     public function addToCart(Request $request)
     {
