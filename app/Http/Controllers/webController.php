@@ -75,7 +75,11 @@ class webController extends Controller
         }else{
             $precio =  $producto->precio_empresaria;
         }
-        $cart = Cart::add($producto->id, $producto->nombre_mostrar, 1, number_format($precio,2), ['image' => $producto->imagen_path])->associate('App\Models\Producto');
+        if (isset($request->cantidad)) {            
+            $cart = Cart::add($producto->id, $producto->nombre_mostrar, $request->cantidad, number_format($precio,2), ['image' => $producto->imagen_path])->associate('App\Models\Producto');
+        }else {
+            $cart = Cart::add($producto->id, $producto->nombre_mostrar, 1, number_format($precio,2), ['image' => $producto->imagen_path])->associate('App\Models\Producto');
+        }
         return 'add';
     }
     public function deleteToCart(Request $request)

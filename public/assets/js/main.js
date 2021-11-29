@@ -54,6 +54,47 @@ $("body").on("click", ".add-to-cart-product", function() {
         }
     })
 });
+// funciones de add to cart quick view
+$("body").on("click", ".add-to-cart-product-qv", function() {
+    $(".ec-cart-float").fadeIn();
+
+    var count = $(".cart-count-lable").html();
+    count = parseInt(count) + parseInt($('#cantidad').val());
+    $(".cart-count-lable").html(count);
+
+    setTimeout(function() {
+        $(".ec-cart-float").fadeOut();
+    }, 5000);
+});
+
+$("body").on("click", ".add-to-cart-product-qv", function() {
+    data = {
+        'estilo': $('#estilo_producto').val(),
+        'color': $('#color_producto').val(),
+        'talla': $(this).parents().parents().children(".ec-pro-variation").find(".active span").text(),
+        'cantidad':$('#cantidad').val(),
+    }
+    if (data['estilo'] != '' && data['color'] != null && data['talla'] != '' && data['cantidad'] > 0) {        
+        $.post({
+            url: '/store',
+            data: data,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                if (response == 'add') {
+                    Livewire.emit('render')
+                }
+            }
+        })
+    }else{
+        Swal.fire(
+            'Debe escoger antes la talla y el color !',
+            '',
+            'info'
+          ) 
+    }    
+});
 
 // Function To Create New Cookie 
 function ecCreateCookie(cookieName, cookieValue, daysToExpire) {
@@ -859,10 +900,10 @@ function ecCheckCookie() {
 
     /*----------------------------- Size Hover To Active -------------------------------- */
     $('.ec-opt-size').each(function() {
-        $(this).on('mouseenter', 'li', function() {
-            // alert("1");
-            onSizeChange($(this));
-        });
+        // $(this).on('mouseenter', 'li', function() {
+        //     // alert("1");
+        //     onSizeChange($(this));
+        // });
 
         $(this).on('click', 'li', function() {
             // alert("2");
@@ -871,14 +912,7 @@ function ecCheckCookie() {
 
         function onSizeChange(thisObj) {
             // alert("3");
-            var $this = thisObj;
-            var $old_data = $this.find('a').attr('data-old');
-            var $new_data = $this.find('a').attr('data-new');
-            var $old_price = $this.closest('.ec-pro-content').find('.old-price');
-            var $new_price = $this.closest('.ec-pro-content').find('.new-price');
-
-            $old_price.text($old_data);
-            $new_price.text($new_data);
+            var $this = thisObj;            
 
             $this.addClass('active').siblings().removeClass('active');
         }

@@ -82,7 +82,7 @@
                                             @isset($productos_color)
                                                 @foreach ($tallas as $talla)
                                                     @if ($talla->talla != $productos_color[0]->talla)
-                                                        <li class="talla"><span>{{ $talla->talla }}</span></li>
+                                                        <li class="talla"><span>{{$talla->talla}}</span></li>
                                                     @endif
                                                 @endforeach
                                             @endisset
@@ -98,10 +98,10 @@
                                 <div class="ec-quickview-cart ">
                                     @isset($productos_color)
                                         @if ($productos_color[0]->stock == 0)
-                                            <button id="addToCartModal" class="btn btn-primary add-to-cart-product" disabled>Add
+                                            <button id="addToCartModal" class="btn btn-primary add-to-cart-product-qv" disabled>Add
                                                 To Cart</button>
                                         @else
-                                            <button id="addToCartModal" class="btn btn-primary add-to-cart-product">Add To
+                                            <button id="addToCartModal" class="btn btn-primary add-to-cart-product-qv">Add To
                                                 Cart</button>
                                         @endif
                                     @endisset
@@ -120,6 +120,7 @@
         </div>
     </div>
     @push('js')
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             $('#color_producto').change(function(event) {
                 $.ajaxSetup({
@@ -187,15 +188,6 @@
 
                 function onSizeChange(thisObj) {
                     // alert("3");
-                    var $this = thisObj;
-                    var $old_data = $this.find('a').attr('data-old');
-                    var $new_data = $this.find('a').attr('data-new');
-                    var $old_price = $this.closest('.ec-pro-content').find('.old-price');
-                    var $new_price = $this.closest('.ec-pro-content').find('.new-price');
-
-                    $old_price.text($old_data);
-                    $new_price.text($new_data);
-
                     $this.addClass('active').siblings().removeClass('active');
                 }
             });

@@ -19882,7 +19882,8 @@ i.ecicon.eci-star.fill {
 }
 
 .ec-pro-size li.active a {
-    background-color: #e2e2e2;
+    background-color: #009786;
+    color: #fff;
 }
 
 .tab-content .tab-pane {
