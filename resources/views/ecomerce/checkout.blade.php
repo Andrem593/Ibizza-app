@@ -513,16 +513,16 @@
                             $('#apellidos').val(response['empresaria']['apellidos'])
                             $('#direccion').val(response['empresaria']['direccion'])
                             $('#provincia').val(response['empresaria']['provincia_id']);
-                            // $('#provincia').append('<option>' + response['empresaria'][
-                            //         'nombre_provincia'
-                            //     ] +
-                            //     '</option>')
                             if (response['ciudad'] != null) {
-                                
+                                $('#ciudad').html('<option value="" selected>Seleccione ciudad</option>');
+                                $.each(response['ciudad'], function(i, val){
+                                    if(response['empresaria']['id_ciudad'] == val['id']){
+                                        $('#ciudad').append('<option value="'+ val['id'] +'" selected>' + val['descripcion'] +'</option>');
+                                    }else{
+                                        $('#ciudad').append('<option value="'+ val['id'] +'">' + val['descripcion'] +'</option>');
+                                    }
+                                });
                             }
-                            $('#ciudad').val(response['empresaria']['id_ciudad']);
-                            // $('#ciudad').append('<option>' + response['empresaria']['nombre_ciudad'] +
-                            //     '</option>')
 
                             if (response['premios'] != null) {
                                 $('#premios_despues').html('');
