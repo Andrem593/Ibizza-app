@@ -177,9 +177,14 @@
                                                     <label>Provincia</label>
                                                     <span class="ec-bl-select-inner">
                                                         <select name="provincia" id="provincia" class="ec-bill-select">
-                                                            <option>
-                                                                {{ !empty($ubicacion[0]) ? $ubicacion[0]->provincia : '' }}
-                                                            </option>
+                                                            <option value="">Seleccione provincia</option>
+                                                            @foreach ($provincia as $item)
+                                                                @if ($empresaria->provincia_id == $item->id)
+                                                                    <option value="{{ $item->id }}" selected>{{ $item->descripcion }}</option>
+                                                                @else
+                                                                    <option value="{{ $item->id }}">{{ $item->descripcion }}</option>
+                                                                @endif
+                                                            @endforeach
                                                         </select>
                                                     </span>
                                                 </span>
@@ -507,14 +512,17 @@
                             $('#nombres').val(response['empresaria']['nombres'])
                             $('#apellidos').val(response['empresaria']['apellidos'])
                             $('#direccion').val(response['empresaria']['direccion'])
-                            $('#provincia').html('');
-                            $('#provincia').append('<option>' + response['empresaria'][
-                                    'nombre_provincia'
-                                ] +
-                                '</option>')
-                            $('#ciudad').html('');
-                            $('#ciudad').append('<option>' + response['empresaria']['nombre_ciudad'] +
-                                '</option>')
+                            $('#provincia').val(response['empresaria']['provincia_id']);
+                            // $('#provincia').append('<option>' + response['empresaria'][
+                            //         'nombre_provincia'
+                            //     ] +
+                            //     '</option>')
+                            if (response['ciudad'] != null) {
+                                
+                            }
+                            $('#ciudad').val(response['empresaria']['id_ciudad']);
+                            // $('#ciudad').append('<option>' + response['empresaria']['nombre_ciudad'] +
+                            //     '</option>')
 
                             if (response['premios'] != null) {
                                 $('#premios_despues').html('');
@@ -530,7 +538,29 @@
                         }
                     }
                 })
-            })
+            });
+
+            $(document).on('change', '#provincia', function(){
+                $.post({
+                    url: "{{ route('empresaria.ciudad') }}",
+                    data: {
+                        'id_provincia' : $('#provincia').val()
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        response = JSON.parse(response);
+
+                        if (response != null) {
+                            $('#ciudad').html('<option value="" selected>Seleccione ciudad</option>');
+                            $.each(response, function(i, val){
+                                $('#ciudad').append('<option value="'+ val['id'] +'">' + val['descripcion'] +'</option>')
+                            });
+                        }
+                    }
+                });
+            });
 
             function agregar_cards_premios(val) {
                 let ruta = './detalle-producto/' + val['estilo']

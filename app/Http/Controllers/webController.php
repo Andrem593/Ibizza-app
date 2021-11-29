@@ -44,15 +44,6 @@ class webController extends Controller
             ->groupBy('subcategoria')->orderBy('cantidad_productos', 'DESC')->limit(4)->get();
         $catalogos = DB::table('catalogos')->where('estado', '=', 'PUBLICADO')->get();
         $poco_stock = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
-<<<<<<< HEAD
-            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-            ->groupBy('productos.estilo')
-            ->orderBy('productos.stock')->limit(2)->get();
-        $descuentos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
-            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-            ->groupBy('productos.estilo')
-            ->orderBy('productos.descuento', 'desc')->limit(2)->get();
-=======
         ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
         ->where('productos.stock','>',0)
         ->groupBy('productos.estilo')
@@ -62,18 +53,12 @@ class webController extends Controller
         ->where('productos.stock','>',0)
         ->groupBy('productos.estilo')
         ->orderBy('productos.descuento', 'desc')->limit(2)->get();
->>>>>>> 197a8533a51c0ed5befc8466c375e6717d65031c
         $ultimos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
         ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
         ->where('productos.stock','>',0)
         ->groupBy('productos.estilo')
-<<<<<<< HEAD
-        ->orderBy('productos.created_at', 'asc')->limit(4)->get();
-        return view('welcome2', compact('marcas', 'productos', 'catalogos', 'productos_hombres', 'productos_mujer', 'productos_niños', 'subcategorias', 'poco_stock', 'descuentos','ultimos'));
-=======
         ->orderBy('productos.created_at', 'asc')->limit(4)->get();        
         return view('welcome2', compact('marcas', 'productos', 'catalogos','productos_hombres','productos_mujer','productos_niños','subcategorias','poco_stock','descuentos','ultimos'));
->>>>>>> 197a8533a51c0ed5befc8466c375e6717d65031c
     }
     public function addToCart(Request $request)
     {
@@ -198,6 +183,8 @@ class webController extends Controller
         $condiciones = [];
         $productoPremio = [];
         $empresaria = new Empresaria();
+        $provincia = DB::table('provincias')->where('estado', 'A')->get();
+        $ciudad = '';
         foreach ($catalogos as $catalogo) {
             $condicion = Premio::where('catalogo_id', $catalogo->id)->get();
             if (!empty($condicion)) {
@@ -208,7 +195,7 @@ class webController extends Controller
         }
         if (!empty(Auth::user())) {
             if (Auth::user()->role == 'Empresaria') {
-                $empresaria = Empresaria::where('id_user', Auth::user()->id)->first();
+                $empresaria = Empresaria::select('empresarias.*, ciudades.provincia_id')->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')->where('empresarias.id_user', Auth::user()->id)->first();
                 if (!empty($condiciones)) {
                     foreach ($condiciones as $i => $condicion) {
                         $reglas = json_decode($condicion->condicion);
@@ -231,9 +218,11 @@ class webController extends Controller
                         }
                     }
                 }
+
+                $ciudad = DB::table('ciudades')->where('provincia_id', $empresaria->provincia_id)->where('estado', 'A')->get();
             }
         }
-        return view('ecomerce.checkout', compact('productoPremio', 'empresaria'));
+        return view('ecomerce.checkout', compact('productoPremio', 'empresaria', 'provincia', 'ciudad'));
     }
     public function dataCheckout(Request $request)
     {
@@ -304,12 +293,15 @@ class webController extends Controller
         $empresaria = Empresaria::where('cedula', $request->cedula)->orWhere('nombres', $request->nombres)
             ->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')
             ->join('provincias', 'provincias.id', '=', 'ciudades.provincia_id')
-            ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'provincias.descripcion as nombre_provincia')->first();
+            ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'provincias.descripcion as nombre_provincia', 'provincias.id as provincia_id')->first();
         $json = [];
         $json['empresaria'] = $empresaria;
         $catalogos = Catalogo::where('estado', 'PUBLICADO')->get();
         $condiciones = [];
         $productoPremio = [];
+
+        $json['ciudad'] = DB::table('ciudades')->where('provincia_id', $empresaria->provincia_id)->where('estado', 'A')->get();
+
         foreach ($catalogos as $catalogo) {
             $condicion = Premio::where('catalogo_id', $catalogo->id)->get();
             if (!empty($condicion)) {
