@@ -155,7 +155,7 @@
                                                     <input type="text" id="direccion" name="direccion"
                                                         value="{{ $empresaria->direccion }}"
                                                         placeholder="ingrese la direccion de entrega del pedido"
-                                                        required />
+                                                        required disabled />
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Pais</label>
@@ -166,17 +166,10 @@
                                                         </select>
                                                     </span>
                                                 </span>
-                                                @php
-                                                    $ubicacion = DB::table('ciudades')
-                                                        ->join('provincias', 'ciudades.provincia_id', '=', 'provincias.id')
-                                                        ->select('ciudades.id', 'ciudades.descripcion as ciudad', 'provincias.descripcion as provincia', 'provincias.id as id_provincia')
-                                                        ->where('ciudades.id', $empresaria->id_ciudad)
-                                                        ->get();
-                                                @endphp
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Provincia</label>
                                                     <span class="ec-bl-select-inner">
-                                                        <select name="provincia" id="provincia" class="ec-bill-select">
+                                                        <select name="provincia" id="provincia" class="ec-bill-select" disabled>
                                                             <option value="">Seleccione provincia</option>
                                                             @foreach ($provincia as $item)
                                                                 @if ($empresaria->provincia_id == $item->id)
@@ -191,10 +184,8 @@
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Ciudad</label>
                                                     <span class="ec-bl-select-inner">
-                                                        <select name="ciudad" id="ciudad" class="ec-bill-select">
-                                                            <option>
-                                                                {{ !empty($ubicacion[0]) ? $ubicacion[0]->ciudad : '' }}
-                                                            </option>
+                                                        <select name="ciudad" id="ciudad" class="ec-bill-select" disabled>
+                                                            <option value="">Seleccione ciudad</option>
                                                         </select>
                                                     </span>
                                                 </span>
