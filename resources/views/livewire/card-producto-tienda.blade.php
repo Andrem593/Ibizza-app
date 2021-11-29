@@ -4,9 +4,9 @@
             <div class="ec-pro-image">
                 <a href="{{route('web.detalle-producto', $estilo)}}" class="image">
                     <img load='lazy' class="main-image"
-                        src="../storage/images/productos/{{ $imagen }}" alt="{{$estilo}}" width="300rem" height="200rem" style="object-fit: cover" />
+                        src="{{url("/storage/images/productos/$imagen") }}" alt="{{$estilo}}" width="300rem" height="200rem" style="object-fit: cover" />
                     <img load='lazy' class="hover-image"
-                        src="../storage/images/productos/{{ $imagen }}" alt="{{$estilo}}" width="300rem" height="200rem" style="object-fit: cover" />
+                        src="{{url("/storage/images/productos/$imagen") }}" alt="{{$estilo}}" width="300rem" height="200rem" style="object-fit: cover" />
                 </a>
                 @empty(!$descuento)
                     <span class="percentage">{{$descuento}}%</span>

@@ -36,6 +36,7 @@
 
     <!-- Background css -->
     <link rel="stylesheet" id="bg-switcher-css" href="{{url('assets/css/backgrounds/bg-4.css')}}">
+    @stack('css')
     <style>
         ul {
             padding-left: 0 !important
