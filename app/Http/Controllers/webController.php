@@ -20,20 +20,23 @@ class webController extends Controller
         $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
+            ->where('productos.stock','>',0)
             ->groupBy('productos.estilo')->limit(8)->get();      
         $productos_hombres = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
+            ->where('productos.stock','>',0)
             ->where('categoria','Hombre')
             ->groupBy('productos.estilo')->limit(8)->get();            
         $productos_mujer = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
         ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
         ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
+        ->where('productos.stock','>',0)
         ->where('categoria','Mujer')
         ->groupBy('productos.estilo')->limit(8)->get();
         $productos_niños = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
+            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')->where('productos.stock','>',0)
             ->where('categoria','Niñas')->orWhere('categoria','Niños')
             ->groupBy('productos.estilo')->limit(8)->get();      
         $marcas = DB::table('marcas')->where('imagen', '<>', '')->get();
@@ -42,16 +45,26 @@ class webController extends Controller
         $catalogos = DB::table('catalogos')->where('estado', '=', 'PUBLICADO')->get();
         $poco_stock = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
         ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+        ->where('productos.stock','>',0)
         ->groupBy('productos.estilo')
         ->orderBy('productos.stock')->limit(2)->get();
         $descuentos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
         ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+        ->where('productos.stock','>',0)
         ->groupBy('productos.estilo')
         ->orderBy('productos.descuento', 'desc')->limit(2)->get();
-        return view('welcome2', compact('marcas', 'productos', 'catalogos','productos_hombres','productos_mujer','productos_niños','subcategorias','poco_stock','descuentos'));
+        $ultimos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+        ->where('productos.stock','>',0)
+        ->groupBy('productos.estilo')
+        ->orderBy('productos.created_at', 'asc')->limit(4)->get();        
+        return view('welcome2', compact('marcas', 'productos', 'catalogos','productos_hombres','productos_mujer','productos_niños','subcategorias','poco_stock','descuentos','ultimos'));
     }
     public function addToCart(Request $request)
     {
+        if (!empty($request->talla) && !empty($request->color)) {
+            $producto = Producto::where('estilo', $request->estilo)->where('talla', $request->talla)->first();
+        }
         if (!empty($request->talla)) {
             $producto = Producto::where('color', $request->color)->where('estilo', $request->estilo)->where('talla', $request->talla)->first();
         } else {

@@ -33,7 +33,7 @@
                     <div class="col-md-7 col-sm-12 col-xs-12">
                         <div class="quickview-pro-content">
                             <h5 class="ec-quick-title clasificacion">
-                                {{ isset($productos_color) ? $productos_color[0]->clasificacion : '' }}</h5>
+                                {{ isset($productos_color) ? $productos_color[0]->nombre_mostrar : '' }}</h5>
                             <input type="hidden" wire:model="productos_color">
                             <div class="ec-quickview-rating">
                                 <i class="ecicon eci-star fill"></i>
@@ -46,8 +46,14 @@
                             <div class="ec-quickview-desc">
                                 {{ isset($productos_color) ? $productos_color[0]->descripcion : '' }}</div>
                             <div class="ec-quickview-price">
-                                <span
-                                    class="new-price">${{ isset($productos_color) ? $productos_color[0]->valor_venta : '' }}</span>
+                                @isset($productos_color)
+                                    @empty(!$productos_color[0]->descuento)
+                                        <span class="old-price">${{ $productos_color[0]->precio_empresaria }}</span>
+                                        <span class="new-price">${{ number_format(($productos_color[0]->precio_empresaria-($productos_color[0]->precio_empresaria * ($productos_color[0]->descuento /100))), 2) }}</span>    
+                                    @else
+                                        <span class="new-price">${{ $productos_color[0]->precio_empresaria }}</span>
+                                    @endempty                                    
+                                @endisset
                                 {{-- <span class="old-price">$100.00</span>
                                 <span class="new-price">$80.00</span> --}}
                             </div>
@@ -87,15 +93,15 @@
                             </div>
                             <div class="ec-quickview-qty">
                                 <div class="qty-plus-minus">
-                                    <input class="qty-input" type="text" name="ec_qtybtn" value="1" />
+                                    <input class="qty-input" id="cantidad" type="text" name="ec_qtybtn" value="1" />
                                 </div>
                                 <div class="ec-quickview-cart ">
                                     @isset($productos_color)
                                         @if ($productos_color[0]->stock == 0)
-                                            <button id="addToCart" class="btn btn-primary add-to-cart-product" disabled>Add
+                                            <button id="addToCartModal" class="btn btn-primary add-to-cart-product" disabled>Add
                                                 To Cart</button>
                                         @else
-                                            <button id="addToCart" class="btn btn-primary add-to-cart-product">Add To
+                                            <button id="addToCartModal" class="btn btn-primary add-to-cart-product">Add To
                                                 Cart</button>
                                         @endif
                                     @endisset

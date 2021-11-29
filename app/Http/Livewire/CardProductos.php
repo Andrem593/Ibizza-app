@@ -9,7 +9,7 @@ use Cart;
 
 class CardProductos extends Component
 {
-    public $id_producto ,$imagen,$clasificacion,$valor_venta,$color,$estilo,$nombre_producto,$precio_empresaria,$descuento;
+    public $id_producto ,$imagen,$clasificacion,$valor_venta,$color,$estilo,$nombre_producto,$precio_empresaria,$descuento,$nuevo;
 
     public function render()
     {
