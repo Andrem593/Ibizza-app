@@ -531,6 +531,9 @@
                                 $.each(response['premios'], function(i, v) {
                                     agregar_cards_premios(v);
                                 })
+                            }else{
+                                $('#premios_despues').html('');
+                                $('#premio').val('no tiene premio');
                             }
                         } else {
                             Toast.fire({

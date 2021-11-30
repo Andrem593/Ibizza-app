@@ -193,7 +193,7 @@
                             <div class="align-self-center">
                                 <div class="header-search">
                                     <form class="ec-btn-group-form" action="#">
-                                        <input class="form-control" placeholder="Ingresa el nombre de un Producto..."
+                                        <input class="form-control txt_search" placeholder="Ingresa el nombre de un Producto..."
                                             type="text">
                                         <button class="submit" type="submit"><img loading='lazy'
                                                 src="{{url('assets/images/icons/search.svg')}}" class="svg_img header_svg"
@@ -1023,6 +1023,44 @@
                 <!-- Main Js -->
                 <script src="{{url('assets/js/vendor/index.js')}}"></script>
                 <script src="{{url('assets/js/main.js')}}"></script>
+                <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+                <script>
+                    var path = "{{ route('web.autocompletar') }}";
+                    $('.txt_search').autocomplete({
+                        source: function(request, response) {
+                            $.getJSON(path, {
+                                    term: request.term
+                                },
+                                response
+                            );
+                        },
+                        focus: function(event, ui) {
+                            $(".txt_search").val(ui.item.value);
+                            return false;
+                        },
+                        minLength: 1,
+                        select: function(event, ui) {
+                            let url = "{{ route('web.detalle-producto', ':id') }}";
+                            url = url.replace(':id', ui.item.estilo);
+                            document.location.href = url;
+                            //get_datos_afiliado(ui.item.data);
+                            //console.log('You selected: ' + ui.item.value + ', ' + ui.item.data);
+                        }
+                    }).autocomplete("instance")._renderItem = function(ul, item) {
+                        if (item.value) {
+                            let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                            if (item.imagen_path != '' && item.imagen_path != null) {
+                                image = '/storage/images/productos/' + item.imagen_path
+                            }
+                            return $("<li>").append("<div><img src='" + image +
+                                    "' class='rounded p-2' width='50' height='50' /><span>" + item.value + "</span></div>")
+                                .appendTo(ul);
+                        } else {
+                            return $("<li class='ui-state-disabled'>").append("<div>Produco no encontrado</div>").appendTo(ul);
+                        }
+
+                    };
+                </script>
                 @stack('js')
                 @livewireScripts
             </body>
