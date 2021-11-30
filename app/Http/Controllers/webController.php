@@ -320,6 +320,8 @@ class webController extends Controller
         $productoPremio = [];
         $flagPremioEmpresaria = 0;
         $flagPremioPedido = 0;
+        $contPremio = 0;
+        $contRegla = 0;
 
         $json['ciudad'] = DB::table('ciudades')->where('provincia_id', $empresaria->provincia_id)->where('estado', 'A')->get();
 
@@ -357,8 +359,9 @@ class webController extends Controller
                                         $value->tallas = $tallas2;
                                         array_push($productoPremio, $value);
                                     }
-                                    $json['premios'] = $productoPremio;
+                                    //$json['premios'] = $productoPremio;
                                     $flagPremioEmpresaria = 1;
+                                    $contPremio ++;
                                 }
                             }
                         }
@@ -367,11 +370,49 @@ class webController extends Controller
                         $rule = $itemRegla->condicion;
                         $total_factura = Cart::total();
                         $rule  = str_replace('total_factura', $total_factura, $rule);
+
+                        $valores = explode(' ', $rule);
+                        if($valores[1] == '>'){
+                            if($total_factura > $valores[2]){
+                                $flagPremioPedido = 1;
+                            }
+                        }elseif($valores[1] == '>='){
+                            if($total_factura >= $valores[2]){
+                                $flagPremioPedido = 1;
+                            }
+                        }
+
+                        if($flagPremioPedido){
+                            $producto = DB::table('premio_has_productos')->join('productos', 'productos.estilo', '=', 'premio_has_productos.estilo')->where('premio_id', $value->id)->groupBy('productos.estilo')->get();
+                            foreach ($producto as  $value) {
+                                $colores = Producto::where('estilo', $value->estilo)->groupBy('color')->get('color');
+                                $colores2 = [];
+                                foreach ($colores as  $color) {
+                                    array_push($colores2, $color->color);
+                                }
+                                $value->colores = $colores2;
+                                $tallas = Producto::where('estilo', $value->estilo)->groupBy('talla')->get('talla');
+                                $tallas2 = [];
+                                foreach ($tallas as $talla) {
+                                    array_push($tallas2, $talla->talla);
+                                }
+                                $value->tallas = $tallas2;
+                                array_push($productoPremio, $value);
+                            }
+                            $contPremio ++;
+                        }
                         //pendiente validar por total de factura
                     }
+                    $contRegla ++;                    
+                    
                 }
-                
-                
+                if($contPremio == $contRegla){
+                    $json['premios'] = $productoPremio;
+                }
+                $contPremio = 0;
+                $contRegla = 0;
+                $flagPremioEmpresaria = 0;
+                $flagPremioPedido = 0;
             }
         }
         return json_encode($json);
