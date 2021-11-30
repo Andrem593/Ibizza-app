@@ -340,6 +340,9 @@ class webController extends Controller
                 foreach($reglas as $itemRegla){
                     if ($itemRegla->nombre_tabla == 'empresarias') {
                         if(!$flagPremioEmpresaria){
+                            $valores = explode(' ', $itemRegla->condicion);
+                            $estado = '"'.$valores[2].'"';
+                            //$premio = DB::table($itemRegla->nombre_tabla)->whereRaw("'".$valores[0]." ".$valores[1]." ".$estado."'")->get();
                             $premio = DB::table($itemRegla->nombre_tabla)->whereRaw($itemRegla->condicion)->get();
                             foreach ($premio as  $val) {
                                 if ($val->id_user == $empresaria->id_user) {
@@ -372,12 +375,13 @@ class webController extends Controller
                         $rule  = str_replace('total_factura', $total_factura, $rule);
 
                         $valores = explode(' ', $rule);
+                        $dbValor = str_replace("'","",$valores[2]);
                         if($valores[1] == '>'){
-                            if($total_factura > $valores[2]){
+                            if($total_factura > $dbValor){
                                 $flagPremioPedido = 1;
                             }
                         }elseif($valores[1] == '>='){
-                            if($total_factura >= $valores[2]){
+                            if($total_factura >= $dbValor){
                                 $flagPremioPedido = 1;
                             }
                         }
@@ -407,8 +411,9 @@ class webController extends Controller
                     
                 }
                 if($contPremio == $contRegla){
-                    $json['premios'] = $productoPremio;
+                    $json['premios'] = $productoPremio;                    
                 }
+                $productoPremio = [];
                 $contPremio = 0;
                 $contRegla = 0;
                 $flagPremioEmpresaria = 0;

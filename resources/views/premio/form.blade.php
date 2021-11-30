@@ -373,7 +373,7 @@
                             '<option value="=">igual</option>'
                         );
                         $('.valor').html(
-                            '<option value="" selected>Seleccione un estado</option><option value="`NUEVA`">Nueva</option><option value="`CONTINUA`">Continua</option><option value="`INACTIVA-1`">Inactiva 1</option><option value="`INACTIVA-2`">Inactiva 2</option><option value="`INACTIVA-3`">Inactiva 3</option><option value="`REACTIVA`">Reactiva</option><option value="`BAJA`">Baja</option>'
+                            '<option value="" selected>Seleccione un estado</option><option value="NUEVA">Nueva</option><option value="CONTINUA">Continua</option><option value="INACTIVA-1">Inactiva 1</option><option value="INACTIVA-2">Inactiva 2</option><option value="INACTIVA-3">Inactiva 3</option><option value="REACTIVA">Reactiva</option><option value="BAJA">Baja</option>'
                         );
                     } else if (valor == 'pedidos') {
                         $('.campo').html(
@@ -415,7 +415,7 @@
                 let valorArray = $.map($(".valor"), function(element) {
                     return {
                         name: element.options[element.selectedIndex].text,
-                        value: element.value
+                        value: "'" + element.value + "'"
                     };
                 });
                 // console.log(operadorArray);
