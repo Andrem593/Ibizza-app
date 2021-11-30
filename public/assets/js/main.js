@@ -913,7 +913,6 @@ function ecCheckCookie() {
         function onSizeChange(thisObj) {
             // alert("3");
             var $this = thisObj;            
-
             $this.addClass('active').siblings().removeClass('active');
         }
     });

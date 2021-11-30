@@ -71,7 +71,13 @@
                      <!-- Header Top Message Start -->
                      <div class="col text-center header-top-center">
                          <div class="header-top-message text-upper">
-                             <span>Información </span>del catalogo
+                             @if (!empty($catalogos))
+                                <span>
+                                 @foreach ($catalogos as $catalogo)
+                                     {{$catalogo->nombre }}
+                                 @endforeach
+                                </span>
+                             @endif
                          </div>
                      </div>
                      <!-- Header Top Message End -->
@@ -139,7 +145,7 @@
                                  <a href="wishlist.html" class="ec-header-btn ec-header-wishlist">
                                      <div class="header-icon"><img loading='lazy' src="assets/images/icons/wishlist.svg"
                                              class="svg_img header_svg" alt="" /></div>
-                                     <span class="ec-header-count">4</span>
+                                     <span class="ec-header-count">0</span>
                                  </a>
                                  <!-- Header Cart End -->
                                  <!-- Header Cart Start -->
@@ -233,7 +239,7 @@
                                              <div class="header-icon"><img loading='lazy'
                                                      src="assets/images/icons/wishlist.svg" class="svg_img header_svg" alt="" />
                                              </div>
-                                             <span class="ec-header-count">4</span>
+                                             <span class="ec-header-count">0</span>
                                          </a>
                                          <!-- Header wishlist End -->
                                          <!-- Header Cart Start -->
@@ -295,72 +301,50 @@
                                          <li class="dropdown position-static"><a href="javascript:void(0)">Categorias</a>
                                              <ul class="mega-menu d-block">
                                                  <li class="d-flex">
-                                                     <ul class="d-block">
-                                                         <li class="menu_title"><a href="javascript:void(0)">Classic
-                                                                 Variation</a></li>
-                                                         <li><a href="shop-left-sidebar-col-3.html">Left sidebar 3 column</a>
-                                                         </li>
-                                                         <li><a href="shop-left-sidebar-col-4.html">Left sidebar 4 column</a>
-                                                         </li>
-                                                         <li><a href="shop-right-sidebar-col-3.html">Right sidebar 3 column</a>
-                                                         </li>
-                                                         <li><a href="shop-right-sidebar-col-4.html">Right sidebar 4 column</a>
-                                                         </li>
-                                                         <li><a href="shop-full-width.html">Full width 4 column</a></li>
+                                                     <ul class="d-block">                                                         
+                                                         <li class="menu_title"><a href="javascript:void(0)">Mujeres</a></li>
+                                                         @for ($i = 0; $i < 5; $i++)                                                             
+                                                            <li><a href="{{route('web.detalle-producto', $productos_mujer[$i]->estilo)}}">{{$productos_mujer[$i]->nombre_mostrar.' '.$productos_mujer[$i]->estilo}}</a></li>
+                                                         @endfor                                                         
                                                      </ul>
                                                      <ul class="d-block">
-                                                         <li class="menu_title"><a href="javascript:void(0)">Classic
-                                                                 Variation</a></li>
-                                                         <li><a href="shop-banner-left-sidebar-col-3.html">Banner left sidebar 3
-                                                                 column</a></li>
-                                                         <li><a href="shop-banner-left-sidebar-col-4.html">Banner left sidebar 4
-                                                                 column</a></li>
-                                                         <li><a href="shop-banner-right-sidebar-col-3.html">Banner right sidebar
-                                                                 3 column</a></li>
-                                                         <li><a href="shop-banner-right-sidebar-col-4.html">Banner right sidebar
-                                                                 4 column</a></li>
-                                                         <li><a href="shop-banner-full-width.html">Banner Full width 4
-                                                                 column</a>
-                                                         </li>
+                                                         <li class="menu_title"><a href="javascript:void(0)">Hombres</a></li>
+                                                         @for ($i = 0; $i < 5; $i++)                                                             
+                                                            <li><a href="{{route('web.detalle-producto', $productos_hombres[$i]->estilo)}}">{{$productos_hombres[$i]->nombre_mostrar.' '.$productos_hombres[$i]->estilo}}</a></li>
+                                                         @endfor   
                                                      </ul>
                                                      <ul class="d-block">
-                                                         <li class="menu_title"><a href="javascript:void(0)">Columns
-                                                                 Variation</a></li>
-                                                         <li><a href="shop-full-width-col-3.html">3 Columns full width</a></li>
-                                                         <li><a href="shop-full-width-col-4.html">4 Columns full width</a></li>
-                                                         <li><a href="shop-full-width-col-5.html">5 Columns full width</a></li>
-                                                         <li><a href="shop-full-width-col-6.html">6 Columns full width</a></li>
-                                                         <li><a href="shop-banner-full-width-col-3.html">Banner 3 Columns</a>
-                                                         </li>
+                                                         <li class="menu_title"><a href="javascript:void(0)">Niños</a></li>
+                                                         @for ($i = 0; $i < 5; $i++)
+                                                            @if ($productos_niños[$i]->categoria == 'Niños')                                                                
+                                                                <li><a href="{{route('web.detalle-producto', $productos_niños[$i]->estilo)}}">{{$productos_niños[$i]->nombre_mostrar.' '.$productos_niños[$i]->estilo}}</a></li>
+                                                            @endif                                                             
+                                                         @endfor  
                                                      </ul>
                                                      <ul class="d-block">
-                                                         <li class="menu_title"><a href="javascript:void(0)">List
-                                                                 Variation</a>
+                                                         <li class="menu_title"><a href="javascript:void(0)">Niñas</a>
                                                          </li>
-                                                         <li><a href="shop-list-left-sidebar.html">Shop left sidebar</a></li>
-                                                         <li><a href="shop-list-right-sidebar.html">Shop right sidebar</a></li>
-                                                         <li><a href="shop-list-banner-left-sidebar.html">Banner left
-                                                                 sidebar</a>
-                                                         </li>
-                                                         <li><a href="shop-list-banner-right-sidebar.html">Banner right
-                                                                 sidebar</a></li>
-                                                         <li><a href="shop-list-full-col-2.html">Full width 2 columns</a></li>
+                                                         @for ($i = 0; $i < 5; $i++)
+                                                            @if ($productos_niños[$i]->categoria == 'Niñas')                                                                
+                                                                <li><a href="{{route('web.detalle-producto', $productos_niños[$i]->estilo)}}">{{$productos_niños[$i]->nombre_mostrar.' '.$productos_niños[$i]->estilo}}</a></li>
+                                                            @endif                                                             
+                                                         @endfor 
                                                      </ul>
                                                  </li>
                                                  <li>
                                                      <ul class="ec-main-banner w-100">
-                                                         <li><a class="p-0" href="shop-left-sidebar-col-3.html"><img
+                                                         <li><a class="p-0" href="{{route('web.tiendaOrderBy',['categoria-Mujer','productos.id'])}}"><img
                                                                      loading='lazy' class="img-responsive"
                                                                      src="assets/images/menu-banner/1.jpg" alt=""></a></li>
-                                                         <li><a class="p-0" href="shop-left-sidebar-col-4.html"><img
+                                                         <li><a class="p-0" href="{{route('web.tiendaOrderBy',['categoria-Hombre','productos.id'])}}"><img
                                                                      loading='lazy' class="img-responsive"
                                                                      src="assets/images/menu-banner/2.jpg" alt=""></a></li>
                                                          <li><a class="p-0"
-                                                                 href="shop-right-sidebar-col-3.html"><img loading='lazy'
+                                                                 href="{{route('web.tiendaOrderBy',['categoria-Niños','productos.id'])}}"><img loading='lazy'
                                                                      class="img-responsive"
                                                                      src="assets/images/menu-banner/3.jpg" alt=""></a></li>
                                                          <li><a class="p-0"
-                                                                 href="shop-right-sidebar-col-4.html"><img loading='lazy'
+                                                                 href="{{route('web.tiendaOrderBy',['categoria-Niñas','productos.id'])}}l"><img loading='lazy'
                                                                      class="img-responsive"
                                                                      src="assets/images/menu-banner/4.jpg" alt=""></a></li>
                                                      </ul>
@@ -448,31 +432,18 @@
                                  <li><a href="javascript:void(0)">Categorias</a>
                                      <ul class="sub-menu">
                                          <li>
-                                             <a href="javascript:void(0)">Classic Variation</a>
-                                             <ul class="sub-menu">
-                                                 <li><a href="shop-left-sidebar-col-3.html">Left sidebar 3 column</a></li>
-                                             </ul>
+                                             <a href="{{route('web.tiendaOrderBy',['categoria-Mujer','productos.id'])}}">Mujeres</a>
                                          </li>
                                          <li>
-                                             <a href="javascript:void(0)">Classic Variation</a>
-                                             <ul class="sub-menu">
-                                                 <li><a href="shop-banner-left-sidebar-col-3.html">Banner left sidebar 3
-                                                         column</a></li>
-                                             </ul>
+                                             <a href="{{route('web.tiendaOrderBy',['categoria-Hombre','productos.id'])}}">Hombres</a>
                                          </li>
                                          <li>
-                                             <a href="javascript:void(0)">Columns Variation</a>
-                                             <ul class="sub-menu">
-                                                 <li><a href="shop-full-width-col-3.html">3 Columns full width</a></li>
-                                             </ul>
+                                             <a href="{{route('web.tiendaOrderBy',['categoria-Niños','productos.id'])}}">Niños</a>
                                          </li>
                                          <li>
-                                             <a href="javascript:void(0)">List Variation</a>
-                                             <ul class="sub-menu">
-                                                 <li><a href="shop-list-left-sidebar.html">Shop left sidebar</a></li>
-                                             </ul>
+                                             <a href="{{route('web.tiendaOrderBy',['categoria-Niñas','productos.id'])}}">Niñas</a>
                                          </li>
-                                         <li><a class="p-0" href="shop-left-sidebar-col-3.html"><img loading='lazy'
+                                         <li><a class="p-0" href="{{route('web.tiendaOrderBy',['categoria-Mujer','productos.id'])}}"><img loading='lazy'
                                                      class="img-responsive" src="assets/images/menu-banner/1.jpg" alt=""></a>
                                          </li>
                                      </ul>
@@ -524,17 +495,7 @@
                                          <li><a href="privacy-policy.html">Privacy Policy</a></li>
                                      </ul>
                                  </li>
-                                 <li class="dropdown"><a href="javascript:void(0)">Tienda</a>
-                                     <ul class="sub-menu">
-                                         <li><a href="elemets-products.html">Products</a></li>
-                                         <li><a href="elemets-typography.html">Typography</a></li>
-                                         <li><a href="elemets-title.html">Titles</a></li>
-                                         <li><a href="elemets-categories.html">Categories</a></li>
-                                         <li><a href="elemets-buttons.html">Buttons</a></li>
-                                         <li><a href="elemets-tabs.html">Tabs</a></li>
-                                         <li><a href="elemets-accordions.html">Accordions</a></li>
-                                         <li><a href="elemets-blog.html">Blogs</a></li>
-                                     </ul>
+                                 <li class="dropdown"><a href="{{route('web.tienda')}}">Tienda</a>
                                  </li>
                              </ul>
                          </div>
@@ -1609,9 +1570,9 @@
                                      src="assets/images/icons/home.svg" class="svg_img header_svg" alt="icon" /></a>
                          </div>
                          <div class="ec-nav-panel-icons">
-                             <a href="wishlist.html" class="ec-header-btn"><img loading='lazy'
+                             <a href="#" class="ec-header-btn"><img loading='lazy'
                                      src="assets/images/icons/wishlist.svg" class="svg_img header_svg" alt="icon" /><span
-                                     class="ec-cart-noti">4</span></a>
+                                     class="ec-cart-noti">0</span></a>
                          </div>
                          <div class="ec-nav-panel-icons">
                              @if (Route::has('login'))
