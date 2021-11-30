@@ -481,7 +481,10 @@
             $('#bill2').click(function(){
                 $('#direccion').prop('disabled', false);
                 $('#provincia').prop('disabled', false);
+                $('#direccion').val('');
+                $('#provincia').val('');
                 $('#ciudad').prop('disabled', false);
+                $('#ciudad').html('<option value="" selected>Seleccione ciudad</option>');
             });
             $('#asignarEmpresaria, #bill1').click(function() {
                 $('#direccion').prop('disabled', true);
@@ -540,6 +543,7 @@
             });
 
             $(document).on('change', '#provincia', function(){
+                $('#ciudad').html('<option value="" selected>Seleccione ciudad</option>');
                 $.post({
                     url: "{{ route('empresaria.ciudad') }}",
                     data: {
