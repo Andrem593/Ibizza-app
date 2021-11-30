@@ -478,7 +478,15 @@
                     );
                 },
             })
-            $('#asignarEmpresaria').click(function() {
+            $('#bill2').click(function(){
+                $('#direccion').prop('disabled', false);
+                $('#provincia').prop('disabled', false);
+                $('#ciudad').prop('disabled', false);
+            });
+            $('#asignarEmpresaria, #bill1').click(function() {
+                $('#direccion').prop('disabled', true);
+                $('#provincia').prop('disabled', true);
+                $('#ciudad').prop('disabled', true);
                 datos = $('#search').val();
                 datos = datos.split(' | ');
                 data = {
