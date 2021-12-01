@@ -142,7 +142,7 @@
                                  </div>
                                  <!-- Header User End -->
                                  <!-- Header Cart Start -->
-                                 <a href="wishlist.html" class="ec-header-btn ec-header-wishlist">
+                                 <a href="#" class="ec-header-btn ec-header-wishlist">
                                      <div class="header-icon"><img loading='lazy' src="assets/images/icons/wishlist.svg"
                                              class="svg_img header_svg" alt="" /></div>
                                      <span class="ec-header-count">0</span>
@@ -235,7 +235,7 @@
                                          </div>
                                          <!-- Header User End -->
                                          <!-- Header wishlist Start -->
-                                         <a href="wishlist.html" class="ec-header-btn ec-header-wishlist">
+                                         <a href="#" class="ec-header-btn ec-header-wishlist">
                                              <div class="header-icon"><img loading='lazy'
                                                      src="assets/images/icons/wishlist.svg" class="svg_img header_svg" alt="" />
                                              </div>
@@ -396,17 +396,17 @@
                                          </li>
                                          <li class="dropdown"><a href="javascript:void(0)">Paginas</a>
                                              <ul class="sub-menu">
-                                                 <li><a href="about-us.html">About Us</a></li>
-                                                 <li><a href="contact-us.html">Contact Us</a></li>
+                                                 <li><a href="{{route('web.sobre-nosotros')}}">Sobre Nosotros</a></li>
+                                                 <li><a href="{{route('web.contactanos')}}">Contáctenos</a></li>
                                                  <li><a href="cart.html">Cart</a></li>
                                                  <li><a href="{{ route('web.checkout') }}">Checkout</a></li>
                                                  <li><a href="compare.html">Compare</a></li>
-                                                 <li><a href="faq.html">FAQ</a></li>
+                                                 <li><a href="{{route('web.preguntas-frecuentes')}}">Preguntas</a></li>
                                                  <li><a href="login.html">Login</a></li>
                                                  <li><a href="register.html">Register</a></li>
                                                  <li><a href="track-order.html">Track Order</a></li>
-                                                 <li><a href="terms-condition.html">Terms Condition</a></li>
-                                                 <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                                 <li><a href="{{route('web.terminos-condiciones')}}">Términos y Condiciones</a></li>
+                                                 <li><a href="{{route('web.politica-privacidad')}}">Política de Privacidad</a></li>
                                              </ul>
                                          </li>
                                          <li class="dropdown"><span class="main-label-note-new" data-toggle="tooltip"
@@ -482,17 +482,17 @@
                                  </li>
                                  <li><a href="javascript:void(0)">Paginas</a>
                                      <ul class="sub-menu">
-                                         <li><a href="about-us.html">About Us</a></li>
-                                         <li><a href="contact-us.html">Contact Us</a></li>
+                                         <li><a href="{{route('web.sobre-nosotros')}}">Sobre Nosotros</a></li>
+                                         <li><a href="{{route('web.contactanos')}}">Contáctenos</a></li>
                                          <li><a href="cart.html">Cart</a></li>
                                          <li><a href="{{ route('web.checkout') }}">Checkout</a></li>
                                          <li><a href="compare.html">Compare</a></li>
-                                         <li><a href="faq.html">FAQ</a></li>
+                                         <li><a href="{{route('web.preguntas-frecuentes')}}">Preguntas</a></li>
                                          <li><a href="login.html">Login</a></li>
                                          <li><a href="register.html">Register</a></li>
                                          <li><a href="track-order.html">Track Order</a></li>
-                                         <li><a href="terms-condition.html">Terms Condition</a></li>
-                                         <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                         <li><a href="{{route('web.terminos-condiciones')}}">Términos y Condiciones</a></li>
+                                         <li><a href="{{route('web.politica-privacidad')}}">Política de Privacidad</a></li>
                                      </ul>
                                  </li>
                                  <li class="dropdown"><a href="{{route('web.tienda')}}">Tienda</a>
@@ -777,6 +777,7 @@
                             <ul class="ec-cat-tab-nav nav">
                                 @php
                                     $i = 1;
+                                    $sub = []
                                 @endphp
                                 @foreach ($subcategorias as $subcategoria) 
 
@@ -787,6 +788,9 @@
                                                     class="cat-icon-hover" src="assets/images/icons/cat_4_1.png" alt="cat-icon">
                                             </div>
                                             <div class="cat-desc"><span>{{$subcategoria->subcategoria}}</span><span>{{$subcategoria->cantidad_productos}} Productos</span></div>
+                                            @php
+                                                array_push($sub,$subcategoria->subcategoria);
+                                            @endphp
                                     </a></li>
                                 @endforeach      
                             </ul>
@@ -802,7 +806,7 @@
                                          <img loading='lazy' src="assets/images/cat-banner/1.jpg" alt="" />
                                      </div>
                                      <span class="panel-overlay">
-                                         <a href="{{route('web.tienda')}}" class="btn btn-primary">Ver Todos</a>
+                                         <a href="{{route('web.tiendaOrderBy',['subcategoria-'.$sub[0],'productos.id'])}}" class="btn btn-primary">Ver Todos</a>
                                      </span>
                                  </div>
                                  <!-- 1st Category tab end -->
@@ -811,7 +815,7 @@
                                          <img loading='lazy' src="assets/images/cat-banner/2.jpg" alt="" />
                                      </div>
                                      <span class="panel-overlay">
-                                         <a href="{{route('web.tienda')}}" class="btn btn-primary">Ver Todos</a>
+                                         <a href="{{route('web.tiendaOrderBy',['subcategoria-'.$sub[1],'productos.id'])}}" class="btn btn-primary">Ver Todos</a>
                                      </span>
                                  </div>
                                  <!-- 2nd Category tab end -->
@@ -821,7 +825,7 @@
                                          <img loading='lazy' src="assets/images/cat-banner/3.jpg" alt="" />
                                      </div>
                                      <span class="panel-overlay">
-                                         <a href="{{route('web.tienda')}}" class="btn btn-primary">Ver Todos</a>
+                                         <a href="{{route('web.tiendaOrderBy',['subcategoria-'.$sub[2],'productos.id'])}}" class="btn btn-primary">Ver Todos</a>
                                      </span>
                                  </div>
                                  <!-- 3rd Category tab end -->
@@ -831,7 +835,7 @@
                                          <img loading='lazy' src="assets/images/cat-banner/4.jpg" alt="" />
                                      </div>
                                      <span class="panel-overlay">
-                                         <a href="{{route('web.tienda')}}" class="btn btn-primary">Ver Todos</a>
+                                         <a href="{{route('web.tiendaOrderBy',['subcategoria-'.$sub[3],'productos.id'])}}" class="btn btn-primary">Ver Todos</a>
                                      </span>
                                  </div>
                                  <!-- 4th Category tab end -->
@@ -1305,15 +1309,15 @@
                                  </div>
                                  <div class="col-sm-12 col-lg-2 ec-footer-info">
                                      <div class="ec-footer-widget">
-                                         <h4 class="ec-footer-heading">Information</h4>
+                                         <h4 class="ec-footer-heading">Información</h4>
                                          <div class="ec-footer-links">
                                              <ul class="align-items-center">
-                                                 <li class="ec-footer-link"><a href="about-us.html">About us</a></li>
-                                                 <li class="ec-footer-link"><a href="faq.html">FAQ</a></li>
+                                                 <li class="ec-footer-link"><a href="{{route('web.sobre-nosotros')}}">Sobre Nosotros</a></li>
+                                                 <li class="ec-footer-link"><a href="{{route('web.preguntas-frecuentes')}}">Preguntas</a></li>
                                                  <li class="ec-footer-link"><a href="track-order.html">Delivery
                                                          Information</a>
                                                  </li>
-                                                 <li class="ec-footer-link"><a href="contact-us.html">Contact us</a></li>
+                                                 <li class="ec-footer-link"><a href="{{route('web.contactanos')}}">Contáctenos</a></li>
                                              </ul>
                                          </div>
                                      </div>
@@ -1325,7 +1329,6 @@
                                              <ul class="align-items-center">
                                                  <li class="ec-footer-link"><a href="user-profile.html">My Account</a></li>
                                                  <li class="ec-footer-link"><a href="track-order.html">Order History</a></li>
-                                                 <li class="ec-footer-link"><a href="wishlist.html">Wish List</a></li>
                                                  <li class="ec-footer-link"><a href="offer.html">Specials</a></li>
                                              </ul>
                                          </div>
@@ -1333,18 +1336,16 @@
                                  </div>
                                  <div class="col-sm-12 col-lg-2 ec-footer-service">
                                      <div class="ec-footer-widget">
-                                         <h4 class="ec-footer-heading">Services</h4>
+                                         <h4 class="ec-footer-heading">Servicios</h4>
                                          <div class="ec-footer-links">
                                              <ul class="align-items-center">
                                                  <li class="ec-footer-link"><a href="track-order.html">Discount Returns</a>
                                                  </li>
-                                                 <li class="ec-footer-link"><a href="privacy-policy.html">Policy & policy </a>
+                                                 <li class="ec-footer-link"><a href="{{route('web.politica-privacidad')}}">Política de Privacidad</a>
                                                  </li>
-                                                 <li class="ec-footer-link"><a href="terms-condition.html">Customer
-                                                         Service</a>
+                                                 <li class="ec-footer-link"><a href="{{route('web.terminos-condiciones')}}">Servicios</a>
                                                  </li>
-                                                 <li class="ec-footer-link"><a href="terms-condition.html">Term &
-                                                         condition</a>
+                                                 <li class="ec-footer-link"><a href="{{route('web.terminos-condiciones')}}">Términos y Condiciones</a>
                                                  </li>
                                              </ul>
                                          </div>
@@ -1702,6 +1703,7 @@
                  <script src="assets/js/vendor/modernizr-3.11.2.min.js"></script>
 
                  <!--Plugins JS-->
+                 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                  <script src="assets/js/plugins/swiper-bundle.min.js"></script>
                  <script src="assets/js/plugins/countdownTimer.min.js"></script>
                  <script src="assets/js/plugins/scrollup.js"></script>

@@ -949,6 +949,19 @@ function crearTablaVentas(data,ruta) {
             success: function(response) {
                 $('#carga').css('visibility','hidden')
                 let data = JSON.parse(response);
+                let empresaria = data['empresaria'];
+                let venta = data['venta']; 
+                $('#factura_nombre').text(venta['factura_nombres'])
+                $('#provincia').text(empresaria['nombre_provincia'])
+                $('#ciudad').text(empresaria['nombre_ciudad'])
+                $('#direccion').text(venta['direccion_envio'])
+                $('#telefono').text(empresaria['telefono'])
+                $('#venta').text(venta['id'])
+                $('#vendedor').text(empresaria['nombre_vendedor'])
+                let fecha = venta['created_at'];
+                fecha = fecha.split('T');
+                $('#fecha').text(fecha[0]);
+                data = data['pedidos'];                
                 $('#tabla_factura tbody').html('');
                 let total_factura = 0
                 $.each(data,function(i,v){

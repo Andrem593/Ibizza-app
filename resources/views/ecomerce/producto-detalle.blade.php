@@ -122,7 +122,7 @@
                                         </div>
                                         <div class="ec-single-qty">
                                             <div class="qty-plus-minus">
-                                                <input class="qty-input" type="text" name="ec_qtybtn" value="1" />
+                                                <input class="qty-input" id="cantidad" type="text" name="ec_qtybtn" value="1" />
                                             </div>
                                             <div class="ec-single-cart ">
                                                 @if ($productos_color[0]->stock == 0 )
@@ -186,7 +186,7 @@
                     <div class="ec-sidebar-slider">
                         <div class="ec-sidebar-title fw-bold mb-2" style="font-size: 18px">Más Vendidos</div>
                         <div class="ec-sb-pro-sl">
-                            @for ($i = 0 ; $i < 20 ; $i++)
+                            {{-- @for ($i = 0 ; $i < 20 ; $i++)
                             <div class="mb-4">
                                 <div class="ec-sb-pro-sl-item row d-flex flex-direction-center">
                                         
@@ -209,8 +209,13 @@
                                     </div>
                                 </div>
                             </div>
-                            @endfor
-                            
+                            @endfor --}}
+                            @foreach ($poco_stock as $producto )
+                            @livewire('card-vendidos' , ['id_producto'=>$producto->id,'imagen' =>
+                            $producto->imagen_path,'clasificacion' => $producto->clasificacion ,'valor_venta'
+                            => $producto->valor_venta,'color' => $producto->color, 'estilo' =>
+                            $producto->estilo,'nombre_producto'=>$producto->nombre_mostrar,'precio_empresaria'=>$producto->precio_empresaria,'descuento'=>$producto->descuento,'nuevo'=>'nuevo'])
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -220,7 +225,8 @@
     </section>
     <!-- End Single product -->
     @push('js')        
-        <script>    
+        <script>
+            $('body').addClass('product_page');    
             /*----------------------------- Contador de tiempo restante de catalogo ------------------------------ */
             $("#ec-single-countdown").countdowntimer({
                 startDate : "{{str_replace('-','/',date('Y-m-d')).' '.date('h:i:s')}}",

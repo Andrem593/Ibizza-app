@@ -43,6 +43,13 @@ Route::post('/data-empresaria', [webController::class,'data_empresaria'])->name(
 Route::post('chekout',[webController::class,'dataCheckout'])->name('web.checkout-productos');
 Route::get('detalle-pedido-ibizza/{id_venta}',[webController::class,'detalle_pedido'])->name('web.detalle_pedido');
 Route::get('tracking-ibizza/{id_venta}',[webController::class,'tracking_pedido'])->name('web.tracking-pedido');
+//RUTAS PAGINAS INFORMATIVAS
+Route::get('/sobre-nosotros-ibizza', [webController::class,'sobre_nosotros'])->name('web.sobre-nosotros');
+Route::get('/contactanos', [webController::class,'contacto'])->name('web.contactanos');
+Route::get('/preguntas-frecuentes', [webController::class,'preguntasFrecuentes'])->name('web.preguntas-frecuentes');
+Route::get('/termino-condiciones', [webController::class,'terminosCondiciones'])->name('web.terminos-condiciones');
+Route::get('/politica-privacidad', [webController::class,'politicaPrivacidad'])->name('web.politica-privacidad');
+
 // RUTAS EMPRESARIAS LOGEADAS 
 Route::get('historial-compras-empresaria',[webController::class,'historial_compras'])
 ->middleware(['auth:sanctum', 'verified'])->name('web.historial-compras');
@@ -170,4 +177,8 @@ Route::middleware(['auth:sanctum', 'verified'])
 
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/ventas/datos-ventas', [VentaController::class,'datosVentas'])
+->name('venta.datos-ventas');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/ventas/editar-venta', [VentaController::class,'editarVenta'])
 ->name('venta.datos-ventas');

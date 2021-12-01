@@ -1,5 +1,14 @@
 // Funcion para enviar datos a session sobre el carrito A.M
-
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
 $("body").on("click", ".add-to-cart", function() {
     var estilo = $(this).parents().parents().parents().children(".ec-pro-content").find(".estilo-producto").val();
     var color = $(this).parents().parents().parents().children(".ec-pro-content").find('.ec-pro-color .p-1').val();
@@ -23,36 +32,45 @@ $("body").on("click", ".add-to-cart", function() {
     })
 });
 // Funcion vista detalle de producto add to cart A.M 
-$("body").on("click", ".add-to-cart-product", function() {
-    $(".ec-cart-float").fadeIn();
-
-    var count = $(".cart-count-lable").html();
-    count++;
-    $(".cart-count-lable").html(count);
-
-    setTimeout(function() {
-        $(".ec-cart-float").fadeOut();
-    }, 5000);
+$("body").on("click", ".add-to-cart-product", function() {   
+    if (parseInt($('#cantidad').val()) <= parseInt($('#stock').text())) {     
+        $(".ec-cart-float").fadeIn();   
+        var count = $(".cart-count-lable").html();
+        count = parseInt(count) + parseInt($('#cantidad').val());
+        $(".cart-count-lable").html(count);
+    
+        setTimeout(function() {
+            $(".ec-cart-float").fadeOut();
+        }, 5000);
+    }
 });
 
 $("body").on("click", ".add-to-cart-product", function() {
-    data = {
-        'estilo': $('#estilo_producto').val(),
-        'color': $('#color_producto').val(),
-        'talla': $(this).parents().parents().children(".ec-pro-variation").find(".active").text()
-    }
-    $.post({
-        url: '/store',
-        data: data,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            if (response == 'add') {
-                Livewire.emit('render')
-            }
+    if (parseInt($('#cantidad').val()) <= parseInt($('#stock').text())) {        
+        data = {
+            'estilo': $('#estilo_producto').val(),
+            'color': $('#color_producto').val(),
+            'talla': $(this).parents().parents().children(".ec-pro-variation").find(".active").text(),
+            'cantidad':$('#cantidad').val(),        
         }
-    })
+        $.post({
+            url: '/store',
+            data: data,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                if (response == 'add') {
+                    Livewire.emit('render')
+                }
+            }
+        })
+    }else{
+        Toast.fire({
+            icon: 'error',
+            title: 'La cantidad escogida es mayor al stock actual'
+          })
+    }
 });
 // funciones de add to cart quick view
 $("body").on("click", ".add-to-cart-product-qv", function() {
