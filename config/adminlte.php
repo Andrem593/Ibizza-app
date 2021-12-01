@@ -254,12 +254,6 @@ return [
         ],        
         ['header' => 'ADMINISTRACIÓN'],
         [
-            'text' => 'Lista de Roles',
-            'route'  => 'admin.roles.index',
-            'icon'    => 'fas fa-user-cog',
-            'can'   => 'dashboard',
-        ],
-        [
             'text'    => 'Productos',
             'icon'    => 'fas fa-shoe-prints',
             'submenu' => [
@@ -283,6 +277,12 @@ return [
                     'icon'    => 'fas fa-copyright',
                     'route'  => 'marcas.index',
                     'can'   =>'marcas.index',
+                ],
+                [
+                    'text'    => 'Provedor',
+                    'icon'    => 'fas fa-truck',
+                    'route'  => 'proveedores.index',
+                    'can'   =>'proveedores.index',
                 ],
             ]
         ],
@@ -313,16 +313,17 @@ return [
             ],
             'can'   =>'catalogos.index'
         ],
-        [
-            'text'    => 'Provedor',
-            'icon'    => 'fas fa-truck',
-            'route'  => 'proveedores.index',
-            'can'   =>'proveedores.index',
-        ],
+        
         [
             'text'    => 'Usuarios',
             'icon'    => 'fas fa-users',            
             'submenu' => [
+                [
+                    'text' => 'Lista de Roles',
+                    'route'  => 'admin.roles.index',
+                    'icon'    => 'fas fa-user-cog',
+                    'can'   => 'dashboard',
+                ],
                 [
                     'text' => 'Crear',
                     'route'  => 'usuario.create',
