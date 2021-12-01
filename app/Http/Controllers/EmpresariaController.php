@@ -100,9 +100,14 @@ class EmpresariaController extends Controller
      */
     public function edit($id)
     {
-        $empresaria = Empresaria::find($id);
+        $empresaria = Empresaria::where('empresarias.id', $id)
+        ->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')
+        ->select('empresarias.*','ciudades.provincia_id')
+        ->first();
+        $usuario = User::find($empresaria->id_user);
         $provincias = DB::table('provincias')->get();
-        return view('empresaria.edit', compact('empresaria','provincias'));
+        $ciudades = DB::table('ciudades')->where('provincia_id', $empresaria->provincia_id)->where('estado', 'A')->get();
+        return view('empresaria.edit', compact('empresaria','provincias','usuario','ciudades'));
     }
 
     /**
@@ -114,9 +119,13 @@ class EmpresariaController extends Controller
      */
     public function update(Request $request, Empresaria $empresaria)
     {
-        request()->validate(Empresaria::$rules);
+        request()->validate([
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'tipo_cliente' => 'required',
+            'id_ciudad' => 'required',
+        ]);
         $empresariaData = [
-            'cedula'=> trim($request->cedula),
             'nombres'=> trim(strtoupper($request->nombres)),
             'apellidos'=> trim(strtoupper($request->apellidos)),
             'fecha_nacimiento'=> $request->fecha_nacimiento,
