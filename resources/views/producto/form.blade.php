@@ -76,7 +76,11 @@
                 {{ Form::label('Proveedor') }}
                 <select name="proveedor_id" class="form-select">
                     @foreach ($proveedores as $proveedor)
+                        @if ($proveedor->id == $producto->proveedor_id)
+                        <option value="{{ $proveedor->id }}" selected>{{ $proveedor->nombre }}</option>                            
+                        @else
                         <option value="{{ $proveedor->id }}">{{ $proveedor->nombre }}</option>
+                        @endif
                     @endforeach
                 </select>
             </div>
