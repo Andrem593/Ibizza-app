@@ -9,8 +9,9 @@
             </div>
         </div>
         <div class="ec-pro-content datos-premios">
-            <h5 class="ec-pro-title"><a href="{{ route('web.detalle-producto', $estilo) }}">{{ $clasificacion }}</a>
+            <h5 class="ec-pro-title"><a href="{{ route('web.detalle-producto', $estilo) }}">{{ $nombre }}</a>
             </h5>
+            <input type="hidden" class="estiloPro" value="{{$estilo}}">
             <span class="ec-price">
                 <span class="old-price">${{ $pvp }}</span>
                 <span class="new-price">$Gratis</span>

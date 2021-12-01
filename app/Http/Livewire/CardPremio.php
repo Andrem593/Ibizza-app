@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class CardPremio extends Component
 {
-    public  $id_producto,$imagen,$clasificacion,$color,$estilo, $pvp;
+    public  $id_producto,$imagen,$clasificacion,$color,$estilo, $pvp,$nombre;
 
     public function render()
     {

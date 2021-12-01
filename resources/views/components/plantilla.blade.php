@@ -87,7 +87,7 @@
                     <!-- Header Top Message Start -->
                     <div class="col text-center header-top-center">
                         <div class="header-top-message text-upper">
-                            <span>Información </span>del catalogo
+                            
                         </div>
                     </div>
                     <!-- Header Top Message End -->
@@ -147,10 +147,10 @@
                                 </div>
                                 <!-- Header User End -->
                                 <!-- Header Cart Start -->
-                                <a href="wishlist.html" class="ec-header-btn ec-header-wishlist">
+                                <a href="#" class="ec-header-btn ec-header-wishlist">
                                     <div class="header-icon"><img loading='lazy' src="{{url('assets/images/icons/wishlist.svg')}}"
                                             class="svg_img header_svg" alt="" /></div>
-                                    <span class="ec-header-count">4</span>
+                                    <span class="ec-header-count">0</span>
                                 </a>
                                 <!-- Header Cart End -->
                                 <!-- Header Cart Start -->
@@ -236,10 +236,10 @@
                                         </div>
                                         <!-- Header User End -->
                                         <!-- Header wishlist Start -->
-                                        <a href="wishlist.html" class="ec-header-btn ec-header-wishlist">
+                                        <a href="#" class="ec-header-btn ec-header-wishlist">
                                             <div class="header-icon"><img loading='lazy' src="{{url('assets/images/icons/wishlist.svg')}}"
                                                     class="svg_img header_svg" alt="" /></div>
-                                            <span class="ec-header-count">4</span>
+                                            <span class="ec-header-count">0</span>
                                         </a>
                                         <!-- Header wishlist End -->
                                         <!-- Header Cart Start -->
@@ -296,71 +296,34 @@
                                     <ul>
                                         <li><a href="{{ url('/') }}">Home</a></li>
                                         <li class="dropdown position-static"><a href="javascript:void(0)">Categorias</a>
-                                            <ul class="mega-menu d-block">
+                                            <ul class="mega-menu d-block p-4">
                                                 <li class="d-flex">
                                                     <ul class="d-block">
-                                                        <li class="menu_title"><a href="javascript:void(0)">Classic
-                                                                Variation</a></li>
-                                                        <li><a href="shop-left-sidebar-col-3.html">Left sidebar 3 column</a>
-                                                        </li>
-                                                        <li><a href="shop-left-sidebar-col-4.html">Left sidebar 4 column</a>
-                                                        </li>
-                                                        <li><a href="shop-right-sidebar-col-3.html">Right sidebar 3 column</a>
-                                                        </li>
-                                                        <li><a href="shop-right-sidebar-col-4.html">Right sidebar 4 column</a>
-                                                        </li>
-                                                        <li><a href="shop-full-width.html">Full width 4 column</a></li>
+                                                        <li class="menu_title"><a href="{{route('web.tiendaOrderBy',['categoria-Mujer','productos.id'])}}">Mujeres</a></li>                                                        
                                                     </ul>
                                                     <ul class="d-block">
-                                                        <li class="menu_title"><a href="javascript:void(0)">Classic
-                                                                Variation</a></li>
-                                                        <li><a href="shop-banner-left-sidebar-col-3.html">Banner left sidebar 3
-                                                                column</a></li>
-                                                        <li><a href="shop-banner-left-sidebar-col-4.html">Banner left sidebar 4
-                                                                column</a></li>
-                                                        <li><a href="shop-banner-right-sidebar-col-3.html">Banner right sidebar
-                                                                3 column</a></li>
-                                                        <li><a href="shop-banner-right-sidebar-col-4.html">Banner right sidebar
-                                                                4 column</a></li>
-                                                        <li><a href="shop-banner-full-width.html">Banner Full width 4
-                                                                column</a>
+                                                        <li class="menu_title"><a href="{{route('web.tiendaOrderBy',['categoria-Hombre','productos.id'])}}">Hombres</a></li>                                                        
                                                         </li>
                                                     </ul>
                                                     <ul class="d-block">
-                                                        <li class="menu_title"><a href="javascript:void(0)">Columns
-                                                                Variation</a></li>
-                                                        <li><a href="shop-full-width-col-3.html">3 Columns full width</a></li>
-                                                        <li><a href="shop-full-width-col-4.html">4 Columns full width</a></li>
-                                                        <li><a href="shop-full-width-col-5.html">5 Columns full width</a></li>
-                                                        <li><a href="shop-full-width-col-6.html">6 Columns full width</a></li>
-                                                        <li><a href="shop-banner-full-width-col-3.html">Banner 3 Columns</a>
-                                                        </li>
+                                                        <li class="menu_title"><a href="{{route('web.tiendaOrderBy',['categoria-Niños','productos.id'])}}">Niños</a></li>
                                                     </ul>
                                                     <ul class="d-block">
-                                                        <li class="menu_title"><a href="javascript:void(0)">List Variation</a>
-                                                        </li>
-                                                        <li><a href="shop-list-left-sidebar.html">Shop left sidebar</a></li>
-                                                        <li><a href="shop-list-right-sidebar.html">Shop right sidebar</a></li>
-                                                        <li><a href="shop-list-banner-left-sidebar.html">Banner left
-                                                                sidebar</a>
-                                                        </li>
-                                                        <li><a href="shop-list-banner-right-sidebar.html">Banner right
-                                                                sidebar</a></li>
-                                                        <li><a href="shop-list-full-col-2.html">Full width 2 columns</a></li>
+                                                        <li class="menu_title"><a href="{{route('web.tiendaOrderBy',['categoria-Niñas','productos.id'])}}">Niñas</a></li>                                                        
                                                     </ul>
                                                 </li>
                                                 <li>
                                                     <ul class="ec-main-banner w-100">
-                                                        <li><a class="p-0" href="shop-left-sidebar-col-3.html"><img
+                                                        <li><a class="p-0" href="{{route('web.tiendaOrderBy',['categoria-Mujer','productos.id'])}}"><img
                                                                     loading='lazy' class="img-responsive"
                                                                     src="{{url('assets/images/menu-banner/1.jpg')}}" alt=""></a></li>
-                                                        <li><a class="p-0" href="shop-left-sidebar-col-4.html"><img
+                                                        <li><a class="p-0" href="{{route('web.tiendaOrderBy',['categoria-Hombre','productos.id'])}}"><img
                                                                     loading='lazy' class="img-responsive"
                                                                     src="{{url('assets/images/menu-banner/2.jpg')}}" alt=""></a></li>
-                                                        <li><a class="p-0" href="shop-right-sidebar-col-3.html"><img
+                                                        <li><a class="p-0" href="{{route('web.tiendaOrderBy',['categoria-Niños','productos.id'])}}"><img
                                                                     loading='lazy' class="img-responsive"
                                                                     src="{{url('assets/images/menu-banner/3.jpg')}}" alt=""></a></li>
-                                                        <li><a class="p-0" href="shop-right-sidebar-col-4.html"><img
+                                                        <li><a class="p-0" href="{{route('web.tiendaOrderBy',['categoria-Niñas','productos.id'])}}"><img
                                                                     loading='lazy' class="img-responsive"
                                                                     src="{{url('assets/images/menu-banner/4.jpg')}}" alt=""></a></li>
                                                     </ul>
@@ -411,17 +374,17 @@
                                         </li>
                                         <li class="dropdown"><a href="javascript:void(0)">Paginas</a>
                                             <ul class="sub-menu">
-                                                <li><a href="about-us.html">About Us</a></li>
-                                                <li><a href="contact-us.html">Contact Us</a></li>
+                                                <li><a href="{{route('web.sobre-nosotros')}}">Sobre Nosotros</a></li>
+                                                <li><a href="{{route('web.contactanos')}}">Contáctenos</a></li>
                                                 <li><a href="cart.html">Cart</a></li>
                                                 <li><a href="{{ route('web.checkout')}}">Checkout</a></li>
                                                 <li><a href="compare.html">Compare</a></li>
-                                                <li><a href="faq.html">FAQ</a></li>
+                                                <li><a href="{{route('web.preguntas-frecuentes')}}">Preguntas</a></li>
                                                 <li><a href="login.html">Login</a></li>
                                                 <li><a href="register.html">Register</a></li>
                                                 <li><a href="track-order.html">Track Order</a></li>
-                                                <li><a href="terms-condition.html">Terms Condition</a></li>
-                                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                                <li><a href="{{route('web.terminos-condiciones')}}">Términos y Condiciones</a></li>
+                                                <li><a href="{{route('web.politica-privacidad')}}">Política de Privacidad</a></li>
                                             </ul>
                                         </li>
                                         <li class="dropdown"><span class="main-label-note-new" data-toggle="tooltip"
@@ -447,32 +410,19 @@
                                 <li><a href="javascript:void(0)">Categorias</a>
                                     <ul class="sub-menu">
                                         <li>
-                                            <a href="javascript:void(0)">Classic Variation</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="shop-left-sidebar-col-3.html">Left sidebar 3 column</a></li>
-                                            </ul>
+                                            <a href="{{route('web.tiendaOrderBy',['categoria-Mujer','productos.id'])}}">Mujeres</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">Classic Variation</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="shop-banner-left-sidebar-col-3.html">Banner left sidebar 3
-                                                        column</a></li>
-                                            </ul>
+                                            <a href="{{route('web.tiendaOrderBy',['categoria-Hombre','productos.id'])}}">Hombres</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">Columns Variation</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="shop-full-width-col-3.html">3 Columns full width</a></li>
-                                            </ul>
+                                            <a href="{{route('web.tiendaOrderBy',['categoria-Niños','productos.id'])}}">Niños</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">List Variation</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="shop-list-left-sidebar.html">Shop left sidebar</a></li>
-                                            </ul>
+                                            <a href="{{route('web.tiendaOrderBy',['categoria-Niñas','productos.id'])}}">Niñas</a>
                                         </li>
-                                        <li><a class="p-0" href="shop-left-sidebar-col-3.html"><img loading='lazy'
-                                                    class="img-responsive" src="{{url('assets/images/menu-banner/1.jpg')}}" alt=""></a>
+                                        <li><a class="p-0" href="{{route('web.tiendaOrderBy',['categoria-Mujer','productos.id'])}}"><img loading='lazy'
+                                                    class="img-responsive" src="assets/images/menu-banner/1.jpg" alt=""></a>
                                         </li>
                                     </ul>
                                 </li>
@@ -510,30 +460,20 @@
                                 </li>
                                 <li><a href="javascript:void(0)">Paginas</a>
                                     <ul class="sub-menu">
-                                        <li><a href="about-us.html">About Us</a></li>
-                                        <li><a href="contact-us.html">Contact Us</a></li>
+                                        <li><a href="{{route('web.sobre-nosotros')}}">Sobre Nosotros</a></li>
+                                        <li><a href="{{route('web.contactanos')}}">Contáctenos</a></li>
                                         <li><a href="cart.html">Cart</a></li>
                                         <li><a href="{{ route('web.checkout')}}">Checkout</a></li>
                                         <li><a href="compare.html">Compare</a></li>
-                                        <li><a href="faq.html">FAQ</a></li>
+                                        <li><a href="{{route('web.preguntas-frecuentes')}}">Preguntas</a></li>
                                         <li><a href="login.html">Login</a></li>
                                         <li><a href="register.html">Register</a></li>
                                         <li><a href="track-order.html">Track Order</a></li>
-                                        <li><a href="terms-condition.html">Terms Condition</a></li>
-                                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                        <li><a href="{{route('web.terminos-condiciones')}}">Términos y Condiciones</a></li>
+                                        <li><a href="{{route('web.politica-privacidad')}}">Política de Privacidad</a></li>
                                     </ul>
                                 </li>
-                                <li class="dropdown"><a href="javascript:void(0)">Tienda</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="elemets-products.html">Products</a></li>
-                                        <li><a href="elemets-typography.html">Typography</a></li>
-                                        <li><a href="elemets-title.html">Titles</a></li>
-                                        <li><a href="elemets-categories.html">Categories</a></li>
-                                        <li><a href="elemets-buttons.html">Buttons</a></li>
-                                        <li><a href="elemets-tabs.html">Tabs</a></li>
-                                        <li><a href="elemets-accordions.html">Accordions</a></li>
-                                        <li><a href="elemets-blog.html">Blogs</a></li>
-                                    </ul>
+                                <li class="dropdown"><a href="{{route('web.tienda')}}">Tienda</a>
                                 </li>
                             </ul>
                         </div>
@@ -627,23 +567,22 @@
                                         <h4 class="ec-footer-heading">Information</h4>
                                         <div class="ec-footer-links">
                                             <ul class="align-items-center">
-                                                <li class="ec-footer-link"><a href="about-us.html">About us</a></li>
-                                                <li class="ec-footer-link"><a href="faq.html">FAQ</a></li>
+                                                <li class="ec-footer-link"><a href="{{route('web.sobre-nosotros')}}">Sobre Nosotros</a></li>
+                                                <li class="ec-footer-link"><a href="{{route('web.preguntas-frecuentes')}}">Preguntas</a></li>
                                                 <li class="ec-footer-link"><a href="track-order.html">Delivery Information</a>
                                                 </li>
-                                                <li class="ec-footer-link"><a href="contact-us.html">Contact us</a></li>
+                                                <li class="ec-footer-link"><a href="{{route('web.contactanos')}}">Contáctenos</a></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-lg-2 ec-footer-account">
                                     <div class="ec-footer-widget">
-                                        <h4 class="ec-footer-heading">Account</h4>
+                                        <h4 class="ec-footer-heading">Cuenta</h4>
                                         <div class="ec-footer-links">
                                             <ul class="align-items-center">
                                                 <li class="ec-footer-link"><a href="user-profile.html">My Account</a></li>
                                                 <li class="ec-footer-link"><a href="track-order.html">Order History</a></li>
-                                                <li class="ec-footer-link"><a href="wishlist.html">Wish List</a></li>
                                                 <li class="ec-footer-link"><a href="offer.html">Specials</a></li>
                                             </ul>
                                         </div>
@@ -655,11 +594,11 @@
                                         <div class="ec-footer-links">
                                             <ul class="align-items-center">
                                                 <li class="ec-footer-link"><a href="track-order.html">Discount Returns</a></li>
-                                                <li class="ec-footer-link"><a href="privacy-policy.html">Policy & policy </a>
+                                                <li class="ec-footer-link"><a href="{{route('web.politica-privacidad')}}">Política de Privacidad</a>
                                                 </li>
-                                                <li class="ec-footer-link"><a href="terms-condition.html">Customer Service</a>
+                                                <li class="ec-footer-link"><a href="{{route('web.terminos-condiciones')}}">Servicios</a>
                                                 </li>
-                                                <li class="ec-footer-link"><a href="terms-condition.html">Term & condition</a>
+                                                <li class="ec-footer-link"><a href="{{route('web.terminos-condiciones')}}">Términos y Condiciones</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -880,9 +819,9 @@
                                     src="{{url('assets/images/icons/home.svg')}}" class="svg_img header_svg" alt="icon" /></a>
                         </div>
                         <div class="ec-nav-panel-icons">
-                            <a href="wishlist.html" class="ec-header-btn"><img loading='lazy'
+                            <a href="#" class="ec-header-btn"><img loading='lazy'
                                     src="{{url('assets/images/icons/wishlist.svg')}}" class="svg_img header_svg" alt="icon" /><span
-                                    class="ec-cart-noti">4</span></a>
+                                    class="ec-cart-noti">0</span></a>
                         </div>
                         <div class="ec-nav-panel-icons">
                             @if (Route::has('login'))
@@ -890,10 +829,10 @@
                                 @auth
                                     @can('dashboard')
                                         <a href="{{ url('/dashboard') }}" class="ec-header-btn"><img loading='lazy'
-                                            src="assets/images/icons/user.svg" class="svg_img header_svg" alt="icon" /></a>                                               
+                                            src="{{url('assets/images/icons/user.svg')}}" class="svg_img header_svg" alt="icon" /></a>                                               
                                     @else
                                         <a href="{{ route('web.perfil-empresaria') }}" class="ec-header-btn"><img loading='lazy'
-                                            src="assets/images/icons/user.svg" class="svg_img header_svg" alt="icon" /></a>
+                                            src="{{url('assets/images/icons/user.svg')}}" class="svg_img header_svg" alt="icon" /></a>
                                     @endcan
                                 @else
 
@@ -1011,6 +950,7 @@
                 <script src="{{url('assets/js/vendor/modernizr-3.11.2.min.js')}}"></script>
 
                 <!--Plugins JS-->
+                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                 <script src="{{url('assets/js/plugins/swiper-bundle.min.js')}}"></script>
                 <script src="{{url('assets/js/plugins/countdownTimer.min.js')}}"></script>
                 <script src="{{url('assets/js/plugins/scrollup.js')}}"></script>

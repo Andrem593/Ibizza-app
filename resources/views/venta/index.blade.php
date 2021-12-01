@@ -60,6 +60,52 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <div class="text-center">
+                                <img src="../assets/images/logo/logo_ibizza.svg" alt="Logo Ibizza" width="100px">
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="my-2">
+                                        <span class="text-sm text-grey-m2 align-middle">Nombre :</span>
+                                        <span id="factura_nombre"></span>
+                                    </div>
+                                    <div class="text-grey-m2">
+                                        <div class="my-2">
+                                            <span id="provincia"></span>,<span id="ciudad"></span>
+                                        </div>
+                                        <div class="my-2">
+                                            <span id="direccion"></span>
+                                        </div>
+                                        <div class="my-2"><b class="text-600">Teléfono :</b>
+                                            <span id="telefono"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+
+                                <div class="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end">
+                                    <hr class="d-sm-none" />
+                                    <div class="text-grey-m2">
+
+                                        <div class="my-2"><span class="text-600 text-90">ID :<span id="venta"></span> </span>
+                                        </div>
+                                        <div class="my-2"><span class="text-600 text-90">Vendedor :</span><span
+                                                id="vendedor"></span></div>
+
+                                        <div class="my-2"><span class="text-600 text-90">Fecha :</span><span id="fecha"></span>
+                                        </div>
+
+                                        <div class="my-2">Estado Venta:
+                                            <select id="estado_venta" class="form-select">
+                                                <option value="PEDIDO">PEDIDO</option>
+                                                <option value="FACTURADO">FACTURADO</option>
+                                                <option value="DESPACHADO">DESPACHADO</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                            </div>
                             <table id="tabla_factura" class="table table-hover table-striped p-4">
                                 <thead>
                                     <tr class="bg-ibizza">
@@ -105,8 +151,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="border-none m-m15" colspan="3"><span
-                                                class="note-text-color"></span></td>
+                                        <td class="border-none m-m15" colspan="3"><span class="note-text-color"></span></td>
                                         <td class="border-color m-m15" colspan="2">
                                             <span><strong>Total</strong></span>
                                         </td>
@@ -119,7 +164,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
-                            <button type="button" class="btn btn-ibizza">EDITAR</button>
+                            <button type="button" id="editar_venta" class="btn btn-ibizza">EDITAR</button>
                         </div>
                     </div>
                 </div>
@@ -128,6 +173,16 @@
         @Push('scripts')
             <script src="/js/crearDataTable.js"></script>
             <script>
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    timer: 3000,
+                    showConfirmButton: false,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
                 $(document).ready(function() {
                     var data = {
                         funcion: 'listar_todo',
@@ -135,6 +190,27 @@
                     let ruta = '/ventas/datatable'
                     crearTablaVentas(data, ruta);
                 });
+                $('#editar_venta').click(function() {
+                    dato = {
+                        estado_editar: $('#estado_venta').val(),
+                        id_venta: $('#venta').text(),
+                    }
+                    $.post({
+                        url: '/ventas/editar-venta',
+                        data: dato,
+                        beforeSend: function() {
+                            $('#carga').css('visibility', 'visible');
+                        },
+                        success: function(response) {
+                            $('#carga').css('visibility', 'hidden')
+                            $('#editar .btn-close').click();
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Estado de Actualizado !!'
+                            })
+                        }
+                    })
+                })
 
             </script>
         @endpush

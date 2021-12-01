@@ -148,10 +148,14 @@
                 let orderby, orderway;
                 let order = $('#ec-select').val();
                 let actual = window.location.pathname;
-
+                let url = '';
                 actual = actual.split('/')
-                let category = actual[2]; 
-                let url = '/tienda/'+category+"/"+order;
+                if (actual.length > 2) {                    
+                    let category = actual[2]; 
+                    url = '/tienda/'+category+"/"+order;
+                }else{
+                    url = '/tienda/all/'+order;
+                }
                 $(location).attr('href', url);
                 //console.log(url);
             });

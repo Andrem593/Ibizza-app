@@ -237,7 +237,7 @@
                                         <input type="hidden" id="premio" value="tiene premio">
                                         @foreach ($productoPremio as $producto)
                                             @livewire('card-premio',['id_producto'=>$producto->id,'imagen'=>$producto->imagen_path,'clasificacion'=>$producto->clasificacion,
-                                            'pvp'=>$producto->valor_venta,'color'=>$producto->color,'estilo'=>$producto->estilo])
+                                            'pvp'=>$producto->valor_venta,'color'=>$producto->color,'estilo'=>$producto->estilo, 'nombre'=>$producto->nombre_mostrar])
                                         @endforeach
                                     @else
                                         <input type="hidden" id="premio" value="no tiene premio">
@@ -296,12 +296,12 @@
                                         <span class="ec-pay-option">
                                             <span>
                                                 <input type="radio" id="pay1" name="radio-group" checked>
-                                                <label for="pay1">Contra entrega</label>
+                                                <label for="pay1">transferencia Bancaria</label>
                                             </span>
                                         </span>
                                         <span class="ec-pay-commemt">
                                             <span class="ec-pay-opt-head">Agrega comentarios a tu pedido</span>
-                                            <textarea name="your-commemt" placeholder="Comentarios"></textarea>
+                                            <textarea name="your-commemt" id="observaciones_pedido" placeholder="Comentarios"></textarea>
                                         </span>
                                         <span class="ec-pay-agree"><input type="checkbox" value="" checked><a
                                                 href="#">He leído y acepto los <span>Terminos y
@@ -351,9 +351,9 @@
         </div>
     </section>
     @push('js')
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
         <script>
+            $('.ec-side-toggle').css('display','none')
             $('.ec-opt-size').each(function() {
                 $(document).on('mouseenter', 'li', function() {
                     // alert("1");
@@ -379,16 +379,6 @@
                     $this.addClass('active').siblings().removeClass('active');
                 }
             });
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
             $('body').addClass('checkout_page');
             $('#tomar_pedido').click(function() {
                 let productosPremio = [];
@@ -403,7 +393,8 @@
                     codigo_postal: $('#codigo_postal').val(),
                     total_pagar: total[1],
                     total_productos: $('#total_productos').text(),
-                    premio: $('#premio').val()
+                    premio: $('#premio').val(),
+                    observaciones: $('#observaciones_pedido').val(),
                 }
                 let continuar = 0;
                 if ($('#premio').val() == "tiene premio") {
@@ -413,7 +404,8 @@
                             nombre: $(this).find('.ec-pro-title a').text(),
                             precio: 0,
                             color: $(this).find('.ec-pro-color .p-1').val(),
-                            talla: $(this).find('.ec-pro-size ul .active').text()
+                            talla: $(this).find('.ec-pro-size ul .active').text(),
+                            estilo: $(this).find('.estiloPro').val(),
                         }
                         if ($(this).find('.ec-pro-size ul .active').text() == '') {
                             continuar++;
@@ -434,7 +426,7 @@
                                 '',
                                 'info'
                             )
-                        } else {
+                        } else {                            
                             data_checkout(datos)
                         }
                     } else {
@@ -594,6 +586,7 @@
                     '<div class="ec-pro-content datos-premios">' +
                     '<h5 class="ec-pro-title"><a href="' + ruta + '">' + val['clasificacion'] + '</a>' +
                     '</h5>' +
+                    '<input type="hidden" class="estiloPro" value="'+val['estilo']+'">'+
                     '<span class="ec-price">' +
                     '<span class="old-price">$' + val['valor_venta'] + '</span>' +
                     '<span class="new-price">$Gratis</span>' +

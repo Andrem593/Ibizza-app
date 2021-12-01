@@ -154,7 +154,12 @@ class webController extends Controller
             ->where('productos.estilo', '=', $estilo)
             ->groupBy('color')->first();
         $tallas = Producto::where('estilo', $estilo)->where('color', $productos_color[0]->color)->get();
-        return view('ecomerce.producto-detalle', compact('productos_color', 'catalogo', 'tallas'));
+        $poco_stock = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+        ->where('productos.stock','>',0)
+        ->groupBy('productos.estilo')
+        ->orderBy('productos.stock')->limit(10)->get();
+        return view('ecomerce.producto-detalle', compact('productos_color', 'catalogo', 'tallas','poco_stock'));
     }
     public function tallas_x_color(Request $request)
     {
@@ -333,11 +338,23 @@ class webController extends Controller
     }
     public function dataCheckout(Request $request)
     {
+        if (isset($request->premios)) {            
+            $premios = $request->premios;
+            if (count($premios)>0) {
+                foreach ($premios as $val) {                 
+                    $pro = Producto::where('estilo',$val['estilo'])->where('talla',$val['talla'])->where('color',$val['color'])->first();
+                    Cart::add($pro->id, $pro->nombre_mostrar, 1, 0, ['image' => $pro->imagen_path])->associate('App\Models\Producto');
+                }
+            }
+        }
         $productos_pedidos = Cart::content();
         $id_pedidos = '';
         $empresaria = Empresaria::where('cedula', $request->cedula)->first();
         if ($empresaria->tipo_cliente == 'NUEVA') {
             Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'CONTINUA']);
+        }
+        if (empty($request->observaciones)) {
+            $request->observaciones = 'SIN OBSERVACIONES';
         }
         $venta = Venta::create([
             'id_vendedor' => $empresaria->vendedor,
@@ -346,9 +363,10 @@ class webController extends Controller
             'factura_nombres' => ($request->nombres . ' ' . $request->apellidos),
             'direccion_envio' => $request->direccion,
             'codigo_postal' => $request->codigo_postal,
-            'cantidad_total' => $request->total_productos,
+            'cantidad_total' => count(Cart::content()),
             'total_venta' => $request->total_pagar,
-            'estado' => 'PEDIDO'
+            'estado' => 'PEDIDO',
+            'observaciones'=> $request->observaciones
         ]);
         foreach ($productos_pedidos as $producto) {
             $pedido = Pedido::create([
@@ -552,5 +570,25 @@ class webController extends Controller
         $empresaria = Empresaria::where('id_user', Auth::user()->id)->first();
         $ventas = Venta::where('id_empresaria', $empresaria->id)->get();
         return view('ecomerce.seguimiento-pedidos', compact('ventas', 'empresaria'));
+    }
+    public function sobre_nosotros()
+    {
+        return view('ecomerce.sobre-nosotros');
+    }
+    public function contacto()
+    {
+        return view('ecomerce.contactanos'); 
+    }
+    public function preguntasFrecuentes()
+    {
+        return view('ecomerce.preguntas-frecuentes');
+    }
+    public function terminosCondiciones()
+    {
+        return view('ecomerce.terminos-condiciones');
+    }
+    public function politicaPrivacidad()
+    {
+        return view('ecomerce.politica-privacidad');
     }
 }
