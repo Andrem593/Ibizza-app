@@ -51,6 +51,18 @@
         </div>
         <div class="row form-group">
             <div class="col">
+                {{ Form::label('categoria') }}
+                {{ Form::text('categoria', $producto->categoria, ['class' => 'form-control' . ($errors->has('categoria') ? ' is-invalid' : ''), 'placeholder' => 'categoria']) }}
+                {!! $errors->first('categoria', '<div class="invalid-feedback">:message</p>') !!}
+            </div>
+            <div class="col">
+                {{ Form::label('subcategoria') }}
+                {{ Form::text('subcategoria', $producto->subcategoria, ['class' => 'form-control' . ($errors->has('subcategoria') ? ' is-invalid' : ''), 'placeholder' => 'subcategoria']) }}
+                {!! $errors->first('subcategoria', '<div class="invalid-feedback">:message</p>') !!}
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col">
                 {{ Form::label('estilo') }}
                 {{ Form::text('estilo', $producto->estilo, ['class' => 'form-control' . ($errors->has('estilo') ? ' is-invalid' : ''), 'placeholder' => 'estilo']) }}
                 {!! $errors->first('estilo', '<div class="invalid-feedback">:message</p>') !!}
@@ -79,6 +91,16 @@
                 {{ Form::label('precio') }}
             {{ Form::text('valor_venta', $producto->valor_venta, ['class' => 'form-control' . ($errors->has('precio') ? ' is-invalid' : ''), 'placeholder' => 'precio']) }}
             {!! $errors->first('valor_venta', '<div class="invalid-feedback">:message</p>') !!}
+            </div>
+            <div class="col">
+                {{ Form::label('precio_empresaria') }}
+            {{ Form::text('precio_empresaria', $producto->precio_empresaria, ['class' => 'form-control' . ($errors->has('precio_empresaria') ? ' is-invalid' : ''), 'placeholder' => 'precio empresaria']) }}
+            {!! $errors->first('precio_empresaria', '<div class="invalid-feedback">:message</p>') !!}
+            </div>
+            <div class="col">
+                {{ Form::label('descuento') }}
+            {{ Form::text('descuento', $producto->descuento, ['class' => 'form-control' . ($errors->has('descuento') ? ' is-invalid' : ''), 'placeholder' => 'descuento']) }}
+            {!! $errors->first('descuento', '<div class="invalid-feedback">:message</p>') !!}
             </div>
             <div class="col">
                 {{ Form::label('estado') }}

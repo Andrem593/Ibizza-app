@@ -91,6 +91,12 @@ function crearTabla(data, ruta) {
                 "data": "clasificacion"
             },
             {
+                "data": "categoria"
+            },
+            {
+                "data": "subcategoria"
+            },
+            {
                 "data": "nombre_proveedor"
             },
             {
@@ -110,6 +116,12 @@ function crearTabla(data, ruta) {
             },
             {
                 "data": "valor_venta"
+            },
+            {
+                "data": "precio_empresaria"
+            },
+            {
+                "data": "descuento"
             },
             {
                 "data": "estado"
@@ -820,7 +832,7 @@ function crearTablaEmpresarias(data, ruta) {
     })
 }
 
-function crearTablaVentas(data,ruta) {
+function crearTablaVentas(data, ruta) {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -842,12 +854,11 @@ function crearTablaVentas(data,ruta) {
                 }
             },
         },
-        "columns": [
-            {
-                "data": "id",                
+        "columns": [{
+                "data": "id",
             },
             {
-                "data": "factura_identificacion",                
+                "data": "factura_identificacion",
             },
             {
                 "data": "factura_nombres"
@@ -873,14 +884,14 @@ function crearTablaVentas(data,ruta) {
             },
             {
                 "data": 'created_at',
-                "render": function (data,type,row) {
+                "render": function(data, type, row) {
                     data = data.split('T');
                     return data[0];
                 }
             },
             {
                 "data": 'id',
-                "render": function (data, type, row) {
+                "render": function(data, type, row) {
                     return '<a class ="btn btn-ibizza btn-sm editar" data-bs-toggle="modal" data-bs-target="#editar" style="width:30px"><i class="fas fa-eye"></i></a>'
                 }
             }
@@ -944,25 +955,25 @@ function crearTablaVentas(data,ruta) {
             url: '/ventas/datos-ventas',
             data: dato,
             beforeSend: function() {
-                $('#carga').css('visibility','visible');
+                $('#carga').css('visibility', 'visible');
             },
             success: function(response) {
-                $('#carga').css('visibility','hidden')
+                $('#carga').css('visibility', 'hidden')
                 let data = JSON.parse(response);
                 $('#tabla_factura tbody').html('');
                 let total_factura = 0
-                $.each(data,function(i,v){
-                    let total =  v['precio'] * v['cantidad'];
+                $.each(data, function(i, v) {
+                    let total = v['precio'] * v['cantidad'];
                     total = total.toFixed(2);
-                    $('#tabla_factura tbody').append('<tr>'+
-                    '<td>'+v['id']+'</td>'+
-                    '<td>'+v['nombre_producto']+'</td>'+
-                    '<td>'+v['color_producto']+'</td>'+
-                    '<td>'+v['talla_producto']+'</td>'+
-                    '<td>'+v['cantidad']+'</td>'+
-                    '<td>$'+total+'</td>'+                    
-                    '</tr>')
-                    total_factura = parseFloat(total) + parseFloat(total_factura) ;
+                    $('#tabla_factura tbody').append('<tr>' +
+                        '<td>' + v['id'] + '</td>' +
+                        '<td>' + v['nombre_producto'] + '</td>' +
+                        '<td>' + v['color_producto'] + '</td>' +
+                        '<td>' + v['talla_producto'] + '</td>' +
+                        '<td>' + v['cantidad'] + '</td>' +
+                        '<td>$' + total + '</td>' +
+                        '</tr>')
+                    total_factura = parseFloat(total) + parseFloat(total_factura);
                 })
                 total_factura = total_factura.toFixed(2)
                 let iva = total_factura * 0.12
@@ -973,6 +984,6 @@ function crearTablaVentas(data,ruta) {
                 total_factura = total_factura.toFixed(2)
                 $('#total_fac').text(total_factura);
             }
-        })        
+        })
     })
 }
