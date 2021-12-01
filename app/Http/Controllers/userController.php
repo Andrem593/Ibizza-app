@@ -63,7 +63,8 @@ class userController extends Controller
             $message = 'error en base';
         }
         $user->roles()->sync($request->role);
-        return redirect()->back()->with('message',$message);
+        return redirect()->route('usuario.index')
+            ->with('success', 'Se creó el usuario correctamente');
     }
 
     public function show($id)
@@ -81,6 +82,23 @@ class userController extends Controller
     }
     public function destroy($id)
     {
-        //
+        $usuario = User::find($id)->delete();
+
+        return redirect()->route('usuario.index')
+            ->with('success', 'Se eliminó el usuario');
+    }
+
+    public function usuarioDataTable()
+    {
+        $response = '';
+        if ($_POST['funcion'] == 'listar_todo') {
+
+            $usuarios = User::where('role', 'not like', "%empresaria%")->get();
+            if (count($usuarios) == 0) {
+                $usuarios = 'no data';
+            }
+            $response = json_encode($usuarios);
+        }
+        return $response;
     }
 }

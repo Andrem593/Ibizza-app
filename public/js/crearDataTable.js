@@ -392,6 +392,103 @@ function crearTablaMarca(data, ruta) {
     })
 }
 
+function crearTablaUsuario(data, ruta) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
+    let dataTable = $('#datatable').DataTable({
+
+        destroy: true,
+        "processing": true,
+        "ajax": {
+            "url": ruta,
+            "method": "POST",
+            "data": data,
+            "dataSrc": function(json) {
+                if (json == 'no data') {
+                    return [];
+                } else {
+                    return json;
+                }
+            },
+        },
+        "columns": [{
+                "data": "name"
+            },
+            {
+                "data": "email"
+            },
+
+            {
+                "data": "role"
+            },
+            {
+                "data": 'id',
+                "render": function(data, type, row) {
+                    return btnEliminar;
+                }
+            }
+
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "Todo"]
+        ],
+        "columnDefs": [{
+                "targets": [3],
+                "orderable": false,
+                "searchable": false
+            },
+            //{ "width": "1%", "targets": 0 }
+        ],
+        "order": [
+            [1, 'asc']
+        ],
+        "language": espanol,
+        //para usar los botones
+        responsive: false,
+        autoWidth: false,
+        dom: 'Bfrtilp',
+        buttons: [{
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> ',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> ',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger',
+                pageSize: 'TABLOID',
+                orientation: 'landscape'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> ',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info',
+                exportOptions: {
+                    stripHtml: false
+                }
+            },
+        ]
+    });
+    if (dataTable.length == 0) {
+        dataTable.clear();
+        dataTable.draw();
+    }
+    $('#datatable tbody').on('click', '.eliminar', function() {
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#elemento_eliminar').html(data.nombre);
+        $('#id_eliminar').val(data.id)
+        $('#form_eliminar').attr('action', "/usuario/" + data.id);
+    })
+}
+
 function crearTablaCatalogo(data, ruta) {
     $.ajaxSetup({
         headers: {
@@ -961,7 +1058,7 @@ function crearTablaVentas(data, ruta) {
                 $('#carga').css('visibility', 'hidden')
                 let data = JSON.parse(response);
                 let empresaria = data['empresaria'];
-                let venta = data['venta']; 
+                let venta = data['venta'];
                 $('#factura_nombre').text(venta['factura_nombres'])
                 $('#provincia').text(empresaria['nombre_provincia'])
                 $('#ciudad').text(empresaria['nombre_ciudad'])
@@ -972,7 +1069,7 @@ function crearTablaVentas(data, ruta) {
                 let fecha = venta['created_at'];
                 fecha = fecha.split('T');
                 $('#fecha').text(fecha[0]);
-                data = data['pedidos'];                
+                data = data['pedidos'];
                 $('#tabla_factura tbody').html('');
                 let total_factura = 0
                 $.each(data, function(i, v) {

@@ -325,7 +325,7 @@ return [
                     'can'   => 'dashboard',
                 ],
                 [
-                    'text' => 'Crear',
+                    'text' => 'Lista de Usuarios',
                     'route'  => 'usuario.index',
                     'icon'    => 'fas fa-user-plus',
                     'can'   => 'usuario.index',

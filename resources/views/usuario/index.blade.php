@@ -13,7 +13,7 @@
 
                     <div class="float-right">
                         <a href="{{ route('usuario.create') }}" class="btn btn-ibizza btn-sm float-right" data-placement="left">
-                            {{ __('Nueva Marca') }}
+                            {{ __('Nuevo Usuario') }}
                         </a>
                     </div>
                 </div>
@@ -29,9 +29,9 @@
                     <table id="datatable" class="display table table-striped table-sm table-hover fw-bold" >
                         <thead class="bg-ibizza text-center">
                             <tr>                                
-                                <th>IMAGEN</th>
-                                <th>NOMBRE</th>
-                                <th>ESTADO</th>
+                                <th>NOMBRE USUARIO</th>
+                                <th>EMAIL</th>
+                                <th>TIPO USUARIO</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -58,7 +58,7 @@
                         <div class="modal-body">
                             <form id="form_eliminar" action="" method="POST">
                                 <div class="form-group">
-                                    <label for="">Seguro de Eliminar Producto: </label>
+                                    <label for="">Seguro de Eliminar Usuario: </label>
                                     <label id="elemento_eliminar"></label>
                                     <input type="hidden" id="id_eliminar">
                                 </div>
@@ -81,8 +81,8 @@
                     var data = {
                         funcion: 'listar_todo',
                     }
-                    let ruta = '/marca/datatable'
-                    crearTablaMarca(data, ruta);
+                    let ruta = '/usuario/datatable'
+                    crearTablaUsuario(data, ruta);
                 });
 
             </script>

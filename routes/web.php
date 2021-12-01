@@ -151,6 +151,14 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->post('/usuario/create', [userController::class,'store'])
 ->name('new.user');
 
+Route::middleware(['auth:sanctum', 'verified'])
+->delete('/usuario/{id}', [userController::class,'destroy'])
+->name('usuario.delete');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/usuario/datatable', [userController::class,'usuarioDataTable'])
+->name('usuario.datatable');
+
 // ROL
 
 Route::resource('roles', RoleController::class)
