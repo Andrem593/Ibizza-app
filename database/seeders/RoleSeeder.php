@@ -23,7 +23,7 @@ class RoleSeeder extends Seeder
             'description' => 'Ver dashboard'
         ])->syncRoles([$role1]);
         Permission::create([
-            'name' => 'usuario.create',
+            'name' => 'usuario.index',
             'description' => 'Crear Usuarios'
         ])->syncRoles([$role1]);
         Permission::create([

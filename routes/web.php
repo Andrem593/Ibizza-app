@@ -133,7 +133,11 @@ Route::middleware(['auth:sanctum', 'verified'])
 // USUARIO
 
 Route::middleware(['auth:sanctum', 'verified'])
-->get('/usuario/create/', [homeController::class,'userCreate'])
+->get('/usuario/index/', [userController::class,'index'])
+->name('usuario.index');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/usuario/create/', [userController::class,'create'])
 ->name('usuario.create');
 
 Route::middleware(['auth:sanctum', 'verified'])

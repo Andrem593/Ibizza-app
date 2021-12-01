@@ -8,17 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Jetstream\Jetstream;
+use Spatie\Permission\Models\Role;
 
 class userController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:usuario.create');
+        
     }
 
     public function index()
     {
-        //
+        return view('usuario.index');
     }
 
     /**
@@ -28,7 +29,8 @@ class userController extends Controller
      */
     public function create()
     {
-
+        $roles = Role::all();
+        return view('usuario.crear',compact('roles'));
     }
 
     /**

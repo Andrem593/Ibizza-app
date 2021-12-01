@@ -326,9 +326,9 @@ return [
                 ],
                 [
                     'text' => 'Crear',
-                    'route'  => 'usuario.create',
+                    'route'  => 'usuario.index',
                     'icon'    => 'fas fa-user-plus',
-                    'can'   =>'usuario.create',
+                    'can'   => 'usuario.index',
                 ],
                 [
                     'text'    => 'Empresarias',
