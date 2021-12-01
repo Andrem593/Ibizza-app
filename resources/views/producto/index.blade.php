@@ -51,6 +51,8 @@
                                         <th>GRUPO</th>
                                         <th>SECCION</th>
                                         <th>CLASIFICACION</th>
+                                        <th>CATEGORIA</th>
+                                        <th>SUB-CATEGORIA</th>
                                         <th>PROVEEDOR</th>
                                         <th>ESTILO</th>
                                         <th>COLOR</th>
@@ -58,6 +60,8 @@
                                         <th>CANTIDAD</th>
                                         <th>STOCK</th>
                                         <th>PRECIO</th>
+                                        <th>PRECIO EMPRESARIA</th>
+                                        <th>DESCUENTO</th>
                                         <th>ESTADO</th>
                                     </tr>
                                 </thead>
