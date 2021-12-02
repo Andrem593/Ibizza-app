@@ -15,8 +15,8 @@
 
      <!-- site Favicon -->
      <link rel="icon" href="assets/images/favicon/Logo_ibizza_verde.svg" sizes="32x32" />
-     <link rel="apple-touch-icon" href="assets/images/favicon/Logo_ibizza.svg" />
-     <meta name="msapplication-TileImage" content="assets/images/favicon/Logo_ibizza.svg" />
+     <link rel="apple-touch-icon" href="assets/images/favicon/Logo_ibizza.png" />
+     <meta name="msapplication-TileImage" content="assets/images/favicon/Logo_ibizza.png" />
 
      <!-- css Icon Font -->
      <link rel="stylesheet" href="assets/css/vendor/ecicons.min.css" />
@@ -176,10 +176,12 @@
                              <!-- Ec Header Logo Start -->
                              <div class="align-self-center">
                                  <div class="header-logo">
+                                 
                                      <a href="{{ url('/') }}"><img loading='lazy' class="p-1"
                                              src="{{url('assets/images/logo/logo_ibizza.svg')}}" alt="Logo Ibizza" />
                                          <img loading='lazy' class="dark-logo" src="assets/images/logo/dark-logo.png"
                                              alt="Site Logo" style="display: none;" /></a>
+
                                  </div>
                              </div>
                              <!-- Ec Header Logo End -->
@@ -264,9 +266,15 @@
                              <!-- Ec Header Logo Start -->
                              <div class="col">
                                  <div class="header-logo">
+<<<<<<< HEAD
                                      <a href="index.html"><img loading='lazy' src="{{url('assets/images/logo/logo_ibizza.svg')}}"
+=======
+
+                                     <a href="index.html"><img loading='lazy' src="assets/images/logo/logo_ibizza.svg"
+>>>>>>> f7d1fbccd98d5631013523e08eecbc6e6d1fbeb1
                                              alt="Logo Ibizza" /><img loading='lazy' class="dark-logo"
                                              src="assets/images/logo/dark-logo.png" alt="Site Logo"
+
                                              style="display: none;" /></a>
                                  </div>
                              </div>
@@ -1378,9 +1386,16 @@
                              <div class="row">
                                  <div class="col-sm-12 col-lg-3 ec-footer-contact">
                                      <div class="ec-footer-widget">
+<<<<<<< HEAD
                                          <div class="ec-footer-logo"><a href="#"><img loading='lazy'
                                                      src="{{url('assets/images/logo/logo_ibizza.svg')}}" alt=""><img loading='lazy'
                                                      class="dark-footer-logo" src="assets/images/logo/dark-logo.png"
+=======
+
+                                         <div class="ec-footer-logo"><a href="#"><img loading='lazy' src="./assets/images/logo/logo_ibizza.png"
+                                                     alt=""><img loading='lazy' class="dark-footer-logo" src="assets/images/logo/dark-logo.png"
+
+>>>>>>> f7d1fbccd98d5631013523e08eecbc6e6d1fbeb1
                                                      alt="Site Logo" style="display: none;" /></a></div>
                                          <h4 class="ec-footer-heading">Contactanos</h4>
                                          <div class="ec-footer-links">
