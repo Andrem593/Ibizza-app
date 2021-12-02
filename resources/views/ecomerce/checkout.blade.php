@@ -182,8 +182,13 @@
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Ciudad</label>
                                                     <span class="ec-bl-select-inner">
-                                                        <select name="ciudad" id="ciudad" class="ec-bill-select" disabled>
+                                                        <select name="ciudad" id="ciudad" class="ec-bill-select">
                                                             <option value="">Seleccione ciudad</option>
+                                                            @empty(!$ciudad)
+                                                                @foreach ($ciudad as $item )                                                                    
+                                                                    <option value="{{ $item->id }}">{{ $item->descripcion }}</option>
+                                                                @endforeach
+                                                            @endempty
                                                         </select>
                                                     </span>
                                                 </span>
