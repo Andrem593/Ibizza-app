@@ -133,7 +133,7 @@
                                              </li>
                                          @else
                                              <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
-                                             <li><a class="dropdown-item" href="register.html">Registrar</a></li>
+                                             <li><a class="dropdown-item" href="{{route('web.registro-empresaria')}}">Registrar</a></li>
                                              <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Checkout</a>
                                              </li>
                                          @endif
@@ -226,7 +226,7 @@
                                                              href="{{ route('web.checkout') }}">Checkout</a></li>
                                                  @else
                                                      <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
-                                                     <li><a class="dropdown-item" href="register.html">Registro</a></li>
+                                                     <li><a class="dropdown-item" href="{{route('web.registro-empresaria')}}">Registro</a></li>
                                                      <li><a class="dropdown-item"
                                                              href="{{ route('web.checkout') }}">Checkout</a></li>
                                                  @endif
@@ -430,12 +430,12 @@
                                              <ul class="sub-menu">
                                                  <li><a href="{{ route('web.sobre-nosotros') }}">Sobre Nosotros</a></li>
                                                  <li><a href="{{ route('web.contactanos') }}">Contáctenos</a></li>
-                                                 <li><a href="cart.html">Cart</a></li>
+                                                 <li><a href="{{route('web.carro-compras')}}">Carrito</a></li>
                                                  <li><a href="{{ route('web.checkout') }}">Checkout</a></li>
                                                  <li><a href="compare.html">Compare</a></li>
                                                  <li><a href="{{ route('web.preguntas-frecuentes') }}">Preguntas</a></li>
-                                                 <li><a href="login.html">Login</a></li>
-                                                 <li><a href="register.html">Register</a></li>
+                                                 <li><a href="{{route('login')}}">Login</a></li>
+                                                 <li><a href="{{route('web.registro-empresaria')}}">Registro</a></li>
                                                  <li><a href="track-order.html">Track Order</a></li>
                                                  <li><a href="{{ route('web.terminos-condiciones') }}">Términos y
                                                          Condiciones</a></li>
@@ -524,12 +524,12 @@
                                      <ul class="sub-menu">
                                          <li><a href="{{ route('web.sobre-nosotros') }}">Sobre Nosotros</a></li>
                                          <li><a href="{{ route('web.contactanos') }}">Contáctenos</a></li>
-                                         <li><a href="cart.html">Cart</a></li>
+                                         <li><a href="{{route('web.carro-compras')}}">Carrito</a></li>
                                          <li><a href="{{ route('web.checkout') }}">Checkout</a></li>
                                          <li><a href="compare.html">Compare</a></li>
                                          <li><a href="{{ route('web.preguntas-frecuentes') }}">Preguntas</a></li>
-                                         <li><a href="login.html">Login</a></li>
-                                         <li><a href="register.html">Register</a></li>
+                                         <li><a href="{{route('login')}}">Login</a></li>
+                                         <li><a href="{{route('web.registro-empresaria')}}">Register</a></li>
                                          <li><a href="track-order.html">Track Order</a></li>
                                          <li><a href="{{ route('web.terminos-condiciones') }}">Términos y Condiciones</a>
                                          </li>
