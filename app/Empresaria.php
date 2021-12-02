@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 
 /**
  * Class Empresaria
@@ -44,7 +45,7 @@ class Empresaria extends Model
      *
      * @var array
      */
-    protected $fillable = ['cedula','nombres','apellidos','fecha_nacimiento','direccion','tipo_cliente','estado','telefono','id_ciudad','vendedor','id_usuario'];
+    protected $fillable = ['cedula','nombres','apellidos','fecha_nacimiento','direccion','tipo_cliente','email','password','estado','telefono','id_ciudad','vendedor','id_user'];
 
 
 

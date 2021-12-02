@@ -242,18 +242,17 @@ return [
             'text' => 'Buscar',
         ],
         [
+            'text' => 'Web',
+            'route'  => 'web',
+            'icon'    => 'fas fa-laptop',
+        ],
+        [
             'text' => 'Dashboard',
             'route'  => 'dashboard',
             'icon'    => 'fas fa-tachometer-alt',
             'can'   => 'dashboard',
-        ],
+        ],        
         ['header' => 'ADMINISTRACIÓN'],
-        [
-            'text' => 'Lista de Roles',
-            'route'  => 'admin.roles.index',
-            'icon'    => 'fas fa-user-cog',
-            'can'   => 'dashboard',
-        ],
         [
             'text'    => 'Productos',
             'icon'    => 'fas fa-shoe-prints',
@@ -273,35 +272,63 @@ return [
                     'route'  => 'producto.estilos',
                     'icon'    => 'fas fa-palette',
                 ],
+                [
+                    'text'    => 'Marcas',
+                    'icon'    => 'fas fa-copyright',
+                    'route'  => 'marcas.index',
+                    'can'   =>'marcas.index',
+                ],
+                [
+                    'text'    => 'Provedor',
+                    'icon'    => 'fas fa-truck',
+                    'route'  => 'proveedores.index',
+                    'can'   =>'proveedores.index',
+                ],
             ]
         ],
         [
-            'text'    => 'Marcas',
-            'icon'    => 'fas fa-copyright',
-            'route'  => 'marcas.index',
-            'can'   =>'marcas.index',
+            'text'    => 'Ventas',
+            'icon'    => 'fas fa-shopping-cart',
+            'route'  => 'ventas.index',
         ],
         [
-            'text'    => 'Catalogos',
+            'text'    => 'Catálogos',
             'icon'    => 'fas fa-book-open',
-            'route'  => 'catalogos.index',
-            'can'   =>'catalogos.index',
+            'submenu' => [
+                [
+                    'text' => 'Crear Catálogo',
+                    'route'  => 'catalogos.index',
+                    'icon'    => 'fas fa-folder-plus',
+                ],
+                [
+                    'text' => 'Asignar Productos',
+                    'route'  => 'catalogo.catalogoProducto',
+                    'icon'    => 'fas fa-book-reader',
+                ],
+                [
+                    'text' => 'Premios',
+                    'route'  => 'premios.index',
+                    'icon'    => 'fas fa-gifts',
+                ]
+            ],
+            'can'   =>'catalogos.index'
         ],
-        [
-            'text'    => 'Provedor',
-            'icon'    => 'fas fa-truck',
-            'route'  => 'proveedores.index',
-            'can'   =>'proveedores.index',
-        ],
+        
         [
             'text'    => 'Usuarios',
             'icon'    => 'fas fa-users',            
             'submenu' => [
                 [
-                    'text' => 'Crear',
-                    'route'  => 'usuario.create',
+                    'text' => 'Lista de Roles',
+                    'route'  => 'admin.roles.index',
+                    'icon'    => 'fas fa-user-cog',
+                    'can'   => 'dashboard',
+                ],
+                [
+                    'text' => 'Lista de Usuarios',
+                    'route'  => 'usuario.index',
                     'icon'    => 'fas fa-user-plus',
-                    'can'   =>'usuario.create',
+                    'can'   => 'usuario.index',
                 ],
                 [
                     'text'    => 'Empresarias',
@@ -468,6 +495,31 @@ return [
                     'type' => 'css',
                     'asset' => true,
                     'location' => 'vendor/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css',
+                ],
+            ],
+        ],
+        'BootstrapSwitch' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap-switch/js/bootstrap-switch.min.js',
+                ],
+            ],
+        ],
+        'BootstrapSelect' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => '//cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => '//cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css',
                 ],
             ],
         ],

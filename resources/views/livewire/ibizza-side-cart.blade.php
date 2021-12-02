@@ -9,10 +9,10 @@
                 @if (Cart::count() > 0)
                     @foreach (Cart::content() as $item)
                         <li>
-                            <a href="product-left-sidebar.html" class="sidekka_pro_img"><img src="/storage/images/productos/{{$item->options->image}}"
+                            <a href="" class="sidekka_pro_img"><img src="/storage/images/productos/{{$item->options->image}}"
                                     alt="product"></a>
                             <div class="ec-pro-content">
-                                <a href="product-left-sidebar.html" class="cart_pro_title">{{ $item->name }}</a>
+                                <a href="#" class="cart_pro_title">{{ $item->name }}</a>
                                 <span class="cart-price"><span>{{ $item->price}}</span> x <span class="card-qty">{{$item->qty}}</span></span>
                                 <span class="idItemCart d-none">{{ $item->rowId}}</span>
                                 <a href="javascript:void(0)" class="remove">×</a>
@@ -46,8 +46,8 @@
                 </table>
             </div>
             <div class="cart_btn">
-                <a href="cart.html" class="btn btn-primary">Ver Carrito</a>
-                <a href="checkout.html" class="btn btn-secondary">Checkout</a>
+                <a href="{{ route('web.carro-compras')}}" class="btn btn-primary">Ver Carrito</a>
+                <a href="{{ route('web.checkout')}}" class="btn btn-secondary">Checkout</a>
             </div>
         </div>
     </div>

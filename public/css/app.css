@@ -7734,7 +7734,7 @@ textarea.form-control-lg {
 
 .text-light {
   --bs-text-opacity: 1;
-  color: rgba(var(--bs-light-rgb), var(--bs-text-opacity)) !important;
+  color: rgba(1,143,147, var(--bs-text-opacity)) !important;
 }
 
 .text-dark {

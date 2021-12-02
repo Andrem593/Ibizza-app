@@ -19728,10 +19728,12 @@ body.ec-open:before {
   border-radius: 5px;
 }
 .ec-pro-variation .ec-pro-variation-inner.ec-pro-variation-size .ec-pro-variation-content li:hover {
-  background-color: #e2e2e2;
+  background-color: #009786;
+  color: #fff;
 }
 .ec-pro-variation .ec-pro-variation-inner.ec-pro-variation-size .ec-pro-variation-content .active {
-  background-color: #e2e2e2;
+  background-color: #009786;
+  color: #fff;
 }
 
 button.btn-close.qty_close {

@@ -39,7 +39,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                         </div>
-                        <input type="text" id="telefono" name="telefono" class="form-control">
+                        <input type="text" id="telefono" name="telefono" class="form-control" value="{!! $empresaria->telefono !!}">
                         {!! $errors->first('telefono', '<div class="invalid-feedback">:message</p> </div>') !!}
                     </div>
                 </div>
@@ -48,13 +48,13 @@
                 <div class="form-group">
                     {{ Form::label('tipo_cliente') }}
                     <select name="tipo_cliente" class="form-select">
-                        <option value="NUEVA">NUEVA</option>
-                        <option value="CONTINUA">CONTINUA</option>
-                        <option value="INACTIVA-1">INACTIVA-1</option>
-                        <option value="INACTIVA-2">INACTIVA-2</option>
-                        <option value="INACTIVA-3">INACTIVA-3</option>
-                        <option value="REACTIVA">REACTIVA</option>
-                        <option value="BAJA">BAJA</option>
+                        <option value="NUEVA" {{ 'NUEVA' == $empresaria->tipo_cliente ? 'selected' : '' }}>NUEVA</option>
+                        <option value="CONTINUA" {{ 'CONTINUA' == $empresaria->tipo_cliente ? 'selected' : '' }}>CONTINUA</option>
+                        <option value="INACTIVA-1" {{ 'INACTIVA-1' == $empresaria->tipo_cliente ? 'selected' : '' }}>INACTIVA-1</option>
+                        <option value="INACTIVA-2" {{ 'INACTIVA-2' == $empresaria->tipo_cliente ? 'selected' : '' }}>INACTIVA-2</option>
+                        <option value="INACTIVA-3" {{ 'INACTIVA-3' == $empresaria->tipo_cliente ? 'selected' : '' }}>INACTIVA-3</option>
+                        <option value="REACTIVA" {{ 'REACTIVA' == $empresaria->tipo_cliente ? 'selected' : '' }}>REACTIVA</option>
+                        <option value="BAJA" {{ 'BAJA' == $empresaria->tipo_cliente ? 'selected' : '' }}>BAJA</option>
                     </select>
                     {!! $errors->first('tipo_cliente', '<div class="invalid-feedback">:message</p> </div>') !!}
                 </div>
@@ -65,17 +65,31 @@
                 <div class="form-group">
                     {{ Form::label('Provincia') }}
                     <select id="provincia" class="form-select">
-                        <option value="0">SELECCIONE</option>
+                        <option value="">Seleccione Provincia</option>
                         @foreach ($provincias as $provincia)
-                            <option value="{{ $provincia->id }}">{{ $provincia->descripcion }}</option>
-                        @endforeach
+                            @if ($provincia->id == $empresaria->provincia_id)
+                            <option value="{{ $provincia->id }}" selected>{{ $provincia->descripcion }}</option>                                
+                            @else
+                            <option value="{{ $provincia->id }}">{{ $provincia->descripcion }}</option>                                
+                            @endif
+                            @endforeach
                     </select>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     {{ Form::label('Ciudad') }}
-                    <select id="ciudad" name="id_ciudad" class="form-select" disabled>
+                    <select id="ciudad" name="id_ciudad" class="form-select">
+                        <option value="" selected>Seleccione ciudad</option>
+                        @isset($ciudades)
+                            @foreach ($ciudades as $ciudad)
+                            @if ($ciudad->id == $empresaria->id_ciudad)
+                            <option value="{{ $ciudad->id }}" selected>{{ $ciudad->descripcion }}</option>                                
+                            @else
+                            <option value="{{ $ciudad->id }}">{{ $ciudad->descripcion }}</option>                                
+                            @endif
+                            @endforeach
+                        @endisset
                     </select>
                     {!! $errors->first('id_ciudad', '<div class="invalid-feedback">:message</p> </div>') !!}
                 </div>
@@ -92,7 +106,8 @@
             <div class="col">
                 <div class="form-group">
                     {{ Form::label('email') }}
-                    {{ Form::email('email', $empresaria->email, ['class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'placeholder' => 'Email de empresaria' ,'id'=>'email']) }}
+                    {{-- {{ Form::email('email', $usuario->email, ['class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'placeholder' => 'Email de empresaria' ,'id'=>'email']) }} --}}
+                    <input id="email" type="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : ''}}" name="email" placeholder="Email de empresaria" value="{{ isset($usuario) ? $usuario->email : '' }}">
                     {!! $errors->first('email', '<div class="invalid-feedback">:message</p> </div>') !!}
                 </div>
             </div>
@@ -114,29 +129,52 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script>
             $('#telefono').inputmask("999-999-9999", {"placeholder": ""});
-            $('#provincia').change(e => {
-                if ($('#provincia').val() != 0) {
-                    $('#ciudad').attr('disabled', false)
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                    });
-                    $.post({
-                        url: '/empresaria/ciudad',
-                        data: {id_provincia : $('#provincia').val()},
-                        success: function(response) {
-                            response = JSON.parse(response);
-                            $('#ciudad').html('<option value="0">SELECCIONE</option>')
-                            for (let i = 0; i < response.length; i++) {
-                                $('#ciudad').append('<option value="'+response[i]['id']+'">'+response[i]['descripcion']+'</option>');
-                            }
+            // $('#provincia').change(e => {
+            //     if ($('#provincia').val() != 0) {
+            //         $('#ciudad').attr('disabled', false)
+            //         $.ajaxSetup({
+            //             headers: {
+            //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //             },
+            //         });
+            //         $.post({
+            //             url: '/empresaria/ciudad',
+            //             data: {id_provincia : $('#provincia').val()},
+            //             success: function(response) {
+            //                 response = JSON.parse(response);
+            //                 $('#ciudad').html('<option value="0">SELECCIONE</option>')
+            //                 for (let i = 0; i < response.length; i++) {
+            //                     $('#ciudad').append('<option value="'+response[i]['id']+'">'+response[i]['descripcion']+'</option>');
+            //                 }
+            //             }
+            //         })
+            //     } else {
+            //         $('#ciudad').attr('disabled', true)
+            //     }
+            // });
+
+            $(document).on('change', '#provincia', function(){
+                $('#ciudad').html('<option value="" selected>Seleccione ciudad</option>');
+                $.post({
+                    url: "{{ route('empresaria.ciudad') }}",
+                    data: {
+                        'id_provincia' : $('#provincia').val()
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        response = JSON.parse(response);
+
+                        if (response != null) {
+                            $('#ciudad').html('<option value="" selected>Seleccione ciudad</option>');
+                            $.each(response, function(i, val){
+                                $('#ciudad').append('<option value="'+ val['id'] +'">' + val['descripcion'] +'</option>')
+                            });
                         }
-                    })
-                } else {
-                    $('#ciudad').attr('disabled', true)
-                }
-            })
+                    }
+                });
+            });
 
         </script>
     @endpush

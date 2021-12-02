@@ -27,7 +27,8 @@ class Catalogo extends Model
     
     static $rules = [
 		'nombre' => 'required',
-		'descripcion' => 'required',
+    'descripcion' => 'required',
+    'pdf_path' => 'mimes:pdf|max:100000'
     ];
 
     protected $attributes = [

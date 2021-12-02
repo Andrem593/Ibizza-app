@@ -23,7 +23,7 @@
                             @csrf
 
                             @include('empresaria.form')
-
+                            
                         </form>
                     </div>
                 </div>

@@ -2,14 +2,23 @@
     <div class="ec-product-inner">
         <div class="ec-pro-image-outer">
             <div class="ec-pro-image">
-                <a href="product-left-sidebar.html" class="image">
-                    <img loading='lazy' class="main-image" src="storage/images/productos/{{ $imagen }}"
-                        alt="Product" />
-                    <img loading='lazy' class="hover-image"
-                        src="storage/images/productos/{{ $imagen }}" alt="Product" />
+                <a href="{{route('web.detalle-producto', $estilo)}}" class="image">
+                    <img loading='lazy' class="main-image" src="storage/images/productos/{{ $imagen }}" width="100%" height="200rem" style="object-fit: cover" />
+                    <img loading='lazy' class="hover-image" src="storage/images/productos/{{ $imagen }}" width="100%" height="200rem" style="object-fit: cover" />
                 </a>
-                <a href="#" class="quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal"
+                @empty(!$descuento)
+                    <span class="percentage">{{$descuento}}%</span>
+                @endempty
+                @empty(!$nuevo)
+                    <span class="flags">
+                        <span class="new">Nuevo</span>
+                    </span>
+                @endempty
+                {{-- <a href="#" class="quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal"
                     data-bs-target="#ec_quickview_modal"><img loading='lazy' src="assets/images/icons/quickview.svg"
+                        class="svg_img pro_svg" alt="" /></a> --}}
+                <a href="#" class="quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal"
+                data-bs-target="#ec_quickview_modal" wire:click="$emitTo('modal-quick-view', 'quickView', {{ "'". $estilo . "'"}} )" ><img loading='lazy' src="assets/images/icons/quickview.svg"
                         class="svg_img pro_svg" alt="" /></a>
                 <div class="ec-pro-actions">
                     <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
@@ -21,35 +30,40 @@
             </div>
         </div>
         <div class="ec-pro-content">
-            <h5 class="ec-pro-title"><a href="product-left-sidebar.html">{{ $clasificacion }}</a>
+            <h5 class="ec-pro-title"><a href="{{route('web.detalle-producto', $estilo)}}">{{ $nombre_producto }}</a>
+            <input type="hidden" class="estilo-producto" value="{{$estilo}}">
             </h5>
-            <div class="ec-pro-rating">
-                <i class="ecicon eci-star fill"></i>
-                <i class="ecicon eci-star fill"></i>
-                <i class="ecicon eci-star fill"></i>
-                <i class="ecicon eci-star fill"></i>
-                <i class="ecicon eci-star"></i>
+            <div class="d-flex justify-content-between">
+                <div class="ec-pro-rating my-auto">
+                    <i class="ecicon eci-star fill"></i>
+                    <i class="ecicon eci-star fill"></i>
+                    <i class="ecicon eci-star fill"></i>
+                    <i class="ecicon eci-star fill"></i>
+                    <i class="ecicon eci-star"></i>
+                </div>
+                <span class="ec-price my-auto">
+                    @empty(!$descuento)                        
+                        <span class="old-price">${{ $precio_empresaria }}</span>
+                        <span class="new-price">${{ number_format(($precio_empresaria-($precio_empresaria * ($descuento /100))), 2) }}</span>
+                    @else
+                        <span class="new-price">${{ number_format($precio_empresaria, 2) }}</span>
+                    @endempty
+                </span>
             </div>
-            <span class="ec-price">
-                <span class="old-price">${{ $valor_venta }}</span>
-                <span class="new-price">${{ number_format($valor_venta, 2) }}</span>
-            </span>
-            <div class="ec-pro-option">
-                <div class="ec-pro-color">
+            <div class="ec-pro-option row d-flex justify-content-start">
+                <div class="ec-pro-color row mx-auto mb-1">
                     <span class="ec-pro-opt-label">Color</span>
-                    <select class="p-0">
+                    <select class="p-1">
                         @foreach ($productos_all as $val)
-                            @if ($clasificacion == $val->clasificacion)
-                                <option> {{ $val->color }} </option>
-                            @endif
+                            <option> {{ $val->color }} </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="ec-pro-size">
-                    <span class="ec-pro-opt-label">Size</span>
-                    <ul class="ec-opt-size">
+                    <span class="ec-pro-opt-label">Talla</span>
+                    <ul class="ec-opt-size d-flex justify-content-start flex-wrap">
                         @foreach ($productos_tallas as $val)
-                            @if ($color == $val->color)
+                            @if ($color == $val->color && $estilo == $val->estilo)
                                 <li><a href="#" class="ec-opt-sz">{{ $val->talla }}</a></li>
                             @endif
                         @endforeach
@@ -57,5 +71,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>        
 </div>
