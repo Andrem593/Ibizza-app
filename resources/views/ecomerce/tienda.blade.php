@@ -1,6 +1,8 @@
 <x-plantilla>
     @push('css')
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
     @endpush
     <!-- Ec breadcrumb start -->
     <div class="sticky-header-next-sec  ec-breadcrumb section-space-mb">
@@ -34,9 +36,9 @@
                     <div class="ec-pro-list-top d-flex">
                         <div class="col-md-6 ec-grid-list">
                             <div class="ec-gl-btn">
-                                <button class="btn btn-grid active"><img src="{{url('assets/images/icons/grid.svg')}}"
+                                <button class="btn btn-grid active"><img src="{{ url('assets/images/icons/grid.svg') }}"
                                         class="svg_img gl_svg" alt="" /></button>
-                                <button class="btn btn-list"><img src="{{url('assets/images/icons/list.svg')}}"
+                                <button class="btn btn-list"><img src="{{ url('assets/images/icons/list.svg') }}"
                                         class="svg_img gl_svg" alt="" /></button>
                             </div>
                         </div>
@@ -69,8 +71,8 @@
                         </div>
                         <!-- Ec Pagination Start -->
                         <div class="ec-pro-pagination">
-                            
-                            {!! $productos->links('ecomerce.custom-pagination') !!}                            
+
+                            {!! $productos->links('ecomerce.custom-pagination') !!}
                         </div>
                         <!-- Ec Pagination End -->
                     </div>
@@ -93,10 +95,11 @@
                                         @foreach ($categorias as $val)
                                             <li>
                                                 <div class="ec-sidebar-block-item">
-                                                    <a href="{{route('web.tiendaOrderBy',['categoria-'.$val->categoria,'productos.id'])}}">{{$val->categoria." ($val->cantidad_productos)"}}</a>                                                        
+                                                    <a
+                                                        href="{{ route('web.tiendaOrderBy', ['categoria-' . $val->categoria, 'productos.id']) }}">{{ $val->categoria . " ($val->cantidad_productos)" }}</a>
                                                 </div>
                                             </li>
-                                        @endforeach                                                                                                         
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -107,13 +110,14 @@
                                 </div>
                                 <div class="ec-sb-block-content">
                                     <ul>
-                                        @foreach ($subcategorias as $val)                                                    
+                                        @foreach ($subcategorias as $val)
                                             <li>
                                                 <div class="ec-sidebar-block-item">
-                                                    <a href="{{route('web.tiendaOrderBy',['subcategoria-'.$val->subcategoria,'productos.id'])}}">{{$val->subcategoria." ($val->cantidad_productos)"}}</a>
+                                                    <a
+                                                        href="{{ route('web.tiendaOrderBy', ['subcategoria-' . $val->subcategoria, 'productos.id']) }}">{{ $val->subcategoria . " ($val->cantidad_productos)" }}</a>
                                                 </div>
                                             </li>
-                                        @endforeach                                  
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -141,25 +145,43 @@
                 </div>
             </div>
         </div>
+
+        <livewire:modal-quick-view />
+
     </section>
     @push('js')
         <script>
-            $(document).on('change', '#ec-select', function(){
+            $(document).on('change', '#ec-select', function() {
                 let orderby, orderway;
                 let order = $('#ec-select').val();
                 let actual = window.location.pathname;
                 let url = '';
                 actual = actual.split('/')
-                if (actual.length > 2) {                    
-                    let category = actual[2]; 
-                    url = '/tienda/'+category+"/"+order;
-                }else{
-                    url = '/tienda/all/'+order;
+                if (actual.length > 2) {
+                    let category = actual[2];
+                    url = '/tienda/' + category + "/" + order;
+                } else {
+                    url = '/tienda/all/' + order;
                 }
                 $(location).attr('href', url);
                 //console.log(url);
             });
-        </script>        
+
+            window.addEventListener('contentChanged', event => {
+
+                $('.qty-product-cover').slick('init');
+                $('.qty-nav-thumb').slick('init');
+                var QtyPlusMinus = $(".qty-plus-minus");
+                QtyPlusMinus.prepend('<div class="dec ec_qtybtn">-</div>');
+                QtyPlusMinus.append('<div class="inc ec_qtybtn">+</div>');
+
+            });
+
+            $('#ec_quickview_modal').on('hidden.bs.modal', function(e) {
+                $('#qv_modal').hide();
+                $('#qv_spinner').removeClass('d-none');
+            });
+        </script>
     @endpush
     <!-- End Shop page -->
 </x-plantilla>

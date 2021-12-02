@@ -12,7 +12,7 @@
                     <span class="percentage">{{$descuento}}%</span>
                 @endempty                
                 <a href="#" class="quickview" data-link-action="quickview" title="Quick view" data-bs-toggle="modal"
-                    data-bs-target="#ec_quickview_modal"><img loading='lazy' src="{{url('assets/images/icons/quickview.svg')}}"
+                    data-bs-target="#ec_quickview_modal" wire:click="$emitTo('modal-quick-view', 'quickView', {{ "'". $estilo . "'"}} )" ><img loading='lazy' src="{{url('assets/images/icons/quickview.svg')}}"
                         class="svg_img pro_svg" alt="" /></a>
                 <div class="ec-pro-actions">
                     <button title="Add To Cart" class=" add-to-cart"><img loading='lazy'
