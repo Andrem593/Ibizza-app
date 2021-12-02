@@ -13,6 +13,7 @@ $("body").on("click", ".add-to-cart", function() {
     var estilo = $(this).parents().parents().parents().children(".ec-pro-content").find(".estilo-producto").val();
     var color = $(this).parents().parents().parents().children(".ec-pro-content").find('.ec-pro-color .p-1').val();
     var talla = $(this).parents().parents().parents().children(".ec-pro-content").find('.ec-pro-size ul .active a').text();
+
     data = {
         'estilo': estilo,
         'color': color,
