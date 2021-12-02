@@ -26,18 +26,18 @@ class webController extends Controller
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
             ->where('productos.stock','>',0)
-            ->where('categoria','Hombre')
+            ->where('categoria','like','%Hombre%')
             ->groupBy('productos.estilo')->limit(8)->get();
         $productos_mujer = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
         ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
         ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
         ->where('productos.stock','>',0)
-        ->where('categoria','Mujer')
+        ->where('categoria','like','%Mujer%')
         ->groupBy('productos.estilo')->limit(8)->get();
         $productos_niños = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')->where('productos.stock','>',0)
-            ->where('categoria','Niñas')->orWhere('categoria','Niños')
+            ->where('categoria','like','%Niñas%')->orWhere('categoria','like','%Niños%')
             ->groupBy('productos.estilo')->limit(8)->get();
         $marcas = DB::table('marcas')->where('imagen', '<>', '')->get();
         $subcategorias = Producto::select(DB::raw('count(nombre_mostrar) as cantidad_productos, subcategoria'))
