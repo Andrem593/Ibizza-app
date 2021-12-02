@@ -72,11 +72,11 @@
                      <div class="col text-center header-top-center">
                          <div class="header-top-message text-upper">
                              @if (!empty($catalogos))
-                                <span>
-                                 @foreach ($catalogos as $catalogo)
-                                     {{$catalogo->nombre }}
-                                 @endforeach
-                                </span>
+                                 <span>
+                                     @foreach ($catalogos as $catalogo)
+                                         {{ $catalogo->nombre }}
+                                     @endforeach
+                                 </span>
                              @endif
                          </div>
                      </div>
@@ -301,51 +301,83 @@
                                          <li class="dropdown position-static"><a href="javascript:void(0)">Categorias</a>
                                              <ul class="mega-menu d-block">
                                                  <li class="d-flex">
-                                                     <ul class="d-block">                                                         
-                                                         <li class="menu_title"><a href="javascript:void(0)">Mujeres</a></li>
-                                                         @for ($i = 0; $i < 5; $i++)                                                             
-                                                            <li><a href="{{route('web.detalle-producto', $productos_mujer[$i]->estilo)}}">{{$productos_mujer[$i]->nombre_mostrar.' '.$productos_mujer[$i]->estilo}}</a></li>
-                                                         @endfor                                                         
-                                                     </ul>
-                                                     <ul class="d-block">
-                                                         <li class="menu_title"><a href="javascript:void(0)">Hombres</a></li>
-                                                         @for ($i = 0; $i < 5; $i++)                                                             
-                                                            <li><a href="{{route('web.detalle-producto', $productos_hombres[$i]->estilo)}}">{{$productos_hombres[$i]->nombre_mostrar.' '.$productos_hombres[$i]->estilo}}</a></li>
-                                                         @endfor   
-                                                     </ul>
-                                                     <ul class="d-block">
-                                                         <li class="menu_title"><a href="javascript:void(0)">Niños</a></li>
-                                                         @for ($i = 0; $i < 5; $i++)
-                                                            @if ($productos_niños[$i]->categoria == 'Niños')                                                                
-                                                                <li><a href="{{route('web.detalle-producto', $productos_niños[$i]->estilo)}}">{{$productos_niños[$i]->nombre_mostrar.' '.$productos_niños[$i]->estilo}}</a></li>
-                                                            @endif                                                             
-                                                         @endfor  
-                                                     </ul>
-                                                     <ul class="d-block">
-                                                         <li class="menu_title"><a href="javascript:void(0)">Niñas</a>
-                                                         </li>
-                                                         @for ($i = 0; $i < 5; $i++)
-                                                            @if ($productos_niños[$i]->categoria == 'Niñas')                                                                
-                                                                <li><a href="{{route('web.detalle-producto', $productos_niños[$i]->estilo)}}">{{$productos_niños[$i]->nombre_mostrar.' '.$productos_niños[$i]->estilo}}</a></li>
-                                                            @endif                                                             
-                                                         @endfor 
-                                                     </ul>
+                                                     @empty(!$productos_mujer)
+                                                         <ul class="d-block">
+                                                             <li class="menu_title"><a href="javascript:void(0)">Mujeres</a>
+                                                             </li>
+                                                             @for ($i = 0; $i < 5; $i++)
+                                                                 @empty($productos_mujer[$i]->estilo)
+                                                                 @break
+                                                             @endempty
+                                                             <li><a
+                                                                     href="{{ route('web.detalle-producto', $productos_mujer[$i]->estilo) }}">{{ $productos_mujer[$i]->nombre_mostrar . ' ' . $productos_mujer[$i]->estilo }}</a>
+                                                             </li>
+                                                             @endfor
+                                                         </ul>
+                                                     @endempty
+                                                     @empty(!$productos_hombres)
+                                                         <ul class="d-block">
+                                                             <li class="menu_title"><a href="javascript:void(0)">Hombres</a>
+                                                             </li>
+                                                             @for ($i = 0; $i < 5; $i++)
+                                                                 @empty($productos_hombres[$i]->estilo)
+                                                                 @break
+                                                             @endempty
+                                                             <li><a
+                                                                     href="{{ route('web.detalle-producto', $productos_hombres[$i]->estilo) }}">{{ $productos_hombres[$i]->nombre_mostrar . ' ' . $productos_hombres[$i]->estilo }}</a>
+                                                             </li>
+                                                             @endfor
+                                                         </ul>
+                                                     @endempty
+                                                     @empty(!$productos_niños)
+                                                         <ul class="d-block">
+                                                             <li class="menu_title"><a href="javascript:void(0)">Niños</a></li>
+                                                             @for ($i = 0; $i < 5; $i++)
+                                                                 @empty($productos_niños[$i]->estilo)
+                                                                 @break
+                                                             @endempty
+                                                             @if ($productos_niños[$i]->categoria == 'Niños')
+                                                                 <li><a
+                                                                         href="{{ route('web.detalle-producto', $productos_niños[$i]->estilo) }}">{{ $productos_niños[$i]->nombre_mostrar . ' ' . $productos_niños[$i]->estilo }}</a>
+                                                                 </li>
+                                                             @endif
+                                                             @endfor
+                                                         </ul>
+                                                     @endempty
+                                                     @empty(!$productos_niños)
+                                                         <ul class="d-block">
+                                                             <li class="menu_title"><a href="javascript:void(0)">Niñas</a>
+                                                             </li>
+                                                             @for ($i = 0; $i < 5; $i++)
+                                                                 @empty($productos_niños[$i]->estilo)
+                                                                 @break
+                                                             @endempty
+                                                             @if ($productos_niños[$i]->categoria == 'Niñas')
+                                                                 <li><a
+                                                                         href="{{ route('web.detalle-producto', $productos_niños[$i]->estilo) }}">{{ $productos_niños[$i]->nombre_mostrar . ' ' . $productos_niños[$i]->estilo }}</a>
+                                                                 </li>
+                                                             @endif
+                                                             @endfor
+                                                         </ul>
+                                                     @endempty
                                                  </li>
                                                  <li>
                                                      <ul class="ec-main-banner w-100">
-                                                         <li><a class="p-0" href="{{route('web.tiendaOrderBy',['categoria-Mujer','productos.id'])}}"><img
+                                                         <li><a class="p-0"
+                                                                 href="{{ route('web.tiendaOrderBy', ['categoria-Mujer', 'productos.id']) }}"><img
                                                                      loading='lazy' class="img-responsive"
                                                                      src="assets/images/menu-banner/1.jpg" alt=""></a></li>
-                                                         <li><a class="p-0" href="{{route('web.tiendaOrderBy',['categoria-Hombre','productos.id'])}}"><img
+                                                         <li><a class="p-0"
+                                                                 href="{{ route('web.tiendaOrderBy', ['categoria-Hombre', 'productos.id']) }}"><img
                                                                      loading='lazy' class="img-responsive"
                                                                      src="assets/images/menu-banner/2.jpg" alt=""></a></li>
                                                          <li><a class="p-0"
-                                                                 href="{{route('web.tiendaOrderBy',['categoria-Niños','productos.id'])}}"><img loading='lazy'
-                                                                     class="img-responsive"
+                                                                 href="{{ route('web.tiendaOrderBy', ['categoria-Niños', 'productos.id']) }}"><img
+                                                                     loading='lazy' class="img-responsive"
                                                                      src="assets/images/menu-banner/3.jpg" alt=""></a></li>
                                                          <li><a class="p-0"
-                                                                 href="{{route('web.tiendaOrderBy',['categoria-Niñas','productos.id'])}}l"><img loading='lazy'
-                                                                     class="img-responsive"
+                                                                 href="{{ route('web.tiendaOrderBy', ['categoria-Niñas', 'productos.id']) }}l"><img
+                                                                     loading='lazy' class="img-responsive"
                                                                      src="assets/images/menu-banner/4.jpg" alt=""></a></li>
                                                      </ul>
                                                  </li>
@@ -396,17 +428,19 @@
                                          </li>
                                          <li class="dropdown"><a href="javascript:void(0)">Paginas</a>
                                              <ul class="sub-menu">
-                                                 <li><a href="{{route('web.sobre-nosotros')}}">Sobre Nosotros</a></li>
-                                                 <li><a href="{{route('web.contactanos')}}">Contáctenos</a></li>
+                                                 <li><a href="{{ route('web.sobre-nosotros') }}">Sobre Nosotros</a></li>
+                                                 <li><a href="{{ route('web.contactanos') }}">Contáctenos</a></li>
                                                  <li><a href="cart.html">Cart</a></li>
                                                  <li><a href="{{ route('web.checkout') }}">Checkout</a></li>
                                                  <li><a href="compare.html">Compare</a></li>
-                                                 <li><a href="{{route('web.preguntas-frecuentes')}}">Preguntas</a></li>
+                                                 <li><a href="{{ route('web.preguntas-frecuentes') }}">Preguntas</a></li>
                                                  <li><a href="login.html">Login</a></li>
                                                  <li><a href="register.html">Register</a></li>
                                                  <li><a href="track-order.html">Track Order</a></li>
-                                                 <li><a href="{{route('web.terminos-condiciones')}}">Términos y Condiciones</a></li>
-                                                 <li><a href="{{route('web.politica-privacidad')}}">Política de Privacidad</a></li>
+                                                 <li><a href="{{ route('web.terminos-condiciones') }}">Términos y
+                                                         Condiciones</a></li>
+                                                 <li><a href="{{ route('web.politica-privacidad') }}">Política de
+                                                         Privacidad</a></li>
                                              </ul>
                                          </li>
                                          <li class="dropdown"><span class="main-label-note-new" data-toggle="tooltip"
@@ -432,19 +466,25 @@
                                  <li><a href="javascript:void(0)">Categorias</a>
                                      <ul class="sub-menu">
                                          <li>
-                                             <a href="{{route('web.tiendaOrderBy',['categoria-Mujer','productos.id'])}}">Mujeres</a>
+                                             <a
+                                                 href="{{ route('web.tiendaOrderBy', ['categoria-Mujer', 'productos.id']) }}">Mujeres</a>
                                          </li>
                                          <li>
-                                             <a href="{{route('web.tiendaOrderBy',['categoria-Hombre','productos.id'])}}">Hombres</a>
+                                             <a
+                                                 href="{{ route('web.tiendaOrderBy', ['categoria-Hombre', 'productos.id']) }}">Hombres</a>
                                          </li>
                                          <li>
-                                             <a href="{{route('web.tiendaOrderBy',['categoria-Niños','productos.id'])}}">Niños</a>
+                                             <a
+                                                 href="{{ route('web.tiendaOrderBy', ['categoria-Niños', 'productos.id']) }}">Niños</a>
                                          </li>
                                          <li>
-                                             <a href="{{route('web.tiendaOrderBy',['categoria-Niñas','productos.id'])}}">Niñas</a>
+                                             <a
+                                                 href="{{ route('web.tiendaOrderBy', ['categoria-Niñas', 'productos.id']) }}">Niñas</a>
                                          </li>
-                                         <li><a class="p-0" href="{{route('web.tiendaOrderBy',['categoria-Mujer','productos.id'])}}"><img loading='lazy'
-                                                     class="img-responsive" src="assets/images/menu-banner/1.jpg" alt=""></a>
+                                         <li><a class="p-0"
+                                                 href="{{ route('web.tiendaOrderBy', ['categoria-Mujer', 'productos.id']) }}"><img
+                                                     loading='lazy' class="img-responsive"
+                                                     src="assets/images/menu-banner/1.jpg" alt=""></a>
                                          </li>
                                      </ul>
                                  </li>
@@ -482,20 +522,21 @@
                                  </li>
                                  <li><a href="javascript:void(0)">Paginas</a>
                                      <ul class="sub-menu">
-                                         <li><a href="{{route('web.sobre-nosotros')}}">Sobre Nosotros</a></li>
-                                         <li><a href="{{route('web.contactanos')}}">Contáctenos</a></li>
+                                         <li><a href="{{ route('web.sobre-nosotros') }}">Sobre Nosotros</a></li>
+                                         <li><a href="{{ route('web.contactanos') }}">Contáctenos</a></li>
                                          <li><a href="cart.html">Cart</a></li>
                                          <li><a href="{{ route('web.checkout') }}">Checkout</a></li>
                                          <li><a href="compare.html">Compare</a></li>
-                                         <li><a href="{{route('web.preguntas-frecuentes')}}">Preguntas</a></li>
+                                         <li><a href="{{ route('web.preguntas-frecuentes') }}">Preguntas</a></li>
                                          <li><a href="login.html">Login</a></li>
                                          <li><a href="register.html">Register</a></li>
                                          <li><a href="track-order.html">Track Order</a></li>
-                                         <li><a href="{{route('web.terminos-condiciones')}}">Términos y Condiciones</a></li>
-                                         <li><a href="{{route('web.politica-privacidad')}}">Política de Privacidad</a></li>
+                                         <li><a href="{{ route('web.terminos-condiciones') }}">Términos y Condiciones</a>
+                                         </li>
+                                         <li><a href="{{ route('web.politica-privacidad') }}">Política de Privacidad</a></li>
                                      </ul>
                                  </li>
-                                 <li class="dropdown"><a href="{{route('web.tienda')}}">Tienda</a>
+                                 <li class="dropdown"><a href="{{ route('web.tienda') }}">Tienda</a>
                                  </li>
                              </ul>
                          </div>
@@ -561,7 +602,8 @@
                                              <h1 class="ec-slide-title">Se una de nuestras Empresarias</h1>
                                              <h2 class="ec-slide-stitle">En Ibizza</h2>
                                              <p>Obten ingresos seguros vendiendo por catálogo y forma parte de nosotras</p>
-                                             <a href="{{route('web.tienda')}}" class="btn btn-lg btn-secondary">Ordenar Ahora</a>
+                                             <a href="{{ route('web.tienda') }}" class="btn btn-lg btn-secondary">Ordenar
+                                                 Ahora</a>
                                          </div>
                                      </div>
                                  </div>
@@ -576,7 +618,8 @@
                                              <h2 class="ec-slide-stitle">100% online</h2>
                                              <p>Puedes hacer tus pedidos en el momento que quieras y llegaran a la comodidad de
                                                  tu hogar</p>
-                                             <a href="{{route('web.tienda')}}" class="btn btn-lg btn-secondary">Ordenar Ahora</a>
+                                             <a href="{{ route('web.tienda') }}" class="btn btn-lg btn-secondary">Ordenar
+                                                 Ahora</a>
                                          </div>
                                      </div>
                                  </div>
@@ -636,7 +679,7 @@
                                              => $producto->valor_venta,'color' => $producto->color, 'estilo' =>
                                              $producto->estilo,'nombre_producto'=>$producto->nombre_mostrar,'precio_empresaria'=>$producto->precio_empresaria,'descuento'=>$producto->descuento])
                                          @endforeach
-                                         <div class="col-sm-12 shop-all-btn"><a href="{{route('web.tienda')}}">Ver todos
+                                         <div class="col-sm-12 shop-all-btn"><a href="{{ route('web.tienda') }}">Ver todos
                                                  los Productos<a></div>
                                      </div>
                                  </div>
@@ -645,14 +688,18 @@
                                  <div class="tab-pane fade" id="tab-pro-for-men">
                                      <div class="row">
                                          <!-- Product Content -->
-                                         @foreach ($productos_hombres as $producto)
+                                         @empty(!$productos_hombres)
+                                             @foreach ($productos_hombres as $producto)
 
-                                             @livewire('card-productos' , ['id_producto'=>$producto->id,'imagen' =>
-                                             $producto->imagen_path,'clasificacion' => $producto->clasificacion ,'valor_venta'
-                                             => $producto->valor_venta,'color' => $producto->color, 'estilo' =>
-                                             $producto->estilo,'nombre_producto'=>$producto->nombre_mostrar,'precio_empresaria'=>$producto->precio_empresaria,'descuento'=>$producto->descuento])
-                                         @endforeach
-                                         <div class="col-sm-12 shop-all-btn"><a href="{{route('web.tienda')}}">ver todos los productos</a></div>
+                                                 @livewire('card-productos' , ['id_producto'=>$producto->id,'imagen' =>
+                                                 $producto->imagen_path,'clasificacion' => $producto->clasificacion ,'valor_venta'
+                                                 => $producto->valor_venta,'color' => $producto->color, 'estilo' =>
+                                                 $producto->estilo,'nombre_producto'=>$producto->nombre_mostrar,'precio_empresaria'=>$producto->precio_empresaria,'descuento'=>$producto->descuento])
+                                             @endforeach
+                                         @endempty
+                                         <div class="col-sm-12 shop-all-btn"><a href="{{ route('web.tienda') }}">ver todos
+                                                 los
+                                                 productos</a></div>
                                      </div>
                                  </div>
                                  <!-- ec 2nd Product tab end -->
@@ -660,14 +707,18 @@
                                  <div class="tab-pane fade" id="tab-pro-for-women">
                                      <div class="row">
                                          <!-- Product Content -->
-                                         @foreach ($productos_mujer as $producto)
+                                         @empty(!$productos_mujer)
+                                             @foreach ($productos_mujer as $producto)
 
-                                             @livewire('card-productos' , ['id_producto'=>$producto->id,'imagen' =>
-                                             $producto->imagen_path,'clasificacion' => $producto->clasificacion ,'valor_venta'
-                                             => $producto->valor_venta,'color' => $producto->color, 'estilo' =>
-                                             $producto->estilo,'nombre_producto'=>$producto->nombre_mostrar,'precio_empresaria'=>$producto->precio_empresaria,'descuento'=>$producto->descuento])
-                                         @endforeach
-                                         <div class="col-sm-12 shop-all-btn"><a href="{{route('web.tienda')}}">ver todos los productos</a></div>
+                                                 @livewire('card-productos' , ['id_producto'=>$producto->id,'imagen' =>
+                                                 $producto->imagen_path,'clasificacion' => $producto->clasificacion ,'valor_venta'
+                                                 => $producto->valor_venta,'color' => $producto->color, 'estilo' =>
+                                                 $producto->estilo,'nombre_producto'=>$producto->nombre_mostrar,'precio_empresaria'=>$producto->precio_empresaria,'descuento'=>$producto->descuento])
+                                             @endforeach
+                                         @endempty
+                                         <div class="col-sm-12 shop-all-btn"><a href="{{ route('web.tienda') }}">ver todos
+                                                 los
+                                                 productos</a></div>
                                      </div>
                                  </div>
                                  <!-- ec 3rd Product tab end -->
@@ -675,15 +726,20 @@
                                  <div class="tab-pane fade" id="tab-pro-for-child">
                                      <div class="row">
                                          <!-- Product Content -->
-                                         @foreach ($productos_niños as $producto)
+                                         @empty(!$productos_niños)
+                                             @foreach ($productos_niños as $producto)
 
-                                             @livewire('card-productos' , ['id_producto'=>$producto->id,'imagen' =>
-                                             $producto->imagen_path,'clasificacion' => $producto->clasificacion ,'valor_venta'
-                                             => $producto->valor_venta,'color' => $producto->color, 'estilo' =>
-                                             $producto->estilo,'nombre_producto'=>$producto->nombre_mostrar,'precio_empresaria'=>$producto->precio_empresaria,'descuento'=>$producto->descuento])
-                                         @endforeach
+                                                 @livewire('card-productos' , ['id_producto'=>$producto->id,'imagen' =>
+                                                 $producto->imagen_path,'clasificacion' => $producto->clasificacion ,'valor_venta'
+                                                 => $producto->valor_venta,'color' => $producto->color, 'estilo' =>
+                                                 $producto->estilo,'nombre_producto'=>$producto->nombre_mostrar,'precio_empresaria'=>$producto->precio_empresaria,'descuento'=>$producto->descuento])
+                                             @endforeach
 
-                                         <div class="col-sm-12 shop-all-btn"><a href="{{route('web.tienda')}}">ver todos los productos</a></div>
+                                         @endempty
+
+                                         <div class="col-sm-12 shop-all-btn"><a href="{{ route('web.tienda') }}">ver todos
+                                                 los
+                                                 productos</a></div>
                                      </div>
                                  </div>
                                  <!-- ec 4th Product tab end -->
@@ -727,8 +783,8 @@
                                      @endforeach
                                  @endif
                                  {{-- modal de descargar pdf --}}
-                                 <div class="modal fade" id="modalCustom" tabindex="-1"
-                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                 <div class="modal fade" id="modalCustom" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                     aria-hidden="true">
                                      <div class="modal-dialog">
                                          <div class="modal-content">
                                              <div class="modal-header">
@@ -774,26 +830,30 @@
                      <div class="row">
                          <!--Category Nav Start -->
                          <div class="col-lg-3">
-                            <ul class="ec-cat-tab-nav nav">
-                                @php
-                                    $i = 1;
-                                    $sub = []
-                                @endphp
-                                @foreach ($subcategorias as $subcategoria) 
+                             <ul class="ec-cat-tab-nav nav">
+                                 @php
+                                     $i = 1;
+                                     $sub = [];
+                                 @endphp
+                                 @foreach ($subcategorias as $subcategoria)
 
-                                    <li class="cat-item"><a class="cat-link" data-bs-toggle="tab"
-                                            href="{{'#tab-cat-'.$i++}}">
-                                            <div class="cat-icons"><img loading='lazy' class="cat-icon"
-                                                    src="assets/images/icons/cat_4.png" alt="cat-icon"><img loading='lazy'
-                                                    class="cat-icon-hover" src="assets/images/icons/cat_4_1.png" alt="cat-icon">
-                                            </div>
-                                            <div class="cat-desc"><span>{{$subcategoria->subcategoria}}</span><span>{{$subcategoria->cantidad_productos}} Productos</span></div>
-                                            @php
-                                                array_push($sub,$subcategoria->subcategoria);
-                                            @endphp
-                                    </a></li>
-                                @endforeach      
-                            </ul>
+                                     <li class="cat-item"><a class="cat-link" data-bs-toggle="tab"
+                                             href="{{ '#tab-cat-' . $i++ }}">
+                                             <div class="cat-icons"><img loading='lazy' class="cat-icon"
+                                                     src="assets/images/icons/cat_4.png" alt="cat-icon"><img loading='lazy'
+                                                     class="cat-icon-hover" src="assets/images/icons/cat_4_1.png"
+                                                     alt="cat-icon">
+                                             </div>
+                                             <div class="cat-desc">
+                                                 <span>{{ $subcategoria->subcategoria }}</span><span>{{ $subcategoria->cantidad_productos }}
+                                                     Productos</span>
+                                             </div>
+                                             @php
+                                                 array_push($sub, $subcategoria->subcategoria);
+                                             @endphp
+                                         </a></li>
+                                 @endforeach
+                             </ul>
 
                          </div>
                          <!-- Category Nav End -->
@@ -806,7 +866,8 @@
                                          <img loading='lazy' src="assets/images/cat-banner/1.jpg" alt="" />
                                      </div>
                                      <span class="panel-overlay">
-                                         <a href="{{route('web.tiendaOrderBy',['subcategoria-'.$sub[0],'productos.id'])}}" class="btn btn-primary">Ver Todos</a>
+                                         <a href="{{ route('web.tiendaOrderBy', ['subcategoria-' . $sub[0], 'productos.id']) }}"
+                                             class="btn btn-primary">Ver Todos</a>
                                      </span>
                                  </div>
                                  <!-- 1st Category tab end -->
@@ -815,7 +876,8 @@
                                          <img loading='lazy' src="assets/images/cat-banner/2.jpg" alt="" />
                                      </div>
                                      <span class="panel-overlay">
-                                         <a href="{{route('web.tiendaOrderBy',['subcategoria-'.$sub[1],'productos.id'])}}" class="btn btn-primary">Ver Todos</a>
+                                         <a href="{{ route('web.tiendaOrderBy', ['subcategoria-' . $sub[1], 'productos.id']) }}"
+                                             class="btn btn-primary">Ver Todos</a>
                                      </span>
                                  </div>
                                  <!-- 2nd Category tab end -->
@@ -825,7 +887,8 @@
                                          <img loading='lazy' src="assets/images/cat-banner/3.jpg" alt="" />
                                      </div>
                                      <span class="panel-overlay">
-                                         <a href="{{route('web.tiendaOrderBy',['subcategoria-'.$sub[2],'productos.id'])}}" class="btn btn-primary">Ver Todos</a>
+                                         <a href="{{ route('web.tiendaOrderBy', ['subcategoria-' . $sub[2], 'productos.id']) }}"
+                                             class="btn btn-primary">Ver Todos</a>
                                      </span>
                                  </div>
                                  <!-- 3rd Category tab end -->
@@ -835,7 +898,8 @@
                                          <img loading='lazy' src="assets/images/cat-banner/4.jpg" alt="" />
                                      </div>
                                      <span class="panel-overlay">
-                                         <a href="{{route('web.tiendaOrderBy',['subcategoria-'.$sub[3],'productos.id'])}}" class="btn btn-primary">Ver Todos</a>
+                                         <a href="{{ route('web.tiendaOrderBy', ['subcategoria-' . $sub[3], 'productos.id']) }}"
+                                             class="btn btn-primary">Ver Todos</a>
                                      </span>
                                  </div>
                                  <!-- 4th Category tab end -->
@@ -865,52 +929,60 @@
                                      $i = 1;
                                  @endphp
                                  @foreach ($poco_stock as $value)
-                                    <div class="ec-fs-product">
-                                        <div class="ec-fs-pro-inner">
-                                            <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
-                                                <div class="ec-fs-pro-image">
-                                                    <a href="{{route('web.detalle-producto', $value->estilo)}}" class="image"><img
-                                                            loading='lazy' class="main-image"
-                                                            src="storage/images/productos/{{ $value->imagen_path }}" style="object-fit: cover" /></a>
-                                                    <a href="#" class="quickview" data-link-action="quickview"
-                                                        title="Quick view" data-bs-toggle="modal"
-                                                        data-bs-target="#ec_quickview_modal"><img loading='lazy'
-                                                            src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
-                                                            alt="" /></a>
-                                                </div>
-                                            </div>
-                                            <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
-                                                <h5 class="ec-fs-pro-title"><a href="{{route('web.detalle-producto', $value->estilo)}}">{{ $value->nombre_mostrar }}</a>
-                                                </h5>
-                                                <div class="ec-fs-pro-rating">
-                                                    <span class="ec-fs-rating-icon">
-                                                        <i class="ecicon eci-star fill"></i>
-                                                        <i class="ecicon eci-star fill"></i>
-                                                        <i class="ecicon eci-star fill"></i>
-                                                        <i class="ecicon eci-star fill"></i>
-                                                        <i class="ecicon eci-star"></i>
-                                                    </span>
-                                                </div>
-                                                <div class="ec-fs-price">
-                                                    @empty(!$value->descuento)                        
-                                                        <span class="old-price">${{ $value->precio_empresaria }}</span>
-                                                        <span class="new-price">${{ number_format(($value->precio_empresaria-($value->precio_empresaria * ($value->descuento /100))), 2) }}</span>
-                                                    @else
-                                                        <span class="new-price">${{ number_format($value->precio_empresaria, 2) }}</span>
-                                                    @endempty
-                                                </div>
+                                     <div class="ec-fs-product">
+                                         <div class="ec-fs-pro-inner">
+                                             <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
+                                                 <div class="ec-fs-pro-image">
+                                                     <a href="{{ route('web.detalle-producto', $value->estilo) }}"
+                                                         class="image"><img loading='lazy' class="main-image"
+                                                             src="storage/images/productos/{{ $value->imagen_path }}"
+                                                             style="object-fit: cover" /></a>
+                                                     <a href="#" class="quickview" data-link-action="quickview"
+                                                         title="Quick view" data-bs-toggle="modal"
+                                                         data-bs-target="#ec_quickview_modal"><img loading='lazy'
+                                                             src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
+                                                             alt="" /></a>
+                                                 </div>
+                                             </div>
+                                             <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
+                                                 <h5 class="ec-fs-pro-title"><a
+                                                         href="{{ route('web.detalle-producto', $value->estilo) }}">{{ $value->nombre_mostrar }}</a>
+                                                 </h5>
+                                                 <div class="ec-fs-pro-rating">
+                                                     <span class="ec-fs-rating-icon">
+                                                         <i class="ecicon eci-star fill"></i>
+                                                         <i class="ecicon eci-star fill"></i>
+                                                         <i class="ecicon eci-star fill"></i>
+                                                         <i class="ecicon eci-star fill"></i>
+                                                         <i class="ecicon eci-star"></i>
+                                                     </span>
+                                                 </div>
+                                                 <div class="ec-fs-price">
+                                                     @empty(!$value->descuento)
+                                                         <span class="old-price">${{ $value->precio_empresaria }}</span>
+                                                         <span
+                                                             class="new-price">${{ number_format($value->precio_empresaria - $value->precio_empresaria * ($value->descuento / 100), 2) }}</span>
+                                                     @else
+                                                         <span
+                                                             class="new-price">${{ number_format($value->precio_empresaria, 2) }}</span>
+                                                     @endempty
+                                                 </div>
 
-                                                <div class="countdowntimer"><span id="{{'ec-fs-count-'.$i++}}"></span></div>
-                                                <div class="ec-fs-pro-desc">{{$value->descripcion}}
-                                                </div>
-                                                <div class="ec-fs-pro-book">Total en stock: <span>{{$value->stock}}</span></div>
-                                                <div class="ec-fs-pro-btn">
-                                                    <a href="#" class="btn btn-lg btn-secondary">Recordarme</a>
-                                                    <a href="{{route('web.detalle-producto', $value->estilo)}}" class="btn btn-lg btn-primary">Comprar</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                                 <div class="countdowntimer"><span id="{{ 'ec-fs-count-' . $i++ }}"></span>
+                                                 </div>
+                                                 <div class="ec-fs-pro-desc">{{ $value->descripcion }}
+                                                 </div>
+                                                 <div class="ec-fs-pro-book">Total en stock:
+                                                     <span>{{ $value->stock }}</span>
+                                                 </div>
+                                                 <div class="ec-fs-pro-btn">
+                                                     <a href="#" class="btn btn-lg btn-secondary">Recordarme</a>
+                                                     <a href="{{ route('web.detalle-producto', $value->estilo) }}"
+                                                         class="btn btn-lg btn-primary">Comprar</a>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
                                  @endforeach
                              </div>
                          </div>
@@ -925,44 +997,55 @@
                              </div>
 
                              <div class="ec-spe-products">
-                                 @foreach ($descuentos as $value )
-                                    <div class="ec-fs-product">
-                                        <div class="ec-fs-pro-inner">
-                                            <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
-                                                <div class="ec-fs-pro-image">
-                                                    <a href="{{route('web.detalle-producto', $value->estilo)}}" class="image"><img
-                                                            loading='lazy' class="main-image"
-                                                            src="storage/images/productos/{{ $value->imagen_path }}" style="object-fit: cover" /></a>
-                                                    <a href="#" class="quickview" data-link-action="quickview"
-                                                        title="Quick view" data-bs-toggle="modal"
-                                                        data-bs-target="#ec_quickview_modal"><img loading='lazy'
-                                                            src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
-                                                            alt="" /></a>
-                                                </div>
-                                            </div>
-                                            <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
-                                                <h5 class="ec-fs-pro-title"><a href="{{route('web.detalle-producto', $value->estilo)}}">{{ $value->nombre_mostrar }}</a></h5>
-                                                <span class="ec-fs-rating-text"><span class="badge rounded-pill bg-danger">Descuento del {{$value->descuento}}%</span></span>
-                                                <div class="ec-fs-price">
-                                                    @empty(!$value->descuento)                        
-                                                        <span class="old-price">${{ $value->precio_empresaria }}</span>
-                                                        <span class="new-price">${{ number_format(($value->precio_empresaria-($value->precio_empresaria * ($value->descuento /100))), 2) }}</span>
-                                                    @else
-                                                        <span class="new-price">${{ number_format($value->precio_empresaria, 2) }}</span>
-                                                    @endempty
-                                                </div>
+                                 @foreach ($descuentos as $value)
+                                     <div class="ec-fs-product">
+                                         <div class="ec-fs-pro-inner">
+                                             <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
+                                                 <div class="ec-fs-pro-image">
+                                                     <a href="{{ route('web.detalle-producto', $value->estilo) }}"
+                                                         class="image"><img loading='lazy' class="main-image"
+                                                             src="storage/images/productos/{{ $value->imagen_path }}"
+                                                             style="object-fit: cover" /></a>
+                                                     <a href="#" class="quickview" data-link-action="quickview"
+                                                         title="Quick view" data-bs-toggle="modal"
+                                                         data-bs-target="#ec_quickview_modal"><img loading='lazy'
+                                                             src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
+                                                             alt="" /></a>
+                                                 </div>
+                                             </div>
+                                             <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
+                                                 <h5 class="ec-fs-pro-title"><a
+                                                         href="{{ route('web.detalle-producto', $value->estilo) }}">{{ $value->nombre_mostrar }}</a>
+                                                 </h5>
+                                                 <span class="ec-fs-rating-text"><span
+                                                         class="badge rounded-pill bg-danger">Descuento del
+                                                         {{ $value->descuento }}%</span></span>
+                                                 <div class="ec-fs-price">
+                                                     @empty(!$value->descuento)
+                                                         <span class="old-price">${{ $value->precio_empresaria }}</span>
+                                                         <span
+                                                             class="new-price">${{ number_format($value->precio_empresaria - $value->precio_empresaria * ($value->descuento / 100), 2) }}</span>
+                                                     @else
+                                                         <span
+                                                             class="new-price">${{ number_format($value->precio_empresaria, 2) }}</span>
+                                                     @endempty
+                                                 </div>
 
-                                                <div class="countdowntimer"><span id="{{'ec-fs-count-'.$i++}}"></span></div>
-                                                <div class="ec-fs-pro-desc">{{$value->descripcion}}
-                                                </div>
-                                                <div class="ec-fs-pro-book">Total en stock: <span>{{$value->stock}}</span></div>
-                                                <div class="ec-fs-pro-btn">
-                                                    <a href="#" class="btn btn-lg btn-secondary">Recordarme</a>
-                                                    <a href="{{route('web.detalle-producto', $value->estilo)}}" class="btn btn-lg btn-primary">Comprar</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                                 <div class="countdowntimer"><span id="{{ 'ec-fs-count-' . $i++ }}"></span>
+                                                 </div>
+                                                 <div class="ec-fs-pro-desc">{{ $value->descripcion }}
+                                                 </div>
+                                                 <div class="ec-fs-pro-book">Total en stock:
+                                                     <span>{{ $value->stock }}</span>
+                                                 </div>
+                                                 <div class="ec-fs-pro-btn">
+                                                     <a href="#" class="btn btn-lg btn-secondary">Recordarme</a>
+                                                     <a href="{{ route('web.detalle-producto', $value->estilo) }}"
+                                                         class="btn btn-lg btn-primary">Comprar</a>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
                                  @endforeach
                              </div>
                          </div>
@@ -1064,13 +1147,13 @@
                      </div>
                      <div class="row">
                          <!-- New Product Content -->
-                         @foreach ($ultimos as $ultimo)                             
-                            @livewire('card-productos' , ['id_producto'=>$ultimo->id,'imagen' =>
-                            $ultimo->imagen_path,'clasificacion' => $ultimo->clasificacion ,'valor_venta'
-                            => $ultimo->valor_venta,'color' => $ultimo->color, 'estilo' =>
-                            $ultimo->estilo,'nombre_producto'=>$ultimo->nombre_mostrar,'precio_empresaria'=>$ultimo->precio_empresaria,'descuento'=>$ultimo->descuento,'nuevo'=>'nuevo'])
-                         @endforeach                         
-                         <div class="col-sm-12 shop-all-btn"><a href="{{route('web.tienda')}}">ver todos los
+                         @foreach ($ultimos as $ultimo)
+                             @livewire('card-productos' , ['id_producto'=>$ultimo->id,'imagen' =>
+                             $ultimo->imagen_path,'clasificacion' => $ultimo->clasificacion ,'valor_venta'
+                             => $ultimo->valor_venta,'color' => $ultimo->color, 'estilo' =>
+                             $ultimo->estilo,'nombre_producto'=>$ultimo->nombre_mostrar,'precio_empresaria'=>$ultimo->precio_empresaria,'descuento'=>$ultimo->descuento,'nuevo'=>'nuevo'])
+                         @endforeach
+                         <div class="col-sm-12 shop-all-btn"><a href="{{ route('web.tienda') }}">ver todos los
                                  productos</a>
                          </div>
                      </div>
@@ -1312,12 +1395,16 @@
                                          <h4 class="ec-footer-heading">Información</h4>
                                          <div class="ec-footer-links">
                                              <ul class="align-items-center">
-                                                 <li class="ec-footer-link"><a href="{{route('web.sobre-nosotros')}}">Sobre Nosotros</a></li>
-                                                 <li class="ec-footer-link"><a href="{{route('web.preguntas-frecuentes')}}">Preguntas</a></li>
+                                                 <li class="ec-footer-link"><a
+                                                         href="{{ route('web.sobre-nosotros') }}">Sobre
+                                                         Nosotros</a></li>
+                                                 <li class="ec-footer-link"><a
+                                                         href="{{ route('web.preguntas-frecuentes') }}">Preguntas</a></li>
                                                  <li class="ec-footer-link"><a href="track-order.html">Delivery
                                                          Information</a>
                                                  </li>
-                                                 <li class="ec-footer-link"><a href="{{route('web.contactanos')}}">Contáctenos</a></li>
+                                                 <li class="ec-footer-link"><a
+                                                         href="{{ route('web.contactanos') }}">Contáctenos</a></li>
                                              </ul>
                                          </div>
                                      </div>
@@ -1341,11 +1428,16 @@
                                              <ul class="align-items-center">
                                                  <li class="ec-footer-link"><a href="track-order.html">Discount Returns</a>
                                                  </li>
-                                                 <li class="ec-footer-link"><a href="{{route('web.politica-privacidad')}}">Política de Privacidad</a>
+                                                 <li class="ec-footer-link"><a
+                                                         href="{{ route('web.politica-privacidad') }}">Política de
+                                                         Privacidad</a>
                                                  </li>
-                                                 <li class="ec-footer-link"><a href="{{route('web.terminos-condiciones')}}">Servicios</a>
+                                                 <li class="ec-footer-link"><a
+                                                         href="{{ route('web.terminos-condiciones') }}">Servicios</a>
                                                  </li>
-                                                 <li class="ec-footer-link"><a href="{{route('web.terminos-condiciones')}}">Términos y Condiciones</a>
+                                                 <li class="ec-footer-link"><a
+                                                         href="{{ route('web.terminos-condiciones') }}">Términos y
+                                                         Condiciones</a>
                                                  </li>
                                              </ul>
                                          </div>
@@ -1571,9 +1663,8 @@
                                      src="assets/images/icons/home.svg" class="svg_img header_svg" alt="icon" /></a>
                          </div>
                          <div class="ec-nav-panel-icons">
-                             <a href="#" class="ec-header-btn"><img loading='lazy'
-                                     src="assets/images/icons/wishlist.svg" class="svg_img header_svg" alt="icon" /><span
-                                     class="ec-cart-noti">0</span></a>
+                             <a href="#" class="ec-header-btn"><img loading='lazy' src="assets/images/icons/wishlist.svg"
+                                     class="svg_img header_svg" alt="icon" /><span class="ec-cart-noti">0</span></a>
                          </div>
                          <div class="ec-nav-panel-icons">
                              @if (Route::has('login'))
@@ -1759,53 +1850,53 @@
 
 
                      window.addEventListener('contentChanged', event => {
-                         
+
                          $('.qty-product-cover').slick('init');
                          $('.qty-nav-thumb').slick('init');
                          var QtyPlusMinus = $(".qty-plus-minus");
-                        QtyPlusMinus.prepend('<div class="dec ec_qtybtn">-</div>');
-                        QtyPlusMinus.append('<div class="inc ec_qtybtn">+</div>');
-                         
+                         QtyPlusMinus.prepend('<div class="dec ec_qtybtn">-</div>');
+                         QtyPlusMinus.append('<div class="inc ec_qtybtn">+</div>');
+
                      });
 
-                     $('#ec_quickview_modal').on('hidden.bs.modal', function (e) {
-                        $('#qv_modal').hide();
-                        $('#qv_spinner').removeClass('d-none');
-                    });
-                    // CUENTA REGRESIVA DE TIMER
-                    @isset($catalogo)                        
-                        $("#ec-fs-count-1").countdowntimer({
-                            startDate: "{{str_replace('-','/',date('Y-m-d')).' '.date('h:i:s')}}",
-                            dateAndTime: "{{str_replace('-','/',$catalogos[0]->fecha_fin_catalogo).' 00:00:00'}}",
-                            labelsFormat: true,
-                            displayFormat: "DHMS"
-                        });
-
-                            $("#ec-fs-count-2").countdowntimer({
-                            startDate: "{{str_replace('-','/',date('Y-m-d')).' '.date('h:i:s')}}",
-                            dateAndTime: "{{str_replace('-','/',$catalogos[0]->fecha_fin_catalogo).' 00:00:00'}}",
-                            labelsFormat: true,
-                            displayFormat: "DHMS"
-                        });
-
-                            $("#ec-fs-count-3").countdowntimer({
-                            startDate: "{{str_replace('-','/',date('Y-m-d')).' '.date('h:i:s')}}",
-                            dateAndTime: "{{str_replace('-','/',$catalogos[0]->fecha_fin_catalogo).' 00:00:00'}}",
-                            labelsFormat: true,
-                            displayFormat: "DHMS"
-                        });
-
-                            $("#ec-fs-count-4").countdowntimer({
-                            startDate: "{{str_replace('-','/',date('Y-m-d')).' '.date('h:i:s')}}",
-                            dateAndTime: "{{str_replace('-','/',$catalogos[0]->fecha_fin_catalogo).' 00:00:00'}}",
-                            labelsFormat: true,
-                            displayFormat: "DHMS"
-                        });
-                    @endisset
+                     $('#ec_quickview_modal').on('hidden.bs.modal', function(e) {
+                         $('#qv_modal').hide();
+                         $('#qv_spinner').removeClass('d-none');
+                     });
+                     // CUENTA REGRESIVA DE TIMER
+                     @isset($catalogo)
+                         $("#ec-fs-count-1").countdowntimer({
+                         startDate: "{{ str_replace('-', '/', date('Y-m-d')) . ' ' . date('h:i:s') }}",
+                         dateAndTime: "{{ str_replace('-', '/', $catalogos[0]->fecha_fin_catalogo) . ' 00:00:00' }}",
+                         labelsFormat: true,
+                         displayFormat: "DHMS"
+                         });
+                     
+                         $("#ec-fs-count-2").countdowntimer({
+                         startDate: "{{ str_replace('-', '/', date('Y-m-d')) . ' ' . date('h:i:s') }}",
+                         dateAndTime: "{{ str_replace('-', '/', $catalogos[0]->fecha_fin_catalogo) . ' 00:00:00' }}",
+                         labelsFormat: true,
+                         displayFormat: "DHMS"
+                         });
+                     
+                         $("#ec-fs-count-3").countdowntimer({
+                         startDate: "{{ str_replace('-', '/', date('Y-m-d')) . ' ' . date('h:i:s') }}",
+                         dateAndTime: "{{ str_replace('-', '/', $catalogos[0]->fecha_fin_catalogo) . ' 00:00:00' }}",
+                         labelsFormat: true,
+                         displayFormat: "DHMS"
+                         });
+                     
+                         $("#ec-fs-count-4").countdowntimer({
+                         startDate: "{{ str_replace('-', '/', date('Y-m-d')) . ' ' . date('h:i:s') }}",
+                         dateAndTime: "{{ str_replace('-', '/', $catalogos[0]->fecha_fin_catalogo) . ' 00:00:00' }}",
+                         labelsFormat: true,
+                         displayFormat: "DHMS"
+                         });
+                     @endisset
                  </script>
 
-                @stack('js')
-                @livewireScripts
+                 @stack('js')
+                 @livewireScripts
              </body>
 
-</html>
+             </html>

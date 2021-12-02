@@ -27,14 +27,14 @@
                             <td width="10px">
                                 <a href="{{route('admin.roles.edit',$role)}} " class="btn btn-sm btn-ibizza">Editar</a>
                             </td>
-                            <td width="10px">
+                            {{-- <td width="10px">
                                 <form action="{{route('admin.roles.destroy',$role)}}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     
                                     <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                                 </form>                                
-                            </td>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </tbody>

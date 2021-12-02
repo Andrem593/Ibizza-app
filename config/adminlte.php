@@ -325,10 +325,10 @@ return [
                     'can'   => 'dashboard',
                 ],
                 [
-                    'text' => 'Crear',
-                    'route'  => 'usuario.create',
+                    'text' => 'Lista de Usuarios',
+                    'route'  => 'usuario.index',
                     'icon'    => 'fas fa-user-plus',
-                    'can'   =>'usuario.create',
+                    'can'   => 'usuario.index',
                 ],
                 [
                     'text'    => 'Empresarias',
