@@ -618,30 +618,31 @@ class webController extends Controller
             'direccion' => 'required',
         ]);
         $contrseña = Str::random(8); 
-        // $userData = [
-        //     'name'=>trim(strtoupper($request->nombres)),
-        //     'email'=>trim($request->email),
-        //     'password'=>Hash::make($contrseña),
-        //     'role'=>'Empresaria'
-        // ];
-        // $user = User::create($userData);
-        // $user->roles()->sync(2);// 2 es el id de el rol de empresaria 
-        // $empresariaData = [
-        //     'cedula'=> trim($request->cedula),
-        //     'nombres'=> trim(strtoupper($request->nombres)),
-        //     'apellidos'=> trim(strtoupper($request->apellidos)),
-        //     'fecha_nacimiento'=> $request->fecha_nacimiento,
-        //     'direccion'=> trim(strtoupper($request->direccion)),
-        //     'tipo_cliente'=> 'Empresaria',
-        //     'telefono'=> trim($request->telefono),
-        //     'id_ciudad'=> $request->ciudad,
-        //     'vendedor'=> 'Registro Web',
-        //     'id_user'=> $user->id
-        // ];
-        // Empresaria::create($empresariaData);
+        $userData = [
+            'name'=>trim(strtoupper($request->nombres)),
+            'email'=>trim($request->email),
+            'password'=>Hash::make($contrseña),
+            'role'=>'Empresaria'
+        ];
+        $user = User::create($userData);
+        $user->roles()->sync(2);// 2 es el id de el rol de empresaria 
+        $empresariaData = [
+            'cedula'=> trim($request->cedula),
+            'nombres'=> trim(strtoupper($request->nombres)),
+            'apellidos'=> trim(strtoupper($request->apellidos)),
+            'fecha_nacimiento'=> $request->fecha_nacimiento,
+            'direccion'=> trim(strtoupper($request->direccion)),
+            'tipo_cliente'=> 'PROSPECTO',
+            'telefono'=> trim($request->telefono),
+            'id_ciudad'=> $request->ciudad,
+            'vendedor'=> 0,
+            'id_user'=> $user->id
+        ];
+        Empresaria::create($empresariaData);
         $correo = new RegistroEmpresaria($request->all(),$contrseña);
 
         Mail::to($request->email)->send($correo);
-        
+
+        return view('ecomerce.registro-exitoso');
     }
 }

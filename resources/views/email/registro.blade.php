@@ -42,10 +42,10 @@
 									</td></tr></tbody></table>
                                     <div style="padding: 10px;" align="center">
                                         <div style="background: #fff">
-                                            <table>
-                                                <tbody>
-                                                    <tr><td>Correo:{{$correo}}</td></tr>
-                                                    <tr><td>Contraseña:{{$contraseña}}</td></tr>
+                                            <table style="padding: 10px">
+                                                <tbody style="line-height: 1.5; font-size: 18px; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 18px;">
+                                                    <tr><td><span style="font-weight: bold">Correo:</span> {{$correo}}</td></tr>
+                                                    <tr><td><span style="font-weight: bold">Contraseña Temporal:</span> {{$contraseña}}</td></tr>
                                                 </tbody>
                                             </table>
                                         </div>
