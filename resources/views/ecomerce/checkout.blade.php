@@ -47,9 +47,7 @@
                                                 click al boton continuar para poder comunicarte
                                                 con uno de nuestro asesores y puedas hacer tu primera compra.
                                             </div>
-                                            <div class="ec-new-btn"><a href="#" class="btn btn-primary ec-list"
-                                                    data-number="593967402331"
-                                                    data-message="¡Hola! Quiero registrarme como empresaria">Continuar</a>
+                                            <div class="ec-new-btn"><a href="{{route('web.registro-empresaria')}}" class="btn btn-primary">Registrarme</a>
                                             </div>
 
                                         </div>
