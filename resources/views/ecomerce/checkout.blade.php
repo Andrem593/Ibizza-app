@@ -209,11 +209,11 @@
                                                         </select>
                                                     </span>
                                                 </span>
-                                                <span class="ec-bill-wrap ec-bill-half">
+                                                {{-- <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Codigo Postal</label>
                                                     <input type="text" name="postalcode" id="codigo_postal"
                                                         placeholder="ingrese el codigo postal" required />
-                                                </span>
+                                                </span> --}}
                                             </form>
                                         </div>
 
