@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Marca;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 
 /**
@@ -99,7 +100,13 @@ class MarcaController extends Controller
      */
     public function update(Request $request, Marca $marca)
     {
-        request()->validate(Marca::$rules);
+        request()->validate([
+            'nombre' => [
+                'required',
+                Rule::unique('marcas')->ignore($marca->id),
+            ],
+            'estado' => 'required'
+        ]);
 
         $input = $request->all();
 
