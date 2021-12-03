@@ -122,7 +122,7 @@
                                         </div>
                                         <div class="ec-single-qty">
                                             <div class="qty-plus-minus">
-                                                <input class="qty-input" id="cantidad" type="text" name="ec_qtybtn" value="1" />
+                                                <input class="qty-input" id="cantidad" type="text" name="ec_qtybtn" value="1" readonly/>
                                             </div>
                                             <div class="ec-single-cart ">
                                                 @if ($productos_color[0]->stock == 0 )

@@ -93,7 +93,7 @@
                             </div>
                             <div class="ec-quickview-qty">
                                 <div class="qty-plus-minus">
-                                    <input class="qty-input" id="cantidad" type="text" name="ec_qtybtn" value="1" />
+                                    <input class="qty-input" id="cantidad" type="text" name="ec_qtybtn" value="1" readonly/>
                                 </div>
                                 <div class="ec-quickview-cart ">
                                     @isset($productos_color)
