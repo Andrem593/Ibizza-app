@@ -139,6 +139,20 @@
                     }
                 });
             });
+
+            $(document).ready(function() {
+                $('form').submit(function(event) {
+                    if ($(this).hasClass('submitted')) {
+                        $(this).find(':submit').html('Registro');
+                        $(this).find(':submit').attr("disabled", false);
+                        event.preventDefault();
+                    } else {
+                        $(this).find(':submit').attr("disabled", true);
+                        $(this).find(':submit').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Registrando...');
+                        $(this).addClass('submitted');
+                    }
+                });
+            });
         </script>
     @endpush
 </x-plantilla>
