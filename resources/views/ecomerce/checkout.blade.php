@@ -1,5 +1,5 @@
 <x-plantilla>
-    <!-- Ec breadcrumb start -->
+
     <div class="sticky-header-next-sec  ec-breadcrumb section-space-mb">
         <div class="container">
             <div class="row">
@@ -43,11 +43,13 @@
                                                     </span>
                                                 </span>
                                             </form>
-                                            <div class="ec-new-desc">Si deseas ser parte de nuestras empresarias solo dale
+                                            <div class="ec-new-desc">Si deseas ser parte de nuestras empresarias solo
+                                                dale
                                                 click al boton continuar para poder comunicarte
                                                 con uno de nuestro asesores y puedas hacer tu primera compra.
                                             </div>
-                                            <div class="ec-new-btn"><a href="{{route('web.registro-empresaria')}}" class="btn btn-primary">Registrarme</a>
+                                            <div class="ec-new-btn"><a href="{{ route('web.registro-empresaria') }}"
+                                                    class="btn btn-primary">Registrarme</a>
                                             </div>
 
                                         </div>
@@ -150,10 +152,16 @@
                                                 </span>
                                                 <span class="ec-bill-wrap">
                                                     <label>Dirección</label>
-                                                    <input type="text" id="direccion" name="direccion"
-                                                        value="{{ $empresaria->direccion }}"
-                                                        placeholder="ingrese la direccion de entrega del pedido"
-                                                        required disabled />
+                                                    <input type="text" id="direccion_envio" name="direccion_envio"
+                                                        value="{{ $empresaria->direccion_envio }}"
+                                                        placeholder="Ingrese la dirección de entrega del pedido"
+                                                        required />
+                                                </span>
+                                                <span class="ec-bill-wrap">
+                                                    <label>Referencia</label>
+                                                    <input type="text" id="referencia_envio" name="referencia_envio"
+                                                        value="{{ $empresaria->referencia_envio }}"
+                                                        placeholder="Ingrese la referencia de envío" required />
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Pais</label>
@@ -167,13 +175,16 @@
                                                 <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Provincia</label>
                                                     <span class="ec-bl-select-inner">
-                                                        <select name="provincia" id="provincia" class="ec-bill-select" disabled>
+                                                        <select name="provincia" id="provincia" class="ec-bill-select"
+                                                            disabled>
                                                             <option value="">Seleccione provincia</option>
                                                             @foreach ($provincia as $item)
                                                                 @if ($empresaria->provincia_id == $item->id)
-                                                                    <option value="{{ $item->id }}" selected>{{ $item->descripcion }}</option>
+                                                                    <option value="{{ $item->id }}" selected>
+                                                                        {{ $item->descripcion }}</option>
                                                                 @else
-                                                                    <option value="{{ $item->id }}">{{ $item->descripcion }}</option>
+                                                                    <option value="{{ $item->id }}">
+                                                                        {{ $item->descripcion }}</option>
                                                                 @endif
                                                             @endforeach
                                                         </select>
@@ -185,8 +196,14 @@
                                                         <select name="ciudad" id="ciudad" class="ec-bill-select">
                                                             <option value="">Seleccione ciudad</option>
                                                             @empty(!$ciudad)
-                                                                @foreach ($ciudad as $item )                                                                    
-                                                                    <option value="{{ $item->id }}">{{ $item->descripcion }}</option>
+                                                                @foreach ($ciudad as $item)
+                                                                    @if ($empresaria->id_ciudad == $item->id)
+                                                                        <option value="{{ $item->id }}" selected>
+                                                                            {{ $item->descripcion }}</option>
+                                                                    @else
+                                                                        <option value="{{ $item->id }}">
+                                                                            {{ $item->descripcion }}</option>
+                                                                    @endif
                                                                 @endforeach
                                                             @endempty
                                                         </select>
@@ -227,7 +244,8 @@
                                     </div>
                                     <div>
                                         <span class="text-left">Ganacia estimada</span>
-                                        <span class="text-right">${{ number_format(Cart::total() * 0.4, 2) }}</span>
+                                        <span
+                                            class="text-right">${{ number_format(Cart::total() * 0.4, 2) }}</span>
                                     </div>
                                     <div class="ec-checkout-summary-total">
                                         <span class="text-left">Total a Pagar</span>
@@ -240,7 +258,8 @@
                                         <input type="hidden" id="premio" value="tiene premio">
                                         @foreach ($productoPremio as $producto)
                                             @livewire('card-premio',['id_producto'=>$producto->id,'imagen'=>$producto->imagen_path,'clasificacion'=>$producto->clasificacion,
-                                            'pvp'=>$producto->valor_venta,'color'=>$producto->color,'estilo'=>$producto->estilo, 'nombre'=>$producto->nombre_mostrar])
+                                            'pvp'=>$producto->valor_venta,'color'=>$producto->color,'estilo'=>$producto->estilo,
+                                            'nombre'=>$producto->nombre_mostrar])
                                         @endforeach
                                     @else
                                         <input type="hidden" id="premio" value="no tiene premio">
@@ -304,7 +323,8 @@
                                         </span>
                                         <span class="ec-pay-commemt">
                                             <span class="ec-pay-opt-head">Agrega comentarios a tu pedido</span>
-                                            <textarea name="your-commemt" id="observaciones_pedido" placeholder="Comentarios"></textarea>
+                                            <textarea name="your-commemt" id="observaciones_pedido"
+                                                placeholder="Comentarios"></textarea>
                                         </span>
                                         <span class="ec-pay-agree"><input type="checkbox" value="" checked><a
                                                 href="#">He leído y acepto los <span>Terminos y
@@ -356,7 +376,7 @@
     @push('js')
         <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
         <script>
-            $('.ec-side-toggle').css('display','none')
+            $('.ec-side-toggle').css('display', 'none')
             $('.ec-opt-size').each(function() {
                 $(document).on('mouseenter', 'li', function() {
                     // alert("1");
@@ -429,7 +449,7 @@
                                 '',
                                 'info'
                             )
-                        } else {                            
+                        } else {
                             data_checkout(datos)
                         }
                     } else {
@@ -473,7 +493,7 @@
                     );
                 },
             })
-            $('#bill2').click(function(){
+            $('#bill2').click(function() {
                 $('#direccion').prop('disabled', false);
                 $('#provincia').prop('disabled', false);
                 $('#direccion').val('');
@@ -512,11 +532,13 @@
                             $('#provincia').val(response['empresaria']['provincia_id']);
                             if (response['ciudad'] != null) {
                                 $('#ciudad').html('<option value="" selected>Seleccione ciudad</option>');
-                                $.each(response['ciudad'], function(i, val){
-                                    if(response['empresaria']['id_ciudad'] == val['id']){
-                                        $('#ciudad').append('<option value="'+ val['id'] +'" selected>' + val['descripcion'] +'</option>');
-                                    }else{
-                                        $('#ciudad').append('<option value="'+ val['id'] +'">' + val['descripcion'] +'</option>');
+                                $.each(response['ciudad'], function(i, val) {
+                                    if (response['empresaria']['id_ciudad'] == val['id']) {
+                                        $('#ciudad').append('<option value="' + val['id'] +
+                                            '" selected>' + val['descripcion'] + '</option>');
+                                    } else {
+                                        $('#ciudad').append('<option value="' + val['id'] + '">' +
+                                            val['descripcion'] + '</option>');
                                     }
                                 });
                             }
@@ -526,7 +548,7 @@
                                 $.each(response['premios'], function(i, v) {
                                     agregar_cards_premios(v);
                                 })
-                            }else{
+                            } else {
                                 $('#premios_despues').html('');
                                 $('#premio').val('no tiene premio');
                             }
@@ -540,12 +562,12 @@
                 })
             });
 
-            $(document).on('change', '#provincia', function(){
+            $(document).on('change', '#provincia', function() {
                 $('#ciudad').html('<option value="" selected>Seleccione ciudad</option>');
                 $.post({
                     url: "{{ route('empresaria.ciudad') }}",
                     data: {
-                        'id_provincia' : $('#provincia').val()
+                        'id_provincia': $('#provincia').val()
                     },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -555,8 +577,9 @@
 
                         if (response != null) {
                             $('#ciudad').html('<option value="" selected>Seleccione ciudad</option>');
-                            $.each(response, function(i, val){
-                                $('#ciudad').append('<option value="'+ val['id'] +'">' + val['descripcion'] +'</option>')
+                            $.each(response, function(i, val) {
+                                $('#ciudad').append('<option value="' + val['id'] + '">' + val[
+                                    'descripcion'] + '</option>')
                             });
                         }
                     }
@@ -589,7 +612,7 @@
                     '<div class="ec-pro-content datos-premios">' +
                     '<h5 class="ec-pro-title"><a href="' + ruta + '">' + val['clasificacion'] + '</a>' +
                     '</h5>' +
-                    '<input type="hidden" class="estiloPro" value="'+val['estilo']+'">'+
+                    '<input type="hidden" class="estiloPro" value="' + val['estilo'] + '">' +
                     '<span class="ec-price">' +
                     '<span class="old-price">$' + val['valor_venta'] + '</span>' +
                     '<span class="new-price">$Gratis</span>' +
@@ -612,7 +635,6 @@
                     '</div>' +
                     '</div>')
             }
-
         </script>
     @endpush
 </x-plantilla>
