@@ -10,7 +10,7 @@
 									<div style="border: 0px solid transparent; padding: 10px 0px 10px 0px;">
 										<div style="padding-right: 15px; padding-left: 15px;" align="center"><table width="100%" cellspacing="0" cellpadding="0" border="0"><tbody><tr style="line-height:0px"><td style="padding-right: 15px;padding-left: 15px;" align="center">
 											<div style="font-size: 1px; line-height: 15px;">&nbsp;</div>
-											<img style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 128px; display: block;" alt="" src="/assets/images/logo/Logo_ibizza.svg" width="60px" border="0" align="middle">
+											<img style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 128px; display: block;" alt="" src="{{url('/assets/images/logo/Logo_ibizza.svg')}}" width="60px" border="0" align="middle">
 											<div style="font-size: 1px; line-height: 15px;">&nbsp;</div>
 										</td></tr></tbody></table></div>
 									</div>
