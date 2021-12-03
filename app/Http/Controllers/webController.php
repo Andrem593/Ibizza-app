@@ -632,6 +632,7 @@ class webController extends Controller
             'apellidos'=> trim(strtoupper($request->apellidos)),
             'fecha_nacimiento'=> $request->fecha_nacimiento,
             'direccion'=> trim(strtoupper($request->direccion)),
+            'referencia'=> trim(strtoupper($request->referencia)),
             'tipo_cliente'=> 'PROSPECTO',
             'telefono'=> trim($request->telefono),
             'id_ciudad'=> $request->ciudad,

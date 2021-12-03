@@ -45,7 +45,7 @@ class Empresaria extends Model
      *
      * @var array
      */
-    protected $fillable = ['cedula','nombres','apellidos','fecha_nacimiento','direccion','tipo_cliente','email','password','estado','telefono','id_ciudad','vendedor','id_user'];
+    protected $fillable = ['cedula','nombres','apellidos','fecha_nacimiento','direccion','referencia','direccion_envio','referencia_envio','tipo_cliente','email','password','estado','telefono','id_ciudad','vendedor','id_user'];
 
 
 

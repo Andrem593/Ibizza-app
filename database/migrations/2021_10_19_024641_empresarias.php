@@ -20,6 +20,9 @@ class Empresarias extends Migration
             $table->string('apellidos',50);
             $table->date('fecha_nacimiento')->nullable();
             $table->string('direccion')->nullable();
+            $table->string('referencia')->nullable();
+            $table->string('direccion_envio')->nullable();
+            $table->string('referencia_envio')->nullable();
             $table->string('tipo_cliente')->nullable();
             $table->char('estado',1)->default('A');;
             $table->string('telefono')->nullable();

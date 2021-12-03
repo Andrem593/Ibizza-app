@@ -71,9 +71,14 @@
                                     {!! $errors->first('telefono', '<p class="text-danger mb-1 mt-0">:message</p>') !!}
                                 </span>
                                 <span class="ec-register-wrap">
-                                    <label>Dirección</label>
-                                    <input type="text" name="direccion" value="{{old('direccion')}}" placeholder="Ingrese si direccción" />
+                                    <label>Dirección domicilio</label>
+                                    <input type="text" name="direccion" value="{{old('direccion')}}" placeholder="Ingrese su direccción" />
                                     {!! $errors->first('direccion', '<p class="text-danger mb-1 mt-0">:message</p>') !!}
+                                </span>
+                                <span class="ec-register-wrap">
+                                    <label>Referencia domicilio</label>
+                                    <input type="text" name="referencia" value="{{old('referencia')}}" placeholder="Ingrese una referencia de su domicilio" />
+                                    {!! $errors->first('referencia', '<p class="text-danger mb-1 mt-0">:message</p>') !!}
                                 </span>
                                 <span class="ec-register-wrap ec-register-half">
                                     <label>Provincia *</label>
@@ -99,7 +104,7 @@
                                     {!! $errors->first('ciudad', '<p class="text-danger mb-1 mt-0">:message</p>') !!}
                                 </span>                                
                                 <span class="ec-register-wrap ec-register-btn">
-                                    <button class="btn btn-primary" type="submit">Register</button>
+                                    <button class="btn btn-primary" type="submit">Registro</button>
                                 </span>
                             </form>
                         </div>
