@@ -24,46 +24,46 @@ class webController extends Controller
     {
         $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
-            ->where('productos.stock','>',0)
+            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado', 'A')
+            ->where('productos.stock', '>', 0)
             ->groupBy('productos.estilo')->limit(8)->get();
         $productos_hombres = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
-            ->where('productos.stock','>',0)
-            ->where('categoria','like','%Hombre%')
+            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado', 'A')
+            ->where('productos.stock', '>', 0)
+            ->where('categoria', 'like', '%Hombre%')
             ->groupBy('productos.estilo')->limit(8)->get();
         $productos_mujer = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
-        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-        ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')
-        ->where('productos.stock','>',0)
-        ->where('categoria','like','%Mujer%')
-        ->groupBy('productos.estilo')->limit(8)->get();
+            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado', 'A')
+            ->where('productos.stock', '>', 0)
+            ->where('categoria', 'like', '%Mujer%')
+            ->groupBy('productos.estilo')->limit(8)->get();
         $productos_niños = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado','A')->where('productos.stock','>',0)
-            ->where('categoria','like','%Niñas%')->orWhere('categoria','like','%Niños%')
+            ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado', 'A')->where('productos.stock', '>', 0)
+            ->where('categoria', 'like', '%Niñas%')->orWhere('categoria', 'like', '%Niños%')
             ->groupBy('productos.estilo')->limit(8)->get();
         $marcas = DB::table('marcas')->where('imagen', '<>', '')->get();
         $subcategorias = Producto::select(DB::raw('count(nombre_mostrar) as cantidad_productos, subcategoria'))
             ->groupBy('subcategoria')->orderBy('cantidad_productos', 'DESC')->limit(4)->get();
         $catalogos = DB::table('catalogos')->where('estado', '=', 'PUBLICADO')->get();
         $poco_stock = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
-        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-        ->where('productos.stock','>',0)
-        ->groupBy('productos.estilo')
-        ->orderBy('productos.stock')->limit(2)->get();
+            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+            ->where('productos.stock', '>', 0)
+            ->groupBy('productos.estilo')
+            ->orderBy('productos.stock')->limit(2)->get();
         $descuentos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
-        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-        ->where('productos.stock','>',0)
-        ->groupBy('productos.estilo')
-        ->orderBy('productos.descuento', 'desc')->limit(2)->get();
+            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+            ->where('productos.stock', '>', 0)
+            ->groupBy('productos.estilo')
+            ->orderBy('productos.descuento', 'desc')->limit(2)->get();
         $ultimos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
-        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-        ->where('productos.stock','>',0)
-        ->groupBy('productos.estilo')
-        ->orderBy('productos.created_at', 'asc')->limit(4)->get();
-        return view('welcome2', compact('marcas', 'productos', 'catalogos','productos_hombres','productos_mujer','productos_niños','subcategorias','poco_stock','descuentos','ultimos'));
+            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+            ->where('productos.stock', '>', 0)
+            ->groupBy('productos.estilo')
+            ->orderBy('productos.created_at', 'asc')->limit(4)->get();
+        return view('welcome2', compact('marcas', 'productos', 'catalogos', 'productos_hombres', 'productos_mujer', 'productos_niños', 'subcategorias', 'poco_stock', 'descuentos', 'ultimos'));
     }
     public function addToCart(Request $request)
     {
@@ -81,9 +81,9 @@ class webController extends Controller
             $precio =  $producto->precio_empresaria;
         }
         if (isset($request->cantidad)) {
-            $cart = Cart::add($producto->id, $producto->nombre_mostrar, $request->cantidad, number_format($precio,2), ['image' => $producto->imagen_path])->associate('App\Models\Producto');
-        }else {
-            $cart = Cart::add($producto->id, $producto->nombre_mostrar, 1, number_format($precio,2), ['image' => $producto->imagen_path])->associate('App\Models\Producto');
+            $cart = Cart::add($producto->id, $producto->nombre_mostrar, $request->cantidad, number_format($precio, 2), ['image' => $producto->imagen_path])->associate('App\Models\Producto');
+        } else {
+            $cart = Cart::add($producto->id, $producto->nombre_mostrar, 1, number_format($precio, 2), ['image' => $producto->imagen_path])->associate('App\Models\Producto');
         }
         return 'add';
     }
@@ -105,46 +105,46 @@ class webController extends Controller
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->where('catalogos.estado', '=', 'PUBLICADO')
             ->groupBy('productos.estilo')->paginate(16);
-        $categorias =DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        $categorias = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->selectRaw('count(productos.nombre_mostrar) as cantidad_productos, productos.categoria')
             ->groupBy('categoria')
             ->get();
-        $subcategorias =DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        $subcategorias = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->selectRaw('count(nombre_mostrar) as cantidad_productos, productos.subcategoria')
             ->groupBy('subcategoria')
             ->get();
         //$productos->paginate(8);
-        return view('ecomerce.tienda', compact('productos','categorias','subcategorias'));
+        return view('ecomerce.tienda', compact('productos', 'categorias', 'subcategorias'));
     }
-    public function tiendaOrder($category,$orderBy)
+    public function tiendaOrder($category, $orderBy)
     {
         if ($category != 'all') {
-            $category = explode('-',$category);
+            $category = explode('-', $category);
             $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
-            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-            ->where('catalogos.estado', '=', 'PUBLICADO')->where($category[0],$category[1])
-            ->orderByRaw($orderBy)
-            ->groupBy('productos.estilo')->paginate(16);
-        }else {
+                ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+                ->where('catalogos.estado', '=', 'PUBLICADO')->where($category[0], $category[1])
+                ->orderByRaw($orderBy)
+                ->groupBy('productos.estilo')->paginate(16);
+        } else {
             $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
-            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-            ->where('catalogos.estado', '=', 'PUBLICADO')
-            ->orderByRaw($orderBy)
-            ->groupBy('productos.estilo')->paginate(16);
+                ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+                ->where('catalogos.estado', '=', 'PUBLICADO')
+                ->orderByRaw($orderBy)
+                ->groupBy('productos.estilo')->paginate(16);
         }
-        $categorias =DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        $categorias = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->selectRaw('count(productos.nombre_mostrar) as cantidad_productos, productos.categoria')
             ->groupBy('categoria')
             ->get();
-        $subcategorias =DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+        $subcategorias = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
             ->selectRaw('count(nombre_mostrar) as cantidad_productos, productos.subcategoria')
             ->groupBy('subcategoria')
             ->get();
-        return view('ecomerce.tienda', compact('productos','categorias','subcategorias'));
+        return view('ecomerce.tienda', compact('productos', 'categorias', 'subcategorias'));
     }
     public function carrito()
     {
@@ -160,11 +160,11 @@ class webController extends Controller
             ->groupBy('color')->first();
         $tallas = Producto::where('estilo', $estilo)->where('color', $productos_color[0]->color)->get();
         $poco_stock = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
-        ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-        ->where('productos.stock','>',0)
-        ->groupBy('productos.estilo')
-        ->orderBy('productos.stock')->limit(10)->get();
-        return view('ecomerce.producto-detalle', compact('productos_color', 'catalogo', 'tallas','poco_stock'));
+            ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+            ->where('productos.stock', '>', 0)
+            ->groupBy('productos.estilo')
+            ->orderBy('productos.stock')->limit(10)->get();
+        return view('ecomerce.producto-detalle', compact('productos_color', 'catalogo', 'tallas', 'poco_stock'));
     }
     public function tallas_x_color(Request $request)
     {
@@ -249,12 +249,12 @@ class webController extends Controller
                 if (!empty($condicion)) {
                     foreach ($condicion as $i => $value) {
                         $reglas = json_decode($value->condicion);
-        
-                        foreach($reglas as $itemRegla){
+
+                        foreach ($reglas as $itemRegla) {
                             if ($itemRegla->nombre_tabla == 'empresarias') {
-                                if(!$flagPremioEmpresaria){
+                                if (!$flagPremioEmpresaria) {
                                     $valores = explode(' ', $itemRegla->condicion);
-                                    $estado = '"'.$valores[2].'"';
+                                    $estado = '"' . $valores[2] . '"';
                                     //$premio = DB::table($itemRegla->nombre_tabla)->whereRaw("'".$valores[0]." ".$valores[1]." ".$estado."'")->get();
                                     $premio = DB::table($itemRegla->nombre_tabla)->whereRaw($itemRegla->condicion)->get();
                                     foreach ($premio as  $val) {
@@ -277,7 +277,7 @@ class webController extends Controller
                                             }
                                             //$json['premios'] = $productoPremio;
                                             $flagPremioEmpresaria = 1;
-                                            $contPremio ++;
+                                            $contPremio++;
                                         }
                                     }
                                 }
@@ -286,20 +286,20 @@ class webController extends Controller
                                 $rule = $itemRegla->condicion;
                                 $total_factura = Cart::total();
                                 $rule  = str_replace('total_factura', $total_factura, $rule);
-        
+
                                 $valores = explode(' ', $rule);
-                                $dbValor = str_replace("'","",$valores[2]);
-                                if($valores[1] == '>'){
-                                    if($total_factura > $dbValor){
+                                $dbValor = str_replace("'", "", $valores[2]);
+                                if ($valores[1] == '>') {
+                                    if ($total_factura > $dbValor) {
                                         $flagPremioPedido = 1;
                                     }
-                                }elseif($valores[1] == '>='){
-                                    if($total_factura >= $dbValor){
+                                } elseif ($valores[1] == '>=') {
+                                    if ($total_factura >= $dbValor) {
                                         $flagPremioPedido = 1;
                                     }
                                 }
-        
-                                if($flagPremioPedido){
+
+                                if ($flagPremioPedido) {
                                     $producto = DB::table('premio_has_productos')->join('productos', 'productos.estilo', '=', 'premio_has_productos.estilo')->where('premio_id', $value->id)->groupBy('productos.estilo')->get();
                                     foreach ($producto as  $value) {
                                         $colores = Producto::where('estilo', $value->estilo)->groupBy('color')->get('color');
@@ -316,16 +316,15 @@ class webController extends Controller
                                         $value->tallas = $tallas2;
                                         array_push($productoPremio, $value);
                                     }
-                                    $contPremio ++;
+                                    $contPremio++;
                                 }
                                 //pendiente validar por total de factura
                             }
-                            $contRegla ++;
-        
+                            $contRegla++;
                         }
-                        if($contPremio == $contRegla){
+                        if ($contPremio == $contRegla) {
                             $productoPremio;
-                        }else {
+                        } else {
                             $productoPremio = [];
                         }
                         $contPremio = 0;
@@ -338,16 +337,16 @@ class webController extends Controller
 
                 $ciudad = DB::table('ciudades')->where('provincia_id', $empresaria->provincia_id)->where('estado', 'A')->get();
             }
-        }        
+        }
         return view('ecomerce.checkout', compact('productoPremio', 'empresaria', 'provincia', 'ciudad'));
     }
     public function dataCheckout(Request $request)
     {
-        if (isset($request->premios)) {            
+        if (isset($request->premios)) {
             $premios = $request->premios;
-            if (count($premios)>0) {
-                foreach ($premios as $val) {                 
-                    $pro = Producto::where('estilo',$val['estilo'])->where('talla',$val['talla'])->where('color',$val['color'])->first();
+            if (count($premios) > 0) {
+                foreach ($premios as $val) {
+                    $pro = Producto::where('estilo', $val['estilo'])->where('talla', $val['talla'])->where('color', $val['color'])->first();
                     Cart::add($pro->id, $pro->nombre_mostrar, 1, 0, ['image' => $pro->imagen_path])->associate('App\Models\Producto');
                 }
             }
@@ -361,6 +360,12 @@ class webController extends Controller
         if (empty($request->observaciones)) {
             $request->observaciones = 'SIN OBSERVACIONES';
         }
+        if (!empty($request->opcion)) {
+            Empresaria::find($empresaria->id)->update([
+                'direccion_envio' => $request->direccion,
+                'referencia_envio' => $request->referencia
+            ]);
+        }
         $venta = Venta::create([
             'id_vendedor' => $empresaria->vendedor,
             'id_empresaria' => $empresaria->id,
@@ -371,7 +376,7 @@ class webController extends Controller
             'cantidad_total' => count(Cart::content()),
             'total_venta' => $request->total_pagar,
             'estado' => 'PEDIDO',
-            'observaciones'=> $request->observaciones
+            'observaciones' => $request->observaciones
         ]);
         foreach ($productos_pedidos as $producto) {
             $pedido = Pedido::create([
@@ -448,11 +453,11 @@ class webController extends Controller
             foreach ($condicion as $i => $value) {
                 $reglas = json_decode($value->condicion);
 
-                foreach($reglas as $itemRegla){
+                foreach ($reglas as $itemRegla) {
                     if ($itemRegla->nombre_tabla == 'empresarias') {
-                        if(!$flagPremioEmpresaria){
+                        if (!$flagPremioEmpresaria) {
                             $valores = explode(' ', $itemRegla->condicion);
-                            $estado = '"'.$valores[2].'"';
+                            $estado = '"' . $valores[2] . '"';
                             //$premio = DB::table($itemRegla->nombre_tabla)->whereRaw("'".$valores[0]." ".$valores[1]." ".$estado."'")->get();
                             $premio = DB::table($itemRegla->nombre_tabla)->whereRaw($itemRegla->condicion)->get();
                             foreach ($premio as  $val) {
@@ -475,7 +480,7 @@ class webController extends Controller
                                     }
                                     //$json['premios'] = $productoPremio;
                                     $flagPremioEmpresaria = 1;
-                                    $contPremio ++;
+                                    $contPremio++;
                                 }
                             }
                         }
@@ -486,18 +491,18 @@ class webController extends Controller
                         $rule  = str_replace('total_factura', $total_factura, $rule);
 
                         $valores = explode(' ', $rule);
-                        $dbValor = str_replace("'","",$valores[2]);
-                        if($valores[1] == '>'){
-                            if($total_factura > $dbValor){
+                        $dbValor = str_replace("'", "", $valores[2]);
+                        if ($valores[1] == '>') {
+                            if ($total_factura > $dbValor) {
                                 $flagPremioPedido = 1;
                             }
-                        }elseif($valores[1] == '>='){
-                            if($total_factura >= $dbValor){
+                        } elseif ($valores[1] == '>=') {
+                            if ($total_factura >= $dbValor) {
                                 $flagPremioPedido = 1;
                             }
                         }
 
-                        if($flagPremioPedido){
+                        if ($flagPremioPedido) {
                             $producto = DB::table('premio_has_productos')->join('productos', 'productos.estilo', '=', 'premio_has_productos.estilo')->where('premio_id', $value->id)->groupBy('productos.estilo')->get();
                             foreach ($producto as  $value) {
                                 $colores = Producto::where('estilo', $value->estilo)->groupBy('color')->get('color');
@@ -514,16 +519,15 @@ class webController extends Controller
                                 $value->tallas = $tallas2;
                                 array_push($productoPremio, $value);
                             }
-                            $contPremio ++;
+                            $contPremio++;
                         }
                         //pendiente validar por total de factura
                     }
-                    $contRegla ++;
-
+                    $contRegla++;
                 }
-                if($contPremio == $contRegla){
+                if ($contPremio == $contRegla) {
                     $json['premios'] = $productoPremio;
-                }else {
+                } else {
                     $productoPremio = [];
                 }
                 $contPremio = 0;
@@ -582,7 +586,7 @@ class webController extends Controller
     }
     public function contacto()
     {
-        return view('ecomerce.contactanos'); 
+        return view('ecomerce.contactanos');
     }
     public function preguntasFrecuentes()
     {
@@ -599,7 +603,7 @@ class webController extends Controller
     public function registroEmpresaria()
     {
         $provincias = DB::table('provincias')->get();
-        return view('ecomerce.registro-empresarias',compact('provincias'));
+        return view('ecomerce.registro-empresarias', compact('provincias'));
     }
     public function consultarCiudad()
     {
@@ -608,7 +612,8 @@ class webController extends Controller
             ->get();
         return json_encode($ciudades);
     }
-    public function registrarEmpresariaNueva(Request $request){
+    public function registrarEmpresariaNueva(Request $request)
+    {
         $request->validate([
             'nombres' => 'required|max:255',
             'apellidos' => 'required',
@@ -617,30 +622,30 @@ class webController extends Controller
             'telefono' => 'required',
             'direccion' => 'required',
         ]);
-        $contrseña = Str::random(8); 
+        $contrseña = Str::random(8);
         $userData = [
-            'name'=>trim(strtoupper($request->nombres)),
-            'email'=>trim($request->email),
-            'password'=>Hash::make($contrseña),
-            'role'=>'Empresaria'
+            'name' => trim(strtoupper($request->nombres)),
+            'email' => trim($request->email),
+            'password' => Hash::make($contrseña),
+            'role' => 'Empresaria'
         ];
         $user = User::create($userData);
-        $user->roles()->sync(2);// 2 es el id de el rol de empresaria 
+        $user->roles()->sync(2); // 2 es el id de el rol de empresaria 
         $empresariaData = [
-            'cedula'=> trim($request->cedula),
-            'nombres'=> trim(strtoupper($request->nombres)),
-            'apellidos'=> trim(strtoupper($request->apellidos)),
-            'fecha_nacimiento'=> $request->fecha_nacimiento,
-            'direccion'=> trim(strtoupper($request->direccion)),
-            'referencia'=> trim(strtoupper($request->referencia)),
-            'tipo_cliente'=> 'PROSPECTO',
-            'telefono'=> trim($request->telefono),
-            'id_ciudad'=> $request->ciudad,
-            'vendedor'=> 0,
-            'id_user'=> $user->id
+            'cedula' => trim($request->cedula),
+            'nombres' => trim(strtoupper($request->nombres)),
+            'apellidos' => trim(strtoupper($request->apellidos)),
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'direccion' => trim(strtoupper($request->direccion)),
+            'referencia' => trim(strtoupper($request->referencia)),
+            'tipo_cliente' => 'PROSPECTO',
+            'telefono' => trim($request->telefono),
+            'id_ciudad' => $request->ciudad,
+            'vendedor' => 0,
+            'id_user' => $user->id
         ];
         Empresaria::create($empresariaData);
-        $correo = new RegistroEmpresaria($request->all(),$contrseña);
+        $correo = new RegistroEmpresaria($request->all(), $contrseña);
 
         Mail::to($request->email)->send($correo);
 

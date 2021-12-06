@@ -29,6 +29,7 @@
                     <!-- checkout content Start -->
                     <div class="ec-checkout-content">
                         <div class="ec-checkout-inner">
+                            <input type="hidden" id="data_search" value="{{ $empresaria->cedula." | ".$empresaria->nombres." ".$empresaria->apellidos }}">
                             @empty(Auth::user())
                                 <div class="ec-checkout-wrap margin-bottom-30">
                                     <div class="ec-checkout-block ec-check-new">
@@ -122,12 +123,12 @@
                                         <div class="ec-check-subtitle">Opciones de pago</div>
                                         <span class="ec-bill-option">
                                             <span>
-                                                <input type="radio" id="bill1" name="radio-group" checked>
-                                                <label for="bill1">Usar dirección existente</label>
+                                                <input type="radio" id="bill1" name="radio-direccion" value="envio" checked>
+                                                <label for="bill1">Usar dirección de envío existente</label>
                                             </span>
                                             <span>
-                                                <input type="radio" id="bill2" name="radio-group">
-                                                <label for="bill2">quiero usar una nueva direccion</label>
+                                                <input type="radio" id="bill2" name="radio-direccion" value="domicilio">
+                                                <label for="bill2">Quiero usar mi dirección de domicilio</label>
                                             </span>
                                         </span>
                                         <div class="ec-check-bill-form">
@@ -150,16 +151,18 @@
                                                         value="{{ $empresaria->apellidos }}"
                                                         placeholder="Ingrese sus apellidos" required />
                                                 </span>
+                                                <input type="hidden" id="direccion_domicilio" value="{{ $empresaria->direccion }}">
+                                                <input type="hidden" id="referencia_domicilio" value="{{ $empresaria->referencia }}">
                                                 <span class="ec-bill-wrap">
                                                     <label>Dirección</label>
-                                                    <input type="text" id="direccion_envio" name="direccion_envio"
+                                                    <input type="text" id="direccion" name="direccion"
                                                         value="{{ $empresaria->direccion_envio }}"
                                                         placeholder="Ingrese la dirección de entrega del pedido"
                                                         required />
                                                 </span>
                                                 <span class="ec-bill-wrap">
                                                     <label>Referencia</label>
-                                                    <input type="text" id="referencia_envio" name="referencia_envio"
+                                                    <input type="text" id="referencia" name="referencia"
                                                         value="{{ $empresaria->referencia_envio }}"
                                                         placeholder="Ingrese la referencia de envío" required />
                                                 </span>
@@ -190,7 +193,7 @@
                                                         </select>
                                                     </span>
                                                 </span>
-                                                <span class="ec-bill-wrap ec-bill-half">
+                                                <span class="ec-bill-wrap ec-bill-half mx-auto">
                                                     <label>Ciudad</label>
                                                     <span class="ec-bl-select-inner">
                                                         <select name="ciudad" id="ciudad" class="ec-bill-select">
@@ -405,12 +408,23 @@
             $('body').addClass('checkout_page');
             $('#tomar_pedido').click(function() {
                 let productosPremio = [];
-                let total = $('#total_pagar').text().split('$')
+                let total = $('#total_pagar').text().split('$');
+
+                let opcion = $("input[type=radio][name=radio-direccion]:checked").val();
+                let direccion = $('#direccion').val();
+                let referencia = $('#referencia').val();
+
+                if(opcion == 'domicilio'){
+                    direccion = $('#direccion_domicilio').val();
+                    referencia = $('#referencia_domicilio').val();
+                }
+
                 let datos = {
                     cedula: $('#cedula').val(),
                     nombres: $('#nombres').val(),
                     apellidos: $('#apellidos').val(),
-                    direccion: $('#direccion').val(),
+                    direccion: direccion,
+                    referencia: referencia,
                     provincia: $('#provincia').val(),
                     ciudad: $('#ciudad').val(),
                     codigo_postal: $('#codigo_postal').val(),
@@ -418,6 +432,7 @@
                     total_productos: $('#total_productos').text(),
                     premio: $('#premio').val(),
                     observaciones: $('#observaciones_pedido').val(),
+                    opcion : opcion
                 }
                 let continuar = 0;
                 if ($('#premio').val() == "tiene premio") {
@@ -440,8 +455,8 @@
                 datos['premios'] = productosPremio;
                 let total_pedido = $('#total_pagar').text().split('$');
 
-                if ($('#codigo_postal').val() != '' && $('#cedula').val() != '' && $('#nombres').val() != '' && $(
-                        '#apellidos').val() != '' && $('#direccion').val() != '' && $('#ciudad').val() != '') {
+                if ($('#cedula').val() != '' && $('#nombres').val() != '' && $(
+                        '#apellidos').val() != '' && $('#direccion').val() != '' && $('#referencia').val() != '' && $('#ciudad').val() != '') {
                     if (total_pedido[1] > 0) {
                         if (continuar > 0) {
                             Swal.fire(
@@ -473,7 +488,10 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    beforeSend: function() {},
+                    beforeSend: function() {
+                        $('#tomar_pedido').attr("disabled", true);
+                        $('#tomar_pedido').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando pedido...');                        
+                    },
                     success: function(response) {
                         if (response != '') {
                             let id_ventas = response.id_venta
@@ -481,6 +499,8 @@
 
                             $(location).attr('href', url);
                         }
+                        $('#tomar_pedido').attr("disabled", false);
+                        $('#tomar_pedido').html('Realizar Pedido'); 
                     }
                 })
             }
@@ -492,20 +512,22 @@
                         response
                     );
                 },
+                select: function(event, ui) {
+                    $('#data_search').val(ui.item.data);
+                }
             })
             $('#bill2').click(function() {
-                $('#direccion').prop('disabled', false);
-                $('#provincia').prop('disabled', false);
-                $('#direccion').val('');
-                $('#provincia').val('');
-                $('#ciudad').prop('disabled', false);
-                $('#ciudad').html('<option value="" selected>Seleccione ciudad</option>');
-            });
-            $('#asignarEmpresaria, #bill1').click(function() {
                 $('#direccion').prop('disabled', true);
                 $('#provincia').prop('disabled', true);
                 $('#ciudad').prop('disabled', true);
-                datos = $('#search').val();
+                $('#direccion').val($('#direccion_domicilio').val());
+                $('#referencia').val($('#referencia_domicilio').val());
+            });
+            $('#asignarEmpresaria, #bill1').click(function() {
+                $('#direccion').prop('disabled', false);
+                $('#provincia').prop('disabled', false);
+                $('#ciudad').prop('disabled', false);
+                datos = $('#data_search').val();
                 datos = datos.split(' | ');
                 data = {
                     cedula: datos[0],
@@ -528,7 +550,10 @@
                             $('#cedula').val(response['empresaria']['cedula'])
                             $('#nombres').val(response['empresaria']['nombres'])
                             $('#apellidos').val(response['empresaria']['apellidos'])
-                            $('#direccion').val(response['empresaria']['direccion'])
+                            $('#direccion').val(response['empresaria']['direccion_envio'])
+                            $('#referencia').val(response['empresaria']['referencia_envio'])
+                            $('#direccion_domicilio').val(response['empresaria']['direccion'])
+                            $('#referencia_domicilio').val(response['empresaria']['referencia'])
                             $('#provincia').val(response['empresaria']['provincia_id']);
                             if (response['ciudad'] != null) {
                                 $('#ciudad').html('<option value="" selected>Seleccione ciudad</option>');
