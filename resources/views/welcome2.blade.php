@@ -1275,7 +1275,7 @@
                              <ul id="ec-brand-slider">
                                  @foreach ($marcas as $marca)
                                      <li class="ec-brand-item" data-animation="zoomIn">
-                                         <div class="ec-brand-img"><a href="#"><img loading='lazy' alt="brand" title="brand"
+                                         <div class="ec-brand-img"><a href="/tienda/marca/{{ $marca->nombre }}"><img loading='lazy' alt="brand" title="brand"
                                                      src="storage/images/marca/{{ $marca->imagen }}" /></a></div>
                                      </li>
                                  @endforeach

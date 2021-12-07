@@ -44,7 +44,7 @@ class webController extends Controller
             ->where('catalogos.estado', '=', 'PUBLICADO')->where('productos.estado', 'A')->where('productos.stock', '>', 0)
             ->where('categoria', 'like', '%Niñas%')->orWhere('categoria', 'like', '%Niños%')
             ->groupBy('productos.estilo')->limit(8)->get();
-        $marcas = DB::table('marcas')->where('imagen', '<>', '')->get();
+        $marcas = DB::table('marcas')->where('imagen', '<>', '')->where('estado', '=', 'A')->get();
         $subcategorias = Producto::select(DB::raw('count(nombre_mostrar) as cantidad_productos, subcategoria'))
             ->groupBy('subcategoria')->orderBy('cantidad_productos', 'DESC')->limit(4)->get();
         $catalogos = DB::table('catalogos')->where('estado', '=', 'PUBLICADO')->get();
@@ -120,19 +120,27 @@ class webController extends Controller
     }
     public function tiendaOrder($category, $orderBy)
     {
-        if ($category != 'all') {
-            $category = explode('-', $category);
+        if ($category == 'marca') {
             $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
                 ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-                ->where('catalogos.estado', '=', 'PUBLICADO')->where($category[0], $category[1])
-                ->orderByRaw($orderBy)
+                ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
+                ->where('catalogos.estado', '=', 'PUBLICADO')->where('marcas.nombre', '=', $orderBy)
                 ->groupBy('productos.estilo')->paginate(16);
         } else {
-            $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
-                ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
-                ->where('catalogos.estado', '=', 'PUBLICADO')
-                ->orderByRaw($orderBy)
-                ->groupBy('productos.estilo')->paginate(16);
+            if ($category != 'all') {
+                $category = explode('-', $category);
+                $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+                    ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+                    ->where('catalogos.estado', '=', 'PUBLICADO')->where($category[0], $category[1])
+                    ->orderByRaw($orderBy)
+                    ->groupBy('productos.estilo')->paginate(16);
+            } else {
+                $productos = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+                    ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
+                    ->where('catalogos.estado', '=', 'PUBLICADO')
+                    ->orderByRaw($orderBy)
+                    ->groupBy('productos.estilo')->paginate(16);
+            }
         }
         $categorias = DB::table('catalogo_has_productos')->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
             ->join('productos', 'productos.estilo', '=', 'catalogo_has_productos.estilo')
