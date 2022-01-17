@@ -53,7 +53,7 @@
                  <div class="row align-items-center">
                      <!-- Header Top social Start -->
                      <div class="col text-left header-top-left d-none d-lg-block">
-                         <div class="header-top-social">
+                         {{-- <div class="header-top-social">
                              <span class="social-text text-upper">Siguenos en :</span>
                              <ul class="mb-0">
                                  <li class="list-inline-item"><a class="hdr-facebook" href="#"><i
@@ -65,7 +65,7 @@
                                  <li class="list-inline-item"><a class="hdr-linkedin" href="#"><i
                                              class="ecicon eci-linkedin"></i></a></li>
                              </ul>
-                         </div>
+                         </div> --}}
                      </div>
                      <!-- Header Top social End -->
                      <!-- Header Top Message Start -->
@@ -85,22 +85,22 @@
                      <div class="col header-top-right d-none d-lg-block">
                          <div class="header-top-lan-curr d-flex justify-content-end">
                              <!-- Currency Start -->
-                             <div class="header-top-curr dropdown">
+                             {{-- <div class="header-top-curr dropdown">
                                  <button class="dropdown-toggle text-upper" data-bs-toggle="dropdown">Moneda<i
                                          class="ecicon eci-caret-down" aria-hidden="true"></i></button>
                                  <ul class="dropdown-menu">
                                      <li class="active"><a class="dropdown-item" href="#">USD $</a></li>
                                  </ul>
-                             </div>
+                             </div> --}}
                              <!-- Currency End -->
                              <!-- Language Start -->
-                             <div class="header-top-lan dropdown">
+                             {{-- <div class="header-top-lan dropdown">
                                  <button class="dropdown-toggle text-upper" data-bs-toggle="dropdown">Idioma <i
                                          class="ecicon eci-caret-down" aria-hidden="true"></i></button>
                                  <ul class="dropdown-menu">
                                      <li class="active"><a class="dropdown-item" href="#">Español</a></li>
                                  </ul>
-                             </div>
+                             </div> --}}
                              <!-- Language End -->
 
                          </div>
@@ -546,22 +546,22 @@
                          <div class="header-res-lan-curr">
                              <div class="header-top-lan-curr">
                                  <!-- Language Start -->
-                                 <div class="header-top-lan dropdown">
+                                 {{-- <div class="header-top-lan dropdown">
                                      <button class="dropdown-toggle text-upper" data-bs-toggle="dropdown">Idioma <i
                                              class="ecicon eci-caret-down" aria-hidden="true"></i></button>
                                      <ul class="dropdown-menu">
                                          <li class="active"><a class="dropdown-item" href="#">Español</a></li>
                                      </ul>
-                                 </div>
+                                 </div> --}}
                                  <!-- Language End -->
                                  <!-- Currency Start -->
-                                 <div class="header-top-curr dropdown">
+                                 {{-- <div class="header-top-curr dropdown">
                                      <button class="dropdown-toggle text-upper" data-bs-toggle="dropdown">Moneda <i
                                              class="ecicon eci-caret-down" aria-hidden="true"></i></button>
                                      <ul class="dropdown-menu">
                                          <li class="active"><a class="dropdown-item" href="#">USD $</a></li>
                                      </ul>
-                                 </div>
+                                 </div> --}}
                                  <!-- Currency End -->
                              </div>
                              <!-- Social Start -->
@@ -570,12 +570,12 @@
                                      <ul class="mb-0">
                                          <li class="list-inline-item"><a class="hdr-facebook" href="#"><i
                                                      class="ecicon eci-facebook"></i></a></li>
-                                         <li class="list-inline-item"><a class="hdr-twitter" href="#"><i
-                                                     class="ecicon eci-twitter"></i></a></li>
+                                         {{-- <li class="list-inline-item"><a class="hdr-twitter" href="#"><i
+                                                     class="ecicon eci-twitter"></i></a></li> --}}
                                          <li class="list-inline-item"><a class="hdr-instagram" href="#"><i
                                                      class="ecicon eci-instagram"></i></a></li>
-                                         <li class="list-inline-item"><a class="hdr-linkedin" href="#"><i
-                                                     class="ecicon eci-linkedin"></i></a></li>
+                                         {{-- <li class="list-inline-item"><a class="hdr-linkedin" href="#"><i
+                                                     class="ecicon eci-linkedin"></i></a></li> --}}
                                      </ul>
                                  </div>
                              </div>
@@ -593,48 +593,51 @@
              <!-- ibizza Cart End -->
 
              <!-- Main Slider Start -->
-             <div class="sticky-header-next-sec ec-main-slider section section-space-pb">
-                 <div class="ec-slider swiper-container main-slider-nav main-slider-dot">
-                     <!-- Main slider -->
-                     <div class="swiper-wrapper">
-                         <div class="ec-slide-item swiper-slide d-flex ec-slide-1">
-                             <div class="container align-self-center">
-                                 <div class="row">
-                                     <div class="col-xl-6 col-lg-7 col-md-7 col-sm-7 align-self-center">
-                                         <div class="ec-slide-content slider-animation">
-                                             <h1 class="ec-slide-title">Se una de nuestras Empresarias</h1>
-                                             <h2 class="ec-slide-stitle">En Ibizza</h2>
-                                             <p>Obten ingresos seguros vendiendo por catálogo y forma parte de nosotras</p>
-                                             <a href="{{ route('web.tienda') }}" class="btn btn-lg btn-secondary">Ordenar
-                                                 Ahora</a>
+             <div class="mx-auto w-75">
+                 <div class="sticky-header-next-sec ec-main-slider section section-space-pb">
+                     <div class="ec-slider swiper-container main-slider-nav main-slider-dot">
+                         <!-- Main slider -->
+                         <div class="swiper-wrapper">
+                             <div class="ec-slide-item swiper-slide d-flex ec-slide-1">
+                                 <div class="container align-self-center">
+                                     <div class="row">
+                                         <div class="col-xl-6 col-lg-7 col-md-7 col-sm-7 align-self-center">
+                                             <div class="ec-slide-content slider-animation">
+                                                 <h1 class="ec-slide-title">Se una de nuestras Empresarias</h1>
+                                                 <h2 class="ec-slide-stitle">En Ibizza</h2>
+                                                 <p>Obten ingresos seguros vendiendo por catálogo y forma parte de nosotras</p>
+                                                 <a href="{{ route('web.tienda') }}" class="btn btn-lg btn-secondary">Ordenar
+                                                     Ahora</a>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="ec-slide-item swiper-slide d-flex ec-slide-2">
+                                 <div class="container align-self-center">
+                                     <div class="row">
+                                         <div class="col-xl-6 col-lg-7 col-md-7 col-sm-7 align-self-center">
+                                             <div class="ec-slide-content slider-animation">
+                                                 <h1 class="ec-slide-title">Conoce nuestro catalogo</h1>
+                                                 <h2 class="ec-slide-stitle">100% online</h2>
+                                                 <p>Puedes hacer tus pedidos en el momento que quieras y llegaran a la comodidad de
+                                                     tu hogar</p>
+                                                 <a href="{{ route('web.tienda') }}" class="btn btn-lg btn-secondary">Ordenar
+                                                     Ahora</a>
+                                             </div>
                                          </div>
                                      </div>
                                  </div>
                              </div>
                          </div>
-                         <div class="ec-slide-item swiper-slide d-flex ec-slide-2">
-                             <div class="container align-self-center">
-                                 <div class="row">
-                                     <div class="col-xl-6 col-lg-7 col-md-7 col-sm-7 align-self-center">
-                                         <div class="ec-slide-content slider-animation">
-                                             <h1 class="ec-slide-title">Conoce nuestro catalogo</h1>
-                                             <h2 class="ec-slide-stitle">100% online</h2>
-                                             <p>Puedes hacer tus pedidos en el momento que quieras y llegaran a la comodidad de
-                                                 tu hogar</p>
-                                             <a href="{{ route('web.tienda') }}" class="btn btn-lg btn-secondary">Ordenar
-                                                 Ahora</a>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
+                         <div class="swiper-pagination swiper-pagination-white"></div>
+                         <div class="swiper-buttons">
+                             <div class="swiper-button-next"></div>
+                             <div class="swiper-button-prev"></div>
                          </div>
-                     </div>
-                     <div class="swiper-pagination swiper-pagination-white"></div>
-                     <div class="swiper-buttons">
-                         <div class="swiper-button-next"></div>
-                         <div class="swiper-button-prev"></div>
                      </div>
                  </div>
+
              </div>
              <!-- Main Slider End -->
 
@@ -1486,12 +1489,12 @@
                                          <ul class="mb-0">
                                              <li class="list-inline-item"><a class="hdr-facebook" href="#"><i
                                                          class="ecicon eci-facebook"></i></a></li>
-                                             <li class="list-inline-item"><a class="hdr-twitter" href="#"><i
-                                                         class="ecicon eci-twitter"></i></a></li>
+                                             {{-- <li class="list-inline-item"><a class="hdr-twitter" href="#"><i
+                                                         class="ecicon eci-twitter"></i></a></li> --}}
                                              <li class="list-inline-item"><a class="hdr-instagram" href="#"><i
                                                          class="ecicon eci-instagram"></i></a></li>
-                                             <li class="list-inline-item"><a class="hdr-linkedin" href="#"><i
-                                                         class="ecicon eci-linkedin"></i></a></li>
+                                             {{-- <li class="list-inline-item"><a class="hdr-linkedin" href="#"><i
+                                                         class="ecicon eci-linkedin"></i></a></li> --}}
                                          </ul>
                                      </div>
                                  </div>
