@@ -11,6 +11,7 @@ use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\PremioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\webController;
 
@@ -139,6 +140,12 @@ Route::resource('proveedores', ProveedorController::class)
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/proveedor/datatable', [ProveedorController::class,'proveedorDataTable'])
 ->name('proveedor.datatable');
+
+// REPORTE
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/reporte/index/', [ReporteController::class,'index'])
+->name('reporte.index');
 
 // USUARIO
 

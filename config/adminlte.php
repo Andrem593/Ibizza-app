@@ -338,6 +338,24 @@ return [
                 ],
             ]
         ],
+        [
+            'text'    => 'Reportes',
+            'icon'    => 'fas fa-chart-pie',    
+            'submenu' => [
+                [
+                    'text' => 'Vendedor',
+                    'route'  => 'reporte.index',
+                    'icon'    => 'fas fa-receipt',
+                    'can'   => 'reporte.index',
+                ],
+                [
+                    'text' => 'General',
+                    'route'  => 'reporte.index',
+                    'icon'    => 'fas fa-chart-area',
+                    'can'   => 'reporte.index',
+                ],
+            ]
+        ],
 
         ['header' => 'account_settings'],
         [
