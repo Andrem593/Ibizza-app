@@ -344,15 +344,15 @@ return [
             'submenu' => [
                 [
                     'text' => 'Vendedor',
-                    'route'  => 'reporte.index',
+                    'route'  => 'reportes.index',
                     'icon'    => 'fas fa-receipt',
-                    'can'   => 'reporte.index',
+                    //'can'   => 'reportes.index',
                 ],
                 [
                     'text' => 'General',
-                    'route'  => 'reporte.index',
+                    'route'  => 'reportes.index',
                     'icon'    => 'fas fa-chart-area',
-                    'can'   => 'reporte.index',
+                    'can'   => 'reportes.index',
                 ],
             ]
         ],

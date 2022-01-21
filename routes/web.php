@@ -143,9 +143,9 @@ Route::middleware(['auth:sanctum', 'verified'])
 
 // REPORTE
 
-Route::middleware(['auth:sanctum', 'verified'])
-->get('/reporte/index/', [ReporteController::class,'index'])
-->name('reporte.index');
+
+Route::resource('reportes', ReporteController::class)
+->middleware(['auth:sanctum', 'verified']);
 
 // USUARIO
 
