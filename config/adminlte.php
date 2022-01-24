@@ -350,9 +350,9 @@ return [
                 ],
                 [
                     'text' => 'General',
-                    'route'  => 'reportes.index',
+                    'route'  => 'reporte.graficos',
                     'icon'    => 'fas fa-chart-area',
-                    'can'   => 'reportes.index',
+                    //'can'   => 'reportes.index',
                 ],
             ]
         ],

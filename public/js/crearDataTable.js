@@ -1208,8 +1208,6 @@ function reporteEmpresariaEstado(data, ruta) {
             {
                 "data": "tipo_cliente",
             },
-
-
         ],
         "lengthMenu": [
             [-1, 10, 25, 50],

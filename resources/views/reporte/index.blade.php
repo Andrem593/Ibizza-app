@@ -56,29 +56,29 @@
 
             </div>
         </div>
+    </div>
 
-        @push('css')
-            <link rel="stylesheet" href="/css/botonesDataTable.css">
-        @endpush
+    @push('css')
+        <link rel="stylesheet" href="/css/botonesDataTable.css">
+    @endpush
 
 
-        @Push('scripts')
-            <script src="/js/crearDataTable.js"></script>
-            <script>
-                $(document).ready(function() {
-                    var data = {
-                        funcion: 'empresaria_venta',
-                    }
-                    var data2 = {
-                        funcion: 'empresaria_estado',
-                    }
-                    let ruta = '/reporte/empresariaReports'
-                    reporteEmpresariaVentas(data, ruta);
+    @Push('scripts')
+        <script src="/js/crearDataTable.js"></script>
+        <script>
+            $(document).ready(function() {
+                var data = {
+                    funcion: 'empresaria_venta',
+                }
+                var data2 = {
+                    funcion: 'empresaria_estado',
+                }
+                let ruta = '/reporte/empresariaReports'
+                reporteEmpresariaVentas(data, ruta);
 
-                    reporteEmpresariaEstado(data2, ruta);
+                reporteEmpresariaEstado(data2, ruta);
 
-                });
-
-            </script>
-        @endpush
+            });
+        </script>
+    @endpush
 </x-app-layout>
