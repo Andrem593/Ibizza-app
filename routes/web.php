@@ -142,10 +142,12 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->name('proveedor.datatable');
 
 // REPORTE
-
-
 Route::resource('reportes', ReporteController::class)
 ->middleware(['auth:sanctum', 'verified']);
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/reporte/empresariaReports', [ReporteController::class,'empresariaReports'])
+->name('reporte.empresariaReports');
 
 // USUARIO
 
