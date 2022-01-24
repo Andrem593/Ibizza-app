@@ -72,9 +72,10 @@
                      <div class="col text-center header-top-center">
                          <div class="header-top-message text-upper">
                              @if (!empty($catalogos))
-                                 <span>
+                                 <span class="fw-bold fs-6">
+                                    VIGENTE:
                                      @foreach ($catalogos as $catalogo)
-                                         {{ $catalogo->nombre }}
+                                        {{ $catalogo->nombre }}
                                      @endforeach
                                  </span>
                              @endif
@@ -133,7 +134,8 @@
                                              </li>
                                          @else
                                              <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
-                                             <li><a class="dropdown-item" href="{{route('web.registro-empresaria')}}">Registrar</a></li>
+                                             <li><a class="dropdown-item"
+                                                     href="{{ route('web.registro-empresaria') }}">Registrar</a></li>
                                              <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Checkout</a>
                                              </li>
                                          @endif
@@ -176,9 +178,9 @@
                              <!-- Ec Header Logo Start -->
                              <div class="align-self-center">
                                  <div class="header-logo">
-                                 
+
                                      <a href="{{ url('/') }}"><img loading='lazy' class="p-1"
-                                             src="{{url('assets/images/logo/logo_ibizza.svg')}}" alt="Logo Ibizza" />
+                                             src="{{ url('assets/images/logo/logo_ibizza.svg') }}" alt="Logo Ibizza" />
                                          <img loading='lazy' class="dark-logo" src="assets/images/logo/dark-logo.png"
                                              alt="Site Logo" style="display: none;" /></a>
 
@@ -228,7 +230,8 @@
                                                              href="{{ route('web.checkout') }}">Checkout</a></li>
                                                  @else
                                                      <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
-                                                     <li><a class="dropdown-item" href="{{route('web.registro-empresaria')}}">Registro</a></li>
+                                                     <li><a class="dropdown-item"
+                                                             href="{{ route('web.registro-empresaria') }}">Registro</a></li>
                                                      <li><a class="dropdown-item"
                                                              href="{{ route('web.checkout') }}">Checkout</a></li>
                                                  @endif
@@ -266,11 +269,10 @@
                              <!-- Ec Header Logo Start -->
                              <div class="col">
                                  <div class="header-logo">
-                                     <a href="index.html"><img loading='lazy' src="{{url('assets/images/logo/logo_ibizza.svg')}}"
-                                             alt="Logo Ibizza" /><img loading='lazy' class="dark-logo"
-                                             src="assets/images/logo/dark-logo.png" alt="Site Logo"
-
-                                             style="display: none;" /></a>
+                                     <a href="index.html"><img loading='lazy'
+                                             src="{{ url('assets/images/logo/logo_ibizza.svg') }}" alt="Logo Ibizza" /><img
+                                             loading='lazy' class="dark-logo" src="assets/images/logo/dark-logo.png"
+                                             alt="Site Logo" style="display: none;" /></a>
                                  </div>
                              </div>
                              <!-- Ec Header Logo End -->
@@ -433,12 +435,12 @@
                                              <ul class="sub-menu">
                                                  <li><a href="{{ route('web.sobre-nosotros') }}">Sobre Nosotros</a></li>
                                                  <li><a href="{{ route('web.contactanos') }}">Contáctenos</a></li>
-                                                 <li><a href="{{route('web.carro-compras')}}">Carrito</a></li>
+                                                 <li><a href="{{ route('web.carro-compras') }}">Carrito</a></li>
                                                  <li><a href="{{ route('web.checkout') }}">Checkout</a></li>
                                                  <li><a href="compare.html">Compare</a></li>
                                                  <li><a href="{{ route('web.preguntas-frecuentes') }}">Preguntas</a></li>
-                                                 <li><a href="{{route('login')}}">Login</a></li>
-                                                 <li><a href="{{route('web.registro-empresaria')}}">Registro</a></li>
+                                                 <li><a href="{{ route('login') }}">Login</a></li>
+                                                 <li><a href="{{ route('web.registro-empresaria') }}">Registro</a></li>
                                                  <li><a href="track-order.html">Track Order</a></li>
                                                  <li><a href="{{ route('web.terminos-condiciones') }}">Términos y
                                                          Condiciones</a></li>
@@ -527,12 +529,12 @@
                                      <ul class="sub-menu">
                                          <li><a href="{{ route('web.sobre-nosotros') }}">Sobre Nosotros</a></li>
                                          <li><a href="{{ route('web.contactanos') }}">Contáctenos</a></li>
-                                         <li><a href="{{route('web.carro-compras')}}">Carrito</a></li>
+                                         <li><a href="{{ route('web.carro-compras') }}">Carrito</a></li>
                                          <li><a href="{{ route('web.checkout') }}">Checkout</a></li>
                                          <li><a href="compare.html">Compare</a></li>
                                          <li><a href="{{ route('web.preguntas-frecuentes') }}">Preguntas</a></li>
-                                         <li><a href="{{route('login')}}">Login</a></li>
-                                         <li><a href="{{route('web.registro-empresaria')}}">Register</a></li>
+                                         <li><a href="{{ route('login') }}">Login</a></li>
+                                         <li><a href="{{ route('web.registro-empresaria') }}">Register</a></li>
                                          <li><a href="track-order.html">Track Order</a></li>
                                          <li><a href="{{ route('web.terminos-condiciones') }}">Términos y Condiciones</a>
                                          </li>
@@ -593,7 +595,7 @@
              <!-- ibizza Cart End -->
 
              <!-- Main Slider Start -->
-             <div class="mx-auto w-75">
+             <div class="mx-auto">
                  <div class="sticky-header-next-sec ec-main-slider section section-space-pb">
                      <div class="ec-slider swiper-container main-slider-nav main-slider-dot">
                          <!-- Main slider -->
@@ -606,7 +608,8 @@
                                                  <h1 class="ec-slide-title">Se una de nuestras Empresarias</h1>
                                                  <h2 class="ec-slide-stitle">En Ibizza</h2>
                                                  <p>Obten ingresos seguros vendiendo por catálogo y forma parte de nosotras</p>
-                                                 <a href="{{ route('web.tienda') }}" class="btn btn-lg btn-secondary">Ordenar
+                                                 <a href="{{ route('web.tienda') }}"
+                                                     class="btn btn-lg btn-secondary">Ordenar
                                                      Ahora</a>
                                              </div>
                                          </div>
@@ -620,9 +623,11 @@
                                              <div class="ec-slide-content slider-animation">
                                                  <h1 class="ec-slide-title">Conoce nuestro catalogo</h1>
                                                  <h2 class="ec-slide-stitle">100% online</h2>
-                                                 <p>Puedes hacer tus pedidos en el momento que quieras y llegaran a la comodidad de
+                                                 <p>Puedes hacer tus pedidos en el momento que quieras y llegaran a la comodidad
+                                                     de
                                                      tu hogar</p>
-                                                 <a href="{{ route('web.tienda') }}" class="btn btn-lg btn-secondary">Ordenar
+                                                 <a href="{{ route('web.tienda') }}"
+                                                     class="btn btn-lg btn-secondary">Ordenar
                                                      Ahora</a>
                                              </div>
                                          </div>
@@ -642,7 +647,7 @@
              <!-- Main Slider End -->
 
              <!-- Product tab Area Start -->
-             <section class="section ec-product-tab section-space-p">
+             {{-- <section class="section ec-product-tab section-space-p">
                  <div class="container">
                      <div class="row">
                          <div class="col-md-12 text-center">
@@ -753,12 +758,72 @@
                          </div>
                      </div>
                  </div>
-             </section>
+             </section> --}}
              <!-- ec Product tab Area End -->
-
+             <section class="ec-banner section section-space-p">
+                 <div class="col-md-12 text-center">
+                     <div class="section-title">
+                         <h2 class="ec-title p-4 ">¿Por qué ser una empresaria en Ibizza?</h2>
+                         <p class="col-md-6 col-sm-12 mx-auto fs-5 my-2 p-2">Podras obtener ganancias seguras con nuestra venta por catalogo y
+                             disfrutaras trabajando para nosotros desde la comodidad de tu hogar.</p>
+                     </div>
+                 </div>
+                 <div class="container">
+                     <div class="row mt-3 mx-auto">
+                         <div class="col">
+                             <div class="card shadow rounded mx-auto mb-3" style="width: 18rem;">
+                                 <img src="{{url('assets/images/card-empresaria/1.jpg')}}" class="card-img-top">
+                                 <div class="card-body text-center">
+                                     <h5 class="card-title fw-bold">Facil de Emprender</h5>
+                                     <p class="card-text">Te damos la comodidad de emprender tu negocio con nosotros.</p>
+                                     {{-- <a href="#" class="btn btn-primary">registrarme</a> --}}
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col">
+                             <div class="card shadow rounded mx-auto mb-3" style="width: 18rem;">
+                                 <img src="{{url('assets/images/card-empresaria/2.jpg')}}" class="card-img-top">
+                                 <div class="card-body text-center">
+                                     <h5 class="card-title fw-bold">Facil de Emprender</h5>
+                                     <p class="card-text">Te damos la comodidad de emprender tu negocio con nosotros.</p>
+                                     {{-- <a href="#" class="btn btn-primary">registrarme</a> --}}
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col">
+                             <div class="card shadow rounded mx-auto mb-3" style="width: 18rem;">
+                                 <img src="{{url('assets/images/card-empresaria/1.jpg')}}" class="card-img-top">
+                                 <div class="card-body text-center">
+                                     <h5 class="card-title fw-bold">Facil de Emprender</h5>
+                                     <p class="card-text">Te damos la comodidad de emprender tu negocio con nosotros.</p>
+                                     {{-- <a href="#" class="btn btn-primary">registrarme</a> --}}
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col">
+                             <div class="card shadow rounded mx-auto mb-3" style="width: 18rem;">
+                                 <img src="{{url('assets/images/card-empresaria/2.jpg')}}" class="card-img-top">
+                                 <div class="card-body text-center">
+                                     <h5 class="card-title fw-bold">Facil de Emprender</h5>
+                                     <p class="card-text">Te damos la comodidad de emprender tu negocio con nosotros.</p>
+                                     {{-- <a href="#" class="btn btn-primary">registrarme</a> --}}
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </section>
              <!-- ec Banner Section Start || SECCION DE CATALOGO AM -->
              <section class="ec-banner section section-space-p">
                  <h2 class="d-none">Banner</h2>
+                 <div class="col-md-12 text-center">
+                     <div class="section-title">
+                         <h2 class="ec-bg-title">Conoce Nuestros Catálogos</h2>
+                         <h2 class="ec-title">Conoce Nuestros Catálogos</h2>
+                         <p class="sub-title">Explora nuestro catálogo con los mejores productos</p>
+                     </div>
+
+                 </div>
                  <div class="container">
                      <!-- ec Banners Start -->
                      <div class="">
@@ -819,255 +884,267 @@
                  </div>
              </section>
              <!-- ec Banner Section End -->
-             @if (count($subcategorias) > 3)
-             <!--  Category Section Start -->
-                <section class="section ec-category-section section-space-p">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <div class="section-title">
-                                    <h2 class="ec-bg-title">Conoce nuestra Colección</h2>
-                                    <h2 class="ec-title">Escoge por Categorias</h2>
-                                    <p class="sub-title">Busca articulos por categorias</p>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <!--Category Nav Start -->
-                            <div class="col-lg-3">
-                                <ul class="ec-cat-tab-nav nav">
-                                    @php
-                                        $i = 1;
-                                        $sub = [];
-                                    @endphp
-                                    @foreach ($subcategorias as $subcategoria)
 
-                                        <li class="cat-item"><a class="cat-link" data-bs-toggle="tab"
-                                                href="{{ '#tab-cat-' . $i++ }}">
-                                                <div class="cat-icons"><img loading='lazy' class="cat-icon"
-                                                        src="assets/images/icons/cat_4.png" alt="cat-icon"><img loading='lazy'
-                                                        class="cat-icon-hover" src="assets/images/icons/cat_4_1.png"
-                                                        alt="cat-icon">
-                                                </div>
-                                                <div class="cat-desc">
-                                                    <span>{{ $subcategoria->subcategoria }}</span><span>{{ $subcategoria->cantidad_productos }}
-                                                        Productos</span>
-                                                </div>
-                                                @php
-                                                    array_push($sub, $subcategoria->subcategoria);
-                                                @endphp
-                                            </a></li>
-                                    @endforeach
-                                </ul>
+             {{-- @if (count($subcategorias) > 3)
+                 <!--  Category Section Start -->
+                 <section class="section ec-category-section section-space-p">
+                     <div class="container">
+                         <div class="row">
+                             <div class="col-md-12 text-center">
+                                 <div class="section-title">
+                                     <h2 class="ec-bg-title">Conoce nuestra Colección</h2>
+                                     <h2 class="ec-title">Escoge por Categorias</h2>
+                                     <p class="sub-title">Busca articulos por categorias</p>
+                                 </div>
+                             </div>
+                         </div>
 
-                            </div>
-                            <!-- Category Nav End -->
-                            <!--Category Tab Start -->
-                            <div class="col-lg-9">
-                                <div class="tab-content">
-                                    <!-- 1st Category tab end -->
-                                    <div class="tab-pane fade show active" id="tab-cat-1">
-                                        <div class="row">
-                                            <img loading='lazy' src="assets/images/cat-banner/1.jpg" alt="" />
-                                        </div>
-                                        <span class="panel-overlay">
-                                            <a href="{{ route('web.tiendaOrderBy', ['subcategoria-' . $sub[0], 'productos.id']) }}"
-                                                class="btn btn-primary">Ver Todos</a>
-                                        </span>
-                                    </div>
-                                    <!-- 1st Category tab end -->
-                                    <div class="tab-pane fade" id="tab-cat-2">
-                                        <div class="row">
-                                            <img loading='lazy' src="assets/images/cat-banner/2.jpg" alt="" />
-                                        </div>
-                                        <span class="panel-overlay">
-                                            <a href="{{ route('web.tiendaOrderBy', ['subcategoria-' . $sub[1], 'productos.id']) }}"
-                                                class="btn btn-primary">Ver Todos</a>
-                                        </span>
-                                    </div>
-                                    <!-- 2nd Category tab end -->
-                                    <!-- 3rd Category tab start -->
-                                    <div class="tab-pane fade" id="tab-cat-3">
-                                        <div class="row">
-                                            <img loading='lazy' src="assets/images/cat-banner/3.jpg" alt="" />
-                                        </div>
-                                        <span class="panel-overlay">
-                                            <a href="{{ route('web.tiendaOrderBy', ['subcategoria-' . $sub[2], 'productos.id']) }}"
-                                                class="btn btn-primary">Ver Todos</a>
-                                        </span>
-                                    </div>
-                                    <!-- 3rd Category tab end -->
-                                    <!-- 4th Category tab start -->
-                                    <div class="tab-pane fade" id="tab-cat-4">
-                                        <div class="row">
-                                            <img loading='lazy' src="assets/images/cat-banner/4.jpg" alt="" />
-                                        </div>
-                                        <span class="panel-overlay">
-                                            <a href="{{ route('web.tiendaOrderBy', ['subcategoria-' . $sub[3], 'productos.id']) }}"
-                                                class="btn btn-primary">Ver Todos</a>
-                                        </span>
-                                    </div>
-                                    <!-- 4th Category tab end -->
-                                </div>
-                                <!-- Category Tab End -->
-                            </div>
-                        </div>
-                    </div>
-                </section>
-             <!-- Category Section End -->
-             @endif
+                         <div class="row">
+                             <!--Category Nav Start -->
+                             <div class="col-lg-3">
+                                 <ul class="ec-cat-tab-nav nav">
+                                     @php
+                                         $i = 1;
+                                         $sub = [];
+                                     @endphp
+                                     @foreach ($subcategorias as $subcategoria)
+
+                                         <li class="cat-item"><a class="cat-link" data-bs-toggle="tab"
+                                                 href="{{ '#tab-cat-' . $i++ }}">
+                                                 <div class="cat-icons"><img loading='lazy' class="cat-icon"
+                                                         src="assets/images/icons/cat_4.png" alt="cat-icon"><img loading='lazy'
+                                                         class="cat-icon-hover" src="assets/images/icons/cat_4_1.png"
+                                                         alt="cat-icon">
+                                                 </div>
+                                                 <div class="cat-desc">
+                                                     <span>{{ $subcategoria->subcategoria }}</span><span>{{ $subcategoria->cantidad_productos }}
+                                                         Productos</span>
+                                                 </div>
+                                                 @php
+                                                     array_push($sub, $subcategoria->subcategoria);
+                                                 @endphp
+                                             </a></li>
+                                     @endforeach
+                                 </ul>
+
+                             </div>
+                             <!-- Category Nav End -->
+                             <!--Category Tab Start -->
+                             <div class="col-lg-9">
+                                 <div class="tab-content">
+                                     <!-- 1st Category tab end -->
+                                     <div class="tab-pane fade show active" id="tab-cat-1">
+                                         <div class="row">
+                                             <img loading='lazy' src="assets/images/cat-banner/1.jpg" alt="" />
+                                         </div>
+                                         <span class="panel-overlay">
+                                             <a href="{{ route('web.tiendaOrderBy', ['subcategoria-' . $sub[0], 'productos.id']) }}"
+                                                 class="btn btn-primary">Ver Todos</a>
+                                         </span>
+                                     </div>
+                                     <!-- 1st Category tab end -->
+                                     <div class="tab-pane fade" id="tab-cat-2">
+                                         <div class="row">
+                                             <img loading='lazy' src="assets/images/cat-banner/2.jpg" alt="" />
+                                         </div>
+                                         <span class="panel-overlay">
+                                             <a href="{{ route('web.tiendaOrderBy', ['subcategoria-' . $sub[1], 'productos.id']) }}"
+                                                 class="btn btn-primary">Ver Todos</a>
+                                         </span>
+                                     </div>
+                                     <!-- 2nd Category tab end -->
+                                     <!-- 3rd Category tab start -->
+                                     <div class="tab-pane fade" id="tab-cat-3">
+                                         <div class="row">
+                                             <img loading='lazy' src="assets/images/cat-banner/3.jpg" alt="" />
+                                         </div>
+                                         <span class="panel-overlay">
+                                             <a href="{{ route('web.tiendaOrderBy', ['subcategoria-' . $sub[2], 'productos.id']) }}"
+                                                 class="btn btn-primary">Ver Todos</a>
+                                         </span>
+                                     </div>
+                                     <!-- 3rd Category tab end -->
+                                     <!-- 4th Category tab start -->
+                                     <div class="tab-pane fade" id="tab-cat-4">
+                                         <div class="row">
+                                             <img loading='lazy' src="assets/images/cat-banner/4.jpg" alt="" />
+                                         </div>
+                                         <span class="panel-overlay">
+                                             <a href="{{ route('web.tiendaOrderBy', ['subcategoria-' . $sub[3], 'productos.id']) }}"
+                                                 class="btn btn-primary">Ver Todos</a>
+                                         </span>
+                                     </div>
+                                     <!-- 4th Category tab end -->
+                                 </div>
+                                 <!-- Category Tab End -->
+                             </div>
+                         </div>
+                     </div>
+                 </section>
+                 <!-- Category Section End -->
+             @endif --}}
 
              <!--  Feature & Special Section Start -->
 
-             @if (count($poco_stock) > 1 && count($descuentos) > 1)                 
-                <section class="section ec-fre-spe-section section-space-p">
-                    <div class="container">
-                        <div class="row">
-                            <!--  Feature Section Start -->
-                            <div class="ec-fre-section col-lg-6 col-md-6 col-sm-6 margin-b-30" data-animation="slideInRight">
-                                <div class="col-md-12 text-left">
-                                    <div class="section-title">
-                                        <h2 class="ec-bg-title">Pocas Unidades</h2>
-                                        <h2 class="ec-title">Pocas Unidades</h2>
-                                    </div>
-                                </div>
+             {{-- @if (count($poco_stock) > 1 && count($descuentos) > 1)
+                 <section class="section ec-fre-spe-section section-space-p">
+                     <div class="container">
+                         <div class="row">
+                             <!--  Feature Section Start -->
+                             <div class="ec-fre-section col-lg-6 col-md-6 col-sm-6 margin-b-30" data-animation="slideInRight">
+                                 <div class="col-md-12 text-left">
+                                     <div class="section-title">
+                                         <h2 class="ec-bg-title">Pocas Unidades</h2>
+                                         <h2 class="ec-title">Pocas Unidades</h2>
+                                     </div>
+                                 </div>
 
-                                <div class="ec-fre-products">
-                                    @php
-                                        $i = 1;
-                                    @endphp
-                                    @foreach ($poco_stock as $value)
-                                        <div class="ec-fs-product">
-                                            <div class="ec-fs-pro-inner">
-                                                <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
-                                                    <div class="ec-fs-pro-image">
-                                                        <a href="{{ route('web.detalle-producto', $value->estilo) }}"
-                                                            class="image"><img loading='lazy' class="main-image"
-                                                                src="storage/images/productos/{{ $value->imagen_path }}"
-                                                                style="object-fit: cover" /></a>
-                                                        <a href="#" class="quickview" data-link-action="quickview"
-                                                            title="Quick view" data-bs-toggle="modal"
-                                                            data-bs-target="#ec_quickview_modal"><img loading='lazy'
-                                                                src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
-                                                                alt="" /></a>
-                                                    </div>
-                                                </div>
-                                                <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
-                                                    <h5 class="ec-fs-pro-title"><a
-                                                            href="{{ route('web.detalle-producto', $value->estilo) }}">{{ $value->nombre_mostrar }}</a>
-                                                    </h5>
-                                                    <div class="ec-fs-pro-rating">
-                                                        <span class="ec-fs-rating-icon">
-                                                            <i class="ecicon eci-star fill"></i>
-                                                            <i class="ecicon eci-star fill"></i>
-                                                            <i class="ecicon eci-star fill"></i>
-                                                            <i class="ecicon eci-star fill"></i>
-                                                            <i class="ecicon eci-star"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="ec-fs-price">
-                                                        @empty(!$value->descuento)
-                                                            <span class="old-price">${{ $value->precio_empresaria }}</span>
-                                                            <span
-                                                                class="new-price">${{ number_format($value->precio_empresaria - $value->precio_empresaria * ($value->descuento / 100), 2) }}</span>
-                                                        @else
-                                                            <span
-                                                                class="new-price">${{ number_format($value->precio_empresaria, 2) }}</span>
-                                                        @endempty
-                                                    </div>
+                                 <div class="ec-fre-products">
+                                     @php
+                                         $i = 1;
+                                     @endphp
+                                     @foreach ($poco_stock as $value)
+                                         <div class="ec-fs-product">
+                                             <div class="ec-fs-pro-inner">
+                                                 <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
+                                                     <div class="ec-fs-pro-image">
+                                                         <a href="{{ route('web.detalle-producto', $value->estilo) }}"
+                                                             class="image"><img loading='lazy' class="main-image"
+                                                                 src="storage/images/productos/{{ $value->imagen_path }}"
+                                                                 style="object-fit: cover" /></a>
+                                                         <a href="#" class="quickview" data-link-action="quickview"
+                                                             title="Quick view" data-bs-toggle="modal"
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
+                                                                 src="assets/images/icons/quickview.svg"
+                                                                 class="svg_img pro_svg" alt="" /></a>
+                                                     </div>
+                                                 </div>
+                                                 <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
+                                                     <h5 class="ec-fs-pro-title"><a
+                                                             href="{{ route('web.detalle-producto', $value->estilo) }}">{{ $value->nombre_mostrar }}</a>
+                                                     </h5>
+                                                     <div class="ec-fs-pro-rating">
+                                                         <span class="ec-fs-rating-icon">
+                                                             <i class="ecicon eci-star fill"></i>
+                                                             <i class="ecicon eci-star fill"></i>
+                                                             <i class="ecicon eci-star fill"></i>
+                                                             <i class="ecicon eci-star fill"></i>
+                                                             <i class="ecicon eci-star"></i>
+                                                         </span>
+                                                     </div>
+                                                     <div class="ec-fs-price">
+                                                         @empty(!$value->descuento)
+                                                             <span
+                                                                 class="old-price">${{ $value->precio_empresaria }}</span>
+                                                             <span
+                                                                 class="new-price">${{ number_format($value->precio_empresaria - $value->precio_empresaria * ($value->descuento / 100), 2) }}</span>
+                                                         @else
+                                                             <span
+                                                                 class="new-price">${{ number_format($value->precio_empresaria, 2) }}</span>
+                                                         @endempty
+                                                     </div>
 
-                                                    <div class="countdowntimer"><span id="{{ 'ec-fs-count-' . $i++ }}"></span>
-                                                    </div>
-                                                    <div class="ec-fs-pro-desc">{{ $value->descripcion }}
-                                                    </div>
-                                                    <div class="ec-fs-pro-book">Total en stock:
-                                                        <span>{{ $value->stock }}</span>
-                                                    </div>
-                                                    <div class="ec-fs-pro-btn">
-                                                        <a href="#" class="btn btn-lg btn-secondary">Recordarme</a>
-                                                        <a href="{{ route('web.detalle-producto', $value->estilo) }}"
-                                                            class="btn btn-lg btn-primary">Comprar</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                            <!--  Feature Section End -->
-                            <!--  Special Section Start -->
-                            <div class="ec-spe-section col-lg-6 col-md-6 col-sm-6" data-animation="slideInLeft">
-                                <div class="col-md-12 text-left">
-                                    <div class="section-title">
-                                        <h2 class="ec-bg-title">Ofertas Tiempo Limitado</h2>
-                                        <h2 class="ec-title">Ofertas Tiempo Limitado</h2>
-                                    </div>
-                                </div>
+                                                     <div class="countdowntimer"><span
+                                                             id="{{ 'ec-fs-count-' . $i++ }}"></span>
+                                                     </div>
+                                                     <div class="ec-fs-pro-desc">{{ $value->descripcion }}
+                                                     </div>
+                                                     <div class="ec-fs-pro-book">Total en stock:
+                                                         <span>{{ $value->stock }}</span>
+                                                     </div>
+                                                     <div class="ec-fs-pro-btn">
+                                                         <a href="#" class="btn btn-lg btn-secondary">Recordarme</a>
+                                                         <a href="{{ route('web.detalle-producto', $value->estilo) }}"
+                                                             class="btn btn-lg btn-primary">Comprar</a>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     @endforeach
+                                 </div>
+                             </div>
+                             <!--  Feature Section End -->
+                             <!--  Special Section Start -->
+                             <div class="ec-spe-section col-lg-6 col-md-6 col-sm-6" data-animation="slideInLeft">
+                                 <div class="col-md-12 text-left">
+                                     <div class="section-title">
+                                         <h2 class="ec-bg-title">Ofertas Tiempo Limitado</h2>
+                                         <h2 class="ec-title">Ofertas Tiempo Limitado</h2>
+                                     </div>
+                                 </div>
 
-                                <div class="ec-spe-products">
-                                    @foreach ($descuentos as $value)
-                                        <div class="ec-fs-product">
-                                            <div class="ec-fs-pro-inner">
-                                                <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
-                                                    <div class="ec-fs-pro-image">
-                                                        <a href="{{ route('web.detalle-producto', $value->estilo) }}"
-                                                            class="image"><img loading='lazy' class="main-image"
-                                                                src="storage/images/productos/{{ $value->imagen_path }}"
-                                                                style="object-fit: cover" /></a>
-                                                        <a href="#" class="quickview" data-link-action="quickview"
-                                                            title="Quick view" data-bs-toggle="modal"
-                                                            data-bs-target="#ec_quickview_modal"><img loading='lazy'
-                                                                src="assets/images/icons/quickview.svg" class="svg_img pro_svg"
-                                                                alt="" /></a>
-                                                    </div>
-                                                </div>
-                                                <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
-                                                    <h5 class="ec-fs-pro-title"><a
-                                                            href="{{ route('web.detalle-producto', $value->estilo) }}">{{ $value->nombre_mostrar }}</a>
-                                                    </h5>
-                                                    <span class="ec-fs-rating-text"><span
-                                                            class="badge rounded-pill bg-danger">Descuento del
-                                                            {{ $value->descuento }}%</span></span>
-                                                    <div class="ec-fs-price">
-                                                        @empty(!$value->descuento)
-                                                            <span class="old-price">${{ $value->precio_empresaria }}</span>
-                                                            <span
-                                                                class="new-price">${{ number_format($value->precio_empresaria - $value->precio_empresaria * ($value->descuento / 100), 2) }}</span>
-                                                        @else
-                                                            <span
-                                                                class="new-price">${{ number_format($value->precio_empresaria, 2) }}</span>
-                                                        @endempty
-                                                    </div>
+                                 <div class="ec-spe-products">
+                                     @foreach ($descuentos as $value)
+                                         <div class="ec-fs-product">
+                                             <div class="ec-fs-pro-inner">
+                                                 <div class="ec-fs-pro-image-outer col-lg-6 col-md-6 col-sm-6">
+                                                     <div class="ec-fs-pro-image">
+                                                         <a href="{{ route('web.detalle-producto', $value->estilo) }}"
+                                                             class="image"><img loading='lazy' class="main-image"
+                                                                 src="storage/images/productos/{{ $value->imagen_path }}"
+                                                                 style="object-fit: cover" /></a>
+                                                         <a href="#" class="quickview" data-link-action="quickview"
+                                                             title="Quick view" data-bs-toggle="modal"
+                                                             data-bs-target="#ec_quickview_modal"><img loading='lazy'
+                                                                 src="assets/images/icons/quickview.svg"
+                                                                 class="svg_img pro_svg" alt="" /></a>
+                                                     </div>
+                                                 </div>
+                                                 <div class="ec-fs-pro-content col-lg-6 col-md-6 col-sm-6">
+                                                     <h5 class="ec-fs-pro-title"><a
+                                                             href="{{ route('web.detalle-producto', $value->estilo) }}">{{ $value->nombre_mostrar }}</a>
+                                                     </h5>
+                                                     <span class="ec-fs-rating-text"><span
+                                                             class="badge rounded-pill bg-danger">Descuento del
+                                                             {{ $value->descuento }}%</span></span>
+                                                     <div class="ec-fs-price">
+                                                         @empty(!$value->descuento)
+                                                             <span
+                                                                 class="old-price">${{ $value->precio_empresaria }}</span>
+                                                             <span
+                                                                 class="new-price">${{ number_format($value->precio_empresaria - $value->precio_empresaria * ($value->descuento / 100), 2) }}</span>
+                                                         @else
+                                                             <span
+                                                                 class="new-price">${{ number_format($value->precio_empresaria, 2) }}</span>
+                                                         @endempty
+                                                     </div>
 
-                                                    <div class="countdowntimer"><span id="{{ 'ec-fs-count-' . $i++ }}"></span>
-                                                    </div>
-                                                    <div class="ec-fs-pro-desc">{{ $value->descripcion }}
-                                                    </div>
-                                                    <div class="ec-fs-pro-book">Total en stock:
-                                                        <span>{{ $value->stock }}</span>
-                                                    </div>
-                                                    <div class="ec-fs-pro-btn">
-                                                        <a href="#" class="btn btn-lg btn-secondary">Recordarme</a>
-                                                        <a href="{{ route('web.detalle-producto', $value->estilo) }}"
-                                                            class="btn btn-lg btn-primary">Comprar</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                            <!--  Special Section End -->
-                        </div>
-                    </div>
-                </section>
-             @endif
+                                                     <div class="countdowntimer"><span
+                                                             id="{{ 'ec-fs-count-' . $i++ }}"></span>
+                                                     </div>
+                                                     <div class="ec-fs-pro-desc">{{ $value->descripcion }}
+                                                     </div>
+                                                     <div class="ec-fs-pro-book">Total en stock:
+                                                         <span>{{ $value->stock }}</span>
+                                                     </div>
+                                                     <div class="ec-fs-pro-btn">
+                                                         <a href="#" class="btn btn-lg btn-secondary">Recordarme</a>
+                                                         <a href="{{ route('web.detalle-producto', $value->estilo) }}"
+                                                             class="btn btn-lg btn-primary">Comprar</a>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     @endforeach
+                                 </div>
+                             </div>
+                             <!--  Special Section End -->
+                         </div>
+                     </div>
+                 </section>
+             @endif --}}
              <!-- Feature & Special Section End -->
 
              <!--  services Section Start -->
              <section class="section ec-services-section section-space-p">
-                 <h2 class="d-none">Services</h2>
+                 <div class="col-md-12 text-center">
+                     <div class="section-title">
+                         <h2 class="ec-title">En Ibizza Estamos para ayudarte</h2>
+                         <p class="w-50 mx-auto my-2">Estaremos siempre presente para ayudarte en cualquier duda o
+                             inconveniente</p>
+                     </div>
+                 </div>
                  <div class="container">
                      <div class="row">
                          <div class="ec_ser_content ec_ser_content_1 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
@@ -1144,7 +1221,7 @@
              <!-- offer Section End -->
 
              <!-- New Product Start -->
-             <section class="section ec-new-product section-space-p">
+             {{-- <section class="section ec-new-product section-space-p">
                  <div class="container">
                      <div class="row">
                          <div class="col-md-12 text-center">
@@ -1168,7 +1245,7 @@
                          </div>
                      </div>
                  </div>
-             </section>
+             </section> --}}
              <!-- New Product end -->
 
              <!-- ec testmonial Start -->
@@ -1278,7 +1355,8 @@
                              <ul id="ec-brand-slider">
                                  @foreach ($marcas as $marca)
                                      <li class="ec-brand-item" data-animation="zoomIn">
-                                         <div class="ec-brand-img"><a href="/tienda/marca/{{ $marca->nombre }}"><img loading='lazy' alt="brand" title="brand"
+                                         <div class="ec-brand-img"><a href="/tienda/marca/{{ $marca->nombre }}"><img
+                                                     loading='lazy' alt="brand" title="brand"
                                                      src="storage/images/marca/{{ $marca->imagen }}" /></a></div>
                                      </li>
                                  @endforeach
@@ -1385,9 +1463,10 @@
                                  <div class="col-sm-12 col-lg-3 ec-footer-contact">
                                      <div class="ec-footer-widget">
                                          <div class="ec-footer-logo"><a href="#"><img loading='lazy'
-                                                     src="{{url('assets/images/logo/logo_ibizza.svg')}}" alt=""><img loading='lazy'
-                                                     class="dark-footer-logo" src="assets/images/logo/dark-logo.png"
-                                                     alt="Site Logo" style="display: none;" /></a></div>
+                                                     src="{{ url('assets/images/logo/logo_ibizza.svg') }}" alt=""><img
+                                                     loading='lazy' class="dark-footer-logo"
+                                                     src="assets/images/logo/dark-logo.png" alt="Site Logo"
+                                                     style="display: none;" /></a></div>
                                          <h4 class="ec-footer-heading">Contactanos</h4>
                                          <div class="ec-footer-links">
                                              <ul class="align-items-center">
