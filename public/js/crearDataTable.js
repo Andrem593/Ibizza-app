@@ -1206,7 +1206,7 @@ function reporteEmpresariaEstado(data, ruta) {
             },
 
             {
-                "data": "estado",
+                "data": "tipo_cliente",
             },
 
 

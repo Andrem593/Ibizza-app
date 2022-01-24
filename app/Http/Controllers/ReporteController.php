@@ -47,7 +47,7 @@ class ReporteController extends Controller
         if ($_POST['funcion'] == 'empresaria_estado') {
 
             $empresarias = Empresaria::where('vendedor', $id_usuario)
-            ->select('cedula', 'estado')
+            ->select('cedula', 'tipo_cliente')
             ->selectRaw('concat_ws(" ", nombres, apellidos) as nombres')
             ->get();
             if (count($empresarias) == 0) {
