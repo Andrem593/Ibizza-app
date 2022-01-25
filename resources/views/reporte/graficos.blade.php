@@ -8,10 +8,22 @@
         <div class="card-header p-0 pt-1">
             <h3 class="text-center">Ventas mes {{ $anio_anterior }} vs {{ $anio_actual }}</h3>
         </div>
-        <div class="card-body">
-            <canvas id="myChart" width="200" height="200"></canvas>
+        <div class="card-body p-2">
+            <div class="chart-container">
+                <canvas id="myChart"></canvas>
+            </div>
         </div>
     </div>
+    @push('css')
+        <style>
+            .chart-container {
+                position: relative;
+                margin: auto;
+                height: 50vh;
+                width: 100%;
+            }
+        </style>
+    @endpush
     @push('js')
         <script>
             var dataAnterior = JSON.parse('<?= $anterior ?>');
@@ -43,12 +55,19 @@
                     ]
                 },
                 options: {
+                    maintainAspectRatio: false,
                     scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
+                        y: {
+                            stacked: true,
+                            grid: {
+                                display: false,
                             }
-                        }]
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
                     },
                     responsive: true,
                 }
