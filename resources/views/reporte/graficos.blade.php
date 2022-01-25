@@ -13,6 +13,23 @@
                 <canvas id="myChart"></canvas>
             </div>
         </div>
+    </div>    
+    <div class="card card-dark">
+        <div class="card-body">
+            <table class="display table table-striped table-sm table-hover fw-bold text-center">
+                <thead class="bg-ibizza">
+                    <tr>
+                        <th>Mes</th>
+                        <th>{{ $anio_anterior }}</th>
+                        <th>{{ $anio_actual }}</th>
+                    </tr>
+                </thead>
+                <tbody id="resumen">
+                </tbody>
+                <tfoot id="pie">
+                </tfoot>
+            </table>
+        </div>
     </div>
     @push('css')
         <style>
@@ -28,16 +45,31 @@
         <script>
             var dataAnterior = JSON.parse('<?= $anterior ?>');
             var dataActual = JSON.parse('<?= $actual ?>');
-            console.log(dataAnterior);
-            console.log(dataActual);
             var ctx = $('#myChart');
+
+            let meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+            let table_html = "";
+            let acumAnterior = 0;
+            let acumActual = 0;
+            dataAnterior.data.forEach((value, index) => {
+                table_html += "<tr>";
+                table_html += "<td>"+ meses[index] +"</td>";
+                table_html += "<td>"+ value +"</td>";
+                table_html += "<td>"+ dataActual.data[index] +"</td>";
+                table_html += "<tr>";
+                acumAnterior = acumAnterior + value;
+                acumActual = acumActual + dataActual.data[index];
+            });
+
+            $('#resumen').html(table_html);
+
+            $('#pie').html('<tr><td>Total General</td><td>'+ acumAnterior +'</td><td>'+ acumActual +'</td></tr>');
 
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
-                        'Octubre', 'Noviembre', 'Diciembre'
-                    ],
+                    labels: meses,
                     datasets: [{
                             label: '<?= $anio_anterior ?>',
                             data: dataAnterior.data,
