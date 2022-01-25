@@ -57,7 +57,7 @@
                 table_html += "<td>"+ meses[index] +"</td>";
                 table_html += "<td>"+ value +"</td>";
                 table_html += "<td>"+ dataActual.data[index] +"</td>";
-                table_html += "<tr>";
+                table_html += "</tr>";
                 acumAnterior = acumAnterior + value;
                 acumActual = acumActual + dataActual.data[index];
             });
