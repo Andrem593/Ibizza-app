@@ -117,7 +117,10 @@ class ReporteController extends Controller
             $data_anterior['data'][] = $valor;
         }
 
-        return view('reporte.graficos', compact('anio_actual','anio_anterior','data_anterior','data_actual'));
+        $anterior = json_encode($data_anterior);
+        $actual = json_encode($data_actual);
+
+        return view('reporte.graficos', compact('anio_actual','anio_anterior','anterior','actual'));
     }
     
 }
