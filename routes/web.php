@@ -149,6 +149,10 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->post('/reporte/empresariaReports', [ReporteController::class,'empresariaReports'])
 ->name('reporte.empresariaReports');
 
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/reporte/graficos', [ReporteController::class,'graficos'])
+->name('reporte.graficos');
+
 // USUARIO
 
 Route::middleware(['auth:sanctum', 'verified'])
