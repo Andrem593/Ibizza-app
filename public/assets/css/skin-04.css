@@ -19030,7 +19030,9 @@ body.ec-open:before {
     background-color: #009688;
     border-color: #009688;
 }
-
+.nav-link{
+    color: #009688 !important;
+}
 .btn-primary:hover {
     color: #ffffff;
     background-color: #333;

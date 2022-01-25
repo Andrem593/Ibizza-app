@@ -70,7 +70,7 @@
                     <!-- Header Top social Start -->
                     <div class="col text-left header-top-left d-none d-lg-block">
                         <div class="header-top-social">
-                            <span class="social-text text-upper">Siguenos en :</span>
+                            {{-- <span class="social-text text-upper">Siguenos en :</span>
                             <ul class="mb-0">
                                 <li class="list-inline-item"><a class="hdr-facebook" href="#"><i
                                             class="ecicon eci-facebook"></i></a></li>
@@ -80,7 +80,7 @@
                                             class="ecicon eci-instagram"></i></a></li>
                                 <li class="list-inline-item"><a class="hdr-linkedin" href="#"><i
                                             class="ecicon eci-linkedin"></i></a></li>
-                            </ul>
+                            </ul> --}}
                         </div>
                     </div>
                     <!-- Header Top social End -->
@@ -94,25 +94,9 @@
                     <!-- Header Top Language Currency -->
                     <div class="col header-top-right d-none d-lg-block">
                         <div class="header-top-lan-curr d-flex justify-content-end">
-                            <!-- Currency Start -->
-                            <div class="header-top-curr dropdown">
-                                <button class="dropdown-toggle text-upper" data-bs-toggle="dropdown">Moneda<i
-                                        class="ecicon eci-caret-down" aria-hidden="true"></i></button>
-                                <ul class="dropdown-menu">
-                                    <li class="active"><a class="dropdown-item" href="#">USD $</a></li>
-                                </ul>
-                            </div>
-                            <!-- Currency End -->
-                            <!-- Language Start -->
-                            <div class="header-top-lan dropdown">
-                                <button class="dropdown-toggle text-upper" data-bs-toggle="dropdown">Idioma <i
-                                        class="ecicon eci-caret-down" aria-hidden="true"></i></button>
-                                <ul class="dropdown-menu">
-                                    <li class="active"><a class="dropdown-item" href="#">Español</a></li>
-                                </ul>
-                            </div>
-                            <!-- Language End -->
-
+                            <a href="{{ route('login') }}" class="text-muted me-2">SOY EMPRESARIA</a>
+                            <a href="{{ route('web.registro-empresaria') }}" class="text-muted">QUIERO SER
+                                EMPRESARIA</a>
                         </div>
                     </div>
                     <!-- Header Top Language Currency -->
@@ -155,8 +139,8 @@
                                 <!-- Header Cart Start -->
                                 <a href="#" class="ec-header-btn ec-header-wishlist">
                                     <div class="header-icon"><img loading='lazy'
-                                            src="{{ url('assets/images/icons/wishlist.svg') }}" class="svg_img header_svg"
-                                            alt="" /></div>
+                                            src="{{ url('assets/images/icons/wishlist.svg') }}"
+                                            class="svg_img header_svg" alt="" /></div>
                                     <span class="ec-header-count">0</span>
                                 </a>
                                 <!-- Header Cart End -->
@@ -200,15 +184,33 @@
 
                             <!-- Ec Header Search Start -->
                             <div class="align-self-center">
-                                <div class="header-search">
-                                    <form class="ec-btn-group-form" action="#">
-                                        <input id="txt_search" class="form-control"
-                                            placeholder="Ingresa el nombre de un Producto..." type="text">
-                                        <button class="submit" type="submit"><img loading='lazy'
-                                                src="{{ url('assets/images/icons/search.svg') }}"
-                                                class="svg_img header_svg" alt="" /></button>
-                                    </form>
+                                <!-- EC Main Menu Start -->
+                                <div id="ec-main-menu-desk" class="d-none d-lg-block sticky-nav">
+                                    <div class="container position-relative">
+                                        <div class="row">
+                                            <div class="align-self-center ms-4">
+                                                <div class="ec-main-menu">
+                                                    <ul>
+                                                       <li><a href="{{ url('/') }}">Inicio</a></li>
+                                                        <li class="dropdown"><a href='javascript:void(0)'>Quiénes somos</a>
+                                                            <ul class="sub-menu">
+                                                                <li><a href="{{ route('web.sobre-nosotros') }}">Sobre Nosotros</a></li>
+                                                                <li><a href="{{ route('web.contactanos') }}">Contactanos</a></li>
+                                                                <li><a href="{{ route('web.politica-privacidad') }}">Politicas de Privacidad</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li><a href="{{ url('/') }}#porQueSerEmpresaria">¿Por qué ser Empresaria?</a></li>
+                                                        <li><a href="{{ url('/') }}#section_catalogo">Catálogo</a></li>
+                                                        {{-- <li class="dropdown"><span class="main-label-note-new" data-toggle="tooltip" title="NEW"></span><a
+                                                                href="{{ route('web.tienda') }}">Tienda</a>
+                                                        </li> --}}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                <!-- Ec Main Menu End -->
                             </div>
                             <!-- Ec Header Search End -->
 
@@ -219,8 +221,8 @@
                                     <!-- Header User Start -->
                                     <div class="ec-header-user dropdown">
                                         <button class="dropdown-toggle" data-bs-toggle="dropdown"><img loading='lazy'
-                                                src="{{ url('assets/images/icons/user.svg') }}" class="svg_img header_svg"
-                                                alt="" /></button>
+                                                src="{{ url('assets/images/icons/user.svg') }}"
+                                                class="svg_img header_svg" alt="" /></button>
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             @if (Route::has('login'))
 
@@ -260,8 +262,8 @@
                                         <!-- Header Cart Start -->
                                         <a href="#ec-side-cart" class="ec-header-btn ec-side-toggle">
                                             <div class="header-icon"><img loading='lazy'
-                                                    src="{{ url('assets/images/icons/cart.svg') }}" class="svg_img header_svg"
-                                                    alt="" /></div>
+                                                    src="{{ url('assets/images/icons/cart.svg') }}"
+                                                    class="svg_img header_svg" alt="" /></div>
                                             <span class="ec-header-count cart-count-lable">{{ Cart::count() }}</span>
                                         </a>
                                         <!-- Header Cart End -->
@@ -292,8 +294,8 @@
                             <div class="col">
                                 <div class="header-search">
                                     <form class="ec-btn-group-form" action="#">
-                                        <input id="txt_search_mobile" class="form-control" placeholder="Ingresa el nombre de un Producto..."
-                                            type="text">
+                                        <input id="txt_search_mobile" class="form-control"
+                                            placeholder="Ingresa el nombre de un Producto..." type="text">
                                         <button class="submit" type="submit"><img loading='lazy'
                                                 src="{{ url('assets/images/icons/search.svg') }}" class="svg_img header_svg"
                                                 alt="icon" /></button>
@@ -305,130 +307,7 @@
                     </div>
                 </div>
                 <!-- Header responsive Bottom  End -->
-                <!-- EC Main Menu Start -->
-                <div id="ec-main-menu-desk" class="d-none d-lg-block sticky-nav">
-                    <div class="container position-relative">
-                        <div class="row">
-                            <div class="col-md-12 align-self-center">
-                                <div class="ec-main-menu">
-                                    <ul>
-                                        <li><a href="{{ url('/') }}">Home</a></li>
-                                        <li class="dropdown position-static"><a href="javascript:void(0)">Categorias</a>
-                                            <ul class="mega-menu d-block p-4">
-                                                <li class="d-flex">
-                                                    <ul class="d-block">
-                                                        <li class="menu_title"><a
-                                                                href="{{ route('web.tiendaOrderBy', ['categoria-Mujer', 'productos.id']) }}">Mujeres</a>
-                                                        </li>
-                                                    </ul>
-                                                    <ul class="d-block">
-                                                        <li class="menu_title"><a
-                                                                href="{{ route('web.tiendaOrderBy', ['categoria-Hombre', 'productos.id']) }}">Hombres</a>
-                                                        </li>
-                                                </li>
-                                            </ul>
-                                            <ul class="d-block">
-                                                <li class="menu_title"><a
-                                                        href="{{ route('web.tiendaOrderBy', ['categoria-Niños', 'productos.id']) }}">Niños</a>
-                                                </li>
-                                            </ul>
-                                            <ul class="d-block">
-                                                <li class="menu_title"><a
-                                                        href="{{ route('web.tiendaOrderBy', ['categoria-Niñas', 'productos.id']) }}">Niñas</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <ul class="ec-main-banner w-100">
-                                                <li><a class="p-0"
-                                                        href="{{ route('web.tiendaOrderBy', ['categoria-Mujer', 'productos.id']) }}"><img
-                                                            loading='lazy' class="img-responsive"
-                                                            src="{{ url('assets/images/menu-banner/1.jpg') }}" alt=""></a></li>
-                                                <li><a class="p-0"
-                                                        href="{{ route('web.tiendaOrderBy', ['categoria-Hombre', 'productos.id']) }}"><img
-                                                            loading='lazy' class="img-responsive"
-                                                            src="{{ url('assets/images/menu-banner/2.jpg') }}" alt=""></a></li>
-                                                <li><a class="p-0"
-                                                        href="{{ route('web.tiendaOrderBy', ['categoria-Niños', 'productos.id']) }}"><img
-                                                            loading='lazy' class="img-responsive"
-                                                            src="{{ url('assets/images/menu-banner/3.jpg') }}" alt=""></a></li>
-                                                <li><a class="p-0"
-                                                        href="{{ route('web.tiendaOrderBy', ['categoria-Niñas', 'productos.id']) }}"><img
-                                                            loading='lazy' class="img-responsive"
-                                                            src="{{ url('assets/images/menu-banner/4.jpg') }}" alt=""></a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                    </li>
-                                    <li class="dropdown"><a href="javascript:void(0)">Productos</a>
-                                        <ul class="sub-menu">
-                                            <li class="dropdown position-static"><a href="javascript:void(0)">Product page
-                                                    <i class="ecicon eci-angle-right"></i></a>
-                                                <ul class="sub-menu sub-menu-child">
-                                                    <li><a href="product-left-sidebar.html">Product left sidebar</a></li>
-                                                    <li><a href="product-right-sidebar.html">Product right sidebar</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="dropdown position-static"><a href="javascript:void(0)">Product 360
-                                                    <i class="ecicon eci-angle-right"></i></a>
-                                                <ul class="sub-menu sub-menu-child">
-                                                    <li><a href="product-360-left-sidebar.html">360 left sidebar</a></li>
-                                                    <li><a href="product-360-right-sidebar.html">360 right sidebar</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="dropdown position-static"><a href="javascript:void(0)">Product video
-                                                    <i class="ecicon eci-angle-right"></i></a>
-                                                <ul class="sub-menu sub-menu-child">
-                                                    <li><a href="product-video-left-sidebar.html">Video left sidebar</a>
-                                                    </li>
-                                                    <li><a href="product-video-right-sidebar.html">Video right sidebar</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="dropdown position-static"><a href="javascript:void(0)">Product
-                                                    gallery
-                                                    <i class="ecicon eci-angle-right"></i></a>
-                                                <ul class="sub-menu sub-menu-child">
-                                                    <li><a href="product-gallery-left-sidebar.html">Gallery left
-                                                            sidebar</a>
-                                                    </li>
-                                                    <li><a href="product-gallery-right-sidebar.html">Gallery right
-                                                            sidebar</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="product-full-width.html">Product full width</a></li>
-                                            <li><a href="product-360-full-width.html">360 full width</a></li>
-                                            <li><a href="product-video-full-width.html">Video full width</a></li>
-                                            <li><a href="product-gallery-full-width.html">Gallery full width</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown"><a href="javascript:void(0)">Paginas</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="{{ route('web.sobre-nosotros') }}">Sobre Nosotros</a></li>
-                                            <li><a href="{{ route('web.contactanos') }}">Contáctenos</a></li>
-                                            <li><a href="cart.html">Cart</a></li>
-                                            <li><a href="{{ route('web.checkout') }}">Checkout</a></li>
-                                            <li><a href="compare.html">Compare</a></li>
-                                            <li><a href="{{ route('web.preguntas-frecuentes') }}">Preguntas</a></li>
-                                            <li><a href="{{ route('login') }}">Login</a></li>
-                                            <li><a href="{{ route('web.registro-empresaria') }}">Register</a></li>
-                                            <li><a href="track-order.html">Track Order</a></li>
-                                            <li><a href="{{ route('web.terminos-condiciones') }}">Términos y Condiciones</a>
-                                            </li>
-                                            <li><a href="{{ route('web.politica-privacidad') }}">Política de Privacidad</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown"><span class="main-label-note-new" data-toggle="tooltip"
-                                            title="NEW"></span><a href="{{ route('web.tienda') }}">Tienda</a>
-                                    </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Ec Main Menu End -->
+
                 <!-- ekka Mobile Menu Start -->
                 <div id="ec-mobile-menu" class="ec-side-cart ec-mobile-menu">
                     <div class="ec-menu-title">
@@ -855,8 +734,8 @@
                     <div class="ec-nav-panel">
                         <div class="ec-nav-panel-icons">
                             <a href="#ec-mobile-menu" class="navbar-toggler-btn ec-header-btn ec-side-toggle"><img
-                                    loading='lazy' src="{{ url('assets/images/icons/menu.svg') }}" class="svg_img header_svg"
-                                    alt="icon" /></a>
+                                    loading='lazy' src="{{ url('assets/images/icons/menu.svg') }}"
+                                    class="svg_img header_svg" alt="icon" /></a>
                         </div>
                         <div class="ec-nav-panel-icons">
                             <a href="#ec-side-cart" class="toggle-cart ec-header-btn ec-side-toggle"><img loading='lazy'
@@ -935,7 +814,8 @@
                                         <div class="d-flex bd-highlight">
                                             <!-- Profile Picture -->
                                             <div class="ec-img-cont">
-                                                <img loading='lazy' src="{{ url('assets/images/favicon/logo_ibizza_verde.svg') }}"
+                                                <img loading='lazy'
+                                                    src="{{ url('assets/images/favicon/logo_ibizza_verde.svg') }}"
                                                     class="ec-user-img" alt="Profile image">
                                                 <span class="ec-status-icon ec-online"></span>
                                             </div>
@@ -959,7 +839,8 @@
                                         <div class="d-flex bd-highlight">
                                             <!-- Profile Picture -->
                                             <div class="ec-img-cont">
-                                                <img loading='lazy' src="{{ url('assets/images/favicon/logo_ibizza_verde.svg') }}"
+                                                <img loading='lazy'
+                                                    src="{{ url('assets/images/favicon/logo_ibizza_verde.svg') }}"
                                                     class="ec-user-img" alt="Profile image">
                                                 <span class="ec-status-icon ec-offline"></span>
                                             </div>
