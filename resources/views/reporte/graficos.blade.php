@@ -29,15 +29,15 @@
                     datasets: [{
                             label: '<?= $anio_anterior ?>',
                             data: dataAnterior.data,
-                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(68, 114, 196, 0.5)',
+                            borderColor: 'rgba(68, 114, 196, 1)',
                             borderWidth: 1
                         },
                         {
                             label: '<?= $anio_actual ?>',
                             data: dataActual.data,
-                            backgroundColor: 'rgba(164, 75, 1, 0.5)',
-                            borderColor: 'rgba(164, 75, 1, 1)',
+                            backgroundColor: 'rgba(165, 165, 165, 0.5)',
+                            borderColor: 'rgba(165, 165, 165, 1)',
                             borderWidth: 1
                         }
                     ]
