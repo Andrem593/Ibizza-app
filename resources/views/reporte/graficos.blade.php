@@ -88,7 +88,9 @@
                             </table>
                         </div>
                         <div class="col-sm-4">
-                            
+                            <div class="chart-container">
+                                <canvas id="chartCatalogo"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -114,7 +116,9 @@
         <script>
             var dataAnterior = JSON.parse('<?= $anterior ?>');
             var dataActual = JSON.parse('<?= $actual ?>');
+            var dataCatalogo = JSON.parse('<?= $jsonCatalogo ?>');
             var ctx = $('#myChart');
+            var ctxCatalogo = $('#chartCatalogo');
 
             let meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
                 'Noviembre', 'Diciembre'
@@ -153,6 +157,37 @@
                             data: dataActual.data,
                             backgroundColor: 'rgba(165, 165, 165, 0.5)',
                             borderColor: 'rgba(165, 165, 165, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            stacked: true,
+                            grid: {
+                                display: false,
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    responsive: true,
+                }
+            });
+            var chartCatalogo = new Chart(ctxCatalogo, {
+                type: 'bar',
+                data: {
+                    labels: dataCatalogo.label,
+                    datasets: [{
+                            label: 'Suma de total',
+                            data: dataCatalogo.data,
+                            backgroundColor: 'rgba(68, 114, 196, 0.5)',
+                            borderColor: 'rgba(68, 114, 196, 1)',
                             borderWidth: 1
                         }
                     ]

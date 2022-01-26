@@ -106,6 +106,13 @@ class ReporteController extends Controller
             ->groupBy('catalogos.nombre')
             ->get();
 
+        $dataCatalogo = [];
+        foreach ($catalogos as $key => $value) {
+            $dataCatalogo['label'][] = $value->nombre;
+            $dataCatalogo['data'][] = $value->total;
+        }
+        $jsonCatalogo = json_encode($dataCatalogo);
+
         $ventas_actual = Venta::whereRaw('YEAR(created_at) = ?', $anio_actual)
             ->selectRaw('count(*) as ventas')
             ->selectRaw('ROUND(sum(total_venta),2) as total')
@@ -152,6 +159,6 @@ class ReporteController extends Controller
         $anterior = json_encode($data_anterior);
         $actual = json_encode($data_actual);
 
-        return view('reporte.graficos', compact('anio_actual', 'anio_anterior', 'anterior', 'actual', 'catalogos'));
+        return view('reporte.graficos', compact('anio_actual', 'anio_anterior', 'anterior', 'actual', 'catalogos', 'jsonCatalogo'));
     }
 }
