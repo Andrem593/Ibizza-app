@@ -94,20 +94,17 @@ class ReporteController extends Controller
             'December'
         ];
 
-        $catalogos = Catalogo::join('catalogo_has_productos as cp', 'cp.catalogo_id', '=', 'catalogos.id')
-            ->join('productos as pro', 'pro.estilo', '=', 'cp.estilo')
-            ->join('pedidos as ped', 'ped.id_producto', '=', 'pro.id')            
-            ->join('ventas', 'ventas.id', '=', 'ped.id_venta')            
+        $catalogos = Catalogo::join('ventas', 'ventas.id_catalogo', '=', 'catalogos.id')
+            ->join('pedidos', 'pedidos.id_venta', '=', 'ventas.id')          
             ->select('catalogos.nombre')
-            ->selectRaw('count(ventas.id_empresaria) as n_ventas')
-            ->selectRaw('ROUND(sum(ped.total),2) as total')
-            ->selectRaw('sum(ped.cantidad) as suma_pedidos')
+            ->selectRaw('count(distinct ventas.id_empresaria) as n_empresarias')
+            ->selectRaw('ROUND(sum(pedidos.total),2) as total')
+            ->selectRaw('sum(pedidos.cantidad) as suma_pedidos')
             ->selectRaw('YEAR(catalogos.fecha_publicacion) as year')
-            ->where('ped.estado', 'PEDIDO')
+            ->selectRaw('ROUND(DATEDIFF(catalogos.fecha_fin_catalogo, catalogos.fecha_publicacion)/7, 0) AS n_semanas')            
+            ->where('pedidos.estado', 'PEDIDO')
             ->groupBy('catalogos.nombre')
             ->get();
-
-        //dd($catalogos);
 
         $ventas_actual = Venta::whereRaw('YEAR(created_at) = ?', $anio_actual)
             ->selectRaw('count(*) as ventas')
