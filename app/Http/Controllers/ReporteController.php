@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Catalogo;
 use App\Empresaria;
 use App\Models\Venta;
 use App\Reporte;
@@ -93,6 +94,21 @@ class ReporteController extends Controller
             'December'
         ];
 
+        $catalogos = Catalogo::join('catalogo_has_productos as cp', 'cp.catalogo_id', '=', 'catalogos.id')
+            ->join('productos as pro', 'pro.estilo', '=', 'cp.estilo')
+            ->join('pedidos as ped', 'ped.id_producto', '=', 'pro.id')            
+            ->join('ventas', 'ventas.id', '=', 'ped.id_venta')            
+            ->select('catalogos.nombre')
+            ->selectRaw('count(ventas.id_empresaria) as n_ventas')
+            ->selectRaw('ROUND(sum(ped.total),2) as total')
+            ->selectRaw('sum(ped.cantidad) as suma_pedidos')
+            ->selectRaw('YEAR(catalogos.fecha_publicacion) as year')
+            ->where('ped.estado', 'PEDIDO')
+            ->groupBy('catalogos.nombre')
+            ->get();
+
+        //dd($catalogos);
+
         $ventas_actual = Venta::whereRaw('YEAR(created_at) = ?', $anio_actual)
             ->selectRaw('count(*) as ventas')
             ->selectRaw('ROUND(sum(total_venta),2) as total')
@@ -139,6 +155,6 @@ class ReporteController extends Controller
         $anterior = json_encode($data_anterior);
         $actual = json_encode($data_actual);
 
-        return view('reporte.graficos', compact('anio_actual', 'anio_anterior', 'anterior', 'actual'));
+        return view('reporte.graficos', compact('anio_actual', 'anio_anterior', 'anterior', 'actual', 'catalogos'));
     }
 }
