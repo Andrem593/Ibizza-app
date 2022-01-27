@@ -43,7 +43,7 @@
                                 @endphp
                                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                     <div class="ec-card-grid-space">
-                                        <a class="ec-card media-1" href="#"
+                                        <a class="ec-card" href="#"
                                             style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../storage/images/catalogo/{{ $item->foto_path }}); background-position: center;">
                                             <div class="ec-num">{{ str_pad($key + 1, 2, '0', STR_PAD_LEFT) }}
                                             </div>
