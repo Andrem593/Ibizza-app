@@ -570,6 +570,10 @@ class webController extends Controller
     {
         return view('ecomerce.sobre-nosotros');
     }
+    public function premio_ventas()
+    {
+        return view('ecomerce.premio-ventas');
+    }
     public function contacto()
     {
         return view('ecomerce.contactanos');

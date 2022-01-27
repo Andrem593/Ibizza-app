@@ -51,6 +51,7 @@ Route::get('pedido-ibizza',[webController::class,'view_pedido'])
 ->middleware(['auth:sanctum', 'verified'])->name('web.tomar-pedido');
 //RUTAS PAGINAS INFORMATIVAS
 Route::get('/sobre-nosotros-ibizza', [webController::class,'sobre_nosotros'])->name('web.sobre-nosotros');
+Route::get('/premio-ventas', [webController::class,'premio_ventas'])->name('web.premio-ventas');
 Route::get('/contactanos', [webController::class,'contacto'])->name('web.contactanos');
 Route::get('/preguntas-frecuentes', [webController::class,'preguntasFrecuentes'])->name('web.preguntas-frecuentes');
 Route::get('/termino-condiciones', [webController::class,'terminosCondiciones'])->name('web.terminos-condiciones');
