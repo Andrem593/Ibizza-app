@@ -248,7 +248,7 @@
                                     <div>
                                         <span class="text-left">Ganacia estimada</span>
                                         <span
-                                            class="text-right">${{ number_format(Cart::total() * 0.4, 2) }}</span>
+                                            class="text-right">${{ number_format(Cart::total() * 0.3, 2) }}</span>
                                     </div>
                                     <div class="ec-checkout-summary-total">
                                         <span class="text-left">Total a Pagar</span>

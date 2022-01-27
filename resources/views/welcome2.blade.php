@@ -53,19 +53,7 @@
                 <div class="row align-items-center">
                     <!-- Header Top social -->
                     <div class="col text-left header-top-left d-none d-lg-block">
-                        {{-- <div class="header-top-social">
-                            <span class="social-text text-upper">Siguenos en :</span>
-                            <ul class="mb-0">
-                                <li class="list-inline-item"><a class="hdr-facebook" href="#"><i
-                                            class="ecicon eci-facebook"></i></a></li>
-                                <li class="list-inline-item"><a class="hdr-twitter" href="#"><i
-                                            class="ecicon eci-twitter"></i></a></li>
-                                <li class="list-inline-item"><a class="hdr-instagram" href="#"><i
-                                            class="ecicon eci-instagram"></i></a></li>
-                                <li class="list-inline-item"><a class="hdr-linkedin" href="#"><i
-                                            class="ecicon eci-linkedin"></i></a></li>
-                            </ul>
-                        </div> --}}
+    
                     </div>
                     <!-- Header Top social End -->
                     <!-- Header Top Message -->
@@ -85,7 +73,11 @@
                     <!-- Header Top Language Currency -->
                     <div class="col header-top-right d-none d-lg-block">
                         <div class="header-top-lan-curr d-flex justify-content-end">
+                            @auth
+                            <a href="{{ route('web.perfil-empresaria') }}" class="text-muted me-2">SOY EMPRESARIA</a>
+                            @else
                             <a href="{{ route('login') }}" class="text-muted me-2">SOY EMPRESARIA</a>
+                            @endauth
                             <a href="{{ route('web.registro-empresaria') }}" class="text-muted">QUIERO SER
                                 EMPRESARIA</a>
                         </div>
@@ -114,13 +106,13 @@
                                                 @csrf
                                                 <button type="submit" class="dropdown-item">cerrar sesión</button>
                                             </form>
-                                            <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Checkout</a>
+                                            <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar Pedido</a>
                                             </li>
                                         @else
                                             <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
                                             <li><a class="dropdown-item"
                                                     href="{{ route('web.registro-empresaria') }}">Registrar</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Checkout</a>
+                                            <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar Pedido</a>
                                             </li>
                                         @endif
                                         @endif
@@ -239,14 +231,14 @@
                                                         <button type="submit" class="dropdown-item">cerrar sesión</button>
                                                     </form>
                                                     <li><a class="dropdown-item"
-                                                            href="{{ route('web.checkout') }}">Checkout</a>
+                                                            href="{{ route('web.checkout') }}">Liquidar Pedido</a>
                                                     </li>
                                                 @else
                                                     <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
                                                     <li><a class="dropdown-item"
                                                             href="{{ route('web.registro-empresaria') }}">Registro</a></li>
                                                     <li><a class="dropdown-item"
-                                                            href="{{ route('web.checkout') }}">Checkout</a>
+                                                            href="{{ route('web.checkout') }}">Liquidar Pedido</a>
                                                     </li>
                                                 @endif
                                                 @endif
@@ -319,82 +311,25 @@
                     <div class="ec-menu-inner">
                         <div class="ec-menu-content">
                             <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="javascript:void(0)">Categorias</a>
+                                <li><a href="{{url('/')}}">Inicio</a></li>
+                                <li><a href="javascript:void(0)">Quiénes Somos</a>
                                     <ul class="sub-menu">
                                         <li>
-                                            <a
-                                                href="{{ route('web.tiendaOrderBy', ['categoria-Mujer', 'productos.id']) }}">Mujeres</a>
+                                            <a href="{{ route('web.sobre-nosotros') }}">Sobre Nosotros</a>
                                         </li>
                                         <li>
-                                            <a
-                                                href="{{ route('web.tiendaOrderBy', ['categoria-Hombre', 'productos.id']) }}">Hombres</a>
+                                            <a href="{{ route('web.contactanos') }}">Contactanos</a>
                                         </li>
                                         <li>
-                                            <a
-                                                href="{{ route('web.tiendaOrderBy', ['categoria-Niños', 'productos.id']) }}">Niños</a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="{{ route('web.tiendaOrderBy', ['categoria-Niñas', 'productos.id']) }}">Niñas</a>
-                                        </li>
-                                        <li><a class="p-0"
-                                                href="{{ route('web.tiendaOrderBy', ['categoria-Mujer', 'productos.id']) }}"><img
-                                                    loading='lazy' class="img-responsive" src="assets/images/menu-banner/1.jpg"
-                                                    alt=""></a>
+                                            <a href="{{ route('web.politica-privacidad') }}">Politicas de Privacidad</a>
+                                        </li>                                        
+                                        <li><a class="p-0" href="#">
+                                            <img loading='lazy' class="img-responsive" src="assets/images/menu-banner/1.jpg"></a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li><a href="javascript:void(0)">Productos</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="javascript:void(0)">Product page</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="product-left-sidebar.html">Product left sidebar</a></li>
-                                                <li><a href="product-right-sidebar.html">Product right sidebar</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="javascript:void(0)">Product 360</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="product-360-left-sidebar.html">360 left sidebar</a></li>
-                                                <li><a href="product-360-right-sidebar.html">360 right sidebar</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="javascript:void(0)">Product vodeo</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="product-video-left-sidebar.html">vodeo left sidebar</a></li>
-                                                <li><a href="product-video-right-sidebar.html">vodeo right sidebar</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="javascript:void(0)">Product gallery</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="product-gallery-left-sidebar.html">Gallery left sidebar</a></li>
-                                                <li><a href="product-gallery-right-sidebar.html">Gallery right sidebar</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="product-full-width.html">Product full width</a></li>
-                                        <li><a href="product-360-full-width.html">360 full width</a></li>
-                                        <li><a href="product-video-full-width.html">Video full width</a></li>
-                                        <li><a href="product-gallery-full-width.html">Gallery full width</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="javascript:void(0)">Paginas</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="{{ route('web.sobre-nosotros') }}">Sobre Nosotros</a></li>
-                                        <li><a href="{{ route('web.contactanos') }}">Contáctenos</a></li>
-                                        <li><a href="{{ route('web.carro-compras') }}">Carrito</a></li>
-                                        <li><a href="{{ route('web.checkout') }}">Checkout</a></li>
-                                        <li><a href="compare.html">Compare</a></li>
-                                        <li><a href="{{ route('web.preguntas-frecuentes') }}">Preguntas</a></li>
-                                        <li><a href="{{ route('login') }}">Login</a></li>
-                                        <li><a href="{{ route('web.registro-empresaria') }}">Register</a></li>
-                                        <li><a href="track-order.html">Track Order</a></li>
-                                        <li><a href="{{ route('web.terminos-condiciones') }}">Términos y Condiciones</a>
-                                        </li>
-                                        <li><a href="{{ route('web.politica-privacidad') }}">Política de Privacidad</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown"><a href="{{ route('web.tienda') }}">Tienda</a>
-                                </li>
+                                <li><a href="#porQueSerEmpresaria">¿Por qué ser Empresaria?</a></li>
+                                <li><a href="#section_catalogo">Catálogo</a></li>                                
                             </ul>
                         </div>
                         <div class="header-res-lan-curr">
@@ -422,11 +357,11 @@
                             <div class="header-res-social">
                                 <div class="header-top-social">
                                     <ul class="mb-0">
-                                        <li class="list-inline-item"><a class="hdr-facebook" href="#"><i
+                                        <li class="list-inline-item"><a class="hdr-facebook" target="_blank" href="https://www.facebook.com/catalogo.ibizza/"><i
                                                     class="ecicon eci-facebook"></i></a></li>
                                         {{-- <li class="list-inline-item"><a class="hdr-twitter" href="#"><i
                                             class="ecicon eci-twitter"></i></a></li> --}}
-                                        <li class="list-inline-item"><a class="hdr-instagram" href="#"><i
+                                        <li class="list-inline-item"><a class="hdr-instagram" target="_blank" href="https://www.instagram.com/catalogo.ibizza/"><i
                                                     class="ecicon eci-instagram"></i></a></li>
                                         {{-- <li class="list-inline-item"><a class="hdr-linkedin" href="#"><i
                                             class="ecicon eci-linkedin"></i></a></li> --}}
@@ -618,8 +553,8 @@
                 </div>
                 <div class="container">
                     <div class="row mt-3 mx-auto">
-                        <div class="col">
-                            <div class="card shadow rounded mx-auto mb-3" style="width: 18rem;">
+                        <div class="col my-3 d-flex justify-content-around">
+                            <div class="card shadow rounded mx-auto" style="width: 15rem;">
                                 <img src="{{ url('assets/images/card-empresaria/1.jpg') }}" class="card-img-top">
                                 <div class="card-body text-center">
                                     <h5 class="card-title fw-bold">Facil de Registrarse</h5>
@@ -629,8 +564,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="card shadow rounded mx-auto mb-3" style="width: 18rem;">
+                        <div class="col my-3">
+                            <div class="card shadow rounded mx-auto" style="width: 15rem;">
                                 <img src="{{ url('assets/images/card-empresaria/2.jpg') }}" class="card-img-top">
                                 <div class="card-body text-center">
                                     <h5 class="card-title fw-bold">Genera Ingresos</h5>
@@ -639,18 +574,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="card shadow rounded mx-auto mb-3" style="width: 18rem;">
+                        <div class="col my-3">
+                            <div class="card shadow rounded mx-auto" style="width: 15rem;">
                                 <img src="{{ url('assets/images/card-empresaria/1.jpg') }}" class="card-img-top">
                                 <div class="card-body text-center">
-                                    <h5 class="card-title fw-bold">Premios por tus ventas</h5>
-                                    <p class="card-text">Gana premios en cada campaña que aumentan tus ganancias.</p>
-                                    <a href="#" class="btn nav-link">Plan de Premios Actual</a>
+                                    <h5 class="card-title fw-bold">Premios en ventas</h5>
+                                    <p class="card-text">Gana premios y aumentan tus ganancias.</p>
+                                    <a href="#" class="btn nav-link">Plan de Premios</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="card shadow rounded mx-auto mb-3" style="width: 18rem;">
+                        <div class="col my-3">
+                            <div class="card shadow rounded mx-auto" style="width: 15rem;">
                                 <img src="{{ url('assets/images/card-empresaria/2.jpg') }}" class="card-img-top">
                                 <div class="card-body text-center">
                                     <h5 class="card-title fw-bold">Facil de Vender</h5>
@@ -1030,7 +965,11 @@
                                         <div class="card-body">
                                             <h5 class="card-title fw-bold text-center p-4">Ingresa a tu perfil</h5>
                                             <p class="card-text">Debes acceder con tu usuario en Soy Empresaria y podras solicitar tu catálogo fisico o descargar el catálogo virtual, podras saber tus ganancias, tus ultimos pedidos, tus premios y mucho más.</p>
+                                            @auth
+                                            <a href="{{ route('web.perfil-empresaria') }}" class="btn nav-link">Soy Empresaria</a>
+                                            @else                                            
                                             <a href="{{ route('login') }}" class="btn nav-link">Soy Empresaria</a>
+                                            @endauth
                                         </div>
                                     </div>
                                     <div class="col-md-7">
@@ -1410,8 +1349,7 @@
                                                         Nosotros</a></li>
                                                 <li class="ec-footer-link"><a
                                                         href="{{ route('web.preguntas-frecuentes') }}">Preguntas</a></li>
-                                                <li class="ec-footer-link"><a href="track-order.html">Delivery
-                                                        Information</a>
+                                                <li class="ec-footer-link"><a href="track-order.html">Información de Envios</a>
                                                 </li>
                                                 <li class="ec-footer-link"><a
                                                         href="{{ route('web.contactanos') }}">Contáctenos</a></li>
@@ -1421,7 +1359,7 @@
                                 </div>
                                 <div class="col-sm-12 col-lg-2 ec-footer-account">
                                     <div class="ec-footer-widget">
-                                        <h4 class="ec-footer-heading">Account</h4>
+                                        <h4 class="ec-footer-heading">Soy Empresaria</h4>
                                         <div class="ec-footer-links">
                                             <ul class="align-items-center">
                                                 <li class="ec-footer-link"><a href="user-profile.html">My Account</a></li>
@@ -1695,125 +1633,6 @@
                 <script src="assets/js/main.js"></script>
 
                 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
-
-                <script type="text/javascript">
-                    var path = "{{ route('web.autocompletar') }}";
-
-                    $('#txt_search').autocomplete({
-                        source: function(request, response) {
-                            $.getJSON(path, {
-                                    term: request.term
-                                },
-                                response
-                            );
-                        },
-                        focus: function(event, ui) {
-                            $("#txt_search").val(ui.item.value);
-                            return false;
-                        },
-                        minLength: 1,
-                        select: function(event, ui) {
-                            let url = "{{ route('web.detalle-producto', ':id') }}";
-                            url = url.replace(':id', ui.item.estilo);
-                            document.location.href = url;
-                            //get_datos_afiliado(ui.item.data);
-                            //console.log('You selected: ' + ui.item.value + ', ' + ui.item.data);
-                        }
-                    }).autocomplete("instance")._renderItem = function(ul, item) {
-                        if (item.value) {
-                            let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
-                            if (item.imagen_path != '' && item.imagen_path != null) {
-                                image = '/storage/images/productos/' + item.imagen_path
-                            }
-                            return $("<li>").append("<div><img src='" + image +
-                                    "' class='rounded p-2' width='50' height='50' /><span>" + item.value + "</span></div>")
-                                .appendTo(ul);
-                        } else {
-                            return $("<li class='ui-state-disabled'>").append("<div>Produco no encontrado</div>").appendTo(ul);
-                        }
-
-                    };
-                    $('#txt_search_mobile').autocomplete({
-                        source: function(request, response) {
-                            $.getJSON(path, {
-                                    term: request.term
-                                },
-                                response
-                            );
-                        },
-                        focus: function(event, ui) {
-                            $("#txt_search").val(ui.item.value);
-                            return false;
-                        },
-                        minLength: 1,
-                        select: function(event, ui) {
-                            let url = "{{ route('web.detalle-producto', ':id') }}";
-                            url = url.replace(':id', ui.item.estilo);
-                            document.location.href = url;
-                            //get_datos_afiliado(ui.item.data);
-                            //console.log('You selected: ' + ui.item.value + ', ' + ui.item.data);
-                        }
-                    }).autocomplete("instance")._renderItem = function(ul, item) {
-                        if (item.value) {
-                            let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
-                            if (item.imagen_path != '' && item.imagen_path != null) {
-                                image = '/storage/images/productos/' + item.imagen_path
-                            }
-                            return $("<li>").append("<div><img src='" + image +
-                                    "' class='rounded p-2' width='50' height='50' /><span>" + item.value + "</span></div>")
-                                .appendTo(ul);
-                        } else {
-                            return $("<li class='ui-state-disabled'>").append("<div>Produco no encontrado</div>").appendTo(ul);
-                        }
-
-                    };
-
-
-                    window.addEventListener('contentChanged', event => {
-
-                        $('.qty-product-cover').slick('init');
-                        $('.qty-nav-thumb').slick('init');
-                        var QtyPlusMinus = $(".qty-plus-minus");
-                        QtyPlusMinus.prepend('<div class="dec ec_qtybtn">-</div>');
-                        QtyPlusMinus.append('<div class="inc ec_qtybtn">+</div>');
-
-                    });
-
-                    $('#ec_quickview_modal').on('hidden.bs.modal', function(e) {
-                        $('#qv_modal').hide();
-                        $('#qv_spinner').removeClass('d-none');
-                    });
-                    // CUENTA REGRESIVA DE TIMER
-                    @isset($catalogo)
-                        $("#ec-fs-count-1").countdowntimer({
-                    Date: "{{ str_replace('-', '/', date('Y-m-d')) . ' ' . date('h:i:s') }}",
-                        dateAndTime: "{{ str_replace('-', '/', $catalogos[0]->fecha_fin_catalogo) . ' 00:00:00' }}",
-                        labelsFormat: true,
-                        displayFormat: "DHMS"
-                        });
-                    
-                        $("#ec-fs-count-2").countdowntimer({
-                    Date: "{{ str_replace('-', '/', date('Y-m-d')) . ' ' . date('h:i:s') }}",
-                        dateAndTime: "{{ str_replace('-', '/', $catalogos[0]->fecha_fin_catalogo) . ' 00:00:00' }}",
-                        labelsFormat: true,
-                        displayFormat: "DHMS"
-                        });
-                    
-                        $("#ec-fs-count-3").countdowntimer({
-                    Date: "{{ str_replace('-', '/', date('Y-m-d')) . ' ' . date('h:i:s') }}",
-                        dateAndTime: "{{ str_replace('-', '/', $catalogos[0]->fecha_fin_catalogo) . ' 00:00:00' }}",
-                        labelsFormat: true,
-                        displayFormat: "DHMS"
-                        });
-                    
-                        $("#ec-fs-count-4").countdowntimer({
-                    Date: "{{ str_replace('-', '/', date('Y-m-d')) . ' ' . date('h:i:s') }}",
-                        dateAndTime: "{{ str_replace('-', '/', $catalogos[0]->fecha_fin_catalogo) . ' 00:00:00' }}",
-                        labelsFormat: true,
-                        displayFormat: "DHMS"
-                        });
-                    @endisset
-                </script>
 
                 @stack('js')
                 @livewireScripts

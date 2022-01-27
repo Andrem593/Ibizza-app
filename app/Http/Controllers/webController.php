@@ -231,29 +231,7 @@ class webController extends Controller
         }
         if (!empty(Auth::user())) {
             if (Auth::user()->role == 'Empresaria') {
-                $empresaria = Empresaria::select('empresarias.*', 'ciudades.provincia_id')->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')->where('empresarias.id_user', Auth::user()->id)->first();
-                // if (!empty($condiciones)) {
-                //     foreach ($condiciones as $i => $condicion) {
-                //         $reglas = json_decode($condicion->condicion);
-                //         if ($reglas[0]->nombre_tabla == 'empresarias') {
-                //             $premio = DB::table($reglas[0]->nombre_tabla)->whereRaw($reglas[0]->condicion)->get();
-                //             foreach ($premio as  $val) {
-                //                 if ($val->id_user == Auth::user()->id) {
-                //                     $producto = DB::table('premio_has_productos')->join('productos', 'productos.estilo', '=', 'premio_has_productos.estilo')->where('premio_id', $condicion->id)->groupBy('productos.estilo')->get();
-                //                     foreach ($producto as  $value) {
-                //                         array_push($productoPremio, $value);
-                //                     }
-                //                 }
-                //             }
-                //         }
-                //         if ($reglas[0]->nombre_tabla == 'pedidos') {
-                //             $rule = $reglas[0]->condicion;
-                //             $total_factura = Cart::total();
-                //             $rule  = str_replace('total_factura', $total_factura, $rule);
-                //             //pendiente validar por total de factura
-                //         }
-                //     }
-                // }
+                $empresaria = Empresaria::select('empresarias.*', 'ciudades.provincia_id')->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')->where('empresarias.id_user', Auth::user()->id)->first();                
                 if (!empty($condicion)) {
                     foreach ($condicion as $i => $value) {
                         $reglas = json_decode($value->condicion);
@@ -658,5 +636,10 @@ class webController extends Controller
         Mail::to($request->email)->send($correo);
 
         return view('ecomerce.registro-exitoso');
+    }
+    public function view_pedido()
+    {
+        $empresaria = Empresaria::where('id_user', Auth::user()->id)->first();
+        return view('pedidos.index', compact('empresaria'));
     }
 }

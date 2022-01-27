@@ -46,6 +46,9 @@ Route::get('detalle-pedido-ibizza/{id_venta}',[webController::class,'detalle_ped
 Route::get('tracking-ibizza/{id_venta}',[webController::class,'tracking_pedido'])->name('web.tracking-pedido');
 Route::post('consulta-ciudad',[webController::class,'consultarCiudad'])->name('web.consutar-ciudad');
 Route::post('registrar-empresaria-nueva',[webController::class,'registrarEmpresariaNueva'])->name('web.registrar-empresaria-nueva');
+// NUEVO FORMA TOMAR PEDIDO
+Route::get('pedido-ibizza',[webController::class,'view_pedido'])
+->middleware(['auth:sanctum', 'verified'])->name('web.tomar-pedido');
 //RUTAS PAGINAS INFORMATIVAS
 Route::get('/sobre-nosotros-ibizza', [webController::class,'sobre_nosotros'])->name('web.sobre-nosotros');
 Route::get('/contactanos', [webController::class,'contacto'])->name('web.contactanos');

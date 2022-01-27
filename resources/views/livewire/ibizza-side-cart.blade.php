@@ -47,7 +47,7 @@
             </div>
             <div class="cart_btn">
                 <a href="{{ route('web.carro-compras')}}" class="btn btn-primary">Ver Carrito</a>
-                <a href="{{ route('web.checkout')}}" class="btn btn-secondary">Checkout</a>
+                <a href="{{ route('web.checkout')}}" class="btn btn-secondary">Liquidar</a>
             </div>
         </div>
     </div>
