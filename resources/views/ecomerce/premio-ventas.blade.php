@@ -11,7 +11,7 @@
                         <div class="col-md-6 col-sm-12">
                             <!-- ec-breadcrumb-list start -->
                             <ul class="ec-breadcrumb-list">
-                                <li class="ec-breadcrumb-item"><a href="{{route('web')}}">Inicio</a></li>
+                                <li class="ec-breadcrumb-item"><a href="{{ route('web') }}">Inicio</a></li>
                                 <li class="ec-breadcrumb-item active">Plan de Premios</li>
                             </ul>
                             <!-- ec-breadcrumb-list end -->
@@ -35,38 +35,42 @@
                     </div>
                 </div>
                 <div class="ec-common-wrapper">
-                    <div class="row">
-                        <div class="col-md-6 ec-cms-block ec-abcms-block text-center">
-                            <div class="ec-cms-block-inner">
-                                <img class="a-img" src="assets/images/offer-image/sobre_nosotros.jpg" alt="sobre-nosotros-ibizza">
-                            </div>
-                        </div>
-                        <div class="col-md-6 ec-cms-block ec-abcms-block text-center">
-                            <div class="ec-cms-block-inner">
-                                <h3 class="ec-cms-block-title">¿Qué es Ibizza?</h3>
-                                <p>Electronic typesetting text of the printing and typesetting industry. when an unknown
-                                    printer took a galley of type
-                                    and scrambled it to make a type specimen book. Lorem Ipsum is
-                                    simply dutmmy text ever since the 1500s, It has survived not only,
-                                    but also the leap into electronic typesetting.</p>
-                                <p>Lorem Ipsum is simply dummy text of the printing. It has survived not only five
-                                    centuries,
-                                    but also the leap into electronic typesetting.</p>
-                                <p>Also the leap into electronic typesetting printing and typesetting industry. It has
-                                    survived not only five centuries,
-                                    but also the leap into electronic typesetting, when an unknown printer took a galley
-                                    of type
-                                    and scrambled it to make a type specimen book. It has survived not only five
-                                    centuries,
-                                    but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                            </div>
-                        </div>
+                    <div class="row margin-minus-t-15 justify-content-center">
+                        @if (count($premios) > 0)
+                            @foreach ($premios as $key => $item)
+                                @php
+                                    $fecha = Carbon\Carbon::parse($item->fecha_fin_catalogo . ' 23:59:59');
+                                @endphp
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="ec-card-grid-space">
+                                        <a class="ec-card media-1" href="#"
+                                            style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../storage/images/catalogo/{{ $item->foto_path }}); background-position: center;">
+                                            <div class="ec-num">{{ str_pad($key + 1, 2, '0', STR_PAD_LEFT) }}
+                                            </div>
+                                            <h1>{{ $item->descripcion }}</h1>
+                                            <p><strong>Catalogo:</strong> {{ $item->nombre }}</p>
+                                            <div class="ec-date">Finaliza en
+                                                {{ $fecha->diffForHumans(null, true) }}</div>
+                                            <div class="ec-tags">
+                                                <div class="ec-tag">Ver premios</div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="8">Sin datos que mostrar</td>
+                            </tr>
+                        @endif
+
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
+
 
     <!--  services Section Start -->
     <section class="section ec-services-section section-space-p">
@@ -76,8 +80,7 @@
                 <div class="ec_ser_content ec_ser_content_1 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
                     <div class="ec_ser_inner">
                         <div class="ec-service-image">
-                            <img loading='lazy' src="assets/images/icons/service_1.svg" class="svg_img"
-                                alt="" />
+                            <img loading='lazy' src="assets/images/icons/service_1.svg" class="svg_img" alt="" />
                         </div>
                         <div class="ec-service-desc">
                             <h2>Envio Gratuito</h2>
@@ -88,8 +91,7 @@
                 <div class="ec_ser_content ec_ser_content_2 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
                     <div class="ec_ser_inner">
                         <div class="ec-service-image">
-                            <img loading='lazy' src="assets/images/icons/service_2.svg" class="svg_img"
-                                alt="" />
+                            <img loading='lazy' src="assets/images/icons/service_2.svg" class="svg_img" alt="" />
                         </div>
                         <div class="ec-service-desc">
                             <h2>Soporte 24X7</h2>
@@ -100,8 +102,7 @@
                 <div class="ec_ser_content ec_ser_content_3 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
                     <div class="ec_ser_inner">
                         <div class="ec-service-image">
-                            <img loading='lazy' src="assets/images/icons/service_3.svg" class="svg_img"
-                                alt="" />
+                            <img loading='lazy' src="assets/images/icons/service_3.svg" class="svg_img" alt="" />
                         </div>
                         <div class="ec-service-desc">
                             <h2>Devoluciones de 30 Días</h2>
@@ -112,8 +113,7 @@
                 <div class="ec_ser_content ec_ser_content_4 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
                     <div class="ec_ser_inner">
                         <div class="ec-service-image">
-                            <img loading='lazy' src="assets/images/icons/service_4.svg" class="svg_img"
-                                alt="" />
+                            <img loading='lazy' src="assets/images/icons/service_4.svg" class="svg_img" alt="" />
                         </div>
                         <div class="ec-service-desc">
                             <h2>Pagos seguros</h2>
