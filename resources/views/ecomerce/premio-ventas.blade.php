@@ -43,9 +43,8 @@
                                 @endphp
                                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                     <div class="ec-card-grid-space">
-                                        <a class="ec-card" class="quickview" data-link-action="quickview" title="Ver premios"
+                                        <a class="ec-card prueba" title="Ver premios" id="{{$item->id}}"
                                         data-bs-toggle="modal" data-bs-target="#modal_premio"
-                                        wire:click="$emitTo('modal-premio', 'viewPremio', {{ "'" . $item->id . "'" }} )"
                                             style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../storage/images/catalogo/{{ $item->foto_path }}); background-position: center;">
                                             <div class="ec-num">{{ str_pad($key + 1, 2, '0', STR_PAD_LEFT) }}
                                             </div>
@@ -206,4 +205,12 @@
     <!-- Ec Instagram End -->
 
     <livewire:modal-premio />
+    @push('js')
+    <script>
+        $('.prueba').click((e)=>{
+            let id = $('.prueba').attr('id');
+            Livewire.emit('viewPremio',id);
+        })
+    </script>
+    @endpush
 </x-plantilla>

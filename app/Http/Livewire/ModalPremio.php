@@ -3,11 +3,13 @@
 namespace App\Http\Livewire;
 
 use App\Models\Premio_has_Producto;
+use App\Premio;
 use Livewire\Component;
 
 class ModalPremio extends Component
 {
     protected $listeners = ['viewPremio'];
+    public $premios, $premio;
 
     public function render()
     {
@@ -18,12 +20,14 @@ class ModalPremio extends Component
     public function viewPremio($id_premio)
     {
         $this->dispatchBrowserEvent('contentChanged');
-        $premios = Premio_has_Producto::where('premio_id', $id_premio)
+        $this->premios = Premio_has_Producto::where('premio_id', $id_premio)
         ->join('productos', 'productos.estilo', '=', 'premio_has_productos.estilo')
         ->select('productos.*')
         ->groupBy('productos.estilo')
         ->get();
+
+        $this->premio = Premio::where('id', $id_premio)
+        ->first();
         
-        dd($premios);
     }
 }
