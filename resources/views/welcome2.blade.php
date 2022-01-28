@@ -119,10 +119,10 @@
                             </div>
                             <!-- Header User End -->
                             <!-- Header Cart -->
-                            <a href="#" class="ec-header-btn ec-header-wishlist">
+                            <a href="{{route('web.pedidos-guardados')}}" class="ec-header-btn ec-header-wishlist">
                                 <div class="header-icon"><img loading='lazy' src="assets/images/icons/wishlist.svg"
                                         class="svg_img header_svg" alt="" /></div>
-                                <span class="ec-header-count">0</span>
+                                <span class="ec-header-count">{{count($reservados)}}</span>
                             </a>
                             <!-- Header Cart End -->
                             <!-- Header Cart -->
@@ -247,11 +247,11 @@
                                 </div>
                                 <!-- Header User End -->
                                 <!-- Header wishlist -->
-                                <a href="#" class="ec-header-btn ec-header-wishlist">
+                                <a href="{{route('web.pedidos-guardados')}}" class="ec-header-btn ec-header-wishlist">
                                     <div class="header-icon"><img loading='lazy' src="assets/images/icons/wishlist.svg"
                                             class="svg_img header_svg" alt="" />
                                     </div>
-                                    <span class="ec-header-count">0</span>
+                                    <span class="ec-header-count">{{count($reservados)}}</span>
                                 </a>
                                 <!-- Header wishlist End -->
                                 <!-- Header Cart -->
@@ -399,7 +399,7 @@
                                         <h1 class="ec-slide-title">Se una de nuestras Empresarias</h1>
                                         <h2 class="ec-slide-stitle">En Ibizza</h2>
                                         <p>Obten ingresos seguros vendiendo por catálogo y forma parte de nosotras</p>
-                                        <a href="{{ route('web.tienda') }}" class="btn btn-lg btn-secondary">Ordenar
+                                        <a href="{{ route('web.registro-empresaria') }}" class="btn btn-lg btn-secondary">Registrarme
                                             Ahora</a>
                                     </div>
                                 </div>
@@ -416,8 +416,7 @@
                                         <p>Puedes hacer tus pedidos en el momento que quieras y llegaran a la comodidad
                                             de
                                             tu hogar</p>
-                                        <a href="{{ route('web.tienda') }}" class="btn btn-lg btn-secondary">Ordenar
-                                            Ahora</a>
+                                        <a href="{{ url('/').'#section_catalogo' }}" class="btn btn-lg btn-secondary">Ver Catalogo</a>
                                     </div>
                                 </div>
                             </div>
@@ -558,7 +557,7 @@
         <div class="container">
             <div class="row mt-3 mx-auto">
                 <div class="col my-3 d-flex justify-content-around">
-                    <div class="card shadow rounded mx-auto" style="width: 15rem;">
+                    <div class="card shadow rounded mx-auto" style="width: 18rem;">
                         <img src="{{ url('assets/images/card-empresaria/1.jpg') }}" class="card-img-top">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Facil de Registrarse</h5>
@@ -569,7 +568,7 @@
                     </div>
                 </div>
                 <div class="col my-3">
-                    <div class="card shadow rounded mx-auto" style="width: 15rem;">
+                    <div class="card shadow rounded mx-auto" style="width: 18rem;">
                         <img src="{{ url('assets/images/card-empresaria/2.jpg') }}" class="card-img-top">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Genera Ingresos</h5>
@@ -579,7 +578,7 @@
                     </div>
                 </div>
                 <div class="col my-3">
-                    <div class="card shadow rounded mx-auto" style="width: 15rem;">
+                    <div class="card shadow rounded mx-auto" style="width: 18rem;">
                         <img src="{{ url('assets/images/card-empresaria/1.jpg') }}" class="card-img-top">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Premios en ventas</h5>
@@ -589,7 +588,7 @@
                     </div>
                 </div>
                 <div class="col my-3">
-                    <div class="card shadow rounded mx-auto" style="width: 15rem;">
+                    <div class="card shadow rounded mx-auto" style="width: 18rem;">
                         <img src="{{ url('assets/images/card-empresaria/2.jpg') }}" class="card-img-top">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Facil de Vender</h5>
@@ -1253,28 +1252,28 @@
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
+                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
                                         src="assets/images/instragram-image/1.png" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
+                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
                                         src="assets/images/instragram-image/2.png" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
+                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
                                         src="assets/images/instragram-image/3.png" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
+                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
                                         src="assets/images/instragram-image/4.png" alt="insta"></a>
                             </div>
                         </div>
@@ -1282,7 +1281,7 @@
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
+                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
                                         src="assets/images/instragram-image/5.png" alt="insta"></a>
                             </div>
                         </div>
@@ -1290,7 +1289,7 @@
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
+                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
                                         src="assets/images/instragram-image/6.png" alt="insta"></a>
                             </div>
                         </div>
@@ -1298,7 +1297,7 @@
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
+                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
                                         src="assets/images/instragram-image/7.png" alt="insta"></a>
                             </div>
                         </div>
@@ -1462,8 +1461,6 @@
     </footer>
     <!-- Footer Area End -->
 
-    <livewire:modal-quick-view />
-
     <!-- Newsletter Modal -->
 
     <!-- Newsletter Modal end -->
@@ -1487,8 +1484,8 @@
                             src="assets/images/icons/home.svg" class="svg_img header_svg" alt="icon" /></a>
                 </div>
                 <div class="ec-nav-panel-icons">
-                    <a href="#" class="ec-header-btn"><img loading='lazy' src="assets/images/icons/wishlist.svg"
-                            class="svg_img header_svg" alt="icon" /><span class="ec-cart-noti">0</span></a>
+                    <a href="{{route('web.pedidos-guardados')}}" class="ec-header-btn"><img loading='lazy' src="assets/images/icons/wishlist.svg"
+                            class="svg_img header_svg" alt="icon" /><span class="ec-cart-noti">{{count($reservados)}}</span></a>
                 </div>
                 <div class="ec-nav-panel-icons">
                     @if (Route::has('login'))

@@ -12,7 +12,7 @@
                 <li><a href="{{ route('web.pedidos-guardados')}}">Pedidos Reservados</a></li>
                 <li><a href="{{ route('web.historial-compras') }}">Historial de Compras</a></li>
                 <li><a href="{{ route('web.seguimiento-pedidos')}}">Seguimiento de Pedidos</a></li>
-                <li><a href="{{ route('web.carro-compras') }}">Carrito</a></li>
+                {{-- <li><a href="{{ route('web.carro-compras') }}">Carrito</a></li> --}}
                 <li><a href="{{ route('web.checkout') }}">Liquidar Pedido</a></li>
             </ul>
         </div>

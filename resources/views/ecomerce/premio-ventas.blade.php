@@ -1,4 +1,5 @@
 <x-plantilla>
+    @section('title', 'Plan de Premios')
     <!-- Ec breadcrumb start -->
     <div class="sticky-header-next-sec  ec-breadcrumb section-space-mb">
         <div class="container">

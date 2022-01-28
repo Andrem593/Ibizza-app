@@ -6,7 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-    <title>IBIZZA - Sitio Oficial</title>
+    <title>IBIZZA - @yield('title')</title>
     <meta name="keywords" content="ecomerce,zapatos,ibizza,zapatos mujer,zapatos hombre,dpisar" />
     <meta name="description"
         content="Se parte de nuestras empresarias y genera ingresos extras vendiendo el fabuloso catalogo de Ibizza">
@@ -61,6 +61,12 @@
 </head>
 
 <body>
+    @php
+        $reservados = [];
+        if (!empty(Auth::user())){
+            $reservados = App\Models\Separado::where('id_usuario',Auth::user()->id)->get();
+        } 
+    @endphp
     <div id="ec-overlay"><span class="loader_img"></span></div>
 
     <!-- Header start  -->
@@ -133,11 +139,11 @@
                             </div>
                             <!-- Header User End -->
                             <!-- Header Cart Start -->
-                            <a href="#" class="ec-header-btn ec-header-wishlist">
+                            <a href="{{route('web.pedidos-guardados')}}" class="ec-header-btn ec-header-wishlist">
                                 <div class="header-icon"><img loading='lazy'
                                         src="{{ url('assets/images/icons/wishlist.svg') }}" class="svg_img header_svg"
                                         alt="" /></div>
-                                <span class="ec-header-count">0</span>
+                                <span class="ec-header-count">{{count($reservados)}}</span>
                             </a>
                             <!-- Header Cart End -->
                             <!-- Header Cart Start -->
@@ -252,11 +258,11 @@
                                 </div>
                                 <!-- Header User End -->
                                 <!-- Header wishlist Start -->
-                                <a href="#" class="ec-header-btn ec-header-wishlist">
+                                <a href="{{route('web.pedidos-guardados')}}" class="ec-header-btn ec-header-wishlist">
                                     <div class="header-icon"><img loading='lazy'
                                             src="{{ url('assets/images/icons/wishlist.svg') }}"
                                             class="svg_img header_svg" alt="" /></div>
-                                    <span class="ec-header-count">0</span>
+                                    <span class="ec-header-count">{{count($reservados)}}</span>
                                 </a>
                                 <!-- Header wishlist End -->
                                 <!-- Header Cart Start -->
@@ -557,9 +563,9 @@
                             src="{{ url('assets/images/icons/home.svg') }}" class="svg_img header_svg" alt="icon" /></a>
                 </div>
                 <div class="ec-nav-panel-icons">
-                    <a href="#" class="ec-header-btn"><img loading='lazy'
+                    <a href="{{route('web.pedidos-guardados')}}" class="ec-header-btn"><img loading='lazy'
                             src="{{ url('assets/images/icons/wishlist.svg') }}" class="svg_img header_svg"
-                            alt="icon" /><span class="ec-cart-noti">0</span></a>
+                            alt="icon" /><span class="ec-cart-noti">{{count($reservados)}}</span></a>
                 </div>
                 <div class="ec-nav-panel-icons">
                     @if (Route::has('login'))

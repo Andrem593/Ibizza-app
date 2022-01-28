@@ -1,4 +1,5 @@
 <x-plantilla>
+    @section('title', 'Historial de Compra')
     <!-- Ec breadcrumb start -->
     <div class="sticky-header-next-sec  ec-breadcrumb section-space-mb">
         <div class="container">
@@ -39,7 +40,7 @@
                         <div class="ec-vendor-card-header">
                             <h5>Historial de Compras</h5>
                             <div class="ec-header-btn">
-                                <a class="btn btn-lg btn-primary" href="{{route('web.tienda')}}">Visitar Tienda</a>
+                                <a class="btn btn-lg btn-primary" href="{{route('web.tomar-pedido')}}">Pedidos</a>
                             </div>
                         </div>
                         <div class="ec-vendor-card-body">

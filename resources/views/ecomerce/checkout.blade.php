@@ -1,18 +1,18 @@
 <x-plantilla>
-
+    @section('title', 'Liquidación de Pedido')
     <div class="sticky-header-next-sec  ec-breadcrumb section-space-mb">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="row ec_breadcrumb_inner">
                         <div class="col-md-6 col-sm-12">
-                            <h2 class="ec-breadcrumb-title">Checkout</h2>
+                            <h2 class="ec-breadcrumb-title">Liquidación de Pedido</h2>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <!-- ec-breadcrumb-list start -->
                             <ul class="ec-breadcrumb-list">
                                 <li class="ec-breadcrumb-item"><a href="{{ route('web') }}">Home</a></li>
-                                <li class="ec-breadcrumb-item active">Checkout</li>
+                                <li class="ec-breadcrumb-item active">Liquidación</li>
                             </ul>
                             <!-- ec-breadcrumb-list end -->
                         </div>
@@ -247,8 +247,7 @@
                                     </div>
                                     <div>
                                         <span class="text-left">Ganacia estimada</span>
-                                        <span
-                                            class="text-right">${{ number_format(Cart::total() * 0.3, 2) }}</span>
+                                        <span class="text-right" id="ganancia">${{ number_format(Cart::total() * 0.3, 2) }}</span>
                                     </div>
                                     <div class="ec-checkout-summary-total">
                                         <span class="text-left">Total a Pagar</span>
@@ -338,40 +337,7 @@
                         </div>
                         <!-- Sidebar Payment Block -->
                     </div>
-                    <div class="ec-sidebar-wrap ec-check-pay-img-wrap">
-                        <!-- Sidebar Payment Block -->
-                        <div class="ec-sidebar-block">
-                            <div class="ec-sb-title">
-                                <h3 class="ec-sidebar-title">Metodos de Pago</h3>
-                            </div>
-                            <div class="ec-sb-block-content">
-                                <div class="ec-check-pay-img-inner">
-                                    <div class="ec-check-pay-img">
-                                        <img src="assets/images/icons/payment1.png" alt="">
-                                    </div>
-                                    <div class="ec-check-pay-img">
-                                        <img src="assets/images/icons/payment2.png" alt="">
-                                    </div>
-                                    <div class="ec-check-pay-img">
-                                        <img src="assets/images/icons/payment3.png" alt="">
-                                    </div>
-                                    <div class="ec-check-pay-img">
-                                        <img src="assets/images/icons/payment4.png" alt="">
-                                    </div>
-                                    <div class="ec-check-pay-img">
-                                        <img src="assets/images/icons/payment5.png" alt="">
-                                    </div>
-                                    <div class="ec-check-pay-img">
-                                        <img src="assets/images/icons/payment6.png" alt="">
-                                    </div>
-                                    <div class="ec-check-pay-img">
-                                        <img src="assets/images/icons/payment7.png" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Sidebar Payment Block -->
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -409,6 +375,7 @@
             $('#tomar_pedido').click(function() {
                 let productosPremio = [];
                 let total = $('#total_pagar').text().split('$');
+                let ganancia = $('#ganancia').text().split('$');
 
                 let opcion = $("input[type=radio][name=radio-direccion]:checked").val();
                 let direccion = $('#direccion').val();
@@ -432,6 +399,7 @@
                     total_productos: $('#total_productos').text(),
                     premio: $('#premio').val(),
                     observaciones: $('#observaciones_pedido').val(),
+                    ganancia:ganancia[1],
                     opcion : opcion
                 }
                 let continuar = 0;

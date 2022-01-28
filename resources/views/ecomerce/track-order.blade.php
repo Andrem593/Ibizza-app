@@ -1,4 +1,5 @@
 <x-plantilla>
+    @section('title', 'Seguimiento de Pedido')
     <!-- Ec breadcrumb start -->
     <div class="sticky-header-next-sec  ec-breadcrumb section-space-mb">
         <div class="container">
@@ -22,53 +23,84 @@
         </div>
     </div>
     <!-- Ec breadcrumb end -->
-        <!-- Ec Track Order section -->
-        <section class="ec-page-content section-space-p">
-            <div class="container">
-                <!-- Track Order Content Start -->
-                <div class="ec-trackorder-content col-md-12">
-                    <div class="ec-trackorder-inner">
-                        <div class="ec-trackorder-top">
-                            <h2 class="ec-order-id">Pedido #{{$venta->id}}</h2>
-                            <div class="ec-order-detail">
-                                <div>Llegada Prevista 10-12-2021</div>
-                                <div>Vendedor de contacto <span> {{$venta->name}}</span></div>
-                            </div>
-                        </div>
-                        <div class="ec-trackorder-bottom">
-                            <div class="ec-progress-track">
-                                <ul id="ec-progressbar">
-                                    <li class="step0 {{$venta->estado == 'PEDIDO' || $venta->estado == 'FACTURADO'|| $venta->estado == 'DESPACHADO' ? 'active' : ''}}"><span class="ec-track-icon"> <img
-                                                src="../assets/images/icons/track_1.png" alt="track_order"></span><span
-                                            class="ec-progressbar-track"></span><span class="ec-track-title">Orden en 
-                                            <br>proceso</span></li>
-                                    <li class="step0 {{$venta->estado == 'PEDIDO' || $venta->estado == 'FACTURADO'|| $venta->estado == 'DESPACHADO'  ? 'active' : ''}}"><span class="ec-track-icon"> <img
-                                                src="../assets/images/icons/track_2.png" alt="track_order"></span><span
-                                            class="ec-progressbar-track"></span><span class="ec-track-title">Preparación de
-                                                <br>Pedidos</span></li>
-                                    <li class="step0 {{$venta->estado == 'FACTURADO' || $venta->estado == 'DESPACHADO'  ? 'active' : ''}}"><span class="ec-track-icon"> <img
-                                                src="../assets/images/icons/track_3.png" alt="track_order"></span><span
-                                            class="ec-progressbar-track"></span><span class="ec-track-title">Orden 
-                                                <br>Enviada</span></li>
-                                    <li class="step0 {{$venta->estado == 'DESPACHADO' ? 'active' : ''}}"><span class="ec-track-icon"> <img
-                                                src="../assets/images/icons/track_4.png" alt="track_order"></span><span
-                                            class="ec-progressbar-track"></span><span class="ec-track-title">Orden <br>en camino</span></li>
-                                    <li class="step0 {{$venta->estado == 'DESPACHADO' ? 'active' : ''}}"><span class="ec-track-icon"> <img
-                                                src="../assets/images/icons/track_5.png" alt="track_order"></span><span
-                                            class="ec-progressbar-track"></span><span class="ec-track-title">Orden 
-                                                <br>entregada</span></li>
-                                </ul>
+
+    <section class="ec-page-content ec-vendor-uploads ec-user-account section-space-p">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar Area Start -->
+                <div class="ec-shop-leftside ec-vendor-sidebar col-lg-3 col-md-12">
+                    <div class="ec-sidebar-wrap">
+                        <!-- Sidebar Category Block -->
+                        <x-lista-rutas-usuarios />
+                    </div>
+                </div>
+                <div class="ec-shop-rightside col-lg-9 col-md-12">
+                    <div class="ec-vendor-dashboard-card ec-vendor-setting-card">
+                        <div class="ec-vendor-card-body">
+                            <div class="ec-trackorder-content col-md-12">
+                                <div class="ec-trackorder-inner">
+                                    <div class="ec-trackorder-top">
+                                        <h2 class="ec-order-id">Pedido #{{$venta->id}}</h2>
+                                        <div class="ec-order-detail">
+                                            <div>Llegada Prevista 10-12-2021</div>
+                                            <div>Vendedor de contacto <span> {{$venta->name}}</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="ec-trackorder-bottom">
+                                        <div class="ec-progress-track">
+                                            <ul id="ec-progressbar">
+                                                <li
+                                                    class="step0 {{$venta->estado == 'PEDIDO' || $venta->estado == 'FACTURADO'|| $venta->estado == 'DESPACHADO' ? 'active' : ''}}">
+                                                    <span class="ec-track-icon"> <img
+                                                            src="../assets/images/icons/track_1.png"
+                                                            alt="track_order"></span><span
+                                                        class="ec-progressbar-track"></span><span
+                                                        class="ec-track-title">Orden en
+                                                        <br>proceso</span></li>
+                                                <li
+                                                    class="step0 {{$venta->estado == 'PEDIDO' || $venta->estado == 'FACTURADO'|| $venta->estado == 'DESPACHADO'  ? 'active' : ''}}">
+                                                    <span class="ec-track-icon"> <img
+                                                            src="../assets/images/icons/track_2.png"
+                                                            alt="track_order"></span><span
+                                                        class="ec-progressbar-track"></span><span
+                                                        class="ec-track-title">Preparación de
+                                                        <br>Pedidos</span></li>
+                                                <li
+                                                    class="step0 {{$venta->estado == 'FACTURADO' || $venta->estado == 'DESPACHADO'  ? 'active' : ''}}">
+                                                    <span class="ec-track-icon"> <img
+                                                            src="../assets/images/icons/track_3.png"
+                                                            alt="track_order"></span><span
+                                                        class="ec-progressbar-track"></span><span
+                                                        class="ec-track-title">Orden
+                                                        <br>Enviada</span></li>
+                                                <li class="step0 {{$venta->estado == 'DESPACHADO' ? 'active' : ''}}">
+                                                    <span class="ec-track-icon"> <img
+                                                            src="../assets/images/icons/track_4.png"
+                                                            alt="track_order"></span><span
+                                                        class="ec-progressbar-track"></span><span
+                                                        class="ec-track-title">Orden <br>en camino</span></li>
+                                                <li class="step0 {{$venta->estado == 'DESPACHADO' ? 'active' : ''}}">
+                                                    <span class="ec-track-icon"> <img
+                                                            src="../assets/images/icons/track_5.png"
+                                                            alt="track_order"></span><span
+                                                        class="ec-progressbar-track"></span><span
+                                                        class="ec-track-title">Orden
+                                                        <br>entregada</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Track Order Content end -->
             </div>
-        </section>
-        <!-- End Track Order section -->
-        @push('js')
-            <script>
-                $('body').addClass('track_order_page')
-            </script>
-        @endpush
+        </div>
+    </section>
+    <!-- End Track Order section -->
+    @push('js')
+    <script>
+        $('body').addClass('track_order_page')
+    </script>
+    @endpush
 </x-plantilla>

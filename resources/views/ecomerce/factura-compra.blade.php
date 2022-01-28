@@ -1,4 +1,5 @@
 <x-plantilla>
+    @section('title', 'Detalle de Compra')
     <!-- Ec breadcrumb start -->
     <div class="sticky-header-next-sec  ec-breadcrumb section-space-mb">
         <div class="container">
