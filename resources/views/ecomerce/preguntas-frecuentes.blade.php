@@ -42,19 +42,19 @@
                             <div class="col-sm-12 ec-faq-block">
                                 <h4 class="ec-faq-title">¿Como puedo ser Empresaria Ibizza?</h4>
                                 <div class="ec-faq-content">
-                                    <p>Dar click en el <a href="{{route('web.registro-empresaria')}}">Resgistrate</a>, dejas tus datos personales e inmediata hace parte de nuestra red de empresarias uno de nuestros asesores le contactara ampliara la información.</p>
+                                    <p>Dar click en el <a class="text-success" href="{{route('web.registro-empresaria')}}">Resgistrate</a>, dejas tus datos personales e inmediata hace parte de nuestra red de empresarias uno de nuestros asesores le contactara ampliara la información.</p>
                                 </div>
                             </div>
                             <div class="col-sm-12 ec-faq-block">
                                 <h4 class="ec-faq-title">¿Tiene algún costo la Inscripción?</h4>
                                 <div class="ec-faq-content">
-                                    <p>No, es totalmente gratis, puede hacerlo siguiendo este <a href="{{route('web.registro-empresaria')}}">Link</a>.</p>
+                                    <p>No, es totalmente gratis, puede hacerlo siguiendo este <a class="text-success" href="{{route('web.registro-empresaria')}}">Link</a>.</p>
                                 </div>
                             </div>
                             <div class="col-sm-12 ec-faq-block">
                                 <h4 class="ec-faq-title">¿Donde puedo conseguir el Catálogo Físico o digital?</h4>
                                 <div class="ec-faq-content">
-                                    <p>El catálogo digital lo puede descargar directamente aquí en este <a href="{{ url('/') }}#section_catalogo">Link</a> o solicitarlo con uno de nuestros asesores a través del wathsapp 0963725427
+                                    <p>El catálogo digital lo puede descargar directamente aquí en este <a class="text-success" href="{{ url('/') }}#section_catalogo">Link</a> o solicitarlo con uno de nuestros asesores a través del wathsapp 0963725427
                                         <br>
                                         El catálogo impreso lo puedes adquirir en nuestros local Ibizza ubicado en Chile 315 con Luque totalmente gratis, o a través de su primer pedido, el cual realizo una vez visto el catálogo digital.</p>
                                 </div>
