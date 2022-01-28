@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header text-left bg-ibizza">
                 @isset($premio)
-                    <h5 class="bg-ibizza text-truncate text-start">{{ $premio->descripcion }}</h5>
+                    <h5 class="bg-ibizza text-truncate">{{ $premio->descripcion }}</h5>
                 @endisset
     
                 <button type="button" class="btn-close qty_close" data-bs-dismiss="modal" aria-label="Close"></button>
