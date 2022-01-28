@@ -49,6 +49,9 @@ Route::post('registrar-empresaria-nueva',[webController::class,'registrarEmpresa
 // NUEVO FORMA TOMAR PEDIDO
 Route::get('pedido-ibizza',[webController::class,'view_pedido'])
 ->middleware(['auth:sanctum', 'verified'])->name('web.tomar-pedido');
+
+Route::get('pedido-ibizza-reservados',[webController::class,'pedidos_guardados'])
+->middleware(['auth:sanctum', 'verified'])->name('web.pedidos-guardados');
 //RUTAS PAGINAS INFORMATIVAS
 Route::get('/sobre-nosotros-ibizza', [webController::class,'sobre_nosotros'])->name('web.sobre-nosotros');
 Route::get('/contactanos', [webController::class,'contacto'])->name('web.contactanos');

@@ -181,7 +181,10 @@ class EmpresariaController extends Controller
             'nombres'=>$request->nombres,
             'apellidos'=>$request->apellidos,
             'direccion'=>$request->direccion,
-            'telefono'=>$request->telefono
+            'telefono'=>$request->telefono,
+            'referencia'=>$request->referencia,
+            'direccion_envio'=>$request->direccion_envio,
+            'referencia_envio'=>$request->referencia_envio,
         ]);
         $user = User::find($empresaria->id_user);
         $image = $user->profile_photo_path;

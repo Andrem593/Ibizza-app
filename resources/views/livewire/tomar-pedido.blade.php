@@ -17,7 +17,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control p-1" placeholder="ingrese el codigo"
                             wire:model.defer="estilo" wire:keydown.enter='buscarEstilo'>
-                        <button class="btn btn-success rounded" type="button" id="search" wire:click='buscarEstilo'><i
+                        <button class="btn btn-primary rounded" type="button" id="search" wire:click='buscarEstilo'><i
                                 class="fas fa-search"></i></button>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                     @endempty
                 </div>
                 <div class="my-3">
-                    <button class="btn btn-success" wire:click="addCart">AGREGAR</button>
+                    <button class="btn btn-primary" wire:click="addCart">AGREGAR</button>
                 </div>
             </div>
         </div>
@@ -105,8 +105,8 @@
                         <td><img src="/storage/images/productos/{{ $item->options->image }}" width="50px" height="50px"
                                 style="object-fit: cover"></td>
                         <td>{{$item->name }}</td>
-                        <td>{{$item->qty}}</td>
-                        <td>{{$item->qty}}</td>
+                        <td>{{$item->options->color}}</td>
+                        <td>{{$item->options->talla}}</td>
                         <td>${{$item->price}}</td>
                         <td>{{$item->qty}}</td>
                         <td>${{ number_format($item->qty * $item->price,2) }}</td>
@@ -168,7 +168,28 @@
         </div>
     </div>
     <div class="row mt-2 text-end">
-        <button class="btn btn-secondary text-light w-25 m-3">GUARDAR PEDIDO</button>
-        <a href="{{route('web.checkout')}}" class="btn btn-primary w-25 m-3" >LIQUIDAR PEDIDO</a>
+        <button class="btn btn-secondary text-light w-25 m-3" wire:click='GuardarPedidos'>GUARDAR PEDIDO</button>
+        <a href="{{route('web.checkout')}}" class="btn btn-primary w-25 m-3">LIQUIDAR PEDIDO</a>
     </div>
+    @push('js')
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @endpush
+    @if (!empty($alert))
+    <script>
+       Swal.fire({
+            title:'Pedido Guardado!',
+            text:'Recuerda que tu pedido solo se guardará por 3 dias separando el stock del producto',
+            icon:'success',
+            showCancelButton: true,
+            confirmButtonColor: '#009788',
+            cancelButtonColor: '#333333',
+            confirmButtonText: 'Ir a Pedidos Guardados',
+            cancelButtonText: 'Continuar en Pedidos',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{route('web.pedidos-guardados')}}";
+            }
+        })
+    </script>
+    @endif
 </div>

@@ -540,7 +540,7 @@ class webController extends Controller
         $empresaria = Empresaria::where('id_user', Auth::user()->id)->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')
             ->join('provincias', 'provincias.id', '=', 'ciudades.provincia_id')
             ->join('users', 'empresarias.vendedor', '=', 'users.id')
-            ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'provincias.descripcion as nombre_provincia', 'users.email as correo_vendedor', 'users.name as nombre_vendedor')
+            ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'provincias.descripcion as nombre_provincia', 'users.email as correo_vendedor','users.password as password_user', 'users.name as nombre_vendedor')
             ->first();
         return view('ecomerce.perfil-empresaria', compact('empresaria'));
     }
@@ -641,5 +641,9 @@ class webController extends Controller
     {
         $empresaria = Empresaria::where('id_user', Auth::user()->id)->first();
         return view('pedidos.index', compact('empresaria'));
+    }
+    public function pedidos_guardados()
+    {
+        return view('pedidos.guardados');
     }
 }
