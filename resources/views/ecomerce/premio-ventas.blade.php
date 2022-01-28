@@ -43,7 +43,9 @@
                                 @endphp
                                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                     <div class="ec-card-grid-space">
-                                        <a class="ec-card" href="#"
+                                        <a class="ec-card" class="quickview" data-link-action="quickview" title="Ver premios"
+                                        data-bs-toggle="modal" data-bs-target="#modal_premio"
+                                        wire:click="$emitTo('modal-premio', 'viewPremio', {{ "'" . $item->id . "'" }} )"
                                             style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../storage/images/catalogo/{{ $item->foto_path }}); background-position: center;">
                                             <div class="ec-num">{{ str_pad($key + 1, 2, '0', STR_PAD_LEFT) }}
                                             </div>
@@ -202,4 +204,6 @@
         </div>
     </section>
     <!-- Ec Instagram End -->
+
+    <livewire:modal-premio />
 </x-plantilla>
