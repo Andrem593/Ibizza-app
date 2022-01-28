@@ -570,6 +570,15 @@ class webController extends Controller
     {
         return view('ecomerce.sobre-nosotros');
     }
+    public function premio_ventas()
+    {
+        $premios = Premio::join('catalogos', 'catalogos.id', '=', 'premios.catalogo_id')
+        ->where('catalogos.estado', 'PUBLICADO')
+        ->select('catalogos.nombre','catalogos.foto_path','catalogos.fecha_fin_catalogo','premios.descripcion', 'premios.id', 'catalogos.created_at')
+        ->get();
+
+        return view('ecomerce.premio-ventas', compact('premios'));
+    }
     public function contacto()
     {
         return view('ecomerce.contactanos');

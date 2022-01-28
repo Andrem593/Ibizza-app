@@ -584,7 +584,7 @@
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Premios en ventas</h5>
                             <p class="card-text">Gana premios y aumentan tus ganancias.</p>
-                            <a href="#" class="btn nav-link">Plan de Premios</a>
+                            <a href="{{ route('web.premio-ventas') }}" class="btn nav-link">Plan de Premios</a>
                         </div>
                     </div>
                 </div>
