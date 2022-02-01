@@ -2,7 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Pedidos_pendiente;
+use App\Models\Separado;
+use App\Producto;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 
 class PedidoEstado extends Command
 {
@@ -37,6 +41,17 @@ class PedidoEstado extends Command
      */
     public function handle()
     {
-        return Command::SUCCESS;
+        //Carbon::now()->subDays(3);
+        $pedidos = Pedidos_pendiente::where('created_at','<', Carbon::now()->subDays(3))->get();
+        foreach ($pedidos as $pedido) {   
+            $producto = Producto::find($pedido->id_producto);
+            $nuevo_stock = $producto->stock + $pedido->cantidad;
+            Producto::find($pedido->id_producto)->update([
+                'stock'=>$nuevo_stock
+            ]);
+            Pedidos_pendiente::where('id_separados',$pedido->id_separados)->delete();  
+            Separado::find($pedido->id_separados)->delete(); 
+        }
+        $this->info('Pedidos actualizados');
     }
 }
