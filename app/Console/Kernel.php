@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\CatalogoEstado::class,
+        Commands\PedidoEstado::class,
     ];
 
     /**
@@ -25,7 +26,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('estado:cron')
-        ->dailyAt('00:01');
+        ->dailyAt('00:00');
+        $schedule->command('pedido:cron')
+        ->dailyAt('00:05');
     }
 
     /**

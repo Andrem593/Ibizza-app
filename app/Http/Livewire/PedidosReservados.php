@@ -40,6 +40,11 @@ class PedidosReservados extends Component
     }
     public function recuperarPedido($productos){                
         foreach ($productos as $producto) {
+            $products = Producto::find($producto['id_producto']);
+            $nuevo_stock = $products->stock + $producto['cantidad'];
+            Producto::find($producto['id_producto'])->update([
+                'stock'=>$nuevo_stock
+            ]);
             Cart::add($producto['id_producto'], $producto['nombre_mostrar'], $producto['cantidad'], $producto['precio'], ['image' => $producto['imagen_path'] , 'color'  => $producto['color'] , 'talla' => $producto['talla'] ])->associate('App\Models\Producto');
         }
         $id = $productos[0]['id_separados'];
