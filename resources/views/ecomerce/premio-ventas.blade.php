@@ -44,7 +44,7 @@
                                 @endphp
                                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                     <div class="ec-card-grid-space">
-                                        <a class="ec-card prueba" title="Ver premios" data-id="{{$item->id}}"
+                                        <a class="ec-card prueba" title="Ver premios" id="{{$item->id}}"
                                         data-bs-toggle="modal" data-bs-target="#modal_premio"
                                             style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../storage/images/catalogo/{{ $item->foto_path }}); background-position: center;">
                                             <div class="ec-num">{{ str_pad($key + 1, 2, '0', STR_PAD_LEFT) }}
@@ -208,11 +208,11 @@
     <livewire:modal-premio />
     @push('js')
     <script>
-        $('.prueba').click((e)=>{
-            let id = $(this).data("id");
-            console.log(e);
+        $('.prueba').on('click', function(){
+            let id = $(this).attr("id");
+            console.log(id);
             Livewire.emit('viewPremio',id);
-        })
+        });
     </script>
     @endpush
 </x-plantilla>
