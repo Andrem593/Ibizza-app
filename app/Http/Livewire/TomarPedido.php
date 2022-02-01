@@ -59,14 +59,19 @@ class TomarPedido extends Component
     }
     public function addCart()
     {   
-        if ($this->cantidad > 0 && !empty($this->estilo) ) {            
+        $this->message = '';
+        if ($this->cantidad > 0 && !empty($this->estilo) && !empty($this->color) && !empty($this->talla) ) {            
             $producto = Producto::where('estilo', $this->estilo)->where('color',$this->color)->where('talla', $this->talla)->first();
-            $precio = $producto->precio_empresaria;
-            if (!empty($producto->descuento)) {
-                $precio = number_format(($producto->precio_empresaria-($producto->precio_empresaria * ($producto->descuento /100))), 2);
-            }
-            Cart::add($producto->id, $producto->nombre_mostrar, $this->cantidad, number_format($precio, 2), ['image' => $producto->imagen_path , 'color'  => $producto->color , 'talla' => $producto->talla ])->associate('App\Models\Producto');
-            $this->reset(['colores','tallas','imagen','color','talla','cantidad']); 
+            if($producto->stock >= $this->cantidad){
+                $precio = $producto->precio_empresaria;
+                if (!empty($producto->descuento)) {
+                    $precio = number_format(($producto->precio_empresaria-($producto->precio_empresaria * ($producto->descuento /100))), 2);
+                }
+                Cart::add($producto->id, $producto->nombre_mostrar, $this->cantidad, number_format($precio, 2), ['image' => $producto->imagen_path , 'color'  => $producto->color , 'talla' => $producto->talla ])->associate('App\Models\Producto');
+                $this->reset(['colores','tallas','imagen','color','talla','cantidad']);
+            }else{
+                $this->message= 'NO HAY STOCK DISPONIBLE'; 
+            }             
         }else{
             $this->message= 'VERIFIQUE QUE ESTEN TODOS LOS CAMPOS LLENOS'; 
         }
@@ -86,7 +91,7 @@ class TomarPedido extends Component
                     $nuevo_stock = $pro->stock - $item->qty;
                     if($nuevo_stock < 0){
                         $flag = 1;
-                        $text .= $item->name.' '. $pro->stock . ' en stock, ';
+                        $text .= $item->name.' >> '. $pro->stock . ' en stock, ';
                     }
                 }
 
@@ -114,7 +119,7 @@ class TomarPedido extends Component
                     Cart::destroy();
                     $this->alert = true; 
                 }else{
-                    $this->message= 'No hay stock dsiponible de los siguientes productos: '.substr($text, 0, -2);
+                    $this->message= 'No hay stock disponible de los siguientes productos: '.substr($text, 0, -2);
                 }
                 
             } catch (\Throwable $th) {
