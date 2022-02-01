@@ -78,29 +78,45 @@ class TomarPedido extends Component
     public function GuardarPedidos()
     {
         if (Cart::count() > 0) {
-            try {                
-                $separado = Separado::create([
-                    'id_usuario'=>Auth::user()->id,
-                    'cantidad_total'=>Cart::count(),
-                    'total_venta'=>Cart::total(),
-                    'total_p_empresaria'=>number_format(Cart::total() * 0.30,2),
-                ]);
+            try {
+                $flag = 0;
+                $text = '';
                 foreach (Cart::content() as $item) {
-                    Pedidos_pendiente::create([
-                        'id_separados'=>$separado->id,
-                        'id_producto'=>$item->id,
-                        'cantidad' => $item->qty,
-                        'precio' => $item->price,
-                        'total' => number_format(($item->price * $item->qty), 2),
-                        'estado' => 'SEPARADO',
-                        'usuario' => Auth::user()->id,
-                    ]);
                     $pro = Producto::where('id', $item->id)->first();
                     $nuevo_stock = $pro->stock - $item->qty;
-                    Producto::where('id', $item->id)->update(['stock' => $nuevo_stock]);
+                    if($nuevo_stock < 0){
+                        $flag = 1;
+                        $text .= $item->name.' '. $pro->stock . ' en stock, ';
+                    }
                 }
-                Cart::destroy();
-                $this->alert = true; 
+
+                if(!$flag){
+                    $separado = Separado::create([
+                        'id_usuario'=>Auth::user()->id,
+                        'cantidad_total'=>Cart::count(),
+                        'total_venta'=>Cart::total(),
+                        'total_p_empresaria'=>number_format(Cart::total() * 0.30,2),
+                    ]);
+                    foreach (Cart::content() as $item) {
+                        Pedidos_pendiente::create([
+                            'id_separados'=>$separado->id,
+                            'id_producto'=>$item->id,
+                            'cantidad' => $item->qty,
+                            'precio' => $item->price,
+                            'total' => number_format(($item->price * $item->qty), 2),
+                            'estado' => 'SEPARADO',
+                            'usuario' => Auth::user()->id,
+                        ]);
+                        $pro = Producto::where('id', $item->id)->first();
+                        $nuevo_stock = $pro->stock - $item->qty;
+                        Producto::where('id', $item->id)->update(['stock' => $nuevo_stock]);
+                    }
+                    Cart::destroy();
+                    $this->alert = true; 
+                }else{
+                    $this->message= 'No hay stock dsiponible de los siguientes productos: '.substr($text, 0, -2);
+                }
+                
             } catch (\Throwable $th) {
                 $this->message= 'ERROR AL GUARDAR PEDIDO, CONTACTE CON SISTEMAS ERROR:'.$th; 
             }
