@@ -29,7 +29,7 @@ use App\Http\Controllers\webController;
 //RUTAS PAGINA PRINCIPAL & FUNCIONES DE E-COMERCE
 
 Route::get('/', webController::class)->name('web');
-// Route::get('/tienda', [webController::class,'tienda'])->name('web.tienda');
+Route::get('/tienda', [webController::class,'tienda'])->name('web.tienda');
 // Route::get('/tienda/{category}/{orderBy}',[webController::class,'tiendaOrder'])->name('web.tiendaOrderBy');
 // Route::get('/carro-compras', [webController::class,'carrito'])->name('web.carro-compras');
 // Route::get('/detalle-producto/{estilo}', [webController::class,'detalle_producto'])->name('web.detalle-producto');

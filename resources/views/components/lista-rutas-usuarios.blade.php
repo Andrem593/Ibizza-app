@@ -14,6 +14,7 @@
                 <li><a href="{{ route('web.seguimiento-pedidos')}}">Seguimiento de Pedidos</a></li>
                 {{-- <li><a href="{{ route('web.carro-compras') }}">Carrito</a></li> --}}
                 <li><a href="{{ route('web.checkout') }}">Liquidar Pedido</a></li>
+                <li><a href="{{ route('logout') }}">Cerrar Sesión</a></li>
             </ul>
         </div>
     </div>

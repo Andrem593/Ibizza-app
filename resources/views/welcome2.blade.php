@@ -557,7 +557,7 @@
         <div class="container">
             <div class="row mt-3 mx-auto">
                 <div class="col my-3 d-flex justify-content-around">
-                    <div class="card shadow rounded mx-auto" style="width: 18rem;">
+                    <div class="card shadow rounded mx-auto" style="width: 15rem;">
                         <img src="{{ url('assets/images/card-empresaria/1.jpg') }}" class="card-img-top">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Facil de Registrarse</h5>
@@ -568,7 +568,7 @@
                     </div>
                 </div>
                 <div class="col my-3">
-                    <div class="card shadow rounded mx-auto" style="width: 18rem;">
+                    <div class="card shadow rounded mx-auto" style="width: 15rem;">
                         <img src="{{ url('assets/images/card-empresaria/2.jpg') }}" class="card-img-top">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Genera Ingresos</h5>
@@ -578,7 +578,7 @@
                     </div>
                 </div>
                 <div class="col my-3">
-                    <div class="card shadow rounded mx-auto" style="width: 18rem;">
+                    <div class="card shadow rounded mx-auto" style="width: 15rem;">
                         <img src="{{ url('assets/images/card-empresaria/1.jpg') }}" class="card-img-top">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Premios en ventas</h5>
@@ -588,7 +588,7 @@
                     </div>
                 </div>
                 <div class="col my-3">
-                    <div class="card shadow rounded mx-auto" style="width: 18rem;">
+                    <div class="card shadow rounded mx-auto" style="width: 15rem;">
                         <img src="{{ url('assets/images/card-empresaria/2.jpg') }}" class="card-img-top">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Facil de Vender</h5>
