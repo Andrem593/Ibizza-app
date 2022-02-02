@@ -34,8 +34,6 @@
                                     </tr>
                                 @endforeach
                             @endisset
-
-
                         </tbody>
                     </table>
                 </div>
