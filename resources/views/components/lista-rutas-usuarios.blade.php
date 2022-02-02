@@ -8,10 +8,13 @@
         <div class="ec-vendor-block-items">
             <ul>
                 <li><a href="{{ route('web.perfil-empresaria') }}">Perfil</a></li>
+                <li><a href="{{ route('web.tomar-pedido')}}">Realizar Pedidos</a></li>
+                <li><a href="{{ route('web.pedidos-guardados')}}">Pedidos Reservados</a></li>
                 <li><a href="{{ route('web.historial-compras') }}">Historial de Compras</a></li>
                 <li><a href="{{ route('web.seguimiento-pedidos')}}">Seguimiento de Pedidos</a></li>
-                <li><a href="{{ route('web.carro-compras') }}">Carrito</a></li>
-                <li><a href="{{ route('web.checkout') }}">Checkout</a></li>
+                {{-- <li><a href="{{ route('web.carro-compras') }}">Carrito</a></li> --}}
+                <li><a href="{{ route('web.checkout') }}">Liquidar Pedido</a></li>
+                <li><a href="{{ route('logout') }}">Cerrar Sesión</a></li>
             </ul>
         </div>
     </div>

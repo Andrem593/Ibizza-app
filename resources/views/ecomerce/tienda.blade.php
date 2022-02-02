@@ -164,7 +164,6 @@
                     url = '/tienda/all/' + order;
                 }
                 $(location).attr('href', url);
-                //console.log(url);
             });
 
             window.addEventListener('contentChanged', event => {

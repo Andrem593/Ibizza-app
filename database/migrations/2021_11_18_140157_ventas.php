@@ -17,10 +17,11 @@ class Ventas extends Migration
             $table->id();
             $table->integer('id_vendedor');
             $table->integer('id_empresaria');
+            $table->integer('id_catalogo');
             $table->string('factura_identificacion');
             $table->string('factura_nombres');
             $table->string('direccion_envio');
-            $table->string('codigo_postal');
+            $table->string('codigo_postal')->nullable();
             $table->string('observaciones');
             $table->text('id_pedidos');
             $table->integer('cantidad_total');

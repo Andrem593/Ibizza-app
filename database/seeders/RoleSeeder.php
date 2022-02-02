@@ -42,5 +42,9 @@ class RoleSeeder extends Seeder
             'name' => 'proveedores.index',
             'description' => 'Modulo Proveedores'
         ])->syncRoles([$role1]);
+        Permission::create([
+            'name' => 'reportes.index',
+            'description' => 'Reportes'
+        ])->syncRoles([$role1]);
     }
 }

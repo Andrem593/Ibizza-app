@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\CatalogoEstado::class,
+        Commands\PedidoEstado::class,
     ];
 
     /**
@@ -24,7 +25,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('estado:cron')
+        ->dailyAt('00:00');
+        $schedule->command('pedido:cron')
+        ->dailyAt('00:05');
     }
 
     /**

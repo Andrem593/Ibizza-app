@@ -1,4 +1,5 @@
 <x-plantilla>
+    @section('title', 'Registro')
     <!-- Ec breadcrumb start -->
     <div class="sticky-header-next-sec  ec-breadcrumb section-space-mb">
         <div class="container">
@@ -32,7 +33,7 @@
                     <div class="col-lg-6 mx-auto">
                       <p class="lead mb-4">Tu ultimo paso para formar parte de las empresarias de <b>IBIZZA</b> es verificar en tu correo tu contraseña temporal para poder ingresar y realizar los pedidos que desees.</p>
                       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                        <a type="button" href="{{route('login')}}"  class="btn btn-primary btn-lg px-4 gap-3">Login</a>
+                        <a type="button" href="{{route('login')}}"  class="btn btn-primary btn-lg px-4 gap-3">Iniciar Sesión</a>
                         <a type="button" href="{{route('web')}}" class="btn btn-outline-secondary btn-lg px-4">Inicio</a>
                       </div>
                     </div>

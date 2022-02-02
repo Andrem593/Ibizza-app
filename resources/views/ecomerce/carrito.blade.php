@@ -11,8 +11,8 @@
                         <div class="col-md-6 col-sm-12">
                             <!-- ec-breadcrumb-list start -->
                             <ul class="ec-breadcrumb-list">
-                                <li class="ec-breadcrumb-item"><a href="{{ route('web') }}">Home</a></li>
-                                <li class="ec-breadcrumb-item active">Cart</li>
+                                <li class="ec-breadcrumb-item"><a href="{{ route('web') }}">Inicio</a></li>
+                                <li class="ec-breadcrumb-item active">Carro</li>
                             </ul>
                             <!-- ec-breadcrumb-list end -->
                         </div>
@@ -39,8 +39,7 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="ec-cart-update-bottom">
-                                                <a href="{{ route('web.tienda') }}">Seguir Comprando</a>
-                                                <a href="{{ route('web.checkout')}}" class="btn btn-primary">Check Out</a>
+                                                <a href="{{ route('web.checkout')}}" class="btn btn-primary" style="color: #FFF">Liquidar Pedido</a>
                                             </div>
                                         </div>
                                     </div>

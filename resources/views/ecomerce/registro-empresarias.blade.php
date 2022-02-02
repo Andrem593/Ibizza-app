@@ -1,4 +1,5 @@
 <x-plantilla>
+    @section('title', 'Registro Empresarias')
     <!-- Ec breadcrumb start -->
     <div class="sticky-header-next-sec  ec-breadcrumb section-space-mb">
         <div class="container">
@@ -71,9 +72,14 @@
                                     {!! $errors->first('telefono', '<p class="text-danger mb-1 mt-0">:message</p>') !!}
                                 </span>
                                 <span class="ec-register-wrap">
-                                    <label>Dirección</label>
-                                    <input type="text" name="direccion" value="{{old('direccion')}}" placeholder="Ingrese si direccción" />
+                                    <label>Dirección domicilio</label>
+                                    <input type="text" name="direccion" value="{{old('direccion')}}" placeholder="Ingrese su direccción" />
                                     {!! $errors->first('direccion', '<p class="text-danger mb-1 mt-0">:message</p>') !!}
+                                </span>
+                                <span class="ec-register-wrap">
+                                    <label>Referencia domicilio</label>
+                                    <input type="text" name="referencia" value="{{old('referencia')}}" placeholder="Ingrese una referencia de su domicilio" />
+                                    {!! $errors->first('referencia', '<p class="text-danger mb-1 mt-0">:message</p>') !!}
                                 </span>
                                 <span class="ec-register-wrap ec-register-half">
                                     <label>Provincia *</label>
@@ -99,7 +105,7 @@
                                     {!! $errors->first('ciudad', '<p class="text-danger mb-1 mt-0">:message</p>') !!}
                                 </span>                                
                                 <span class="ec-register-wrap ec-register-btn">
-                                    <button class="btn btn-primary" type="submit">Register</button>
+                                    <button class="btn btn-primary" type="submit">Registro</button>
                                 </span>
                             </form>
                         </div>
@@ -131,6 +137,20 @@
                                 $('#ciudad').append('<option value="'+ val['id'] +'">' + val['descripcion'] +'</option>')
                             });
                         }
+                    }
+                });
+            });
+
+            $(document).ready(function() {
+                $('form').submit(function(event) {
+                    if ($(this).hasClass('submitted')) {
+                        $(this).find(':submit').html('Registro');
+                        $(this).find(':submit').attr("disabled", false);
+                        event.preventDefault();
+                    } else {
+                        $(this).find(':submit').attr("disabled", true);
+                        $(this).find(':submit').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Registrando...');
+                        $(this).addClass('submitted');
                     }
                 });
             });

@@ -11,6 +11,7 @@ use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\PremioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\webController;
 
@@ -29,24 +30,33 @@ use App\Http\Controllers\webController;
 
 Route::get('/', webController::class)->name('web');
 Route::get('/tienda', [webController::class,'tienda'])->name('web.tienda');
-Route::get('/tienda/{category}/{orderBy}',[webController::class,'tiendaOrder'])->name('web.tiendaOrderBy');
-Route::get('/carro-compras', [webController::class,'carrito'])->name('web.carro-compras');
-Route::get('/detalle-producto/{estilo}', [webController::class,'detalle_producto'])->name('web.detalle-producto');
-Route::post('tallas-x-color',[webController::class,'tallas_x_color'])->name('web.tallas-color');
-Route::post('stock-x-talla',[webController::class,'stock_x_color'])->name('web.stock-talla');
-Route::post('/store', [webController::class,'addToCart']);
+// Route::get('/tienda/{category}/{orderBy}',[webController::class,'tiendaOrder'])->name('web.tiendaOrderBy');
+// Route::get('/carro-compras', [webController::class,'carrito'])->name('web.carro-compras');
+// Route::get('/detalle-producto/{estilo}', [webController::class,'detalle_producto'])->name('web.detalle-producto');
+// Route::post('tallas-x-color',[webController::class,'tallas_x_color'])->name('web.tallas-color');
+// Route::post('stock-x-talla',[webController::class,'stock_x_color'])->name('web.stock-talla');
+// Route::post('/store', [webController::class,'addToCart']);
 Route::post('/delete', [webController::class,'deleteToCart']);
 Route::get('checkout-ibizza',[webController::class,'checkout_view'])->name('web.checkout');
 Route::get('/autocompletar', [webController::class,'autocompletar'])->name('web.autocompletar');
 Route::get('/autocompletar-empresaria', [webController::class,'autocompletar_empresaria'])->name('web.autocompletar-empresaria');
 Route::post('/data-empresaria', [webController::class,'data_empresaria'])->name('web.data-empresaria');
 Route::post('chekout',[webController::class,'dataCheckout'])->name('web.checkout-productos');
-Route::get('detalle-pedido-ibizza/{id_venta}',[webController::class,'detalle_pedido'])->name('web.detalle_pedido');
-Route::get('tracking-ibizza/{id_venta}',[webController::class,'tracking_pedido'])->name('web.tracking-pedido');
+Route::get('detalle-pedido-ibizza/{id_venta}',[webController::class,'detalle_pedido'])
+->middleware(['auth:sanctum', 'verified'])->name('web.detalle_pedido');
+Route::get('tracking-ibizza/{id_venta}',[webController::class,'tracking_pedido'])
+->middleware(['auth:sanctum', 'verified'])->name('web.tracking-pedido');
 Route::post('consulta-ciudad',[webController::class,'consultarCiudad'])->name('web.consutar-ciudad');
 Route::post('registrar-empresaria-nueva',[webController::class,'registrarEmpresariaNueva'])->name('web.registrar-empresaria-nueva');
+// NUEVO FORMA TOMAR PEDIDO
+Route::get('pedido-ibizza',[webController::class,'view_pedido'])
+->middleware(['auth:sanctum', 'verified'])->name('web.tomar-pedido');
+
+Route::get('pedido-ibizza-reservados',[webController::class,'pedidos_guardados'])
+->middleware(['auth:sanctum', 'verified'])->name('web.pedidos-guardados');
 //RUTAS PAGINAS INFORMATIVAS
 Route::get('/sobre-nosotros-ibizza', [webController::class,'sobre_nosotros'])->name('web.sobre-nosotros');
+Route::get('/premio-ventas', [webController::class,'premio_ventas'])->name('web.premio-ventas');
 Route::get('/contactanos', [webController::class,'contacto'])->name('web.contactanos');
 Route::get('/preguntas-frecuentes', [webController::class,'preguntasFrecuentes'])->name('web.preguntas-frecuentes');
 Route::get('/termino-condiciones', [webController::class,'terminosCondiciones'])->name('web.terminos-condiciones');
@@ -139,6 +149,18 @@ Route::resource('proveedores', ProveedorController::class)
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/proveedor/datatable', [ProveedorController::class,'proveedorDataTable'])
 ->name('proveedor.datatable');
+
+// REPORTE
+Route::resource('reportes', ReporteController::class)
+->middleware(['auth:sanctum', 'verified']);
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/reporte/empresariaReports', [ReporteController::class,'empresariaReports'])
+->name('reporte.empresariaReports');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/reporte/graficos', [ReporteController::class,'graficos'])
+->name('reporte.graficos');
 
 // USUARIO
 
