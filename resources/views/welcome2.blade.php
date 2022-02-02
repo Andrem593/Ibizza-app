@@ -155,7 +155,7 @@
                             <div class="header-logo">
 
                                 <a href="{{ url('/') }}"><img loading='lazy' class="p-1"
-                                        src="{{ url('assets/images/logo/logo_ibizza.svg') }}" alt="Logo Ibizza" />
+                                        src="{{ url('./public/assets/images/logo/logo_ibizza.svg') }}" alt="Logo Ibizza" />
                                     <img loading='lazy' class="dark-logo" src="assets/images/logo/dark-logo.png"
                                         alt="Site Logo" style="display: none;" /></a>
 
@@ -277,7 +277,7 @@
                     <div class="col">
                         <div class="header-logo">
                             <a href="index.html"><img loading='lazy'
-                                    src="{{ url('assets/images/logo/logo_ibizza.svg') }}" alt="Logo Ibizza" /><img
+                                    src="{{ url('./public/assets/images/logo/logo_ibizza.svg') }}" alt="Logo Ibizza" /><img
                                     loading='lazy' class="dark-logo" src="assets/images/logo/dark-logo.png"
                                     alt="Site Logo" style="display: none;" /></a>
                         </div>
@@ -619,7 +619,7 @@
                     <div class="row">
                         @if ($catalogos->count() > 0)
                         @foreach ($catalogos as $key => $catalogo)
-                        <div class="banner-block col-sm-12 col-md-6 margin-b-30"
+                        <div class="banner-block col-sm-12 {{$catalogos->count() > 1 ? 'col-md-6': 'col-md-12'}}"
                             data-animation="{{ ($key + 1) % 2 == 0 ? 'slideInLeft' : 'slideInRight' }}">
                             <div class="bnr-overlay">
                                 <img loading='lazy' src="storage/images/catalogo/{{ $catalogo->foto_path }}" alt=""
@@ -1328,7 +1328,7 @@
                         <div class="col-sm-12 col-lg-3 ec-footer-contact">
                             <div class="ec-footer-widget">
                                 <div class="ec-footer-logo"><a href="#"><img loading='lazy'
-                                            src="{{ url('assets/images/logo/logo_ibizza.svg') }}" alt=""><img
+                                            src="{{ url('./public/assets/images/logo/logo_ibizza.svg') }}" alt=""><img
                                             loading='lazy' class="dark-footer-logo"
                                             src="assets/images/logo/dark-logo.png" alt="Site Logo"
                                             style="display: none;" /></a></div>
@@ -1545,7 +1545,7 @@
                             <div class="d-flex bd-highlight">
                                 <!-- Profile Picture -->
                                 <div class="ec-img-cont">
-                                    <img loading='lazy' src="assets/images/favicon/logo_ibizza_verde.svg"
+                                    <img loading='lazy' src="./assets/images/favicon/logo_ibizza_verde.svg"
                                         class="ec-user-img" alt="Profile image">
                                     <span class="ec-status-icon ec-online"></span>
                                 </div>
@@ -1569,7 +1569,7 @@
                             <div class="d-flex bd-highlight">
                                 <!-- Profile Picture -->
                                 <div class="ec-img-cont">
-                                    <img loading='lazy' src="assets/images/favicon/logo_ibizza_verde.svg"
+                                    <img loading='lazy' src="./assets/images/favicon/logo_ibizza_verde.svg"
                                         class="ec-user-img" alt="Profile image">
                                     <span class="ec-status-icon ec-offline"></span>
                                 </div>
