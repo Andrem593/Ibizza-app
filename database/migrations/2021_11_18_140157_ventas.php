@@ -23,6 +23,8 @@ class Ventas extends Migration
             $table->string('direccion_envio');
             $table->string('codigo_postal')->nullable();
             $table->string('observaciones');
+            $table->string('n_factura');
+            $table->string('n_guia');
             $table->text('id_pedidos');
             $table->integer('cantidad_total');
             $table->float('total_venta',8,2);

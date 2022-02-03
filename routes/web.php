@@ -219,3 +219,11 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/ventas/editar-venta', [VentaController::class,'editarVenta'])
 ->name('venta.datos-ventas');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/venta/upload', [VentaController::class,'ventasUpload'])
+->name('venta.upload');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/venta/saveExcel', [VentaController::class,'saveExcel'])
+->name('venta.saveExcel');
