@@ -289,7 +289,18 @@ return [
         [
             'text'    => 'Ventas',
             'icon'    => 'fas fa-shopping-cart',
-            'route'  => 'ventas.index',
+            'submenu' => [
+                [
+                    'text' => 'Carga',
+                    'route'  => 'venta.upload',
+                    'icon'    => 'fas fa-cloud-upload-alt',
+                ],
+                [
+                    'text' => 'Registro Ventas',
+                    'route'  => 'ventas.index',
+                    'icon'    => 'fas fa-chart-line',
+                ],
+            ],
         ],
         [
             'text'    => 'Catálogos',
