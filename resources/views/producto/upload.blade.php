@@ -11,8 +11,9 @@
                     <span id="card_title">
                         {{ __('Producto') }}
                     </span>
-
                     <div class="float-right">
+                        <a class="btn btn-success btn-sm mr-2" href="{{ url(asset('storage/formatos/formato_carga_producto.xlsx')) }}" target="_blank"><i class="fas fa-file-excel"></i>
+                            Plantilla</a>
                         <a href="{{ route('productos.index') }}" class="btn btn-ibizza btn-sm float-right"
                             data-placement="left">
                             {{ __('Regresar') }}
