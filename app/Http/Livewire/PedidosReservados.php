@@ -49,7 +49,10 @@ class PedidosReservados extends Component
         }
         $id = $productos[0]['id_separados'];
         Pedidos_pendiente::where('id_separados',$id)->delete();  
-        Separado::find($id)->delete();      
+        Separado::find($id)->delete();     
+        if(Auth::user()->role == 'Administrador'){
+            return redirect()->to(route('venta.pedido'));    
+        } 
         return redirect()->to(route('web.tomar-pedido'));
     }
 }

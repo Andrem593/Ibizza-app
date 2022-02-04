@@ -96,4 +96,12 @@ class VentaController extends Controller
         return redirect()->route('venta.upload')
             ->with('success', 'Se actualizaron '.$cont.' registros');
     }
+    public function tomar_pedido()
+    {
+        return view('venta.pedido');
+    }
+    public function pedidos_guardados()
+    {
+        return view('venta.pedidos-guardados');
+    }
 }

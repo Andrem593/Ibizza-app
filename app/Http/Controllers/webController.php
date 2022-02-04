@@ -497,6 +497,9 @@ class webController extends Controller
     }
     public function view_pedido()
     {
+        if (Auth::user()->role == 'Administrador') {
+            return view('venta.pedido');
+        }
         if (Auth::user()->role != 'Empresaria') {
             return view('ecomerce.usuario-no-autorizado');
         }
@@ -505,6 +508,9 @@ class webController extends Controller
     }
     public function pedidos_guardados()
     {
+        if (Auth::user()->role == 'Administrador') {
+            return view('venta.pedidos-guardados');
+        }
         if (Auth::user()->role != 'Empresaria') {
             return view('ecomerce.usuario-no-autorizado');
         }

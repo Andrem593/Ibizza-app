@@ -1316,7 +1316,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="text-center footer-off-msg">
-                            <span>!Gana Premios! por todas tus compras</span><a href="#" target="_blank">ver
+                            <span>!Gana Premios! por todas tus compras</span><a href="{{route('web.premio-ventas')}}" target="_blank">ver
                                 Detalle</a>
                         </div>
                     </div>
@@ -1335,11 +1335,11 @@
                                 <h4 class="ec-footer-heading">Contactanos</h4>
                                 <div class="ec-footer-links">
                                     <ul class="align-items-center">
-                                        <li class="ec-footer-link">Guayas - Guayaqui || Cdla. La Garzota</li>
+                                        <li class="ec-footer-link">Guayas - Guayaqui || Chile 315 y Luque, Centro Guayaquil</li>
                                         <li class="ec-footer-link"><span>Contactanos:</span><a
-                                                href="tel:+440123456789">+593 98 765 4321</a></li>
+                                                href="tel:0963725427">0963725427</a></li>
                                         <li class="ec-footer-link"><span>Email:</span><a
-                                                href="mailto:example@ec-email.com">+example@ec-email.com</a></li>
+                                                href="mailto:servicioalcliente.ibizza@zapecsa.com">servicioalcliente@zapecsa.com</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -1353,7 +1353,7 @@
                                                 Nosotros</a></li>
                                         <li class="ec-footer-link"><a
                                                 href="{{ route('web.preguntas-frecuentes') }}">Preguntas</a></li>
-                                        <li class="ec-footer-link"><a href="track-order.html">Información de Envios</a>
+                                        <li class="ec-footer-link"><a href="{{ route('web.preguntas-frecuentes') }}">Información de Envios</a>
                                         </li>
                                         <li class="ec-footer-link"><a
                                                 href="{{ route('web.contactanos') }}">Contáctenos</a></li>
@@ -1366,9 +1366,9 @@
                                 <h4 class="ec-footer-heading">Soy Empresaria</h4>
                                 <div class="ec-footer-links">
                                     <ul class="align-items-center">
-                                        <li class="ec-footer-link"><a href="user-profile.html">Mi Perfil</a></li>
-                                        <li class="ec-footer-link"><a href="track-order.html">Mis Pedidos</a></li>
-                                        <li class="ec-footer-link"><a href="offer.html">Realizar Pedido</a></li>
+                                        <li class="ec-footer-link"><a href="{{route('web.perfil-empresaria')}}">Mi Perfil</a></li>
+                                        <li class="ec-footer-link"><a href="{{ route('web.historial-compras') }}">Mis Pedidos</a></li>
+                                        <li class="ec-footer-link"><a href="{{ route('web.tomar-pedido')}}">Realizar Pedido</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -1378,7 +1378,7 @@
                                 <h4 class="ec-footer-heading">Servicios</h4>
                                 <div class="ec-footer-links">
                                     <ul class="align-items-center">
-                                        <li class="ec-footer-link"><a href="track-order.html">Devoluciones</a></li>
+                                        <li class="ec-footer-link"><a href="{{ route('web.politica-privacidad') }}">Devoluciones</a></li>
                                         <li class="ec-footer-link"><a
                                                 href="{{ route('web.politica-privacidad') }}">Política de
                                                 Privacidad</a>
@@ -1396,20 +1396,18 @@
                         </div>
                         <div class="col-sm-12 col-lg-2 ec-footer-service">
                             <div class="ec-footer-widget">
-                                <h4 class="ec-footer-heading">Servicios</h4>
+                                <h4 class="ec-footer-heading">Contáctanos</h4>
                                 <div class="ec-footer-links">
                                     <ul class="align-items-center">
-                                        <li class="ec-footer-link"><a href="track-order.html">Devoluciones</a></li>
+                                        <li class="ec-footer-link"><a href="https://www.facebook.com/catalogo.ibizza/">Facebook</a></li>
                                         <li class="ec-footer-link"><a
-                                                href="{{ route('web.politica-privacidad') }}">Política de
-                                                Privacidad</a>
+                                                href="https://www.instagram.com/catalogo.ibizza/">Instagram</a>
                                         </li>
                                         <li class="ec-footer-link"><a
-                                                href="{{ route('web.terminos-condiciones') }}">Servicios</a>
+                                                href="mailto:servicioalcliente.ibizza@zapecsa.com">E-mail</a>
                                         </li>
                                         <li class="ec-footer-link"><a
-                                                href="{{ route('web.terminos-condiciones') }}">Términos y
-                                                Condiciones</a>
+                                                href="tel:0963725427">Llamanos</a>
                                         </li>
                                     </ul>
                                 </div>

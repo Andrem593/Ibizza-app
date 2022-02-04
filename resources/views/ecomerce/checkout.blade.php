@@ -491,7 +491,20 @@
                 $('#direccion').val($('#direccion_domicilio').val());
                 $('#referencia').val($('#referencia_domicilio').val());
             });
-            $('#asignarEmpresaria, #bill1').click(function() {
+            $('#asignarEmpresaria').click(function() {
+                $('#direccion').prop('disabled', false);
+                $('#provincia').prop('disabled', false);
+                $('#ciudad').prop('disabled', false);
+                datos = $('#search').val();
+                $('#data_search').val(datos);
+                datos = datos.split(' | ');
+                data = {
+                    cedula: datos[0],
+                    nombres: datos[1]
+                }
+                search_data(data);
+            });
+            $('#bill1').click(function() {
                 $('#direccion').prop('disabled', false);
                 $('#provincia').prop('disabled', false);
                 $('#ciudad').prop('disabled', false);
@@ -501,6 +514,9 @@
                     cedula: datos[0],
                     nombres: datos[1]
                 }
+                search_data(data);
+            });
+            function search_data(data){
                 $.post({
                     url: "{{ route('web.data-empresaria') }}",
                     data: data,
@@ -535,7 +551,6 @@
                                     }
                                 });
                             }
-
                             if (response['premios'] != null) {
                                 $('#premios_despues').html('');
                                 $.each(response['premios'], function(i, v) {
@@ -553,8 +568,7 @@
                         }
                     }
                 })
-            });
-
+            }
             $(document).on('change', '#provincia', function() {
                 $('#ciudad').html('<option value="" selected>Seleccione ciudad</option>');
                 $.post({

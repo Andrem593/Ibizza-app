@@ -392,7 +392,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="text-center footer-off-msg">
-                            <span>!Gana Premios! por todas tus compras</span><a href="#" target="_blank">ver
+                            <span>!Gana Premios! por todas tus compras</span><a href="{{route('web.premio-ventas')}}" target="_blank">ver
                                 Detalle</a>
                         </div>
                     </div>
@@ -411,11 +411,11 @@
                                 <h4 class="ec-footer-heading">Contactanos</h4>
                                 <div class="ec-footer-links">
                                     <ul class="align-items-center">
-                                        <li class="ec-footer-link">Guayas - Guayaqui || Cdla. La Garzota</li>
+                                        <li class="ec-footer-link">Guayas - Guayaqui || Chile 315 y Luque, Centro Guayaquil</li>
                                         <li class="ec-footer-link"><span>Contactanos:</span><a
-                                                href="tel:+440123456789">+593 98 765 4321</a></li>
+                                                href="tel:0963725427">0963725427</a></li>
                                         <li class="ec-footer-link"><span>Email:</span><a
-                                                href="mailto:example@ec-email.com">+example@ec-email.com</a></li>
+                                                href="mailto:servicioalcliente.ibizza@zapecsa.com">servicioalcliente.ibizza@zapecsa.com</a></li>
                                     </ul>
                                 </div>
                             </div>
