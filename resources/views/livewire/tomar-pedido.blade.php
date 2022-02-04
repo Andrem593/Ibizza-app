@@ -102,7 +102,7 @@
                     @if (Cart::count() > 0)
                     @foreach (Cart::content() as $item)
                     <tr>
-                        <td><img src="/storage/images/productos/{{ $item->options->image }}" width="50px" height="50px"
+                        <td><img src="{{'../storage/images/productos/'.$item->options->image}}" width="50px" height="50px"
                                 style="object-fit: cover"></td>
                         <td>{{$item->name }}</td>
                         <td>{{$item->options->color}}</td>
@@ -168,7 +168,7 @@
         </div>
     </div>
     <div class="row mt-2 text-end">
-        <button class="btn btn-secondary text-light w-25 m-3" wire:click='GuardarPedidos'>GUARDAR PEDIDO</button>
+        <button class="btn btn-secondary w-25 m-3" wire:click='GuardarPedidos'>GUARDAR PEDIDO</button>
         <a href="{{route('web.checkout')}}" class="btn btn-primary w-25 m-3">LIQUIDAR PEDIDO</a>
     </div>
     @push('js')

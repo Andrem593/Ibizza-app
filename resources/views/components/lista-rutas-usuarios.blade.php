@@ -7,6 +7,12 @@
         </div>
         <div class="ec-vendor-block-items">
             <ul>
+                @if (Auth::user()->role == 'Administrador')
+                <li><a href="{{ route('web.tomar-pedido')}}">Realizar Pedidos</a></li>
+                <li><a href="{{ route('web.pedidos-guardados')}}">Pedidos Reservados</a></li> 
+                <li><a href="{{ route('web.checkout') }}">Liquidar Pedido</a></li>
+                <li><a href="{{ route('logout') }}">Cerrar Sesión</a></li>   
+                @else                    
                 <li><a href="{{ route('web.perfil-empresaria') }}">Perfil</a></li>
                 <li><a href="{{ route('web.tomar-pedido')}}">Realizar Pedidos</a></li>
                 <li><a href="{{ route('web.pedidos-guardados')}}">Pedidos Reservados</a></li>
@@ -15,6 +21,7 @@
                 {{-- <li><a href="{{ route('web.carro-compras') }}">Carrito</a></li> --}}
                 <li><a href="{{ route('web.checkout') }}">Liquidar Pedido</a></li>
                 <li><a href="{{ route('logout') }}">Cerrar Sesión</a></li>
+                @endif
             </ul>
         </div>
     </div>

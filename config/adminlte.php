@@ -300,6 +300,16 @@ return [
                     'route'  => 'ventas.index',
                     'icon'    => 'fas fa-chart-line',
                 ],
+                [
+                    'text' => 'Tomar Pedidos',
+                    'route'  => 'venta.pedido',
+                    'icon'    => 'fas fa-tasks',
+                ],
+                [
+                    'text' => 'Pedidos Guardados',
+                    'route'  => 'venta.pedidos-guardados',
+                    'icon'    => 'fas fa-box',
+                ],
             ],
         ],
         [

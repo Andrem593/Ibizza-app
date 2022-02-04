@@ -33,7 +33,7 @@ class TomarPedido extends Component
             $this->tallas = $tallas;
             $this->color = $colores[0]->color;
             $this->talla = $tallas[0]->talla;
-            $this->imagen = './storage/images/productos/'.$colores[0]->imagen_path;
+            $this->imagen = '../storage/images/productos/'.$colores[0]->imagen_path;
             $this->message = '';
         } catch (\Throwable $th) {
             $this->message= 'CODIGO INGRESADO NO ES CORRECTO'; 
@@ -50,7 +50,7 @@ class TomarPedido extends Component
             ->where('color', $this->color)->get();        
             $this->tallas = $tallas;
             $this->talla = $tallas[0]->talla;
-            $this->imagen = './storage/images/productos/'.$tallas[0]->imagen_path;
+            $this->imagen = '../storage/images/productos/'.$tallas[0]->imagen_path;
             $this->message = '';
         } catch (\Throwable $th) {
             $this->message= 'CODIGO INGRESADO NO ES CORRECTO'; 

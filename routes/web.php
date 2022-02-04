@@ -228,3 +228,11 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/venta/saveExcel', [VentaController::class,'saveExcel'])
 ->name('venta.saveExcel');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/venta/pedido', [VentaController::class,'tomar_pedido'])
+->name('venta.pedido');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/venta/pedidos-guardados', [VentaController::class,'pedidos_guardados'])
+->name('venta.pedidos-guardados');
