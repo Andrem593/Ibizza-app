@@ -58,6 +58,7 @@ Route::get('pedido-ibizza-reservados',[webController::class,'pedidos_guardados']
 Route::get('/sobre-nosotros-ibizza', [webController::class,'sobre_nosotros'])->name('web.sobre-nosotros');
 Route::get('/premio-ventas', [webController::class,'premio_ventas'])->name('web.premio-ventas');
 Route::get('/contactanos', [webController::class,'contacto'])->name('web.contactanos');
+Route::post('/email-contacto',[webController::class,'email_contacto'])->name('web.email-contacto');
 Route::get('/preguntas-frecuentes', [webController::class,'preguntasFrecuentes'])->name('web.preguntas-frecuentes');
 Route::get('/termino-condiciones', [webController::class,'terminosCondiciones'])->name('web.terminos-condiciones');
 Route::get('/politica-privacidad', [webController::class,'politicaPrivacidad'])->name('web.politica-privacidad');
