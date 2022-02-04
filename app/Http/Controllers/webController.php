@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Catalogo;
 use App\Empresaria;
+use App\Mail\Contacto;
 use App\Mail\RegistroEmpresaria;
 use App\Models\Pedido;
 use App\Models\Separado;
@@ -515,5 +516,26 @@ class webController extends Controller
             return view('ecomerce.usuario-no-autorizado');
         }
         return view('pedidos.guardados');
+    }
+
+    public function email_contacto(Request $request)
+    {
+        $request->validate([
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'required|email',
+            'phonenumber' => 'required|numeric',
+            'comments' => 'required',
+        ]);
+
+        $input = $request->all();
+
+        $correo = new Contacto($input);
+
+        Mail::to('servicioalcliente.ibizza@zapecsa.com')->send($correo);
+
+        // return view('ecomerce.contactanos')->with(['success' => 'Se envió el correo con éxito.']);
+
+        return redirect()->back()->with(['success' => 'Se envió el correo con éxito.']);
     }
 }
