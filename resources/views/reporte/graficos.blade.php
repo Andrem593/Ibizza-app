@@ -268,7 +268,6 @@
                     ]
                 },
                 options: {
-                    indexAxis: 'y',
                     maintainAspectRatio: false,
                     scales: {
                         y: {
