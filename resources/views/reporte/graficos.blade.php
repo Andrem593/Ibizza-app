@@ -17,6 +17,11 @@
                         href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile"
                         aria-selected="false">Ventas por Catálogo</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-vendedor-tab" data-toggle="pill"
+                        href="#custom-tabs-vendedor" role="tab" aria-controls="custom-tabs-vendedor"
+                        aria-selected="false">Ventas por Vendedor</a>
+                </li>
             </ul>
         </div>
         <div class="card-body">
@@ -94,6 +99,42 @@
                         </div>
                     </div>
                 </div>
+                <div class="tab-pane fade" id="custom-tabs-vendedor" role="tabpanel"
+                    aria-labelledby="custom-tabs-vendedor-tab">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <table class="display table table-striped table-sm table-hover fw-bold text-center">
+                                <thead class="bg-ibizza">
+                                    <tr>
+                                        <th>Vendedor</th>
+                                        <th>Total de Ventas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (count($ventas) > 0)
+                                        @foreach ($ventas as $item)
+                                            <tr>
+                                                <td>{{ $item->name }}</td>
+                                                <td>{{ $item->total }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="2">Sin datos que mostrar</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="chart-container">
+                                <canvas id="chartVenta"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -117,8 +158,10 @@
             var dataAnterior = JSON.parse('<?= $anterior ?>');
             var dataActual = JSON.parse('<?= $actual ?>');
             var dataCatalogo = JSON.parse('<?= $jsonCatalogo ?>');
+            var dataVenta = JSON.parse('<?= $jsonVenta ?>');
             var ctx = $('#myChart');
             var ctxCatalogo = $('#chartCatalogo');
+            var ctxVenta = $('#chartVenta');
 
             let meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
                 'Noviembre', 'Diciembre'
@@ -193,6 +236,39 @@
                     ]
                 },
                 options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            stacked: true,
+                            grid: {
+                                display: false,
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    responsive: true,
+                }
+            });
+
+            var chartVenta = new Chart(ctxVenta, {
+                type: 'horizontalBar',
+                data: {
+                    labels: dataVenta.label,
+                    datasets: [{
+                            label: 'Suma de total',
+                            data: dataVenta.data,
+                            backgroundColor: 'rgba(68, 114, 196, 0.5)',
+                            borderColor: 'rgba(68, 114, 196, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
                     maintainAspectRatio: false,
                     scales: {
                         y: {

@@ -113,6 +113,18 @@ class ReporteController extends Controller
         }
         $jsonCatalogo = json_encode($dataCatalogo);
 
+        $ventas = Venta::join('users', 'users.id', '=', 'ventas.id_vendedor')     
+            ->select('users.name')
+            ->selectRaw('ROUND(sum(ventas.total_venta),2) as total')    
+            ->get();
+
+        $dataVenta = [];
+        foreach ($ventas as $key => $value) {
+            $dataVenta['label'][] = $value->name;
+            $dataVenta['data'][] = $value->total;
+        }
+        $jsonVenta = json_encode($dataVenta);
+
         $ventas_actual = Venta::whereRaw('YEAR(created_at) = ?', $anio_actual)
             ->selectRaw('count(*) as ventas')
             ->selectRaw('ROUND(sum(total_venta),2) as total')
@@ -159,6 +171,6 @@ class ReporteController extends Controller
         $anterior = json_encode($data_anterior);
         $actual = json_encode($data_actual);
 
-        return view('reporte.graficos', compact('anio_actual', 'anio_anterior', 'anterior', 'actual', 'catalogos', 'jsonCatalogo'));
+        return view('reporte.graficos', compact('anio_actual', 'anio_anterior', 'anterior', 'actual', 'catalogos', 'jsonCatalogo', 'ventas', 'jsonVenta'));
     }
 }
