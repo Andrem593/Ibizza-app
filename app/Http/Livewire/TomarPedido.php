@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TomarPedido extends Component
 {
-    public $estilo, $colores,$tallas,$message, $color, $talla,$cantidad, $alert, $stock;
+    public $estilo, $colores, $tallas, $message, $color, $talla,$cantidad, $alert, $stock, $cliente;
     public $imagen = 'https://www.bicifan.uy/wp-content/uploads/2016/09/producto-sin-imagen.png';
     protected $listeners = ['change' => 'buscarColor'];
 
@@ -100,6 +100,7 @@ class TomarPedido extends Component
                 if(!$flag){
                     $separado = Separado::create([
                         'id_usuario'=>Auth::user()->id,
+                        'nombre_cliente'=>$this->cliente,
                         'cantidad_total'=>Cart::count(),
                         'total_venta'=>Cart::total(),
                         'total_p_empresaria'=>number_format(Cart::total() * 0.30,2),

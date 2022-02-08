@@ -9,5 +9,5 @@ class Separado extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id_usuario','cantidad_total','total_venta','total_p_empresaria'];
+    protected $fillable = ['id_usuario','nombre_cliente','cantidad_total','total_venta','total_p_empresaria'];
 }

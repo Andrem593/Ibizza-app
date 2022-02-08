@@ -11,6 +11,14 @@
             </div>
         </div>
         <div class="col">
+            @if (Auth::user()->role != 'Empresaria')                    
+            <div class="row ">
+                <div class="col mb-2">
+                    <label class="form-label">Nombre del Cliente:</label>
+                    <input type="text" class="form-control p-1" wire:model='cliente' placeholder="Ingrese el nombre del cliente para su pedido">
+                </div>
+            </div>
+            @endif
             <div class="row">
                 <div class="col mb-3">
                     <label class="form-label">Codigo Artículo:</label>

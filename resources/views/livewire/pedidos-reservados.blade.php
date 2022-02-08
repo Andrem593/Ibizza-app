@@ -16,6 +16,9 @@
                             <h2 class="ec-title"><a wire:click="verDetalle({{$item->id}})">Ver Detalles del Pedido</a>
                             </h2>
                             <p class="ec-text h-100">
+                                @if (Auth::user()->role != 'Empresaria')
+                                Cliente: <b>{{$item->nombre_cliente}}</b> <br>
+                                @endif
                                 Cantidad Reservada: <b>{{$item->cantidad_total}}</b> <br>
                                 Total de Pedido: <b>${{$item->total_venta}}</b><br>
                                 Ganancia Estimada: <b>${{$item->total_p_empresaria}}</b><br>
@@ -34,6 +37,10 @@
         <div class="row d-flex justify-content-between">
             <div class="col my-auto fw-bold">
                 DETALLE DEL PEDIDO RESERVADO
+                @empty (!$cliente)
+                <br>
+                Cliente: <b>{{$cliente->nombre_cliente}}</b> <br>
+                @endempty
             </div>
             <div class="col text-end">
                 <button class="btn btn-primary" wire:click="$set('detalle',false)">Regresar</button>
@@ -64,10 +71,10 @@
                             <td>{{$item->talla}}</td>
                             <td>${{$item->precio}}</td>
                             <td>{{$item->cantidad}}</td>
-                            <td>${{$item->total}}</td>                        
+                            <td>${{$item->total}}</td>
                         </tr>
                         @endforeach
-                    </tbody>                
+                    </tbody>
                 </table>
             </div>
         </div>
