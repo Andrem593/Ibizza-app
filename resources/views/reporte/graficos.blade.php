@@ -115,7 +115,7 @@
                                         @foreach ($ventas as $item)
                                             <tr>
                                                 <td>{{ $item->name }}</td>
-                                                <td>{{ $item->total }}</td>
+                                                <td>{{ round($item->total, 2) }}</td>
                                             </tr>
                                         @endforeach
                                     @else
@@ -182,7 +182,7 @@
 
             $('#resumen').html(table_html);
 
-            $('#pie').html('<tr><td>Total General</td><td>' + acumAnterior + '</td><td>' + acumActual + '</td></tr>');
+            $('#pie').html('<tr><td>Total General</td><td>' + acumAnterior.toFixed(2) + '</td><td>' + acumActual.toFixed(2) + '</td></tr>');
 
             var myChart = new Chart(ctx, {
                 type: 'bar',
