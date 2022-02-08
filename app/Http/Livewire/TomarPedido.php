@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TomarPedido extends Component
 {
-    public $estilo, $colores,$tallas,$message, $color, $talla,$cantidad, $alert;
+    public $estilo, $colores,$tallas,$message, $color, $talla,$cantidad, $alert, $stock;
     public $imagen = 'https://www.bicifan.uy/wp-content/uploads/2016/09/producto-sin-imagen.png';
     protected $listeners = ['change' => 'buscarColor'];
 
@@ -33,6 +33,7 @@ class TomarPedido extends Component
             $this->tallas = $tallas;
             $this->color = $colores[0]->color;
             $this->talla = $tallas[0]->talla;
+            $this->stock = $tallas[0]->stock;
             $this->imagen = '../storage/images/productos/'.$colores[0]->imagen_path;
             $this->message = '';
         } catch (\Throwable $th) {
@@ -50,6 +51,7 @@ class TomarPedido extends Component
             ->where('color', $this->color)->get();        
             $this->tallas = $tallas;
             $this->talla = $tallas[0]->talla;
+            $this->stock = $tallas[0]->stock;
             $this->imagen = '../storage/images/productos/'.$tallas[0]->imagen_path;
             $this->message = '';
         } catch (\Throwable $th) {
@@ -129,5 +131,11 @@ class TomarPedido extends Component
         }else{
             $this->message= 'NO PUEDE GUARDAR UN PEDIDO SIN PRODUCTOS'; 
         }
+    }
+    public function stockProduct($talla)
+    {
+        $estilo = $this->estilo;
+        $producto = Producto::where('estilo', $estilo)->where('color', $this->color)->where('talla', $this->talla)->first();
+        $this->stock = $producto->stock;
     }
 }

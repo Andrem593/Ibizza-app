@@ -41,7 +41,7 @@
                 </div>
                 <div class="col mb-3">
                     <label class="form-label">Seleccionar Talla:</label>
-                    <select class="form-select p-2" wire:model.defer="talla">
+                    <select class="form-select p-2" wire:model="talla" wire:change='stockProduct({{$talla}})'>
                         @empty(!$tallas)
                         @foreach ($tallas as $talla)
                         <option value="{{$talla->talla}}">{{$talla->talla}}</option>
@@ -59,7 +59,7 @@
                         <div class="col-6">
                             <span>{{$tallas[0]->nombre_mostrar}}</span>
                             <br>
-                            <span>Marca: {{$tallas[0]->nombre_marca}}</span>
+                            <span>Marca: {{$tallas[0]->nombre_marca}} | STOCK: <b>{{$stock}}</b></span>
                         </div>
                         <div class="col-6">
                             <span class="badge bg-secondary">PVP: ${{$tallas[0]->valor_venta}}</span>
