@@ -115,7 +115,9 @@ class ReporteController extends Controller
 
         $ventas = Venta::join('users', 'users.id', '=', 'ventas.id_vendedor')     
             ->select('users.name')
-            ->selectRaw('ROUND(sum(ventas.total_venta),2) as total')    
+            ->selectRaw('ROUND(sum(ventas.total_venta),2) as total')
+            ->groupBy('ventas.id_vendedor')
+            ->orderBy('ventas.id_vendedor')    
             ->get();
 
         $dataVenta = [];
