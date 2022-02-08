@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LogStockFaltante;
 use App\Producto;
 
 use Illuminate\Http\Request;
@@ -278,5 +279,24 @@ class ProductoController extends Controller
     public function productoEstilos()
     {
         return view('producto.estilos');
+    }
+
+    public function stockFaltante()
+    {
+        return view('producto.stock-faltante');
+    }
+
+    public function productoDataTableStock(Request $request)
+    {
+        $response = '';
+        if ($_POST['funcion'] == 'listar_STOCK') {
+            $stock = LogStockFaltante::all();
+            if (count($stock) == 0) {
+                $stock = 'no data';
+            }
+            $response = json_encode($stock);
+        }
+
+        return $response;
     }
 }
