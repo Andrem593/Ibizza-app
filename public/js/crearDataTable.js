@@ -1275,6 +1275,9 @@ function stockFaltante(data, ruta) {
             },
         },
         "columns": [{
+                "data": "nombre_mostrar"
+            },
+            {
                 "data": "estilo"
             },
             {
@@ -1287,7 +1290,7 @@ function stockFaltante(data, ruta) {
                 "data": "stock_requerido",
             },
             {
-                "data": "created_at",
+                "data": "fecha",
             },
         ],
         "lengthMenu": [
@@ -1295,7 +1298,7 @@ function stockFaltante(data, ruta) {
             ["Todo", 10, 25, 50]
         ],
         "order": [
-            [4, 'desc']
+            [5, 'desc']
         ],
         "language": espanol,
         //para usar los botones

@@ -75,6 +75,7 @@ class TomarPedido extends Component
                 $this->reset(['colores','tallas','imagen','color','talla','cantidad']);
             }else{
                 LogStockFaltante::create([
+                    'nombre_mostrar'=>$producto->nombre_mostrar,
                     'estilo'=>$this->estilo,
                     'color'=>$this->color,
                     'talla'=>$this->talla,
