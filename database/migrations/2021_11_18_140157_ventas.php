@@ -13,7 +13,7 @@ class Ventas extends Migration
      */
     public function up()
     {
-        Schema::create('Ventas', function (Blueprint $table) {
+        Schema::create('ventas', function (Blueprint $table) {
             $table->id();
             $table->integer('id_vendedor');
             $table->integer('id_empresaria');

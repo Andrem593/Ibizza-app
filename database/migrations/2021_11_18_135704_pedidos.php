@@ -13,7 +13,7 @@ class Pedidos extends Migration
      */
     public function up()
     {
-        Schema::create('Pedidos', function (Blueprint $table) {
+        Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
             $table->integer('id_venta');
             $table->integer('id_producto');
