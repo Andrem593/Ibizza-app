@@ -366,14 +366,17 @@ return [
                 [
                     'text' => 'Vendedor',
                     'route'  => 'reportes.index',
-                    'icon'    => 'fas fa-receipt',
-                    //'can'   => 'reportes.index',
+                    'icon'    => 'fas fa-receipt'
                 ],
                 [
                     'text' => 'General',
                     'route'  => 'reporte.graficos',
-                    'icon'    => 'fas fa-chart-area',
-                    //'can'   => 'reportes.index',
+                    'icon'    => 'fas fa-chart-area'
+                ],
+                [
+                    'text' => 'ventas',
+                    'route'  => 'reporte.graficos',
+                    'icon'    => 'fas fa-chart-area'
                 ],
             ]
         ],
