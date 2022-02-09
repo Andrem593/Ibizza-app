@@ -178,6 +178,12 @@ class webController extends Controller
         if ($empresaria->tipo_cliente == 'PROSPECTO') {
             Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'NUEVA']);
         }
+        if ($empresaria->tipo_cliente == 'INACTIVA-1' || $empresaria->tipo_cliente == 'INACTIVA-2' || $empresaria->tipo_cliente == 'INACTIVA-3') {
+            Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'REACTIVA']);
+        }
+        if ($empresaria->tipo_cliente == 'REACTIVA') {
+            Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'CONTINUA']);
+        }
         if (empty($request->observaciones)) {
             $request->observaciones = 'SIN OBSERVACIONES';
         }
