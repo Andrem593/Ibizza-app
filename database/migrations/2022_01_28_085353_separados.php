@@ -16,6 +16,7 @@ class Separados extends Migration
         Schema::create('separados', function (Blueprint $table) {
             $table->id();
             $table->integer('id_usuario');
+            $table->text('nombre_cliente');
             $table->integer('cantidad_total');
             $table->float('total_venta',8,2);
             $table->float('total_p_empresaria',8,2);

@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class PedidosReservados extends Component
 {
-    public $alert = false, $detalle=false;
+    public $alert = false, $detalle=false, $cliente;
     public $detalles_pedido,$fecha;
     
     public function render()
@@ -36,7 +36,10 @@ class PedidosReservados extends Component
     public function verDetalle($id)
     {
         $this->detalle = true;
-        $this->detalles_pedido = Pedidos_pendiente::where('id_separados',$id)->join('productos','pedidos_pendientes.id_producto','=','productos.id')->get();        
+        $this->detalles_pedido = Pedidos_pendiente::where('id_separados',$id)->join('productos','pedidos_pendientes.id_producto','=','productos.id')->get();    
+        if (Auth::user()->role != 'Empresaria') {            
+            $this->cliente =  Separado::find($id)->first('nombre_cliente');
+        }
     }
     public function recuperarPedido($productos){                
         foreach ($productos as $producto) {
