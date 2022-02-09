@@ -110,6 +110,10 @@ class userController extends Controller
         $ventaCatalogo = Venta::join('catalogos','ventas.id_catalogo','=','catalogos.id')
         ->where('catalogos.estado','PUBLICADO')->get()->count();
         $productos = Producto::all()->count();
-        return view('dashboard',compact('empresarias','ventas','ventaCatalogo','productos'));
+        $ventasMes = Venta::whereMonth('created_at','=',date('m'))->get();
+        $ventasCliente = Venta::join('empresarias','ventas.id_empresaria','=','empresarias.id')
+        ->join('users','users.id','=','empresarias.id_user')->limit(10)
+        ->get();
+        return view('dashboard',compact('empresarias','ventas','ventaCatalogo','productos','ventasMes','ventasCliente'));
     }
 }
