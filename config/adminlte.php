@@ -260,63 +260,73 @@ return [
         [
             'text'    => 'Productos',
             'icon'    => 'fas fa-shoe-prints',
+            'can'   => ['producto.upload','producto.index','producto.estilos','marcas.index','proveedores.index','producto.stock-faltante'],
             'submenu' => [
                 [
                     'text' => 'Carga',
                     'route'  => 'producto.upload',
                     'icon'    => 'ml-md-2 fas fa-cloud-upload-alt',
+                    'can'   =>  'producto.upload',                  
                 ],
                 [
                     'text' => 'Lista Productos',
                     'route'  => 'productos.index',
                     'icon'    => 'ml-md-2 fas fa-box-open',
+                    'can'   =>  'producto.index',    
                 ],
                 [
                     'text' => 'Estilos y Color',
                     'route'  => 'producto.estilos',
+                    'can'  => 'producto.estilos',
                     'icon'    => 'ml-md-2 fas fa-palette',
                 ],
                 [
                     'text'    => 'Marcas',
                     'icon'    => 'ml-md-2 fas fa-copyright',
                     'route'  => 'marcas.index',
-                    'can'   =>'marcas.index',
+                    'can'  => 'marcas.index',
                 ],
                 [
                     'text'    => 'Provedor',
                     'icon'    => 'ml-md-2 fas fa-truck',
                     'route'  => 'proveedores.index',
-                    'can'   =>'proveedores.index',
+                    'can'  => 'proveedores.index',
                 ],
                 [
                     'text'    => 'Historial STOCK faltante',
                     'icon'    => 'ml-md-2 fas fa-boxes',
-                    'route'  => 'producto.stock-faltante',                    
+                    'route'  => 'producto.stock-faltante',  
+                    'can'  => 'producto.stock-faltante',  
                 ],
             ]
         ],
         [
             'text'    => 'Ventas',
             'icon'    => 'fas fa-shopping-cart',
+            'can'     =>['venta.upload','ventas.index','venta.pedido','venta.pedidos-guardados'],
             'submenu' => [
                 [
                     'text' => 'Carga',
                     'route'  => 'venta.upload',
+                    'can'  => 'venta.upload',
                     'icon'    => 'ml-md-2 fas fa-cloud-upload-alt',
                 ],
                 [
                     'text' => 'Registro Ventas',
                     'route'  => 'ventas.index',
+                    'can'  => 'venta.index',
                     'icon'    => 'ml-md-2 fas fa-chart-line',
                 ],
                 [
                     'text' => 'Tomar Pedidos',
                     'route'  => 'venta.pedido',
+                    'can'  => 'venta.pedido',
                     'icon'    => 'ml-md-2 fas fa-tasks',
                 ],
                 [
                     'text' => 'Pedidos Guardados',
                     'route'  => 'venta.pedidos-guardados',
+                    'can'  => 'venta.pedidos-guardados',
                     'icon'    => 'ml-md-2 fas fa-box',
                 ],
             ],
@@ -324,20 +334,24 @@ return [
         [
             'text'    => 'Catálogos',
             'icon'    => 'fas fa-book-open',
+            'can'       =>['catalogos.index','catalogo.catalogoProducto','premios.index'],
             'submenu' => [
                 [
                     'text' => 'Crear Catálogo',
                     'route'  => 'catalogos.index',
+                    'can'  => 'catalogos.index',
                     'icon'    => 'ml-md-2 fas fa-folder-plus',
                 ],
                 [
                     'text' => 'Asignar Productos',
                     'route'  => 'catalogo.catalogoProducto',
+                    'can'  => 'catalogo.catalogoProducto',
                     'icon'    => 'ml-md-2 fas fa-book-reader',
                 ],
                 [
                     'text' => 'Premios',
                     'route'  => 'premios.index',
+                    'can'  => 'premios.index',
                     'icon'    => 'ml-md-2 fas fa-gifts',
                 ]
             ],
@@ -346,13 +360,14 @@ return [
         
         [
             'text'    => 'Usuarios',
-            'icon'    => 'fas fa-users',            
+            'icon'    => 'fas fa-users',    
+            'can'     => ['roles.index','usuario.index','empresarias.index'],        
             'submenu' => [
                 [
                     'text' => 'Lista de Roles',
                     'route'  => 'admin.roles.index',
                     'icon'    => 'ml-md-2 fas fa-user-cog',
-                    'can'   => 'dashboard',
+                    'can'   => 'roles.index',
                 ],
                 [
                     'text' => 'Lista de Usuarios',
@@ -371,20 +386,24 @@ return [
         [
             'text'    => 'Reportes',
             'icon'    => 'fas fa-chart-pie',    
+            'can'     => ['reportes.index','reporte.graficos','reporte.ventas'],
             'submenu' => [
                 [
                     'text' => 'Vendedor',
                     'route'  => 'reportes.index',
+                    'can'  => 'reportes.index',
                     'icon'    => 'ml-md-2 fas fa-receipt'
                 ],
                 [
                     'text' => 'General',
                     'route'  => 'reporte.graficos',
+                    'can'  => 'reporte.graficos',
                     'icon'    => 'ml-md-2 fas fa-chart-area'
                 ],
                 [
                     'text' => 'ventas',
                     'route'  => 'reporte.ventas',
+                    'can'  => 'reporte.ventas',
                     'icon'    => 'ml-md-2 fas fa-file'
                 ],
             ]
