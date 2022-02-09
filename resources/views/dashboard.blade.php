@@ -4,7 +4,7 @@
             <div class="card p-2">
                 <div class="row d-flex justify-content-start py-2">
                     <div class="col-lg-6 col-md-6">
-                        <h2 class="font-weight-bold mb-0">Bienvenido {{ Auth::user()->name }}</h2>
+                        <h2 class="font-weight-bold mb-0">Hola 👋 {{ Auth::user()->name }} !</h2>
                         <p class="lead text-muted">Revisa la última información</p>
                     </div>
                 </div>
