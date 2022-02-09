@@ -128,8 +128,8 @@ return [
     'classes_content_header' => '',
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-light-dark elevation-2',
-    'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
+    'classes_sidebar_nav' => 'nav-flat',
+    'classes_topnav' => 'navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
@@ -148,8 +148,8 @@ return [
     'sidebar_mini' => 'lg',
     'sidebar_collapse' => false,
     'sidebar_collapse_auto_size' => false,
-    'sidebar_collapse_remember' => false,
-    'sidebar_collapse_remember_no_transition' => true,
+    'sidebar_collapse_remember' => true,
+    'sidebar_collapse_remember_no_transition' => false,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
     'sidebar_nav_accordion' => true,
@@ -235,6 +235,10 @@ return [
             'type'         => 'fullscreen-widget',
             'topnav_right' => false,
         ],
+        [
+            'type'         => 'darkmode-widget',
+            'topnav_right' => true, // Or "topnav => true" to place on the left.
+        ],
 
         // Sidebar items:
         [
@@ -260,33 +264,33 @@ return [
                 [
                     'text' => 'Carga',
                     'route'  => 'producto.upload',
-                    'icon'    => 'fas fa-cloud-upload-alt',
+                    'icon'    => 'ml-md-2 fas fa-cloud-upload-alt',
                 ],
                 [
                     'text' => 'Lista Productos',
                     'route'  => 'productos.index',
-                    'icon'    => 'fas fa-box-open',
+                    'icon'    => 'ml-md-2 fas fa-box-open',
                 ],
                 [
                     'text' => 'Estilos y Color',
                     'route'  => 'producto.estilos',
-                    'icon'    => 'fas fa-palette',
+                    'icon'    => 'ml-md-2 fas fa-palette',
                 ],
                 [
                     'text'    => 'Marcas',
-                    'icon'    => 'fas fa-copyright',
+                    'icon'    => 'ml-md-2 fas fa-copyright',
                     'route'  => 'marcas.index',
                     'can'   =>'marcas.index',
                 ],
                 [
                     'text'    => 'Provedor',
-                    'icon'    => 'fas fa-truck',
+                    'icon'    => 'ml-md-2 fas fa-truck',
                     'route'  => 'proveedores.index',
                     'can'   =>'proveedores.index',
                 ],
                 [
                     'text'    => 'Historial STOCK faltante',
-                    'icon'    => 'fas fa-boxes',
+                    'icon'    => 'ml-md-2 fas fa-boxes',
                     'route'  => 'producto.stock-faltante',                    
                 ],
             ]
@@ -298,22 +302,22 @@ return [
                 [
                     'text' => 'Carga',
                     'route'  => 'venta.upload',
-                    'icon'    => 'fas fa-cloud-upload-alt',
+                    'icon'    => 'ml-md-2 fas fa-cloud-upload-alt',
                 ],
                 [
                     'text' => 'Registro Ventas',
                     'route'  => 'ventas.index',
-                    'icon'    => 'fas fa-chart-line',
+                    'icon'    => 'ml-md-2 fas fa-chart-line',
                 ],
                 [
                     'text' => 'Tomar Pedidos',
                     'route'  => 'venta.pedido',
-                    'icon'    => 'fas fa-tasks',
+                    'icon'    => 'ml-md-2 fas fa-tasks',
                 ],
                 [
                     'text' => 'Pedidos Guardados',
                     'route'  => 'venta.pedidos-guardados',
-                    'icon'    => 'fas fa-box',
+                    'icon'    => 'ml-md-2 fas fa-box',
                 ],
             ],
         ],
@@ -324,17 +328,17 @@ return [
                 [
                     'text' => 'Crear Catálogo',
                     'route'  => 'catalogos.index',
-                    'icon'    => 'fas fa-folder-plus',
+                    'icon'    => 'ml-md-2 fas fa-folder-plus',
                 ],
                 [
                     'text' => 'Asignar Productos',
                     'route'  => 'catalogo.catalogoProducto',
-                    'icon'    => 'fas fa-book-reader',
+                    'icon'    => 'ml-md-2 fas fa-book-reader',
                 ],
                 [
                     'text' => 'Premios',
                     'route'  => 'premios.index',
-                    'icon'    => 'fas fa-gifts',
+                    'icon'    => 'ml-md-2 fas fa-gifts',
                 ]
             ],
             'can'   =>'catalogos.index'
@@ -347,18 +351,18 @@ return [
                 [
                     'text' => 'Lista de Roles',
                     'route'  => 'admin.roles.index',
-                    'icon'    => 'fas fa-user-cog',
+                    'icon'    => 'ml-md-2 fas fa-user-cog',
                     'can'   => 'dashboard',
                 ],
                 [
                     'text' => 'Lista de Usuarios',
                     'route'  => 'usuario.index',
-                    'icon'    => 'fas fa-user-plus',
+                    'icon'    => 'ml-md-2 fas fa-user-plus',
                     'can'   => 'usuario.index',
                 ],
                 [
                     'text'    => 'Empresarias',
-                    'icon'    => 'fab fa-slideshare',
+                    'icon'    => 'ml-md-2 fab fa-slideshare',
                     'route'  => 'empresarias.index',
                     'can'   =>'empresarias.index',
                 ],
@@ -371,17 +375,17 @@ return [
                 [
                     'text' => 'Vendedor',
                     'route'  => 'reportes.index',
-                    'icon'    => 'fas fa-receipt'
+                    'icon'    => 'ml-md-2 fas fa-receipt'
                 ],
                 [
                     'text' => 'General',
                     'route'  => 'reporte.graficos',
-                    'icon'    => 'fas fa-chart-area'
+                    'icon'    => 'ml-md-2 fas fa-chart-area'
                 ],
                 [
                     'text' => 'ventas',
                     'route'  => 'reporte.ventas',
-                    'icon'    => 'fas fa-file'
+                    'icon'    => 'ml-md-2 fas fa-file'
                 ],
             ]
         ],
