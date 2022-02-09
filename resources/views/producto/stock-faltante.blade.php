@@ -24,6 +24,7 @@
                             <table id="datatable" class="display table table-striped table-sm table-hover fw-bold">
                                 <thead class="bg-ibizza text-center">
                                     <tr>
+                                        <th>NOMBRE</th>
                                         <th>ESTILO</th>
                                         <th>COLOR</th>
                                         <th>TALLA</th>

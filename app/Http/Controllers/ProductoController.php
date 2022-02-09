@@ -298,7 +298,7 @@ class ProductoController extends Controller
     {
         $response = '';
         if ($_POST['funcion'] == 'listar_STOCK') {
-            $stock = LogStockFaltante::all();
+            $stock = LogStockFaltante::select('*')->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d %H:%i:%s") as fecha')->get();
             if (count($stock) == 0) {
                 $stock = 'no data';
             }

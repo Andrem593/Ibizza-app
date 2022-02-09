@@ -9,5 +9,5 @@ class LogStockFaltante extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['estilo','color','talla','stock_requerido'];
+    protected $fillable = ['nombre_mostrar','estilo','color','talla','stock_requerido'];
 }

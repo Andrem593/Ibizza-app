@@ -1275,27 +1275,30 @@ function stockFaltante(data, ruta) {
             },
         },
         "columns": [{
-            "data": "estilo"
-        },
-        {
-            "data": "color"
-        },
-        {
-            "data": "talla",
-        },
-        {
-            "data": "stock_requerido",
-        },
-        {
-            "data": "created_at",
-        },
+                "data": "nombre_mostrar"
+            },
+            {
+                "data": "estilo"
+            },
+            {
+                "data": "color"
+            },
+            {
+                "data": "talla",
+            },
+            {
+                "data": "stock_requerido",
+            },
+            {
+                "data": "fecha",
+            },
         ],
         "lengthMenu": [
             [-1, 10, 25, 50],
             ["Todo", 10, 25, 50]
         ],
         "order": [
-            [4, 'desc']
+            [5, 'desc']
         ],
         "language": espanol,
         //para usar los botones

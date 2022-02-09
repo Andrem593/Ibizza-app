@@ -15,6 +15,7 @@ class LogStockFaltantes extends Migration
     {
         Schema::create('log_stock_faltantes', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre_mostrar')->nullable();
             $table->string('estilo',100)->nullable();
             $table->string('color',100)->nullable();
             $table->string('talla')->nullable();
