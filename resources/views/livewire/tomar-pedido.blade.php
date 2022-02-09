@@ -80,10 +80,7 @@
                             @else
                             <span class="badge badge-pill badge-dark" style="font-size: 0.9rem;">P.Final: ${{
                                 number_format($tallas[0]->precio_empresaria, 2) }}</span>
-                            @endempty
-                            @empty(!$stock_disponible)
-                            <span class="badge badge-pill badge-success" style="font-size: 0.9rem;">{{ $stock_disponible }} disponibles</span>
-                            @endempty
+                            @endempty                           
                         </div>
                     </div>
                     @endempty
@@ -122,7 +119,7 @@
                         <td>{{$item->qty}}</td>
                         <td>${{ number_format($item->qty * $item->price,2) }}</td>
                         <td>
-                            <a wire:click="eliminarItem('{{$item->rowId}}')"><i class="ecicon eci-trash-o"></i></a>
+                            <a wire:click="eliminarItem('{{$item->rowId}}')"><i class="{{Auth::user()->role != 'Empresaria' ? 'fas fa-trash' : 'ecicon eci-trash-o '}}"></i></a>
                         </td>
                     </tr>
                     @endforeach
