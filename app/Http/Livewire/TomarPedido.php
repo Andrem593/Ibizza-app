@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\LogStockFaltante;
 use App\Models\Pedidos_pendiente;
 use App\Models\Separado;
 use Livewire\Component;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class TomarPedido extends Component
 {
     public $estilo, $colores, $tallas, $message, $color, $talla,$cantidad, $alert, $stock, $cliente;
+  
     public $imagen = 'https://www.bicifan.uy/wp-content/uploads/2016/09/producto-sin-imagen.png';
     protected $listeners = ['change' => 'buscarColor'];
 
@@ -72,6 +74,12 @@ class TomarPedido extends Component
                 Cart::add($producto->id, $producto->nombre_mostrar, $this->cantidad, number_format($precio, 2), ['image' => $producto->imagen_path , 'color'  => $producto->color , 'talla' => $producto->talla ])->associate('App\Models\Producto');
                 $this->reset(['colores','tallas','imagen','color','talla','cantidad']);
             }else{
+                LogStockFaltante::create([
+                    'estilo'=>$this->estilo,
+                    'color'=>$this->color,
+                    'talla'=>$this->talla,
+                    'stock_requerido'=>$this->cantidad,
+                ]);                
                 $this->message= 'NO HAY STOCK DISPONIBLE'; 
             }             
         }else{

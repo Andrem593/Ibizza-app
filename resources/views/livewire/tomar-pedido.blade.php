@@ -70,16 +70,19 @@
                             <span>Marca: {{$tallas[0]->nombre_marca}} | STOCK: <b>{{$stock}}</b></span>
                         </div>
                         <div class="col-6">
-                            <span class="badge bg-secondary">PVP: ${{$tallas[0]->valor_venta}}</span>
+                            <span class="badge badge-pill badge-secondary" style="font-size: 0.9rem;">PVP: ${{$tallas[0]->valor_venta}}</span>
                             @empty(!$tallas[0]->descuento)
-                            <span class="old-price badge bg-warning text-dark">Descuento: {{ $tallas[0]->descuento
+                            <span class="badge badge-pill bg-ibizza" style="font-size: 0.9rem;">Descuento: {{ $tallas[0]->descuento
                                 }}%</span>
-                            <span class="new-price badge bg-success">P.Final:${{
+                            <span class="badge badge-pill badge-dark" style="font-size: 0.9rem;">P.Final: ${{
                                 number_format(($tallas[0]->precio_empresaria-($tallas[0]->precio_empresaria *
                                 ($tallas[0]->descuento /100))), 2) }}</span>
                             @else
-                            <span class="new-price badge bg-success">P.Final:${{
+                            <span class="badge badge-pill badge-dark" style="font-size: 0.9rem;">P.Final: ${{
                                 number_format($tallas[0]->precio_empresaria, 2) }}</span>
+                            @endempty
+                            @empty(!$stock_disponible)
+                            <span class="badge badge-pill badge-success" style="font-size: 0.9rem;">{{ $stock_disponible }} disponibles</span>
                             @endempty
                         </div>
                     </div>

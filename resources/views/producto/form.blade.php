@@ -8,7 +8,7 @@
                 <div class="row form-group">
                     <div class="col">
                         {{ Form::label('sku') }}
-                        {{ Form::text('sku', $producto->sku, ['class' => 'form-control' . ($errors->has('sku') ? ' is-invalid' : ''), 'placeholder' => 'ingrese el sku del producto']) }}
+                        {{ Form::text('sku', $producto->sku, ['class' => 'form-control' . ($errors->has('sku') ? ' is-invalid' : ''), 'placeholder' => 'ingrese el sku del producto', 'readonly' => true]) }}
                         {!! $errors->first('sku', '<div class="invalid-feedback">:message</p>') !!}
                     </div>
                     <div class="col">
@@ -86,6 +86,11 @@
             </div>
         </div>
         <div class="row form-group">
+            <div class="col">
+                {{ Form::label('stock') }}
+            {{ Form::text('stock', $producto->stock, ['class' => 'form-control' . ($errors->has('stock') ? ' is-invalid' : ''), 'placeholder' => 'stock']) }}
+            {!! $errors->first('stock', '<div class="invalid-feedback">:message</p>') !!}
+            </div>
             <div class="col">
                 {{ Form::label('talla') }}
             {{ Form::text('talla', $producto->talla, ['class' => 'form-control' . ($errors->has('talla') ? ' is-invalid' : ''), 'placeholder' => 'talla']) }}
