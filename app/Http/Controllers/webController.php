@@ -386,6 +386,7 @@ class webController extends Controller
             ->join('users', 'empresarias.vendedor', '=', 'users.id')
             ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'provincias.descripcion as nombre_provincia', 'users.email as correo_vendedor','users.password as password_user', 'users.name as nombre_vendedor')
             ->first();
+            dd($empresaria);
         return view('ecomerce.perfil-empresaria', compact('empresaria'));
     }
     public function detalle_compra_empresaria($id_venta)
