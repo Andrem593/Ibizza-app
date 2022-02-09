@@ -284,6 +284,12 @@ return [
                     'route'  => 'proveedores.index',
                     'can'   =>'proveedores.index',
                 ],
+                [
+                    'text'    => 'Historial STOCK faltante',
+                    'icon'    => 'fas fa-boxes',
+                    'route'  => 'producto.stock-faltante',
+                    //'can'   =>'producto.stock-faltante',
+                ],
             ]
         ],
         [

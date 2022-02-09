@@ -1251,3 +1251,84 @@ function reporteEmpresariaEstado(data, ruta) {
         dataTable.draw();
     }
 }
+
+function stockFaltante(data, ruta) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    let dataTable = $('#datatable').DataTable({
+
+        "destroy": true,
+        "processing": true,
+        "ajax": {
+            "url": ruta,
+            "method": "POST",
+            "data": data,
+            "dataSrc": function(json) {
+                if (json == 'no data') {
+                    return [];
+                } else {
+                    return json;
+                }
+            },
+        },
+        "columns": [{
+                "data": "estilo"
+            },
+            {
+                "data": "color"
+            },
+            {
+                "data": "talla",
+            },
+            {
+                "data": "stock_requerido",
+            },
+            {
+                "data": "created_at",
+            },
+        ],
+        "lengthMenu": [
+            [-1, 10, 25, 50],
+            ["Todo", 10, 25, 50]
+        ],
+        "order": [
+            [4, 'desc']
+        ],
+        "language": espanol,
+        //para usar los botones
+        "responsive": false,
+        "autoWidth": false,
+        "dom": 'Bfrtilp',
+        "buttons": [{
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> ',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> ',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger',
+                pageSize: 'TABLOID',
+                orientation: 'landscape'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> ',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info',
+                exportOptions: {
+                    stripHtml: false
+                }
+            },
+        ]
+    });
+    if (dataTable.length == 0) {
+        dataTable.clear();
+        dataTable.draw();
+    }
+}

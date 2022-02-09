@@ -96,6 +96,10 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->name('producto.datatable');
 
 Route::middleware(['auth:sanctum', 'verified'])
+->post('/producto/datatableStock', [ProductoController::class,'productoDataTableStock'])
+->name('producto.datatable-stock');
+
+Route::middleware(['auth:sanctum', 'verified'])
 ->get('/producto/estilos', [ProductoController::class,'productoEstilos'])
 ->name('producto.estilos');
 
@@ -105,6 +109,10 @@ Route::resource('productos', ProductoController::class)
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/producto/saveExcel/', [ProductoController::class,'saveExcel'])
 ->name('producto.saveExcel');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/producto/stock-faltante', [ProductoController::class,'stockFaltante'])
+->name('producto.stock-faltante');
 
 // MARCA
 
