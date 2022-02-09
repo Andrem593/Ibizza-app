@@ -81,9 +81,9 @@ Route::get('seguimiento-pedidos',[webController::class,'seguimiento_pedidos'])
 ->middleware(['auth:sanctum', 'verified'])->name('web.seguimiento-pedidos');
 
 // RUTAS DASHBOARD
-Route::middleware(['can:dashboard','auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::get('dashboard',[userController::class,'dashboard'])
+->middleware(['can:dashboard','auth:sanctum', 'verified'])
+->name('dashboard');
 
 // PRODUCTO
 

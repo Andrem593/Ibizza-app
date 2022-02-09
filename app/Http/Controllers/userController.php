@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Empresaria;
 use App\Models\User;
+use App\Models\Venta;
+use App\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Jetstream\Jetstream;
 use Spatie\Permission\Models\Role;
+use Ventas;
 
 class userController extends Controller
 {
@@ -100,5 +103,13 @@ class userController extends Controller
             $response = json_encode($usuarios);
         }
         return $response;
+    }
+    public function dashboard(){
+        $empresarias = Empresaria::all()->count();
+        $ventas = Venta::all()->count();
+        $ventaCatalogo = Venta::join('catalogos','ventas.id_catalogo','=','catalogos.id')
+        ->where('catalogos.estado','PUBLICADO')->get()->count();
+        $productos = Producto::all()->count();
+        return view('dashboard',compact('empresarias','ventas','ventaCatalogo','productos'));
     }
 }
