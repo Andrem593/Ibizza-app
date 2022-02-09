@@ -287,8 +287,7 @@ return [
                 [
                     'text'    => 'Historial STOCK faltante',
                     'icon'    => 'fas fa-boxes',
-                    'route'  => 'producto.stock-faltante',
-                    //'can'   =>'producto.stock-faltante',
+                    'route'  => 'producto.stock-faltante',                    
                 ],
             ]
         ],
@@ -381,8 +380,8 @@ return [
                 ],
                 [
                     'text' => 'ventas',
-                    'route'  => 'reporte.graficos',
-                    'icon'    => 'fas fa-chart-area'
+                    'route'  => 'reporte.ventas',
+                    'icon'    => 'fas fa-file'
                 ],
             ]
         ],
@@ -393,12 +392,7 @@ return [
             'url'  => 'user/profile',
             'icon' => 'fas fa-fw fa-user',
         ],
-        ['header' => 'labels'],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
-        ]
+        
     ],
 
     /*

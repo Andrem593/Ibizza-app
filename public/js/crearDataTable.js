@@ -42,7 +42,7 @@ function crearTabla(data, ruta) {
             "url": ruta,
             "method": "POST",
             "data": data,
-            "dataSrc": function(json) {
+            "dataSrc": function (json) {
                 if (json == 'no data') {
                     return [];
                 } else {
@@ -51,81 +51,81 @@ function crearTabla(data, ruta) {
             },
         },
         "columns": [{
-                "data": 'id',
-                "render": function(data, type, row) {
-                    return '<a href="/productos/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
-                }
-            },
-            {
-                "data": "id"
-            },
-            {
-                "data": "imagen_path",
-                "render": function(data, type, row) {
-                    let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
-                    if (data != '' && data != null) {
-                        image = '/storage/images/productos/' + data
-                    }
-                    return '<center><img  src="' + image + '"class="rounded" width="80" height="60" /> </center>';
-                }
-            },
-            {
-                "data": "sku"
-            },
-            {
-                "data": "nombre_producto"
-            },
-            {
-                "data": "descripcion"
-            },
-            {
-                "data": "nombre_marca"
-            },
-            {
-                "data": "grupo"
-            },
-            {
-                "data": "seccion"
-            },
-            {
-                "data": "clasificacion"
-            },
-            {
-                "data": "categoria"
-            },
-            {
-                "data": "subcategoria"
-            },
-            {
-                "data": "nombre_proveedor"
-            },
-            {
-                "data": "estilo"
-            },
-            {
-                "data": "color"
-            },
-            {
-                "data": "talla"
-            },
-            {
-                "data": "cantidad_inicial"
-            },
-            {
-                "data": "stock"
-            },
-            {
-                "data": "valor_venta"
-            },
-            {
-                "data": "precio_empresaria"
-            },
-            {
-                "data": "descuento"
-            },
-            {
-                "data": "estado"
+            "data": 'id',
+            "render": function (data, type, row) {
+                return '<a href="/productos/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
             }
+        },
+        {
+            "data": "id"
+        },
+        {
+            "data": "imagen_path",
+            "render": function (data, type, row) {
+                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                if (data != '' && data != null) {
+                    image = '/storage/images/productos/' + data
+                }
+                return '<center><img  src="' + image + '"class="rounded" width="80" height="60" /> </center>';
+            }
+        },
+        {
+            "data": "sku"
+        },
+        {
+            "data": "nombre_producto"
+        },
+        {
+            "data": "descripcion"
+        },
+        {
+            "data": "nombre_marca"
+        },
+        {
+            "data": "grupo"
+        },
+        {
+            "data": "seccion"
+        },
+        {
+            "data": "clasificacion"
+        },
+        {
+            "data": "categoria"
+        },
+        {
+            "data": "subcategoria"
+        },
+        {
+            "data": "nombre_proveedor"
+        },
+        {
+            "data": "estilo"
+        },
+        {
+            "data": "color"
+        },
+        {
+            "data": "talla"
+        },
+        {
+            "data": "cantidad_inicial"
+        },
+        {
+            "data": "stock"
+        },
+        {
+            "data": "valor_venta"
+        },
+        {
+            "data": "precio_empresaria"
+        },
+        {
+            "data": "descuento"
+        },
+        {
+            "data": "estado"
+        }
 
         ],
         "lengthMenu": [
@@ -138,35 +138,35 @@ function crearTabla(data, ruta) {
         autoWidth: false,
         dom: 'Bfrtilp',
         buttons: [{
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> ',
-                titleAttr: 'Exportar a Excel',
-                className: 'btn btn-success',
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> ',
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger',
-                pageSize: 'TABLOID',
-                orientation: 'landscape'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fa fa-print"></i> ',
-                titleAttr: 'Imprimir',
-                className: 'btn btn-info',
-                exportOptions: {
-                    stripHtml: false
-                }
-            },
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
         ]
     });
     if (dataTable.length == 0) {
         dataTable.clear();
         dataTable.draw();
     }
-    $('#datatable tbody').on('click', '.eliminar', function() {
+    $('#datatable tbody').on('click', '.eliminar', function () {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#elemento_eliminar').html(data.nombre_producto);
         $('#id_eliminar').val(data.id)
@@ -190,7 +190,7 @@ function crearTablaEstilos(data, ruta) {
             "url": ruta,
             "method": "POST",
             "data": data,
-            "dataSrc": function(json) {
+            "dataSrc": function (json) {
                 if (json == 'no data') {
                     return [];
                 } else {
@@ -199,25 +199,25 @@ function crearTablaEstilos(data, ruta) {
             },
         },
         "columns": [{
-                "data": "imagen_path",
-                "render": function(data, type, row) {
-                    let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
-                    if (data != '' && data != null) {
-                        image = '/storage/images/productos/' + data
-                    }
-                    return '<center><img  src="' + image + '"class="rounded" width="80" height="60" /> </center>';
+            "data": "imagen_path",
+            "render": function (data, type, row) {
+                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                if (data != '' && data != null) {
+                    image = '/storage/images/productos/' + data
                 }
-            },
-            {
-                "data": "estilo"
-            },
-            {
-                "data": "color"
-            },
-            {
-                "data": 'id',
-                "defaultContent": btnEditar + btnEliminar
-            },
+                return '<center><img  src="' + image + '"class="rounded" width="80" height="60" /> </center>';
+            }
+        },
+        {
+            "data": "estilo"
+        },
+        {
+            "data": "color"
+        },
+        {
+            "data": 'id',
+            "defaultContent": btnEditar + btnEliminar
+        },
 
         ],
         "lengthMenu": [
@@ -230,35 +230,35 @@ function crearTablaEstilos(data, ruta) {
         autoWidth: false,
         dom: 'Bfrtilp',
         buttons: [{
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> ',
-                titleAttr: 'Exportar a Excel',
-                className: 'btn btn-success',
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> ',
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger',
-                pageSize: 'TABLOID',
-                orientation: 'landscape'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fa fa-print"></i> ',
-                titleAttr: 'Imprimir',
-                className: 'btn btn-info',
-                exportOptions: {
-                    stripHtml: false
-                }
-            },
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
         ]
     });
     if (dataTable.length == 0) {
         dataTable.clear();
         dataTable.draw();
     }
-    $('#datatable tbody').on('click', '.eliminar', function() {
+    $('#datatable tbody').on('click', '.eliminar', function () {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#texto2').html('SEGURO DE ELIMINAR LA IMAGEN DEL ESTILO ' + data.estilo + ' Y EL COLOR ' + data.color);
         $('#estilo2').val(data.estilo);
@@ -266,7 +266,7 @@ function crearTablaEstilos(data, ruta) {
         $('#imagen_path2').val(data.imagen_path);
 
     })
-    $('#datatable tbody').on('click', '.editar', function() {
+    $('#datatable tbody').on('click', '.editar', function () {
         let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#texto').html('EDITAR LA IMAGEN DEL ESTILO ' + data.estilo + ' Y EL COLOR ' + data.color);
@@ -296,7 +296,7 @@ function crearTablaMarca(data, ruta) {
             "url": ruta,
             "method": "POST",
             "data": data,
-            "dataSrc": function(json) {
+            "dataSrc": function (json) {
                 if (json == 'no data') {
                     return [];
                 } else {
@@ -305,35 +305,35 @@ function crearTablaMarca(data, ruta) {
             },
         },
         "columns": [{
-                "data": "imagen",
-                "render": function(data, type, row) {
-                    let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
-                    if (data != '' && data != null) {
-                        image = '/storage/images/marca/' + data
-                    }
-                    return '<img src="' + image + '" class="rounded" width="80" height="60" >';
+            "data": "imagen",
+            "render": function (data, type, row) {
+                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                if (data != '' && data != null) {
+                    image = '/storage/images/marca/' + data
                 }
-            },
-            {
-                "data": "nombre"
-            },
-
-            {
-                "data": "estado",
-                "render": function(data, type, row) {
-                    let estado = '<span class="badge bg-danger">Inactivo</span>';
-                    if (data == 'A') {
-                        estado = '<span class="badge bg-success">Activo</span>'
-                    }
-                    return estado;
-                }
-            },
-            {
-                "data": 'id',
-                "render": function(data, type, row) {
-                    return '<a href="/marcas/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
-                }
+                return '<img src="' + image + '" class="rounded" width="80" height="60" >';
             }
+        },
+        {
+            "data": "nombre"
+        },
+
+        {
+            "data": "estado",
+            "render": function (data, type, row) {
+                let estado = '<span class="badge bg-danger">Inactivo</span>';
+                if (data == 'A') {
+                    estado = '<span class="badge bg-success">Activo</span>'
+                }
+                return estado;
+            }
+        },
+        {
+            "data": 'id',
+            "render": function (data, type, row) {
+                return '<a href="/marcas/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
+            }
+        }
 
         ],
         "lengthMenu": [
@@ -341,10 +341,10 @@ function crearTablaMarca(data, ruta) {
             [10, 25, 50, "Todo"]
         ],
         "columnDefs": [{
-                "targets": [3],
-                "orderable": false,
-                "searchable": false
-            },
+            "targets": [3],
+            "orderable": false,
+            "searchable": false
+        },
             //{ "width": "1%", "targets": 0 }
         ],
         "order": [
@@ -356,35 +356,35 @@ function crearTablaMarca(data, ruta) {
         autoWidth: false,
         dom: 'Bfrtilp',
         buttons: [{
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> ',
-                titleAttr: 'Exportar a Excel',
-                className: 'btn btn-success',
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> ',
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger',
-                pageSize: 'TABLOID',
-                orientation: 'landscape'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fa fa-print"></i> ',
-                titleAttr: 'Imprimir',
-                className: 'btn btn-info',
-                exportOptions: {
-                    stripHtml: false
-                }
-            },
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
         ]
     });
     if (dataTable.length == 0) {
         dataTable.clear();
         dataTable.draw();
     }
-    $('#datatable tbody').on('click', '.eliminar', function() {
+    $('#datatable tbody').on('click', '.eliminar', function () {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#elemento_eliminar').html(data.nombre);
         $('#id_eliminar').val(data.id)
@@ -407,7 +407,7 @@ function crearTablaUsuario(data, ruta) {
             "url": ruta,
             "method": "POST",
             "data": data,
-            "dataSrc": function(json) {
+            "dataSrc": function (json) {
                 if (json == 'no data') {
                     return [];
                 } else {
@@ -416,21 +416,21 @@ function crearTablaUsuario(data, ruta) {
             },
         },
         "columns": [{
-                "data": "name"
-            },
-            {
-                "data": "email"
-            },
+            "data": "name"
+        },
+        {
+            "data": "email"
+        },
 
-            {
-                "data": "role"
-            },
-            {
-                "data": 'id',
-                "render": function(data, type, row) {
-                    return btnEliminar;
-                }
+        {
+            "data": "role"
+        },
+        {
+            "data": 'id',
+            "render": function (data, type, row) {
+                return btnEliminar;
             }
+        }
 
         ],
         "lengthMenu": [
@@ -438,10 +438,10 @@ function crearTablaUsuario(data, ruta) {
             [10, 25, 50, "Todo"]
         ],
         "columnDefs": [{
-                "targets": [3],
-                "orderable": false,
-                "searchable": false
-            },
+            "targets": [3],
+            "orderable": false,
+            "searchable": false
+        },
             //{ "width": "1%", "targets": 0 }
         ],
         "order": [
@@ -453,35 +453,35 @@ function crearTablaUsuario(data, ruta) {
         autoWidth: false,
         dom: 'Bfrtilp',
         buttons: [{
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> ',
-                titleAttr: 'Exportar a Excel',
-                className: 'btn btn-success',
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> ',
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger',
-                pageSize: 'TABLOID',
-                orientation: 'landscape'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fa fa-print"></i> ',
-                titleAttr: 'Imprimir',
-                className: 'btn btn-info',
-                exportOptions: {
-                    stripHtml: false
-                }
-            },
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
         ]
     });
     if (dataTable.length == 0) {
         dataTable.clear();
         dataTable.draw();
     }
-    $('#datatable tbody').on('click', '.eliminar', function() {
+    $('#datatable tbody').on('click', '.eliminar', function () {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#elemento_eliminar').html(data.nombre);
         $('#id_eliminar').val(data.id)
@@ -504,7 +504,7 @@ function crearTablaCatalogo(data, ruta) {
             "url": ruta,
             "method": "POST",
             "data": data,
-            "dataSrc": function(json) {
+            "dataSrc": function (json) {
                 if (json == 'no data') {
                     return [];
                 } else {
@@ -513,43 +513,43 @@ function crearTablaCatalogo(data, ruta) {
             },
         },
         "columns": [{
-                "data": "foto_path",
-                "render": function(data, type, row) {
-                    let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
-                    if (data != '' && data != null) {
-                        image = '/storage/images/catalogo/' + data
-                    }
-                    return '<img src="' + image + '" class="rounded" width="80" height="60" >';
+            "data": "foto_path",
+            "render": function (data, type, row) {
+                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                if (data != '' && data != null) {
+                    image = '/storage/images/catalogo/' + data
                 }
-            },
-            {
-                "data": "nombre"
-            },
-            {
-                "data": "descripcion"
-            },
-            {
-                "data": "fecha_publicacion"
-            },
-            {
-                "data": "fecha_fin_catalogo"
-            },
-            {
-                "data": "estado",
-                "render": function(data, type, row) {
-                    let estado = '<span class="badge bg-secondary">Sin publicar</span>';
-                    if (data == 'PUBLICADO') {
-                        estado = '<span class="badge bg-success">Publicado</span>'
-                    }
-                    return estado;
-                }
-            },
-            {
-                "data": 'id',
-                "render": function(data, type, row) {
-                    return '<a href="/catalogos/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
-                }
+                return '<img src="' + image + '" class="rounded" width="80" height="60" >';
             }
+        },
+        {
+            "data": "nombre"
+        },
+        {
+            "data": "descripcion"
+        },
+        {
+            "data": "fecha_publicacion"
+        },
+        {
+            "data": "fecha_fin_catalogo"
+        },
+        {
+            "data": "estado",
+            "render": function (data, type, row) {
+                let estado = '<span class="badge bg-secondary">Sin publicar</span>';
+                if (data == 'PUBLICADO') {
+                    estado = '<span class="badge bg-success">Publicado</span>'
+                }
+                return estado;
+            }
+        },
+        {
+            "data": 'id',
+            "render": function (data, type, row) {
+                return '<a href="/catalogos/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
+            }
+        }
 
         ],
         "lengthMenu": [
@@ -557,10 +557,10 @@ function crearTablaCatalogo(data, ruta) {
             [10, 25, 50, "Todo"]
         ],
         "columnDefs": [{
-                "targets": [6],
-                "orderable": false,
-                "searchable": false
-            },
+            "targets": [6],
+            "orderable": false,
+            "searchable": false
+        },
             //{ "width": "1%", "targets": 0 }
         ],
         "order": [
@@ -572,35 +572,35 @@ function crearTablaCatalogo(data, ruta) {
         autoWidth: false,
         dom: 'Bfrtilp',
         buttons: [{
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> ',
-                titleAttr: 'Exportar a Excel',
-                className: 'btn btn-success',
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> ',
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger',
-                pageSize: 'TABLOID',
-                orientation: 'landscape'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fa fa-print"></i> ',
-                titleAttr: 'Imprimir',
-                className: 'btn btn-info',
-                exportOptions: {
-                    stripHtml: false
-                }
-            },
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
         ]
     });
     if (dataTable.length == 0) {
         dataTable.clear();
         dataTable.draw();
     }
-    $('#datatable tbody').on('click', '.eliminar', function() {
+    $('#datatable tbody').on('click', '.eliminar', function () {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#elemento_eliminar').html(data.nombre);
         $('#id_eliminar').val(data.id)
@@ -623,7 +623,7 @@ function crearTablaPremio(data, ruta) {
             "url": ruta,
             "method": "POST",
             "data": data,
-            "dataSrc": function(json) {
+            "dataSrc": function (json) {
                 if (json == 'no data') {
                     return [];
                 } else {
@@ -632,18 +632,18 @@ function crearTablaPremio(data, ruta) {
             },
         },
         "columns": [{
-                "data": "descripcion"
-            },
+            "data": "descripcion"
+        },
 
-            {
-                "data": "nombre"
-            },
-            {
-                "data": 'id',
-                "render": function(data, type, row) {
-                    return '<a href="/premios/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
-                }
+        {
+            "data": "nombre"
+        },
+        {
+            "data": 'id',
+            "render": function (data, type, row) {
+                return '<a href="/premios/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
             }
+        }
 
         ],
         "lengthMenu": [
@@ -651,10 +651,10 @@ function crearTablaPremio(data, ruta) {
             [10, 25, 50, "Todo"]
         ],
         "columnDefs": [{
-                "targets": [2],
-                "orderable": false,
-                "searchable": false
-            },
+            "targets": [2],
+            "orderable": false,
+            "searchable": false
+        },
             //{ "width": "1%", "targets": 0 }
         ],
         "order": [
@@ -666,35 +666,35 @@ function crearTablaPremio(data, ruta) {
         autoWidth: false,
         dom: 'Bfrtilp',
         buttons: [{
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> ',
-                titleAttr: 'Exportar a Excel',
-                className: 'btn btn-success',
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> ',
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger',
-                pageSize: 'TABLOID',
-                orientation: 'landscape'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fa fa-print"></i> ',
-                titleAttr: 'Imprimir',
-                className: 'btn btn-info',
-                exportOptions: {
-                    stripHtml: false
-                }
-            },
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
         ]
     });
     if (dataTable.length == 0) {
         dataTable.clear();
         dataTable.draw();
     }
-    $('#datatable tbody').on('click', '.eliminar', function() {
+    $('#datatable tbody').on('click', '.eliminar', function () {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#elemento_eliminar').html(data.descripcion);
         $('#id_eliminar').val(data.id)
@@ -717,7 +717,7 @@ function crearTablaProveedor(data, ruta) {
             "url": ruta,
             "method": "POST",
             "data": data,
-            "dataSrc": function(json) {
+            "dataSrc": function (json) {
                 if (json == 'no data') {
                     return [];
                 } else {
@@ -726,34 +726,34 @@ function crearTablaProveedor(data, ruta) {
             },
         },
         "columns": [{
-                "data": "nombre"
-            },
-            {
-                "data": "estado",
-                "render": function(data, type, row) {
-                    let estado = '<span class="badge bg-danger">Inactivo</span>';
-                    if (data == 'A') {
-                        estado = '<span class="badge bg-success">Activo</span>'
-                    }
-                    return estado;
+            "data": "nombre"
+        },
+        {
+            "data": "estado",
+            "render": function (data, type, row) {
+                let estado = '<span class="badge bg-danger">Inactivo</span>';
+                if (data == 'A') {
+                    estado = '<span class="badge bg-success">Activo</span>'
                 }
-            },
-            {
-                "data": 'id',
-                "render": function(data, type, row) {
-                    return '<a href="/proveedores/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:50px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
-                }
+                return estado;
             }
+        },
+        {
+            "data": 'id',
+            "render": function (data, type, row) {
+                return '<a href="/proveedores/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:50px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
+            }
+        }
         ],
         "lengthMenu": [
             [10, 25, 50, -1],
             [10, 25, 50, "Todo"]
         ],
         "columnDefs": [{
-                "targets": [2],
-                "orderable": false,
-                "searchable": false
-            },
+            "targets": [2],
+            "orderable": false,
+            "searchable": false
+        },
             //{ "width": "1%", "targets": 0 }
         ],
         "order": [
@@ -765,35 +765,35 @@ function crearTablaProveedor(data, ruta) {
         autoWidth: false,
         dom: 'Bfrtilp',
         buttons: [{
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> ',
-                titleAttr: 'Exportar a Excel',
-                className: 'btn btn-success',
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> ',
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger',
-                pageSize: 'TABLOID',
-                orientation: 'landscape'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fa fa-print"></i> ',
-                titleAttr: 'Imprimir',
-                className: 'btn btn-info',
-                exportOptions: {
-                    stripHtml: false
-                }
-            },
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
         ]
     });
     if (dataTable.length == 0) {
         dataTable.clear();
         dataTable.draw();
     }
-    $('#datatable tbody').on('click', '.eliminar', function() {
+    $('#datatable tbody').on('click', '.eliminar', function () {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#elemento_eliminar').html(data.nombre);
         $('#id_eliminar').val(data.id)
@@ -816,7 +816,7 @@ function crearTablaEmpresarias(data, ruta) {
             "url": ruta,
             "method": "POST",
             "data": data,
-            "dataSrc": function(json) {
+            "dataSrc": function (json) {
                 if (json == 'no data') {
                     return [];
                 } else {
@@ -825,52 +825,52 @@ function crearTablaEmpresarias(data, ruta) {
             },
         },
         "columns": [{
-                "data": "cedula"
-            },
-            {
-                "data": "nombres",
-                'render': function(data, type, row) {
-                    return data + " " + row['apellidos'];
-                }
-            },
-            {
-                "data": "fecha_nacimiento"
-            },
-            {
-                "data": "telefono"
-            },
-            {
-                "data": "nombre_ciudad"
-            },
-            {
-                "data": "tipo_cliente",
-                "render": function(data, type, row) {
-                    let color = 'bg-success'
-                    if (data == 'CONTINUA') { color = 'bg-info' }
-                    if (data == 'BAJA') { color = 'bg-danger' }
-                    if (data == 'INACTIVA-1' || data == 'INACTIVA-2' || data == 'INACTIVA-3') { color = 'bg-warning text-dark' }
-                    return '<span class="badge ' + color + ' w-100 p-2">' + data + '</span>';
-                }
-            },
-            {
-                "data": "nombre_vendedor"
-            },
-            {
-                "data": "estado",
-                "render": function(data, type, row) {
-                    let estado = '<span class="badge bg-danger">Inactivo</span>';
-                    if (data == 'A') {
-                        estado = '<span class="badge bg-success">Activo</span>'
-                    }
-                    return estado;
-                }
-            },
-            {
-                "data": 'id',
-                "render": function(data, type, row) {
-                    return '<a href="/empresarias/' + data + '/edit" class ="btn btn-ibizza me-1 btn-sm"> <i class="fas fa-edit"></i></a>' + btnEliminar;
-                }
+            "data": "cedula"
+        },
+        {
+            "data": "nombres",
+            'render': function (data, type, row) {
+                return data + " " + row['apellidos'];
             }
+        },
+        {
+            "data": "fecha_nacimiento"
+        },
+        {
+            "data": "telefono"
+        },
+        {
+            "data": "nombre_ciudad"
+        },
+        {
+            "data": "tipo_cliente",
+            "render": function (data, type, row) {
+                let color = 'bg-success'
+                if (data == 'CONTINUA') { color = 'bg-info' }
+                if (data == 'BAJA') { color = 'bg-danger' }
+                if (data == 'INACTIVA-1' || data == 'INACTIVA-2' || data == 'INACTIVA-3') { color = 'bg-warning text-dark' }
+                return '<span class="badge ' + color + ' w-100 p-2">' + data + '</span>';
+            }
+        },
+        {
+            "data": "nombre_vendedor"
+        },
+        {
+            "data": "estado",
+            "render": function (data, type, row) {
+                let estado = '<span class="badge bg-danger">Inactivo</span>';
+                if (data == 'A') {
+                    estado = '<span class="badge bg-success">Activo</span>'
+                }
+                return estado;
+            }
+        },
+        {
+            "data": 'id',
+            "render": function (data, type, row) {
+                return '<a href="/empresarias/' + data + '/edit" class ="btn btn-ibizza me-1 btn-sm"> <i class="fas fa-edit"></i></a>' + btnEliminar;
+            }
+        }
 
         ],
         "lengthMenu": [
@@ -878,10 +878,10 @@ function crearTablaEmpresarias(data, ruta) {
             [10, 25, 50, "Todo"]
         ],
         "columnDefs": [{
-                "targets": [8],
-                "orderable": false,
-                "searchable": false
-            },
+            "targets": [8],
+            "orderable": false,
+            "searchable": false
+        },
             //{ "width": "1%", "targets": 0 }
         ],
         "order": [
@@ -893,35 +893,35 @@ function crearTablaEmpresarias(data, ruta) {
         autoWidth: false,
         dom: 'Bfrtilp',
         buttons: [{
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> ',
-                titleAttr: 'Exportar a Excel',
-                className: 'btn btn-success',
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> ',
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger',
-                pageSize: 'TABLOID',
-                orientation: 'landscape'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fa fa-print"></i> ',
-                titleAttr: 'Imprimir',
-                className: 'btn btn-info',
-                exportOptions: {
-                    stripHtml: false
-                }
-            },
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
         ]
     });
     if (dataTable.length == 0) {
         dataTable.clear();
         dataTable.draw();
     }
-    $('#datatable tbody').on('click', '.eliminar', function() {
+    $('#datatable tbody').on('click', '.eliminar', function () {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#elemento_eliminar').html(data.nombres);
         $('#id_eliminar').val(data.id)
@@ -943,7 +943,7 @@ function crearTablaVentas(data, ruta) {
             "url": ruta,
             "method": "POST",
             "data": data,
-            "dataSrc": function(json) {
+            "dataSrc": function (json) {
                 if (json == 'no data') {
                     return [];
                 } else {
@@ -952,46 +952,46 @@ function crearTablaVentas(data, ruta) {
             },
         },
         "columns": [{
-                "data": "id",
-            },
-            {
-                "data": "factura_identificacion",
-            },
-            {
-                "data": "factura_nombres"
-            },
+            "data": "id",
+        },
+        {
+            "data": "factura_identificacion",
+        },
+        {
+            "data": "factura_nombres"
+        },
 
-            {
-                "data": "direccion_envio"
-            },
-            {
-                "data": 'codigo_postal'
-            },
-            {
-                "data": 'observaciones'
-            },
-            {
-                "data": 'cantidad_total'
-            },
-            {
-                "data": 'total_venta'
-            },
-            {
-                "data": 'estado'
-            },
-            {
-                "data": 'created_at',
-                "render": function(data, type, row) {
-                    data = data.split('T');
-                    return data[0];
-                }
-            },
-            {
-                "data": 'id',
-                "render": function(data, type, row) {
-                    return '<a class ="btn btn-ibizza btn-sm editar" data-bs-toggle="modal" data-bs-target="#editar" style="width:30px"><i class="fas fa-eye"></i></a>'
-                }
+        {
+            "data": "direccion_envio"
+        },
+        {
+            "data": 'codigo_postal'
+        },
+        {
+            "data": 'observaciones'
+        },
+        {
+            "data": 'cantidad_total'
+        },
+        {
+            "data": 'total_venta'
+        },
+        {
+            "data": 'estado'
+        },
+        {
+            "data": 'created_at',
+            "render": function (data, type, row) {
+                data = data.split('T');
+                return data[0];
             }
+        },
+        {
+            "data": 'id',
+            "render": function (data, type, row) {
+                return '<a class ="btn btn-ibizza btn-sm editar" data-bs-toggle="modal" data-bs-target="#editar" style="width:30px"><i class="fas fa-eye"></i></a>'
+            }
+        }
 
         ],
         "lengthMenu": [
@@ -999,10 +999,10 @@ function crearTablaVentas(data, ruta) {
             [10, 25, 50, "Todo"]
         ],
         "columnDefs": [{
-                "targets": [3],
-                "orderable": false,
-                "searchable": false
-            },
+            "targets": [3],
+            "orderable": false,
+            "searchable": false
+        },
             //{ "width": "1%", "targets": 0 }
         ],
         "order": [
@@ -1014,35 +1014,35 @@ function crearTablaVentas(data, ruta) {
         autoWidth: false,
         dom: 'Bfrtilp',
         buttons: [{
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> ',
-                titleAttr: 'Exportar a Excel',
-                className: 'btn btn-success',
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> ',
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger',
-                pageSize: 'TABLOID',
-                orientation: 'landscape'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fa fa-print"></i> ',
-                titleAttr: 'Imprimir',
-                className: 'btn btn-info',
-                exportOptions: {
-                    stripHtml: false
-                }
-            },
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
         ]
     });
     if (dataTable.length == 0) {
         dataTable.clear();
         dataTable.draw();
     }
-    $('#datatable tbody').on('click', '.editar', function() {
+    $('#datatable tbody').on('click', '.editar', function () {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#id_venta').text(data.id);
         let dato = {
@@ -1051,10 +1051,10 @@ function crearTablaVentas(data, ruta) {
         $.post({
             url: '/ventas/datos-ventas',
             data: dato,
-            beforeSend: function() {
+            beforeSend: function () {
                 $('#carga').css('visibility', 'visible');
             },
-            success: function(response) {
+            success: function (response) {
                 $('#carga').css('visibility', 'hidden')
                 let data = JSON.parse(response);
                 let empresaria = data['empresaria'];
@@ -1072,7 +1072,7 @@ function crearTablaVentas(data, ruta) {
                 data = data['pedidos'];
                 $('#tabla_factura tbody').html('');
                 let total_factura = 0
-                $.each(data, function(i, v) {
+                $.each(data, function (i, v) {
                     let total = v['precio'] * v['cantidad'];
                     total = total.toFixed(2);
                     $('#tabla_factura tbody').append('<tr>' +
@@ -1112,7 +1112,7 @@ function reporteEmpresariaVentas(data, ruta) {
             "url": ruta,
             "method": "POST",
             "data": data,
-            "dataSrc": function(json) {
+            "dataSrc": function (json) {
                 if (json == 'no data') {
                     return [];
                 } else {
@@ -1121,15 +1121,15 @@ function reporteEmpresariaVentas(data, ruta) {
             },
         },
         "columns": [{
-                "data": "cedula"
-            },
-            {
-                "data": "nombres"
-            },
+            "data": "cedula"
+        },
+        {
+            "data": "nombres"
+        },
 
-            {
-                "data": "total",
-            },
+        {
+            "data": "total",
+        },
 
 
         ],
@@ -1146,28 +1146,28 @@ function reporteEmpresariaVentas(data, ruta) {
         "autoWidth": false,
         "dom": 'Bfrtilp',
         "buttons": [{
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> ',
-                titleAttr: 'Exportar a Excel',
-                className: 'btn btn-success',
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> ',
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger',
-                pageSize: 'TABLOID',
-                orientation: 'landscape'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fa fa-print"></i> ',
-                titleAttr: 'Imprimir',
-                className: 'btn btn-info',
-                exportOptions: {
-                    stripHtml: false
-                }
-            },
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
         ]
     });
     if (dataTable.length == 0) {
@@ -1190,7 +1190,7 @@ function reporteEmpresariaEstado(data, ruta) {
             "url": ruta,
             "method": "POST",
             "data": data,
-            "dataSrc": function(json) {
+            "dataSrc": function (json) {
                 if (json == 'no data') {
                     return [];
                 } else {
@@ -1199,15 +1199,15 @@ function reporteEmpresariaEstado(data, ruta) {
             },
         },
         "columns": [{
-                "data": "cedula"
-            },
-            {
-                "data": "nombres"
-            },
+            "data": "cedula"
+        },
+        {
+            "data": "nombres"
+        },
 
-            {
-                "data": "tipo_cliente",
-            },
+        {
+            "data": "tipo_cliente",
+        },
         ],
         "lengthMenu": [
             [-1, 10, 25, 50],
@@ -1222,28 +1222,28 @@ function reporteEmpresariaEstado(data, ruta) {
         "autoWidth": false,
         "dom": 'Bfrtilp',
         "buttons": [{
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> ',
-                titleAttr: 'Exportar a Excel',
-                className: 'btn btn-success',
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> ',
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger',
-                pageSize: 'TABLOID',
-                orientation: 'landscape'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fa fa-print"></i> ',
-                titleAttr: 'Imprimir',
-                className: 'btn btn-info',
-                exportOptions: {
-                    stripHtml: false
-                }
-            },
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
         ]
     });
     if (dataTable.length == 0) {
@@ -1266,7 +1266,7 @@ function stockFaltante(data, ruta) {
             "url": ruta,
             "method": "POST",
             "data": data,
-            "dataSrc": function(json) {
+            "dataSrc": function (json) {
                 if (json == 'no data') {
                     return [];
                 } else {
@@ -1275,20 +1275,20 @@ function stockFaltante(data, ruta) {
             },
         },
         "columns": [{
-                "data": "estilo"
-            },
-            {
-                "data": "color"
-            },
-            {
-                "data": "talla",
-            },
-            {
-                "data": "stock_requerido",
-            },
-            {
-                "data": "created_at",
-            },
+            "data": "estilo"
+        },
+        {
+            "data": "color"
+        },
+        {
+            "data": "talla",
+        },
+        {
+            "data": "stock_requerido",
+        },
+        {
+            "data": "created_at",
+        },
         ],
         "lengthMenu": [
             [-1, 10, 25, 50],
@@ -1303,32 +1303,74 @@ function stockFaltante(data, ruta) {
         "autoWidth": false,
         "dom": 'Bfrtilp',
         "buttons": [{
-                extend: 'excelHtml5',
-                text: '<i class="fas fa-file-excel"></i> ',
-                titleAttr: 'Exportar a Excel',
-                className: 'btn btn-success',
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fas fa-file-pdf"></i> ',
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger',
-                pageSize: 'TABLOID',
-                orientation: 'landscape'
-            },
-            {
-                extend: 'print',
-                text: '<i class="fa fa-print"></i> ',
-                titleAttr: 'Imprimir',
-                className: 'btn btn-info',
-                exportOptions: {
-                    stripHtml: false
-                }
-            },
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
         ]
     });
     if (dataTable.length == 0) {
         dataTable.clear();
         dataTable.draw();
     }
+}
+
+function reporteVentas() {
+    let dataTable = $('#datatable').DataTable({        
+        "processing": true,
+        "lengthMenu": [
+            [-1, 10, 25, 50],
+            ["Todo", 10, 25, 50]
+        ],
+        "order": [
+            [4, 'desc']
+        ],
+        "language": espanol,
+        //para usar los botones
+        "responsive": false,
+        "autoWidth": false,
+        "dom": 'Bfrtilp',
+        "buttons": [{
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
+        ]
+    });    
 }

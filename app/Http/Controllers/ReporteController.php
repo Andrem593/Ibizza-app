@@ -175,4 +175,12 @@ class ReporteController extends Controller
 
         return view('reporte.graficos', compact('anio_actual', 'anio_anterior', 'anterior', 'actual', 'catalogos', 'jsonCatalogo', 'ventas', 'jsonVenta'));
     }
+    public function ventas()
+    {
+        $ventas = Venta::join('pedidos','pedidos.id_venta','=','ventas.id')
+        ->join('productos','productos.id','=','pedidos.id_producto')
+        ->select('ventas.*','pedidos.id_venta','pedidos.cantidad','pedidos.precio','pedidos.total','productos.nombre_mostrar','productos.talla','productos.color','productos.sku')
+        ->where('ventas.estado','PEDIDO')->get();        
+        return view('reporte.ventas',compact('ventas'));
+    }
 }
