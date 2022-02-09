@@ -355,7 +355,6 @@ return [
                     'icon'    => 'ml-md-2 fas fa-gifts',
                 ]
             ],
-            'can'   =>'catalogos.index'
         ],
         
         [

@@ -30,6 +30,7 @@ class CreatePermissionTables extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
+            $table->string('categoria'); 
             $table->timestamps();
 
             $table->unique(['name', 'guard_name']);
