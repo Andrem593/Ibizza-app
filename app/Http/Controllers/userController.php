@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Venta;
 use App\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Jetstream\Jetstream;
@@ -54,11 +55,8 @@ class userController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        if ($request->role == 1) {
-            $user->role = 'Administrador';
-        }else{
-            $user->role = 'Empresaria';
-        }
+        $rol_usuario =DB::table('roles')->find($request->role);
+        $user->role = $rol_usuario->name;         
         $user->password = Hash::make($request->password);
         if($user->save()){
             $message = 'nuevo usuario creado';
