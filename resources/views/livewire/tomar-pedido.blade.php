@@ -183,10 +183,8 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @endpush
     @if (!empty($alert))
+    @if (Auth::user()->role == 'Empresaria')
     <script>
-        @if (Auth::user()->role == 'Empresaria')
-            echo "let ruta = ".route('web.pedidos-guardados');
-        @endif
        Swal.fire({
             title:'Pedido Guardado!',
             text:'Recuerda que tu pedido solo se guardará por 3 dias separando el stock del producto',
@@ -202,5 +200,23 @@
             }
         })
     </script>
+    @else
+    <script>
+       Swal.fire({
+            title:'Pedido Guardado!',
+            text:'Recuerda que tu pedido solo se guardará por 3 dias separando el stock del producto',
+            icon:'success',
+            showCancelButton: true,
+            confirmButtonColor: '#009788',
+            cancelButtonColor: '#333333',
+            confirmButtonText: 'Ir a Pedidos Guardados',
+            cancelButtonText: 'Continuar en Pedidos',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{route('venta.pedidos-guardados')}}";
+            }
+        })
+    </script>
+    @endif
     @endif
 </div>
