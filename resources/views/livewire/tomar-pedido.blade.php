@@ -15,8 +15,7 @@
             <div class="row ">
                 <div class="col mb-2">
                     <label class="form-label">Nombre del Cliente:</label>
-                    <input type="text" class="form-control p-1" wire:model='cliente'
-                        placeholder="Ingrese el nombre del cliente para su pedido">
+                    <input type="text" class="form-control p-1" wire:model='cliente' placeholder="Ingrese el nombre del cliente para su pedido">
                 </div>
             </div>
             @endif
@@ -71,11 +70,9 @@
                             <span>Marca: {{$tallas[0]->nombre_marca}} | STOCK: <b>{{$stock}}</b></span>
                         </div>
                         <div class="col-6">
-                            <span class="badge badge-pill badge-secondary" style="font-size: 0.9rem;">PVP:
-                                ${{$tallas[0]->valor_venta}}</span>
+                            <span class="badge badge-pill badge-secondary" style="font-size: 0.9rem;">PVP: ${{$tallas[0]->valor_venta}}</span>
                             @empty(!$tallas[0]->descuento)
-                            <span class="badge badge-pill bg-ibizza" style="font-size: 0.9rem;">Descuento: {{
-                                $tallas[0]->descuento
+                            <span class="badge badge-pill bg-ibizza" style="font-size: 0.9rem;">Descuento: {{ $tallas[0]->descuento
                                 }}%</span>
                             <span class="badge badge-pill badge-dark" style="font-size: 0.9rem;">P.Final: ${{
                                 number_format(($tallas[0]->precio_empresaria-($tallas[0]->precio_empresaria *
@@ -113,8 +110,8 @@
                     @if (Cart::count() > 0)
                     @foreach (Cart::content() as $item)
                     <tr>
-                        <td><img src="{{'../storage/images/productos/'.$item->options->image}}" width="50px"
-                                height="50px" style="object-fit: cover"></td>
+                        <td><img src="{{'../storage/images/productos/'.$item->options->image}}" width="50px" height="50px"
+                                style="object-fit: cover"></td>
                         <td>{{$item->name }}</td>
                         <td>{{$item->options->color}}</td>
                         <td>{{$item->options->talla}}</td>
@@ -122,8 +119,7 @@
                         <td>{{$item->qty}}</td>
                         <td>${{ number_format($item->qty * $item->price,2) }}</td>
                         <td>
-                            <a wire:click="eliminarItem('{{$item->rowId}}')"><i
-                                    class="{{Auth::user()->role != 'Empresaria' ? 'fas fa-trash' : 'ecicon eci-trash-o '}}"></i></a>
+                            <a wire:click="eliminarItem('{{$item->rowId}}')"><i class="{{Auth::user()->role != 'Empresaria' ? 'fas fa-trash' : 'ecicon eci-trash-o '}}"></i></a>
                         </td>
                     </tr>
                     @endforeach
@@ -189,22 +185,22 @@
     @if (!empty($alert))
     <script>
         @if (Auth::user()->role == 'Empresaria')
-            echo "let route = ".route('web.pedidos-guardados');
+            echo "let ruta = ".route('web.pedidos-guardados');
         @endif
-        Swal.fire({
-                title:'Pedido Guardado!',
-                text:'Recuerda que tu pedido solo se guardará por 3 dias separando el stock del producto',
-                icon:'success',
-                showCancelButton: true,
-                confirmButtonColor: '#009788',
-                cancelButtonColor: '#333333',
-                confirmButtonText: 'Ir a Pedidos Guardados',
-                cancelButtonText: 'Continuar en Pedidos',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "{{route('web.pedidos-guardados')}}";
-                }
-            })
+       Swal.fire({
+            title:'Pedido Guardado!',
+            text:'Recuerda que tu pedido solo se guardará por 3 dias separando el stock del producto',
+            icon:'success',
+            showCancelButton: true,
+            confirmButtonColor: '#009788',
+            cancelButtonColor: '#333333',
+            confirmButtonText: 'Ir a Pedidos Guardados',
+            cancelButtonText: 'Continuar en Pedidos',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{route('web.pedidos-guardados')}}";
+            }
+        })
     </script>
     @endif
 </div>
