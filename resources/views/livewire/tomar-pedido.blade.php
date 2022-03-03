@@ -184,7 +184,6 @@
     @endpush
     @if (!empty($alert))
     <script>
-
        Swal.fire({
             title:'Pedido Guardado!',
             text:'Recuerda que tu pedido solo se guardará por 3 dias separando el stock del producto',
