@@ -96,8 +96,13 @@
                         que se acabe el stock del producto.
                     </p>
                     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                        <a type="button" href="{{route('web.tomar-pedido')}}"
-                            class="btn btn-primary btn-lg px-4 gap-3">Realizar Pedido</a>
+                        @if (Auth::user()->role == 'Empresaroia')
+                            <a type="button" href="{{route('web.tomar-pedido')}}"
+                                class="btn btn-primary btn-lg px-4 gap-3">Realizar Pedido</a>
+                        @else
+                            <a type="button" href="{{route('venta.pedido')}}"
+                                class="btn btn-primary btn-lg px-4 gap-3">Realizar Pedido</a>
+                        @endif
                         <a type="button" href="{{route('web')}}"
                             class="btn btn-outline-secondary btn-lg px-4">Inicio</a>
                     </div>
@@ -112,9 +117,9 @@
     @if ($alert)
     <script>
         Swal.fire({
-                    title:'Reserva Liberada!',                
-                    icon:'success',    
-                    confirmButtonColor: '#009788',            
+                    title:'Reserva Liberada!',
+                    icon:'success',
+                    confirmButtonColor: '#009788',
                 })
             })
     </script>

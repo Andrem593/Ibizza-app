@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="col">
-            @if (Auth::user()->role != 'Empresaria')                    
+            @if (Auth::user()->role != 'Empresaria')
             <div class="row ">
                 <div class="col mb-2">
                     <label class="form-label">Nombre del Cliente:</label>
@@ -80,7 +80,7 @@
                             @else
                             <span class="badge badge-pill badge-dark" style="font-size: 0.9rem;">P.Final: ${{
                                 number_format($tallas[0]->precio_empresaria, 2) }}</span>
-                            @endempty                           
+                            @endempty
                         </div>
                     </div>
                     @endempty
@@ -184,6 +184,11 @@
     @endpush
     @if (!empty($alert))
     <script>
+       @if (Auth::user()->role == 'Empresaria')
+           {{'let rute = '.route('web.pedidos-guardados')}}
+       @else
+           {{'let rute = '.route('venta.pedidos-guardados')}}
+       @endif
        Swal.fire({
             title:'Pedido Guardado!',
             text:'Recuerda que tu pedido solo se guardará por 3 dias separando el stock del producto',
@@ -195,7 +200,7 @@
             cancelButtonText: 'Continuar en Pedidos',
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "{{route('web.pedidos-guardados')}}";
+                window.location.href = rute;
             }
         })
     </script>
