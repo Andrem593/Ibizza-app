@@ -3,8 +3,8 @@
         <div class="ec-pro-image-outer">
             <div class="ec-pro-image">
                 <a href="{{ route('web.detalle-producto', $estilo) }}" class="image">
-                    <img class="main-image" src="storage/images/productos/{{ $imagen }}" alt="Product" />
-                    <img class="hover-image" src="storage/images/productos/{{ $imagen }}" alt="Product" />
+                    <img class="main-image" src="{{ empty($imagen) ? 'https://www.blackwallst.directory/images/NoImageAvailable.png' : '../storage/images/productos/' . $imagen }}" alt="Product" />
+                    <img class="hover-image" src="{{ empty($imagen) ? 'https://www.blackwallst.directory/images/NoImageAvailable.png' : '../storage/images/productos/' . $imagen }}" alt="Product" />
                 </a>
             </div>
         </div>
