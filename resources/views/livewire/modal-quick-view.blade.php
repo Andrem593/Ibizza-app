@@ -12,7 +12,7 @@
                                 @foreach ($productos_color as $producto)
                                     <div class="qty-slide" wire:loading.remove wire:target="quickView">
                                         <img loading='lazy' class="img-responsive"
-                                            src="{{ '../storage/images/productos/' . $producto->imagen_path }}"
+                                            src="{{ empty($producto->imagen_path) ? 'https://www.blackwallst.directory/images/NoImageAvailable.png' : '../storage/images/productos/' . $producto->imagen_path }}"
                                             alt="{{ $producto->estilo }}">
                                     </div>
                                 @endforeach
@@ -23,7 +23,7 @@
                                 @foreach ($productos_color as $producto)
                                     <div class="qty-slide" wire:loading.remove wire:target="quickView">
                                         <img loading='lazy' class="img-responsive"
-                                            src="{{ '../storage/images/productos/' . $producto->imagen_path }}"
+                                            src="{{ empty($producto->imagen_path) ? 'https://www.blackwallst.directory/images/NoImageAvailable.png' : '../storage/images/productos/' . $producto->imagen_path }}"
                                             alt="{{ $producto->estilo }}">
                                     </div>
                                 @endforeach
