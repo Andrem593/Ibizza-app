@@ -2,14 +2,14 @@
     <div class="ec-product-inner">
         <div class="ec-pro-image-outer">
             <div class="ec-pro-image">
-                <a href="{{ route('web.detalle-producto', $estilo) }}" class="image">
-                    <img class="main-image" src="{{ empty($imagen) ? 'https://www.blackwallst.directory/images/NoImageAvailable.png' : '../storage/images/productos/' . $imagen }}" alt="Product" />
-                    <img class="hover-image" src="{{ empty($imagen) ? 'https://www.blackwallst.directory/images/NoImageAvailable.png' : '../storage/images/productos/' . $imagen }}" alt="Product" />
+                <a href="#" class="image">
+                    <img class="main-image" width="80rem" src="{{ empty($imagen) ? 'https://www.blackwallst.directory/images/NoImageAvailable.png' : '../storage/images/productos/' . $imagen }}" alt="Product" />
+                    <img class="hover-image" width="80rem" src="{{ empty($imagen) ? 'https://www.blackwallst.directory/images/NoImageAvailable.png' : '../storage/images/productos/' . $imagen }}" alt="Product" />
                 </a>
             </div>
         </div>
         <div class="ec-pro-content datos-premios">
-            <h5 class="ec-pro-title"><a href="{{ route('web.detalle-producto', $estilo) }}">{{ $nombre }}</a>
+            <h5 class="ec-pro-title"><a href="#">{{ $nombre }}</a>
             </h5>
             <input type="hidden" class="estiloPro" value="{{$estilo}}">
             <span class="ec-price">

@@ -347,10 +347,10 @@
         <script>
             $('.ec-side-toggle').css('display', 'none')
             $('.ec-opt-size').each(function() {
-                $(document).on('mouseenter', 'li', function() {
-                    // alert("1");
-                    onSizeChange($(this));
-                });
+                // $(document).on('mouseenter', 'li', function() {
+                //     // alert("1");
+                //     onSizeChange($(this));
+                // });
 
                 $(document).on('click', 'li', function() {
                     // alert("2");
