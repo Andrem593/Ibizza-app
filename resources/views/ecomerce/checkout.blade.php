@@ -351,7 +351,6 @@
                 //     // alert("1");
                 //     onSizeChange($(this));
                 // });
-
                 $(document).on('click', 'li', function() {
                     // alert("2");
                     onSizeChange($(this));
