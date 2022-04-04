@@ -2,7 +2,7 @@
     <div class="ec-product-inner">
         <div class="ec-pro-image-outer">
             <div class="ec-pro-image">
-                <a href="{{ route('web.detalle-producto', $estilo) }}" class="image">
+                <a href="#" class="image">
                     <img loading='lazy' class="main-image" src="storage/images/productos/{{ $imagen }}"
                         width="100%" height="200rem" style="object-fit: cover" />
                     <img loading='lazy' class="hover-image" src="storage/images/productos/{{ $imagen }}"
@@ -31,7 +31,7 @@
         </div>
         <div class="ec-pro-content">
             <h5 class="ec-pro-title"><a
-                    href="{{ route('web.detalle-producto', $estilo) }}">{{ $nombre_producto }}</a>
+                    href="#">{{ $nombre_producto }}</a>
                 <input type="hidden" class="estilo-producto" value="{{ $estilo }}">
             </h5>
             <div class="d-flex justify-content-between">

@@ -2,7 +2,7 @@
     <div class="ec-product-inner">
         <div class="ec-pro-image-outer">
             <div class="ec-pro-image">
-                <a href="{{route('web.detalle-producto', $estilo)}}" class="image">
+                <a href="#" class="image">
                     <img load='lazy' class="main-image"
                         src="{{url("/storage/images/productos/$imagen") }}" alt="{{$estilo}}" width="300rem" height="200rem" style="object-fit: cover" />
                     <img load='lazy' class="hover-image"
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="ec-pro-content">
-            <h5 class="ec-pro-title"><a href="{{route('web.detalle-producto', $estilo)}}">{{ $nombre_producto }}</a></h5>
+            <h5 class="ec-pro-title"><a href="#">{{ $nombre_producto }}</a></h5>
             <input type="hidden" class="estilo-producto" value="{{$estilo}}">
             <div class="ec-pro-rating">
                 <i class="ecicon eci-star fill"></i>
