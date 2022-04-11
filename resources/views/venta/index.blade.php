@@ -79,6 +79,9 @@
                                         <div class="my-2"><b class="text-600">Teléfono :</b>
                                             <span id="telefono"></span>
                                         </div>
+                                        <div class="my-2">
+                                            <button class="btn btn-secondary" data-bs-target="#modalRecibo" data-bs-toggle="modal">Ver imagen recibo</button>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- /.col -->
@@ -169,6 +172,26 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="modalRecibo" aria-hidden="true" aria-labelledby="modalReciboLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modalReciboLabel">Foto de recibo</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form_editar" action="" class="submit" enctype="multipart/form-data">  
+                            <input type="hidden" name="ant_img" id="imagen_path">
+                            @livewire('imagen')
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-secondary" id="guardar_recibo">Guardar Recibo</button>
+                        </form>
+                        <button class="btn btn-ibizza" data-bs-target="#editar" data-bs-toggle="modal">Regresar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
         @endpush
         @Push('scripts')
             <script src="/js/crearDataTable.js"></script>
@@ -208,6 +231,33 @@
                                 icon: 'success',
                                 title: 'Estado de Actualizado !!'
                             })
+                        }
+                    })
+                })
+                $('#guardar_recibo').click(function(e){
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                    });
+                    var formData = new FormData();
+                    var files = $('#file')[0].files[0]
+                    formData.append('idVenta', $('#venta').text());
+                    formData.append('file', files);
+                    $.post({
+                        url: '/ventas/carga-recibo',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function() {
+                            
+                        },
+                        success: function(response) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Se Cargo imagen correctamente'
+                            })                            
                         }
                     })
                 })

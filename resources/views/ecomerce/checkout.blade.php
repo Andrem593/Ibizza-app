@@ -603,20 +603,25 @@
                     option_tallas += '<li><a href="#" class="ec-opt-sz">' + v + '</a></li>'
                 })
                 $('#premio').val('tiene premio');
+                if (val['imagen_path'] == null) {
+                    val['imagen_path'] = "https://www.blackwallst.directory/images/NoImageAvailable.png";
+                }else{
+                    val['imagen_path'] = 'storage/images/productos/' + val['imagen_path'];
+                }
                 $('#premios_despues').append('<div class="col-sm-12 mb-6">' +
                     '<div class="ec-product-inner">' +
                     '<div class="ec-pro-image-outer">' +
                     '<div class="ec-pro-image">' +
-                    '<a href="' + ruta + '" class="image">' +
-                    '<img class="main-image" src="storage/images/productos/' + val['imagen_path'] +
+                    '<a href="#" class="image">' +
+                    '<img class="main-image" src="' + val['imagen_path'] +
                     '" alt="Product" />' +
-                    '<img class="hover-image" src="storage/images/productos/' + val['imagen_path'] +
+                    '<img class="hover-image" src="' + val['imagen_path'] +
                     '" alt="Product" />' +
                     ' </a>' +
                     '</div>' +
                     '</div>' +
                     '<div class="ec-pro-content datos-premios">' +
-                    '<h5 class="ec-pro-title"><a href="' + ruta + '">' + val['clasificacion'] + '</a>' +
+                    '<h5 class="ec-pro-title"><a href="#">' + val['nombre_mostrar'] + '</a>' +
                     '</h5>' +
                     '<input type="hidden" class="estiloPro" value="' + val['estilo'] + '">' +
                     '<span class="ec-price">' +

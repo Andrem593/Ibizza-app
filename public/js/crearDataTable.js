@@ -1065,6 +1065,10 @@ function crearTablaVentas(data, ruta) {
                 $('#direccion').text(venta['direccion_envio'])
                 $('#telefono').text(empresaria['telefono'])
                 $('#venta').text(venta['id'])
+                $('#imagen_path').val(venta['recibo']);
+                if (venta['recibo'] != null) {
+                    $('#imagen_defecto').attr('src',venta['recibo']);
+                }
                 $('#vendedor').text(empresaria['nombre_vendedor'])
                 let fecha = venta['created_at'];
                 fecha = fecha.split('T');

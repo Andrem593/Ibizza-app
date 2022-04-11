@@ -917,24 +917,7 @@ function ecCheckCookie() {
         initChangeImg($ecproduct);
     });
 
-    /*----------------------------- Size Hover To Active -------------------------------- */
-    $('.ec-opt-size').each(function() {
-        // $(this).on('mouseenter', 'li', function() {
-        //     // alert("1");
-        //     onSizeChange($(this));
-        // });
-
-        $(this).on('click', 'li', function() {
-            // alert("2");
-            onSizeChange($(this));
-        });
-
-        function onSizeChange(thisObj) {
-            // alert("3");
-            var $this = thisObj;            
-            $this.addClass('active').siblings().removeClass('active');
-        }
-    });
+    
 
     /*----------------------------- Replace all SVG images with inline SVG -------------------------------- */
     $(document).ready(function() {
@@ -1647,3 +1630,15 @@ $('.btn-modal').click(function() {
     //  $('.ec-cart-pro-remove').click(function(){
     //      $(this).parent().html(' ');
     //  })
+
+
+$(document).on('click', '.ec-opt-size li', function() {
+    // alert("2");
+    onSizeChange($(this));
+});
+
+function onSizeChange(thisObj) {
+    // alert("3");
+    var $this = thisObj;            
+    $this.addClass('active').siblings().removeClass('active');
+}

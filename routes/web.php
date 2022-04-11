@@ -230,6 +230,10 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->name('venta.datos-ventas');
 
 Route::middleware(['auth:sanctum', 'verified'])
+->post('/ventas/carga-recibo', [VentaController::class,'cargaRecibo'])
+->name('venta.carga-recibo');
+
+Route::middleware(['auth:sanctum', 'verified'])
 ->post('/ventas/editar-venta', [VentaController::class,'editarVenta'])
 ->name('venta.datos-ventas');
 

@@ -6,6 +6,7 @@ use App\Models\Pedido;
 use Illuminate\Http\Request;
 use App\Models\Venta;
 use App\Empresaria;
+use Intervention\Image\Facades\Image;
 
 class VentaController extends Controller
 {
@@ -103,5 +104,20 @@ class VentaController extends Controller
     public function pedidos_guardados()
     {
         return view('venta.pedidos-guardados');
+    }
+    public function cargaRecibo()
+    {
+        if (!empty($_FILES["file"])) {
+            $venta = Venta::find($_POST['idVenta']);            
+            $image = $venta->factura_identificacion.".".date('d.m.Y.h.i.s').".".$_FILES["file"]['name'];
+            $ruta = public_path('storage/images/recibos/') . $image;
+            Image::make($_FILES["file"]["tmp_name"])
+                ->resize(1200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($ruta); 
+            $venta->recibo = 'storage/images/recibos/'.$image;
+            $venta->save();                
+        }
     }
 }

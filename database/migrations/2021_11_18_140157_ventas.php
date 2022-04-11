@@ -29,6 +29,7 @@ class Ventas extends Migration
             $table->integer('cantidad_total');
             $table->float('total_venta',8,2);
             $table->float('total_p_empresaria',8,2);
+            $table->text('recibo');
             $table->string('estado');            
             $table->timestamps();
         });
