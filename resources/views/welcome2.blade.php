@@ -549,16 +549,15 @@
         <div class="col-md-12 text-center">
             <div class="section-title">
                 <h2 class="ec-title p-4 ">¿Por qué ser una empresaria en Ibizza?</h2>
-                <p class="col-md-6 col-sm-12 mx-auto fs-5 my-2 p-2">Podras obtener ganancias seguras con nuestra venta
-                    por catálogo y
-                    disfrutaras trabajando para nosotros desde la comodidad de tu hogar.</p>
+                <p class="col-md-6 col-sm-12 mx-auto fs-5 my-2 p-2">Puedes iniciar tu propio negocio, obtener ganancias seguras y trabajar desde tu casa o el lugar
+                    más cómodo para ti.</p>
             </div>
         </div>
         <div class="container">
             <div class="row mt-3 mx-auto">
                 <div class="col my-3 d-flex justify-content-around">
                     <div class="card shadow rounded mx-auto" style="width: 15rem;">
-                        <img src="{{ url('assets/images/card-empresaria/1.jpg') }}" class="card-img-top">
+                        <img src="{{ url('assets/images/card-empresaria/1.png') }}" class="card-img-top">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Facil de Registrarse</h5>
                             <p class="card-text">Afiliación sin costo y en pocos minutos.</p>
@@ -569,17 +568,17 @@
                 </div>
                 <div class="col my-3">
                     <div class="card shadow rounded mx-auto" style="width: 15rem;">
-                        <img src="{{ url('assets/images/card-empresaria/2.jpg') }}" class="card-img-top">
+                        <img src="{{ url('assets/images/card-empresaria/2.png') }}" class="card-img-top">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Genera Ingresos</h5>
-                            <p class="card-text">Ganancias de hasta el 30% de tus ventas.</p>
-                            <a href="#" class="btn nav-link">Lista de Precios</a>
+                            <p class="card-text">Ganancias de hasta el 25% de tus ventas.</p>
+                            <a href="#" class="btn nav-link">Solo en Ibizza</a>
                         </div>
                     </div>
                 </div>
                 <div class="col my-3">
                     <div class="card shadow rounded mx-auto" style="width: 15rem;">
-                        <img src="{{ url('assets/images/card-empresaria/1.jpg') }}" class="card-img-top">
+                        <img src="{{ url('assets/images/card-empresaria/3.png') }}" class="card-img-top">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Premios en ventas</h5>
                             <p class="card-text">Gana premios y aumentan tus ganancias.</p>
@@ -589,7 +588,7 @@
                 </div>
                 <div class="col my-3">
                     <div class="card shadow rounded mx-auto" style="width: 15rem;">
-                        <img src="{{ url('assets/images/card-empresaria/2.jpg') }}" class="card-img-top">
+                        <img src="{{ url('assets/images/card-empresaria/4.png') }}" class="card-img-top">
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Facil de Vender</h5>
                             <p class="card-text">Puedes obtener tu catálogo fisico o digital para vender.</p>
@@ -921,7 +920,7 @@
             <div class="col-md-12 text-center">
                 <div class="section-title">
                     <h2 class="ec-title">Registrate en Ibizza</h2>
-                    <p class="w-50 mx-auto my-2">¡En tu primer pedido ya recibes premios!</p>
+                    <p class="w-50 mx-auto my-2">¡Haz tu primer pedido e inmediatamente recibe premios!</p>
                 </div>
             </div>
         </div>
@@ -931,10 +930,10 @@
                     <button class="nav-link active w-25" id="nav-home-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
                         aria-selected="true">PASO 1</button>
-                    <button class="nav-link w-25" id="nav-profile-tab" data-bs-toggle="tab"
+                    <button disabled class="nav-link w-25" id="nav-profile-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
                         aria-selected="false">PASO 2</button>
-                    <button class="nav-link w-25" id="nav-contact-tab" data-bs-toggle="tab"
+                    <button disabled class="nav-link w-25" id="nav-contact-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact"
                         aria-selected="false">PASO 3</button>
                 </div>
@@ -945,7 +944,7 @@
                     <div class="card w-100 p-4">
                         <div class="row g-0">
                             <div class="col-md-7">
-                                <img src="{{ url('assets/images/card-empresaria/1.jpg') }}" class="img-fluid rounded"
+                                <img src="{{ url('assets/images/card-empresaria/1.png') }}" class="img-fluid rounded"
                                     alt="...">
                             </div>
                             <div class="col-md-5 my-auto">
@@ -979,7 +978,7 @@
                                 </div>
                             </div>
                             <div class="col-md-7">
-                                <img src="{{ url('assets/images/card-empresaria/2.jpg') }}" class="img-fluid rounded"
+                                <img src="{{ url('assets/images/card-empresaria/4.png') }}" class="img-fluid rounded"
                                     alt="...">
                             </div>
                         </div>
@@ -989,7 +988,7 @@
                     <div class="card w-100 p-4">
                         <div class="row g-0">
                             <div class="col-md-7">
-                                <img src="{{ url('assets/images/card-empresaria/3.jpg') }}" class="img-fluid rounded"
+                                <img src="{{ url('assets/images/card-empresaria/3.png') }}" class="img-fluid rounded"
                                     alt="...">
                             </div>
                             <div class="col-md-5 my-auto">
@@ -1024,7 +1023,7 @@
                         </div>
                         <div class="ec-service-desc">
                             <h2>Envio Gratuito</h2>
-                            <p>Envio Gratuito en todas las Ordenes superiores a $100</p>
+                            <p>Envió Gratuito en todas las facturas superiores a $60</p>
                         </div>
                     </div>
                 </div>
@@ -1034,8 +1033,9 @@
                             <img loading='lazy' src="assets/images/icons/service_2.svg" class="svg_img" alt="" />
                         </div>
                         <div class="ec-service-desc">
-                            <h2>Soporte 24X7</h2>
-                            <p>Contáctanos 24 Horas del dia, 7 Días de la semana</p>
+                            <h2>Soporte</h2>
+                            <p>Contactanos de Lunes a Viernes 9:00 am a 6:00 pm Sabado de 10:00 am a 3:00 pm o
+                                al <a href="mailto:servicioalcliente.ibizza@zapecsa.com">correo</a></p>
                         </div>
                     </div>
                 </div>
@@ -1046,7 +1046,8 @@
                         </div>
                         <div class="ec-service-desc">
                             <h2>Devoluciones de 30 Días</h2>
-                            <p>Simplemente devuelvelo dentro de los 30 dias para un cambio</p>
+                            <p>Realiza tus cambios dentro de las 30 dias. Revisar políticas de
+                                Cambio <a href="{{route('web.politica-privacidad')}}">aquí</a></p>
                         </div>
                     </div>
                 </div>
@@ -1057,7 +1058,8 @@
                         </div>
                         <div class="ec-service-desc">
                             <h2>Pagos seguros</h2>
-                            <p>Contáctanos 24 Horas del dia, 7 Días de la semana</p>
+                            <p>Realiza tus pagos con tranquilidad
+                                Deposito – Transferencia - Datalink</p>
                         </div>
                     </div>
                 </div>
@@ -1121,7 +1123,7 @@
                     <div class="section-title mb-0">
                         <h2 class="ec-bg-title">Testimonios</h2>
                         <h2 class="ec-title">Testimonios</h2>
-                        <p class="sub-title mb-3">¿Qué dice el cliente sobre nosotros?</p>
+                        <p class="sub-title mb-3">¿Qué dicen nuestras empresarias sobre nosotros?</p>
                     </div>
                 </div>
             </div>
@@ -1133,13 +1135,14 @@
                                 class="svg_img test_svg top" alt="" />
                             <div class="ec-test-inner">
                                 <div class="ec-test-img"><img loading='lazy' alt="testimonial" title="testimonial"
-                                        src="assets/images/testimonial/1.jpg" /></div>
+                                        src="assets/images/testimonial/1.png" /></div>
                                 <div class="ec-test-content">
-                                    <div class="ec-test-desc">Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
-                                        ever since the 1500s, when an unknown printer took a galley of type and
-                                        scrambled it to make a type specimen</div>
-                                    <div class="ec-test-name">Karla Campos</div>
+                                    <div class="ec-test-desc">llegué a conocer la marca Ibizza porque he sido cliente por años de la marca
+                                        Dpisar, decidi inscribirme para obtener mi propia utilidad.
+                                        En cuanto a la venta por catálogo es muy importante para mi como
+                                        empresaria porque dispongo de mi tiempo… en mi trabajo me enfoco el
+                                        tiempo que yo necesito.</div>
+                                    <div class="ec-test-name">Guadalupe Ledesma</div>
                                     <div class="ec-test-designation">Empresaria</strong>
                                     </div>
                                     <div class="ec-test-rating">
@@ -1159,14 +1162,13 @@
                                 class="svg_img test_svg top" alt="" />
                             <div class="ec-test-inner">
                                 <div class="ec-test-img"><img loading='lazy' alt="testimonial" title="testimonial"
-                                        src="assets/images/testimonial/2.jpg" /></div>
+                                        src="assets/images/testimonial/2.png" /></div>
                                 <div class="ec-test-content">
-                                    <div class="ec-test-desc">Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
-                                        ever since the 1500s, when an unknown printer took a galley of type and
-                                        scrambled it to make a type specimen</div>
-                                    <div class="ec-test-name">Johanna Garcia</div>
-                                    <div class="ec-test-designation">Emprendedora</div>
+                                    <div class="ec-test-desc">Soy empresaria Ibiza voy a tener un año con este negocio me ha ido bien, me
+                                        gustan los premios, porque me incentivan, cuando llego mi monto de $120
+                                        me regalan un obsequio y así tengo más ganancia</div>
+                                    <div class="ec-test-name">Aracely Zambrano</div>
+                                    <div class="ec-test-designation">Empresaria</div>
                                     <div class="ec-test-rating">
                                         <i class="ecicon eci-star fill"></i>
                                         <i class="ecicon eci-star fill"></i>
@@ -1190,8 +1192,8 @@
                                         typesetting industry. Lorem Ipsum has been the industry's standard dummy text
                                         ever since the 1500s, when an unknown printer took a galley of type and
                                         scrambled it to make a type specimen</div>
-                                    <div class="ec-test-name">Juan Perez</div>
-                                    <div class="ec-test-designation">Administrador de tienda</div>
+                                    <div class="ec-test-name">Juana Perez</div>
+                                    <div class="ec-test-designation">Empresaria</div>
                                     <div class="ec-test-rating">
                                         <i class="ecicon eci-star fill"></i>
                                         <i class="ecicon eci-star fill"></i>
@@ -1316,8 +1318,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="text-center footer-off-msg">
-                            <span>!Gana Premios! por todas tus compras</span><a href="{{route('web.premio-ventas')}}" target="_blank">ver
-                                Detalle</a>
+                            <span>!Gana Premios! por todas tus compras</span>
                         </div>
                     </div>
                 </div>

@@ -12,7 +12,7 @@
                         <div class="col-md-6 col-sm-12">
                             <!-- ec-breadcrumb-list start -->
                             <ul class="ec-breadcrumb-list">
-                                <li class="ec-breadcrumb-item"><a href="{{route('web')}}">Home</a></li>
+                                <li class="ec-breadcrumb-item"><a href="{{ route('web') }}">Home</a></li>
                                 <li class="ec-breadcrumb-item active">Sobre Nosotros</li>
                             </ul>
                             <!-- ec-breadcrumb-list end -->
@@ -39,27 +39,31 @@
                     <div class="row">
                         <div class="col-md-6 ec-cms-block ec-abcms-block text-center">
                             <div class="ec-cms-block-inner">
-                                <img class="a-img" src="assets/images/offer-image/sobre_nosotros.jpg" alt="sobre-nosotros-ibizza">
+                                <img class="a-img" src="assets/images/offer-image/sobre_nosotros.jpg"
+                                    alt="sobre-nosotros-ibizza">
                             </div>
                         </div>
                         <div class="col-md-6 ec-cms-block ec-abcms-block text-center">
                             <div class="ec-cms-block-inner">
                                 <h3 class="ec-cms-block-title">¿Qué es Ibizza?</h3>
-                                <p>Electronic typesetting text of the printing and typesetting industry. when an unknown
-                                    printer took a galley of type
-                                    and scrambled it to make a type specimen book. Lorem Ipsum is
-                                    simply dutmmy text ever since the 1500s, It has survived not only,
-                                    but also the leap into electronic typesetting.</p>
-                                <p>Lorem Ipsum is simply dummy text of the printing. It has survived not only five
-                                    centuries,
-                                    but also the leap into electronic typesetting.</p>
-                                <p>Also the leap into electronic typesetting printing and typesetting industry. It has
-                                    survived not only five centuries,
-                                    but also the leap into electronic typesetting, when an unknown printer took a galley
-                                    of type
-                                    and scrambled it to make a type specimen book. It has survived not only five
-                                    centuries,
-                                    but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+                                <p>Ibizza by Dpisar nace en el año 2020 a través de la venta por catálogo ofreciendo
+                                    productos de
+                                    calidad respaldados por la Marca Dpsiar que lleva en el mercado ecuatoriano más de
+                                    25 años,
+                                    a través de este medio de comercialización busca llegar a todos los lugares del
+                                    país.</p>
+                                <p>Nuestro objetivo es brindar una oportunidad de vida a miles de familias que a través
+                                    de la
+                                    generación de ingresos adicionales puede mejorar su calidad de vida, gracias al
+                                    respaldo de
+                                    una compañía de más de 25 años haciendo presencia en el mercado ecuatoriano, a la
+                                    garantía
+                                    de productos de calidad y la prestación de un excelente servicio.</p>
+                                <p>Por medio de Catalogo Ibizza by Dpisar tiene la oportunidad de convertirse en una
+                                    empresaria
+                                    Independiente, construir su propio negocio a través de sus clientes de forma
+                                    personalizada
+                                    que le lleve a fortalecer su negocio.</p>
                             </div>
                         </div>
                     </div>
