@@ -1345,7 +1345,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-lg-2 ec-footer-info">
+                        <div class="col-sm-12 col-lg-3 ec-footer-info">
                             <div class="ec-footer-widget">
                                 <h4 class="ec-footer-heading">Información</h4>
                                 <div class="ec-footer-links">
@@ -1362,7 +1362,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-lg-2 ec-footer-account">
+                        {{-- <div class="col-sm-12 col-lg-2 ec-footer-account">
                             <div class="ec-footer-widget">
                                 <h4 class="ec-footer-heading">Soy Empresaria</h4>
                                 <div class="ec-footer-links">
@@ -1373,29 +1373,28 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-12 col-lg-2 ec-footer-service">
+                        </div> --}}
+                        <div class="col-sm-12 col-lg-3 ec-footer-service">
                             <div class="ec-footer-widget">
                                 <h4 class="ec-footer-heading">Servicios</h4>
                                 <div class="ec-footer-links">
                                     <ul class="align-items-center">
-                                        <li class="ec-footer-link"><a href="{{ route('web.politica-privacidad') }}">Devoluciones</a></li>
+                                        <li class="ec-footer-link"><a href="{{ route('web.terminos-condiciones') }}">Políticas de cambios o devoluciones</a></li>
                                         <li class="ec-footer-link"><a
                                                 href="{{ route('web.politica-privacidad') }}">Política de
                                                 Privacidad</a>
                                         </li>
                                         <li class="ec-footer-link"><a
-                                                href="{{ route('web.terminos-condiciones') }}">Servicios</a>
+                                                href="{{ route('web.terminos-condiciones') }}">Política de Garantía</a>
                                         </li>
                                         <li class="ec-footer-link"><a
-                                                href="{{ route('web.terminos-condiciones') }}">Términos y
-                                                Condiciones</a>
+                                                href="{{ route('web.terminos-condiciones') }}">Políticas de Entrega y Envió</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-lg-2 ec-footer-service">
+                        <div class="col-sm-12 col-lg-3 ec-footer-service">
                             <div class="ec-footer-widget">
                                 <h4 class="ec-footer-heading">Contáctanos</h4>
                                 <div class="ec-footer-links">
@@ -1539,7 +1538,7 @@
                 <ul>
                     <!-- Single Contact List -->
                     <li>
-                        <a class="ec-list" data-number="593967402331"
+                        <a class="ec-list" data-number="593963725427"
                             data-message="¡Hola! Necesito ayuda en un pedido ">
                             <div class="d-flex bd-highlight">
                                 <!-- Profile Picture -->
