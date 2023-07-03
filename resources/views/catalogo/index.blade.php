@@ -29,9 +29,9 @@
             <div class="table-responsive p-3">
                 <table id="datatable" class="table table-striped table-hover">
                     <thead class="bg-ibizza text-center">
-                        <tr>
+                        <tr>             
+                            <th>ID</th>
                             <th>Foto</th>
-
                             <th>Nombre</th>
                             <th>Descripcion</th>
                             <th>Fecha Publicación</th>

@@ -4,6 +4,8 @@
         CARGA DE PRODUCTOS
     </x-slot>
 
+
+
     <div class="card">
         <div class="card-header">
             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -23,6 +25,14 @@
                 </div>
             </div>
         </div>
+
+        @if ($message = Session::get('error'))
+            <div class="alert alert-warning">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
+
+
         <form action="{{ route('producto.saveExcel') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="card-body">

@@ -134,21 +134,21 @@ class EmpresariaController extends Controller
             'telefono'=> trim($request->telefono),
             'id_ciudad'=> $request->id_ciudad,
             'vendedor'=> Auth::user()->id,
+            'estado'=> $request->tipo_cliente != 'INACTIVO WEB' ? 'A' : 'I',
         ];
 
         $empresaria->update($empresariaData);
         
 
         return redirect()->route('empresarias.index')
-            ->with('success', 'Empresaria updated successfully');
+            ->with('success', 'Empresaria actualizado correctamente.');
     }
 
 
     public function destroy($id)
     {
         $empresaria = Empresaria::find($id);
-        User::find($empresaria->id_usuario)->delete();
-        Empresaria::find($id)->delete();
+        Empresaria::find($id)->update(['estado'=>'I', 'id_user'=>null, 'tipo_cliente'=>'INACTIVO WEB']);
         return redirect()->route('empresarias.index')
             ->with('success', 'Empresaria Eliminada correctamente');
     }

@@ -27,7 +27,7 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required'   
+            'name'=>'required|unique:roles,name'   
         ]);
         $role = Role::create($request->all());
         $role->permissions()->sync($request->permissions);
@@ -57,9 +57,7 @@ class RoleController extends Controller
     }
 
     public function destroy(Role $role)
-    {
-        $role->delete();
-
+    {            
         return redirect()->route('admin.roles.index')->with('info','el rol se elimino con exito');
     }
 }

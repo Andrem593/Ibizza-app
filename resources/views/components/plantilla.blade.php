@@ -176,7 +176,7 @@
                         <div class="align-self-center">
                             <div class="header-logo">
                                 <a href="{{ url('/') }}"><img loading='lazy' class="p-1"
-                                        src="{{ url('assets/images/logo/logo_ibizza.svg') }}" alt="Logo Ibizza" />
+                                        src="{{ url('/assets/images/logo/Logo_ibizza.svg') }}" alt="Logo Ibizza" />
                                     <img loading='lazy' class="dark-logo"
                                         src="{{ url('assets/images/logo/dark-logo.png') }}" alt="Site Logo"
                                         style="display: none;" /></a>
@@ -404,7 +404,7 @@
                         <div class="col-sm-12 col-lg-3 ec-footer-contact">
                             <div class="ec-footer-widget">
                                 <div class="ec-footer-logo"><a href="#"><img loading='lazy'
-                                            src="{{ url('assets/images/logo/logo_ibizza.svg') }}" alt=""><img
+                                            src="{{ url('/assets/images/logo/Logo_ibizza.svg') }}" alt=""><img
                                             loading='lazy' class="dark-footer-logo"
                                             src="assets/images/logo/dark-logo.png" alt="Site Logo"
                                             style="display: none;" /></a></div>
@@ -573,15 +573,15 @@
                     @auth
                     @can('dashboard')
                     <a href="{{ url('/dashboard') }}" class="ec-header-btn"><img loading='lazy'
-                            src="{{ url('assets/images/icons/user.svg') }}" class="svg_img header_svg" alt="icon" /></a>
+                            src="{{ url('/assets/images/icons/user.svg') }}" class="svg_img header_svg" alt="icon" /></a>
                     @else
                     <a href="{{ route('web.perfil-empresaria') }}" class="ec-header-btn"><img loading='lazy'
-                            src="{{ url('assets/images/icons/user.svg') }}" class="svg_img header_svg" alt="icon" /></a>
+                            src="{{ url('/assets/images/icons/user.svg') }}" class="svg_img header_svg" alt="icon" /></a>
                     @endcan
                     @else
 
                     <a href="{{ route('login') }}" class="ec-header-btn"><img loading='lazy'
-                            src="{{ url('assets/images/icons/user.svg') }}" class="svg_img header_svg" alt="icon" /></a>
+                            src="{{ url('/assets/images/icons/user.svg') }}" class="svg_img header_svg" alt="icon" /></a>
                     @endif
                     @endif
                 </div>

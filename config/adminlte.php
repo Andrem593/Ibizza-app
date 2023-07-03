@@ -251,7 +251,7 @@ return [
             'icon'    => 'fas fa-laptop',
         ],
         [
-            'text' => 'Dashboard',
+            'text' => 'Panel',
             'route'  => 'dashboard',
             'icon'    => 'fas fa-tachometer-alt',
             'can'   => 'dashboard',

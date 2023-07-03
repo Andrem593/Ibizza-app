@@ -91,13 +91,14 @@
                                 class="svg_img test_svg top" alt="" />
                             <div class="ec-test-inner">
                                 <div class="ec-test-img"><img loading='lazy' alt="testimonial" title="testimonial"
-                                        src="assets/images/testimonial/1.jpg" /></div>
+                                        src="assets/images/testimonial/1.png" /></div>
                                 <div class="ec-test-content">
-                                    <div class="ec-test-desc">Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
-                                        ever since the 1500s, when an unknown printer took a galley of type and
-                                        scrambled it to make a type specimen</div>
-                                    <div class="ec-test-name">Karla Campos</div>
+                                    <div class="ec-test-desc">llegué a conocer la marca Ibizza porque he sido cliente por años de la marca
+                                        Dpisar, decidi inscribirme para obtener mi propia utilidad.
+                                        En cuanto a la venta por catálogo es muy importante para mi como
+                                        empresaria porque dispongo de mi tiempo… en mi trabajo me enfoco el
+                                        tiempo que yo necesito.</div>
+                                    <div class="ec-test-name">Guadalupe Ledesma</div>
                                     <div class="ec-test-designation">Empresaria</strong>
                                     </div>
                                     <div class="ec-test-rating">
@@ -117,39 +118,13 @@
                                 class="svg_img test_svg top" alt="" />
                             <div class="ec-test-inner">
                                 <div class="ec-test-img"><img loading='lazy' alt="testimonial" title="testimonial"
-                                        src="assets/images/testimonial/2.jpg" /></div>
+                                        src="assets/images/testimonial/2.png" /></div>
                                 <div class="ec-test-content">
-                                    <div class="ec-test-desc">Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
-                                        ever since the 1500s, when an unknown printer took a galley of type and
-                                        scrambled it to make a type specimen</div>
-                                    <div class="ec-test-name">Johanna Garcia</div>
+                                    <div class="ec-test-desc">Soy empresaria Ibiza voy a tener un año con este negocio me ha ido bien, me
+                                        gustan los premios, porque me incentivan, cuando llego mi monto de $120
+                                        me regalan un obsequio y así tengo más ganancia</div>
+                                    <div class="ec-test-name">Aracely Zambrano</div>
                                     <div class="ec-test-designation">Emprendedora</div>
-                                    <div class="ec-test-rating">
-                                        <i class="ecicon eci-star fill"></i>
-                                        <i class="ecicon eci-star fill"></i>
-                                        <i class="ecicon eci-star fill"></i>
-                                        <i class="ecicon eci-star fill"></i>
-                                        <i class="ecicon eci-star fill"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <img loading='lazy' src="assets/images/testimonial/bottom-quotes.svg"
-                                class="svg_img test_svg bottom" alt="" />
-                        </li>
-                        <li class="ec-test-item">
-                            <img loading='lazy' src="assets/images/testimonial/top-quotes.svg"
-                                class="svg_img test_svg top" alt="" />
-                            <div class="ec-test-inner">
-                                <div class="ec-test-img"><img loading='lazy' alt="testimonial" title="testimonial"
-                                        src="assets/images/testimonial/3.png" /></div>
-                                <div class="ec-test-content">
-                                    <div class="ec-test-desc">Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
-                                        ever since the 1500s, when an unknown printer took a galley of type and
-                                        scrambled it to make a type specimen</div>
-                                    <div class="ec-test-name">Juan Perez</div>
-                                    <div class="ec-test-designation">Administrador de tienda</div>
                                     <div class="ec-test-rating">
                                         <i class="ecicon eci-star fill"></i>
                                         <i class="ecicon eci-star fill"></i>
@@ -182,7 +157,7 @@
                         </div>
                         <div class="ec-service-desc">
                             <h2>Envio Gratuito</h2>
-                            <p>Envio Gratuito en todas las Ordenes superiores a $100</p>
+                            <p>Envió Gratuito en todas las facturas superiores a $60</p>
                         </div>
                     </div>
                 </div>
@@ -194,7 +169,8 @@
                         </div>
                         <div class="ec-service-desc">
                             <h2>Soporte 24X7</h2>
-                            <p>Contáctanos 24 Horas del dia, 7 Días de la semana</p>
+                            <p>Contactanos de Lunes a Viernes 9:00 am a 6:00 pm Sabado de 10:00 am a 3:00 pm o
+                                al <a href="mailto:servicioalcliente.ibizza@zapecsa.com">correo</a></p>
                         </div>
                     </div>
                 </div>
@@ -206,7 +182,8 @@
                         </div>
                         <div class="ec-service-desc">
                             <h2>Devoluciones de 30 Días</h2>
-                            <p>Simplemente devuelvelo dentro de los 30 dias para un cambio</p>
+                            <p>Realiza tus cambios dentro de las 30 dias. Revisar políticas de
+                                Cambio <a href="{{route('web.politica-privacidad')}}">aquí</a></p>
                         </div>
                     </div>
                 </div>
@@ -218,7 +195,8 @@
                         </div>
                         <div class="ec-service-desc">
                             <h2>Pagos seguros</h2>
-                            <p>Contáctanos 24 Horas del dia, 7 Días de la semana</p>
+                            <p>Realiza tus pagos con tranquilidad
+                                Deposito – Transferencia - Datalink</p>
                         </div>
                     </div>
                 </div>

@@ -136,7 +136,7 @@ class MarcaController extends Controller
      */
     public function destroy($id)
     {
-        $marca = Marca::find($id)->delete();
+        $marca = Marca::find($id)->update(['estado' => 'I']);
 
         return redirect()->route('marcas.index')
             ->with('success', 'Se eliminó la marca');

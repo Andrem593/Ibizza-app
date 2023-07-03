@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Catalogo_has_Producto;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -57,7 +58,10 @@ class Producto extends Model
      */
     protected $fillable = ['sku','imagen_path', 'nombre_producto', 'descripcion', 'marca_id', 'grupo', 'seccion', 'clasificacion', 'proveedor_id', 'estilo', 'color', 'talla', 'cantidad_inicial', 'stock', 'valor_venta', 'ultima_venta', 'estado', 'nombre_mostrar', 'categoria', 'subcategoria', 'descuento', 'precio_empresaria'];
 
-
+    public function catalogo()
+    {
+        return  $this->belongsTo(Catalogo_has_Producto::class, 'estilo', 'estilo');
+    }
 
 
 

@@ -62,11 +62,11 @@ function crearTabla(data, ruta) {
         {
             "data": "imagen_path",
             "render": function (data, type, row) {
-                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
                 if (data != '' && data != null) {
                     image = '/storage/images/productos/' + data
                 }
-                return '<center><img  src="' + image + '"class="rounded" width="80" height="60" /> </center>';
+                return '<center><img  src="' + image + '"class="rounded" width="60" height="60" /> </center>';
             }
         },
         {
@@ -112,7 +112,13 @@ function crearTabla(data, ruta) {
             "data": "cantidad_inicial"
         },
         {
-            "data": "stock"
+            "data": "stock",
+            "render": function (data, type, row) {
+                let color = 'bg-success'
+                if (data < 10) { color = 'bg-danger' }
+                if (data == 0) { color = 'bg-danger'; data = 'AGOTADO' }
+                return '<span class="badge ' + color + ' w-100 p-2">' + data + '</span>';
+            }
         },
         {
             "data": "valor_venta"
@@ -399,6 +405,7 @@ function crearTablaUsuario(data, ruta) {
         },
     });
     let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
+    
     let dataTable = $('#datatable').DataTable({
 
         destroy: true,
@@ -416,6 +423,9 @@ function crearTablaUsuario(data, ruta) {
             },
         },
         "columns": [{
+            "data": "identificacion"
+        },
+        {
             "data": "name"
         },
         {
@@ -428,7 +438,7 @@ function crearTablaUsuario(data, ruta) {
         {
             "data": 'id',
             "render": function (data, type, row) {
-                return btnEliminar;
+                return '<a href="/usuario/edit/'+data+'" class ="editar btn btn-ibizza me-2 btn-sm"> <i class="fas fa-edit"></i></a>'+btnEliminar;
             }
         }
 
@@ -512,7 +522,11 @@ function crearTablaCatalogo(data, ruta) {
                 }
             },
         },
-        "columns": [{
+        "columns": [
+        {
+            "data": "id"
+        },
+        {
             "data": "foto_path",
             "render": function (data, type, row) {
                 let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
@@ -732,7 +746,7 @@ function crearTablaProveedor(data, ruta) {
             "data": "estado",
             "render": function (data, type, row) {
                 let estado = '<span class="badge bg-danger">Inactivo</span>';
-                if (data == 'A') {
+                if (data == 'A' || data == 'ACTIVO' || data == 'a') {
                     estado = '<span class="badge bg-success">Activo</span>'
                 }
                 return estado;

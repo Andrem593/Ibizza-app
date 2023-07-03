@@ -14,7 +14,7 @@ class TomarPedido extends Component
 {
     public $estilo, $colores, $tallas, $message, $color, $talla,$cantidad, $alert, $stock, $cliente;
   
-    public $imagen = 'https://www.bicifan.uy/wp-content/uploads/2016/09/producto-sin-imagen.png';
+    public $imagen = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
     protected $listeners = ['change' => 'buscarColor'];
 
     public function render()
@@ -36,7 +36,7 @@ class TomarPedido extends Component
             $this->color = $colores[0]->color;
             $this->talla = $tallas[0]->talla;
             $this->stock = $tallas[0]->stock;
-            $this->imagen = '../storage/images/productos/'.$colores[0]->imagen_path;
+            $this->imagen = empty($colores[0]->imagen_path) ?  $this->imagen :  '../storage/images/productos/'.$colores[0]->imagen_path;
             $this->message = '';
         } catch (\Throwable $th) {
             $this->message= 'CODIGO INGRESADO NO ES CORRECTO'; 
@@ -54,7 +54,7 @@ class TomarPedido extends Component
             $this->tallas = $tallas;
             $this->talla = $tallas[0]->talla;
             $this->stock = $tallas[0]->stock;
-            $this->imagen = '../storage/images/productos/'.$tallas[0]->imagen_path;
+            $this->imagen = empty($tallas[0]->imagen_path) ?  $this->imagen :  '../storage/images/productos/'.$tallas[0]->imagen_path;
             $this->message = '';
         } catch (\Throwable $th) {
             $this->message= 'CODIGO INGRESADO NO ES CORRECTO'; 

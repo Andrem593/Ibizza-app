@@ -46,7 +46,7 @@ class ProveedorController extends Controller
         $proveedor = Proveedor::create($request->all());
 
         return redirect()->route('proveedores.index')
-            ->with('success', 'Proveedor created successfully.');
+            ->with('success', 'Proveedor creado correctamente.');
     }
 
     /**
@@ -82,14 +82,14 @@ class ProveedorController extends Controller
      * @param  Proveedor $proveedor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Proveedor $proveedor)
+    public function update(Request $request, $id)
     {
         request()->validate(Proveedor::$rules);
-
-        $proveedor->update($request->all());
+                
+        Proveedor::find($id)->update($request->all());
 
         return redirect()->route('proveedores.index')
-            ->with('success', 'Proveedor updated successfully');
+            ->with('success', 'Proveedor actualizado correctamente.');
     }
 
     /**
@@ -99,10 +99,10 @@ class ProveedorController extends Controller
      */
     public function destroy($id)
     {
-        $proveedor = Proveedor::find($id)->delete();
+        $proveedor = Proveedor::find($id)->update(['estado' => 'I']);
 
         return redirect()->route('proveedores.index')
-            ->with('success', 'Proveedor deleted successfully');
+            ->with('success', 'Proveedor borrado correctamente');
     }
 
     public function proveedorDataTable()

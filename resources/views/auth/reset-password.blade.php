@@ -7,7 +7,7 @@
         <div class="card-body">
             
             <div class="w-100 text-center p-4">
-                <img src="img/Logo_ibizza.svg" alt="logo_ibizza" width="200px">
+                <img src="{{ url('/assets/images/logo/Logo_ibizza.svg') }}" alt="logo_ibizza" width="200px">
             </div>
 
             <x-jet-validation-errors class="mb-3" />

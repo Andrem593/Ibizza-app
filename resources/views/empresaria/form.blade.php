@@ -46,15 +46,18 @@
             </div>
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('tipo_cliente') }}
+                    {{ Form::label('tipo_empresaria') }}
                     <select name="tipo_cliente" class="form-select">
+                        <option value="PROSPECTO" {{ 'PROSPECTO' == $empresaria->tipo_cliente ? 'selected' : '' }}>PROSPECTO</option>
                         <option value="NUEVA" {{ 'NUEVA' == $empresaria->tipo_cliente ? 'selected' : '' }}>NUEVA</option>
                         <option value="CONTINUA" {{ 'CONTINUA' == $empresaria->tipo_cliente ? 'selected' : '' }}>CONTINUA</option>
                         <option value="INACTIVA-1" {{ 'INACTIVA-1' == $empresaria->tipo_cliente ? 'selected' : '' }}>INACTIVA-1</option>
                         <option value="INACTIVA-2" {{ 'INACTIVA-2' == $empresaria->tipo_cliente ? 'selected' : '' }}>INACTIVA-2</option>
                         <option value="INACTIVA-3" {{ 'INACTIVA-3' == $empresaria->tipo_cliente ? 'selected' : '' }}>INACTIVA-3</option>
+                        <option value="POSIBLE BAJA" {{ 'POSIBLE BAJA' == $empresaria->tipo_cliente ? 'selected' : '' }}>POSIBLE BAJA</option>
                         <option value="REACTIVA" {{ 'REACTIVA' == $empresaria->tipo_cliente ? 'selected' : '' }}>REACTIVA</option>
                         <option value="BAJA" {{ 'BAJA' == $empresaria->tipo_cliente ? 'selected' : '' }}>BAJA</option>
+                        <option value="RE-INGRESO" {{ 'RE-INGRESO' == $empresaria->tipo_cliente ? 'selected' : '' }}>RE-INGRESO</option>
                     </select>
                     {!! $errors->first('tipo_cliente', '<div class="invalid-feedback">:message</p> </div>') !!}
                 </div>

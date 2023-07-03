@@ -38,7 +38,7 @@
                                             <th>FECHA NACIMIENTO</th>
                                             <th>TELEFONO</th>
                                             <th>CIUDAD</th>
-                                            <th>CLIENTE</th>
+                                            <th>EMPRESARIA</th>
                                             <th>VENDEDOR</th>
                                             <th>ESTADO</th>
                                             <th></th>

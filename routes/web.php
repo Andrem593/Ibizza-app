@@ -82,7 +82,7 @@ Route::get('seguimiento-pedidos',[webController::class,'seguimiento_pedidos'])
 
 // RUTAS DASHBOARD
 Route::get('dashboard',[userController::class,'dashboard'])
-->middleware(['can:dashboard','auth:sanctum', 'verified'])
+->middleware(['auth:sanctum', 'verified'])
 ->name('dashboard');
 
 // PRODUCTO
@@ -181,6 +181,11 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->get('/usuario/index/', [userController::class,'index'])
 ->name('usuario.index');
 
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/usuario/edit/{id}', [userController::class,'edit'])
+->name('usuario.edit');
+
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/usuario/create/', [userController::class,'create'])
 ->name('usuario.create');
@@ -188,6 +193,10 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/usuario/create', [userController::class,'store'])
 ->name('new.user');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/usuario/editar/{id}', [userController::class,'update'])
+->name('edit.user');
 
 Route::middleware(['auth:sanctum', 'verified'])
 ->delete('/usuario/{id}', [userController::class,'destroy'])

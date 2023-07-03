@@ -78,7 +78,7 @@ class CatalogoController extends Controller
         Catalogo::create($input);
 
         return redirect()->route('catalogos.index')
-            ->with('success', 'Catalogo created successfully.');
+            ->with('success', 'Catalogo creado correctamente.');
     }
 
     /**
@@ -146,7 +146,7 @@ class CatalogoController extends Controller
         $catalogo->update($input);
 
         return redirect()->route('catalogos.index')
-            ->with('success', 'Catalogo updated successfully');
+            ->with('success', 'Catalogo actualizado correctamente.');
     }
 
     /**
@@ -156,12 +156,11 @@ class CatalogoController extends Controller
      */
     public function destroy($id)
     {
-        $catalogo = Catalogo::find($id)->delete();
+        $catalogo = Catalogo::find($id)->update(['estado' => 'ELIMINADO']);
 
-        Catalogo_has_Producto::where('catalogo_id', $id)->delete();
 
         return redirect()->route('catalogos.index')
-            ->with('success', 'Catalogo deleted successfully');
+            ->with('success', 'Catalogo borrado correctamente');
     }
 
     public function catalogoDataTable()

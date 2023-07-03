@@ -30,6 +30,9 @@
                 </div>
 
                 <div class="d-flex justify-content-end mt-4">
+                    <div class="mx-2">
+                        <a href="{{URL::previous()}}" class="btn btn-ibizza text-white">Volver</a>
+                    </div>
                     <x-jet-button>
                         {{ __('Enviar codigo') }}
                     </x-jet-button>

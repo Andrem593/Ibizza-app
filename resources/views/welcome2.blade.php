@@ -108,7 +108,7 @@
                                     <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar Pedido</a>
                                     </li>
                                     @else
-                                    <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
+                                    <li><a href="{{ route('login') }}" class="dropdown-item">Iniciar Sesión</a></li>
                                     <li><a class="dropdown-item"
                                             href="{{ route('web.registro-empresaria') }}">Registrar</a></li>
                                     <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar Pedido</a>
@@ -235,7 +235,7 @@
                                                 Pedido</a>
                                         </li>
                                         @else
-                                        <li><a href="{{ route('login') }}" class="dropdown-item">Login</a></li>
+                                        <li><a href="{{ route('login') }}" class="dropdown-item">Iniciar Sesión</a></li>
                                         <li><a class="dropdown-item"
                                                 href="{{ route('web.registro-empresaria') }}">Registro</a></li>
                                         <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar
@@ -930,10 +930,10 @@
                     <button class="nav-link active w-25" id="nav-home-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
                         aria-selected="true">PASO 1</button>
-                    <button disabled class="nav-link w-25" id="nav-profile-tab" data-bs-toggle="tab"
+                    <button class="nav-link w-25" id="nav-profile-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
                         aria-selected="false">PASO 2</button>
-                    <button disabled class="nav-link w-25" id="nav-contact-tab" data-bs-toggle="tab"
+                    <button class="nav-link w-25" id="nav-contact-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact"
                         aria-selected="false">PASO 3</button>
                 </div>
@@ -1168,31 +1168,6 @@
                                         gustan los premios, porque me incentivan, cuando llego mi monto de $120
                                         me regalan un obsequio y así tengo más ganancia</div>
                                     <div class="ec-test-name">Aracely Zambrano</div>
-                                    <div class="ec-test-designation">Empresaria</div>
-                                    <div class="ec-test-rating">
-                                        <i class="ecicon eci-star fill"></i>
-                                        <i class="ecicon eci-star fill"></i>
-                                        <i class="ecicon eci-star fill"></i>
-                                        <i class="ecicon eci-star fill"></i>
-                                        <i class="ecicon eci-star fill"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <img loading='lazy' src="assets/images/testimonial/bottom-quotes.svg"
-                                class="svg_img test_svg bottom" alt="" />
-                        </li>
-                        <li class="ec-test-item">
-                            <img loading='lazy' src="assets/images/testimonial/top-quotes.svg"
-                                class="svg_img test_svg top" alt="" />
-                            <div class="ec-test-inner">
-                                <div class="ec-test-img"><img loading='lazy' alt="testimonial" title="testimonial"
-                                        src="assets/images/testimonial/3.png" /></div>
-                                <div class="ec-test-content">
-                                    <div class="ec-test-desc">Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
-                                        ever since the 1500s, when an unknown printer took a galley of type and
-                                        scrambled it to make a type specimen</div>
-                                    <div class="ec-test-name">Juana Perez</div>
                                     <div class="ec-test-designation">Empresaria</div>
                                     <div class="ec-test-rating">
                                         <i class="ecicon eci-star fill"></i>

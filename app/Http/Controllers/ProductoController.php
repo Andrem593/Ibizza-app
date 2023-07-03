@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Catalogo;
+use App\Models\Catalogo_has_Producto;
 use App\Models\LogStockFaltante;
 use App\Producto;
 
@@ -9,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use Cart;
+use CatalogoHasPremios;
+use CatalogoHasProductos;
+
 /**
  * Class ProductoController
  * @package App\Http\Controllers
@@ -22,9 +27,10 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::paginate();
+        $productos = Producto::with('catalogo')->paginate();
+        $catalogos = Catalogo::all();  
 
-        return view('producto.index', compact('productos'))
+        return view('producto.index', compact('productos', 'catalogos'))
             ->with('i', (request()->input('page', 1) - 1) * $productos->perPage());
     }
 
@@ -118,7 +124,7 @@ class ProductoController extends Controller
      */
     public function destroy($id)
     {
-        $producto = Producto::find($id)->delete();
+        $producto = Producto::find($id)->update(['estado' => 'I']);
 
         return redirect()->route('productos.index')
             ->with('success', 'Producto Eliminado Correctamente');
@@ -131,79 +137,84 @@ class ProductoController extends Controller
 
     public function saveExcel(Request $request)
     {
-        $request->validate([
-            'excel' => 'required|max:10000|mimes:xlsx,xls'
-        ]);
-
-        $file_array = explode(".", $_FILES["excel"]["name"]);
-        $file_extension = end($file_array);
-
-        $file_name = time() . '.' . $file_extension;
-        move_uploaded_file($_FILES["excel"]["tmp_name"], $file_name);
-        $file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_name);
-        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($file_type);
-
-        $spreadsheet = $reader->load($file_name);
-
-        unlink($file_name);
-
-        $data = $spreadsheet->getActiveSheet()->toArray();
-
-        foreach ($data as $key => $row) {
-            if ($key >= 1) {
-
-                $producto = Producto::where('sku', $row[0])->first();
-
-                if ($producto) {
-                    $producto->stock = $row[11] + $producto->stock;
-                    $producto->save();
-                }else{
-                    $marca_id = DB::table('marcas')->where('nombre', 'like', '%' . $row[3] . '%')->value('id');
+        try {
+            $request->validate([
+                'excel' => 'required|max:10000|mimes:xlsx,xls'
+            ]);
     
-                    if (empty($marca_id)) {
-                        $marca_id = DB::table('marcas')->insertGetId(
-                            array('nombre' => $row[3], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
+            $file_array = explode(".", $_FILES["excel"]["name"]);
+            $file_extension = end($file_array);
+    
+            $file_name = time() . '.' . $file_extension;
+            move_uploaded_file($_FILES["excel"]["tmp_name"], $file_name);
+            $file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_name);
+            $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($file_type);
+    
+            $spreadsheet = $reader->load($file_name);
+    
+            unlink($file_name);
+    
+            $data = $spreadsheet->getActiveSheet()->toArray();
+    
+            foreach ($data as $key => $row) {
+                if ($key >= 1) {
+    
+                    $producto = Producto::where('sku', $row[0])->first();
+    
+                    if ($producto) {
+                        $producto->stock = $row[11] + $producto->stock;
+                        $producto->precio_empresaria = $row[13];
+                        $producto->save();
+                    }else{
+                        $marca_id = DB::table('marcas')->where('nombre', 'like', '%' . $row[3] . '%')->value('id');
+        
+                        if (empty($marca_id)) {
+                            $marca_id = DB::table('marcas')->insertGetId(
+                                array('nombre' => $row[3], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
+                            );
+                        }
+
+                        $catalogo = DB::table('catalogos')->where('id', $row[12])->value('id');
+                        
+                        if (empty($catalogo)) {
+                            
+                        }else{
+                            Catalogo_has_Producto::updateOrInsert([
+                                'catalogo_id' => $catalogo,
+                                'estilo'=> $row[7],
+                            ]);
+                        }
+
+                        $insert_data = array(
+                            'sku'  => $row[0],
+                            'nombre_producto'  => $row[1],
+                            'descripcion'  => $row[2],
+                            'marca_id'  => $marca_id,
+                            'clasificacion' => $row[4],
+                            'categoria'  => $row[5],
+                            'subcategoria'  => $row[6],
+                            'estilo'  => $row[7],
+                            'color'  => $row[8],
+                            'talla'  => $row[9],
+                            'cantidad_inicial'  => $row[10],
+                            'stock'  => $row[11],
+                            'nombre_mostrar'  => $row[1],
+                            'precio_empresaria'  => $row[13],
+                            'estado'  => $row[14]
                         );
+        
+                        Producto::create($insert_data);
                     }
     
-                    $proveedor_id = DB::table('proveedores')->where('nombre', 'like', '%' . $row[7] . '%')->value('id');
-    
-                    if (empty($proveedor_id)) {
-                        $proveedor_id = DB::table('proveedores')->insertGetId(
-                            array('nombre' => $row[7], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
-                        );
-                    }
-    
-                    $insert_data = array(
-                        'sku'  => $row[0],
-                        'nombre_producto'  => $row[1],
-                        'descripcion'  => $row[2],
-                        'marca_id'  => $marca_id,
-                        'grupo' => $row[4],
-                        'seccion'  => $row[5],
-                        'clasificacion'  => $row[6],
-                        'proveedor_id'  => $proveedor_id,
-                        'estilo'  => $row[8],
-                        'color'  => $row[9],
-                        'talla'  => $row[10],
-                        'cantidad_inicial'  => $row[11],
-                        'stock'  => $row[11],
-                        'valor_venta'  => $row[12],
-                        'nombre_mostrar'  => $row[13],
-                        'categoria'  => $row[14],
-                        'subcategoria'  => $row[15],
-                        'precio_empresaria'  => $row[16],
-                        'descuento'  => $row[17]
-                    );
-    
-                    Producto::create($insert_data);
                 }
-
             }
-        }
-
-        return redirect()->route('productos.index')
-            ->with('success', 'Productos cargados correctamente');
+    
+            return redirect()->route('productos.index')
+                ->with('success', 'Productos cargados correctamente');
+        } catch (\Throwable $th) {
+            return redirect()->route('producto.upload')
+                ->with('error', 'EL archivo no cumple con el formato requerido, por favor verifique el archivo e intente nuevamente.');
+        }        
     }
     public function productoDataTable(Request $request)
     {
@@ -212,6 +223,21 @@ class ProductoController extends Controller
             $productos = DB::table('productos')
                 ->join('proveedores', 'proveedores.id', '=', 'productos.proveedor_id')
                 ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
+                ->select('productos.*', 'marcas.nombre AS nombre_marca', 'proveedores.nombre AS nombre_proveedor')
+                ->get();
+            if (count($productos) == 0) {
+                $productos = 'no data';
+            }
+            $response = json_encode($productos);
+        }
+
+        if ($_POST['funcion'] == 'filtro') {
+            $catalogo = $_POST['catalogo'];
+            $productos = DB::table('productos')
+                ->join('proveedores', 'proveedores.id', '=', 'productos.proveedor_id')
+                ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
+                ->join('catalogo_has_productos', 'catalogo_has_productos.estilo', '=', 'productos.estilo')
+                ->where('catalogo_has_productos.catalogo_id', $catalogo)
                 ->select('productos.*', 'marcas.nombre AS nombre_marca', 'proveedores.nombre AS nombre_proveedor')
                 ->get();
             if (count($productos) == 0) {

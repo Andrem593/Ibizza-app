@@ -14,6 +14,24 @@
                 @csrf
                 <div class="card-body">
                     <div class="form-group">
+                        <label for="name">Tipo de identificación</label>
+                        <select class="form-select" name="tipoId" id="tipoId">
+                            <option value="cedula">Cédula</option>
+                            <option value="pasaporte">Pasaporte</option>
+                            <option value="ruc">Ruc</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Identificación</label>
+                        <input type="text" class="form-control" name="identificacion" placeholder="ingrese identificación"
+                            value="{{ old('identificacion') }}">
+                    </div>
+                    @error('identificacion')
+                        <div class="alert alert-danger p-1" role="alert">
+                            <i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}
+                        </div>
+                    @enderror
+                    <div class="form-group">
                         <label for="name">Nombre Usuario</label>
                         <input type="text" class="form-control" name="name" placeholder="ingrese nombre de Usuario"
                             value="{{ old('name') }}">
@@ -60,7 +78,12 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer d-flex justify-content-end">
-                    <button type="submit" class="btn btn-dark">Registrar</button>
+                    <div class="mx-2">
+                        <a href="{{URL::previous()}}" class="btn btn-ibizza text-white">Volver</a>
+                    </div>
+                    <div>                        
+                        <button type="submit" class="btn btn-dark">Registrar</button>
+                    </div>
                 </div>
             </form>
         </div>

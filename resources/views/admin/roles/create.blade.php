@@ -2,7 +2,10 @@
     @section('title','Roles')
 
     <x-slot name="header">
-        MANEJO DE ROLES
+        <div class="d-flex justify-content-between my-auto">
+            MANEJO DE ROLES
+            <a href="{{route('admin.roles.index')}}" class="btn btn-ibizza text-white">Volver</a>
+        </div>
     </x-slot>
     <div class="card">
         <div class="card-body">
@@ -13,7 +16,7 @@
                 {!! Form::text('name', null, ['class'=>'form-control','placeholder'=>'Ingrese el nombre del rol']) !!}
             </div>
             @error('name')
-            <small class="text-danger">{{$message}}</small>
+            <small class="text-danger">El campo nombre ya está en uso</small>
             @enderror
             <h2 class="h3">Lista de permisos</h2>
             <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 p-2">

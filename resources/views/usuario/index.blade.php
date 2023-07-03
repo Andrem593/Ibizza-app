@@ -28,7 +28,8 @@
                 <div class="table-responsive p-3">
                     <table id="datatable" class="display table table-striped table-sm table-hover fw-bold" >
                         <thead class="bg-ibizza text-center">
-                            <tr>                                
+                            <tr>
+                                <th>IDENTIFICACIÓN</th>                                
                                 <th>NOMBRE USUARIO</th>
                                 <th>EMAIL</th>
                                 <th>TIPO USUARIO</th>

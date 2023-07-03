@@ -14,8 +14,8 @@
             @if (Auth::user()->role != 'Empresaria')
             <div class="row ">
                 <div class="col mb-2">
-                    <label class="form-label">Nombre del Cliente:</label>
-                    <input type="text" class="form-control p-1" wire:model='cliente' placeholder="Ingrese el nombre del cliente para su pedido">
+                    <label class="form-label">Nombre de Empresaria:</label>
+                    <input type="text" class="form-control p-1" wire:model='cliente' placeholder="Ingrese el nombre de la empresaria para su pedido">
                 </div>
             </div>
             @endif
@@ -67,7 +67,7 @@
                         <div class="col-6">
                             <span>{{$tallas[0]->nombre_mostrar}}</span>
                             <br>
-                            <span>Marca: {{$tallas[0]->nombre_marca}} | STOCK: <b>{{$stock}}</b></span>
+                            <span class="{{$stock == 0 ? 'badge badge-pill bg-danger' : ''}}">Marca: {{$tallas[0]->nombre_marca}} | STOCK: <b>{{$stock == 0 ? 'AGOTADO': $stock}}</b></span>
                         </div>
                         <div class="col-6">
                             <span class="badge badge-pill badge-secondary" style="font-size: 0.9rem;">PVP: ${{$tallas[0]->valor_venta}}</span>

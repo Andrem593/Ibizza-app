@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Ventas;
+use App\Producto;
 use App\Empresaria;
 use App\Models\User;
 use App\Models\Venta;
-use App\Producto;
 use Illuminate\Http\Request;
+use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Jetstream\Jetstream;
-use Spatie\Permission\Models\Role;
-use Ventas;
 
 class userController extends Controller
 {
@@ -45,7 +46,10 @@ class userController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        if($request->tipoId =='cedula') $request->validate(['identificacion' => ['required', 'numeric', 'digits_between:10,10' ,'unique:users']]);
+        if($request->tipoId =='ruc') $request->validate(['identificacion' => ['required', 'numeric','digits_between:10,13' ,'unique:users']]);
+        if($request->tipoId =='pasaporte') $request->validate(['identificacion' => ['required', 'string', 'max:20', 'min:6','unique:users']]);    
+        $request->validate([// 'unique:users
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'role'=>['required','string','max:50'],
@@ -74,16 +78,36 @@ class userController extends Controller
     }
     public function edit($id)
     {
-        //
+        $usuario = User::find($id);
+        $roles = Role::all();
+        return view('usuario.edit',compact('usuario','roles'));
     }
 
     public function update(Request $request, $id)
     {
-        //
+        if($request->tipoId =='cedula') $request->validate(['identificacion' => ['required', 'numeric', 'digits_between:10,10' ,'unique:users']]);
+        if($request->tipoId =='ruc') $request->validate(['identificacion' => ['required', 'numeric','digits_between:10,13' ,'unique:users']]);
+        if($request->tipoId =='pasaporte') $request->validate(['identificacion' => ['required', 'string', 'max:20', 'min:6','unique:users']]);    
+
+
+        $usuario = User::find($id);
+        $usuario->identificacion = $request->identificacion;
+        $usuario->name = $request->name;
+        $usuario->email = $request->email;
+        $rol_usuario =DB::table('roles')->find($request->role);
+        $usuario->role = $rol_usuario->name;         
+        if($usuario->save()){
+            $message = 'nuevo usuario creado';
+        }else{
+            $message = 'error en base';
+        }
+        $usuario->roles()->sync($request->role);
+        return redirect()->route('usuario.index')
+            ->with('success', 'Se actualizó el usuario correctamente');
     }
     public function destroy($id)
     {
-        $usuario = User::find($id)->delete();
+        User::find($id)->delete();
 
         return redirect()->route('usuario.index')
             ->with('success', 'Se eliminó el usuario');
@@ -103,6 +127,9 @@ class userController extends Controller
         return $response;
     }
     public function dashboard(){
+        if(Auth::user()->role == 'Asesor'){
+            return redirect()->route('venta.pedido');
+        }
         $empresarias = Empresaria::all()->count();
         $ventas = Venta::all()->count();
         $ventaCatalogo = Venta::join('catalogos','ventas.id_catalogo','=','catalogos.id')

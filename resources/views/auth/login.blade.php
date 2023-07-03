@@ -47,12 +47,12 @@
                         <div class="d-flex justify-content-end align-items-baseline">
                             @if (Route::has('password.request'))
                                 <a class="text-muted me-3" href="{{ route('password.request') }}">
-                                    {{ __('Olvidate tu contraseña?') }}
+                                    {{ __('Olvidaste tu contraseña?') }}
                                 </a>
                             @endif
 
                             <x-jet-button>
-                                {{ __('Log in') }}
+                                {{ __('Iniciar Sesión') }}
                             </x-jet-button>
                         </div>
                     </div>
