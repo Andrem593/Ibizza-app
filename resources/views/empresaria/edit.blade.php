@@ -12,7 +12,7 @@
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <span class="card-title">Atualizar datos de Empresaria</span>
+                        <span class="card-title">Actualizar datos de Empresaria</span>
                         <div class="float-right">
                             <a href="{{ route('empresarias.index') }}" class="btn btn-ibizza btn-sm float-right"  data-placement="left">
                                 <i class="fas fa-chevron-left me-1"></i>{{ __('Regresar') }}

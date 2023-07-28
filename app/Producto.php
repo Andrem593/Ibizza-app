@@ -69,10 +69,10 @@ class Producto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    // public function marca()
-    // {
-    //     return $this->hasOne('App\Marca', 'id', 'marca_id');
-    // }
+    public function marca()
+    {
+         return $this->hasOne(Marca::class, 'id', 'marca_id');
+    }
     
 
 }

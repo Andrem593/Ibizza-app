@@ -622,6 +622,228 @@ function crearTablaCatalogo(data, ruta) {
     })
 }
 
+function crearTablaPCatalogo(data, ruta) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar_regla" style="width:30px"> <i class="fas fa-trash"></i></button>';
+    let dataTable = $('#datatable').DataTable({
+
+        destroy: true,
+        "processing": true,
+        "ajax": {
+            "url": ruta,
+            "method": "POST",
+            "data": data,
+            "dataSrc": function (json) {
+                if (json == 'no data') {
+                    return [];
+                } else {
+                    return json;
+                }
+            },
+        },
+        "columns": [
+        {
+            "data": "id"
+        },
+        {
+            "data": "catalogo.nombre"
+        },
+        {
+            "data": "tipo_empresaria"
+        },
+        {
+            "data": "condicion"
+        },
+        {
+            "data": "operador"
+        },
+        {
+            "data": "cantidad"
+        },
+        {
+            "data": "valor"
+        },
+        {
+            "data": "estado",
+            "render": function (data, type, row) {
+                let estado = '<span class="badge bg-secondary">Inactivo</span>';
+                if (data == 1) {
+                    estado = '<span class="badge bg-success">Activo</span>'
+                }
+                return estado;
+            }
+        },
+        {
+            "data": 'id',
+            "render": function (data, type, row) {
+                return '<a href="/regla/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
+            }
+        },
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "Todo"]
+        ],
+        "columnDefs": [{
+            "targets": [6],
+            "orderable": false,
+            "searchable": false
+        },
+        ],
+        "order": [
+            [1, 'asc']
+        ],
+        "language": espanol,
+        //para usar los botones
+        responsive: false,
+        autoWidth: false,
+        dom: 'Bfrtilp',
+        buttons: [{
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
+        ]
+    });
+    if (dataTable.length == 0) {
+        dataTable.clear();
+        dataTable.draw();
+    }
+
+    $('#datatable tbody').on('click', '.eliminar', function () {
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#elemento_eliminar').html(data.id);
+        $('#id_eliminar').val(data.id)
+        $('#form_eliminar').attr('action', "/parametros/" + data.id);
+    })
+}
+
+function crearTablaReservas(data, ruta) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar_regla" style="width:30px"> <i class="fas fa-trash"></i></button>';
+    let dataTable = $('#datatable').DataTable({
+        destroy: true,
+        "processing": true,
+        "ajax": {
+            "url": ruta,
+            "method": "POST",
+            "data": data,
+            "dataSrc": function (json) {
+                if (json == 'no data') {
+                    return [];
+                } else {
+                    return json;
+                }
+            },
+        },
+        "columns": [
+        {
+            "data": "id"
+        },
+        {
+            "data": "nombre_cliente"
+        },
+        {
+            "data": "empresaria.tipo_cliente"
+        },
+        {
+            "data": "cantidad_total"
+        },
+        {
+            "data": "total_venta"
+        },
+        {
+            "data": "usuario.name"
+        },
+        {
+            "data": "created_at",
+            "render": function (data, type, row) {
+                return moment(data).format('DD/MM/YYYY');
+            }
+        },
+        {
+            "data": "created_at",
+            "render": function (data, type, row) {
+                var fecha = moment(data).add(3, 'days');
+                return fecha.format('DD/MM/YYYY');
+            }
+        }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "Todo"]
+        ],
+        "columnDefs": [{
+            "targets": [6],
+            "orderable": false,
+            "searchable": false
+        },
+        ],
+        "order": [
+            [1, 'asc']
+        ],
+        "language": espanol,
+        //para usar los botones
+        responsive: false,
+        autoWidth: false,
+        dom: 'Bfrtilp',
+        buttons: [{
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
+        ]
+    });
+    if (dataTable.length == 0) {
+        dataTable.clear();
+        dataTable.draw();
+    }
+}
+
 function crearTablaPremio(data, ruta) {
     $.ajaxSetup({
         headers: {
@@ -870,6 +1092,13 @@ function crearTablaEmpresarias(data, ruta) {
             "data": "nombre_vendedor"
         },
         {
+            "data": "created_at",
+            "render": function (data, type, row) {
+                data = data.split(' ');
+                return data[0];
+            }            
+        },
+        {
             "data": "estado",
             "render": function (data, type, row) {
                 let estado = '<span class="badge bg-danger">Inactivo</span>';
@@ -1020,7 +1249,7 @@ function crearTablaVentas(data, ruta) {
             //{ "width": "1%", "targets": 0 }
         ],
         "order": [
-            [1, 'asc']
+            [0, 'desc']
         ],
         "language": espanol,
         //para usar los botones
@@ -1073,44 +1302,62 @@ function crearTablaVentas(data, ruta) {
                 let data = JSON.parse(response);
                 let empresaria = data['empresaria'];
                 let venta = data['venta'];
-                $('#factura_nombre').text(venta['factura_nombres'])
-                $('#provincia').text(empresaria['nombre_provincia'])
-                $('#ciudad').text(empresaria['nombre_ciudad'])
-                $('#direccion').text(venta['direccion_envio'])
-                $('#telefono').text(empresaria['telefono'])
                 $('#venta').text(venta['id'])
+                $('#btn-descarga').attr( 'href','/venta/comprobante/' + venta['id']);
+                $('#fcedula').text(venta['factura_identificacion'])
+                $('#fnombre').text(venta['factura_nombres'])
+                $('#empresaria').text(empresaria['nombres'] + ' ' + empresaria['apellidos'])
+                $('#cedula').text(empresaria['cedula'])
+                $('#telefono').text(empresaria['telefono'])
+                $('#correo').text(empresaria['usuario']['email'])
+                $('#direccion').text(venta['direccion_envio'])
+                $('#referencia').text(venta['observacion'])
                 $('#imagen_path').val(venta['recibo']);
                 if (venta['recibo'] != null) {
                     $('#imagen_defecto').attr('src',venta['recibo']);
                 }
-                $('#vendedor').text(empresaria['nombre_vendedor'])
+                $('#vendedor').text(venta['vendedor']['name'])
                 let fecha = venta['created_at'];
                 fecha = fecha.split('T');
                 $('#fecha').text(fecha[0]);
                 data = data['pedidos'];
                 $('#tabla_factura tbody').html('');
                 let total_factura = 0
+                let cantidad_total = 0
+                let envio = 0
+                let ganancia = 0
                 $.each(data, function (i, v) {
+                    let image = '/img/imagen-no-disponible.jpg';
+                    if(v['imagen_producto'] != null && v['imagen_producto'] != ''){
+                        image = '/storage/images/productos/' + v['imagen_producto'];
+                    }
                     let total = v['precio'] * v['cantidad'];
                     total = total.toFixed(2);
                     $('#tabla_factura tbody').append('<tr>' +
-                        '<td>' + v['id'] + '</td>' +
+                        '<td><img src="' + image + '" width="50px"></td>' +
                         '<td>' + v['nombre_producto'] + '</td>' +
                         '<td>' + v['color_producto'] + '</td>' +
                         '<td>' + v['talla_producto'] + '</td>' +
+                        '<td>' + total + '</td>' +
+                        '<td>0%</td>' +
                         '<td>' + v['cantidad'] + '</td>' +
                         '<td>$' + total + '</td>' +
+                        '<td></td>' +
                         '</tr>')
                     total_factura = parseFloat(total) + parseFloat(total_factura);
+                    cantidad_total = parseInt(v['cantidad']) + parseInt(cantidad_total);
                 })
                 total_factura = total_factura.toFixed(2)
-                let iva = total_factura * 0.12
-                iva = iva.toFixed(2)
+                envio = 3
+
                 $('#subtotal').text(total_factura);
-                $('#iva').text(iva);
-                total_factura = parseFloat(total_factura) + parseFloat(iva);
-                total_factura = total_factura.toFixed(2)
+                $('#cant_total').text(cantidad_total);    
                 $('#total_fac').text(total_factura);
+                $('#envio').text(envio);
+                $('#tot_pagar').text(parseFloat(total_factura) + parseFloat(envio));
+                $('#ganancia').text(0);
+                
+
             }
         })
     })
@@ -1395,3 +1642,4 @@ function reporteVentas() {
         ]
     });    
 }
+

@@ -2,8 +2,11 @@
 
 namespace App;
 
+use App\Models\User;
+use App\Models\Venta;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Validation\Rule;
 
 /**
  * Class Empresaria
@@ -26,17 +29,7 @@ use Illuminate\Validation\Rule;
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Empresaria extends Model
-{
-    
-    static $rules = [
-		'cedula' => ['required', 'max:13','unique:empresarias'],
-		'nombres' => 'required',
-    'apellidos' => 'required',
-    'tipo_cliente' => 'required',
-    'id_ciudad' => 'required',
-    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-    'password' => ['required', 'string', 'min:8']
-    ];
+{   
 
     protected $perPage = 20;
 
@@ -45,8 +38,35 @@ class Empresaria extends Model
      *
      * @var array
      */
-    protected $fillable = ['cedula','nombres','apellidos','fecha_nacimiento','direccion','referencia','direccion_envio','referencia_envio','tipo_cliente','email','password','estado','telefono','id_ciudad','vendedor','id_user'];
+    protected $fillable = ['tipo_id','cedula','nombres','apellidos','fecha_nacimiento','direccion','referencia','direccion_envio','referencia_envio','tipo_cliente','email','password','estado','telefono','id_ciudad','vendedor','id_user'];
 
+    public function pedidos()
+    {
+        return $this->hasMany(Venta::class, 'id_empresaria', 'id');
+    }
 
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public static function getRules()
+    {
+        $today = Carbon::today();
+        $minAgeDate = $today->subYears(18)->format('Y-m-d');
+
+        return [
+            'nombres' => 'required',
+            'fecha_nacimiento' => [
+                'required',
+                'date',
+                'before_or_equal:' . $minAgeDate,                
+            ],
+            'apellidos' => 'required',
+            'id_ciudad' => 'required',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8']
+        ];
+    }
 
 }

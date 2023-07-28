@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
+
 /**
  * Class EmpresariaController
  * @package App\Http\Controllers
@@ -41,7 +42,8 @@ class EmpresariaController extends Controller
     {
         $empresaria = new Empresaria();
         $provincias = DB::table('provincias')->get();
-        return view('empresaria.create', compact('empresaria', 'provincias'));
+        $vendedores = null;
+        return view('empresaria.create', compact('empresaria', 'provincias', 'vendedores'));
     }
 
     /**
@@ -52,29 +54,34 @@ class EmpresariaController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Empresaria::$rules);
+        if ($request->tipo_id == 'cedula') $request->validate(['cedula' => ['required', 'numeric', 'digits_between:10,10', 'unique:empresarias']]);
+        if ($request->tipo_id == 'ruc') $request->validate(['cedula' => ['required', 'numeric', 'digits_between:10,13', 'unique:empresarias']]);
+        if ($request->tipo_id == 'pasaporte') $request->validate(['cedula' => ['required', 'string', 'max:20', 'min:6', 'unique:empresarias']]);
+
+        request()->validate(Empresaria::getRules());
         $userData = [
-            'name'=>trim(strtoupper($request->nombres)),
-            'email'=>trim($request->email),
-            'password'=>Hash::make($request->password),
-            'role'=>'Empresaria'
+            'name' => trim(strtoupper($request->nombres)),
+            'email' => trim($request->email),
+            'password' => Hash::make($request->password),
+            'role' => 'Empresaria'
         ];
         $user = User::create($userData);
-        $user->roles()->sync(2);// 2 es el id de el rol de empresaria 
+        $user->roles()->sync(2); // 2 es el id de el rol de empresaria 
         $empresariaData = [
-            'cedula'=> trim($request->cedula),
-            'nombres'=> trim(strtoupper($request->nombres)),
-            'apellidos'=> trim(strtoupper($request->apellidos)),
-            'fecha_nacimiento'=> $request->fecha_nacimiento,
-            'direccion'=> trim(strtoupper($request->direccion)),
-            'tipo_cliente'=> trim(strtoupper($request->tipo_cliente)),
-            'telefono'=> trim($request->telefono),
-            'id_ciudad'=> $request->id_ciudad,
-            'vendedor'=> Auth::user()->id,
-            'id_user'=> $user->id
+            'tipo_id' => $request->tipo_id,
+            'cedula' => trim($request->cedula),
+            'nombres' => trim(strtoupper($request->nombres)),
+            'apellidos' => trim(strtoupper($request->apellidos)),
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'direccion' => trim(strtoupper($request->direccion)),
+            'tipo_cliente' => 'PROSPECTO',
+            'telefono' => trim($request->telefono),
+            'id_ciudad' => $request->id_ciudad,
+            'vendedor' => Auth::user()->id,
+            'id_user' => $user->id
         ];
         Empresaria::create($empresariaData);
-        
+
         return redirect()->route('empresarias.index')
             ->with('success', 'Empresaria Creada Correctamente.');
     }
@@ -89,7 +96,7 @@ class EmpresariaController extends Controller
     {
         $empresaria = Empresaria::find($id);
         $provincias = DB::table('provincias')->get();
-        return view('empresaria.show', compact('empresaria','provincias'));
+        return view('empresaria.show', compact('empresaria', 'provincias'));
     }
 
     /**
@@ -101,13 +108,14 @@ class EmpresariaController extends Controller
     public function edit($id)
     {
         $empresaria = Empresaria::where('empresarias.id', $id)
-        ->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')
-        ->select('empresarias.*','ciudades.provincia_id')
-        ->first();
+            ->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')
+            ->select('empresarias.*', 'ciudades.provincia_id')
+            ->first();
         $usuario = User::find($empresaria->id_user);
         $provincias = DB::table('provincias')->get();
         $ciudades = DB::table('ciudades')->where('provincia_id', $empresaria->provincia_id)->where('estado', 'A')->get();
-        return view('empresaria.edit', compact('empresaria','provincias','usuario','ciudades'));
+        $vendedores = User::where('role', 'Asesor')->get();
+        return view('empresaria.edit', compact('empresaria', 'provincias', 'usuario', 'ciudades', 'vendedores'));
     }
 
     /**
@@ -119,26 +127,30 @@ class EmpresariaController extends Controller
      */
     public function update(Request $request, Empresaria $empresaria)
     {
+        if ($request->tipo_id == 'cedula') $request->validate(['cedula' => ['required', 'numeric', 'digits_between:10,10']]);
+        if ($request->tipo_id == 'ruc') $request->validate(['cedula' => ['required', 'numeric', 'digits_between:10,13']]);
+        if ($request->tipo_id == 'pasaporte') $request->validate(['cedula' => ['required', 'string', 'max:20', 'min:6']]);
+
         request()->validate([
             'nombres' => 'required',
             'apellidos' => 'required',
-            'tipo_cliente' => 'required',
             'id_ciudad' => 'required',
         ]);
         $empresariaData = [
-            'nombres'=> trim(strtoupper($request->nombres)),
-            'apellidos'=> trim(strtoupper($request->apellidos)),
-            'fecha_nacimiento'=> $request->fecha_nacimiento,
-            'direccion'=> trim(strtoupper($request->direccion)),
-            'tipo_cliente'=> trim(strtoupper($request->tipo_cliente)),
-            'telefono'=> trim($request->telefono),
-            'id_ciudad'=> $request->id_ciudad,
-            'vendedor'=> Auth::user()->id,
-            'estado'=> $request->tipo_cliente != 'INACTIVO WEB' ? 'A' : 'I',
+            'tipo_id' => $request->tipo_id,
+            'nombres' => trim(strtoupper($request->nombres)),
+            'apellidos' => trim(strtoupper($request->apellidos)),
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'direccion' => trim(strtoupper($request->direccion)),
+            'tipo_cliente' => trim(strtoupper($request->tipo_cliente)),
+            'telefono' => trim($request->telefono),
+            'id_ciudad' => $request->id_ciudad,
+            'vendedor' => $request->vendedor != null ? $request->vendedor : Auth::user()->id,
+            'estado' => $request->tipo_cliente != 'INACTIVO WEB' ? 'A' : 'I',
         ];
 
         $empresaria->update($empresariaData);
-        
+
 
         return redirect()->route('empresarias.index')
             ->with('success', 'Empresaria actualizado correctamente.');
@@ -148,7 +160,7 @@ class EmpresariaController extends Controller
     public function destroy($id)
     {
         $empresaria = Empresaria::find($id);
-        Empresaria::find($id)->update(['estado'=>'I', 'id_user'=>null, 'tipo_cliente'=>'INACTIVO WEB']);
+        Empresaria::find($id)->update(['estado' => 'I', 'id_user' => null, 'tipo_cliente' => 'INACTIVO WEB']);
         return redirect()->route('empresarias.index')
             ->with('success', 'Empresaria Eliminada correctamente');
     }
@@ -159,14 +171,52 @@ class EmpresariaController extends Controller
             ->get();
         return json_encode($ciudades);
     }
-    public function empresariaDatatable(){
+    public function empresariaDatatable()
+    {
         $response = '';
         if ($_POST['funcion'] == 'listar_todo') {
-            $empresarias = DB::table('empresarias')
-            ->join('ciudades','empresarias.id_ciudad','=', 'ciudades.id')
-            ->join('users','users.id', '=', 'empresarias.vendedor')
-            ->select('empresarias.*','ciudades.descripcion as nombre_ciudad','users.name as nombre_vendedor')
-            ->get();
+            $user = Auth::user();
+            if ($user->role == 'Asesor') {
+                $empresarias = $empresarias = DB::table('empresarias')
+                    ->join('ciudades', 'empresarias.id_ciudad', '=', 'ciudades.id')
+                    ->join('users', 'users.id', '=', 'empresarias.vendedor')
+                    ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'users.name as nombre_vendedor')
+                    ->where('empresarias.vendedor', '=', $user->id)
+                    ->get();
+            } else {
+                $empresarias = DB::table('empresarias')
+                    ->join('ciudades', 'empresarias.id_ciudad', '=', 'ciudades.id')
+                    ->join('users', 'users.id', '=', 'empresarias.vendedor')
+                    ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'users.name as nombre_vendedor')
+                    ->get();
+            }
+
+            if (count($empresarias) == 0) {
+                $empresarias = 'no data';
+            }
+            $response = json_encode($empresarias);
+        }
+        if ($_POST['funcion'] == 'filtro') {
+            $user = Auth::user();
+            if ($user->role == 'Asesor') {
+                $empresarias = $empresarias = DB::table('empresarias')
+                    ->join('ciudades', 'empresarias.id_ciudad', '=', 'ciudades.id')
+                    ->join('users', 'users.id', '=', 'empresarias.vendedor')
+                    ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'users.name as nombre_vendedor')
+                    ->where('empresarias.vendedor', '=', $user->id)
+                    ->whereBetween('empresarias.created_at', [$_POST['desde'], $_POST['hasta']])
+                    ->get();
+            } else {
+                $desde = $_POST['desde'];
+                $hasta = $_POST['hasta'];
+                $hasta = date('Y-m-d', strtotime($hasta . ' +1 day'));
+                $empresarias = DB::table('empresarias')
+                    ->join('ciudades', 'empresarias.id_ciudad', '=', 'ciudades.id')
+                    ->join('users', 'users.id', '=', 'empresarias.vendedor')
+                    ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'users.name as nombre_vendedor')
+                    ->whereBetween('empresarias.created_at', [$desde, $hasta])
+                    ->get();
+            }
             if (count($empresarias) == 0) {
                 $empresarias = 'no data';
             }
@@ -178,13 +228,13 @@ class EmpresariaController extends Controller
     {
         $empresaria = Empresaria::find($request->id_empresaria);
         $empresaria->update([
-            'nombres'=>$request->nombres,
-            'apellidos'=>$request->apellidos,
-            'direccion'=>$request->direccion,
-            'telefono'=>$request->telefono,
-            'referencia'=>$request->referencia,
-            'direccion_envio'=>$request->direccion_envio,
-            'referencia_envio'=>$request->referencia_envio,
+            'nombres' => $request->nombres,
+            'apellidos' => $request->apellidos,
+            'direccion' => $request->direccion,
+            'telefono' => $request->telefono,
+            'referencia' => $request->referencia,
+            'direccion_envio' => $request->direccion_envio,
+            'referencia_envio' => $request->referencia_envio,
         ]);
         $user = User::find($empresaria->id_user);
         $image = $user->profile_photo_path;
@@ -197,12 +247,12 @@ class EmpresariaController extends Controller
                     $constraint->aspectRatio();
                 })
                 ->save($ruta);
-            $image = "profile-photos/".$image;
+            $image = "profile-photos/" . $image;
         }
         $user->update([
-            'name'=>$request->nombres,
-            'email'=>$request->email,
-            'profile_photo_path'=>$image,
+            'name' => $request->nombres,
+            'email' => $request->email,
+            'profile_photo_path' => $image,
         ]);
         return redirect()->route('web.perfil-empresaria')
             ->with('success', 'Datos Actualizado Correctamente');

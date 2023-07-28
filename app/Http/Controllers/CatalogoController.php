@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Catalogo;
 use App\Models\Catalogo_has_Producto;
+use App\Models\ParametroCatalogo;
 use App\Producto;
 use Carbon\Carbon;
 use Intervention\Image\Facades\Image;
@@ -235,5 +236,106 @@ class CatalogoController extends Controller
         );
 
         return json_encode($json_data);
+    }
+
+    public function parametros()
+    {
+        return view('catalogo.parametros');
+    }
+
+    public function parametros_listar()
+    {
+
+        $response = '';
+        if ($_POST['funcion'] == 'listar_todo') {
+
+            $parametros = ParametroCatalogo::with('catalogo')->get();
+
+            if (count($parametros) == 0) {
+                $parametros = 'no data';
+            }
+            $response = json_encode($parametros);
+        }
+
+        return $response;
+    }
+
+    public function reglas()
+    {
+        $catalogos = Catalogo::all();
+
+        return view('catalogo.reglas', compact('catalogos'));
+    }
+
+    public function regla_edit($id)
+    {
+        $regla = ParametroCatalogo::find($id);
+        $catalogos = Catalogo::all();
+
+        return view('catalogo.reglasEdit', compact('regla', 'catalogos'));
+    }
+
+    public function reglasCreate(Request $request)
+    {
+        $request->validate([
+            'catalogo' => 'required|exists:catalogos,id',
+            'tipo_cliente' => 'required',
+            'condicion' => 'required',
+            'operador' => 'required',
+            'cantidad' => 'required',
+            'valor' => 'required|numeric'
+        ]);
+
+        try {
+            ParametroCatalogo::create([
+                'catalogo_id' => $request->catalogo,
+                'tipo_empresaria' => $request->tipo_cliente,
+                'condicion' => $request->condicion,
+                'operador' => $request->operador,
+                'cantidad' => $request->cantidad,
+                'valor' => $request->valor
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->route('catalogo.reglas')->with('error', 'Error al crear la regla: ' . $th->getMessage());
+        }
+
+        return redirect()->route('catalogo.parametros')->with('success', 'Regla creada correctamente');
+    }
+
+    public function reglasUpdate($id, Request $request)
+    {
+        $request->validate([
+            'catalogo' => 'required|exists:catalogos,id',
+            'tipo_cliente' => 'required',
+            'condicion' => 'required',
+            'operador' => 'required',
+            'cantidad' => 'required',
+            'valor' => 'required|numeric'
+        ]);
+
+        try {
+            ParametroCatalogo::find($id)->update([
+                'catalogo_id' => $request->catalogo,
+                'tipo_empresaria' => $request->tipo_cliente,
+                'condicion' => $request->condicion,
+                'operador' => $request->operador,
+                'cantidad' => $request->cantidad,
+                'valor' => $request->valor,
+                'estado' => 1
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->route('catalogo.reglas')->with('error', 'Error al actualizar la regla: ' . $th->getMessage());
+        }
+
+        return redirect()->route('catalogo.parametros')->with('success', 'Regla actualizada correctamente');
+    }
+
+    public function reglasDelete($id)
+    {
+        ParametroCatalogo::find($id)->update([
+            'estado' => 0
+        ]);
+
+        return redirect()->route('catalogo.parametros')->with('success', 'Regla eliminada correctamente');
     }
 }

@@ -140,6 +140,34 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->post('/catalogo/asignarProducto', [CatalogoController::class,'asignarProducto'])
 ->name('catalogo.asignarProducto');
 
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/catalogo/parametros', [CatalogoController::class,'parametros'])
+->name('catalogo.parametros');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/catalogo/parametros/listar', [CatalogoController::class,'parametros_listar'])
+->name('catalogo.parametros.index');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/regla/{id}/edit', [CatalogoController::class,'regla_edit'])
+->name('parametros.edit');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/catalogo/reglas', [CatalogoController::class,'reglas'])
+->name('catalogo.reglas');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/catalogo/reglas/create', [CatalogoController::class,'reglasCreate'])
+->name('catalogo.reglas.create');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('reglas/edit/{id}', [CatalogoController::class,'reglasUpdate'])
+->name('catalogo.reglas.edit');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->delete('parametros/{id}', [CatalogoController::class,'reglasDelete'])
+->name('catalogo.reglas.delete');
+
 // PREMIO
 
 Route::resource('premios', PremioController::class)
@@ -255,9 +283,21 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->name('venta.saveExcel');
 
 Route::middleware(['auth:sanctum', 'verified'])
-->get('/venta/pedido', [VentaController::class,'tomar_pedido'])
+->get('/venta/pedido/{empresaria?}', [VentaController::class,'tomar_pedido'])
 ->name('venta.pedido');
 
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/venta/pedidos-guardados', [VentaController::class,'pedidos_guardados'])
 ->name('venta.pedidos-guardados');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/venta/pedidos-reservados', [VentaController::class,'pedidos_reservados'])
+->name('venta.pedidos-reservados');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/venta/datatable/reservas', [VentaController::class,'datatable_reservas'])
+->name('venta.tabla-reservas');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/venta/comprobante/{id}', [VentaController::class,'generarComprobante'])
+->name('venta.comprobante');

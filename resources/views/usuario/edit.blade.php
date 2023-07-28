@@ -16,9 +16,9 @@
                 <div class="form-group">
                     <label for="name">Tipo de identificación</label>
                     <select class="form-select" name="tipoId" id="tipoId">
-                        <option value="cedula">Cédula</option>
-                        <option value="pasaporte">Pasaporte</option>
-                        <option value="ruc">Ruc</option>
+                        <option value="cedula" {{ $usuario->tipo_id == 'cedula' ? 'selected' : '' }}>Cédula</option>
+                        <option value="pasaporte" {{ $usuario->tipo_id == 'pasaporte' ? 'selected' : '' }}>Pasaporte</option>
+                        <option value="ruc" {{ $usuario->tipo_id == 'ruc' ? 'selected' : '' }}>Ruc</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -55,10 +55,12 @@
                     <label for="role" class="form-label">Tipo de Usuario</label>
                     <select name="role" class="form-control">
                         @foreach ($roles as $role)
-                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                            <option value="{{ $role->id }}" {{ $role->name == $usuario->role ? 'selected' : '' }}>
+                                {{ $role->name }}
+                            </option>
                         @endforeach
                     </select>
-                </div>
+                </div>                
                 @error('role')
                     <div class="alert alert-danger p-1" role="alert">
                         <i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}

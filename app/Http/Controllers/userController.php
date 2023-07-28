@@ -57,6 +57,8 @@ class userController extends Controller
         ]);
 
         $user = new User();
+        $user->tipo_id = $request->tipoId;
+        $user->identificacion = $request->identificacion;
         $user->name = $request->name;
         $user->email = $request->email;
         $rol_usuario =DB::table('roles')->find($request->role);
@@ -85,13 +87,14 @@ class userController extends Controller
 
     public function update(Request $request, $id)
     {
-        if($request->tipoId =='cedula') $request->validate(['identificacion' => ['required', 'numeric', 'digits_between:10,10' ,'unique:users']]);
-        if($request->tipoId =='ruc') $request->validate(['identificacion' => ['required', 'numeric','digits_between:10,13' ,'unique:users']]);
-        if($request->tipoId =='pasaporte') $request->validate(['identificacion' => ['required', 'string', 'max:20', 'min:6','unique:users']]);    
+        if($request->tipoId =='cedula') $request->validate(['identificacion' => ['required', 'numeric', 'digits_between:10,10']]);
+        if($request->tipoId =='ruc') $request->validate(['identificacion' => ['required', 'numeric','digits_between:10,13']]);
+        if($request->tipoId =='pasaporte') $request->validate(['identificacion' => ['required', 'string', 'max:20', 'min:6']]);    
 
 
         $usuario = User::find($id);
         $usuario->identificacion = $request->identificacion;
+        $usuario->tipo_id = $request->tipoId;
         $usuario->name = $request->name;
         $usuario->email = $request->email;
         $rol_usuario =DB::table('roles')->find($request->role);

@@ -6,7 +6,9 @@ use App\Models\Pedido;
 use Illuminate\Http\Request;
 use App\Models\Venta;
 use App\Empresaria;
+use App\Models\Separado;
 use Intervention\Image\Facades\Image;
+use PDF;
 
 class VentaController extends Controller
 {
@@ -18,7 +20,7 @@ class VentaController extends Controller
         $response = '';
         if ($_POST['funcion'] == 'listar_todo') {
 
-            $ventas = Venta::all();
+            $ventas = Venta::orderBy('id','desc')->get();
             if (count($ventas) == 0) {
                 $ventas = 'no data';
             }
@@ -32,13 +34,12 @@ class VentaController extends Controller
         ->join('productos', 'productos.id', '=', 'pedidos.id_producto')
         ->select('pedidos.*', 'productos.clasificacion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')
         ->get();
-        $venta = Venta::where('id', $request->id_venta)->first();
-        $empresaria = Empresaria::where('empresarias.id', $venta->id_empresaria)
-            ->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')
-            ->join('provincias', 'provincias.id', '=', 'ciudades.provincia_id')
-            ->join('users', 'empresarias.vendedor', '=', 'users.id')
-            ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'provincias.descripcion as nombre_provincia', 'users.email as correo_vendedor', 'users.name as nombre_vendedor')
-            ->first();
+        $venta = Venta::where('id', $request->id_venta)
+        ->with('vendedor')
+        ->first();
+        $empresaria = Empresaria::where('id', $venta->id_empresaria)
+        ->with('usuario')
+        ->first();
         $json = [];
         $json['pedidos'] = $pedidos;
         $json['venta'] = $venta;
@@ -103,13 +104,34 @@ class VentaController extends Controller
         }
         
     }
-    public function tomar_pedido()
-    {
-        return view('venta.pedido');
+    public function tomar_pedido($empresaria = null)
+    {                
+        if ($empresaria != null) {
+            $empresaria = Empresaria::find($empresaria);
+        }
+        return view('venta.pedido', compact('empresaria'));
     }
     public function pedidos_guardados()
     {
         return view('venta.pedidos-guardados');
+    }
+    public function pedidos_reservados()
+    {
+        return view('venta.pedidos-reservados');
+    }
+
+    public function datatable_reservas()
+    {
+        $response = '';
+        if ($_POST['funcion'] == 'listar_todo') {
+
+            $reservas = Separado::with('usuario', 'empresaria')->get();
+            if (count($reservas) == 0) {
+                $reservas = 'no data';
+            }
+            $response = json_encode($reservas);
+        }
+        return $response;
     }
     public function cargaRecibo()
     {
@@ -125,5 +147,22 @@ class VentaController extends Controller
             $venta->recibo = 'storage/images/recibos/'.$image;
             $venta->save();                
         }
+    }
+
+    public function generarComprobante($id)
+    {
+        $pedidos = Pedido::where('id_venta',$id)
+        ->join('productos', 'productos.id', '=', 'pedidos.id_producto')
+        ->select('pedidos.*', 'productos.clasificacion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')
+        ->get();
+        $venta = Venta::where('id', $id)
+        ->with('vendedor')
+        ->first();
+        $empresaria = Empresaria::where('id', $venta->id_empresaria)
+        ->with('usuario')
+        ->first();
+        $pdf = PDF::loadView('venta.comprobante', compact('pedidos', 'venta', 'empresaria'));
+        $pdf->getDomPDF()->set_option('colorSpace', 'rgb');
+        return $pdf->stream('comprobante.pdf');
     }
 }

@@ -92,7 +92,7 @@
                                 </div>
                             @endempty
                             @if (!empty(Auth::user()))
-                                @if (Auth::user()->role != 'Empresaria')
+                                {{-- @if (Auth::user()->role != 'Empresaria')
                                     <div class="ec-checkout-wrap margin-bottom-30">
                                         <div class="ec-checkout-block ec-check-new">
                                             <h3 class="ec-checkout-title">Asignación de Empresarias para vendedores</h3>
@@ -114,7 +114,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endif
+                                @endif --}}
                             @endif
                             <div class="ec-checkout-wrap margin-bottom-30 padding-bottom-3">
                                 <div class="ec-checkout-block ec-check-bill">

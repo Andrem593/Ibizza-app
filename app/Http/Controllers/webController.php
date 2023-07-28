@@ -504,7 +504,7 @@ class webController extends Controller
     }
     public function view_pedido()
     {
-        if (Auth::user()->role == 'Administrador') {
+        if (Auth::user()->role == 'Administrador' || Auth::user()->role == 'ADMINISTRADOR') {            
             return view('venta.pedido');
         }
         if (Auth::user()->role != 'Empresaria') {

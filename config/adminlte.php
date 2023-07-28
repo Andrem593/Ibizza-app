@@ -329,6 +329,11 @@ return [
                     'can'  => 'venta.pedidos-guardados',
                     'icon'    => 'ml-md-2 fas fa-box',
                 ],
+                [
+                    'text' => 'Pedidos Reservados',
+                    'route'  => 'venta.pedidos-reservados',
+                    'icon'    => 'ml-md-2 fas fa-list',
+                ],
             ],
         ],
         [
@@ -343,11 +348,17 @@ return [
                     'icon'    => 'ml-md-2 fas fa-folder-plus',
                 ],
                 [
-                    'text' => 'Asignar Productos',
-                    'route'  => 'catalogo.catalogoProducto',
-                    'can'  => 'catalogo.catalogoProducto',
-                    'icon'    => 'ml-md-2 fas fa-book-reader',
+                    'text' => 'Parametros',
+                    'route'  => 'catalogo.parametros',
+                    'can'  => 'catalogos.index',
+                    'icon'    => 'ml-md-2 fas fa-folder-plus',
                 ],
+                // [
+                //     'text' => 'Asignar Productos',
+                //     'route'  => 'catalogo.catalogoProducto',
+                //     'can'  => 'catalogo.catalogoProducto',
+                //     'icon'    => 'ml-md-2 fas fa-book-reader',
+                // ],
                 [
                     'text' => 'Premios',
                     'route'  => 'premios.index',

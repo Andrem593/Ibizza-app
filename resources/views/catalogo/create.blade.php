@@ -1,7 +1,7 @@
 @<x-app-layout>
     @section('title', 'Catálogo')
         <x-slot name="header">
-            EDITAR CATÁLOGO
+            CREAR CATÁLOGO
             <a class="btn btn-secondary btn-sm float-right" href="{{ route('catalogos.index') }}" data-placement="left">
                 Regresar</a>
         </x-slot>
