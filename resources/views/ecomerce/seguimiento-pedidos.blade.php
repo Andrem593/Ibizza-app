@@ -38,9 +38,9 @@
                     <div class="ec-vendor-dashboard-card">
                         <div class="ec-vendor-card-header">
                             <h5>Seguimiento de Pedidos</h5>
-                            <div class="ec-header-btn">
+                            {{-- <div class="ec-header-btn">
                                 <a class="btn btn-lg btn-primary" href="{{route('web.tienda')}}">Visitar Tienda</a>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="ec-vendor-card-body">
                             <div class="ec-vendor-card-table">

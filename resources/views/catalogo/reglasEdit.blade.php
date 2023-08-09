@@ -94,9 +94,10 @@
                         <select name="condicion"
                             class="form-select  {{ $errors->has('condicion') ? 'is-invalid' : '' }}">
                             <option value="">Seleccione una opción</option>
-                            <option value="factura" {{ $regla->condicion == 'factura' ? 'selected' : '' }} >Total a pagar</option>
-                            <option value="cantidad"  {{ $regla->condicion == 'cantidad' ? 'selected' : '' }}>Cantidad de productos</option>
-                            <option value="envio" {{ $regla->condicion == 'envio' ? 'selected' : '' }}>Costo de envio</option>
+                            <option value="factura">Total a pagar</option>
+                            <option value="cantidad">Cantidad de productos</option>
+                            <option value="envio_costo">Costo de envio por valor</option>
+                            <option value="envio_cantidad">Costo de envio por cantidad</option>
                         </select>
                         @error('condicion')
                             <p class="mt-1 p-1 text-danger" role="alert">

@@ -19,17 +19,43 @@
         @endif
 
         <div class="card-body">
+
+            <div class="row justify-content-start">
+                <div class="col mx-3 col-sm-8">
+                    <h5>Filtro de Ventas</h5>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="desde">Desde</label>
+                                <input type="date" class="form-control" id="txt_fecha_desde">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="hasta">Hasta</label>
+                                <input type="date" class="form-control" id="txt_fecha_hasta">
+                            </div>
+                        </div>
+                        {{-- <div class="col d-flex align-items-center">
+                        <button class="btn btn-ibizza mt-2" onclick="filtro()">
+                            <i class="fas fa-search"></i>                                                                                                                                                
+                        </button>
+                    </div> --}}
+                    </div>
+                </div>
+            </div>
+
             <div class="table-responsive p-3">
                 <table id="datatable" class="display table table-striped table-sm table-hover fw-bold"
                     style="font-size: 12px">
                     <thead class="bg-ibizza text-center">
                         <tr>
                             <th>ID</th>
-                            <th>CEDULA</th>
+                            <th>CÉDULA</th>
                             <th>NOMBRES</th>
-                            <th>DIRECCIÓN ENVIO</th>
-                            <th>CODIGO POSTAL</th>
-                            <th>OBSERVACION</th>
+                            <th>DIRECCIÓN ENVÍO</th>
+                            <th>EMPRESARIA</th>
+                            <th>OBSERVACIÓN</th>
                             <th>CANTIDAD</th>
                             <th>TOTAL VENTA</th>
                             <th>ESTADO VENTA</th>
@@ -70,21 +96,26 @@
                                 <div>Asesor: <span id="vendedor"></span></div>
                             </div>
 
-                            <div class="col-3">
+                            <div class="col-4">
                                 <div class="mb-1">
-                                    <button class="btn btn-secondary btn-sm" data-bs-target="#modalRecibo"
-                                        data-bs-toggle="modal">                                        
-                                        Recibo</button>
+                                    <button class="btn btn-secondary btn-sm" data-bs-target="#modalPago"
+                                        data-bs-toggle="modal">
+                                        Pagos</button>
+                                    {{-- <button class="btn btn-secondary btn-sm" data-bs-target="#modalRecibo"
+                                        data-bs-toggle="modal">
+                                        Recibo</button> --}}
                                     <a href="" id="btn-descarga" class="btn btn-success btn-sm ml-1">
                                         Descargar
                                     </a>
                                 </div>
-                            
+
                                 <div>Estado Venta:
                                     <select id="estado_venta" class="form-control-sm">
-                                        <option value="PEDIDO">PEDIDO</option>
-                                        <option value="FACTURADO">FACTURADO</option>
-                                        <option value="DESPACHADO">DESPACHADO</option>
+                                        <option value="PENDIENTE DE PAGO">PENDIENTE DE PAGO</option>
+                                        <option value="PEDIDO POR VALIDAR">PEDIDO POR VALIDAR</option>
+                                        <option value="PEDIDO APROBADO">PEDIDO APROBADO</option>
+                                        <option value="PEDIDO FACTURADO">PEDIDO FACTURADO</option>
+                                        <option value="PEDIDO DESPACHADO">PEDIDO DESPACHADO</option>
                                     </select>
                                 </div>
                             </div>
@@ -120,10 +151,10 @@
                                     <th scope="col">Color</th>
                                     <th scope="col">Talla</th>
                                     <th scope="col">Precio Catalogo</th>
-                                    <th scope="col">Descuento</th>                            
-                                    <th scope="col">Cantidad</th>                            
+                                    <th scope="col">Descuento</th>
+                                    <th scope="col">Cantidad</th>
                                     <th scope="col" width="15px">Precio Empresaria</th>
-                                    <th scope="col">Dirección</th>                                    
+                                    <th scope="col">Dirección</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -187,6 +218,80 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="pedido" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div id="cargat" class="overlay" style="visibility: hidden">
+                        <i class="fas fa-2x fa-sync fa-spin"></i>
+                    </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Tracking de Pedido #<span id="id_venta_t"></span>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <img src="{{ url('/assets/images/logo/Logo_ibizza.svg') }}" alt="Logo Ibizza" width="100px">
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="fw-bold">N° Pedido: <span id="venta_t"></span></div>
+                                <div>Fecha: <span id="fecha_t"></span></div>
+                                <div>Asesor: <span id="vendedor_t"></span></div>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <!-- The time line -->
+                                <div class="timeline">
+                                    <div>
+                                        <i class="fas fa-hand-holding-usd bg-olive"></i>
+                                        <div class="timeline-item">
+                                            <h3 id="pendiente" class="timeline-header no-border">Pendiente de Pago</h3>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-comments-dollar bg-blue"></i>
+                                        <div class="timeline-item">
+                                            <h3 id="verificar_pago" class="timeline-header no-border">Pedido por Validar
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-truck-loading bg-navy"></i>
+                                        <div class="timeline-item">
+                                            <h3 id="tomar_pedido" class="timeline-header no-border">Pedido Aprobado</h3>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-file-invoice-dollar bg-yellow"></i>
+                                        <div class="timeline-item">
+                                            <h3 id="facturado" class="timeline-header no-border">Pedido Facturado</h3>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-boxes bg-green"></i>
+                                        <div class="timeline-item">
+                                            <h3 id="despachado" class="timeline-header no-border">Pedido Despachado</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="modalRecibo" aria-hidden="true" aria-labelledby="modalReciboLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -207,9 +312,27 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modalPago" aria-hidden="true" aria-labelledby="modalPagoLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalPagoLabel">Pagos</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @livewire('guardar-pago')
+                    </div>
+                    <div class="modal-footer">
+                        {{-- <button type="button" class="btn btn-secondary" id="guardar_pago">Guardar Pago</button>                         --}}
+                        <button class="btn btn-ibizza" data-bs-target="#editar" data-bs-toggle="modal">Regresar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endpush
     @Push('scripts')
         <script src="/js/crearDataTable.js"></script>
+        <script src="{{ asset('/vendor/datatables-datetime/js/dataTables.dateTime.min.js') }}"></script>
         <script>
             const Toast = Swal.mixin({
                 toast: true,
@@ -220,13 +343,62 @@
                     toast.addEventListener('mouseenter', Swal.stopTimer)
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                 }
-            })
+            });
+
+            var minDate, maxDate;
+
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+
+                    if (settings.nTable.id !== 'datatable') {
+                        return true;
+                    }
+
+                    var min = $('#txt_fecha_desde').val();
+                    var max = $('#txt_fecha_hasta').val();
+                    var createdAt = data[9]; // Our date column in the table
+                    //console.log(min + ' ' + max);
+
+                    if ($('#txt_fecha_desde').val() === "") {
+                        min = null;
+                    }
+                    if ($('#txt_fecha_hasta').val() === "") {
+                        max = null;
+                    }
+
+                    if (
+                        (min === null && max === null) ||
+                        (min === null && moment(createdAt).isSameOrBefore(max)) ||
+                        (moment(createdAt).isSameOrAfter(min) && max === null) ||
+                        (moment(createdAt).isSameOrAfter(min) && moment(createdAt).isSameOrBefore(max))
+                    ) {
+                        return true;
+                    }
+
+                    return false;
+                }
+            );
+
             $(document).ready(function() {
+
+                minDate = new DateTime($('#txt_fecha_desde'), {
+                    format: 'YYYY-MM-DD'
+                });
+                maxDate = new DateTime($('#txt_fecha_hasta'), {
+                    format: 'YYYY-MM-DD'
+                });
+
                 var data = {
                     funcion: 'listar_todo',
                 }
                 let ruta = '/ventas/datatable'
                 crearTablaVentas(data, ruta);
+
+                var table = $("#datatable").DataTable();
+                // Refilter the table
+                $('#txt_fecha_desde, #txt_fecha_hasta').on('change', function() {
+                    table.draw();
+                });
             });
             $('#editar_venta').click(function() {
                 dato = {

@@ -152,7 +152,11 @@
                 
                                             </div>
                                             <div class="mx-auto text-center">
-                                                <a href="{{route('web.tracking-pedido',$id_venta)}}" class="btn btn-ibizza w-100 mx-auto my-2">VER SEGUIMIENTO</a>
+                                                @if ( Auth::user()->role != 'Empresaria' || Auth::user()->role != 'EMPRESARIA')
+                                                    <a href="{{route('ventas.index')}}" class="btn btn-ibizza w-100 mx-auto my-2">VER SEGUIMIENTO</a>
+                                                @else                                                    
+                                                    <a href="{{route('web.tracking-pedido',$id_venta)}}" class="btn btn-ibizza w-100 mx-auto my-2">VER SEGUIMIENTO</a>
+                                                @endif
                                             </div>
                                         </div>
                 

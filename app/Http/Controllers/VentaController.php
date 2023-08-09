@@ -8,7 +8,9 @@ use App\Models\Venta;
 use App\Empresaria;
 use App\Models\Separado;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Auth;
 use PDF;
+use App\Models\Pedidos_pendiente;
 
 class VentaController extends Controller
 {
@@ -20,7 +22,15 @@ class VentaController extends Controller
         $response = '';
         if ($_POST['funcion'] == 'listar_todo') {
 
-            $ventas = Venta::orderBy('id','desc')->get();
+            // $rol = Auth::user()->hasRole('Administrador');
+
+            $ventas = Venta::join('empresarias', 'empresarias.id', '=', 'ventas.id_empresaria')->orderBy('ventas.id','desc');
+
+            if (Auth::user()->role != 'ADMINISTRADOR') {
+                $ventas = $ventas->where("ventas.id_vendedor", Auth::user()->id);    
+            }
+
+            $ventas = $ventas->select('ventas.*')->selectRaw('concat_ws(" ", empresarias.nombres, empresarias.apellidos) as empresaria')->get();
             if (count($ventas) == 0) {
                 $ventas = 'no data';
             }
@@ -29,6 +39,25 @@ class VentaController extends Controller
         return $response;
     }
     public function datosVentas(Request $request)
+    {
+        $pedidos = Pedido::where('id_venta',$request->id_venta)
+        ->join('productos', 'productos.id', '=', 'pedidos.id_producto')
+        ->select('pedidos.*', 'productos.clasificacion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')
+        ->get();
+        $venta = Venta::where('id', $request->id_venta)
+        ->with('vendedor')
+        ->first();
+        $empresaria = Empresaria::where('id', $venta->id_empresaria)
+        ->with('usuario')
+        ->first();
+        $json = [];
+        $json['pedidos'] = $pedidos;
+        $json['venta'] = $venta;
+        $json['empresaria'] = $empresaria;
+        $json['rol'] = Auth::user()->role;
+        return json_encode($json);
+    }
+    public function datosPedido(Request $request)
     {
         $pedidos = Pedido::where('id_venta',$request->id_venta)
         ->join('productos', 'productos.id', '=', 'pedidos.id_producto')
@@ -164,5 +193,15 @@ class VentaController extends Controller
         $pdf = PDF::loadView('venta.comprobante', compact('pedidos', 'venta', 'empresaria'));
         $pdf->getDomPDF()->set_option('colorSpace', 'rgb');
         return $pdf->stream('comprobante.pdf');
+    }
+
+    public function generarPedidoGuardado($id)
+    {
+        $reservas = Separado::with('usuario', 'empresaria')->where('id', $id)->first();
+        $pedidos_pendientes = Pedidos_pendiente::where('id_separados', $id)->with('producto')->get();
+        // dd($reservas);
+        $pdf = PDF::loadView('venta.comprobante-pedido-guardado', compact('reservas', 'pedidos_pendientes'));
+        $pdf->getDomPDF()->set_option('colorSpace', 'rgb');
+        return $pdf->stream('comprobante-pedidos-guardados.pdf');
     }
 }

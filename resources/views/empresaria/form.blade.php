@@ -60,7 +60,7 @@
             <div class="col">
                 <div class="form-group">
                     {{ Form::label('tipo_empresaria') }}
-                    <select name="tipo_cliente" class="form-select" {{Auth::user()->role == 'Administrador' ? '' : 'Disabled'}} >
+                    <select name="tipo_cliente" class="form-select" {{Auth::user()->role == 'Administrador' || Auth::user()->role == 'ADMINISTRADOR' ? '' : 'Disabled'}} >
                         <option value="PROSPECTO"
                             {{ old('tipo_cliente', $empresaria->tipo_cliente) == 'PROSPECTO' ? 'selected' : '' }}>
                             PROSPECTO
@@ -181,7 +181,7 @@
                     <input id="email" type="email"
                         class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
                         placeholder="Email de empresaria"
-                        value="{{ old('email', isset($empresaria) ? $usuario->email : '') }}">
+                        value="{{ old('email', isset($usuario) ? $usuario->email : '') }}">
                     {!! $errors->first('email', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>

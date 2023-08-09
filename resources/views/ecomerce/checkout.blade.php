@@ -29,7 +29,8 @@
                     <!-- checkout content Start -->
                     <div class="ec-checkout-content">
                         <div class="ec-checkout-inner">
-                            <input type="hidden" id="data_search" value="{{ $empresaria->cedula." | ".$empresaria->nombres." ".$empresaria->apellidos }}">
+                            <input type="hidden" id="data_search"
+                                value="{{ $empresaria->cedula . ' | ' . $empresaria->nombres . ' ' . $empresaria->apellidos }}">
                             @empty(Auth::user())
                                 <div class="ec-checkout-wrap margin-bottom-30">
                                     <div class="ec-checkout-block ec-check-new">
@@ -91,44 +92,21 @@
                                     </div>
                                 </div>
                             @endempty
-                            @if (!empty(Auth::user()))
-                                {{-- @if (Auth::user()->role != 'Empresaria')
-                                    <div class="ec-checkout-wrap margin-bottom-30">
-                                        <div class="ec-checkout-block ec-check-new">
-                                            <h3 class="ec-checkout-title">Asignación de Empresarias para vendedores</h3>
-                                            <div class="ec-check-block-content">
-                                                <div class="ec-check-subtitle">Escoge la empresaria</div>
-                                                <div class="row mx-0">
-                                                    <select id="tipo_busqueda" class="form-select my-auto">
-                                                        <option value="cedula">CEDULA</option>
-                                                        <option value="nombre">NOMBRES</option>
-                                                    </select>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" class="form-control" id="search"
-                                                            placeholder="Ingrese datos de empresaria">
-                                                    </div>
-                                                </div>
-                                                <div class="ec-new-btn"><a id="asignarEmpresaria"
-                                                        class="btn btn-primary">Continuar</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif --}}
-                            @endif
                             <div class="ec-checkout-wrap margin-bottom-30 padding-bottom-3">
                                 <div class="ec-checkout-block ec-check-bill">
-                                    <h3 class="ec-checkout-title">Detalles de Facturación</h3>
+                                    <h3 class="ec-checkout-title">Datos de Facturación</h3>
                                     <div class="ec-bl-block-content">
                                         <div class="ec-check-subtitle">Opciones de pago</div>
                                         <span class="ec-bill-option">
                                             <span>
-                                                <input type="radio" id="bill1" name="radio-direccion" value="envio" checked>
-                                                <label for="bill1">Usar dirección de envío existente</label>
+                                                <input type="radio" id="bill1" name="radio-direccion"
+                                                    value="envio" checked>
+                                                <label for="bill1">Utilizar información de empresaria</label>
                                             </span>
                                             <span>
-                                                <input type="radio" id="bill2" name="radio-direccion" value="domicilio">
-                                                <label for="bill2">Quiero usar mi dirección de domicilio</label>
+                                                <input type="radio" id="bill2" name="radio-direccion"
+                                                    value="domicilio">
+                                                <label for="bill2">Ingresar nuevos datos </label>
                                             </span>
                                         </span>
                                         <div class="ec-check-bill-form">
@@ -151,19 +129,33 @@
                                                         value="{{ $empresaria->apellidos }}"
                                                         placeholder="Ingrese sus apellidos" required />
                                                 </span>
-                                                <input type="hidden" id="direccion_domicilio" value="{{ $empresaria->direccion }}">
-                                                <input type="hidden" id="referencia_domicilio" value="{{ $empresaria->referencia }}">
-                                                <span class="ec-bill-wrap">
-                                                    <label>Dirección</label>
+                                                <span class="ec-bill-wrap ec-bill-half">
+                                                    <label>Teléfono</label>
+                                                    <input type="text" id="telefono" name="telefono"
+                                                        value="{{ $empresaria->telefono }}"
+                                                        placeholder="Ingrese teléfono" required />
+                                                </span>
+                                                <span class="ec-bill-wrap ec-bill-half">
+                                                    <label>Email</label>
+                                                    <input type="text" id="email" name="email"
+                                                        value="{{ $empresaria->email }}" placeholder="Ingrese email"
+                                                        required />
+                                                </span>
+                                                <input type="hidden" id="direccion_domicilio"
+                                                    value="{{ $empresaria->direccion }}">
+                                                <input type="hidden" id="referencia_domicilio"
+                                                    value="{{ $empresaria->referencia }}">
+                                                {{-- <span class="ec-bill-wrap">
+                                                    <label>Email</label>
                                                     <input type="text" id="direccion" name="direccion"
-                                                        value="{{ $empresaria->direccion_envio }}"
+                                                        value="{{ $empresaria->direccion }}"
                                                         placeholder="Ingrese la dirección de entrega del pedido"
                                                         required />
                                                 </span>
                                                 <span class="ec-bill-wrap">
                                                     <label>Referencia</label>
                                                     <input type="text" id="referencia" name="referencia"
-                                                        value="{{ $empresaria->referencia_envio }}"
+                                                        value="{{ $empresaria->referencia }}"
                                                         placeholder="Ingrese la referencia de envío" required />
                                                 </span>
                                                 <span class="ec-bill-wrap ec-bill-half">
@@ -211,7 +203,7 @@
                                                             @endempty
                                                         </select>
                                                     </span>
-                                                </span>
+                                                </span> --}}
                                                 {{-- <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Codigo Postal</label>
                                                     <input type="text" name="postalcode" id="codigo_postal"
@@ -223,6 +215,104 @@
                                     </div>
                                 </div>
 
+                            </div>
+                            <div class="ec-checkout-wrap margin-bottom-30 padding-bottom-3">
+                                <div class="ec-checkout-block ec-check-bill">
+                                    <h3 class="ec-checkout-title">Dirección de Envio</h3>
+                                    <div class="ec-bl-block-content">
+                                        <span class="ec-bill-option">
+                                            <span>
+                                                <input type="radio" id="env1" name="radio-envio"
+                                                    value="varios">
+                                                <label for="env1">He ingresado varias direcciones</label>
+                                            </span>
+                                            <span>
+                                                <input type="radio" id="env2" name="radio-envio"
+                                                    value="nueva">
+                                                <label for="env2">Ingresar nueva dirección</label>
+                                            </span>
+                                            <span>
+                                                <input type="radio" id="env3" name="radio-envio"
+                                                    value="midireccion" checked>
+                                                <label for="env3">Utilizar la dirección existente</label>
+                                            </span>
+                                            <span>
+                                                <input type="radio" id="env4" name="radio-envio"
+                                                    value="localibizza">
+                                                <label for="env4">Enviar al local de Ibizza</label>
+                                            </span>
+                                        </span>
+                                        <div class="ec-check-bill-form">
+                                            <form id="form_datos_envio" action="#" method="post">
+                                                <span class="ec-bill-wrap ec-bill-half">
+                                                    <label>Nombre</label>
+                                                    <input type="text" id="nombre_envio" name="nombre_envio"
+                                                        value="{{ $empresaria->nombres . ' ' . $empresaria->apellidos }}"
+                                                        placeholder="Ingrese nombre" required />
+                                                </span>
+                                                <span class="ec-bill-wrap ec-bill-half">
+                                                    <label>Teléfono</label>
+                                                    <input type="text" id="telefono_envio" name="telefono_envio"
+                                                        value="{{ $empresaria->telefono }}"
+                                                        placeholder="Ingrese número de teléfono" required />
+                                                </span>
+                                                <span class="ec-bill-wrap ec-bill-half">
+                                                    <label>Provincia</label>
+                                                    <span class="ec-bl-select-inner">
+                                                        <select name="provincia" id="provincia"
+                                                            class="ec-bill-select">
+                                                            <option value="">Seleccione provincia</option>
+                                                            @foreach ($provincia as $item)
+                                                                @if ($empresaria->provincia_id == $item->id)
+                                                                    <option value="{{ $item->id }}" selected>
+                                                                        {{ $item->descripcion }}</option>
+                                                                @else
+                                                                    <option value="{{ $item->id }}">
+                                                                        {{ $item->descripcion }}</option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </span>
+                                                </span>
+                                                <span class="ec-bill-wrap ec-bill-half mx-auto">
+                                                    <label>Ciudad</label>
+                                                    <span class="ec-bl-select-inner">
+                                                        <select name="ciudad" id="ciudad" class="ec-bill-select">
+                                                            <option value="">Seleccione ciudad</option>
+                                                            @empty(!$ciudad)
+                                                                @foreach ($ciudad as $item)
+                                                                    @if ($empresaria->id_ciudad == $item->id)
+                                                                        <option value="{{ $item->id }}" selected>
+                                                                            {{ $item->descripcion }}</option>
+                                                                    @else
+                                                                        <option value="{{ $item->id }}">
+                                                                            {{ $item->descripcion }}</option>
+                                                                    @endif
+                                                                @endforeach
+                                                            @endempty
+                                                        </select>
+                                                    </span>
+                                                </span>
+                                                <span class="ec-bill-wrap ec-bill-half">
+                                                    <label>Dirección</label>
+                                                    <input type="text" id="direccion" name="direccion"
+                                                        value="{{ $empresaria->direccion }}"
+                                                        placeholder="Ingrese la dirección de entrega del pedido"
+                                                        required />
+                                                </span>
+                                                <span class="ec-bill-wrap ec-bill-half">
+                                                    <label>Referencia</label>
+                                                    <input type="text" id="referencia" name="referencia"
+                                                        value="{{ $empresaria->referencia }}"
+                                                        placeholder="Ingrese la referencia de envío" required />
+                                                </span>
+
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+                                </div>
                             </div>
                             <span class="ec-check-order-btn">
                                 <a class="btn btn-primary w-100" id="tomar_pedido">Realizar Pedido</a>
@@ -246,12 +336,18 @@
                                         <span class="text-right" id="total_productos">{{ Cart::count() }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-left">Ganacia estimada</span>
-                                        <span class="text-right" id="ganancia">${{ number_format(Cart::total() * 0.3, 2) }}</span>
+                                        <span class="text-left">Ganacias</span>
+                                        <span class="text-right"
+                                            id="ganancia">${{ number_format(Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum(),2) - Cart::subtotal() }}</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-left">Envio</span>
+                                        <span class="text-right"
+                                            id="envio">${{ $envio }}</span>
                                     </div>
                                     <div class="ec-checkout-summary-total">
                                         <span class="text-left">Total a Pagar</span>
-                                        <span class="text-right" id="total_pagar">${{ Cart::total() }}</span>
+                                        <span class="text-right" id="total_pagar">${{ Cart::total() + $envio }}</span>
                                     </div>
                                 </div>
                                 <div class="ec-checkout-pro">
@@ -259,9 +355,7 @@
                                     @if (!empty($productoPremio))
                                         <input type="hidden" id="premio" value="tiene premio">
                                         @foreach ($productoPremio as $producto)
-                                            @livewire('card-premio',['id_producto'=>$producto->id,'imagen'=>$producto->imagen_path,'clasificacion'=>$producto->clasificacion,
-                                            'pvp'=>$producto->valor_venta,'color'=>$producto->color,'estilo'=>$producto->estilo,
-                                            'nombre'=>$producto->nombre_mostrar])
+                                            @livewire('card-premio', ['id_producto' => $producto->id, 'imagen' => $producto->imagen_path, 'clasificacion' => $producto->clasificacion, 'pvp' => $producto->valor_venta, 'color' => $producto->color, 'estilo' => $producto->estilo, 'nombre' => $producto->descripcion])
                                         @endforeach
                                     @else
                                         <input type="hidden" id="premio" value="no tiene premio">
@@ -270,11 +364,24 @@
                                         </div>
                                     @endif
                                 </div>
+                                <div>
+                                    <div class="ec-checkout-pro">
+                                        @if (!empty($empresaria))
+                                            @if (count($empresaria->pedidos) == 0)
+                                                <hr />
+                                                <div class="text-center w-100">
+                                                    <label class="form-check-label fw-bold">
+                                                        Enviar catálogo
+                                                    </label>
+                                                </div>
+                                            @endif
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
+                            <!-- Sidebar Summary Block -->
                         </div>
-                        <!-- Sidebar Summary Block -->
-                    </div>
-                    {{-- <div class="ec-sidebar-wrap ec-checkout-del-wrap">
+                        {{-- <div class="ec-sidebar-wrap ec-checkout-del-wrap">
                         <!-- Sidebar Summary Block -->
                         <div class="ec-sidebar-block">
                             <div class="ec-sb-title">
@@ -307,52 +414,47 @@
                         </div>
                         <!-- Sidebar Summary Block -->
                     </div> --}}
-                    <div class="ec-sidebar-wrap ec-checkout-pay-wrap">
-                        <!-- Sidebar Payment Block -->
-                        <div class="ec-sidebar-block">
-                            <div class="ec-sb-title">
-                                <h3 class="ec-sidebar-title">Metodo de pago</h3>
-                            </div>
-                            <div class="ec-sb-block-content">
-                                <div class="ec-checkout-pay">
-                                    <div class="ec-pay-desc">Por favor seleccione su metodo de pago preferido.</div>
-                                    <form action="#">
-                                        <span class="ec-pay-option">
-                                            <span>
-                                                <input type="radio" id="pay1" name="radio-group" checked>
-                                                <label for="pay1">transferencia Bancaria</label>
+                        <div class="ec-sidebar-wrap ec-checkout-pay-wrap">
+                            <!-- Sidebar Payment Block -->
+                            <div class="ec-sidebar-block">
+                                <div class="ec-sb-title">
+                                    <h3 class="ec-sidebar-title">Metodo de pago</h3>
+                                </div>
+                                <div class="ec-sb-block-content">
+                                    <div class="ec-checkout-pay">
+                                        <div class="ec-pay-desc">Por favor seleccione su metodo de pago preferido.
+                                        </div>
+                                        <form action="#">
+                                            <span class="ec-pay-option">
+                                                <span>
+                                                    <input type="radio" id="pay1" name="radio-group" checked>
+                                                    <label for="pay1">transferencia Bancaria</label>
+                                                </span>
                                             </span>
-                                        </span>
-                                        <span class="ec-pay-commemt">
-                                            <span class="ec-pay-opt-head">Agrega comentarios a tu pedido</span>
-                                            <textarea name="your-commemt" id="observaciones_pedido"
-                                                placeholder="Comentarios"></textarea>
-                                        </span>
-                                        <span class="ec-pay-agree"><input type="checkbox" value="" checked><a
-                                                href="#">He leído y acepto los <span>Terminos y
-                                                    condiciones</span></a><span class="checked"></span></span>
-                                    </form>
+                                            <span class="ec-pay-commemt">
+                                                <span class="ec-pay-opt-head">Agrega comentarios a tu pedido</span>
+                                                <textarea name="your-commemt" id="observaciones_pedido" placeholder="Comentarios"></textarea>
+                                            </span>
+                                            <span class="ec-pay-agree"><input type="checkbox" value=""
+                                                    checked><a href="#">He leído y acepto los <span>Terminos y
+                                                        condiciones</span></a><span class="checked"></span></span>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+                            <!-- Sidebar Payment Block -->
                         </div>
-                        <!-- Sidebar Payment Block -->
+
                     </div>
-                    
                 </div>
             </div>
-        </div>
     </section>
     @push('js')
         <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
         <script>
             $('.ec-side-toggle').css('display', 'none')
             $('.ec-opt-size').each(function() {
-                // $(document).on('mouseenter', 'li', function() {
-                //     // alert("1");
-                //     onSizeChange($(this));
-                // });
                 $(document).on('click', 'li', function() {
-                    // alert("2");
                     onSizeChange($(this));
                 });
 
@@ -380,7 +482,7 @@
                 let direccion = $('#direccion').val();
                 let referencia = $('#referencia').val();
 
-                if(opcion == 'domicilio'){
+                if (opcion == 'domicilio') {
                     direccion = $('#direccion_domicilio').val();
                     referencia = $('#referencia_domicilio').val();
                 }
@@ -398,8 +500,8 @@
                     total_productos: $('#total_productos').text(),
                     premio: $('#premio').val(),
                     observaciones: $('#observaciones_pedido').val(),
-                    ganancia:ganancia[1],
-                    opcion : opcion
+                    ganancia: ganancia[1],
+                    opcion: opcion
                 }
                 let continuar = 0;
                 if ($('#premio').val() == "tiene premio") {
@@ -423,7 +525,8 @@
                 let total_pedido = $('#total_pagar').text().split('$');
 
                 if ($('#cedula').val() != '' && $('#nombres').val() != '' && $(
-                        '#apellidos').val() != '' && $('#direccion').val() != '' && $('#referencia').val() != '' && $('#ciudad').val() != '') {
+                        '#apellidos').val() != '' && $('#direccion').val() != '' && $('#referencia').val() != '' && $(
+                        '#ciudad').val() != '') {
                     if (total_pedido[1] > 0) {
                         if (continuar > 0) {
                             Swal.fire(
@@ -457,7 +560,9 @@
                     },
                     beforeSend: function() {
                         $('#tomar_pedido').attr("disabled", true);
-                        $('#tomar_pedido').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando pedido...');                        
+                        $('#tomar_pedido').html(
+                            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando pedido...'
+                        );
                     },
                     success: function(response) {
                         if (response != '') {
@@ -467,42 +572,10 @@
                             $(location).attr('href', url);
                         }
                         $('#tomar_pedido').attr("disabled", false);
-                        $('#tomar_pedido').html('Realizar Pedido'); 
+                        $('#tomar_pedido').html('Realizar Pedido');
                     }
                 })
             }
-            $('#search').autocomplete({
-                source: function(request, response) {
-                    $.getJSON("{{ route('web.autocompletar-empresaria') }}", {
-                            term: request.term
-                        },
-                        response
-                    );
-                },
-                select: function(event, ui) {
-                    $('#data_search').val(ui.item.data);
-                }
-            })
-            $('#bill2').click(function() {
-                $('#direccion').prop('disabled', true);
-                $('#provincia').prop('disabled', true);
-                $('#ciudad').prop('disabled', true);
-                $('#direccion').val($('#direccion_domicilio').val());
-                $('#referencia').val($('#referencia_domicilio').val());
-            });
-            $('#asignarEmpresaria').click(function() {
-                $('#direccion').prop('disabled', false);
-                $('#provincia').prop('disabled', false);
-                $('#ciudad').prop('disabled', false);
-                datos = $('#search').val();
-                $('#data_search').val(datos);
-                datos = datos.split(' | ');
-                data = {
-                    cedula: datos[0],
-                    nombres: datos[1]
-                }
-                search_data(data);
-            });
             $('#bill1').click(function() {
                 $('#direccion').prop('disabled', false);
                 $('#provincia').prop('disabled', false);
@@ -515,7 +588,48 @@
                 }
                 search_data(data);
             });
-            function search_data(data){
+
+            $('#bill2').click(function() {
+                $('#cedula').val('')
+                $('#nombres').val('')
+                $('#apellidos').val('')
+                $('#telefono').val('')
+                $('#email').val('')
+            });
+
+            $('#env1').click(function() {
+                $('#nombre_envio').val('')
+                $('#telefono_envio').val('')
+                $('#direccion').val('')
+                $('#referencia').val('')
+            });
+
+            $('#env2').click(function() {
+                $('#nombre_envio').val('')
+                $('#telefono_envio').val('')
+                $('#direccion').val('')
+                $('#referencia').val('')
+            });
+
+            $('#env3').click(function() {
+                datos = $('#data_search').val();
+                datos = datos.split(' | ');
+                data = {
+                    cedula: datos[0],
+                    nombres: datos[1]
+                }
+                search_data(data);
+            });
+
+            $('#env4').click(function() {
+                $('#nombre_envio').val('Local Ibizza')
+                $('#direccion').val('Chile y Luque')
+                $('#referencia').val('Frente a Deprati')
+            });
+
+
+
+            function search_data(data) {
                 $.post({
                     url: "{{ route('web.data-empresaria') }}",
                     data: data,
@@ -532,11 +646,16 @@
                             })
                             $('#cedula').val(response['empresaria']['cedula'])
                             $('#nombres').val(response['empresaria']['nombres'])
+                            $('#nombre_envio').val(response['empresaria']['nombres'] + ' ' + response[
+                                'empresaria']['apellidos'])
                             $('#apellidos').val(response['empresaria']['apellidos'])
-                            $('#direccion').val(response['empresaria']['direccion_envio'])
-                            $('#referencia').val(response['empresaria']['referencia_envio'])
-                            $('#direccion_domicilio').val(response['empresaria']['direccion'])
-                            $('#referencia_domicilio').val(response['empresaria']['referencia'])
+                            $('#telefono').val(response['empresaria']['telefono'])
+                            $('#telefono_envio').val(response['empresaria']['telefono'])
+                            $('#email').val(response['empresaria']['email'])
+                            $('#direccion').val(response['empresaria']['direccion'])
+                            $('#referencia').val(response['empresaria']['referencia'])
+                            // $('#direccion_domicilio').val(response['empresaria']['direccion'])
+                            // $('#referencia_domicilio').val(response['empresaria']['referencia'])
                             $('#provincia').val(response['empresaria']['provincia_id']);
                             if (response['ciudad'] != null) {
                                 $('#ciudad').html('<option value="" selected>Seleccione ciudad</option>');
@@ -605,7 +724,7 @@
                 $('#premio').val('tiene premio');
                 if (val['imagen_path'] == null) {
                     val['imagen_path'] = "https://www.blackwallst.directory/images/NoImageAvailable.png";
-                }else{
+                } else {
                     val['imagen_path'] = 'storage/images/productos/' + val['imagen_path'];
                 }
                 $('#premios_despues').append('<div class="col-sm-12 mb-6">' +

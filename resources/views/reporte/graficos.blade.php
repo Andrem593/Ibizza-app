@@ -20,7 +20,7 @@
                 <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-vendedor-tab" data-toggle="pill"
                         href="#custom-tabs-vendedor" role="tab" aria-controls="custom-tabs-vendedor"
-                        aria-selected="false">Ventas por Vendedor</a>
+                        aria-selected="false">Ventas por Vendedor {{ $anio_actual }}</a>
                 </li>
             </ul>
         </div>

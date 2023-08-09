@@ -163,6 +163,7 @@
                         <th scope="col">Descuento</th>
                         <th scope="col" width="15px">Cantidad</th>
                         <th scope="col">Precio Empresaria</th>
+                        <th scope="col">Dirección Envío</th>
                         <th scope="col" width="10px">Opc</th>
                     </tr>
                 </thead>
@@ -176,14 +177,25 @@
                                 <td>{{ $item->options->marca }}</td>
                                 <td>{{ $item->options->color }}</td>
                                 <td>{{ $item->options->talla }}</td>
-                                <td>${{ number_format($item->qty * $item->price, 2) }}</td>
-                                <td>{{ $item->options->descuento }}</td>
+                                <td>${{ $item->options->pCatalogo * $item->qty }}</td>
+                                <td>{{ $item->options->descuento * 100 }}%</td>
                                 <td>
                                     <span class="mx-2">{{ $item->qty }}</span>
                                 </td>
                                 <td>${{ number_format($item->qty * $item->price, 2) }}</td>
+                                <td>@php
+                                    if ($item->options->dataEnvio != '') {
+                                        $data = json_decode($item->options->dataEnvio);
+                                        echo "Nombre: $data->nombre <br> Tel: $data->telefono <br> Dir: $data->direccion <br> Ref: $data->referencia";
+                                    }
+                                @endphp
+                                </td>
                                 <td>
                                     <div class="d-flex align-items-center">
+                                        <button type="button" class="btn btn-sm btn-outline-default mr-1"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                            data-rowid="{{ $item->rowId }}"><i
+                                                class="fas fa-map-marked-alt"></i></button>
                                         <button class="btn btn-sm btn-outline-primary mr-1"
                                             wire:click="increaseQuantity('{{ $item->rowId }}')">+</button>
                                         <button class="btn btn-sm btn-outline-danger mr-1"
@@ -209,7 +221,7 @@
                             <span></span>
                         </td>
                         <td colspan="2" class="fw-bold">
-                            ${{ Cart::subtotal() }}
+                            ${{ number_format(Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum(),2) }}
                         </td>
                         <td class="fw-bold"> {{ Cart::count() }}</td>
                         <td class="fw-bold" colspan="2">
@@ -224,7 +236,7 @@
                             <span><strong>Envio</strong></span>
                         </td>
                         <td colspan="2">
-                            <span class="fw-bold">$3</span>
+                            <span class="fw-bold">${{ $envio }}</span>
                         </td>
                     </tr>
                     <tr>
@@ -233,7 +245,8 @@
                             <span><strong>Total</strong></span>
                         </td>
                         <td colspan="3">
-                            <span class="fw-bold">${{ number_format((float) Cart::total() + 3, 2)}}</span>
+                            <span
+                                class="fw-bold">${{ floatval(str_replace(',', '', Cart::subtotal())) + floatval($envio) }}</span>
                         </td>
                     </tr>
                     <tr>
@@ -244,7 +257,8 @@
                             <span><strong>Ganancias</strong></span>
                         </td>
                         <td colspan="2">
-                            <span class="fw-bold">${{ number_format((float) Cart::total() * 0.3, 2) }}</span>
+                            <span
+                                class="fw-bold">${{ Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum() - floatval(str_replace(',', '', Cart::subtotal())) }}</span>
                         </td>
                     </tr>
                     @if (!empty($emp))
@@ -269,10 +283,81 @@
     </div>
     <div class="row mt-2 text-end">
         <button class="btn btn-secondary w-25 m-3" wire:click='GuardarPedidos'>RESERVAR PEDIDO</button>
-        <a href="{{ route('web.checkout') }}" class="btn btn-primary w-25 m-3">CERRAR VENTA</a>
+        <a wire:click="cerrarVenta" class="btn btn-primary w-25 m-3">CERRAR VENTA</a>
     </div>
+
+    <div class="modal fade" wire:ignore.self id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Dirección de envío</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="modalRowId" wire:ignore.self>
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-label">Nombre:</label>
+                            <input type="text" class="form-control p-1" value="" id="nombre"
+                                autocomplete="off">
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Teléfono:</label>
+                            <input type="text" class="form-control p-1" value="" id="telefono"
+                                autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-label">Dirección:</label>
+                            <input type="text" class="form-control p-1" value="" id="direccion"
+                                autocomplete="off">
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Referencia:</label>
+                            <input type="text" class="form-control p-1" value="" id="referencia"
+                                autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn bg-ibizza" id="guardarButton">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @push('js')
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            $(document).ready(function() {
+                $('#exampleModal').on('show.bs.modal', function(event) {
+                    var button = event.relatedTarget;
+                    var rowId = $(button).data('rowid');
+                    $('#modalRowId').val(rowId);
+                });
+
+
+                $('#guardarButton').click(function() {
+                    $('#exampleModal').on('show.bs.modal', function(event) {
+                        var button = event.relatedTarget;
+                        var rowId = $(button).data('rowid');
+                        $('#modalRowId').val(rowId);
+                    });
+                    Livewire.emit('guardarDatos', {
+                        rowId: $('#modalRowId').val(),
+                        nombre: $('#nombre').val(),
+                        telefono: $('#telefono').val(),
+                        direccion: $('#direccion').val(),
+                        referencia: $('#referencia').val(),
+                    });
+
+                    $('#exampleModal').modal('hide');
+                });
+            });
+        </script>
     @endpush
     @if (!empty($alert))
         @if (Auth::user()->role == 'Empresaria')

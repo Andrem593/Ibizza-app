@@ -73,19 +73,10 @@ function crearTabla(data, ruta) {
             "data": "sku"
         },
         {
-            "data": "nombre_producto"
-        },
-        {
             "data": "descripcion"
         },
         {
             "data": "nombre_marca"
-        },
-        {
-            "data": "grupo"
-        },
-        {
-            "data": "seccion"
         },
         {
             "data": "clasificacion"
@@ -95,9 +86,6 @@ function crearTabla(data, ruta) {
         },
         {
             "data": "subcategoria"
-        },
-        {
-            "data": "nombre_proveedor"
         },
         {
             "data": "estilo"
@@ -121,13 +109,10 @@ function crearTabla(data, ruta) {
             }
         },
         {
-            "data": "valor_venta"
+            "data": "nombre_catalogo"
         },
         {
             "data": "precio_empresaria"
-        },
-        {
-            "data": "descuento"
         },
         {
             "data": "estado"

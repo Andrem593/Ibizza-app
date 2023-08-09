@@ -28,7 +28,7 @@ class ProductoController extends Controller
     public function index()
     {
         $productos = Producto::with('catalogo')->paginate();
-        $catalogos = Catalogo::all();  
+        $catalogos = Catalogo::all();
 
         return view('producto.index', compact('productos', 'catalogos'))
             ->with('i', (request()->input('page', 1) - 1) * $productos->perPage());
@@ -141,33 +141,33 @@ class ProductoController extends Controller
             $request->validate([
                 'excel' => 'required|max:10000|mimes:xlsx,xls'
             ]);
-    
+
             $file_array = explode(".", $_FILES["excel"]["name"]);
             $file_extension = end($file_array);
-    
+
             $file_name = time() . '.' . $file_extension;
             move_uploaded_file($_FILES["excel"]["tmp_name"], $file_name);
             $file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_name);
             $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($file_type);
-    
+
             $spreadsheet = $reader->load($file_name);
-    
+
             unlink($file_name);
-    
+
             $data = $spreadsheet->getActiveSheet()->toArray();
-    
+
             foreach ($data as $key => $row) {
                 if ($key >= 1) {
-    
+
                     $producto = Producto::where('sku', $row[0])->first();
-    
+
                     if ($producto) {
                         $producto->stock = $row[11] + $producto->stock;
                         $producto->precio_empresaria = $row[13];
                         $producto->save();
-                    }else{
+                    } else {
                         $marca_id = DB::table('marcas')->where('nombre', 'like', '%' . $row[3] . '%')->value('id');
-        
+
                         if (empty($marca_id)) {
                             $marca_id = DB::table('marcas')->insertGetId(
                                 array('nombre' => $row[3], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
@@ -175,19 +175,17 @@ class ProductoController extends Controller
                         }
 
                         $catalogo = DB::table('catalogos')->where('id', $row[12])->value('id');
-                        
-                        if (empty($catalogo)) {
-                            
-                        }else{
+
+                        if (empty($catalogo)) { } else {
                             Catalogo_has_Producto::updateOrInsert([
                                 'catalogo_id' => $catalogo,
-                                'estilo'=> $row[7],
+                                'estilo' => $row[7],
                             ]);
                         }
 
                         $insert_data = array(
                             'sku'  => $row[0],
-                            'nombre_producto'  => $row[1],
+                            'nombre_producto'  => $row[1] ?? null,
                             'descripcion'  => $row[2],
                             'marca_id'  => $marca_id,
                             'clasificacion' => $row[4],
@@ -202,28 +200,29 @@ class ProductoController extends Controller
                             'precio_empresaria'  => $row[13],
                             'estado'  => $row[14]
                         );
-        
+
                         Producto::create($insert_data);
                     }
-    
                 }
             }
-    
+
             return redirect()->route('productos.index')
                 ->with('success', 'Productos cargados correctamente');
         } catch (\Throwable $th) {
+            dd($th->getMessage());
             return redirect()->route('producto.upload')
                 ->with('error', 'EL archivo no cumple con el formato requerido, por favor verifique el archivo e intente nuevamente.');
-        }        
+        }
     }
     public function productoDataTable(Request $request)
     {
         $response = '';
         if ($_POST['funcion'] == 'listar_todo') {
             $productos = DB::table('productos')
-                ->join('proveedores', 'proveedores.id', '=', 'productos.proveedor_id')
                 ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
-                ->select('productos.*', 'marcas.nombre AS nombre_marca', 'proveedores.nombre AS nombre_proveedor')
+                ->join('catalogo_has_productos', 'catalogo_has_productos.estilo', '=', 'productos.estilo')
+                ->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+                ->select('productos.*', 'marcas.nombre AS nombre_marca', 'catalogos.nombre AS nombre_catalogo')
                 ->get();
             if (count($productos) == 0) {
                 $productos = 'no data';
@@ -234,11 +233,11 @@ class ProductoController extends Controller
         if ($_POST['funcion'] == 'filtro') {
             $catalogo = $_POST['catalogo'];
             $productos = DB::table('productos')
-                ->join('proveedores', 'proveedores.id', '=', 'productos.proveedor_id')
                 ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
                 ->join('catalogo_has_productos', 'catalogo_has_productos.estilo', '=', 'productos.estilo')
+                ->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
                 ->where('catalogo_has_productos.catalogo_id', $catalogo)
-                ->select('productos.*', 'marcas.nombre AS nombre_marca', 'proveedores.nombre AS nombre_proveedor')
+                ->select('productos.*', 'marcas.nombre AS nombre_marca', 'catalogos.nombre AS nombre_catalogo')
                 ->get();
             if (count($productos) == 0) {
                 $productos = 'no data';
@@ -268,41 +267,41 @@ class ProductoController extends Controller
                     })
                     ->save($ruta);
             }
-            $ant_img = empty($_POST['ant_img']) ? null : $_POST['ant_img']; 
+            $ant_img = empty($_POST['ant_img']) ? null : $_POST['ant_img'];
             $response = Producto::where('color', $_POST['color'])
                 ->where('estilo', $_POST['estilo'])
                 ->where('imagen_path', $ant_img)
                 ->update([
                     'imagen_path' => $image
                 ]);
-            
-            if ($response > 0 ) {
+
+            if ($response > 0) {
                 $response = [
                     'num' => $response,
-                    'message'=> 'actualizado'
+                    'message' => 'actualizado'
                 ];
-            }else{
+            } else {
                 $response = [
-                    'message'=> 'error'
+                    'message' => 'error'
                 ];
             }
             json_encode($response);
         }
         if ($_POST['funcion'] == 'eliminar_estilo') {
             $response = Producto::where('color', $_POST['color'])
-            ->where('estilo', $_POST['estilo'])
-            ->where('imagen_path', $_POST['ant_img'])
-            ->update([
-                'imagen_path' => null
-            ]);
-            if ($response > 0 ) {
+                ->where('estilo', $_POST['estilo'])
+                ->where('imagen_path', $_POST['ant_img'])
+                ->update([
+                    'imagen_path' => null
+                ]);
+            if ($response > 0) {
                 $response = [
                     'num' => $response,
-                    'message'=> 'actualizado'
+                    'message' => 'actualizado'
                 ];
-            }else{
+            } else {
                 $response = [
-                    'message'=> 'error'
+                    'message' => 'error'
                 ];
             }
             json_encode($response);

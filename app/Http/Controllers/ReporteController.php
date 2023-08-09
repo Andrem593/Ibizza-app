@@ -29,7 +29,7 @@ class ReporteController extends Controller
             ->selectRaw('count(*) as count')
             ->groupBy('tipo_cliente');
 
-        if ($id_usuario != 1) {
+        if (Auth::user()->role != 'ADMINISTRADOR') {
             $empresarias->where('vendedor', $id_usuario);
         }
 
@@ -113,7 +113,7 @@ class ReporteController extends Controller
         }
         $jsonCatalogo = json_encode($dataCatalogo);
 
-        $ventas = Venta::join('users', 'users.id', '=', 'ventas.id_vendedor')     
+        $ventas = Venta::join('users', 'users.id', '=', 'ventas.id_vendedor')->whereYear('ventas.created_at', $anio_actual)     
             ->select('users.name')
             ->selectRaw('ROUND(sum(ventas.total_venta),2) as total')
             ->groupBy('ventas.id_vendedor')

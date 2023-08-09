@@ -46,9 +46,11 @@ class webController extends Controller
         return $response;
     }
     
-    public function checkout_view()
+    public function checkout_view(Request $request)
     {
+        $empresariaId = $request->id ?? null;        
         $catalogos = Catalogo::where('estado', 'PUBLICADO')->get();
+        $envio = $request->envio ?? 0;
         $condiciones = [];
         $productoPremio = [];
         $empresaria = new Empresaria();
@@ -62,8 +64,12 @@ class webController extends Controller
             $condicion = Premio::where('catalogo_id', $catalogo->id)->get();
         }
         if (!empty(Auth::user())) {
-            if (Auth::user()->role == 'Empresaria') {
-                $empresaria = Empresaria::select('empresarias.*', 'ciudades.provincia_id')->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')->where('empresarias.id_user', Auth::user()->id)->first();                
+            if (!empty($empresariaId)) {
+                $empresaria = Empresaria::with('pedidos')
+                ->select('empresarias.*', 'ciudades.provincia_id', 'users.email as email',)
+                ->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')
+                ->join('users', 'users.id', '=', 'empresarias.id_user')
+                ->where('empresarias.id', $empresariaId )->first();            
                 if (!empty($condicion)) {
                     foreach ($condicion as $i => $value) {
                         $reglas = json_decode($value->condicion);
@@ -156,7 +162,7 @@ class webController extends Controller
                 $ciudad = DB::table('ciudades')->where('provincia_id', $empresaria->provincia_id)->where('estado', 'A')->get();
             }
         }
-        return view('ecomerce.checkout', compact('productoPremio', 'empresaria', 'provincia', 'ciudad'));
+        return view('ecomerce.checkout', compact('productoPremio', 'empresaria', 'provincia', 'ciudad', 'envio'));
     }
     public function dataCheckout(Request $request)
     {
@@ -237,7 +243,7 @@ class webController extends Controller
             ->select('pedidos.*', 'productos.clasificacion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')
             ->get();
         $i = 1;
-        $venta = Venta::find($id_venta);
+        $venta = Venta::find($id_venta);       
         return view('ecomerce.detalle-pedido', compact('pedidos', 'i', 'venta', 'id_venta'));
     }
     public function autocompletar_empresaria(Request $request)
@@ -255,7 +261,8 @@ class webController extends Controller
         $empresaria = Empresaria::where('cedula', $request->cedula)->orWhere('nombres', $request->nombres)
             ->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')
             ->join('provincias', 'provincias.id', '=', 'ciudades.provincia_id')
-            ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'provincias.descripcion as nombre_provincia', 'provincias.id as provincia_id')->first();
+            ->join('users', 'users.id', '=', 'empresarias.id_user')
+            ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'provincias.descripcion as nombre_provincia', 'provincias.id as provincia_id', 'users.email as email')->first();
         $json = [];
         $json['empresaria'] = $empresaria;
         $catalogos = Catalogo::where('estado', 'PUBLICADO')->get();

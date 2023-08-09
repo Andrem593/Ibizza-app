@@ -14,10 +14,32 @@ class PedidosReservados extends Component
 {
     public $alert = false, $detalle=false, $cliente;
     public $detalles_pedido,$fecha;
+    public $desde, $hasta;
+    public $search;
+    public $id_pedido = 0;
     
     public function render()
     {
-        $separado = Separado::with(['empresaria','usuario'])->get();
+        $separado = Separado::with(['empresaria','usuario']);
+        if ($this->desde != "" && $this->hasta != "") {
+            // $separado = $separado->whereDate('created_at', '>=', $this->desde)
+            // ->whereDate('created_at', '<=', $this->hasta);
+            $separado = $separado->orWhere(function ($query) {
+                $query->whereDate('created_at', '>=', $this->desde)
+                ->whereDate('created_at', '<=', $this->hasta);
+            });
+        }
+        if ($this->search != "") {
+            $separado = $separado->orWhere('nombre_cliente', 'like', '%' . $this->search . '%')->orWhereHas('empresaria', function ($query) {
+                $query->where('nombres', 'like', '%' . $this->search . '%');
+            })->orWhereHas('usuario', function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%');
+            })->orWhereHas('empresaria', function ($query) {
+                $query->where('tipo_cliente', 'like', '%' . $this->search . '%');
+            });
+        }
+        $separado = $separado->get();
+        // dd($separado);
         return view('livewire.pedidos-reservados',compact('separado'));
     }
     public function eliminarReserva($id)
@@ -36,7 +58,8 @@ class PedidosReservados extends Component
     }
     public function verDetalle($id)
     {
-        $this->detalle = true;        
+        $this->detalle = true;
+        $this->id_pedido = $id;        
         $this->detalles_pedido = Pedidos_pendiente::where('id_separados',$id)->join('productos','pedidos_pendientes.id_producto','=','productos.id')->get();    
         if (Auth::user()->role != 'Empresaria') {   
             $this->cliente =  Separado::find($id);            

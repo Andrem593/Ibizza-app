@@ -329,11 +329,6 @@ return [
                     'can'  => 'venta.pedidos-guardados',
                     'icon'    => 'ml-md-2 fas fa-box',
                 ],
-                [
-                    'text' => 'Pedidos Reservados',
-                    'route'  => 'venta.pedidos-reservados',
-                    'icon'    => 'ml-md-2 fas fa-list',
-                ],
             ],
         ],
         [
