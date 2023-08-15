@@ -117,7 +117,7 @@
                                                                 <td>{{ $pedido->color_producto }}</td>
                                                                 <td>{{ $pedido->talla_producto }}</td>
                                                                 <td>{{ $pedido->cantidad }}</td>
-                                                                <td>${{ $pedido->total }}</td>
+                                                                <td>${{ $pedido->precio }}</td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -129,20 +129,9 @@
                                                         <span class="text-left">Total de Productos</span>
                                                         <span class="text-right">{{ $venta->cantidad_total }}</span>
                                                     </div>
-                                                    <div>
-                                                        <span class="text-left">Sub-Total</span>
-                                                        <span
-                                                            class="text-right">${{ number_format($venta->total_venta / 1.12, 2) }}</span>
-                                                    </div>
-                                                    <div>
-                                                        <span class="text-left">IVA (12%)</span>
-                                                        <span
-                                                            class="text-right">${{ number_format($venta->total_venta * 0.12, 2) }}</span>
-                                                    </div>
                                                     <div class="ec-cart-summary-total">
-                                                        <span class="text-left">Ganancia Estimada</span>
-                                                        <span
-                                                            class="text-right">${{ number_format($venta->total_venta * 0.3, 2) }}</span>
+                                                        <span class="text-left">Envio</span>
+                                                        <span class="text-right">${{ $venta->envio }}</span>
                                                     </div>
                                                     <div class="ec-cart-summary-total">
                                                         <span class="text-left">Total Pagar</span>

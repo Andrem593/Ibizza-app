@@ -15,6 +15,8 @@ class Pedido extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_venta','id_producto','cantidad','precio','total','estado','usuario'];
+    protected $fillable = ['id_venta','id_producto','cantidad','precio','total','direccion_envio',
+    'descuento',
+    'precio_catalogo','estado','usuario'];
 
 }

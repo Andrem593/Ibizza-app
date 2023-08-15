@@ -12,11 +12,6 @@
                         {!! $errors->first('sku', '<div class="invalid-feedback">:message</p>') !!}
                     </div>
                     <div class="col">
-                        {{ Form::label('nombre_producto') }}
-                        {{ Form::text('nombre_producto', $producto->nombre_producto, ['class' => 'form-control' . ($errors->has('nombre_producto') ? ' is-invalid' : ''), 'placeholder' => 'Marca Id']) }}
-                        {!! $errors->first('nombre_producto', '<div class="invalid-feedback">:message</p>') !!}
-                    </div>
-                    <div class="col">
                         {{ Form::label('marca') }}
                         <select name="marca_id" class="form-select">
                             @foreach ($marcas as $marca)
@@ -31,16 +26,6 @@
                     {!! $errors->first('descripcion', '<div class="invalid-feedback">:message</p>') !!}
                 </div>
                 <div class="row form-group">
-                    <div class="col">
-                        {{ Form::label('grupo') }}
-                        {{ Form::text('grupo', $producto->grupo, ['class' => 'form-control' . ($errors->has('grupo') ? ' is-invalid' : ''), 'placeholder' => 'Registre el grupo']) }}
-                        {!! $errors->first('grupo', '<div class="invalid-feedback">:message</p>') !!}
-                    </div>
-                    <div class="col">
-                        {{ Form::label('seccion') }}
-                        {{ Form::text('seccion', $producto->seccion, ['class' => 'form-control' . ($errors->has('seccion') ? ' is-invalid' : ''), 'placeholder' => 'seccion']) }}
-                        {!! $errors->first('seccion', '<div class="invalid-feedback">:message</p>') !!}
-                    </div>
                     <div class="col">
                         {{ Form::label('clasificacion') }}
                         {{ Form::text('clasificacion', $producto->clasificacion, ['class' => 'form-control' . ($errors->has('clasificacion') ? ' is-invalid' : ''), 'placeholder' => 'Ingrese clasificacion del producto']) }}
@@ -73,16 +58,9 @@
                 {!! $errors->first('color', '<div class="invalid-feedback">:message</p>') !!}
             </div>
             <div class="col">
-                {{ Form::label('Proveedor') }}
-                <select name="proveedor_id" class="form-select">
-                    @foreach ($proveedores as $proveedor)
-                        @if ($proveedor->id == $producto->proveedor_id)
-                        <option value="{{ $proveedor->id }}" selected>{{ $proveedor->nombre }}</option>                            
-                        @else
-                        <option value="{{ $proveedor->id }}">{{ $proveedor->nombre }}</option>
-                        @endif
-                    @endforeach
-                </select>
+                {{ Form::label('observaciones') }}
+                {{ Form::text('observaciones', $producto->observaciones, ['class' => 'form-control' . ($errors->has('observaciones') ? ' is-invalid' : ''), 'placeholder' => 'observaciones']) }}
+                {!! $errors->first('observaciones', '<div class="invalid-feedback">:message</p>') !!}
             </div>
         </div>
         <div class="row form-group">
@@ -97,19 +75,9 @@
             {!! $errors->first('talla', '<div class="invalid-feedback">:message</p>') !!}
             </div>
             <div class="col">
-                {{ Form::label('precio') }}
-            {{ Form::text('valor_venta', $producto->valor_venta, ['class' => 'form-control' . ($errors->has('precio') ? ' is-invalid' : ''), 'placeholder' => 'precio']) }}
-            {!! $errors->first('valor_venta', '<div class="invalid-feedback">:message</p>') !!}
-            </div>
-            <div class="col">
-                {{ Form::label('precio_empresaria') }}
+                {{ Form::label('precio_catálogo') }}
             {{ Form::text('precio_empresaria', $producto->precio_empresaria, ['class' => 'form-control' . ($errors->has('precio_empresaria') ? ' is-invalid' : ''), 'placeholder' => 'precio empresaria']) }}
             {!! $errors->first('precio_empresaria', '<div class="invalid-feedback">:message</p>') !!}
-            </div>
-            <div class="col">
-                {{ Form::label('descuento') }}
-            {{ Form::text('descuento', $producto->descuento, ['class' => 'form-control' . ($errors->has('descuento') ? ' is-invalid' : ''), 'placeholder' => 'descuento']) }}
-            {!! $errors->first('descuento', '<div class="invalid-feedback">:message</p>') !!}
             </div>
             <div class="col">
                 {{ Form::label('estado') }}

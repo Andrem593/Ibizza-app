@@ -29,7 +29,7 @@
                                         <td data-label="Product" class="ec-cart-pro-name"><img class="ec-cart-pro-img mr-4"
                                                 src="{{ empty($item->imagen_path) ? 'https://www.blackwallst.directory/images/NoImageAvailable.png' : '../storage/images/productos/' . $item->imagen_path }}"
                                                 alt="" width="80" height="80">{{ $item->nombre_mostrar }}</td>
-                                        <td class="text-center">$ {{ $item->valor_venta }}</td>
+                                        <td class="text-center">$ {{ $item->precio_empresaria }}</td>
                                         <td class="text-center"><span class="badge bg-ibizza">Gratis</span></td>
                                     </tr>
                                 @endforeach

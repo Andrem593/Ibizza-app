@@ -42,11 +42,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Producto extends Model
 {
-    
+
     static $rules = [
-    'sku' => 'required',
-    'nombre_producto' => 'required',
-    'valor_venta' => 'required',
+        'sku' => 'required',
+        'precio_empresaria' => 'required',
     ];
 
     protected $perPage = 20;
@@ -56,7 +55,10 @@ class Producto extends Model
      *
      * @var array
      */
-    protected $fillable = ['sku','imagen_path', 'nombre_producto', 'descripcion', 'marca_id', 'grupo', 'seccion', 'clasificacion', 'proveedor_id', 'estilo', 'color', 'talla', 'cantidad_inicial', 'stock', 'valor_venta', 'ultima_venta', 'estado', 'nombre_mostrar', 'categoria', 'subcategoria', 'descuento', 'precio_empresaria'];
+    protected $fillable = ['sku', 'imagen_path', 'nombre_producto', 'descripcion', 'marca_id', 'grupo', 'seccion', 
+    'clasificacion', 'proveedor_id', 'estilo', 'color', 'talla', 'cantidad_inicial', 'stock', 'valor_venta', 'ultima_venta',
+    'estado', 'nombre_mostrar', 'categoria', 'subcategoria', 'descuento', 'precio_empresaria',
+    'observaciones', 'catalogo_id'];
 
     public function catalogo()
     {
@@ -71,8 +73,6 @@ class Producto extends Model
      */
     public function marca()
     {
-         return $this->hasOne(Marca::class, 'id', 'marca_id');
+        return $this->hasOne(Marca::class, 'id', 'marca_id');
     }
-    
-
 }

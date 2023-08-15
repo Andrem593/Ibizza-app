@@ -29,6 +29,7 @@
                     <table id="datatable" class="display table table-striped table-sm table-hover fw-bold" >
                         <thead class="bg-ibizza text-center">
                             <tr>
+                                <th>ID</th>
                                 <th>IDENTIFICACIÓN</th>                                
                                 <th>NOMBRE USUARIO</th>
                                 <th>EMAIL</th>

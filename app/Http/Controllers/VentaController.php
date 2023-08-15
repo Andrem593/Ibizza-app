@@ -113,7 +113,8 @@ class VentaController extends Controller
                     $update_data = [
                         'n_factura'  => $row[1],
                         'n_guia'  => $row[2],
-                        'estado'  => $row[3]
+                        // 'id_vendedor'  => $row[3],  
+                        'estado'  => $row[4]
                     ];
     
                     $update = Venta::where('id', $row[0])->update($update_data);
@@ -198,10 +199,9 @@ class VentaController extends Controller
     public function generarPedidoGuardado($id)
     {
         $reservas = Separado::with('usuario', 'empresaria')->where('id', $id)->first();
-        $pedidos_pendientes = Pedidos_pendiente::where('id_separados', $id)->with('producto')->get();
-        // dd($reservas);
+        $pedidos_pendientes = Pedidos_pendiente::where('id_separados', $id)->with('producto')->get();        
         $pdf = PDF::loadView('venta.comprobante-pedido-guardado', compact('reservas', 'pedidos_pendientes'));
-        $pdf->getDomPDF()->set_option('colorSpace', 'rgb');
+        $pdf->getDomPDF()->set_option('colorSpace', 'rgb',);
         return $pdf->stream('comprobante-pedidos-guardados.pdf');
     }
 }

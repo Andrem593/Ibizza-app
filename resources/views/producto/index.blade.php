@@ -93,6 +93,7 @@
                                     <th>CATÁLOGO</th>
                                     <th>PRECIO CATALOGO</th>
                                     <th>ESTADO</th>
+                                    <th>OBSERVACIONES</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -135,7 +136,7 @@
                 </div>
             @endpush
             @Push('scripts')
-                <script src="/js/crearDataTable.js"></script>
+                <script src="/js/crearDataTable2.js"></script>
                 <script>
                     $(document).ready(function() {
                         var data = {

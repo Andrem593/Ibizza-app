@@ -48,7 +48,9 @@ class TomarPedido extends Component
             $this->empresarias = Empresaria::with('pedidos')->where(function ($query) {
                 $query->where('nombres', 'like', '%' . $this->cliente . '%')
                     ->orWhere('cedula', 'like', '%' . $this->cliente . '%');
-            })->get();
+            })
+            ->where('estado', 'A')
+            ->get();
         }
 
         $this->provincias = Provincia::get();
@@ -243,8 +245,9 @@ class TomarPedido extends Component
                         'id_empresaria' => $this->id_empresaria,
                         'nombre_cliente' => $this->cliente,
                         'cantidad_total' => Cart::count(),
-                        'total_venta' => Cart::total(),
-                        'total_p_empresaria' => number_format(((float) Cart::total()) * 0.30, 2),
+                        'total_venta' => number_format(Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum(),2),
+                        'total_p_empresaria' => Cart::subtotal(),
+                        'envio' => $this->envio,
                     ]);
                     foreach (Cart::content() as $item) {
                         Pedidos_pendiente::create([
@@ -252,9 +255,12 @@ class TomarPedido extends Component
                             'id_producto' => $item->id,
                             'cantidad' => $item->qty,
                             'precio' => $item->price,
+                            'descuento' => $item->options->descuento,
+                            'precio_empresaria' => $item->options->pCatalogo,
                             'total' => number_format(($item->price * $item->qty), 2),
                             'estado' => 'SEPARADO',
                             'usuario' => Auth::user()->id,
+                            'direccion_envio'=> $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
                         ]);
                         $pro = Producto::where('id', $item->id)->first();
                         $nuevo_stock = $pro->stock - $item->qty;
@@ -266,6 +272,7 @@ class TomarPedido extends Component
                     $this->message = 'No hay stock disponible de los siguientes productos: ' . substr($text, 0, -2);
                 }
             } catch (\Throwable $th) {
+                dd($th->getMessage());
                 $this->message = 'ERROR AL GUARDAR PEDIDO, CONTACTE CON SISTEMAS';
             }
         } else {

@@ -38,8 +38,11 @@ class PedidosReservados extends Component
                 $query->where('tipo_cliente', 'like', '%' . $this->search . '%');
             });
         }
-        $separado = $separado->get();
-        // dd($separado);
+        if(Auth::user()->role != 'ADMINISTRADOR'){
+            $separado = $separado->where('id_usuario',Auth::user()->id)->get();
+        }else{
+            $separado = $separado->get();
+        }
         return view('livewire.pedidos-reservados',compact('separado'));
     }
     public function eliminarReserva($id)
@@ -60,19 +63,24 @@ class PedidosReservados extends Component
     {
         $this->detalle = true;
         $this->id_pedido = $id;        
-        $this->detalles_pedido = Pedidos_pendiente::where('id_separados',$id)->join('productos','pedidos_pendientes.id_producto','=','productos.id')->get();    
+        $this->detalles_pedido = Pedidos_pendiente::where('id_separados',$id)->select('pedidos_pendientes.*','productos.descripcion','productos.imagen_path','productos.color','productos.talla')
+        ->join('productos','pedidos_pendientes.id_producto','=','productos.id')->get();    
         if (Auth::user()->role != 'Empresaria') {   
             $this->cliente =  Separado::find($id);            
         }
     }
     public function recuperarPedido($productos){                
-        foreach ($productos as $producto) {
+        foreach ($productos as $producto) {            
             $products = Producto::find($producto['id_producto']);
             $nuevo_stock = $products->stock + $producto['cantidad'];
             Producto::find($producto['id_producto'])->update([
                 'stock'=>$nuevo_stock
             ]);
-            Cart::add($producto['id_producto'], $producto['nombre_mostrar'], $producto['cantidad'], $producto['precio'], ['image' => $producto['imagen_path'] , 'color'  => $producto['color'] , 'talla' => $producto['talla'] ])->associate('App\Models\Producto');
+            Cart::add($producto['id_producto'], 
+            $products->descripcion, $producto['cantidad'], $producto['precio'], ['image' => $producto['imagen_path'] , 
+            'color'  => $producto['color'] , 'talla' => $producto['talla'], 'descuento' => $producto['descuento'], 'pCatalogo' => $producto['precio_empresaria'],
+            'dataEnvio' => $producto['direccion_envio']
+            ])->associate('App\Models\Producto');
         }
         $id = $productos[0]['id_separados'];        
         $emp = Empresaria::find($this->cliente->id_empresaria);        

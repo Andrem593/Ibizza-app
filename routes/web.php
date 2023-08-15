@@ -267,6 +267,10 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->name('venta.datos-ventas');
 
 Route::middleware(['auth:sanctum', 'verified'])
+->post('/ventas/datos-pedido', [VentaController::class,'datosPedido'])
+->name('venta.datos-pedido');
+
+Route::middleware(['auth:sanctum', 'verified'])
 ->post('/ventas/carga-recibo', [VentaController::class,'cargaRecibo'])
 ->name('venta.carga-recibo');
 
@@ -301,3 +305,7 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/venta/comprobante/{id}', [VentaController::class,'generarComprobante'])
 ->name('venta.comprobante');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/venta/pdf-pedido/{id}', [VentaController::class,'generarPedidoGuardado'])
+->name('venta.pdf-pedido');

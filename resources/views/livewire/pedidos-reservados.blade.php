@@ -69,7 +69,7 @@
                         @if (count($separado) > 0)
                             @foreach ($separado as $item)
                                 <tr class="my-auto">
-                                    <td>{{ sprintf('%06d', $item->id)}}</td>
+                                    <td>{{ sprintf('%06d', $item->id) }}</td>
                                     <td>{{ $item->empresaria->nombres . ' ' . $item->empresaria->apellidos }}</td>
                                     <td>{{ $item->empresaria->tipo_cliente }}</td>
                                     <td>{{ $item->cantidad_total }}</td>
@@ -139,7 +139,8 @@
                     @endempty
                 </div>
                 <div class="col text-end">
-                    <a href="{{ route('venta.pdf-pedido', $id_pedido) }}" target="_blank" id="btn-pedidoPDF" class="btn bg-ibizza">
+                    <a href="{{ route('venta.pdf-pedido', $id_pedido) }}" target="_blank" id="btn-pedidoPDF"
+                        class="btn bg-ibizza">
                         Descargar
                     </a>
                     <button class="btn btn-primary" wire:click="$set('detalle',false)">Regresar</button>
@@ -155,9 +156,13 @@
                                     <th scope="col">Productos</th>
                                     <th scope="col">Color</th>
                                     <th scope="col">Talla</th>
-                                    <th scope="col">Precio</th>
+                                    <th scope="col">Precio Catalogo</th>
+                                    <th scope="col">Precio </th>
+                                    <th scope="col">Descuento</th>
                                     <th scope="col" width="15px">Cantidad</th>
                                     <th scope="col" width="15px">Total</th>
+                                    <th scope="col">Dirección</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -165,12 +170,22 @@
                                     <tr>
                                         <td><img src="/storage/images/productos/{{ $item->imagen_path }}" width="50px"
                                                 height="50px" style="object-fit: cover"></td>
-                                        <td>{{ $item->nombre_mostrar }}</td>
+                                        <td>{{ $item->descripcion }}</td>
                                         <td>{{ $item->color }}</td>
                                         <td>{{ $item->talla }}</td>
+                                        <td>${{ $item->precio_empresaria }}</td>
                                         <td>${{ $item->precio }}</td>
+                                        <td>{{ $item->descuento * 100 }}%</td>
                                         <td>{{ $item->cantidad }}</td>
                                         <td>${{ $item->total }}</td>
+                                        <td>
+                                            @php
+                                                if ($item->direccion_envio != '') {
+                                                    $data = json_decode($item->direccion_envio);
+                                                    echo "Nombre: $data->nombre <br> Tel: $data->telefono <br> Dir: $data->direccion <br> Ref: $data->referencia";
+                                                }
+                                            @endphp
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

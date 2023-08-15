@@ -111,9 +111,26 @@
                                         </span>
                                         <div class="ec-check-bill-form">
                                             <form id="form_datos" action="#" method="post">
-                                                <span class="ec-bill-wrap">
+                                                <span class="ec-bill-wrap ec-bill-half">
+                                                    <label>Tipo Identificación</label>
+                                                    <span class="ec-bl-select-inner">
+                                                        <select class="ec-bill-select" name="tipo_id" id="tipo_id">
+                                                            <option value="cedula"
+                                                                {{ $empresaria->tipo_id == 'cedula' ? 'selected' : '' }}>
+                                                                Cédula</option>
+                                                            <option value="pasaporte"
+                                                                {{ $empresaria->tipo_id == 'pasaporte' ? 'selected' : '' }}>
+                                                                Pasaporte</option>
+                                                            <option value="ruc"
+                                                                {{ $empresaria->tipo_id == 'ruc' ? 'selected' : '' }}>
+                                                                Ruc
+                                                            </option>
+                                                        </select>
+                                                    </span>
+                                                </span>
+                                                <span class="ec-bill-wrap ec-bill-half">
                                                     <label>Número de identificacion</label>
-                                                    <input type="number" id="cedula" name="cedula"
+                                                    <input type="text" id="cedula" name="cedula"
                                                         value="{{ $empresaria->cedula }}"
                                                         placeholder="Ingrese su número de cedula" required />
                                                 </span>
@@ -145,70 +162,6 @@
                                                     value="{{ $empresaria->direccion }}">
                                                 <input type="hidden" id="referencia_domicilio"
                                                     value="{{ $empresaria->referencia }}">
-                                                {{-- <span class="ec-bill-wrap">
-                                                    <label>Email</label>
-                                                    <input type="text" id="direccion" name="direccion"
-                                                        value="{{ $empresaria->direccion }}"
-                                                        placeholder="Ingrese la dirección de entrega del pedido"
-                                                        required />
-                                                </span>
-                                                <span class="ec-bill-wrap">
-                                                    <label>Referencia</label>
-                                                    <input type="text" id="referencia" name="referencia"
-                                                        value="{{ $empresaria->referencia }}"
-                                                        placeholder="Ingrese la referencia de envío" required />
-                                                </span>
-                                                <span class="ec-bill-wrap ec-bill-half">
-                                                    <label>Pais</label>
-                                                    <span class="ec-bl-select-inner">
-                                                        <select name="pais" id="ec-select-country"
-                                                            class="ec-bill-select" disabled>
-                                                            <option selected disabled>ECUADOR</option>
-                                                        </select>
-                                                    </span>
-                                                </span>
-                                                <span class="ec-bill-wrap ec-bill-half">
-                                                    <label>Provincia</label>
-                                                    <span class="ec-bl-select-inner">
-                                                        <select name="provincia" id="provincia" class="ec-bill-select"
-                                                            disabled>
-                                                            <option value="">Seleccione provincia</option>
-                                                            @foreach ($provincia as $item)
-                                                                @if ($empresaria->provincia_id == $item->id)
-                                                                    <option value="{{ $item->id }}" selected>
-                                                                        {{ $item->descripcion }}</option>
-                                                                @else
-                                                                    <option value="{{ $item->id }}">
-                                                                        {{ $item->descripcion }}</option>
-                                                                @endif
-                                                            @endforeach
-                                                        </select>
-                                                    </span>
-                                                </span>
-                                                <span class="ec-bill-wrap ec-bill-half mx-auto">
-                                                    <label>Ciudad</label>
-                                                    <span class="ec-bl-select-inner">
-                                                        <select name="ciudad" id="ciudad" class="ec-bill-select">
-                                                            <option value="">Seleccione ciudad</option>
-                                                            @empty(!$ciudad)
-                                                                @foreach ($ciudad as $item)
-                                                                    @if ($empresaria->id_ciudad == $item->id)
-                                                                        <option value="{{ $item->id }}" selected>
-                                                                            {{ $item->descripcion }}</option>
-                                                                    @else
-                                                                        <option value="{{ $item->id }}">
-                                                                            {{ $item->descripcion }}</option>
-                                                                    @endif
-                                                                @endforeach
-                                                            @endempty
-                                                        </select>
-                                                    </span>
-                                                </span> --}}
-                                                {{-- <span class="ec-bill-wrap ec-bill-half">
-                                                    <label>Codigo Postal</label>
-                                                    <input type="text" name="postalcode" id="codigo_postal"
-                                                        placeholder="ingrese el codigo postal" required />
-                                                </span> --}}
                                             </form>
                                         </div>
 
@@ -342,12 +295,12 @@
                                     </div>
                                     <div>
                                         <span class="text-left">Envio</span>
-                                        <span class="text-right"
-                                            id="envio">${{ $envio }}</span>
+                                        <span class="text-right" id="envio">${{ $envio }}</span>
                                     </div>
                                     <div class="ec-checkout-summary-total">
                                         <span class="text-left">Total a Pagar</span>
-                                        <span class="text-right" id="total_pagar">${{ Cart::total() + $envio }}</span>
+                                        <span class="text-right"
+                                            id="total_pagar">${{ Cart::total() + $envio }}</span>
                                     </div>
                                 </div>
                                 <div class="ec-checkout-pro">
@@ -381,39 +334,7 @@
                             </div>
                             <!-- Sidebar Summary Block -->
                         </div>
-                        {{-- <div class="ec-sidebar-wrap ec-checkout-del-wrap">
-                        <!-- Sidebar Summary Block -->
-                        <div class="ec-sidebar-block">
-                            <div class="ec-sb-title">
-                                <h3 class="ec-sidebar-title">Delivery Method</h3>
-                            </div>
-                            <div class="ec-sb-block-content">
-                                <div class="ec-checkout-del">
-                                    <div class="ec-del-desc">Please select the preferred shipping method to use on this
-                                        order.</div>
-                                    <form action="#">
-                                        <span class="ec-del-option">
-                                            <span>
-                                                <span class="ec-del-opt-head">Free Shipping</span>
-                                                <input type="radio" id="del1" name="radio-group" checked>
-                                                <label for="del1">Rate - $0 .00</label>
-                                            </span>
-                                            <span>
-                                                <span class="ec-del-opt-head">Flat Rate</span>
-                                                <input type="radio" id="del2" name="radio-group">
-                                                <label for="del2">Rate - $5.00</label>
-                                            </span>
-                                        </span>
-                                        <span class="ec-del-commemt">
-                                            <span class="ec-del-opt-head">Add Comments About Your Order</span>
-                                            <textarea name="your-commemt" placeholder="Comments"></textarea>
-                                        </span>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Sidebar Summary Block -->
-                    </div> --}}
+
                         <div class="ec-sidebar-wrap ec-checkout-pay-wrap">
                             <!-- Sidebar Payment Block -->
                             <div class="ec-sidebar-block">
@@ -478,14 +399,9 @@
                 let total = $('#total_pagar').text().split('$');
                 let ganancia = $('#ganancia').text().split('$');
 
-                let opcion = $("input[type=radio][name=radio-direccion]:checked").val();
-                let direccion = $('#direccion').val();
-                let referencia = $('#referencia').val();
 
-                if (opcion == 'domicilio') {
-                    direccion = $('#direccion_domicilio').val();
-                    referencia = $('#referencia_domicilio').val();
-                }
+                let direccion = $('#direccion_domicilio').val();
+                let referencia = $('#referencia_domicilio').val();
 
                 let datos = {
                     cedula: $('#cedula').val(),
@@ -495,13 +411,18 @@
                     referencia: referencia,
                     provincia: $('#provincia').val(),
                     ciudad: $('#ciudad').val(),
-                    codigo_postal: $('#codigo_postal').val(),
                     total_pagar: total[1],
                     total_productos: $('#total_productos').text(),
                     premio: $('#premio').val(),
                     observaciones: $('#observaciones_pedido').val(),
                     ganancia: ganancia[1],
-                    opcion: opcion
+                    opcion: opcion,
+                    envio: $('#envio').text(),
+                    nombre_envio: $('#nombre_envio').val(),
+                    telefono_envio: $('#telefono_envio').val(),
+                    direccion_envio: $('#direccion').val(),
+                    referencia_envio: $('#referencia').val(),
+
                 }
                 let continuar = 0;
                 if ($('#premio').val() == "tiene premio") {
@@ -524,9 +445,11 @@
                 datos['premios'] = productosPremio;
                 let total_pedido = $('#total_pagar').text().split('$');
 
-                if ($('#cedula').val() != '' && $('#nombres').val() != '' && $(
-                        '#apellidos').val() != '' && $('#direccion').val() != '' && $('#referencia').val() != '' && $(
-                        '#ciudad').val() != '') {
+                if ($('#cedula').val() != '' && $('#nombres').val() != '' && $('#apellidos').val() != '' &&
+                    $('#direccion').val() != '' && $('#referencia').val() != '' && $('#ciudad').val() != '' ||
+                    $('#cedula').val() != '' && $('#nombres').val() != '' && $('#apellidos').val() != '' && $(
+                        'input[name="radio-envio"]:checked').val() == 'varios'
+                ) {
                     if (total_pedido[1] > 0) {
                         if (continuar > 0) {
                             Swal.fire(
@@ -645,6 +568,7 @@
                                 title: 'Datos de empresaria agregados'
                             })
                             $('#cedula').val(response['empresaria']['cedula'])
+                            $('#tipo_id').val(response['empresaria']['tipo_id'])
                             $('#nombres').val(response['empresaria']['nombres'])
                             $('#nombre_envio').val(response['empresaria']['nombres'] + ' ' + response[
                                 'empresaria']['apellidos'])

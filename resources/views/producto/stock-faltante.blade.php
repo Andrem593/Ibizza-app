@@ -25,6 +25,7 @@
                                 <thead class="bg-ibizza text-center">
                                     <tr>
                                         <th>NOMBRE</th>
+                                        <th>CATÁLOGO</th>
                                         <th>ESTILO</th>
                                         <th>COLOR</th>
                                         <th>TALLA</th>
@@ -44,7 +45,7 @@
                 @endpush
                 
                 @Push('scripts')
-                    <script src="/js/crearDataTable.js"></script>
+                    <script src="/js/crearDataTable1.js"></script>
                     <script>
                         const Toast = Swal.mixin({
                             toast: true,

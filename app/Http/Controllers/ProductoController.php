@@ -158,51 +158,43 @@ class ProductoController extends Controller
 
             foreach ($data as $key => $row) {
                 if ($key >= 1) {
+                    $marca_id = DB::table('marcas')->where('nombre', 'like', '%' . $row[2] . '%')->value('id');
 
-                    $producto = Producto::where('sku', $row[0])->first();
-
-                    if ($producto) {
-                        $producto->stock = $row[11] + $producto->stock;
-                        $producto->precio_empresaria = $row[13];
-                        $producto->save();
-                    } else {
-                        $marca_id = DB::table('marcas')->where('nombre', 'like', '%' . $row[3] . '%')->value('id');
-
-                        if (empty($marca_id)) {
-                            $marca_id = DB::table('marcas')->insertGetId(
-                                array('nombre' => $row[3], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
-                            );
-                        }
-
-                        $catalogo = DB::table('catalogos')->where('id', $row[12])->value('id');
-
-                        if (empty($catalogo)) { } else {
-                            Catalogo_has_Producto::updateOrInsert([
-                                'catalogo_id' => $catalogo,
-                                'estilo' => $row[7],
-                            ]);
-                        }
-
-                        $insert_data = array(
-                            'sku'  => $row[0],
-                            'nombre_producto'  => $row[1] ?? null,
-                            'descripcion'  => $row[2],
-                            'marca_id'  => $marca_id,
-                            'clasificacion' => $row[4],
-                            'categoria'  => $row[5],
-                            'subcategoria'  => $row[6],
-                            'estilo'  => $row[7],
-                            'color'  => $row[8],
-                            'talla'  => $row[9],
-                            'cantidad_inicial'  => $row[10],
-                            'stock'  => $row[11],
-                            'nombre_mostrar'  => $row[1],
-                            'precio_empresaria'  => $row[13],
-                            'estado'  => $row[14]
+                    if (empty($marca_id)) {
+                        $marca_id = DB::table('marcas')->insertGetId(
+                            array('nombre' => $row[2], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'))
                         );
-
-                        Producto::create($insert_data);
                     }
+
+                    $catalogo = DB::table('catalogos')->where('id', $row[11])->value('id');
+
+                    if (empty($catalogo)) { } else {
+                        Catalogo_has_Producto::updateOrInsert([
+                            'catalogo_id' => $catalogo,
+                            'estilo' => $row[6],
+                        ]);
+                    }
+
+                    $insert_data = array(
+                        'sku'  => $row[0],
+                        'descripcion'  => $row[1],
+                        'marca_id'  => $marca_id,
+                        'clasificacion' => $row[3],
+                        'categoria'  => $row[4],
+                        'subcategoria'  => $row[5],
+                        'estilo'  => $row[6],
+                        'color'  => $row[7],
+                        'talla'  => $row[8],
+                        'cantidad_inicial'  => $row[9],
+                        'stock'  => $row[10],
+                        'nombre_mostrar'  => $row[1],
+                        'precio_empresaria'  => $row[12],
+                        'estado'  => $row[13],
+                        'observaciones'  => $row[14],
+                        'catalogo_id'=> $row[11],
+                    );
+
+                    Producto::create($insert_data);
                 }
             }
 
@@ -220,8 +212,7 @@ class ProductoController extends Controller
         if ($_POST['funcion'] == 'listar_todo') {
             $productos = DB::table('productos')
                 ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
-                ->join('catalogo_has_productos', 'catalogo_has_productos.estilo', '=', 'productos.estilo')
-                ->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
+                ->join('catalogos', 'catalogos.id', '=', 'productos.catalogo_id')
                 ->select('productos.*', 'marcas.nombre AS nombre_marca', 'catalogos.nombre AS nombre_catalogo')
                 ->get();
             if (count($productos) == 0) {
@@ -234,9 +225,8 @@ class ProductoController extends Controller
             $catalogo = $_POST['catalogo'];
             $productos = DB::table('productos')
                 ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
-                ->join('catalogo_has_productos', 'catalogo_has_productos.estilo', '=', 'productos.estilo')
-                ->join('catalogos', 'catalogos.id', '=', 'catalogo_has_productos.catalogo_id')
-                ->where('catalogo_has_productos.catalogo_id', $catalogo)
+                ->join('catalogos', 'catalogos.id', '=', 'productos.catalogo_id')
+                ->where('catalogos.id', $catalogo)
                 ->select('productos.*', 'marcas.nombre AS nombre_marca', 'catalogos.nombre AS nombre_catalogo')
                 ->get();
             if (count($productos) == 0) {
@@ -323,7 +313,15 @@ class ProductoController extends Controller
     {
         $response = '';
         if ($_POST['funcion'] == 'listar_STOCK') {
-            $stock = LogStockFaltante::select('*')->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d %H:%i:%s") as fecha')->get();
+            $stock = LogStockFaltante::join('productos', function ($join) {
+                $join->on('productos.estilo', '=', 'log_stock_faltantes.estilo')
+                    ->on('productos.color', '=', 'log_stock_faltantes.color')
+                    ->on('productos.talla', '=', 'log_stock_faltantes.talla');
+            })
+                ->join('catalogos', 'catalogos.id', '=', 'productos.catalogo_id')
+                ->select('log_stock_faltantes.*', 'catalogos.nombre')
+                ->selectRaw('DATE_FORMAT(log_stock_faltantes.created_at, "%Y-%m-%d %H:%i:%s") as fecha')
+                ->get();
             if (count($stock) == 0) {
                 $stock = 'no data';
             }

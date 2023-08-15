@@ -1300,7 +1300,6 @@ function crearTablaVentas(data, ruta) {
                     $('#estado_venta').prop( "disabled", false );
                 }
                 Livewire.emitTo('guardar-pago', 'setVenta', venta['id']);
-                $('#estado_venta').val(venta['estado']);
                 $('#venta').text(venta['id'])
                 $('#btn-descarga').attr( 'href','/venta/comprobante/' + venta['id']);
                 $('#fcedula').text(venta['factura_identificacion'])

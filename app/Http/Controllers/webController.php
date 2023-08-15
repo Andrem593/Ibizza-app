@@ -206,9 +206,10 @@ class webController extends Controller
             'factura_nombres' => ($request->nombres . ' ' . $request->apellidos),
             'direccion_envio' => $request->direccion,            
             'cantidad_total' => count(Cart::content()),
+            'envio'=> $request->envio,
             'total_venta' => $request->total_pagar,
             'total_p_empresaria'=>$request->ganancia,
-            'estado' => 'PEDIDO',
+            'estado' => 'PENDIENTE DE PAGO',
             'observaciones' => $request->observaciones
         ]);
         foreach ($productos_pedidos as $producto) {
@@ -216,9 +217,11 @@ class webController extends Controller
                 'id_producto' => $producto->id,
                 'id_venta' => $venta->id,
                 'cantidad' => $producto->qty,
-                'precio' => $producto->price,
-                'total' => number_format(($producto->price * $producto->qty), 2),
-                'estado' => 'PEDIDO',
+                'precio' => number_format($producto->price * $producto->qty,2),
+                'precio_catalogo'=> number_format($producto->options->pCatalogo* $producto->qty, 2),    
+                'direccion_envio'=>$producto->options->dataEnvio != '' ? $producto->options->dataEnvio : '',   
+                'descuento'=>$producto->options->descuento,         
+                'estado' => 'PENDIENTE DE PAGO',
                 'usuario' => Auth::user()->id,
             ]);
             $pro = Producto::where('id', $producto->id)->first();

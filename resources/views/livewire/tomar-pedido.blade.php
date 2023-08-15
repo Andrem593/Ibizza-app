@@ -125,8 +125,6 @@
                                     <b>{{ $stock == 0 ? 'AGOTADO' : $stock }}</b></span>
                             </div>
                             <div class="col-6">
-                                <span class="badge badge-pill badge-secondary" style="font-size: 0.9rem;">PVP:
-                                    ${{ $tallas[0]->valor_venta }}</span>
                                 @empty(!$tallas[0]->descuento)
                                     <span class="badge badge-pill bg-ibizza" style="font-size: 0.9rem;">Descuento:
                                         {{ $tallas[0]->descuento }}%</span>

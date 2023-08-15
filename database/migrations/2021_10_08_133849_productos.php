@@ -41,25 +41,7 @@ class Productos extends Migration
             $table->string('subcategoria')->nullable();
             $table->float('descuento', 8, 2)->nullable();
             $table->float('precio_empresaria', 8, 2)->nullable();
-            // $table->string('linea')->nullable();
-            // $table->string('color')->nullable();
-            // $table->string('nombre_color')->nullable();
-            // $table->float('precio', 8, 2)->nullable();
-            // $table->float('descuento', 8, 2)->nullable();
-            
-            // $table->integer('cantidad')->nullable();
-            // $table->integer('stock_inicial')->nullable();
-            // $table->string('coleccion')->nullable();
-            // $table->date('fecha_entrega')->nullable();
-            // $table->string('status_fabrica')->nullable();
-            // $table->string('vigencia')->default('ACTIVO');
-            // $table->text('observacion')->nullable();
-            // $table->float('pvp', 8, 2)->nullable();
-            // $table->string('imagen')->nullable();
-            // $table->string('status_imagen')->default(0);
-            // $table->float('precio_mayorista', 8, 2)->nullable();
-            // $table->string('modelo')->nullable();
-            // $table->string('numero_pedido')->nullable();
+
             
             
             

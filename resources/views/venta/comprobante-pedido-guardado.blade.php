@@ -10,7 +10,7 @@
     <style>
         * {
             font-family: sans-serif;
-            font-size: 12px;
+            font-size: 10px;
         }
 
         table {
@@ -39,7 +39,6 @@
             <p style="font-weight: bold" style="margin: 0;">N° Pedido: {{ $reservas->id }}
             </p>
             <div>Fecha: {{ $reservas->created_at->format('d-m-Y') }}</div>
-            <div>Empresaria: {{ $reservas->empresaria->nombres . ' ' . $reservas->empresaria->apellidos }}</div>
         </div>
         <table style="width: 100%; margin-top: 5px; border-collapse: collapse;">
             <tr>
@@ -62,9 +61,11 @@
                     <th style="padding: 8px; background-color: #f2f2f2;">PRODUCTO</th>
                     <th style="padding: 8px; background-color: #f2f2f2;">COLOR</th>
                     <th style="padding: 8px; background-color: #f2f2f2;">TALLA</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">PRECIO CATÁLOGO</th>
                     <th style="padding: 8px; background-color: #f2f2f2;">PRECIO</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">DESCUENTO</th>
                     <th style="padding: 8px; background-color: #f2f2f2;">CANTIDAD</th>
-                    <th style="padding: 8px; background-color: #f2f2f2;">TOTAL</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">DIRECCIÓN</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,13 +75,22 @@
                                 width="60px"
                                 src="{{ $pedido->producto->imagen_path != '' ? 'https://catalogoibizza.com//storage/images/productos/' . $pedido->producto->imagen_path : 'https://catalogoibizza.com/img/imagen-no-disponible.jpg' }}">
                         </td>
-                        <td style="padding: 8px;border: 1px solid black;">{{ $pedido->producto->nombre_mostrar }}</td>
+                        <td style="padding: 8px;border: 1px solid black;">{{ $pedido->producto->descripcion }}</td>
                         <td style="padding: 8px;border: 1px solid black;">{{ $pedido->producto->color }}</td>
                         <td style="padding: 8px;border: 1px solid black;">{{ $pedido->producto->talla }}</td>
-                        <td style="padding: 8px;border: 1px solid black;">{{ $pedido->precio }}
+                        <td style="padding: 8px;border: 1px solid black;">
+                            {{ $pedido->precio_empresaria * $pedido->cantidad }}
+                        <td style="padding: 8px;border: 1px solid black;">{{ $pedido->total}}
                         </td>
+                        <td style="padding: 8px;border: 1px solid black;">{{ $pedido->descuento * 100 }}%</td>
                         <td style="padding: 8px;border: 1px solid black;">{{ $pedido->cantidad }}</td>
-                        <td style="padding: 8px;border: 1px solid black;">${{ $pedido->total }}
+                        <td style="padding: 8px;border: 1px solid black;">
+                            @php
+                                if ($pedido->direccion_envio != '') {
+                                    $data = json_decode($pedido->direccion_envio);
+                                    echo "Nombre: $data->nombre <br> Tel: $data->telefono <br> Dir: $data->direccion <br> Ref: $data->referencia";
+                                }
+                            @endphp
                         </td>
                     </tr>
                 @endforeach
@@ -89,38 +99,54 @@
                 <tr>
                     <td style="padding: 8px;border: 1px solid black;" colspan="4"></td>
                     <td style="padding: 8px;border: 1px solid black;">
-                        {{ $pedidos_pendientes->sum(function ($pedido) {return $pedido->precio;}) }}
+                        ${{ $pedidos_pendientes->sum(function ($pedido) {return $pedido->precio_empresaria * $pedido->cantidad;}) }}
                     </td>
+                    <td style="padding: 8px;border: 1px solid black;">
+                        ${{ number_format($pedidos_pendientes->sum(function ($pedido) {return $pedido->total;}),2) }}
+                    </td>
+                    <td style="padding: 8px;border: 1px solid black;"></td>
                     <td style="padding: 8px;border: 1px solid black;">
                         {{ $pedidos_pendientes->sum(function ($pedido) {return $pedido->cantidad;}) }}
                     </td>
-                    <td style="padding: 8px;border: 1px solid black;">
-                        {{ $pedidos_pendientes->sum(function ($pedido) {return $pedido->total;}) }}
-                    </td>
+                    <td style="padding: 8px;border: 1px solid black;"></td>
                 </tr>
                 <tr>
-                    <td colspan="7"  style="padding: 8px;border: 1px solid black;"></td>              
+                    <td colspan="9" style="padding: 8px;border: 1px solid black;"></td>
                 </tr>
 
                 <tr>
-                    <td style="padding: 8px;border: 1px solid black;" colspan="5"></td>
+                    <td style="padding: 8px;border: 1px solid black;" colspan="7"></td>
                     <td style="padding: 8px;border: 1px solid black;">ENVIO</td>
-                    <td style="padding: 8px;border: 1px solid black;">$3</td>
+                    <td style="padding: 8px;border: 1px solid black;">${{ $reservas->envio }}</td>
                 </tr>
                 <tr>
-                    <td style="padding: 8px;border: 1px solid black;" colspan="5"></td>
+                    <td style="padding: 8px;border: 1px solid black;" colspan="7"></td>
                     <td style="padding: 8px;border: 1px solid black;">TOTAL A PAGAR</td>
-                    <td style="padding: 8px;border: 1px solid black;">{{ $pedidos_pendientes->sum(function ($pedido) {return $pedido->total;}) + 3}}</td>
-                    
+                    <td style="padding: 8px;border: 1px solid black;">
+                        ${{ $pedidos_pendientes->sum(function ($pedido) {return $pedido->total;}) + $reservas->envio }}
+                    </td>
+
                 </tr>
                 <tr>
-                    <td style="padding: 8px;border: 1px solid black;" colspan="5"></td>
+                    <td style="padding: 8px;border: 1px solid black;" colspan="7"></td>
                     <td style="padding: 8px;border: 1px solid black;">GANANCIA</td>
-                    <td style="padding: 8px;border: 1px solid black;">$0</td>
-                    
+                    <td style="padding: 8px;border: 1px solid black;">
+                        ${{number_format( $pedidos_pendientes->sum(function ($pedido) {
+                            return $pedido->precio_empresaria * $pedido->cantidad;
+                        }) -
+                            $pedidos_pendientes->sum(function ($pedido) {
+                                return $pedido->total;
+                            }),2) }}
+                    </td>
+
                 </tr>
             </tfoot>
         </table>
+
+
+        <div style="margin-top: 20px">
+            <img src="https://catalogoibizza.com/public/assets/images/cuentas/Cuentas.jpg" style="width: 100%">
+        </div>
 
 </body>
 
