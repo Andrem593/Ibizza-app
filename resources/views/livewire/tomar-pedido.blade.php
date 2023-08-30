@@ -389,6 +389,8 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.location.href = "{{ route('venta.pedidos-guardados') }}";
+                    }else{
+                        window.location.href = "{{ route('venta.pedido' ) }}";
                     }
                 })
             </script>

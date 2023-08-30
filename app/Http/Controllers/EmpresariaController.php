@@ -137,6 +137,11 @@ class EmpresariaController extends Controller
             'apellidos' => 'required',
             'id_ciudad' => 'required',
         ]);
+
+        if(empty($request->tipo_cliente)){
+            $request->tipo_cliente = $empresaria->tipo_cliente;
+        }
+
         $empresariaData = [
             'tipo_id' => $request->tipo_id,
             'nombres' => trim(strtoupper($request->nombres)),
@@ -144,7 +149,7 @@ class EmpresariaController extends Controller
             'fecha_nacimiento' => $request->fecha_nacimiento,
             'direccion' => trim(strtoupper($request->direccion)),
             'referencia' => trim(strtoupper($request->referencia)),
-            'tipo_cliente' => trim(strtoupper($request->tipo_cliente)),
+            'tipo_cliente' => $request->tipo_cliente,
             'telefono' => trim($request->telefono),
             'id_ciudad' => $request->id_ciudad,
             'vendedor' => $request->vendedor != null ? $request->vendedor : Auth::user()->id,
@@ -178,7 +183,7 @@ class EmpresariaController extends Controller
         $response = '';
         if ($_POST['funcion'] == 'listar_todo') {
             $user = Auth::user();
-            if ($user->role == 'Asesor') {
+            if ($user->role == 'Asesor' || $user->role == 'ASESOR' ) {
                 $empresarias = $empresarias = DB::table('empresarias')
                     ->join('ciudades', 'empresarias.id_ciudad', '=', 'ciudades.id')
                     ->join('users', 'users.id', '=', 'empresarias.vendedor')
@@ -200,7 +205,7 @@ class EmpresariaController extends Controller
         }
         if ($_POST['funcion'] == 'filtro') {
             $user = Auth::user();
-            if ($user->role == 'Asesor') {
+            if ($user->role == 'Asesor' || $user->role == 'ASESOR') {
                 $empresarias = $empresarias = DB::table('empresarias')
                     ->join('ciudades', 'empresarias.id_ciudad', '=', 'ciudades.id')
                     ->join('users', 'users.id', '=', 'empresarias.vendedor')

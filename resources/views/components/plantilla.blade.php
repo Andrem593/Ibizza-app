@@ -34,7 +34,7 @@
 
     <!-- Main Style -->
     <link rel="stylesheet" href="{{ url('assets/css/demo1.css') }}" />
-    <link rel="stylesheet" href="{{ url('assets/css/skin-04.css') }}">
+    <link rel="stylesheet" href="{{ url('assets/css/skin-046.css') }}">
     <link rel="stylesheet" href="{{ url('assets/css/responsive.css') }}" />
 
     <!-- Background css -->

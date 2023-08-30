@@ -40,6 +40,9 @@ class Empresaria extends Model
      */
     protected $fillable = ['tipo_id','cedula','nombres','apellidos','fecha_nacimiento','direccion','referencia','direccion_envio','referencia_envio','tipo_cliente','email','password','estado','telefono','id_ciudad','vendedor','id_user'];
 
+
+    protected $appends  = ['nombre_completo'];
+
     public function pedidos()
     {
         return $this->hasMany(Venta::class, 'id_empresaria', 'id');
@@ -67,6 +70,11 @@ class Empresaria extends Model
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8']
         ];
+    }
+    
+    public function getNombreCompletoAttribute()
+    {
+        return $this->nombres . ' ' . $this->apellidos;
     }
 
 }

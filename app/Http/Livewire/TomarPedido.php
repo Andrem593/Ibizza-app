@@ -23,7 +23,7 @@ class TomarPedido extends Component
 
     public $provincias, $ciudades;
 
-    public $nombre, $telefono, $provincia, $ciudad, $direccion, $referencia; 
+    public $nombre, $telefono, $provincia, $ciudad, $direccion, $referencia;
 
     public $envio = 0;
 
@@ -45,18 +45,21 @@ class TomarPedido extends Component
             $this->click2 = true;
         }
         if (!empty($this->cliente) && !$this->click2) {
-            $this->empresarias = Empresaria::with('pedidos')->where(function ($query) {
-                $query->where('nombres', 'like', '%' . $this->cliente . '%')
-                    ->orWhere('cedula', 'like', '%' . $this->cliente . '%');
-            })
-            ->where('estado', 'A')
-            ->get();
+            $this->empresarias = Empresaria::with('pedidos')
+                ->where(function ($query) {
+                    $query->where('cedula', 'like', '%' . $this->cliente . '%')
+                        ->orWhereRaw("CONCAT(nombres, ' ', apellidos) LIKE ?", ['%' . $this->cliente . '%']);
+                })
+                ->where('estado', 'A')
+                ->get();
         }
 
         $this->provincias = Provincia::get();
 
         if (!empty($this->estilo) && !$this->click) {
-            $this->similitudes = Producto::distinct()->where('estilo', 'like', '%' . $this->estilo . '%')->select('estilo')->get();
+            $this->similitudes = Producto::distinct()->where('estilo', 'like', '%' . $this->estilo . '%')
+                ->where('estado', 'A')
+                ->select('estilo')->get();
         }
         return view('livewire.tomar-pedido');
     }
@@ -90,7 +93,9 @@ class TomarPedido extends Component
 
         try {
             $estilo = $this->estilo;
-            $colores = Producto::where('estilo', $estilo)->groupBy('color')->get();
+            $colores = Producto::where('estilo', $estilo)->groupBy('color')
+                ->where('estado', 'A')
+                ->get();
             $tallas = Producto::where('estilo', $estilo)
                 ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
                 ->select('productos.*', 'marcas.nombre AS nombre_marca')
@@ -138,6 +143,7 @@ class TomarPedido extends Component
         $this->message = '';
         if ($this->cantidad > 0 && !empty($this->estilo) && !empty($this->color) && !empty($this->talla)) {
             $producto = Producto::where('estilo', $this->estilo)->where('color', $this->color)->where('talla', $this->talla)
+                ->where('estado', 'A')
                 ->with(['marca', 'catalogo'])
                 ->first();
 
@@ -158,7 +164,7 @@ class TomarPedido extends Component
                     if ($descuento > 0) {
                         $carItems = Cart::content();
                         foreach ($carItems as $key => $item) {
-                            $precioNuevo = (float) $item->price - ($item->price * $descuento);
+                            $precioNuevo = (float) $item->options->pCatalogo - ($item->options->pCatalogo * $descuento);
                             Cart::update($item->rowId, ['price' => $precioNuevo, 'options' => [
                                 'image' => $item->options->image, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
                                 'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
@@ -176,6 +182,8 @@ class TomarPedido extends Component
                         ]
                     )
                         ->associate('App\Models\Producto');
+                    //separar stock 
+                    $producto->update(['stock' => $producto->stock - $this->cantidad]);
                     $this->reset(['colores', 'tallas', 'imagen', 'color', 'talla', 'cantidad']);
                 } catch (\Throwable $th) {
                     dd($th->getMessage());
@@ -199,6 +207,7 @@ class TomarPedido extends Component
     {
         $item = Cart::get($id);
         $producto = Producto::where('id', $item->id)->with(['marca', 'catalogo'])->first();
+        $producto->update(['stock' => $producto->stock + $item->qty]);
         $parametros = ParametroCatalogo::where('catalogo_id', $producto->catalogo->catalogo_id)
             ->where('estado', 1)
             ->get();
@@ -214,7 +223,7 @@ class TomarPedido extends Component
                 $precioNuevo = (float) $item->options->pCatalogo;
                 Cart::update($item->rowId, ['price' => $precioNuevo, 'options' => [
                     'image' => $item->options->image, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
-                    'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo,'dataEnvio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
+                    'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
                 ]]);
             }
         }
@@ -231,7 +240,7 @@ class TomarPedido extends Component
                 $text = '';
                 foreach (Cart::content() as $item) {
                     $pro = Producto::where('id', $item->id)->first();
-                    $nuevo_stock = $pro->stock - $item->qty;
+                    $nuevo_stock = $pro->stock;
                     if ($nuevo_stock < 0) {
                         $flag = true;
                         $text .= $item->name . ' >> ' . $pro->stock . ' en stock, ';
@@ -245,7 +254,9 @@ class TomarPedido extends Component
                         'id_empresaria' => $this->id_empresaria,
                         'nombre_cliente' => $this->cliente,
                         'cantidad_total' => Cart::count(),
-                        'total_venta' => number_format(Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum(),2),
+                        'total_venta' => number_format(Cart::content()->map(function ($item) {
+                            return $item->options->pCatalogo * $item->qty;
+                        })->sum(), 2),
                         'total_p_empresaria' => Cart::subtotal(),
                         'envio' => $this->envio,
                     ]);
@@ -260,11 +271,11 @@ class TomarPedido extends Component
                             'total' => number_format(($item->price * $item->qty), 2),
                             'estado' => 'SEPARADO',
                             'usuario' => Auth::user()->id,
-                            'direccion_envio'=> $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
+                            'direccion_envio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
                         ]);
                         $pro = Producto::where('id', $item->id)->first();
-                        $nuevo_stock = $pro->stock - $item->qty;
-                        Producto::where('id', $item->id)->update(['stock' => $nuevo_stock]);
+                        // $nuevo_stock = $pro->stock - $item->qty;
+                        // Producto::where('id', $item->id)->update(['stock' => $nuevo_stock]);
                     }
                     Cart::destroy();
                     $this->alert = true;
@@ -282,7 +293,9 @@ class TomarPedido extends Component
     public function stockProduct($talla)
     {
         $estilo = $this->estilo;
-        $producto = Producto::where('estilo', $estilo)->where('color', $this->color)->where('talla', $this->talla)->first();
+        $producto = Producto::where('estilo', $estilo)->where('color', $this->color)->where('talla', $this->talla)
+            ->where('estado', 'A')
+            ->first();
         $this->stock = $producto->stock;
     }
 
@@ -290,6 +303,7 @@ class TomarPedido extends Component
     {
         $item1 = Cart::get($rowId);
         $producto = Producto::where('id', $item1->id)->with(['marca', 'catalogo'])->first();
+        $producto->update(['stock' => $producto->stock - 1]);
         $parametros = ParametroCatalogo::where('catalogo_id', $producto->catalogo->catalogo_id)
             ->where('estado', 1)
             ->get();
@@ -297,7 +311,6 @@ class TomarPedido extends Component
         if ($item1) {
             $descuento = 0;
             $precio = $producto->precio_empresaria;
-
             $data = $this->validacionReglas($descuento, $precio, $parametros, Cart::count() + 1, $this->envio, 'suma', 1);
             $descuento = $data['descuento'];
             $precio = $data['precio'];
@@ -321,6 +334,7 @@ class TomarPedido extends Component
     {
         $item1 = Cart::get($rowId);
         $producto = Producto::where('id', $item1->id)->with(['marca', 'catalogo'])->first();
+        $producto->update(['stock' => $producto->stock + 1]);
         $parametros = ParametroCatalogo::where('catalogo_id', $producto->catalogo->catalogo_id)
             ->where('estado', 1)
             ->get();
@@ -328,7 +342,6 @@ class TomarPedido extends Component
         if ($item1 && $item1->qty > 1) {
             $descuento = 0;
             $precio = $producto->precio_empresaria;
-
             $data = $this->validacionReglas($descuento, $precio, $parametros, Cart::count() - 1, $this->envio, 'resta', 1, 1, $item1->options->descuento, $item1->qty);
             $precio = $data['precio'];
             $descuento = $data['descuento'];
@@ -378,11 +391,16 @@ class TomarPedido extends Component
                             if ($tipo == 'resta') {
                                 if ($descuentoDecrease > 0 && $itemCantidad > 0) {
                                     $carro = floatval(str_replace(',', '', Cart::subtotal())) - ($cant * ($precio - $desc));
-                                    $subtotal = $carro + ((($cant - 1) * $precio));
+                                    $subtotal = $carro + ((($cant - 1) * ($precio - $desc)));
                                 } else {
                                     $subtotal = floatval(str_replace(',', '', Cart::subtotal())) - ($cantidadResta * ($precio - $desc));
                                 }
-                            } else  $subtotal = floatval(str_replace(',', '', Cart::subtotal())) + ((($cantidadSuma) * $precio) - $desc);
+                            } else {
+                                $subtotal = Cart::content()->map(function ($item) use ($desc) {
+                                    return ($item->options->pCatalogo - $desc) * $item->qty;
+                                })->sum();
+                                $subtotal = $subtotal + ($cantidadSuma * ($precio - $desc));
+                            };
 
                             $env = $subtotal . $regla->operador . $regla->cantidad;
                             $env = eval("return $env;") ? $regla->valor : 0;

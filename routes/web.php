@@ -309,3 +309,7 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/venta/pdf-pedido/{id}', [VentaController::class,'generarPedidoGuardado'])
 ->name('venta.pdf-pedido');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/venta/cambios', [VentaController::class,'view_cambios'])
+->name('venta.cambios');

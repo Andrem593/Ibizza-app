@@ -94,11 +94,13 @@ class GuardarPago extends Component
                 $this->bandera = true;
                 $this->dispatchBrowserEvent('cancelar');
             }
+        } else {
+            $this->bandera = true;
+            $this->dispatchBrowserEvent('cancelar');
         }
         $this->valor_pagar = $total_venta;
         $this->valor_recaudado = $total_venta;
         $this->valor_pendiente = $this->valor_pagar - $this->valor_recaudado;
-        // dd($this->valor_pendiente);
 
     }
 
@@ -112,13 +114,13 @@ class GuardarPago extends Component
             'comprobante.required' => 'El comprobante de pago es necesario',
         ]);
 
-        if ($this->valor_recaudado <= $this->valor_pagar) {
+        // if ($this->valor_recaudado <= $this->valor_pagar) {
             $insert = Pago::create([
                 'id_venta' => $this->venta_id,
                 'id_usuario' => Auth::user()->id,
-                'valor_pagar' => $this->valor_pagar,
-                'valor_recaudado' => $this->valor_recaudado,
-                'valor_pendiente' => $this->valor_pagar - $this->valor_recaudado,
+                'valor_pagar' => number_format((float)$this->valor_pagar, 2, ".", ""),
+                'valor_recaudado' => number_format((float)$this->valor_recaudado, 2, ".", ""),
+                'valor_pendiente' => number_format((float)($this->valor_pagar - $this->valor_recaudado), 2, ".", ""),
             ]);
 
             $valor = Pago::find($insert->id);
@@ -131,11 +133,12 @@ class GuardarPago extends Component
                 ->save($ruta);
             $valor->comprobante = 'storage/images/recibos/' . $image;
             $valor->save();
-        }
+            Venta::find($this->venta_id)->update(['estado' => 'PEDIDO POR VALIDAR']);
+        // }
 
-        $this->valor_pagar = $this->valor_pendiente;
-        $this->valor_recaudado = $this->valor_pendiente;
-        $this->valor_pendiente = $this->valor_pagar - $this->valor_recaudado;
+        $this->valor_pagar = number_format((float)$this->valor_pendiente, 2, ".", "");
+        $this->valor_recaudado = number_format((float)$this->valor_pendiente, 2, ".", "");
+        $this->valor_pendiente = number_format((float)($this->valor_pagar - $this->valor_recaudado), 2, ".", "");
         $this->comprobante = "";
     }
 
@@ -149,7 +152,7 @@ class GuardarPago extends Component
             'comprobante.required' => 'El comprobante de pago es necesario',
         ]);
 
-        if ($this->valor_recaudado <= $this->valor_pagar) {
+        // if ($this->valor_recaudado <= $this->valor_pagar) {
             $valor = Pago::find($this->pago_id);
             $image = $valor->id . "." . date('d.m.Y.h.i.s') . "." . $this->comprobante->getClientOriginalName();
             $ruta = public_path('storage/images/recibos/') . $image;
@@ -158,13 +161,13 @@ class GuardarPago extends Component
                     $constraint->aspectRatio();
                 })
                 ->save($ruta);
-            $valor->valor_pagar = $this->valor_pagar;
-            $valor->valor_recaudado = $this->valor_recaudado;
-            $valor->valor_pendiente = $this->valor_pagar - $this->valor_recaudado;
+            $valor->valor_pagar = number_format((float)$this->valor_pagar, 2, ".", "");
+            $valor->valor_recaudado = number_format((float)$this->valor_recaudado, 2, ".", "");
+            $valor->valor_pendiente = number_format((float)($this->valor_pagar - $this->valor_recaudado), 2, ".", "");
             $valor->id_usuario = Auth::user()->id;
             $valor->comprobante = 'storage/images/recibos/' . $image;
             $valor->save();
-        }
+        // }
         if ($this->valor_pendiente == 0) {
             $this->bandera = false;
         } else {
@@ -172,9 +175,9 @@ class GuardarPago extends Component
             $this->dispatchBrowserEvent('cancelar');
         }
 
-        $this->valor_pagar = $this->valor_pendiente;
-        $this->valor_recaudado = $this->valor_pendiente;
-        $this->valor_pendiente = $this->valor_pagar - $this->valor_recaudado;
+        $this->valor_pagar = number_format((float)$this->valor_pendiente, 2, ".", "");
+        $this->valor_recaudado = number_format((float)$this->valor_pendiente, 2, ".", "");
+        $this->valor_pendiente = number_format((float)($this->valor_pagar - $this->valor_recaudado), 2, ".", "");
         $this->comprobante = "";
     }
 }

@@ -73,9 +73,7 @@ class PedidosReservados extends Component
         foreach ($productos as $producto) {            
             $products = Producto::find($producto['id_producto']);
             $nuevo_stock = $products->stock + $producto['cantidad'];
-            Producto::find($producto['id_producto'])->update([
-                'stock'=>$nuevo_stock
-            ]);
+            Producto::find($producto['id_producto']);
             Cart::add($producto['id_producto'], 
             $products->descripcion, $producto['cantidad'], $producto['precio'], ['image' => $producto['imagen_path'] , 
             'color'  => $producto['color'] , 'talla' => $producto['talla'], 'descuento' => $producto['descuento'], 'pCatalogo' => $producto['precio_empresaria'],

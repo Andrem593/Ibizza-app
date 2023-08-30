@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Comprobande de Venta</title>
 
     <style>
         * {
             font-family: sans-serif;
-            font-size: 12px;
+            font-size: 10px;
         }
 
         table {
@@ -36,8 +36,9 @@
         </div>
 
         <div style="width: 100%; text-align: left; margin-top: 20px">
-            <p style="font-weight: bold" style="margin: 0;">N° Pedido: {{ str_pad($venta->id, 6, '0', STR_PAD_LEFT) }}
-            </p>
+            <p style="font-weight: bold" style="margin: 0;">N° Pedido: {{ str_pad($venta->id, 6, '0', STR_PAD_LEFT) }}</p>
+            <p style="font-weight: bold" style="margin: 0;">N° Factura: {{ $venta->n_factura }}</p>
+            <p style="font-weight: bold" style="margin: 0;">N° Guia: {{ $venta->n_guia }}</p>
             <div>Fecha: {{ $venta->created_at->format('d-m-Y') }}</div>
             <div>Asesor: {{ $venta->vendedor->name }}</div>
         </div>
@@ -57,17 +58,19 @@
                         <span style="font-weight: bold">DATOS FACTURACIÓN</span>
                         <div>Nombre: {{ $venta->factura_nombres }}</div>
                         <div>Cédula: {{ $venta->factura_identificacion }}</div>
-                        <div>Teléfono: {{ $empresaria->telefono }}</div>
-                        <div>Correo: {{ $empresaria->usuario->email }}</div>
+                        <div>Teléfono: {{ $venta->telefono }}</div>
+                        <div>Correo: {{ $venta->email }}</div>
                     </div>
                 </td>
                 <td style="width: 33.33%;">
                     <div class="col">
                         <span style="font-weight: bold">DIRECCIÓN DE ENVIO</span>
-                        <div>Nombre: {{ $venta->factura_nombres }}</div>
-                        <div>Teléfono: {{ $empresaria->telefono }}</div>
-                        <div>Dirección: {{ $venta->direccion_envio }}</div>
-                        <div>Referencia: {{ $venta->observaciones }}</div>
+                        <div>Nombre: {{ $direccionVenta->nombre }}</div>
+                        <div>Teléfono: {{ $direccionVenta->telefono }}</div>
+                        <div>Provincia: {{ $direccionVenta->ciudad->provincia->descripcion }}</div>
+                        <div>Ciudad: {{ $direccionVenta->ciudad->descripcion }}</div>
+                        <div>Dirección: {{ $direccionVenta->direccion }}</div>
+                        <div>Referencia: {{ $direccionVenta->referencia }}</div>
                     </div>
                 </td>
             </tr>
@@ -90,20 +93,23 @@
             <tbody>
                 @foreach ($pedidos as $pedido)
                     <tr>
-                        <td style="padding: 8px; text-align: center;padding: 8px;border: 1px solid black;"><img
-                                width="60px"
-                                src="{{ $pedido->imagen_path != '' ? 'https://catalogoibizza.com//storage/images/productos/' . $pedido->imagen_path : 'https://catalogoibizza.com/img/imagen-no-disponible.jpg' }}">
-                        </td>
+                        <td style="padding: 8px; text-align: center;padding: 8px;border: 1px solid black;"><</td>
                         <td style="padding: 8px;border: 1px solid black;">{{ $pedido->nombre_producto }}</td>
                         <td style="padding: 8px;border: 1px solid black;">{{ $pedido->color_producto }}</td>
                         <td style="padding: 8px;border: 1px solid black;">{{ $pedido->talla_producto }}</td>
-                        <td style="padding: 8px;border: 1px solid black;">{{ $pedido->precio * $pedido->cantidad }}
-                        </td>
-                        <td style="padding: 8px;border: 1px solid black;">0%</td>
+                        <td style="padding: 8px;border: 1px solid black;">{{ $pedido->precio_catalogo }}</td>
+                        <td style="padding: 8px;border: 1px solid black;">{{ $pedido->descuento }}</td>
                         <td style="padding: 8px;border: 1px solid black;">{{ $pedido->cantidad }}</td>
-                        <td style="padding: 8px;border: 1px solid black;">${{ $pedido->precio * $pedido->cantidad }}
+                        <td style="padding: 8px;border: 1px solid black;">${{ $pedido->precio }}
                         </td>
-                        <td style="padding: 8px;border: 1px solid black;"></td>
+                        <td style="padding: 8px;border: 1px solid black;">
+                            @php
+                                if ($pedido->direccion_envio != '') {
+                                    $data = json_decode($pedido->direccion_envio);
+                                    echo "Nombre: $data->nombre <br> Tel: $data->telefono <br> Dir: $data->direccion <br> Ref: $data->referencia";
+                                }
+                            @endphp
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -111,41 +117,54 @@
                 <tr>
                     <td style="padding: 8px;border: 1px solid black;" colspan="4"></td>
                     <td style="padding: 8px;border: 1px solid black;">
-                        {{ $pedidos->sum(function ($pedido) {return $pedido->precio * $pedido->cantidad;}) }}
+                        {{ $pedidos->sum(function ($pedido) {return $pedido->precio_catalogo;}) }}
                     </td>
                     <td style="padding: 8px;border: 1px solid black;"></td>
                     <td style="padding: 8px;border: 1px solid black;">
                         {{ $pedidos->sum(function ($pedido) {return $pedido->cantidad;}) }}
                     </td>
                     <td style="padding: 8px;border: 1px solid black;">
-                        {{ $pedidos->sum(function ($pedido) {return $pedido->precio * $pedido->cantidad;}) }}
+                        {{ $pedidos->sum(function ($pedido) {return $pedido->precio;}) }}
                     </td>
                     <td style="padding: 8px;border: 1px solid black;"></td>
                 </tr>
                 <tr>
-                    <td colspan="9"  style="padding: 8px;border: 1px solid black;"></td>              
+                    <td colspan="9" style="padding: 8px;border: 1px solid black;"></td>
                 </tr>
 
                 <tr>
                     <td style="padding: 8px;border: 1px solid black;" colspan="6"></td>
                     <td style="padding: 8px;border: 1px solid black;">ENVIO</td>
-                    <td style="padding: 8px;border: 1px solid black;">$3</td>
+                    <td style="padding: 8px;border: 1px solid black;">{{ $venta->envio}}</td>
                     <td style="padding: 8px;border: 1px solid black;"></td>
                 </tr>
                 <tr>
                     <td style="padding: 8px;border: 1px solid black;" colspan="6"></td>
                     <td style="padding: 8px;border: 1px solid black;">TOTAL A PAGAR</td>
-                    <td style="padding: 8px;border: 1px solid black;">{{ $pedidos->sum(function ($pedido) {return $pedido->precio * $pedido->cantidad;}) + 3}}</td>
+                    <td style="padding: 8px;border: 1px solid black;">
+                        {{ $pedidos->sum(function ($pedido) {return $pedido->precio;}) + $venta->envio }}</td>
                     <td style="padding: 8px;border: 1px solid black;"></td>
                 </tr>
                 <tr>
                     <td style="padding: 8px;border: 1px solid black;" colspan="6"></td>
                     <td style="padding: 8px;border: 1px solid black;">GANANCIA</td>
-                    <td style="padding: 8px;border: 1px solid black;">$0</td>
+                    <td style="padding: 8px;border: 1px solid black;">{{ $venta->total_p_empresaria}}</td>
                     <td style="padding: 8px;border: 1px solid black;"></td>
                 </tr>
             </tfoot>
         </table>
+
+        @if (!empty($empresaria))
+            @if (count($empresaria->pedidos) == 1)
+                <hr />
+                <div style="width: 100%; text-align: right;margin-top: 20px">
+                    <label style="padding: 8px;border: 1px solid black; width: 200px; margin-top: 20px">
+                        Enviar catálogo
+                    </label>
+                </div>
+            @endif
+        @endif
+
 
 </body>
 

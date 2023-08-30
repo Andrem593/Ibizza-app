@@ -17,7 +17,7 @@
         </div>
     @else
         <div class="text-center">
-            <img id="imagen_defecto" src="https://www.blackwallst.directory/images/NoImageAvailable.png"
+            <img id="imagen_defecto" src="https://catalogoibizza.com/img/imagen-no-disponible.jpg"
                 class="text-center rounded text-center" alt="imagen-producto" style="width:15rem">
         </div>
     @endif

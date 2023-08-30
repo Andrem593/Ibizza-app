@@ -1,5 +1,5 @@
 <div>
-    <div class="{{ $valor_pagar == 0 ? 'd-none' : '' }}">
+    <div class="{{ $bandera ? '' : 'd-none' }}">
         <form wire:submit.prevent="guardar">
             <div class="row">
                 <div class="col">
@@ -39,9 +39,11 @@
                     @enderror
                 </div>
             </div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center" wire:ignore>
                 <div class="col col-sm-6 p-2 text-center">
-                    <button type="submit" class="btn bg-ibizza">Guardar Pago</button>
+                    <button type="submit" class="btn bg-ibizza" id="btn_guardar">Guardar Pago</button>
+                    <button type="button" class="btn bg-ibizza d-none" id="btn_actualizar" wire:click='actualizar()'>Actualizar Pago</button>
+                    <button type="button" class="btn bg-secondary d-none" id="btn_cancelar" wire:click='cancelar()'>Cancelar</button>
                 </div>
             </div>
         </form>
@@ -55,14 +57,18 @@
     </div>
 
     <div wire:loading.remove>
-        
-        @empty (!$pagos)
+
+        @empty($pagos)
+            <div class="card-body text-center">
+                <strong>No hay Registros</strong>
+            </div>
+        @else
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>Opción</th>
                                 <th>Fecha de Pago</th>
                                 <th>Valor a Pagar</th>
                                 <th>Valor Recaudado</th>
@@ -74,12 +80,13 @@
                         <tbody>
                             @foreach ($pagos as $item)
                                 <tr>
-                                    <td>{{ $item->id }}</td>
+                                    <td><button class="btn btn-ibizza" wire:click='editar({{ $item->id }})'><i class="fas fa-edit"></i></td>
                                     <td>{{ $item->created_at->format('Y-m-d') }}</td>
                                     <td>{{ $item->valor_pagar }}</td>
                                     <td>{{ $item->valor_recaudado }}</td>
                                     <td>{{ $item->valor_pendiente }}</td>
-                                    <td><a href="{{ $item->comprobante }}" class="btn btn-sm btn-ibizza" target="_blank">Ver comprobante</a></td>
+                                    <td><a href="{{ $item->comprobante }}" class="btn btn-sm btn-ibizza" target="_blank">Ver
+                                            comprobante</a></td>
                                     <td>{{ $item->usuario->name }}</td>
                                 </tr>
                             @endforeach
@@ -87,11 +94,25 @@
                     </table>
                 </div>
             </div>
-        @else
-            <div class="card-body text-center">
-                <strong>No hay Registros</strong>
-            </div>
         @endempty
     </div>
 
+    @push('js')
+    <script>
+        window.addEventListener('actualizar', event => {
+            $('#btn_guardar').prop('disabled', true);
+            $('#btn_guardar').addClass('d-none');
+            $('#btn_actualizar').removeClass('d-none');
+            $('#btn_cancelar').removeClass('d-none');
+            // alert('Name updated to: ' + event.detail.newName);
+        })
+        window.addEventListener('cancelar', event => {
+            $('#btn_guardar').prop('disabled', false);
+            $('#btn_guardar').removeClass('d-none');
+            $('#btn_actualizar').addClass('d-none');
+            $('#btn_cancelar').addClass('d-none');
+            // alert('Name updated to: ' + event.detail.newName);
+        })
+        </script>
+    @endpush
 </div>

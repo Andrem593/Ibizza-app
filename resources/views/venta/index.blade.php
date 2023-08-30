@@ -53,7 +53,7 @@
                             <th>ID</th>
                             <th>CÉDULA</th>
                             <th>NOMBRES</th>
-                            <th>DIRECCIÓN ENVÍO</th>
+                            <th>DIRECCIÓN</th>
                             <th>EMPRESARIA</th>
                             <th>OBSERVACIÓN</th>
                             <th>CANTIDAD</th>
@@ -76,7 +76,7 @@
     @push('modals')
         <!-- Modal -->
         <div class="modal fade" id="editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div id="carga" class="overlay" style="visibility: hidden">
                         <i class="fas fa-2x fa-sync fa-spin"></i>
@@ -92,6 +92,8 @@
                         <div class="row">
                             <div class="col">
                                 <div class="fw-bold">N° Pedido: <span id="venta"></span></div>
+                                <div class="fw-bold">N° Factura: <span id="nfactura"></span></div>
+                                <div class="fw-bold">N° Guia: <span id="nguia"></span></div>
                                 <div>Fecha: <span id="fecha"></span></div>
                                 <div>Asesor: <span id="vendedor"></span></div>
                             </div>
@@ -131,12 +133,18 @@
                             </div>
                             <div class="col">
                                 <span class="fw-bold">Datos Facturación</span>
+                                <div>Identificación: <span id="fcedula"></span></div>
                                 <div>Nombre: <span id="fnombre"></span></div>
-                                <div>Cédula: <span id="fcedula"></span></div>
+                                <div>Teléfono: <span id="ftelefono"></span></div>
+                                <div>Email: <span id="femail"></span></div>
 
                             </div>
                             <div class="col">
                                 <span class="fw-bold">Dirección de Envio</span>
+                                <div>Nombre: <span id="enombre"></span></div>
+                                <div>teléfono: <span id="etelefono"></span></div>
+                                <div>Provincia: <span id="eprovincia"></span></div>
+                                <div>Ciudad: <span id="eciudad"></span></div>
                                 <div>Dirección: <span id="direccion"></span></div>
                                 <div>Referencia: <span id="referencia"></span></div>
                             </div>
@@ -213,7 +221,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
-                        <button type="button" id="editar_venta" class="btn btn-ibizza">EDITAR</button>
+                        @if (Auth::user()->role != 'ASESOR')                            
+                            <button type="button" id="editar_venta" class="btn btn-ibizza">EDITAR</button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -324,14 +334,14 @@
                     </div>
                     <div class="modal-footer">
                         {{-- <button type="button" class="btn btn-secondary" id="guardar_pago">Guardar Pago</button>                         --}}
-                        <button class="btn btn-ibizza" data-bs-target="#editar" data-bs-toggle="modal">Regresar</button>
+                        <button class="btn btn-ibizza" onclick="window.location.reload();" >Regresar</button>
                     </div>
                 </div>
             </div>
         </div>
     @endpush
     @Push('scripts')
-        <script src="/js/crearDataTable.js"></script>
+        <script src="/js/crearDataTable6.js"></script>
         <script src="{{ asset('/vendor/datatables-datetime/js/dataTables.dateTime.min.js') }}"></script>
         <script>
             const Toast = Swal.mixin({

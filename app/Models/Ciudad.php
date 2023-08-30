@@ -18,4 +18,11 @@ class Ciudad extends Model
     ];
 
     public $timestamps = false;
+    
+    public $with = ['provincia'];
+
+    public function provincia()
+    {
+        return $this->belongsTo(Provincia::class, 'provincia_id', 'id');
+    }
 }

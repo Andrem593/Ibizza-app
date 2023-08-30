@@ -31,7 +31,7 @@
 
     <!-- Main Style -->
     <link rel="stylesheet" href="assets/css/demo1.css" />
-    <link rel="stylesheet" href="assets/css/skin-04.css">
+    <link rel="stylesheet" href="assets/css/skin-046.css">
     <link rel="stylesheet" href="assets/css/responsive.css" />
 
     <!-- Background css -->
@@ -221,7 +221,7 @@
                                         @if (Route::has('login'))
 
                                         @auth
-                                        @can('dashboard')
+                                        @if(Auth::user()->role != 'EMPRESARIA')
                                         <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Dashboard</a></li>
                                         @else
                                         <li> <a href="{{ route('web.perfil-empresaria') }}"

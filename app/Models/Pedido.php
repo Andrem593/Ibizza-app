@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Producto;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pedido extends Model
 {
@@ -18,5 +19,18 @@ class Pedido extends Model
     protected $fillable = ['id_venta','id_producto','cantidad','precio','total','direccion_envio',
     'descuento',
     'precio_catalogo','estado','usuario'];
+
+    public $with = ['producto'];
+
+
+    public function venta()
+    {
+        return $this->belongsTo(Venta::class, 'id_venta');
+    }
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'id_producto');
+    }
 
 }

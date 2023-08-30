@@ -3,17 +3,16 @@
         <div class="ec-pro-image-outer">
             <div class="ec-pro-image">
                 <a href="#" class="image">
-                    <img class="main-image" width="80rem" src="{{ empty($imagen) ? 'https://www.blackwallst.directory/images/NoImageAvailable.png' : '../storage/images/productos/' . $imagen }}" alt="Product" />
-                    <img class="hover-image" width="80rem" src="{{ empty($imagen) ? 'https://www.blackwallst.directory/images/NoImageAvailable.png' : '../storage/images/productos/' . $imagen }}" alt="Product" />
+                    <img class="main-image" width="80rem" src="{{ empty($imagen) ? 'https://catalogoibizza.com/img/imagen-no-disponible.jpg' : '../storage/images/productos/' . $imagen }}" alt="Product" />
+                    <img class="hover-image" width="80rem" src="{{ empty($imagen) ? 'https://catalogoibizza.com/img/imagen-no-disponible.jpg' : '../storage/images/productos/' . $imagen }}" alt="Product" />
                 </a>
             </div>
         </div>
         <div class="ec-pro-content datos-premios">
-            <h5 class="ec-pro-title"><a href="#">{{ $nombre }}</a>
+            <h5 class="ec-pro-title"><a href="#" style="font-size: 12px">{{ $nombre }}</a>
             </h5>
             <input type="hidden" class="estiloPro" value="{{$estilo}}">
             <span class="ec-price">
-                <span class="old-price">${{ $pvp }}</span>
                 <span class="new-price">$Gratis</span>
             </span>
             <div class="ec-pro-option">

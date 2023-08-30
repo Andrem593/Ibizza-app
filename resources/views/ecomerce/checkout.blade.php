@@ -11,7 +11,7 @@
                         <div class="col-md-6 col-sm-12">
                             <!-- ec-breadcrumb-list start -->
                             <ul class="ec-breadcrumb-list">
-                                <li class="ec-breadcrumb-item"><a href="{{ route('web') }}">Home</a></li>
+                                <li class="ec-breadcrumb-item"><a href="{{ route('web.tomar-pedido') }}">Home</a></li>
                                 <li class="ec-breadcrumb-item active">Liquidación</li>
                             </ul>
                             <!-- ec-breadcrumb-list end -->
@@ -291,7 +291,7 @@
                                     <div>
                                         <span class="text-left">Ganacias</span>
                                         <span class="text-right"
-                                            id="ganancia">${{ number_format(Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum(),2) - Cart::subtotal() }}</span>
+                                            id="ganancia">${{ floatval(str_replace(',', '',(number_format(Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum(),2)))) - floatval(str_replace(',', '', Cart::total()))}}</span>
                                     </div>
                                     <div>
                                         <span class="text-left">Envio</span>
@@ -308,7 +308,7 @@
                                     @if (!empty($productoPremio))
                                         <input type="hidden" id="premio" value="tiene premio">
                                         @foreach ($productoPremio as $producto)
-                                            @livewire('card-premio', ['id_producto' => $producto->id, 'imagen' => $producto->imagen_path, 'clasificacion' => $producto->clasificacion, 'pvp' => $producto->valor_venta, 'color' => $producto->color, 'estilo' => $producto->estilo, 'nombre' => $producto->descripcion])
+                                            @livewire('card-premio', ['id_producto' => $producto->id, 'imagen' => $producto->imagen_path, 'clasificacion' => $producto->clasificacion, 'pvp' => $producto->valor_venta, 'color' => $producto->color, 'estilo' => $producto->estilo, 'nombre' => $producto->estilo])
                                         @endforeach
                                     @else
                                         <input type="hidden" id="premio" value="no tiene premio">
@@ -403,12 +403,18 @@
                 let direccion = $('#direccion_domicilio').val();
                 let referencia = $('#referencia_domicilio').val();
 
+                datos2 = $('#data_search').val();
+                datos2 = datos2.split(' | ');
+
                 let datos = {
+                    cedulaEmpresaria: datos2[0],
                     cedula: $('#cedula').val(),
                     nombres: $('#nombres').val(),
                     apellidos: $('#apellidos').val(),
                     direccion: direccion,
                     referencia: referencia,
+                    telefono: $('#telefono').val(),
+                    email: $('#email').val(),
                     provincia: $('#provincia').val(),
                     ciudad: $('#ciudad').val(),
                     total_pagar: total[1],
@@ -416,7 +422,6 @@
                     premio: $('#premio').val(),
                     observaciones: $('#observaciones_pedido').val(),
                     ganancia: ganancia[1],
-                    opcion: opcion,
                     envio: $('#envio').text(),
                     nombre_envio: $('#nombre_envio').val(),
                     telefono_envio: $('#telefono_envio').val(),
@@ -490,13 +495,23 @@
                     success: function(response) {
                         if (response != '') {
                             let id_ventas = response.id_venta
-                            let url = 'detalle-pedido-ibizza/' + id_ventas
+                            let url = 'ventas'
 
                             $(location).attr('href', url);
                         }
                         $('#tomar_pedido').attr("disabled", false);
                         $('#tomar_pedido').html('Realizar Pedido');
-                    }
+                    },
+                    error: function(response) {
+                        $('#tomar_pedido').attr("disabled", false);
+                        $('#tomar_pedido').html('Realizar Pedido');
+                        let resp = JSON.parse(response.responseText);
+                        Toast.fire({
+                            icon: 'error',
+                            title: resp['error'] + ' ' + resp['producto'] + ' stock disponible: ' +
+                                resp['stock'],
+                        })
+                    }                    
                 })
             }
             $('#bill1').click(function() {
@@ -547,6 +562,9 @@
             $('#env4').click(function() {
                 $('#nombre_envio').val('Local Ibizza')
                 $('#direccion').val('Chile y Luque')
+                $('#provincia').val('9');
+                $('#ciudad').html('<option value="75" selected >GUAYAQUIL</option>');
+                $('#ciudad').
                 $('#referencia').val('Frente a Deprati')
             });
 
@@ -647,7 +665,7 @@
                 })
                 $('#premio').val('tiene premio');
                 if (val['imagen_path'] == null) {
-                    val['imagen_path'] = "https://www.blackwallst.directory/images/NoImageAvailable.png";
+                    val['imagen_path'] = "https://catalogoibizza.com/img/imagen-no-disponible.jpg";
                 } else {
                     val['imagen_path'] = 'storage/images/productos/' + val['imagen_path'];
                 }
@@ -664,7 +682,7 @@
                     '</div>' +
                     '</div>' +
                     '<div class="ec-pro-content datos-premios">' +
-                    '<h5 class="ec-pro-title"><a href="#">' + val['nombre_mostrar'] + '</a>' +
+                    '<h5 class="ec-pro-title text-truncate"><a href="#">' + val['nombre_mostrar'] + '</a>' +
                     '</h5>' +
                     '<input type="hidden" class="estiloPro" value="' + val['estilo'] + '">' +
                     '<span class="ec-price">' +

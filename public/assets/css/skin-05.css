@@ -25664,8 +25664,8 @@ i.ecicon.eci-star-o {
 }
 .ec-sidebar-wrap .ec-sidebar-block .ec-sb-block-content .ec-checkout-pro .ec-pro-size li a {
   pointer-events: none;
-  width: 18px;
-  height: 18px;
+  width: 45px;
+  height: 30px;
   cursor: pointer;
   background-color: #dddddd;
   color: #777777;
@@ -25678,7 +25678,7 @@ i.ecicon.eci-star-o {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  font-size: 12px;
+  font-size: 9px;
   line-height: 18px;
   padding-top: 2px;
 }

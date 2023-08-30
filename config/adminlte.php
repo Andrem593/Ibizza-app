@@ -329,6 +329,12 @@ return [
                     'can'  => 'venta.pedidos-guardados',
                     'icon'    => 'ml-md-2 fas fa-box',
                 ],
+                [
+                    'text' => 'Cambios',
+                    'route'  => 'venta.cambios',
+                    'icon'    => 'ml-md-2 fas fa-arrows-alt-h',
+                    'can'   =>  'producto.index', 
+                ],
             ],
         ],
         [

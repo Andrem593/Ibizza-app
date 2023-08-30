@@ -12,6 +12,7 @@ class DireccionVenta extends Model
     protected $table = 'direccion_ventas';
 
     protected $fillable = [
+        'id_venta',
         'nombre',
         'telefono',
         'ciudad_id',
@@ -23,6 +24,11 @@ class DireccionVenta extends Model
 
     public function ciudad()
     {
-        return $this->belongsTo(Ciudad::class);
+        return $this->belongsTo(Ciudad::class, 'ciudad_id', 'id');
+    }
+
+    public function venta()
+    {
+        return $this->belongsTo(Venta::class, 'id_venta', 'id');
     }
 }

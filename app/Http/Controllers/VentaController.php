@@ -6,6 +6,7 @@ use App\Models\Pedido;
 use Illuminate\Http\Request;
 use App\Models\Venta;
 use App\Empresaria;
+use App\Models\DireccionVenta;
 use App\Models\Separado;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,7 @@ class VentaController extends Controller
 
             $ventas = Venta::join('empresarias', 'empresarias.id', '=', 'ventas.id_empresaria')->orderBy('ventas.id','desc');
 
-            if (Auth::user()->role != 'ADMINISTRADOR') {
+            if (Auth::user()->role == 'ASESOR') {
                 $ventas = $ventas->where("ventas.id_vendedor", Auth::user()->id);    
             }
 
@@ -42,10 +43,13 @@ class VentaController extends Controller
     {
         $pedidos = Pedido::where('id_venta',$request->id_venta)
         ->join('productos', 'productos.id', '=', 'pedidos.id_producto')
-        ->select('pedidos.*', 'productos.clasificacion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')
+        ->select('pedidos.*', 'productos.descripcion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')
         ->get();
         $venta = Venta::where('id', $request->id_venta)
         ->with('vendedor')
+        ->first();
+        $direccionVenta = DireccionVenta::where('id_venta', $request->id_venta)
+        ->with('ciudad')
         ->first();
         $empresaria = Empresaria::where('id', $venta->id_empresaria)
         ->with('usuario')
@@ -55,6 +59,7 @@ class VentaController extends Controller
         $json['venta'] = $venta;
         $json['empresaria'] = $empresaria;
         $json['rol'] = Auth::user()->role;
+        $json['direccionVenta'] = $direccionVenta;
         return json_encode($json);
     }
     public function datosPedido(Request $request)
@@ -183,16 +188,19 @@ class VentaController extends Controller
     {
         $pedidos = Pedido::where('id_venta',$id)
         ->join('productos', 'productos.id', '=', 'pedidos.id_producto')
-        ->select('pedidos.*', 'productos.clasificacion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')
+        ->select('pedidos.*', 'productos.descripcion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto', 'productos.imagen_path as imagen_path')
         ->get();
         $venta = Venta::where('id', $id)
         ->with('vendedor')
         ->first();
-        $empresaria = Empresaria::where('id', $venta->id_empresaria)
-        ->with('usuario')
+        $direccionVenta = DireccionVenta::where('id_venta', $id)
+        ->with('ciudad')
         ->first();
-        $pdf = PDF::loadView('venta.comprobante', compact('pedidos', 'venta', 'empresaria'));
-        $pdf->getDomPDF()->set_option('colorSpace', 'rgb');
+        $empresaria = Empresaria::where('id', $venta->id_empresaria)
+        ->with('usuario', 'pedidos')
+        ->first();
+        $pdf = PDF::loadView('venta.comprobante', compact('pedidos', 'venta', 'empresaria', 'direccionVenta'));
+        $pdf->getDomPDF();
         return $pdf->stream('comprobante.pdf');
     }
 
@@ -203,5 +211,10 @@ class VentaController extends Controller
         $pdf = PDF::loadView('venta.comprobante-pedido-guardado', compact('reservas', 'pedidos_pendientes'));
         $pdf->getDomPDF()->set_option('colorSpace', 'rgb',);
         return $pdf->stream('comprobante-pedidos-guardados.pdf');
+    }
+
+    public function view_cambios()
+    {
+        return view('venta.cambios');
     }
 }

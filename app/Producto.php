@@ -44,7 +44,6 @@ class Producto extends Model
 {
 
     static $rules = [
-        'sku' => 'required',
         'precio_empresaria' => 'required',
     ];
 

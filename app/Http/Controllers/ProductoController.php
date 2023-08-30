@@ -155,9 +155,8 @@ class ProductoController extends Controller
             unlink($file_name);
 
             $data = $spreadsheet->getActiveSheet()->toArray();
-
             foreach ($data as $key => $row) {
-                if ($key >= 1) {
+                if ($key >= 1 || $row[0] != ''  and $row[1]) {
                     $marca_id = DB::table('marcas')->where('nombre', 'like', '%' . $row[2] . '%')->value('id');
 
                     if (empty($marca_id)) {
@@ -201,7 +200,6 @@ class ProductoController extends Controller
             return redirect()->route('productos.index')
                 ->with('success', 'Productos cargados correctamente');
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             return redirect()->route('producto.upload')
                 ->with('error', 'EL archivo no cumple con el formato requerido, por favor verifique el archivo e intente nuevamente.');
         }

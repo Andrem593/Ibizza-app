@@ -194,7 +194,7 @@ function crearTablaEstilos(data, ruta) {
         "columns": [{
             "data": "imagen_path",
             "render": function (data, type, row) {
-                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
                 if (data != '' && data != null) {
                     image = '/storage/images/productos/' + data
                 }
@@ -260,7 +260,7 @@ function crearTablaEstilos(data, ruta) {
 
     })
     $('#datatable tbody').on('click', '.editar', function () {
-        let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+        let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#texto').html('EDITAR LA IMAGEN DEL ESTILO ' + data.estilo + ' Y EL COLOR ' + data.color);
         $('#estilo').val(data.estilo);
@@ -300,7 +300,7 @@ function crearTablaMarca(data, ruta) {
         "columns": [{
             "data": "imagen",
             "render": function (data, type, row) {
-                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
                 if (data != '' && data != null) {
                     image = '/storage/images/marca/' + data
                 }
@@ -519,7 +519,7 @@ function crearTablaCatalogo(data, ruta) {
         {
             "data": "foto_path",
             "render": function (data, type, row) {
-                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
                 if (data != '' && data != null) {
                     image = '/storage/images/catalogo/' + data
                 }
@@ -1290,7 +1290,7 @@ function crearTablaVentas(data, ruta) {
             },
             success: function (response) {
                 $('#carga').css('visibility', 'hidden')
-                let data = JSON.parse(response);
+                let data = JSON.parse(response);                
                 let empresaria = data['empresaria'];
                 let venta = data['venta'];
                 let rol = data['rol'];
@@ -1323,22 +1323,22 @@ function crearTablaVentas(data, ruta) {
                 $('#tabla_factura tbody').html('');
                 let total_factura = 0
                 let cantidad_total = 0
-                let envio = 0
+                let envio = venta['envio'];
                 let ganancia = 0
                 $.each(data, function (i, v) {
                     let image = '/img/imagen-no-disponible.jpg';
                     if(v['imagen_producto'] != null && v['imagen_producto'] != ''){
                         image = '/storage/images/productos/' + v['imagen_producto'];
                     }
-                    let total = v['precio'] * v['cantidad'];
+                    let total = v['precio'];
                     total = total.toFixed(2);
                     $('#tabla_factura tbody').append('<tr>' +
                         '<td><img src="' + image + '" width="50px"></td>' +
                         '<td>' + v['nombre_producto'] + '</td>' +
                         '<td>' + v['color_producto'] + '</td>' +
                         '<td>' + v['talla_producto'] + '</td>' +
-                        '<td>' + total + '</td>' +
-                        '<td>0%</td>' +
+                        '<td>' + v['precio_catalogo'] + '</td>' +
+                        '<td>'+ v['descuento'] +'</td>' +
                         '<td>' + v['cantidad'] + '</td>' +
                         '<td>$' + total + '</td>' +
                         '<td></td>' +
@@ -1346,15 +1346,14 @@ function crearTablaVentas(data, ruta) {
                     total_factura = parseFloat(total) + parseFloat(total_factura);
                     cantidad_total = parseInt(v['cantidad']) + parseInt(cantidad_total);
                 })
-                total_factura = total_factura.toFixed(2)
-                envio = 3
+                total_factura = total_factura.toFixed(2)                
 
                 $('#subtotal').text(total_factura);
                 $('#cant_total').text(cantidad_total);    
                 $('#total_fac').text(total_factura);
                 $('#envio').text(envio);
                 $('#tot_pagar').text(parseFloat(total_factura) + parseFloat(envio));
-                $('#ganancia').text(0);
+                $('#ganancia').text(venta['total_p_empresaria']);
                 
 
             }

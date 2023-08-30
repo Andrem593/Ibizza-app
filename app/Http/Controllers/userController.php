@@ -130,7 +130,7 @@ class userController extends Controller
         return $response;
     }
     public function dashboard(){
-        if(Auth::user()->role == 'Asesor'){
+        if(Auth::user()->role == 'Asesor' || Auth::user()->role == 'ASESOR'){
             return redirect()->route('venta.pedido');
         }
         $empresarias = Empresaria::all()->count();

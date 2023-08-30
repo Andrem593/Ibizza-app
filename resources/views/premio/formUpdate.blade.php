@@ -84,7 +84,7 @@
                             <td>
                                 <center>
                                     @empty($value->imagen_path)
-                                        <img src="https://www.blackwallst.directory/images/NoImageAvailable.png"
+                                        <img src="https://catalogoibizza.com/img/imagen-no-disponible.jpg"
                                             class="rounded" width="80" height="60" />
                                     @else
                                         <img src="/storage/images/productos/{{ $value->imagen_path }}"
