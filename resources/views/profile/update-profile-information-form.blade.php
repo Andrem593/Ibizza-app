@@ -67,14 +67,14 @@
             <!-- Name -->
             <div class="mb-3">
                 <x-jet-label for="name" value="{{ __('Nombre') }}" />
-                <x-jet-input id="name" type="text" class="{{ $errors->has('name') ? 'is-invalid' : '' }}" wire:model.defer="state.name" autocomplete="name" />
+                <x-jet-input id="name" type="text" class="{{ $errors->has('name') ? 'is-invalid' : '' }}" readonly wire:model.defer="state.name" autocomplete="name" />
                 <x-jet-input-error for="name" />
             </div>
 
             <!-- Email -->
             <div class="mb-3">
                 <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" type="email" class="{{ $errors->has('email') ? 'is-invalid' : '' }}" wire:model.defer="state.email" />
+                <x-jet-input id="email" type="email" class="{{ $errors->has('email') ? 'is-invalid' : '' }}" readonly wire:model.defer="state.email" />
                 <x-jet-input-error for="email" />
             </div>
         </div>

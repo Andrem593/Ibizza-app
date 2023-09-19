@@ -194,7 +194,7 @@ function crearTablaEstilos(data, ruta) {
         "columns": [{
             "data": "imagen_path",
             "render": function (data, type, row) {
-                let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
+                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
                 if (data != '' && data != null) {
                     image = '/storage/images/productos/' + data
                 }
@@ -260,7 +260,7 @@ function crearTablaEstilos(data, ruta) {
 
     })
     $('#datatable tbody').on('click', '.editar', function () {
-        let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
+        let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#texto').html('EDITAR LA IMAGEN DEL ESTILO ' + data.estilo + ' Y EL COLOR ' + data.color);
         $('#estilo').val(data.estilo);
@@ -300,7 +300,7 @@ function crearTablaMarca(data, ruta) {
         "columns": [{
             "data": "imagen",
             "render": function (data, type, row) {
-                let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
+                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
                 if (data != '' && data != null) {
                     image = '/storage/images/marca/' + data
                 }
@@ -519,7 +519,7 @@ function crearTablaCatalogo(data, ruta) {
         {
             "data": "foto_path",
             "render": function (data, type, row) {
-                let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
+                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
                 if (data != '' && data != null) {
                     image = '/storage/images/catalogo/' + data
                 }
@@ -1316,8 +1316,8 @@ function crearTablaVentas(data, ruta) {
                 $('#correo').text(empresaria['usuario']['email'])
                 $('#enombre').text(direccionVenta['nombre'])
                 $('#etelefono').text(direccionVenta['telefono'])
-                $('#eprovincia').text(direccionVenta['ciudad']['provincia']['descripcion'])
-                $('#eciudad').text(direccionVenta['ciudad']['descripcion'])
+                $('#eprovincia').text(direccionVenta['ciudad_id'])
+                $('#eciudad').text(direccionVenta['ciudad_id'])
                 $('#direccion').text(direccionVenta['direccion'])
                 $('#referencia').text(direccionVenta['referencia'])
                 $('#imagen_path').val(venta['recibo']);
@@ -1340,34 +1340,19 @@ function crearTablaVentas(data, ruta) {
                     if(v['imagen_producto'] != null && v['imagen_producto'] != ''){
                         image = '/storage/images/productos/' + v['imagen_producto'];
                     }
-                    let total = v['precio_catalogo'] ;
-                    let direccion = v['direccion_envio'] != '' ? JSON.parse(v['direccion_envio']) : '';  
+                    let total = v['precio'];
                     total = total.toFixed(2);
-                    if(direccion != ''){
-                        $('#tabla_factura tbody').append('<tr>' +
-                            '<td><img src="' + image + '" width="50px"></td>' +
-                            '<td>' + v['nombre_producto'] + '</td>' +
-                            '<td>' + v['color_producto'] + '</td>' +
-                            '<td>' + v['talla_producto'] + '</td>' +
-                            '<td>' + v['precio_catalogo'] + '</td>' +
-                            '<td>'+ v['descuento'] +'</td>' +
-                            '<td>' + v['cantidad'] + '</td>' +
-                            '<td>$' + total + '</td>' +
-                            '<td>Nombre:'+ direccion.nombre+' <br>Tel:'+ direccion.telefono+
-                            '<br> Dir:'+ direccion.direccion +'<br> Ref:'+ direccion.referencia +
-                            '</tr>')
-                    }else{
-                        $('#tabla_factura tbody').append('<tr>' +
-                            '<td><img src="' + image + '" width="50px"></td>' +
-                            '<td>' + v['nombre_producto'] + '</td>' +
-                            '<td>' + v['color_producto'] + '</td>' +
-                            '<td>' + v['talla_producto'] + '</td>' +
-                            '<td>' + v['precio_catalogo'] + '</td>' +
-                            '<td>'+ v['descuento'] +'</td>' +
-                            '<td>' + v['cantidad'] + '</td>' +
-                            '<td>$' + total + '</td>' +
-                            '<td></td>')
-                    }
+                    $('#tabla_factura tbody').append('<tr>' +
+                        '<td><img src="' + image + '" width="50px"></td>' +
+                        '<td>' + v['nombre_producto'] + '</td>' +
+                        '<td>' + v['color_producto'] + '</td>' +
+                        '<td>' + v['talla_producto'] + '</td>' +
+                        '<td>' + v['precio_catalogo'] + '</td>' +
+                        '<td>'+ v['descuento'] +'</td>' +
+                        '<td>' + v['cantidad'] + '</td>' +
+                        '<td>$' + total + '</td>' +
+                        '<td></td>' +
+                        '</tr>')
                     subtotal = parseFloat(subtotal) + parseFloat(v['precio_catalogo']);
                     total_factura = parseFloat(total) + parseFloat(total_factura);
                     cantidad_total = parseInt(v['cantidad']) + parseInt(cantidad_total);

@@ -133,7 +133,7 @@
                             "data": "imagen_path",
                             "render": function(data, type, row) {
                                 let image =
-                                    'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
+                                    'https://www.blackwallst.directory/images/NoImageAvailable.png';
                                 if (data != '' && data != null) {
                                     image = '/storage/images/productos/' + data
                                 }

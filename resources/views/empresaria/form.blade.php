@@ -194,6 +194,18 @@
                     {!! $errors->first('password', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>
+            <div class="col-12">
+                <div class="form-group">
+                    {{ Form::label('Observación') }}
+                    {{ Form::textarea('observacion', old('observacion', $empresaria->observacion), [
+                        'rows' => 2,
+                        'cols' => 6,
+                        'class' => 'form-control' . ($errors->has('observacion') ? ' is-invalid' : ''), 
+                        'placeholder' => 'Observación'
+                    ]) }}
+                    {!! $errors->first('observacion', '<div class="invalid-feedback">:message</div>') !!}
+                </div>
+            </div>
         </div>        
     </div>
     <div class="box-footer mt20">

@@ -136,7 +136,7 @@
                 </div>
             @endpush
             @Push('scripts')
-                <script src="/js/crearDataTable2.js"></script>
+                <script src="/js/crearDataTable2.js?id={{ rand().md5(10) }}"></script>
                 <script>
                     $(document).ready(function() {
                         var data = {

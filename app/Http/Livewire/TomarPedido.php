@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TomarPedido extends Component
 {
-    public $estilo, $colores, $tallas, $message, $color, $talla, $cantidad, $alert, $stock, $cliente, $similitudes, $click = false;
+    public $estilo, $colores, $tallas, $message, $color, $talla, $cantidad, $alert, $stock, $cliente, $similitudes, $descripcion_producto, $click = false;
 
     public $venta, $user, $empresarias, $tipoEmpresaria, $click2 = false, $marca, $id_empresaria, $emp;
 
@@ -104,6 +104,7 @@ class TomarPedido extends Component
                 ->get();
             $this->colores = $colores;
             $this->tallas = $tallas;
+            $this->descripcion_producto = $tallas[0]->descripcion; //Se agrega propiedad para capturar la descripción del producto
             $this->color = $colores[0]->color;
             $this->marca = $tallas[0]->nombre_marca;
             $this->talla = $tallas[0]->talla;
@@ -127,6 +128,7 @@ class TomarPedido extends Component
                 ->where('productos.estado', 'A')->get();
             $this->tallas = $tallas;
             $this->talla = $tallas[0]->talla;
+            $this->descripcion_producto = $tallas[0]->descripcion;//Se agrega propiedad para capturar la descripción del producto
             $this->marca = $tallas[0]->nombre_marca;
             $this->stock = $tallas[0]->stock;
             $this->imagen = empty($tallas[0]->imagen_path) ?  $this->imagen : '../storage/images/productos/' . $tallas[0]->imagen_path;
@@ -158,15 +160,14 @@ class TomarPedido extends Component
                 $data = $this->validacionReglas($descuento, $precio, $parametros, $this->cantidad + Cart::count(), $this->envio, 'suma', 1, $this->cantidad);
 
                 $descuento = $data['descuento'];
-                $precio = $data['precio'];
-
+                $precio = $data['precio'];                            
                 try {
                     if ($descuento > 0) {
                         $carItems = Cart::content();
                         foreach ($carItems as $key => $item) {
-                            $precioNuevo = (float) $item->options->pCatalogo - ($item->options->pCatalogo * $descuento);
+                            $precioNuevo = (float) $item->options->pCatalogo - ($item->options->pCatalogo * $descuento);                            
                             Cart::update($item->rowId, ['price' => $precioNuevo, 'options' => [
-                                'image' => $item->options->image, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
+                                'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
                                 'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
                             ]]);
                         }
@@ -177,11 +178,10 @@ class TomarPedido extends Component
                         $this->cantidad,
                         $precio,
                         [
-                            'image' => $producto->imagen_path, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
+                            'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
                             'descuento' => $descuento, 'pCatalogo' => $producto->precio_empresaria
                         ]
-                    )
-                        ->associate('App\Models\Producto');
+                    )->associate('App\Models\Producto');
                     //separar stock 
                     $producto->update(['stock' => $producto->stock - $this->cantidad]);
                     $this->reset(['colores', 'tallas', 'imagen', 'color', 'talla', 'cantidad']);
@@ -213,6 +213,7 @@ class TomarPedido extends Component
             ->get();
 
         $descuento = 0;
+        $this->envio = 0; //Al eliminar item, siempre el costo de envio será 0. Se volverá a calcular según párametro del catalogo
         $precio = $producto->precio_empresaria;
         $datos = $this->validacionReglas($descuento, $precio, $parametros, Cart::count() - $item->qty, $this->envio, 'resta', $item->qty);
         $descuento = $datos['descuento'];
@@ -221,8 +222,8 @@ class TomarPedido extends Component
             $carItems = Cart::content();
             foreach ($carItems as $key => $item) {
                 $precioNuevo = (float) $item->options->pCatalogo;
-                Cart::update($item->rowId, ['price' => $precioNuevo, 'options' => [
-                    'image' => $item->options->image, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
+                Cart::update($item->rowId, ['price' => round($precioNuevo,2), 'options' => [
+                    'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
                     'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
                 ]]);
             }
@@ -254,7 +255,7 @@ class TomarPedido extends Component
                         'id_empresaria' => $this->id_empresaria,
                         'nombre_cliente' => $this->cliente,
                         'cantidad_total' => Cart::count(),
-                        'total_venta' => number_format(Cart::content()->map(function ($item) {
+                        'total_venta' => round(Cart::content()->map(function ($item) {
                             return $item->options->pCatalogo * $item->qty;
                         })->sum(), 2),
                         'total_p_empresaria' => Cart::subtotal(),
@@ -265,10 +266,10 @@ class TomarPedido extends Component
                             'id_separados' => $separado->id,
                             'id_producto' => $item->id,
                             'cantidad' => $item->qty,
-                            'precio' => $item->price,
+                            'precio' => round($item->price,2),
                             'descuento' => $item->options->descuento,
                             'precio_empresaria' => $item->options->pCatalogo,
-                            'total' => number_format(($item->price * $item->qty), 2),
+                            'total' => round(($item->price * $item->qty), 2),
                             'estado' => 'SEPARADO',
                             'usuario' => Auth::user()->id,
                             'direccion_envio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
@@ -297,36 +298,41 @@ class TomarPedido extends Component
             ->where('estado', 'A')
             ->first();
         $this->stock = $producto->stock;
+        $this->descripcion_producto = $producto->descripcion; //Se agrega propiedad para capturar la descripción del producto
     }
 
     public function increaseQuantity($rowId)
     {
         $item1 = Cart::get($rowId);
         $producto = Producto::where('id', $item1->id)->with(['marca', 'catalogo'])->first();
-        $producto->update(['stock' => $producto->stock - 1]);
-        $parametros = ParametroCatalogo::where('catalogo_id', $producto->catalogo->catalogo_id)
-            ->where('estado', 1)
-            ->get();
-
-        if ($item1) {
-            $descuento = 0;
-            $precio = $producto->precio_empresaria;
-            $data = $this->validacionReglas($descuento, $precio, $parametros, Cart::count() + 1, $this->envio, 'suma', 1);
-            $descuento = $data['descuento'];
-            $precio = $data['precio'];
-
-            Cart::update($rowId, ['qty' => $item1->qty + 1]);
-            if ($descuento > 0) {
-                $carItems = Cart::content();
-                foreach ($carItems as $key => $item) {
-                    $precioNuevo = (float) $item->options->pCatalogo - ($item->options->pCatalogo * $descuento);
-                    Cart::update($item->rowId, ['price' => $precioNuevo, 'options' => [
-                        'image' => $item->options->image, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
-                        'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
-                    ]]);
+        if($producto->stock - 1 >= 0){
+            $producto->update(['stock' => $producto->stock - 1]);
+            $parametros = ParametroCatalogo::where('catalogo_id', $producto->catalogo->catalogo_id)
+                ->where('estado', 1)
+                ->get();
+    
+            if ($item1) {
+                $descuento = 0;
+                $precio = $producto->precio_empresaria;
+                $data = $this->validacionReglas($descuento, $precio, $parametros, Cart::count() + 1, $this->envio, 'suma', 1);
+                $descuento = $data['descuento'];
+                $precio = $data['precio'];
+    
+                Cart::update($rowId, ['qty' => $item1->qty + 1]);
+                if ($descuento > 0) {
+                    $carItems = Cart::content();
+                    foreach ($carItems as $key => $item) {
+                        $precioNuevo = (float) $item->options->pCatalogo - ($item->options->pCatalogo * $descuento);
+                        Cart::update($item->rowId, ['price' => round($precioNuevo,2), 'options' => [
+                            'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
+                            'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
+                        ]]);
+                    }
                 }
+                $this->emit('cartUpdated');
             }
-            $this->emit('cartUpdated');
+        }else{
+            $this->message = 'NO HAY STOCK DISPONIBLE PARA '. $producto->descripcion;
         }
     }
 
@@ -351,8 +357,8 @@ class TomarPedido extends Component
                 $carItems = Cart::content();
                 foreach ($carItems as $key => $item) {
                     $precioNuevo = (float) $item->options->pCatalogo;
-                    Cart::update($item->rowId, ['price' => $precioNuevo, 'options' => [
-                        'image' => $item->options->image, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
+                    Cart::update($item->rowId, ['price' => round($precioNuevo,2), 'options' => [
+                        'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
                         'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
                     ]]);
                 }
@@ -396,15 +402,20 @@ class TomarPedido extends Component
                                     $subtotal = floatval(str_replace(',', '', Cart::subtotal())) - ($cantidadResta * ($precio - $desc));
                                 }
                             } else {
+                                $subtotal = 0;
                                 $subtotal = Cart::content()->map(function ($item) use ($desc) {
                                     return ($item->options->pCatalogo - $desc) * $item->qty;
                                 })->sum();
                                 $subtotal = $subtotal + ($cantidadSuma * ($precio - $desc));
                             };
-
-                            $env = $subtotal . $regla->operador . $regla->cantidad;
-                            $env = eval("return $env;") ? $regla->valor : 0;
-                            $this->envio = $env;
+                            
+                            //Solo aplicar condición del catalogo cuando subtotal sea mayor que 0
+                            if($subtotal > 0):
+                                $env = $subtotal  .$regla->operador . $regla->cantidad;
+                                $env = eval("return $env;") ? $regla->valor : 0;
+                                $this->envio = $env;
+                            endif;
+                            
                         }
                     } elseif ($regla->tipo_empresaria == $this->tipoEmpresaria) {
                         if ($regla->condicion == 'cantidad') {
@@ -450,7 +461,7 @@ class TomarPedido extends Component
         $rowId = $data['rowId'];
         $item = Cart::get($rowId);
         Cart::update($item->rowId, ['options' => [
-            'image' => $item->options->image, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
+            'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
             'descuento' => $item->options->descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => json_encode($data)
         ]]);
     }

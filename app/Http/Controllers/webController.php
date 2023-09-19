@@ -85,15 +85,22 @@ class webController extends Controller
                                         $premio = DB::table($itemRegla->nombre_tabla)->whereRaw($itemRegla->condicion)->get();
                                         foreach ($premio as  $val) {
                                             if ($val->id_user == $empresaria->id_user) {
-                                                $producto = DB::table('premio_has_productos')->join('productos', 'productos.estilo', '=', 'premio_has_productos.estilo')->where('premio_id', $value->id)->groupBy('productos.estilo')->get();
+                                                $producto = DB::table('premio_has_productos')->join('productos', 'productos.estilo', '=', 'premio_has_productos.estilo')->where('premio_id', $value->id)
+                                                    ->where('productos.estado', 'A')
+                                                    ->where('productos.stock', '>', 0)
+                                                    ->groupBy('productos.estilo')->get();
                                                 foreach ($producto as  $value) {
-                                                    $colores = Producto::where('estilo', $value->estilo)->groupBy('color')->get('color');
+                                                    $colores = Producto::where('estilo', $value->estilo)
+                                                        ->where('estado', 'A')
+                                                        ->where('stock', '>', 0)->groupBy('color')->get('color');
                                                     $colores2 = [];
                                                     foreach ($colores as  $color) {
                                                         array_push($colores2, $color->color);
                                                     }
                                                     $value->colores = $colores2;
-                                                    $tallas = Producto::where('estilo', $value->estilo)->groupBy('talla')->get('talla');
+                                                    $tallas = Producto::where('estilo', $value->estilo)
+                                                        ->where('estado', 'A')
+                                                        ->where('stock', '>', 0)->groupBy('talla')->get('talla');
                                                     $tallas2 = [];
                                                     foreach ($tallas as $talla) {
                                                         array_push($tallas2, $talla->talla);
@@ -126,15 +133,25 @@ class webController extends Controller
                                     }
 
                                     if ($flagPremioPedido) {
-                                        $producto = DB::table('premio_has_productos')->join('productos', 'productos.estilo', '=', 'premio_has_productos.estilo')->where('premio_id', $value->id)->groupBy('productos.estilo')->get();
+                                        $producto = DB::table('premio_has_productos')->join('productos', 'productos.estilo', '=', 'premio_has_productos.estilo')
+                                            ->where('productos.estado', 'A')
+                                            ->where('productos.stock', '>', 0)
+                                            ->where('premio_id', $value->id)->groupBy('productos.estilo')->get();
                                         foreach ($producto as  $value) {
-                                            $colores = Producto::where('estilo', $value->estilo)->groupBy('color')->get('color');
+                                            $colores = Producto::where('estilo', $value->estilo)->groupBy('color')
+                                                ->where('estado', 'A')
+                                                ->where('stock', '>', 0)
+                                                ->get('color');
                                             $colores2 = [];
                                             foreach ($colores as  $color) {
                                                 array_push($colores2, $color->color);
                                             }
                                             $value->colores = $colores2;
-                                            $tallas = Producto::where('estilo', $value->estilo)->groupBy('talla')->get('talla');
+                                            $tallas = Producto::where('estilo', $value->estilo)
+                                                ->where('estado', 'A')
+                                                ->where('stock', '>', 0)
+                                                ->groupBy('talla')
+                                                ->get();
                                             $tallas2 = [];
                                             foreach ($tallas as $talla) {
                                                 array_push($tallas2, $talla->talla);
@@ -173,25 +190,17 @@ class webController extends Controller
             if (count($premios) > 0) {
                 foreach ($premios as $val) {
                     $pro = Producto::where('estilo', $val['estilo'])->where('talla', $val['talla'])->where('color', $val['color'])->first();
-                    Cart::add($pro->id, $pro->nombre_mostrar, 1, 0, ['image' => $pro->imagen_path])->associate('App\Models\Producto');
+                    if ($pro->stock - 1 >= 0) {
+                        $pro->stock = $pro->stock - 1;
+                        $pro->save();
+                        Cart::add($pro->id, $pro->descripcion, 1, 0, ['image' => $pro->imagen_path])->associate('App\Models\Producto');
+                    }
                 }
             }
         }
         $productos_pedidos = Cart::content();
         $id_pedidos = '';
         $empresaria = Empresaria::where('cedula', $request->cedulaEmpresaria)->first();
-        if ($empresaria->tipo_cliente == 'NUEVA') {
-            Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'CONTINUA']);
-        }
-        if ($empresaria->tipo_cliente == 'PROSPECTO') {
-            Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'NUEVA']);
-        }
-        if ($empresaria->tipo_cliente == 'INACTIVA-1' || $empresaria->tipo_cliente == 'INACTIVA-2' || $empresaria->tipo_cliente == 'INACTIVA-3') {
-            Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'REACTIVA']);
-        }
-        if ($empresaria->tipo_cliente == 'REACTIVA') {
-            Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'CONTINUA']);
-        }
         if (empty($request->observaciones)) {
             $request->observaciones = 'SIN OBSERVACIONES';
         }
@@ -217,6 +226,7 @@ class webController extends Controller
         try {
             DireccionVenta::create([
                 'id_venta' => $venta->id,
+                'identificacion' => $request->identificacion_envio, //Se guarda la identificación en las direccion de envío seleccionada
                 'nombre' => $request->nombre_envio,
                 'telefono' => $request->telefono_envio,
                 'direccion' => $request->direccion_envio,
@@ -226,16 +236,17 @@ class webController extends Controller
 
             foreach ($productos_pedidos as $producto) {
                 $pro = Producto::where('id', $producto->id)->first();
-                $precioCatalogo = floatval(str_replace(',', '',(number_format($producto->options->pCatalogo * $producto->qty, 2))));
+                $precioCatalogo = floatval(str_replace(',', '', (number_format($producto->options->pCatalogo * $producto->qty, 2))));
 
                 $precio = $precioCatalogo - ($precioCatalogo * $producto->options->descuento);
+                $precio = round($precio, 2);
 
                 $pedido = Pedido::create([
                     'id_producto' => $producto->id,
                     'id_venta' => $venta->id,
                     'cantidad' => $producto->qty,
                     'precio' => $precio,
-                    'precio_catalogo' =>floatval(str_replace(',', '',(number_format($producto->options->pCatalogo * $producto->qty, 2)))),
+                    'precio_catalogo' => floatval(str_replace(',', '', (number_format($producto->options->pCatalogo * $producto->qty, 2)))),
                     'direccion_envio' => $producto->options->dataEnvio != '' ? $producto->options->dataEnvio : '',
                     'descuento' => $producto->options->descuento,
                     'estado' => 'PENDIENTE DE PAGO',
@@ -252,6 +263,47 @@ class webController extends Controller
             if (!empty($venta)) {
                 $response['id_venta'] = $venta->id;
             }
+
+            if ($empresaria->tipo_cliente == 'NUEVA') {
+                // $catActual = Catalogo::where('estado', 'PUBLICADO')->get();
+                // $catIds = Catalogo::where('estado', 'PUBLICADO')->pluck('id')->toArray();    
+                // $catAntIds = [];       
+                // foreach ($catActual as $key => $cat) {
+                //     $fechaInicio = date('Y-m-d', strtotime($cat->fecha_publicacion));
+                //     $fechaPublicacion = new DateTime($cat->fecha_publicacion);
+                //     $fechaPublicacion->sub(new DateInterval('P15D'));
+    
+                //     $fechaFin = $fechaPublicacion->format('Y-m-d');
+                //     $catAnteriores = Catalogo::where('estado', 'SIN PUBLICAR')->whereBetween('fecha_fin_catalogo', [$fechaFin, $fechaInicio])->get();
+                //     foreach ($catAnteriores as $key => $catAnterior) {
+                //         $catAntIds[] = $catAnterior->id;
+                //     }
+                // }
+    
+                // $pedidoActual = Venta::with('pedido')
+                // ->where('id_empresaria', $empresaria->id)
+                // ->whereHas('pedido', function ($query) use ($catIds) {
+                //     $query->whereIn('id_catalogo', $catIds);
+                // })->get();
+    
+                // Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'CONTINUA']);
+            }
+            if ($empresaria->tipo_cliente == 'PROSPECTO') {
+                Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'NUEVA']);
+            }
+            if ($empresaria->tipo_cliente == 'INACTIVA-1' || $empresaria->tipo_cliente == 'INACTIVA-2' || $empresaria->tipo_cliente == 'INACTIVA-3' || $empresaria->tipo_cliente == 'POSIBLE BAJA') {
+                Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'REACTIVA']);
+            }
+            if ($empresaria->tipo_cliente == 'REACTIVA') {
+                // Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'CONTINUA']);
+            }
+            if ($empresaria->tipo_cliente == 'BAJA') {
+                Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'RE-INGRESO']);
+            }
+            if (empty($request->observaciones)) {
+                $request->observaciones = 'SIN OBSERVACIONES';
+            }
+
             return $response;
         } catch (\Throwable $th) {
             Venta::find($venta->id)->delete();

@@ -30,8 +30,8 @@
                             <th>Cantidad</th>
                             <th>Total</th>
                             <th>Asesor</th>
-                            <th>Fecha Inicio</th>
-                            <th>Fecha Fin</th>
+                            <th>Fecha Emisión</th>
+                            <th>Fecha Vencimiento</th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
@@ -45,7 +45,7 @@
         <link rel="stylesheet" href="/css/botonesDataTable.css">
     @endpush
     @Push('scripts')
-        <script src="/js/crearDataTable.js"></script>
+        <script src="/js/crearDataTable?id={{ rand().md5(10) }}.js"></script>
         <script>
             $(document).ready(function() {
                 var data = {

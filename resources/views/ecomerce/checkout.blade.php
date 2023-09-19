@@ -1,12 +1,12 @@
 <x-plantilla>
-    @section('title', 'Liquidación de Pedido')
+    @section('title', 'Cerrar Pedido')
     <div class="sticky-header-next-sec  ec-breadcrumb section-space-mb">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="row ec_breadcrumb_inner">
                         <div class="col-md-6 col-sm-12">
-                            <h2 class="ec-breadcrumb-title">Liquidación de Pedido</h2>
+                            <h2 class="ec-breadcrumb-title">Cerrar Venta</h2>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <!-- ec-breadcrumb-list start -->
@@ -198,7 +198,13 @@
                                         <div class="ec-check-bill-form">
                                             <form id="form_datos_envio" action="#" method="post">
                                                 <span class="ec-bill-wrap ec-bill-half">
-                                                    <label>Nombre</label>
+                                                    <label>Identificación</label>
+                                                    <input type="text" id="identificacion_envio" name="identificacion_envio"
+                                                        value="{{ $empresaria->cedula }}"
+                                                        placeholder="Ingrese una identificación" required />
+                                                </span>
+                                                <span class="ec-bill-wrap ec-bill-half">
+                                                    <label>Nombre completo</label>
                                                     <input type="text" id="nombre_envio" name="nombre_envio"
                                                         value="{{ $empresaria->nombres . ' ' . $empresaria->apellidos }}"
                                                         placeholder="Ingrese nombre" required />
@@ -253,7 +259,7 @@
                                                         placeholder="Ingrese la dirección de entrega del pedido"
                                                         required />
                                                 </span>
-                                                <span class="ec-bill-wrap ec-bill-half">
+                                                <span class="ec-bill-wrap ec-bill-auto">
                                                     <label>Referencia</label>
                                                     <input type="text" id="referencia" name="referencia"
                                                         value="{{ $empresaria->referencia }}"
@@ -291,7 +297,7 @@
                                     <div>
                                         <span class="text-left">Ganacias</span>
                                         <span class="text-right"
-                                            id="ganancia">${{ floatval(str_replace(',', '',(number_format(Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum(),2)))) - floatval(str_replace(',', '', Cart::total()))}}</span>
+                                            id="ganancia">${{number_format(Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum() - number_format(Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum(),2),2) }}</span>
                                     </div>
                                     <div>
                                         <span class="text-left">Envio</span>
@@ -300,7 +306,7 @@
                                     <div class="ec-checkout-summary-total">
                                         <span class="text-left">Total a Pagar</span>
                                         <span class="text-right"
-                                            id="total_pagar">${{ Cart::total() + $envio }}</span>
+                                            id="total_pagar">${{ number_format(number_format(Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum(),2) + floatval($envio),2) }}</span>
                                     </div>
                                 </div>
                                 <div class="ec-checkout-pro">
@@ -339,26 +345,26 @@
                             <!-- Sidebar Payment Block -->
                             <div class="ec-sidebar-block">
                                 <div class="ec-sb-title">
-                                    <h3 class="ec-sidebar-title">Metodo de pago</h3>
+                                    <h3 class="ec-sidebar-title">Observaciones</h3>
                                 </div>
                                 <div class="ec-sb-block-content">
                                     <div class="ec-checkout-pay">
-                                        <div class="ec-pay-desc">Por favor seleccione su metodo de pago preferido.
+                                        {{-- <div class="ec-pay-desc">Por favor seleccione su metodo de pago preferido. --}}
                                         </div>
                                         <form action="#">
-                                            <span class="ec-pay-option">
+                                            {{-- <span class="ec-pay-option">
                                                 <span>
                                                     <input type="radio" id="pay1" name="radio-group" checked>
                                                     <label for="pay1">transferencia Bancaria</label>
                                                 </span>
-                                            </span>
+                                            </span> --}}
                                             <span class="ec-pay-commemt">
-                                                <span class="ec-pay-opt-head">Agrega comentarios a tu pedido</span>
-                                                <textarea name="your-commemt" id="observaciones_pedido" placeholder="Comentarios"></textarea>
+                                                <span class="ec-pay-opt-head">Agregar comentarios sobre el pedido</span>
+                                                <textarea name="your-commemt" id="observaciones_pedido" placeholder="Comentarios" style="height: 250px;"></textarea>
                                             </span>
-                                            <span class="ec-pay-agree"><input type="checkbox" value=""
+                                            {{-- <span class="ec-pay-agree"><input type="checkbox" value=""
                                                     checked><a href="#">He leído y acepto los <span>Terminos y
-                                                        condiciones</span></a><span class="checked"></span></span>
+                                                        condiciones</span></a><span class="checked"></span></span> --}}
                                         </form>
                                     </div>
                                 </div>
@@ -423,6 +429,7 @@
                     observaciones: $('#observaciones_pedido').val(),
                     ganancia: ganancia[1],
                     envio: $('#envio').text(),
+                    identificacion_envio: $('#identificacion_envio').val(), //Capturamos la identificación de la dirección de envío
                     nombre_envio: $('#nombre_envio').val(),
                     telefono_envio: $('#telefono_envio').val(),
                     direccion_envio: $('#direccion').val(),
@@ -536,6 +543,7 @@
             });
 
             $('#env1').click(function() {
+                $('#identificacion_envio').val('')
                 $('#nombre_envio').val('')
                 $('#telefono_envio').val('')
                 $('#direccion').val('')
@@ -543,6 +551,7 @@
             });
 
             $('#env2').click(function() {
+                $('#identificacion_envio').val('')
                 $('#nombre_envio').val('')
                 $('#telefono_envio').val('')
                 $('#direccion').val('')
@@ -560,12 +569,13 @@
             });
 
             $('#env4').click(function() {
+                $('#identificacion_envio').val('')
                 $('#nombre_envio').val('Local Ibizza')
-                $('#direccion').val('Chile y Luque')
+                $('#direccion').val('Calle Chile y Luque')
                 $('#provincia').val('9');
                 $('#ciudad').html('<option value="75" selected >GUAYAQUIL</option>');
-                $('#ciudad').
                 $('#referencia').val('Frente a Deprati')
+                $('#telefono_envio').val('0963725427')
             });
 
 
@@ -588,6 +598,7 @@
                             $('#cedula').val(response['empresaria']['cedula'])
                             $('#tipo_id').val(response['empresaria']['tipo_id'])
                             $('#nombres').val(response['empresaria']['nombres'])
+                            $('#identificacion_envio').val(response['empresaria']['cedula']) //Obtener identificación de la empresaria
                             $('#nombre_envio').val(response['empresaria']['nombres'] + ' ' + response[
                                 'empresaria']['apellidos'])
                             $('#apellidos').val(response['empresaria']['apellidos'])

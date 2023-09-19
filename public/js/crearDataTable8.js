@@ -194,7 +194,7 @@ function crearTablaEstilos(data, ruta) {
         "columns": [{
             "data": "imagen_path",
             "render": function (data, type, row) {
-                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
                 if (data != '' && data != null) {
                     image = '/storage/images/productos/' + data
                 }
@@ -260,7 +260,7 @@ function crearTablaEstilos(data, ruta) {
 
     })
     $('#datatable tbody').on('click', '.editar', function () {
-        let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+        let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#texto').html('EDITAR LA IMAGEN DEL ESTILO ' + data.estilo + ' Y EL COLOR ' + data.color);
         $('#estilo').val(data.estilo);
@@ -300,7 +300,7 @@ function crearTablaMarca(data, ruta) {
         "columns": [{
             "data": "imagen",
             "render": function (data, type, row) {
-                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
                 if (data != '' && data != null) {
                     image = '/storage/images/marca/' + data
                 }
@@ -519,7 +519,7 @@ function crearTablaCatalogo(data, ruta) {
         {
             "data": "foto_path",
             "render": function (data, type, row) {
-                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
                 if (data != '' && data != null) {
                     image = '/storage/images/catalogo/' + data
                 }
@@ -1294,6 +1294,7 @@ function crearTablaVentas(data, ruta) {
                 let empresaria = data['empresaria'];
                 let venta = data['venta'];
                 let rol = data['rol'];
+                let direccionVenta = data['direccionVenta'];
                 if(rol == "ASESOR"){
                     $('#estado_venta').prop( "disabled", true );
                 }else{
@@ -1302,15 +1303,23 @@ function crearTablaVentas(data, ruta) {
                 Livewire.emitTo('guardar-pago', 'setVenta', venta['id']);
                 $('#estado_venta').val(venta['estado']);
                 $('#venta').text(venta['id'])
+                $('#nfactura').text(venta['n_factura'])
+                $('#nguia').text(venta['n_guia'])
                 $('#btn-descarga').attr( 'href','/venta/comprobante/' + venta['id']);
                 $('#fcedula').text(venta['factura_identificacion'])
                 $('#fnombre').text(venta['factura_nombres'])
+                $('#ftelefono').text(venta['telefono'])
+                $('#femail').text(venta['email'])
                 $('#empresaria').text(empresaria['nombres'] + ' ' + empresaria['apellidos'])
                 $('#cedula').text(empresaria['cedula'])
                 $('#telefono').text(empresaria['telefono'])
                 $('#correo').text(empresaria['usuario']['email'])
-                $('#direccion').text(venta['direccion_envio'])
-                $('#referencia').text(venta['observacion'])
+                $('#enombre').text(direccionVenta['nombre'])
+                $('#etelefono').text(direccionVenta['telefono'])
+                $('#eprovincia').text(direccionVenta['ciudad']['provincia']['descripcion'])
+                $('#eciudad').text(direccionVenta['ciudad']['descripcion'])
+                $('#direccion').text(direccionVenta['direccion'])
+                $('#referencia').text(direccionVenta['referencia'])
                 $('#imagen_path').val(venta['recibo']);
                 if (venta['recibo'] != null) {
                     $('#imagen_defecto').attr('src',venta['recibo']);
@@ -1321,6 +1330,7 @@ function crearTablaVentas(data, ruta) {
                 $('#fecha').text(fecha[0]);
                 data = data['pedidos'];
                 $('#tabla_factura tbody').html('');
+                let subtotal = 0
                 let total_factura = 0
                 let cantidad_total = 0
                 let envio = venta['envio'];
@@ -1330,29 +1340,46 @@ function crearTablaVentas(data, ruta) {
                     if(v['imagen_producto'] != null && v['imagen_producto'] != ''){
                         image = '/storage/images/productos/' + v['imagen_producto'];
                     }
-                    let total = v['precio'];
+                    let total = v['precio'] ;
+                    let direccion = v['direccion_envio'] != '' ? JSON.parse(v['direccion_envio']) : '';  
                     total = total.toFixed(2);
-                    $('#tabla_factura tbody').append('<tr>' +
-                        '<td><img src="' + image + '" width="50px"></td>' +
-                        '<td>' + v['nombre_producto'] + '</td>' +
-                        '<td>' + v['color_producto'] + '</td>' +
-                        '<td>' + v['talla_producto'] + '</td>' +
-                        '<td>' + v['precio_catalogo'] + '</td>' +
-                        '<td>'+ v['descuento'] +'</td>' +
-                        '<td>' + v['cantidad'] + '</td>' +
-                        '<td>$' + total + '</td>' +
-                        '<td></td>' +
-                        '</tr>')
+                    if(direccion != ''){
+                        $('#tabla_factura tbody').append('<tr>' +
+                            '<td><img src="' + image + '" width="50px"></td>' +
+                            '<td>' + v['nombre_producto'] + '</td>' +
+                            '<td>' + v['color_producto'] + '</td>' +
+                            '<td>' + v['talla_producto'] + '</td>' +
+                            '<td>' + v['precio_catalogo'] + '</td>' +
+                            '<td>'+ v['descuento'] +'</td>' +
+                            '<td>' + v['cantidad'] + '</td>' +
+                            '<td>$' + total + '</td>' +
+                            '<td>Nombre:'+ direccion.nombre+' <br>Tel:'+ direccion.telefono+
+                            '<br> Dir:'+ direccion.direccion +'<br> Ref:'+ direccion.referencia +
+                            '</tr>')
+                    }else{
+                        $('#tabla_factura tbody').append('<tr>' +
+                            '<td><img src="' + image + '" width="50px"></td>' +
+                            '<td>' + v['nombre_producto'] + '</td>' +
+                            '<td>' + v['color_producto'] + '</td>' +
+                            '<td>' + v['talla_producto'] + '</td>' +
+                            '<td>' + v['precio_catalogo'] + '</td>' +
+                            '<td>'+ v['descuento'] +'</td>' +
+                            '<td>' + v['cantidad'] + '</td>' +
+                            '<td>$' + total + '</td>' +
+                            '<td></td>')
+                    }
+                    subtotal = parseFloat(subtotal) + parseFloat(v['precio_catalogo']);
                     total_factura = parseFloat(total) + parseFloat(total_factura);
                     cantidad_total = parseInt(v['cantidad']) + parseInt(cantidad_total);
                 })
                 total_factura = total_factura.toFixed(2)                
 
-                $('#subtotal').text(total_factura);
+                $('#subtotal').text(subtotal.toFixed(2));
                 $('#cant_total').text(cantidad_total);    
                 $('#total_fac').text(total_factura);
                 $('#envio').text(envio);
-                $('#tot_pagar').text(parseFloat(total_factura) + parseFloat(envio));
+                totpag = parseFloat(total_factura) + parseFloat(envio);
+                $('#tot_pagar').text(totpag.toFixed(2));
                 $('#ganancia').text(venta['total_p_empresaria']);
                 
 

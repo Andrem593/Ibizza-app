@@ -50,7 +50,7 @@ class ReporteController extends Controller
                 ->selectRaw('concat_ws(" ", empresarias.nombres, empresarias.apellidos) as nombres')
                 ->groupBy('empresarias.cedula');
 
-            if ($id_usuario != 1) {
+            if (Auth::user()->role != 'ADMINISTRADOR') {
                 $ventas->where('empresarias.vendedor', $id_usuario);
             }
             $ventas = $ventas->get();
@@ -63,7 +63,7 @@ class ReporteController extends Controller
 
             $empresarias = Empresaria::select('cedula', 'tipo_cliente')
                 ->selectRaw('concat_ws(" ", nombres, apellidos) as nombres');
-            if ($id_usuario != 1) {
+            if (Auth::user()->role != 'ADMINISTRADOR') {
                 $empresarias->where('vendedor', $id_usuario);
             }
             $empresarias = $empresarias->get();

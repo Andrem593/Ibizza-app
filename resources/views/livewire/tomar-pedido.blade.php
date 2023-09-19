@@ -34,7 +34,7 @@
                     <div class="col mb-2 position-relative">
                         <label class="form-label">Nombre de Empresaria:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control p-1" wire:model.debounce.500ms='cliente'
+                            <input type="text" class="form-control p-1" wire:model.debounce.50ms='cliente'
                                 placeholder="Ingrese el nombre de la empresaria para su pedido"
                                 {{ $click2 ? 'disabled' : '' }}>
                             <button class="btn btn-danger rounded" type="button" wire:click='clearEmpresaria'
@@ -64,7 +64,7 @@
                     <label class="form-label">Codigo Artículo:</label>
                     <div class="input-group">
                         <input type="text" class="form-control p-1" placeholder="Ingrese el código"
-                            wire:model.debounce.500ms="estilo" wire:keydown.enter='buscarEstilo'>
+                            wire:model.debounce.50ms="estilo" wire:keydown.enter='buscarEstilo'>
                         <button class="btn btn-primary rounded" type="button" id="search" wire:click='buscarEstilo'
                             style="z-index: 10"><i class="fas fa-search"></i></button>
                     </div>
@@ -118,9 +118,10 @@
                     @empty(!$tallas)
                         <div class="row">
                             <div class="col-6">
-                                <span>{{ $tallas[0]->nombre_mostrar }}</span>
+                                {{-- <span>{{ $tallas[0]->nombre_mostrar }}</span> --}}
+                                <span>{{ $descripcion_producto }}</span>
                                 <br>
-                                <span class="{{ $stock == 0 ? 'badge badge-pill bg-danger' : '' }}">Marca:
+                                <span class="{{ $stock == 0 ? 'badge badge-pill bg-danger' : '' }}"> Marca:
                                     {{ $marca }} | STOCK:
                                     <b>{{ $stock == 0 ? 'AGOTADO' : $stock }}</b></span>
                             </div>
@@ -134,7 +135,7 @@
                                             2,
                                         ) }}</span>
                                 @else
-                                    <span class="badge badge-pill badge-dark" style="font-size: 0.9rem;">P.Final:
+                                    <span class="badge badge-pill badge-dark" style="font-size: 0.9rem;">P.V.C:
                                         ${{ number_format($tallas[0]->precio_empresaria, 2) }}</span>
                                 @endempty
                             </div>
@@ -152,16 +153,17 @@
             <table class="table ec-table" style="font-size: 14px">
                 <thead>
                     <tr>
-                        <th scope="col">Foto</th>
+                        {{--<th scope="col">Foto</th>--}}
+                        <th>SKU</th>
                         <th scope="col">Descripción</th>
                         <th scope="col">Marca</th>
                         <th scope="col">Color</th>
                         <th scope="col">Talla</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col">Descuento</th>
-                        <th scope="col" width="15px">Cantidad</th>
-                        <th scope="col">Precio Empresaria</th>
-                        <th scope="col">Dirección Envío</th>
+                        <th scope="col">P.V.C</th>
+                        <th scope="col">Desc</th>
+                        <th scope="col" width="15px">Cant</th>
+                        <th scope="col">P.V.E</th>
+                        <th scope="col" class="d-none">Dirección</th>
                         <th scope="col" width="10px">Opc</th>
                     </tr>
                 </thead>
@@ -169,8 +171,14 @@
                     @if (Cart::count() > 0)
                         @foreach (Cart::content() as $item)
                             <tr>
-                                <td><img src="{{ '../storage/images/productos/' . $item->options->image }}"
-                                        width="50px" height="50px" style="object-fit: cover"></td>
+                                {{-- CAMBIO DE IMAGEN POR SKU --}}
+                                {{-- <td>
+                                    <img src="{{ '../storage/images/productos/' . $item->options->image }}"
+                                        width="50px" height="50px" style="object-fit: cover">
+                                </td> --}}
+                                <td>
+                                    {{ $item->options->sku }}
+                                </td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->options->marca }}</td>
                                 <td>{{ $item->options->color }}</td>
@@ -181,19 +189,12 @@
                                     <span class="mx-2">{{ $item->qty }}</span>
                                 </td>
                                 <td>${{ number_format($item->qty * $item->price, 2) }}</td>
-                                <td>@php
-                                    if ($item->options->dataEnvio != '') {
-                                        $data = json_decode($item->options->dataEnvio);
-                                        echo "Nombre: $data->nombre <br> Tel: $data->telefono <br> Dir: $data->direccion <br> Ref: $data->referencia";
-                                    }
-                                @endphp
-                                </td>
+                                
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <button type="button" class="btn btn-sm btn-outline-default mr-1"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                            data-rowid="{{ $item->rowId }}"><i
-                                                class="fas fa-map-marked-alt"></i></button>
+                                            data-bs-toggle="modal" data-bs-target="#modalDirecciones"
+                                            data-rowid="{{ $item->rowId }}"><i class="fas fa-map-marked-alt"></i></button>
                                         <button class="btn btn-sm btn-outline-primary mr-1"
                                             wire:click="increaseQuantity('{{ $item->rowId }}')">+</button>
                                         <button class="btn btn-sm btn-outline-danger mr-1"
@@ -206,6 +207,42 @@
                                     </div>
                                 </td>
                             </tr>
+                            @if ($item->options->dataEnvio != '')
+                            <tr>
+                                <td></td>
+                                <td colspan="10">
+                                    @php
+                                        $data = json_decode($item->options->dataEnvio);
+                                        if ($item->options->dataEnvio != '') {
+                                            $data = json_decode($item->options->dataEnvio);
+                                            //echo "Identificación: $data->identificacion <br> Nombre: $data->nombre <br> Tel: $data->telefono <br> Dir: $data->direccion <br> Ref: $data->referencia";
+                                        }
+                                    @endphp
+                                    <table class="table table-borderless table-sm">
+                                        <tr>
+                                            <td style="width: 10%;">Identificación: </td>
+                                            <td>{{ $data->identificacion }} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nombre: </td>
+                                            <td>{{ $data->nombre }} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Teléfono: </td>
+                                            <td>{{ $data->telefono }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td> Dirección: </td>
+                                            <td>{{ $data->direccion }}</td>
+                                       </tr>
+                                        <tr>
+                                            <td> Referencia: </td>
+                                            <td>{{ $data->referencia }}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            @endif
                         @endforeach
                     @else
                         <tr>
@@ -223,7 +260,7 @@
                         </td>
                         <td class="fw-bold"> {{ Cart::count() }}</td>
                         <td class="fw-bold" colspan="2">
-                            ${{ Cart::subtotal() }}
+                            ${{ number_format(Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum(),2) }}
                         </td>
                     </tr>
                     <tr>
@@ -244,19 +281,17 @@
                         </td>
                         <td colspan="3">
                             <span
-                                class="fw-bold">${{ floatval(str_replace(',', '', Cart::subtotal())) + floatval($envio) }}</span>
+                                class="fw-bold">${{number_format(number_format(Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum(),2) + floatval($envio),2)}}</span>
                         </td>
                     </tr>
                     <tr>
-                        <td class="border-none" colspan="7"><span class="note-text-color">Informacion extra sobre
-                                ibizza
-                                o datos de pago...</span></td>
+                        <td class="border-none" colspan="7"><span class="note-text-color"></span></td>
                         <td class="" colspan="1">
                             <span><strong>Ganancias</strong></span>
                         </td>
                         <td colspan="2">
                             <span
-                                class="fw-bold">${{ Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum() - floatval(str_replace(',', '', Cart::subtotal())) }}</span>
+                                class="fw-bold">${{ number_format(Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum() - number_format(Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum(),2),2) }}</span>
                         </td>
                     </tr>
                     @if (!empty($emp))
@@ -280,44 +315,51 @@
         </div>
     </div>
     <div class="row mt-2 text-end">
-        <button class="btn btn-secondary w-25 m-3" wire:click='GuardarPedidos'>RESERVAR PEDIDO</button>
-        <a wire:click="cerrarVenta" class="btn btn-primary w-25 m-3">CERRAR VENTA</a>
+        <button class="btn btn-primary w-25 m-3" wire:click='GuardarPedidos'>RESERVAR PEDIDO</button>
+        <a wire:click="cerrarVenta" class="btn btn-success w-25 m-3">CERRAR VENTA</a>
     </div>
 
-    <div class="modal fade" wire:ignore.self id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" wire:ignore.self id="modalDirecciones" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Dirección de envío</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="modalRowId" wire:ignore.self>
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label">Nombre:</label>
-                            <input type="text" class="form-control p-1" value="" id="nombre"
-                                autocomplete="off">
+                    <form id="formulario_direcciones_envio">
+                        <input type="hidden" id="modalRowId" wire:ignore.self>
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">Identificación:</label>
+                                <input type="text" class="form-control p-1" value="" id="identificacion"
+                                    autocomplete="off">
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Nombre completo:</label>
+                                <input type="text" class="form-control p-1" value="" id="nombre"
+                                    autocomplete="off">
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Teléfono:</label>
+                                <input type="text" class="form-control p-1" value="" id="telefono"
+                                    autocomplete="off">
+                            </div>
                         </div>
-                        <div class="col">
-                            <label class="form-label">Teléfono:</label>
-                            <input type="text" class="form-control p-1" value="" id="telefono"
-                                autocomplete="off">
+                        <div class="row mt-2">
+                            <div class="col">
+                                <label class="form-label">Dirección:</label>
+                                <input type="text" class="form-control p-1" value="" id="direccion"
+                                    autocomplete="off">
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Referencia:</label>
+                                <input type="text" class="form-control p-1" value="" id="referencia"
+                                    autocomplete="off">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label">Dirección:</label>
-                            <input type="text" class="form-control p-1" value="" id="direccion"
-                                autocomplete="off">
-                        </div>
-                        <div class="col">
-                            <label class="form-label">Referencia:</label>
-                            <input type="text" class="form-control p-1" value="" id="referencia"
-                                autocomplete="off">
-                        </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -331,7 +373,7 @@
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             $(document).ready(function() {
-                $('#exampleModal').on('show.bs.modal', function(event) {
+                $('#modalDirecciones').on('show.bs.modal', function(event) {
                     var button = event.relatedTarget;
                     var rowId = $(button).data('rowid');
                     $('#modalRowId').val(rowId);
@@ -339,20 +381,21 @@
 
 
                 $('#guardarButton').click(function() {
-                    $('#exampleModal').on('show.bs.modal', function(event) {
+                    $('#modalDirecciones').on('show.bs.modal', function(event) {
                         var button = event.relatedTarget;
                         var rowId = $(button).data('rowid');
                         $('#modalRowId').val(rowId);
                     });
                     Livewire.emit('guardarDatos', {
                         rowId: $('#modalRowId').val(),
+                        identificacion: $('#identificacion').val(),
                         nombre: $('#nombre').val(),
                         telefono: $('#telefono').val(),
                         direccion: $('#direccion').val(),
                         referencia: $('#referencia').val(),
                     });
-
-                    $('#exampleModal').modal('hide');
+                    $("#formulario_direcciones_envio").trigger("reset");
+                    $('#modalDirecciones').modal('hide');
                 });
             });
         </script>

@@ -66,7 +66,7 @@ class EmpresariaController extends Controller
             'role' => 'Empresaria'
         ];
         $user = User::create($userData);
-        $user->roles()->sync(2); // 2 es el id de el rol de empresaria 
+        $user->roles()->sync(14); // 14 es el id de el rol de empresaria 
         $empresariaData = [
             'tipo_id' => $request->tipo_id,
             'cedula' => trim($request->cedula),
@@ -79,7 +79,8 @@ class EmpresariaController extends Controller
             'telefono' => trim($request->telefono),
             'id_ciudad' => $request->id_ciudad,
             'vendedor' => Auth::user()->id,
-            'id_user' => $user->id
+            'id_user' => $user->id,
+            'observacion' => trim($request->observacion), //Agregamos campo de observación para el formulario de empresaria, opcional
         ];
         Empresaria::create($empresariaData);
 
@@ -154,6 +155,7 @@ class EmpresariaController extends Controller
             'id_ciudad' => $request->id_ciudad,
             'vendedor' => $request->vendedor != null ? $request->vendedor : Auth::user()->id,
             'estado' => $request->tipo_cliente != 'INACTIVO WEB' ? 'A' : 'I',
+            'observacion' => trim($request->observacion), //Agregamos campo de observación para el formulario de empresaria, opcional
         ];
 
         $empresaria->update($empresariaData);
@@ -206,12 +208,15 @@ class EmpresariaController extends Controller
         if ($_POST['funcion'] == 'filtro') {
             $user = Auth::user();
             if ($user->role == 'Asesor' || $user->role == 'ASESOR') {
+                $desde = $_POST['desde'];
+                $hasta = $_POST['hasta'];
+                $hasta = date('Y-m-d', strtotime($hasta . ' +1 day'));
                 $empresarias = $empresarias = DB::table('empresarias')
                     ->join('ciudades', 'empresarias.id_ciudad', '=', 'ciudades.id')
                     ->join('users', 'users.id', '=', 'empresarias.vendedor')
                     ->select('empresarias.*', 'ciudades.descripcion as nombre_ciudad', 'users.name as nombre_vendedor')
                     ->where('empresarias.vendedor', '=', $user->id)
-                    ->whereBetween('empresarias.created_at', [$_POST['desde'], $_POST['hasta']])
+                    ->whereBetween('empresarias.created_at', [$desde, $hasta])
                     ->get();
             } else {
                 $desde = $_POST['desde'];

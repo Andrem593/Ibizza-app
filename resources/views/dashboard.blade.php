@@ -12,7 +12,7 @@
     </x-slot>
     {{-- seccion de cards de informacion principal --}}
     <div class="row">
-        <div class="col">
+        {{-- <div class="col">
             <div class="info-box">
                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-book-reader"></i></span>
 
@@ -25,7 +25,7 @@
                 <!-- /.info-box-content -->
             </div>
             <!-- /.info-box -->
-        </div>
+        </div> ---}}
         <!-- /.col -->
         <div class="col">
             <div class="info-box mb-3">
@@ -128,7 +128,7 @@
                     <table class="table table-striped table-valign-middle">
                         <thead>
                             <tr>
-                                <th>Cliente</th>
+                                <th>Empresaria</th>
                                 <th>Cantidad</th>
                                 <th>Venta</th>
                                 <th>Mas</th>

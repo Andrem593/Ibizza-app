@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Venta;
 use App\Empresaria;
 use App\Models\DireccionVenta;
+use App\Models\Pago;
 use App\Models\Separado;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +44,7 @@ class VentaController extends Controller
     {
         $pedidos = Pedido::where('id_venta',$request->id_venta)
         ->join('productos', 'productos.id', '=', 'pedidos.id_producto')
-        ->select('pedidos.*', 'productos.descripcion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')
+        ->select('pedidos.*', 'productos.sku','productos.descripcion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto')
         ->get();
         $venta = Venta::where('id', $request->id_venta)
         ->with('vendedor')
@@ -186,20 +187,35 @@ class VentaController extends Controller
 
     public function generarComprobante($id)
     {
+        //Se extraen los datos del pedido
         $pedidos = Pedido::where('id_venta',$id)
         ->join('productos', 'productos.id', '=', 'pedidos.id_producto')
-        ->select('pedidos.*', 'productos.descripcion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto', 'productos.imagen_path as imagen_path')
+        ->select('pedidos.*', 'productos.sku as sku' ,'productos.descripcion as nombre_producto', 'productos.talla as talla_producto', 'productos.color as color_producto', 'productos.imagen_path as imagen_path')
         ->get();
+        
+        //Se extraen los datos de la venta
         $venta = Venta::where('id', $id)
         ->with('vendedor')
         ->first();
+        
+        //Se extraen los datos de la dirección de venta
         $direccionVenta = DireccionVenta::where('id_venta', $id)
         ->with('ciudad')
         ->first();
+        
+        //Se extraen los datos de la empresaria
         $empresaria = Empresaria::where('id', $venta->id_empresaria)
         ->with('usuario', 'pedidos')
         ->first();
-        $pdf = PDF::loadView('venta.comprobante', compact('pedidos', 'venta', 'empresaria', 'direccionVenta'));
+        
+        //Se extraen los datos de los pagos de esa venta
+        $pagos = Pago::with('usuario')->where('id_venta', $id)->latest()->get();
+        $valorRecaudadoTotal = collect($pagos)->map(function($pago){
+            return $pago->valor_recaudado;
+        })->sum();
+        
+        //Se carga la vista PDF
+        $pdf = PDF::loadView('venta.comprobante', compact('pedidos', 'venta', 'empresaria', 'direccionVenta', 'pagos','valorRecaudadoTotal'));
         $pdf->getDomPDF();
         return $pdf->stream('comprobante.pdf');
     }

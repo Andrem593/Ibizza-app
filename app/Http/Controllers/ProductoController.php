@@ -156,7 +156,7 @@ class ProductoController extends Controller
 
             $data = $spreadsheet->getActiveSheet()->toArray();
             foreach ($data as $key => $row) {
-                if ($key >= 1 || $row[0] != ''  and $row[1]) {
+                if ($key >= 1 and $row[0] != ''  and $row[1]) {
                     $marca_id = DB::table('marcas')->where('nombre', 'like', '%' . $row[2] . '%')->value('id');
 
                     if (empty($marca_id)) {

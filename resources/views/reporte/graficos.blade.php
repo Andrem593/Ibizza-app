@@ -61,7 +61,7 @@
                                         <th>Año</th>
                                         <th>Catálogo</th>
                                         <th>Suma de total</th>
-                                        <th>Suma # Clientes</th>
+                                        <th>Suma # Empresarias</th>
                                         <th>Suma # Pedidos</th>
                                         <th>Ticket Promedio</th>
                                         <th># Semanas</th>

@@ -105,13 +105,13 @@
                                         @csrf
                                         <button type="submit" class="dropdown-item">cerrar sesión</button>
                                     </form>
-                                    <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar Pedido</a>
+                                    {{-- <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar Pedido</a> --}}
                                     </li>
                                     @else
                                     <li><a href="{{ route('login') }}" class="dropdown-item">Iniciar Sesión</a></li>
                                     <li><a class="dropdown-item"
                                             href="{{ route('web.registro-empresaria') }}">Registrar</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar Pedido</a>
+                                    {{-- <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar Pedido</a> --}}
                                     </li>
                                     @endif
                                     @endif
@@ -221,25 +221,25 @@
                                         @if (Route::has('login'))
 
                                         @auth
-                                        @if(Auth::user()->role != 'EMPRESARIA')
+                                        @if(Auth::user()->role == 'ASESOR')
+                                        <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Toma de pedido</a></li>
+                                        @elseif(Auth::user()->role == 'ADMINISTRADOR' || Auth::user()->role == 'VALIDADOR' || Auth::user()->role == 'LOGISTICO')
                                         <li> <a href="{{ url('/dashboard') }}" class="dropdown-item">Dashboard</a></li>
                                         @else
-                                        <li> <a href="{{ route('web.perfil-empresaria') }}"
-                                                class="dropdown-item">Perfil</a></li>
+                                        <li> <a href="{{ route('web.perfil-empresaria') }}" class="dropdown-item">Perfil</a></li>
                                         @endcan
                                         <form action="{{ route('logout') }}" method="POST">
                                             @csrf
                                             <button type="submit" class="dropdown-item">cerrar sesión</button>
                                         </form>
-                                        <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar
-                                                Pedido</a>
+                                        {{-- <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar Pedido</a> --}}
                                         </li>
                                         @else
                                         <li><a href="{{ route('login') }}" class="dropdown-item">Iniciar Sesión</a></li>
                                         <li><a class="dropdown-item"
                                                 href="{{ route('web.registro-empresaria') }}">Registro</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar
-                                                Pedido</a>
+                                        {{-- <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar
+                                                Pedido</a> --}}
                                         </li>
                                         @endif
                                         @endif

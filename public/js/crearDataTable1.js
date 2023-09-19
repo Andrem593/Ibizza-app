@@ -194,7 +194,7 @@ function crearTablaEstilos(data, ruta) {
         "columns": [{
             "data": "imagen_path",
             "render": function (data, type, row) {
-                let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
+                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
                 if (data != '' && data != null) {
                     image = '/storage/images/productos/' + data
                 }
@@ -260,7 +260,7 @@ function crearTablaEstilos(data, ruta) {
 
     })
     $('#datatable tbody').on('click', '.editar', function () {
-        let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
+        let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#texto').html('EDITAR LA IMAGEN DEL ESTILO ' + data.estilo + ' Y EL COLOR ' + data.color);
         $('#estilo').val(data.estilo);
@@ -300,7 +300,7 @@ function crearTablaMarca(data, ruta) {
         "columns": [{
             "data": "imagen",
             "render": function (data, type, row) {
-                let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
+                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
                 if (data != '' && data != null) {
                     image = '/storage/images/marca/' + data
                 }
@@ -519,7 +519,7 @@ function crearTablaCatalogo(data, ruta) {
         {
             "data": "foto_path",
             "render": function (data, type, row) {
-                let image = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
+                let image = 'https://www.blackwallst.directory/images/NoImageAvailable.png';
                 if (data != '' && data != null) {
                     image = '/storage/images/catalogo/' + data
                 }

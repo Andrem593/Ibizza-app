@@ -58,13 +58,13 @@
                             <table id="datatable" class="display table table-striped table-sm table-hover fw-bold">
                                 <thead class="bg-ibizza text-center">
                                     <tr>
-                                        <th>CEDULA</th>
-                                        <th>NOMBRES</th>
+                                        <th>IDENTIFICACIÓN</th>
+                                        <th>NOMBRE</th>
                                         <th>FECHA NACIMIENTO</th>
                                         <th>TELEFONO</th>
                                         <th>CIUDAD</th>
-                                        <th>EMPRESARIA</th>
-                                        <th>VENDEDOR</th>
+                                        <th>TIPO EMPRESARIA</th>
+                                        <th>ASESOR</th>
                                         <th>FECHA REGISTRO</th>
                                         <th>ESTADO</th>
                                         <th></th>
@@ -85,7 +85,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Eliminar Elemento</h5>
+                                    <h5 class="modal-title">Eliminar Empresaria</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -93,7 +93,7 @@
                                 <div class="modal-body">
                                     <form id="form_eliminar" action="" method="POST">
                                         <div class="form-group">
-                                            <label for="">Seguro de Eliminar Empresaria: </label>
+                                            <label for="">Seguro de eliminar a la Empresaria: </label>
                                             <label id="elemento_eliminar"></label>
                                             <input type="hidden" id="id_eliminar">
                                         </div>
@@ -110,7 +110,7 @@
                     </div>
                 @endpush
                 @Push('scripts')
-                    <script src="/js/crearDataTable.js"></script>
+                    <script src="/js/crearDataTable.js?id={{ rand().md5(10) }}"></script>
                     <script>
                         $(document).ready(function() {
                             var data = {

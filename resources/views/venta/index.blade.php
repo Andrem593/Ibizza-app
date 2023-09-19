@@ -1,7 +1,7 @@
 <x-app-layout>
     @section('title', 'Ventas')
     <x-slot name="header">
-        <h5 class="text-center">Ventas</h5>
+        <h5 class="text-center">Registro de Ventas</h5>
     </x-slot>
     <div class="card">
         <div class="card-header">
@@ -50,9 +50,9 @@
                     style="font-size: 12px">
                     <thead class="bg-ibizza text-center">
                         <tr>
-                            <th>ID</th>
-                            <th>CÉDULA</th>
-                            <th>NOMBRES</th>
+                            <th># PEDIDO</th>
+                            <th>IDENTIFICACIÓN</th>
+                            <th>NOMBRE</th>
                             <th>DIRECCIÓN</th>
                             <th>EMPRESARIA</th>
                             <th>OBSERVACIÓN</th>
@@ -100,38 +100,62 @@
 
                             <div class="col-4">
                                 <div class="mb-1">
-                                    <button class="btn btn-secondary btn-sm" data-bs-target="#modalPago"
+                                    <button class="btn btn-primary btn-sm" data-bs-target="#modalPago"
                                         data-bs-toggle="modal">
                                         Pagos</button>
                                     {{-- <button class="btn btn-secondary btn-sm" data-bs-target="#modalRecibo"
                                         data-bs-toggle="modal">
                                         Recibo</button> --}}
-                                    <a href="" id="btn-descarga" class="btn btn-success btn-sm ml-1">
-                                        Descargar
+                                    <a href="" id="btn-descarga" class="btn btn-success btn-sm ml-1" target="_blank">
+                                        Descargar PDF
                                     </a>
                                 </div>
 
-                                <div>Estado Venta:
+                                <div class="mt-2">
+                                    <label for="estado_venta">Estado Venta</label>
                                     <select id="estado_venta" class="form-control-sm">
-                                        <option value="PENDIENTE DE PAGO">PENDIENTE DE PAGO</option>
-                                        <option value="PEDIDO POR VALIDAR">PEDIDO POR VALIDAR</option>
-                                        <option value="PEDIDO APROBADO">PEDIDO APROBADO</option>
-                                        <option value="PEDIDO FACTURADO">PEDIDO FACTURADO</option>
-                                        <option value="PEDIDO DESPACHADO">PEDIDO DESPACHADO</option>
+                                        @if (Auth::user()->role == 'VALIDADOR' || Auth::user()->role == 'ADMINISTRADOR' || Auth::user()->role == 'ASESOR' )
+                                            <option value="PENDIENTE DE PAGO">PENDIENTE DE PAGO</option>
+                                            <option value="PEDIDO POR VALIDAR">PEDIDO POR VALIDAR</option>
+                                            <option value="PEDIDO APROBADO">PEDIDO APROBADO</option>
+                                            <option value="PEDIDO APROBADO SIN VALIDAR">PEDIDO APROBADO SIN VALIDAR</option>
+                                            
+                                            @if (Auth::user()->role == 'VALIDADOR')
+                                                {{--  Si el rol es validador deshabilitar las opciones del validador, para que solo las pueda ver y no seleccionar --}}
+                                                <option value="PEDIDO FACTURADO" disabled>PEDIDO FACTURADO</option>
+                                            <option value="PEDIDO DESPACHADO" disabled>PEDIDO DESPACHADO</option>
+                                            <option value="PEDIDO FACTURADO Y DESPACHADO" disabled>PEDIDO FACTURADO Y DESPACHADO</option>
+                                            @endif
+                                        @endif
+                                        
+                                        @if (Auth::user()->role == 'LOGISTICO' || Auth::user()->role == 'ADMINISTRADOR' || Auth::user()->role == 'ASESOR' )
+                                        
+                                            @if (Auth::user()->role == 'LOGISTICO')
+                                                {{--  Si el rol es logistico deshabilitar las opciones del validador, para que solo las pueda ver y no seleccionar --}}
+                                                <option value="PENDIENTE DE PAGO" disabled>PENDIENTE DE PAGO</option>
+                                                <option value="PEDIDO POR VALIDAR" disabled>PEDIDO POR VALIDAR</option>
+                                                <option value="PEDIDO APROBADO" disabled>PEDIDO APROBADO</option>
+                                                <option value="PEDIDO APROBADO SIN VALIDAR" disabled>PEDIDO APROBADO SIN VALIDAR</option>
+                                            @endif
+                                            
+                                            <option value="PEDIDO FACTURADO">PEDIDO FACTURADO</option>
+                                            <option value="PEDIDO DESPACHADO">PEDIDO DESPACHADO</option>
+                                            <option value="PEDIDO FACTURADO Y DESPACHADO">PEDIDO FACTURADO Y DESPACHADO</option>
+                                        @endif
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col">
+                            <div class="col-6">
                                 <span class="fw-bold">Información Empresaria</span>
                                 <div>Nombre: <span id="empresaria"></span></div>
-                                <div>Cédula: <span id="cedula"></span></div>
+                                <div>Identificación: <span id="cedula"></span></div>
                                 <div>Teléfono: <span id="telefono"></span></div>
                                 <div>Correo: <span id="correo"></span></div>
                             </div>
-                            <div class="col">
+                            <div class="col-6">
                                 <span class="fw-bold">Datos Facturación</span>
                                 <div>Identificación: <span id="fcedula"></span></div>
                                 <div>Nombre: <span id="fnombre"></span></div>
@@ -139,10 +163,12 @@
                                 <div>Email: <span id="femail"></span></div>
 
                             </div>
-                            <div class="col">
+                            <hr class="divider m-0 mt-2" />
+                            <div class="col-12 mt-2">
                                 <span class="fw-bold">Dirección de Envio</span>
+                                <div>Identificación: <span id="eidentificacion"></span></div>
                                 <div>Nombre: <span id="enombre"></span></div>
-                                <div>teléfono: <span id="etelefono"></span></div>
+                                <div>Teléfono: <span id="etelefono"></span></div>
                                 <div>Provincia: <span id="eprovincia"></span></div>
                                 <div>Ciudad: <span id="eciudad"></span></div>
                                 <div>Dirección: <span id="direccion"></span></div>
@@ -151,32 +177,22 @@
                         </div>
                         <hr>
 
-                        <table id="tabla_factura" class="table table-hover table-striped p-4">
+                        <table id="tabla_factura" class="table table-bordered p-4">
                             <thead>
                                 <tr class="bg-ibizza">
-                                    <th scope="col">Foto</th>
+                                    <th scope="col">SKU</th>
                                     <th scope="col">Descripción</th>
                                     <th scope="col">Color</th>
                                     <th scope="col">Talla</th>
-                                    <th scope="col">Precio Catalogo</th>
-                                    <th scope="col">Descuento</th>
-                                    <th scope="col">Cantidad</th>
-                                    <th scope="col" width="15px">Precio Empresaria</th>
-                                    <th scope="col">Dirección</th>
+                                    <th scope="col">P.V.C</th>
+                                    <th scope="col">Desc.</th>
+                                    <th scope="col">Cant.</th>
+                                    <th scope="col" width="15px">P.V.E</th>
+                                    <th scope="col" class="d-none">Dirección</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -216,13 +232,19 @@
                                     <td><span>Ganancia</span></td>
                                     <td>$<span id="ganancia"></span></td>
                                 </tr>
+                                <tr>
+                                    <td class="border-1" colspan="1">Observación</td>
+                                    <td class="border-1" colspan="8">
+                                        <textarea class="form-control bg-white border-0" readonly id="observacion_venta" rows="5" contenteditable="false"></textarea>
+                                    </td>
+                                </tr>
                             </tfoot>
                         </table>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
-                        @if (Auth::user()->role != 'ASESOR')                            
-                            <button type="button" id="editar_venta" class="btn btn-ibizza">EDITAR</button>
+                        @if (Auth::user()->role != 'ASESOR')
+                            <button type="button" id="editar_venta" class="btn btn-ibizza">GUARDAR</button>
                         @endif
                     </div>
                 </div>
@@ -323,10 +345,10 @@
             </div>
         </div>
         <div class="modal fade" id="modalPago" aria-hidden="true" aria-labelledby="modalPagoLabel" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalPagoLabel">Pagos</h5>
+                        <h5 class="modal-title" id="modalPagoLabel">Pagos - VENTA #<span id="id_venta_p"></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -334,14 +356,14 @@
                     </div>
                     <div class="modal-footer">
                         {{-- <button type="button" class="btn btn-secondary" id="guardar_pago">Guardar Pago</button>                         --}}
-                        <button class="btn btn-ibizza" onclick="window.location.reload();" >Regresar</button>
+                        <button class="btn btn-ibizza"  data-bs-target="#editar" data-bs-toggle="modal" data-bs-dismiss="modal" >Regresar</button>
                     </div>
                 </div>
             </div>
         </div>
     @endpush
     @Push('scripts')
-        <script src="/js/crearDataTable6.js"></script>
+        <script src="js/crearDataTable8.js?id={{ rand().md5(10) }}"></script>
         <script src="{{ asset('/vendor/datatables-datetime/js/dataTables.dateTime.min.js') }}"></script>
         <script>
             const Toast = Swal.mixin({
@@ -366,6 +388,7 @@
 
                     var min = $('#txt_fecha_desde').val();
                     var max = $('#txt_fecha_hasta').val();
+                    
                     var createdAt = data[9]; // Our date column in the table
                     //console.log(min + ' ' + max);
 
@@ -410,6 +433,150 @@
                     table.draw();
                 });
             });
+            
+            //Al cerrar el modal del pago, volver a actualizar información del pedido en el modal anterior
+            $("#modalPago").on("hide.bs.modal", function(e){
+                 $('#datatable').DataTable().ajax.reload(null,false) //Recarga el datatable con los datos actualizados
+                 $('form').trigger("reset")
+                let dato = {
+                    id_venta: $('#venta').text(),
+                }
+                $.post({
+                    url: '/ventas/datos-ventas',
+                    data: dato,
+                    beforeSend: function () {
+                        $('#carga').css('visibility', 'visible');
+                    },
+                    success: function (response) {
+                        $('#carga').css('visibility', 'hidden')
+                        let data = JSON.parse(response);                
+                        let empresaria = data['empresaria'];
+                        let venta = data['venta'];
+                        let rol = data['rol'];
+                        let direccionVenta = data['direccionVenta'];
+                        if(rol == "ASESOR"){
+                            $('#estado_venta').prop( "disabled", true );
+                        }else{
+                            $('#estado_venta').prop( "disabled", false );
+                        }
+                       Livewire.emitTo('guardar-pago','setVenta', dato.id_venta)
+                        $('#estado_venta').val(venta['estado']);
+                        $('#venta').text(venta['id'])
+                        $('#nfactura').text(venta['n_factura'])
+                        $('#nguia').text(venta['n_guia'])
+                        $('#btn-descarga').attr( 'href','/venta/comprobante/' + venta['id']);
+                        $('#fcedula').text(venta['factura_identificacion'])
+                        $('#fnombre').text(venta['factura_nombres'])
+                        $('#ftelefono').text(venta['telefono'])
+                        $('#femail').text(venta['email'])
+                        $('#empresaria').text(empresaria['nombres'] + ' ' + empresaria['apellidos'])
+                        $('#cedula').text(empresaria['cedula']) 
+                        $('#telefono').text(empresaria['telefono'])
+                        $('#correo').text(empresaria['usuario']['email'])
+                        
+                        $("#eidentificacion").text(direccionVenta['identificacion']) //Agregamos la cédula de la empresaria
+                        $('#enombre').text(direccionVenta['nombre'])
+                        $('#etelefono').text(direccionVenta['telefono'])
+                        $('#eprovincia').text(direccionVenta['ciudad']['provincia']['descripcion'])
+                        $('#eciudad').text(direccionVenta['ciudad']['descripcion'])
+                        $('#direccion').text(direccionVenta['direccion'])
+                        $('#referencia').text(direccionVenta['referencia'])
+                        $('#imagen_path').val(venta['recibo']);
+                        if (venta['recibo'] != null) {
+                            $('#imagen_defecto').attr('src',venta['recibo']);
+                        }
+                        $('#vendedor').text(venta['vendedor']['name'])
+                        let fecha = venta['created_at'];
+                        fecha = fecha.split('T');
+                        $('#fecha').text(fecha[0]);
+                        data = data['pedidos'];
+                        $('#tabla_factura tbody').html('');
+                        let subtotal = 0
+                        let total_factura = 0
+                        let cantidad_total = 0
+                        let envio = venta['envio'];
+                        let ganancia = 0
+                        $.each(data, function (i, v) {
+                            let image = '/img/imagen-no-disponible.jpg';
+                            if(v['imagen_producto'] != null && v['imagen_producto'] != ''){
+                                image = '/storage/images/productos/' + v['imagen_producto'];
+                            }
+                            let total = v['precio'] ;
+                            let direccion = v['direccion_envio'] != '' ? JSON.parse(v['direccion_envio']) : '';  
+                            total = total.toFixed(2);
+                            if(direccion != ''){
+                                $('#tabla_factura tbody').first().append('<tr>' +
+                                    //'<td><img src="' + image + '" width="50px"></td>' +
+                                    '<td>' + v['sku'] + '</td>' +
+                                    '<td>' + v['nombre_producto'] + '</td>' +
+                                    '<td>' + v['color_producto'] + '</td>' +
+                                    '<td>' + v['talla_producto'] + '</td>' +
+                                    '<td>' + v['precio_catalogo'] + '</td>' +
+                                    '<td>'+ v['descuento'] +'</td>' +
+                                    '<td>' + v['cantidad'] + '</td>' +
+                                    '<td>$' + total + '</td>' +
+                                    //'<td>Nombre:'+ direccion.nombre+' <br>Tel:'+ direccion.telefono+
+                                    //'<br> Dir:'+ direccion.direccion +'<br> Ref:'+ direccion.referencia +
+                                    '</tr>').append(`
+                                    <tr>
+                                        <td colspan="1"></td>
+                                        <td colspan="7">
+                                            <table class="table table-borderless table-sm">
+                                                <tr>
+                                                    <td style="width: 10%;">Identificación: </td>
+                                                    <td>${direccion.identificacion}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nombre: </td>
+                                                    <td>${direccion.nombre}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Teléfono: </td>
+                                                    <td>${direccion.telefono}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Dirección: </td>
+                                                    <td>${direccion.direccion}</td>
+                                               </tr>
+                                                <tr>
+                                                    <td> Referencia: </td>
+                                                    <td>${direccion.referencia}</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>`)
+                            }else{
+                                $('#tabla_factura tbody').first().append('<tr>' +
+                                    //'<td><img src="' + image + '" width="50px"></td>' +
+                                        '<td>' + v['sku'] + '</td>' +
+                                        '<td>' + v['nombre_producto'] + '</td>' +
+                                        '<td>' + v['color_producto'] + '</td>' +
+                                        '<td>' + v['talla_producto'] + '</td>' +
+                                        '<td>' + v['precio_catalogo'] + '</td>' +
+                                        '<td>'+ v['descuento'] +'</td>' +
+                                        '<td>' + v['cantidad'] + '</td>' +
+                                        '<td>$' + total + '</td>' +
+                                    '</tr>')
+                            }
+                            subtotal = parseFloat(subtotal) + parseFloat(v['precio_catalogo']);
+                            total_factura = parseFloat(total) + parseFloat(total_factura);
+                            cantidad_total = parseInt(v['cantidad']) + parseInt(cantidad_total);
+                        })
+                        total_factura = total_factura.toFixed(2)                
+        
+                        $('#subtotal').text(subtotal.toFixed(2));
+                        $('#cant_total').text(cantidad_total);    
+                        $('#total_fac').text(total_factura);
+                        $('#envio').text(envio);
+                        totpag = parseFloat(total_factura) + parseFloat(envio);
+                        $('#tot_pagar').text(totpag.toFixed(2));
+                        $('#ganancia').text(venta['total_p_empresaria']);
+                        
+        
+                    }
+                })
+            })
+            
             $('#editar_venta').click(function() {
                 dato = {
                     estado_editar: $('#estado_venta').val(),
@@ -426,8 +593,9 @@
                         $('#editar .btn-close').click();
                         Toast.fire({
                             icon: 'success',
-                            title: 'Estado de Actualizado !!'
+                            title: 'Estado de pedido Actualizado !!'
                         })
+                        $('#datatable').DataTable().ajax.reload(null,false) //Recarga el datatable con los datos actualizados
                     }
                 })
             })
@@ -456,6 +624,7 @@
                             title: 'Se Cargo imagen correctamente'
                         })
                     }
+                    
                 })
             })
         </script>

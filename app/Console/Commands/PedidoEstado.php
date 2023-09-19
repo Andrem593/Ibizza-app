@@ -42,16 +42,20 @@ class PedidoEstado extends Command
     public function handle()
     {
         //Carbon::now()->subDays(3);
-        $pedidos = Pedidos_pendiente::where('created_at','<', Carbon::now()->subDays(3))->get();
-        if(count($pedidos) > 0){
-            foreach ($pedidos as $pedido) {   
-                $producto = Producto::find($pedido->id_producto);
-                $nuevo_stock = $producto->stock + $pedido->cantidad;
-                Producto::find($pedido->id_producto)->update([
-                    'stock'=>$nuevo_stock
-                ]);
-                Pedidos_pendiente::where('id_separados',$pedido->id_separados)->delete();  
-                Separado::find($pedido->id_separados)->delete(); 
+        $pedidos = Pedidos_pendiente::where('created_at','<', Carbon::now()->subDays(3))->get();        
+        if(count($pedidos) > 0){            
+            foreach ($pedidos as $pedido) {
+                try {                    
+                    $producto = Producto::find($pedido->id_producto);
+                    $nuevo_stock = $producto->stock + $pedido->cantidad;
+                    Producto::find($pedido->id_producto)->update([
+                        'stock'=>$nuevo_stock
+                    ]);
+                    Pedidos_pendiente::where('id_separados',$pedido->id_separados)->delete();  
+                    Separado::find($pedido->id_separados)->delete(); 
+                } catch (\Throwable $th) {
+                    dd($th->getMessage(), $pedido->id_separados);
+                }
             }
             $this->info('Pedidos actualizados');
         }else{

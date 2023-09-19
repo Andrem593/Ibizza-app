@@ -60,8 +60,8 @@
                             <th>Cantidad</th>
                             <th>Total</th>
                             <th>Asesor</th>
-                            <th>Fecha Inicio</th>
-                            <th>Fecha Fin</th>
+                            <th>Fecha Emisión</th>
+                            <th>Fecha Vencimiento</th>
                             <td>Opc</td>
                         </tr>
                     </thead>
@@ -135,13 +135,13 @@
                     DETALLE DEL PEDIDO RESERVADO
                     @empty(!$cliente)
                         <br>
-                        Cliente: <b>{{ $cliente->nombre_cliente }}</b> <br>
+                        Empresaria: <b>{{ $cliente->nombre_cliente }}</b> <br>
                     @endempty
                 </div>
                 <div class="col text-end">
                     <a href="{{ route('venta.pdf-pedido', $id_pedido) }}" target="_blank" id="btn-pedidoPDF"
                         class="btn bg-ibizza">
-                        Descargar
+                        Descargar PDF
                     </a>
                     <button class="btn btn-primary" wire:click="$set('detalle',false)">Regresar</button>
                 </div>
@@ -152,14 +152,14 @@
                         <table class="table ec-table" style="font-size: 14px">
                             <thead>
                                 <tr>
-                                    <th scope="col">Foto</th>
-                                    <th scope="col">Productos</th>
+                                    <th scope="col">SKU</th>
+                                    <th scope="col">Descripción</th>
                                     <th scope="col">Color</th>
                                     <th scope="col">Talla</th>
-                                    <th scope="col">Precio Catalogo</th>
-                                    <th scope="col">Precio </th>
-                                    <th scope="col">Descuento</th>
-                                    <th scope="col" width="15px">Cantidad</th>
+                                    <th scope="col">P.V.C</th>
+                                    <th scope="col">P.V.E </th>
+                                    <th scope="col">Desc.</th>
+                                    <th scope="col" width="15px">Cant.</th>
                                     <th scope="col" width="15px">Total</th>
                                     <th scope="col">Dirección</th>
 
@@ -168,8 +168,10 @@
                             <tbody>
                                 @foreach ($detalles_pedido as $item)
                                     <tr>
-                                        <td><img src="/storage/images/productos/{{ $item->imagen_path }}" width="50px"
-                                                height="50px" style="object-fit: cover"></td>
+                                        {{-- <td><img src="/storage/images/productos/{{ $item->imagen_path }}" width="50px"
+                                                height="50px" style="object-fit: cover">
+                                        </td> --}}
+                                        <td>{{ $item->sku }}</td>
                                         <td>{{ $item->descripcion }}</td>
                                         <td>{{ $item->color }}</td>
                                         <td>{{ $item->talla }}</td>

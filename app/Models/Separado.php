@@ -11,6 +11,8 @@ class Separado extends Model
 {
     use HasFactory;
 
+    protected $table = 'separados';
+
     protected $fillable = ['id_usuario','id_empresaria','nombre_cliente','cantidad_total','total_venta','total_p_empresaria', 'envio', 'created_at', 'updated_at'];
 
     public function usuario()

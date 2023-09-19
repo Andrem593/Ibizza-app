@@ -8,11 +8,11 @@
     </x-slot>
 
     <x-slot name="content">
-        <div>
+        <div class="d-none">
             {{ __('Una vez que se elimine su cuenta, todos sus recursos y datos se eliminarán permanentemente. Antes de eliminar su cuenta, descargue cualquier dato o información que desee conservar..') }}
         </div>
 
-        <div class="mt-3">
+        <div class="mt-3 d-none">
             <x-jet-danger-button wire:click="confirmUserDeletion" wire:loading.attr="disabled">
                 {{ __('Borrar cuenta') }}
             </x-jet-danger-button>
