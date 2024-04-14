@@ -29,6 +29,7 @@
                         <option value="SF">SALDO A FAVOR</option>
                         <option value="LI">PAGO LOCAL IBIZZA</option>
                         <option value="CP">CAMBIO SE VA CON PEDIDO</option>
+                        <option value="CL">CAMBIO LOCAL IBIZZA</option>
                     </select>
                     @error('tipo_pago')
                         <span class="text-danger">{{ $message }}</span>

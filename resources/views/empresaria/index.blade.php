@@ -58,14 +58,17 @@
                             <table id="datatable" class="display table table-striped table-sm table-hover fw-bold">
                                 <thead class="bg-ibizza text-center">
                                     <tr>
+                                        <th>ID</th>
                                         <th>IDENTIFICACIÓN</th>
                                         <th>NOMBRE</th>
                                         <th>FECHA NACIMIENTO</th>
                                         <th>TELEFONO</th>
                                         <th>CIUDAD</th>
+                                        <th>CAMPAÑA ANTERIOR</th>
                                         <th>TIPO EMPRESARIA</th>
                                         <th>ASESOR</th>
                                         <th>FECHA REGISTRO</th>
+                                        <th>OBSERVACION</th>
                                         <th>ESTADO</th>
                                         <th></th>
                                     </tr>

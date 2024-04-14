@@ -119,12 +119,11 @@
                                             <option value="PEDIDO POR VALIDAR">PEDIDO POR VALIDAR</option>
                                             <option value="PEDIDO APROBADO">PEDIDO APROBADO</option>
                                             <option value="PEDIDO APROBADO SIN VALIDAR">PEDIDO APROBADO SIN VALIDAR</option>
-                                            
+                                            <option value="FACTURADO LOCAL IBIZZA" >FACTURADO LOCAL IBIZZA</option>
                                             @if (Auth::user()->role == 'VALIDADOR')
                                                 {{--  Si el rol es validador deshabilitar las opciones del validador, para que solo las pueda ver y no seleccionar --}}
                                                 <option value="PEDIDO FACTURADO" disabled>PEDIDO FACTURADO</option>
-                                            <option value="PEDIDO DESPACHADO" disabled>PEDIDO DESPACHADO</option>
-                                            <option value="PEDIDO FACTURADO Y DESPACHADO" disabled>PEDIDO FACTURADO Y DESPACHADO</option>
+                                                <option value="PEDIDO FACTURADO Y DESPACHADO" disabled>PEDIDO FACTURADO Y DESPACHADO</option>
                                             @endif
                                         @endif
                                         
@@ -136,10 +135,11 @@
                                                 <option value="PEDIDO POR VALIDAR" disabled>PEDIDO POR VALIDAR</option>
                                                 <option value="PEDIDO APROBADO" disabled>PEDIDO APROBADO</option>
                                                 <option value="PEDIDO APROBADO SIN VALIDAR" disabled>PEDIDO APROBADO SIN VALIDAR</option>
+                                                <option value="FACTURADO LOCAL IBIZZA" disabled>FACTURADO LOCAL IBIZZA</option>
                                             @endif
                                             
                                             <option value="PEDIDO FACTURADO">PEDIDO FACTURADO</option>
-                                            <option value="PEDIDO DESPACHADO">PEDIDO DESPACHADO</option>
+                                            {{-- <option value="PEDIDO DESPACHADO">PEDIDO DESPACHADO</option> --}}
                                             <option value="PEDIDO FACTURADO Y DESPACHADO">PEDIDO FACTURADO Y DESPACHADO</option>
                                         @endif
                                     </select>
@@ -504,7 +504,7 @@
                             let total = v['precio'] ;
                             let direccion = v['direccion_envio'] != '' ? JSON.parse(v['direccion_envio']) : '';  
                             total = total.toFixed(2);
-                            if(direccion != ''){
+                            if(direccion != '' && direccion != null){
                                 $('#tabla_factura tbody').first().append('<tr>' +
                                     //'<td><img src="' + image + '" width="50px"></td>' +
                                     '<td>' + v['sku'] + '</td>' +

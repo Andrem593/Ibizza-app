@@ -238,6 +238,11 @@ class CatalogoController extends Controller
         return json_encode($json_data);
     }
 
+    public function parametrosMarca()
+    {        
+        return view('catalogo.parametrosMarca');
+    }
+
     public function parametros()
     {
         return view('catalogo.parametros');

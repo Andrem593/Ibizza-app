@@ -70,8 +70,8 @@
                             @foreach ($separado as $item)
                                 <tr class="my-auto">
                                     <td>{{ sprintf('%06d', $item->id) }}</td>
-                                    <td>{{ $item->empresaria->nombres . ' ' . $item->empresaria->apellidos }}</td>
-                                    <td>{{ $item->empresaria->tipo_cliente }}</td>
+                                    <td>{{ $item->nombre_cliente }}</td>
+                                    <td>{{ empty($item->empresaria->tipo_cliente) ? 1 : $item->empresaria->tipo_cliente  }}</td>
                                     <td>{{ $item->cantidad_total }}</td>
                                     <td>${{ $item->total_venta }}</td>
                                     <td>{{ $item->usuario->name }}</td>

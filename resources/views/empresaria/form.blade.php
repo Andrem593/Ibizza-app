@@ -5,9 +5,9 @@
                 <div class="form-group">
                     <label for="name">Tipo de identificación</label>
                     <select class="form-select" name="tipo_id" id="tipo_id">
-                        <option value="cedula" {{ $empresaria->tipo_id == 'cedula' ? 'selected' : '' }}>Cédula</option>
-                        <option value="pasaporte" {{ $empresaria->tipo_id == 'pasaporte' ? 'selected' : '' }}>Pasaporte</option>
-                        <option value="ruc" {{ $empresaria->tipo_id == 'ruc' ? 'selected' : '' }}>Ruc</option>
+                        <option value="cedula" {{ strtolower($empresaria->tipo_id) == 'cedula' ? 'selected' : '' }}>Cédula</option>
+                        <option value="pasaporte" {{ strtolower($empresaria->tipo_id) == 'pasaporte' ? 'selected' : '' }}>Pasaporte</option>
+                        <option value="ruc" {{ strtolower($empresaria->tipo_id) == 'ruc' ? 'selected' : '' }}>Ruc</option>
                     </select>
                 </div>
             </div>

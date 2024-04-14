@@ -30,7 +30,7 @@
 <body>
     <div class="">
         <div style="text-align: center">
-            <img src="{{ url('/assets/images/logo/Logo_ibizza.svg') }}" alt="Logo Ibizza" width="120px"
+            <img src="{{ public_path('/assets/images/logo/Logo_ibizza.svg') }}" alt="Logo Ibizza" width="120px"
                 style="margin-bottom: 10px">
             <div style="width: 100%; text-align: center;">
                 <div style="width: 500px; margin: 0 auto; text-align: center; font-size: 12px">
@@ -42,8 +42,18 @@
         </div>
 
         <div style="width: 100%; text-align: left; margin-top: 20px">
-            <div style="font-weight: bold" style="margin: 0;">N° Pedido: {{ $reservas->id }}</div>
-            <div>Fecha: {{ $reservas->created_at->format('d-m-Y') }}</div>
+            <table>
+                <tr>
+                    <td><div>N° Pedido: </div></td>
+                    <td style="width: 15%;">{{ $reservas->id }}</td>
+                </tr>
+                <tr>
+                    <td><div>Fecha:</div></td>
+                    <td>{{ $reservas->created_at->format('d-m-Y') }}</td>
+                </tr>
+            </table>
+            {{-- <div style="font-weight: bold" style="margin: 0;">N° Pedido: {{ $reservas->id }}</div>
+            <div>Fecha: </div> --}}
         </div>
         <table style="width: 100%; margin-top: 5px; border-collapse: collapse;">
             <tr>
@@ -67,6 +77,14 @@
                 <tr>
                     <td><div>Correo</div></td>
                     <td>{{ $reservas->empresaria->usuario->email }}</td>
+                </tr>
+                <tr>
+                    <td><div>Provincia</div></td>
+                    <td>{{ $reservas->provincia }}</td>
+                </tr>
+                <tr>
+                    <td><div>Ciudad</div></td>
+                    <td>{{ $reservas->ciudad }}</td>
                 </tr>
                 <tr>
                     <td><div>Dirección</div></td>
@@ -207,9 +225,8 @@
             </tfoot>
         </table>
 
-
         <div style="margin-top: 20px">
-            <img src="https://catalogoibizza.com/public/assets/images/cuentas/Cuentas.jpg" height="350" width="650">
+            <img src="{{ public_path('assets/images/cuentas/Cuentas.jpg')}}" height="350" width="650">
         </div>
 
 </body>

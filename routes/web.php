@@ -141,6 +141,15 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->name('catalogo.asignarProducto');
 
 Route::middleware(['auth:sanctum', 'verified'])
+->get('/catalogo/parametros-marca', [CatalogoController::class,'parametrosMarca'])
+->name('catalogo.parametros-marca');
+
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/catalogo/parametros-marca-new', [CatalogoController::class,'parametrosMarcaNew'])
+->name('catalogo.parametros-marca-nuevo');
+
+Route::middleware(['auth:sanctum', 'verified'])
 ->get('/catalogo/parametros', [CatalogoController::class,'parametros'])
 ->name('catalogo.parametros');
 
@@ -287,7 +296,7 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->name('venta.saveExcel');
 
 Route::middleware(['auth:sanctum', 'verified'])
-->get('/venta/pedido/{empresaria?}', [VentaController::class,'tomar_pedido'])
+->get('/venta/pedido/{empresaria?}/{envio?}', [VentaController::class,'tomar_pedido'])
 ->name('venta.pedido');
 
 Route::middleware(['auth:sanctum', 'verified'])

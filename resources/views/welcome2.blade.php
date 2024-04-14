@@ -622,10 +622,10 @@
                             data-animation="{{ ($key + 1) % 2 == 0 ? 'slideInLeft' : 'slideInRight' }}">
                             <div class="bnr-overlay">
                                 <img loading='lazy' src="storage/images/catalogo/{{ $catalogo->foto_path }}" alt=""
-                                    style="width: 40rem" />
-                                <div class="banner-text">
-                                    <span class="nombre-catalogo ec-banner-stitle">{{ $catalogo->nombre }}</span>
-                                    <span class="ec-banner-title" style="width: 60%">{{ $catalogo->descripcion }}</span>
+                                    style="width: 22rem" />
+                                <div class="banner-text align-self-end text-center">
+                                    <span class="nombre-catalogo ec-banner-title bg-transparent text-white bg-opacity-50">{{ $catalogo->nombre }}</span>
+                                    <span class="ec-banner-title bg-transparent text-white fs-6" style="width: 20rem">{{ $catalogo->descripcion }}</span>
                                     <input type="hidden" class='pdf_path' value="{{ $catalogo->pdf_path }}">
                                 </div>
                                 <div class="banner-content">

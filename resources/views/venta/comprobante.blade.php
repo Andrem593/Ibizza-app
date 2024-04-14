@@ -31,7 +31,7 @@
 <body>
     <div class="">
         <div style="text-align: center">
-            <img src="{{ url('/assets/images/logo/Logo_ibizza.svg') }}" alt="Logo Ibizza" width="120px"
+            <img src="{{ public_path('/assets/images/logo/Logo_ibizza.svg') }}"alt="Logo Ibizza" width="120px"
                 style="margin-bottom: 10px">
             <div style="width: 100%; text-align: center;">
                 <div style="width: 500px; margin: 0 auto; text-align: center; font-size: 12px">
@@ -260,7 +260,7 @@
                     <tr>
                         <td style="padding: 8px;border: 1px solid black;" colspan="1">OBSERV.</td>
                         <td style="padding: 1px;border: 1px solid black;" colspan="7">
-                            <textarea style="border:none ;height: 120px; font-size: 11pt" readonly id="observacion_venta" rows="8">{{ $venta->observaciones }}</textarea>
+                            <textarea style="border:none ;height: auto; font-size: 11pt" readonly id="observacion_venta" rows="8">{{ $venta->observaciones }}</textarea>
                         </td>
                     </tr>
                 </tfoot>

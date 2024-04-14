@@ -14,7 +14,7 @@ class CatalogoEstado extends Command
      *
      * @var string
      */
-    protected $signature = 'estado:cron';
+    protected $signature = ' ';
 
     /**
      * The console command description.

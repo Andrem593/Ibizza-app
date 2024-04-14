@@ -2,7 +2,7 @@
     <div class="box-body">
         <div class="row">
             <div class="col-4 text-center">
-                @livewire('imagen',['ruta_imagen'=>"$producto->imagen_path"])
+                @livewire('imagen', ['ruta_imagen' => "$producto->imagen_path"])
             </div>
             <div class="col">
                 <div class="row form-group">
@@ -15,7 +15,11 @@
                         {{ Form::label('marca') }}
                         <select name="marca_id" class="form-select">
                             @foreach ($marcas as $marca)
-                                <option value="{{ $marca->id }}">{{ $marca->nombre }}</option>
+                                @if ($marca->id == $producto->marca_id)
+                                    <option value="{{ $marca->id }}" selected>{{ $marca->nombre }}</option>
+                                @else
+                                    <option value="{{ $marca->id }}">{{ $marca->nombre }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -66,23 +70,23 @@
         <div class="row form-group">
             <div class="col">
                 {{ Form::label('stock') }}
-            {{ Form::text('stock', $producto->stock, ['class' => 'form-control' . ($errors->has('stock') ? ' is-invalid' : ''), 'placeholder' => 'stock']) }}
-            {!! $errors->first('stock', '<div class="invalid-feedback">:message</p>') !!}
+                {{ Form::text('stock', $producto->stock, ['class' => 'form-control' . ($errors->has('stock') ? ' is-invalid' : ''), 'placeholder' => 'stock']) }}
+                {!! $errors->first('stock', '<div class="invalid-feedback">:message</p>') !!}
             </div>
             <div class="col">
                 {{ Form::label('talla') }}
-            {{ Form::text('talla', $producto->talla, ['class' => 'form-control' . ($errors->has('talla') ? ' is-invalid' : ''), 'placeholder' => 'talla']) }}
-            {!! $errors->first('talla', '<div class="invalid-feedback">:message</p>') !!}
+                {{ Form::text('talla', $producto->talla, ['class' => 'form-control' . ($errors->has('talla') ? ' is-invalid' : ''), 'placeholder' => 'talla']) }}
+                {!! $errors->first('talla', '<div class="invalid-feedback">:message</p>') !!}
             </div>
             <div class="col">
                 {{ Form::label('precio_catálogo') }}
-            {{ Form::text('precio_empresaria', $producto->precio_empresaria, ['class' => 'form-control' . ($errors->has('precio_empresaria') ? ' is-invalid' : ''), 'placeholder' => 'precio empresaria']) }}
-            {!! $errors->first('precio_empresaria', '<div class="invalid-feedback">:message</p>') !!}
+                {{ Form::text('precio_empresaria', $producto->precio_empresaria, ['class' => 'form-control' . ($errors->has('precio_empresaria') ? ' is-invalid' : ''), 'placeholder' => 'precio empresaria']) }}
+                {!! $errors->first('precio_empresaria', '<div class="invalid-feedback">:message</p>') !!}
             </div>
             <div class="col">
                 {{ Form::label('estado') }}
-            {{ Form::text('estado', $producto->estado, ['class' => 'form-control' . ($errors->has('estado') ? ' is-invalid' : ''), 'placeholder' => 'estado']) }}
-            {!! $errors->first('estado', '<div class="invalid-feedback">:message</p>') !!}
+                {{ Form::text('estado', $producto->estado, ['class' => 'form-control' . ($errors->has('estado') ? ' is-invalid' : ''), 'placeholder' => 'estado']) }}
+                {!! $errors->first('estado', '<div class="invalid-feedback">:message</p>') !!}
             </div>
         </div>
 

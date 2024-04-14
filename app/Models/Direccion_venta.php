@@ -13,7 +13,6 @@ class DireccionVenta extends Model
 
     protected $fillable = [
         'id_venta',
-        'identificacion',
         'nombre',
         'telefono',
         'ciudad_id',

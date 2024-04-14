@@ -354,6 +354,12 @@ return [
                     'can'  => 'catalogos.index',
                     'icon'    => 'ml-md-2 fas fa-folder-plus',
                 ],
+                [
+                    'text' => 'Parametros Marca',
+                    'route'  => 'catalogo.parametros-marca',
+                    'can'  => 'catalogos.index',
+                    'icon'    => 'ml-md-2 fas fa-folder-plus',
+                ],
                 // [
                 //     'text' => 'Asignar Productos',
                 //     'route'  => 'catalogo.catalogoProducto',

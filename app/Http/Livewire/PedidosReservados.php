@@ -54,8 +54,7 @@ class PedidosReservados extends Component
         }
 
         $this->separado = $separado->get();
-
-
+        
         return view('livewire.pedidos-reservados');
     }
     public function eliminarReserva($id)
@@ -85,7 +84,9 @@ class PedidosReservados extends Component
     }
     public function recuperarPedido($productos)
     {
-        foreach ($productos as $producto) {
+        $id = $productos[0]['id_separados'];
+        $envio = Separado::find($id)->envio;
+        foreach ($productos as $producto) {            
             $products = Producto::find($producto['id_producto']);
             $nuevo_stock = $products->stock + $producto['cantidad'];
             //Producto::find($producto['id_producto']);
@@ -102,11 +103,9 @@ class PedidosReservados extends Component
                 ]
             )->associate('App\Models\Producto');
         }
-        $id = $productos[0]['id_separados'];
         $emp = Empresaria::find($this->cliente->id_empresaria);
         Pedidos_pendiente::where('id_separados', $id)->delete();
         Separado::find($id)->delete();
-
-        return redirect()->to(route('venta.pedido', ['empresaria' => $emp->id]));
+        return redirect()->to(route('venta.pedido', ['empresaria' => $emp->id, 'envio' => $envio]));
     }
 }

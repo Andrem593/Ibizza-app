@@ -84,7 +84,7 @@
                                     <th>MARCA</th>
                                     <th>CLASIFICACION</th>
                                     <th>CATEGORIA</th>
-                                    <th>SUB-CATEGORIA</th>
+                                    <th>GÉNERO</th>
                                     <th>ESTILO</th>
                                     <th>COLOR</th>
                                     <th>TALLA</th>
@@ -94,6 +94,9 @@
                                     <th>PRECIO CATALOGO</th>
                                     <th>ESTADO</th>
                                     <th>OBSERVACIONES</th>
+                                    <th>CLASIFICACION_GLOBAL</th>
+                                    <th>TIPO_PRODUCTO</th>
+                                    <th>COSTO_RP3</th>
                                 </tr>
                             </thead>
                             <tbody>

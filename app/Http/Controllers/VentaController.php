@@ -140,12 +140,12 @@ class VentaController extends Controller
         }
         
     }
-    public function tomar_pedido($empresaria = null)
+    public function tomar_pedido($empresaria = null, $envio = 0)
     {                
         if ($empresaria != null) {
             $empresaria = Empresaria::find($empresaria);
         }
-        return view('venta.pedido', compact('empresaria'));
+        return view('venta.pedido', compact('empresaria','envio'));
     }
     public function pedidos_guardados()
     {
@@ -222,11 +222,20 @@ class VentaController extends Controller
 
     public function generarPedidoGuardado($id)
     {
-        $reservas = Separado::with('usuario', 'empresaria')->where('id', $id)->first();
-        $pedidos_pendientes = Pedidos_pendiente::where('id_separados', $id)->with('producto')->get();        
+        //$reservas = Separado::with('usuario', 'empresaria')->where('id', $id)->first();
+        $pedidos_pendientes = Pedidos_pendiente::where('id_separados', $id)->with('producto')->get();
+        
+        //Realizamos la relación entre provincias y ciudades
+        $reservas = Separado::where('separados.id', $id)
+        ->join('users', 'users.id', '=', 'separados.id_usuario')
+        ->join('empresarias', 'empresarias.id', '=', 'separados.id_empresaria')
+        ->join('ciudades', 'ciudades.id', '=', 'empresarias.id_ciudad')
+        ->join('provincias', 'provincias.id', '=', 'ciudades.provincia_id')
+        ->select('separados.*', 'ciudades.descripcion as ciudad','provincias.descripcion as provincia' )->first();
+        
+        
         $pdf = PDF::loadView('venta.comprobante-pedido-guardado', compact('reservas', 'pedidos_pendientes'));
-        $pdf->getDomPDF()->set_option('colorSpace', 'rgb',);
-        return $pdf->stream('comprobante-pedidos-guardados.pdf');
+        return $pdf->stream();
     }
 
     public function view_cambios()

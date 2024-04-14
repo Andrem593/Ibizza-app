@@ -315,7 +315,8 @@
         </div>
     </div>
     <div class="row mt-2 text-end">
-        <button class="btn btn-primary w-25 m-3" wire:click='GuardarPedidos'>RESERVAR PEDIDO</button>
+        <button class="btn btn-primary w-25 m-3" wire:click='GuardarPedidos' wire:loading.attr="disabled" 
+        wire:target="GuardarPedidos">RESERVAR PEDIDO</button>
         <a wire:click="cerrarVenta" class="btn btn-success w-25 m-3">CERRAR VENTA</a>
     </div>
 
