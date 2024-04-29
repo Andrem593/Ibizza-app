@@ -123,8 +123,8 @@ class GuardarPago extends Component
         if (!empty($pago)) {
             //$total_venta = $pago->valor_pendiente;
             $total_veta = $venta->total_venta;
-            if ($pago->valor_pendiente == 0) {
-                $this->bandera = false;
+            if ($pago->valor_pendiente == 0 || $venta->estado == 'PEDIDO FACTURADO' || $venta->estado == 'PEDIDO FACTURADO Y DESPACHADO' || $venta->estado == 'PEDIDO APROBADO') {
+                $this->bandera = false; //Bandera en false significa que se ocultan los campos para subir pagos
             } else {
                 $this->bandera = true;
                 $this->dispatchBrowserEvent('cancelar');
@@ -150,7 +150,7 @@ class GuardarPago extends Component
     {
         $validatedData = $this->validate([
             'valor_recaudado' => 'required|numeric|gt:0',
-            'tipo_pago' => Rule::in(['TR','TC','SF','LI','CP']),
+            'tipo_pago' => Rule::in(['TR','TC','SF','LI','CP','CL']),
         ], [
             'valor_recaudado.required' => 'Ingrese un valor numérico',
             'valor_recaudado.gt' => 'Debe ser mayor a 0',
@@ -158,7 +158,7 @@ class GuardarPago extends Component
         ]);
         
         //Si el pago es diferente de local Ibizza, validar comprobante
-        if ($this->tipo_pago <> 'LI' && $this->tipo_pago <> 'CP'):
+        if ($this->tipo_pago <> 'LI' && $this->tipo_pago <> 'CP' && $this->tipo_pago <> 'CL'):
             $this->validate([
             'comprobante' => 'required|image',
         ], 
@@ -167,9 +167,7 @@ class GuardarPago extends Component
         ]);
         endif;
         
-
         if ($this->valor_recaudado_total <> $this->valor_pagar):
-            // if ($this->valor_recaudado <= $this->valor_pagar) {
                 $insert = Pago::create([
                     'id_venta' => $this->venta_id,
                     'id_usuario' => Auth::user()->id,
@@ -183,7 +181,8 @@ class GuardarPago extends Component
     
                 $valor = Pago::find($insert->id);
                 //Solo permitir subir comprobante si es el arreglo de archivos no esta vacio y el pago es difrente de local ibizza
-                if ($this->tipo_pago <> 'LI' && $this->tipo_pago <> 'CP') :
+                if ($this->tipo_pago <> 'LI' && $this->tipo_pago <> 'CP' && $this->tipo_pago <> 'CL') :
+                    
                     $image = $valor->id . "." . date('d.m.Y.h.i.s') . "." . $this->comprobante->getClientOriginalName();
                     $ruta = public_path('storage/images/recibos/') . $image;
                     Image::make($this->comprobante)
@@ -194,6 +193,7 @@ class GuardarPago extends Component
                 endif;
                 $valor->save();
                 Venta::find($this->venta_id)->update(['estado' => 'PEDIDO POR VALIDAR']);
+            // if ($this->valor_recaudado <= $this->valor_pagar) {
             // }
        endif;
        

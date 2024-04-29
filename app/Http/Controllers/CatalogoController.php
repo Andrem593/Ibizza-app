@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Catalogo;
-use App\Models\Catalogo_has_Producto;
-use App\Models\ParametroCatalogo;
 use App\Producto;
 use Carbon\Carbon;
-use Intervention\Image\Facades\Image;
+use App\Models\Marca;
 use Illuminate\Http\Request;
+use App\Models\ParametroMarca;
+use App\Models\ParametroCatalogo;
 use Illuminate\Support\Facades\DB;
+use App\Models\Catalogo_has_Producto;
+use Intervention\Image\Facades\Image;
 
 /**
  * Class CatalogoController
@@ -241,6 +243,111 @@ class CatalogoController extends Controller
     public function parametrosMarca()
     {        
         return view('catalogo.parametrosMarca');
+    }
+
+    public function parametrosMarcaNew()
+    {
+        $categorias = DB::table('productos')->select('categoria')->distinct()->get();        
+        return view('catalogo.newParametroMarca', compact('categorias'));
+    }
+
+    public function parametrosMarcaEdit($id)
+    {
+        $parametro = ParametroMarca::find($id);
+        $categorias = DB::table('productos')->select('categoria')->distinct()->get();        
+        return view('catalogo.editParametroMarca', compact('parametro', 'categorias'));
+    }
+
+    public function parametrosMarcaUpdate($id, Request $request)
+    {
+        $request->validate([
+            'marca' => 'required',
+            'tipo_empresaria' => 'required',
+            'condicion' => 'required',
+            'operador' => 'required',
+            'cantidad' => 'required',
+            'descuento' => 'required|numeric'
+        ]);    
+        
+        try {
+            ParametroMarca::find($id)->update([
+                'nombre' => $request->nombre,
+                'tipo_empresaria' => $request->tipo_empresaria,
+                'marcas' => json_encode($request->marca),
+                'condicion' => $request->condicion,
+                'operador' => $request->operador,
+                'cantidad' => $request->cantidad,
+                'descuento' => $request->descuento,
+                'estado' => 1
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->route('parametro-marca.edit', $id)->with('error', 'Error al actualizar el parametro:' . $th->getMessage());
+        }
+
+        return redirect()->route('catalogo.parametros-marca')->with('success', 'Parametro actualizado correctamente');
+    }
+
+    public function parametrosMarcaDelete($id)
+    {
+        ParametroMarca::find($id)->update([
+            'estado' => 0
+        ]);
+
+        return redirect()->route('catalogo.parametros-marca')->with('success', 'Parametro eliminado correctamente');
+    }
+
+    public function parametrosMarcaListar()
+    {
+        $response = '';
+        if ($_POST['funcion'] == 'listar_todo') {
+
+            $parametros = ParametroMarca::all();
+
+            foreach ($parametros as $key => $value) {
+                $value->marcas = json_decode($value->marcas);
+            }
+            
+            foreach ($parametros as $key => $value) {
+                $value->marcas = DB::table('productos')->select('categoria')->distinct()
+                ->whereIn('categoria', $value)->get()
+                ->pluck('categoria');
+            }
+            if (count($parametros) == 0) {
+                $parametros = 'no data';
+            }
+            $response = json_encode($parametros);
+        }
+
+        return $response;
+    }
+
+    public function parametrosMarcaNewStore(Request $request)
+    {
+        $request->validate([
+            'marca' => 'required',
+            'tipo_cliente' => 'required',
+            'condicion' => 'required',
+            'operador' => 'required',
+            'cantidad' => 'required',
+            'descuento' => 'required|numeric'
+        ]);    
+        
+        try {
+            ParametroMarca::create([
+                'nombre' => $request->nombre,
+                'tipo_empresaria' => $request->tipo_cliente,
+                'marcas' => json_encode($request->marca),
+                'condicion' => $request->condicion,
+                'operador' => $request->operador,
+                'cantidad' => $request->cantidad,
+                'descuento' => $request->descuento,
+                'estado' => 1
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->route('catalogo.parametros-marca-nuevo')->with('error', 'Error al crear el parametro:' . $th->getMessage());
+        }
+
+        return redirect()->route('catalogo.parametros-marca')->with('success', 'Parametro creado correctamente');
     }
 
     public function parametros()

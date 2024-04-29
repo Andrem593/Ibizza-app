@@ -111,12 +111,12 @@
                             <ul class="align-items-center">
                                 <li class="ec-contact-item"><i class="ecicon eci-map-marker"
 
-                                        aria-hidden="true"></i><span>Dirección : Chile 315 y Luque, Centro Guayaquil, Guayas</span></li>
+                                        aria-hidden="true"></i><span>Dirección : Calle 10 de Agosto y Pedro Carbo, Centro Guayaquil, Guayas</span></li>
                                 <li class="ec-contact-item align-items-center"><i class="ecicon eci-phone"
                                         aria-hidden="true"></i><span>Telefono :</span><a href="tel:0963725427">0963725427</a></li>
                                 <li class="ec-contact-item align-items-center"><i class="ecicon eci-envelope"
                                         aria-hidden="true"></i><span>Email :</span><a
-                                        href="mailto:servicioalcliente.ibizza@zapecsa.com">servicioalcliente.ibizza@zapecsa.com</a></li>
+                                        href="mailto:servicioalcliente.catalogodpisar@zapecsa.com">servicioalcliente.catalogodpisar@zapecsa.com</a></li>
                             </ul>
                         </div>
                     </div>

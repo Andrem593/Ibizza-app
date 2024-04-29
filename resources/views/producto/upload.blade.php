@@ -91,7 +91,7 @@
             <!-- /.card-body -->
 
             <div class="card-footer d-flex justify-content-end">
-                <button type="submit" class="btn btn-ibizza">Cargar productos</button>
+                <button type="submit" class="btn bg-ibizza">Cargar productos</button>
             </div>
         </form>
 

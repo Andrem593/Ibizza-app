@@ -37,10 +37,10 @@
                 </div>
                 <div class="ec-faq-wrapper">
                     <div class="ec-faq-container">
-                        <h2 class="ec-faq-heading">¿Cuales son los servicios de Ibizza?</h2>
+                        <h2 class="ec-faq-heading">¿Cuales son los servicios de D'PISAR venta por catálogo?</h2>
                         <div id="ec-faq">
                             <div class="col-sm-12 ec-faq-block">
-                                <h4 class="ec-faq-title">¿Como puedo ser Empresaria Ibizza?</h4>
+                                <h4 class="ec-faq-title">¿Como puedo ser Empresaria D'PISAR venta por catálogo?</h4>
                                 <div class="ec-faq-content">
                                     <p>Dar click en el <a class="text-success" href="{{route('web.registro-empresaria')}}">Resgistrate</a>, dejas tus datos personales e inmediata hace parte de nuestra red de empresarias uno de nuestros asesores le contactara ampliara la información.</p>
                                 </div>
@@ -56,20 +56,20 @@
                                 <div class="ec-faq-content">
                                     <p>El catálogo digital lo puede descargar directamente aquí en este <a class="text-success" href="{{ url('/') }}#section_catalogo">Link</a> o solicitarlo con uno de nuestros asesores a través del wathsapp 0963725427
                                         <br>
-                                        El catálogo impreso lo puedes adquirir en nuestros local Ibizza ubicado en Chile 315 con Luque totalmente gratis, o a través de su primer pedido, el cual realizo una vez visto el catálogo digital.</p>
+                                        El catálogo impreso lo puedes adquirir en nuestro local D'PISAR venta por catálogo ubicado en 10 de Agosto y Pedro Carbo, centro Guayaquil totalmente gratis, o a través de su primer pedido, el cual realizo una vez visto el catálogo digital.</p>
                                 </div>
                             </div>
                             <div class="col-sm-12 ec-faq-block">
-                                <h4 class="ec-faq-title">¿Puedo hacer pedidos en el local Ibizza del Centro de Guayaquil?</h4>
+                                <h4 class="ec-faq-title">¿Puedo hacer pedidos en el local D'PISAR venta por catálogo, Centro de Guayaquil?</h4>
                                 <div class="ec-faq-content">
-                                    <p>En el local Ibizza, que se encuentra ubicado en Chile 315 con Luque, diagonal al Dprati, podrá realizar su pedido, sin embargo, no se podrá realizar la entrega inmediata del pedido. Este se podrá entregar a las 24 horas.<br>
+                                    <p>En el local D'PISAR venta por catálogo, que se encuentra ubicado en 10 de Agosto y Pedro Carbo, centro Guayaquil, podrá realizar su pedido, sin embargo, no se podrá realizar la entrega inmediata del pedido. Este se podrá entregar a las 24 horas.<br>
                                         Al igual con los cambios, podrá gestionar los cambios, pero este se podrá realizar la entrega después de 72 Horas.</p>
                                 </div>
                             </div>
                             <div class="col-sm-12 ec-faq-block">
                                 <h4 class="ec-faq-title">¿Tiene algún costo el envió?</h4>
                                 <div class="ec-faq-content">
-                                    <p>Si el valor facturado es superior a $70 dólares el costo del envío es gratis. Si es menor a este valor deberá depositar o cancelar $3, esto aplica a nivel nacional.<br>
+                                    <p>Si el valor facturado es superior a $60 dólares el costo del envío es gratis. Si es menor a este valor deberá depositar o cancelar $3, esto aplica a nivel nacional.<br>
                                         Para los envíos a Galápagos si el valor facturado es de $100 el envío es gratis, en caso contrario deberá cancelar un valor de $5. 
                                         </p>
                                 </div>
@@ -96,7 +96,7 @@
                             <div class="col-sm-12 ec-faq-block">
                                 <h4 class="ec-faq-title">¿Ofrecen garantías del producto?</h4>
                                 <div class="ec-faq-content">
-                                    <p>Claro que sí, todos nuestros productos se encuentran respaldados por la marca Dpisar, mercadería de Marcas originales, como Ipanema, Azaleria, Tommy, Democrata, entre otras, que cuentan con el respaldo de nuestros proveedores.<br>
+                                    <p>Claro que sí, todos nuestros productos se encuentran respaldados por la marca Dpisar, mercadería de Marcas originales, como Ipanema, Azaleria, Democrata, entre otras, que cuentan con el respaldo de nuestros proveedores.<br>
                                         Contamos con garantía de un mes. En el momento de presentar daños en el calzado contactar a su asesor el le ayudara con la gestión del cambio.</p>
                                 </div>
                             </div>

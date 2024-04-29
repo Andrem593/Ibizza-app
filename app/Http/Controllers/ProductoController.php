@@ -191,6 +191,9 @@ class ProductoController extends Controller
                         'estado'  => $row[13],
                         'observaciones'  => $row[14],
                         'catalogo_id'=> $row[11],
+                        'clasificacion_global'=> $row[15],
+                        'tipo_producto'=> $row[16],
+                        'costo_rp3'=> $row[17]
                     );
 
                     Producto::create($insert_data);

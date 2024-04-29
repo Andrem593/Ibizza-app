@@ -161,7 +161,7 @@
 
             <div class="card-footer">
                 <div class="float-right">
-                    <button type="submit" class="btn btn-ibizza" data-placement="left">
+                    <button type="submit" class="btn bg-ibizza" data-placement="left">
                         {{ __('Guardar') }}
                     </button>
                 </div>

@@ -30,12 +30,12 @@
 <body>
     <div class="">
         <div style="text-align: center">
-            <img src="{{ public_path('/assets/images/logo/Logo_ibizza.svg') }}" alt="Logo Ibizza" width="120px"
+            <img src="{{ public_path('/assets/images/logo/logo_dpisar.png') }}" alt="Logo Ibizza" width="200px"
                 style="margin-bottom: 10px">
             <div style="width: 100%; text-align: center;">
                 <div style="width: 500px; margin: 0 auto; text-align: center; font-size: 12px">
-                    <div style="margin: 0;">Guayas-Guayaquil || Chile 315 y Luque - Centro Guayaquil</div>
-                    <div style="margin: 0;">Correo: servicioalcliente@zapecsa.com</div>
+                    <div style="margin: 0;">Guayas-Guayaquil || 10 de Agosto y Pedro Carbo</div>
+                    <div style="margin: 0;">Correo: servicioalcliente.catalogodpisar@zapecsa.com</div>
                     <div style="margin: 0;">Teléfono: 0963725427</div>
                 </div>
             </div>
@@ -226,7 +226,7 @@
         </table>
 
         <div style="margin-top: 20px">
-            <img src="{{ public_path('assets/images/cuentas/Cuentas.jpg')}}" height="350" width="650">
+            <img src="{{ public_path('assets/images/cuentas/Cuentas.jpg')}}" height="300" width="650">
         </div>
 
 </body>

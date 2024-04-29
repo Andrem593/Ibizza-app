@@ -17,6 +17,7 @@ use Illuminate\Contracts\Validation\Rule;
  * @property $apellidos
  * @property $fecha_nacimiento
  * @property $direccion
+ * @property $campaña_anterior
  * @property $tipo_cliente
  * @property $estado
  * @property $telefono
@@ -38,7 +39,7 @@ class Empresaria extends Model
      *
      * @var array
      */
-    protected $fillable = ['tipo_id','cedula','nombres','apellidos','fecha_nacimiento','direccion','referencia','direccion_envio','referencia_envio','tipo_cliente','email','password','estado','telefono','id_ciudad','vendedor','id_user'];
+    protected $fillable = ['tipo_id','cedula','nombres','apellidos','fecha_nacimiento','direccion','referencia','direccion_envio','referencia_envio','tipo_cliente','email','password','estado','telefono','id_ciudad','vendedor','id_user','observacion', 'campaña_anterior', 'tipo_usuario'];
 
 
     protected $appends  = ['nombre_completo'];
@@ -67,8 +68,9 @@ class Empresaria extends Model
             ],
             'apellidos' => 'required',
             'id_ciudad' => 'required',
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8']
+            //'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required','email', 'string', 'max:255'],
+            //'password' => ['required', 'string', 'min:8']
         ];
     }
     

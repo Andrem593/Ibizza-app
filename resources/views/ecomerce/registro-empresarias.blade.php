@@ -32,7 +32,7 @@
                     <div class="section-title">
                         <h2 class="ec-bg-title">Registro de Empresaria</h2>
                         <h2 class="ec-title">Registro de Empresaria</h2>
-                        <p class="sub-title mb-3">Estas a pocos paso de convertirte en una empresaria de ibizza</p>
+                        <p class="sub-title mb-3">Estas a pocos paso de convertirte en una empresaria de D'PISAR venta por catálogo</p>
                     </div>
                 </div>
                 <div class="ec-register-wrapper">

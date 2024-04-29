@@ -20,7 +20,7 @@
     {{-- <input class="btn btn-ibizza w-100 m-1">CAMBIAR</input> --}}
     {{-- <input type="file" class="form-control w-100 m-1" wire:model="image"> --}}
     <div style="position:relative;">
-        <a class='btn btn-ibizza w-100 m-1'>
+        <a class='btn bg-ibizza w-100 m-1'>
             Nueva imagen
             <input wire:model="image" type="file"
                 style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;'

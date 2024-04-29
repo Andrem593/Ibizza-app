@@ -113,7 +113,7 @@
 
         </div>
         <div class="box-footer mt20">
-            <button type="submit" class="btn btn-ibizza w-100">Guardar</button>
+            <button type="submit" class="btn bg-ibizza w-100">Guardar</button>
         </div>
     </div>
 

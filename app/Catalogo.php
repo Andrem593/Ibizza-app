@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Models\ParametroCatalogo;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -44,12 +43,6 @@ class Catalogo extends Model
      * @var array
      */
     protected $fillable = ['nombre','descripcion','foto_path','pdf_path','fecha_publicacion','fecha_fin_catalogo','estado','premio_id'];
-
-
-    public function parametros()
-    {
-        return $this->hasMany(ParametroCatalogo::class, 'catalogo_id', 'id');
-    }
 
 
 

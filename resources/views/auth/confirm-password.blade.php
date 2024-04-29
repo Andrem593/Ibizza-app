@@ -6,7 +6,7 @@
 
         <div class="card-body">
             <div class="w-100 text-center p-4">
-                <img src="img/Logo_ibizza.svg" alt="logo_ibizza" width="200px">
+                <img src="img/logo_dpisar.svg" alt="logo_dpisar" width="200px">
             </div>
 
             <div class="mb-3 text-sm text-muted">

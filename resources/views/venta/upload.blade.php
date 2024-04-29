@@ -54,7 +54,7 @@
             <!-- /.card-body -->
 
             <div class="card-footer d-flex justify-content-end">
-                <button type="submit" class="btn btn-ibizza">Cargar ventas</button>
+                <button type="submit" class="btn bg-ibizza">Cargar ventas</button>
             </div>
         </form>
 

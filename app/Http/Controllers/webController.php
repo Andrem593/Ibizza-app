@@ -562,7 +562,8 @@ class webController extends Controller
             'role' => 'Empresaria'
         ];
         $user = User::create($userData);
-        $user->roles()->sync(2); // 2 es el id de el rol de empresaria 
+        $idRolEmpresaria = env('ID_ROL_EMPRESARIA', 14);
+        $user->roles()->sync($idRolEmpresaria); // 14 es el id de el rol de empresaria 
         $empresariaData = [
             'cedula' => trim($request->cedula),
             'nombres' => trim(strtoupper($request->nombres)),

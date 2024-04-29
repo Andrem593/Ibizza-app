@@ -150,6 +150,26 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->name('catalogo.parametros-marca-nuevo');
 
 Route::middleware(['auth:sanctum', 'verified'])
+->post('/catalogo/parametros-marca-new', [CatalogoController::class,'parametrosMarcaNewStore'])
+->name('catalogo.parametros-marca-nuevo.store');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/parametro-marca/{id}/edit', [CatalogoController::class,'parametrosMarcaEdit'])
+->name('parametro-marca.edit');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/parametro-marca/edit/{id}', [CatalogoController::class,'parametrosMarcaUpdate'])
+->name('catalogo.parametros-marca.update');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->delete('/parametro-marca/{id}', [CatalogoController::class,'parametrosMarcaDelete'])
+->name('catalogo.parametros-marca.delete');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/catalogo/parametros-marca/listar', [CatalogoController::class,'parametrosMarcaListar'])
+->name('catalogo.parametros-marca.index');
+
+Route::middleware(['auth:sanctum', 'verified'])
 ->get('/catalogo/parametros', [CatalogoController::class,'parametros'])
 ->name('catalogo.parametros');
 

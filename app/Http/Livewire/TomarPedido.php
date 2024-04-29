@@ -10,6 +10,7 @@ use App\Models\Ciudad;
 use Livewire\Component;
 use App\Models\Separado;
 use App\Models\Provincia;
+use App\Models\ParametroMarca;
 use App\Models\LogStockFaltante;
 use App\Models\ParametroCatalogo;
 use App\Models\Pedidos_pendiente;
@@ -35,7 +36,7 @@ class TomarPedido extends Component
     public function render()
     {
         $venta = Venta::orderBy('id', 'desc')->first();
-        $venta = $venta == null ? 0 : $venta->id;
+        $venta = $venta == null ?0 : $venta->id;
         $this->venta = sprintf('%06d', $venta + 1);
         $this->user = Auth::user();
         if ($this->id_empresaria != null && !$this->click2) {
@@ -51,6 +52,7 @@ class TomarPedido extends Component
                         ->orWhereRaw("CONCAT(nombres, ' ', apellidos) LIKE ?", ['%' . $this->cliente . '%']);
                 })
                 ->where('estado', 'A')
+                ->limit(100)
                 ->get();
         }
 
@@ -60,7 +62,9 @@ class TomarPedido extends Component
             $this->similitudes = Producto::distinct()->where('estilo', 'like', '%' . $this->estilo . '%')
                 ->where('estado', 'A')
                 ->where('stock', '>', 0)
-                ->select('estilo')->get();
+                ->select('estilo')
+                ->limit(50)
+                ->get();
         }
         return view('livewire.tomar-pedido');
     }
@@ -113,7 +117,7 @@ class TomarPedido extends Component
             $this->marca = $tallas[0]->nombre_marca;
             $this->talla = $tallas[0]->talla;
             $this->stock = $tallas[0]->stock;
-            $this->imagen = empty($colores[0]->imagen_path) ?  $this->imagen : '../storage/images/productos/' . $colores[0]->imagen_path;
+            $this->imagen = empty($colores[0]->imagen_path) ?$this->imagen : '../storage/images/productos/' . $colores[0]->imagen_path;
             $this->message = '';
         } catch (\Throwable $th) {
             $this->click = false;
@@ -137,7 +141,7 @@ class TomarPedido extends Component
             $this->descripcion_producto = $tallas[0]->descripcion; //Se agrega propiedad para capturar la descripción del producto
             $this->marca = $tallas[0]->nombre_marca;
             $this->stock = $tallas[0]->stock;
-            $this->imagen = empty($tallas[0]->imagen_path) ?  $this->imagen : '../storage/images/productos/' . $tallas[0]->imagen_path;
+            $this->imagen = empty($tallas[0]->imagen_path) ?$this->imagen : '../storage/images/productos/' . $tallas[0]->imagen_path;
             $this->message = '';
         } catch (\Throwable $th) {
             $this->click = false;
@@ -159,27 +163,27 @@ class TomarPedido extends Component
             $parametros = ParametroCatalogo::where('catalogo_id', $producto->catalogo->catalogo_id)
                 ->where('estado', 1)
                 ->orderBy('condicion')
-                ->get();            
+                ->get();
 
             if ($producto->stock >= $this->cantidad) {
                 $precio = $producto->precio_empresaria;
                 $descuento = 0;
 
-                $data = $this->validacionReglas($descuento, $precio, $parametros, $this->cantidad + Cart::count(), $this->envio, 'suma', 1, $this->cantidad);
+                $data = $this->validacionReglas($producto, $descuento, $precio, $parametros, $this->cantidad + Cart::count(), $this->envio, 'suma', 1, $this->cantidad);
 
                 $descuento = $data['descuento'];
                 $precio = $data['precio'];
                 try {
-                    if ($descuento > 0) {
-                        $carItems = Cart::content();
-                        foreach ($carItems as $key => $item) {
-                            $precioNuevo = (float) $item->options->pCatalogo - ($item->options->pCatalogo * $descuento);
-                            Cart::update($item->rowId, ['price' => $precioNuevo, 'options' => [
-                                'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
-                                'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
-                            ]]);
-                        }
-                    }
+                    // if ($descuento > 0) {
+                    //     $carItems = Cart::content();
+                    //     foreach ($carItems as $key => $item) {
+                    //         $precioNuevo = (float)$item->options->pCatalogo - ($item->options->pCatalogo * $descuento);
+                    //         Cart::update($item->rowId, ['price' => $precioNuevo, 'options' => [
+                    //             'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
+                    //             'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ?$item->options->dataEnvio : ''
+                    //         ]]);
+                    //     }
+                    // }
                     Cart::add(
                         $producto->id,
                         $producto->descripcion,
@@ -223,19 +227,19 @@ class TomarPedido extends Component
         $descuento = 0;
         $this->envio = 0; //Al eliminar item, siempre el costo de envio será 0. Se volverá a calcular según párametro del catalogo
         $precio = $producto->precio_empresaria;
-        $datos = $this->validacionReglas($descuento, $precio, $parametros, Cart::count() - $item->qty, $this->envio, 'resta', $item->qty);
+        $datos = $this->validacionReglas($producto, $descuento, $precio, $parametros, Cart::count() - $item->qty, $this->envio, 'resta', $item->qty);
         $descuento = $datos['descuento'];
         Cart::remove($id);
-        if ($descuento == 0) {
-            $carItems = Cart::content();
-            foreach ($carItems as $key => $item) {
-                $precioNuevo = (float) $item->options->pCatalogo;
-                Cart::update($item->rowId, ['price' => round($precioNuevo, 2), 'options' => [
-                    'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
-                    'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
-                ]]);
-            }
-        }
+        // if ($descuento == 0) {
+        //     $carItems = Cart::content();
+        //     foreach ($carItems as $key => $item) {
+        //         $precioNuevo = (float)$item->options->pCatalogo;
+        //         Cart::update($item->rowId, ['price' => round($precioNuevo, 2), 'options' => [
+        //             'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
+        //             'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ?$item->options->dataEnvio : ''
+        //         ]]);
+        //     }
+        // }
     }
     public function GuardarPedidos()
     {
@@ -280,7 +284,7 @@ class TomarPedido extends Component
                             'total' => round(($item->price * $item->qty), 2),
                             'estado' => 'SEPARADO',
                             'usuario' => Auth::user()->id,
-                            'direccion_envio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
+                            'direccion_envio' => $item->options->dataEnvio != '' ?$item->options->dataEnvio : ''
                         ]);
                         $pro = Producto::where('id', $item->id)->first();
                         // $nuevo_stock = $pro->stock - $item->qty;
@@ -324,21 +328,28 @@ class TomarPedido extends Component
             if ($item1) {
                 $descuento = 0;
                 $precio = $producto->precio_empresaria;
-                $data = $this->validacionReglas($descuento, $precio, $parametros, Cart::count() + 1, $this->envio, 'suma', 1);
+                $data = $this->validacionReglas($producto, $descuento, $precio, $parametros, $item1->qty + 1, $this->envio, 'suma', 1);
                 $descuento = $data['descuento'];
                 $precio = $data['precio'];
+                Cart::update($rowId, [
+                    'qty' => $item1->qty + 1, 'price' => round($precio, 2),
+                    'options' => [
+                        'descuento' => $descuento, 'pCatalogo' => $item1->options->pCatalogo,
+                        'sku' => $item1->options->sku, 'color'  => $item1->options->color, 'talla' => $item1->options->talla, 'marca' => $item1->options->marca,
+                        'dataEnvio' => $item1->options->dataEnvio != '' ?$item1->options->dataEnvio : ''
+                    ]
+                ]);
+                // if ($descuento > 0) {
+                //     $carItems = Cart::content();
+                //     foreach ($carItems as $key => $item) {
+                //         $precioNuevo = (float)$item->options->pCatalogo - ($item->options->pCatalogo * $descuento);
+                //         Cart::update($item->rowId, ['price' => round($precioNuevo, 2), 'options' => [
+                //             'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
+                //             'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ?$item->options->dataEnvio : ''
+                //         ]]);
+                //     }
+                // }
 
-                Cart::update($rowId, ['qty' => $item1->qty + 1]);
-                if ($descuento > 0) {
-                    $carItems = Cart::content();
-                    foreach ($carItems as $key => $item) {
-                        $precioNuevo = (float) $item->options->pCatalogo - ($item->options->pCatalogo * $descuento);
-                        Cart::update($item->rowId, ['price' => round($precioNuevo, 2), 'options' => [
-                            'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
-                            'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
-                        ]]);
-                    }
-                }
                 $this->emit('cartUpdated');
             }
         } else {
@@ -359,100 +370,145 @@ class TomarPedido extends Component
 
             $descuento = 0;
             $precio = $producto->precio_empresaria;
-            $data = $this->validacionReglas($descuento, $precio, $parametros, Cart::count() - 1, $this->envio, 'resta', 1, 1, $item1->options->descuento, $item1->qty);
+            $data = $this->validacionReglas($producto, $descuento, $precio, $parametros, $item1->qty - 1, $this->envio, 'resta', 1, 1, $item1->options->descuento, $item1->qty);
             $precio = $data['precio'];
             $descuento = $data['descuento'];
 
-            Cart::update($rowId, ['qty' => $item1->qty - 1]);
-            if ($descuento == 0) {
-                $carItems = Cart::content();
-                foreach ($carItems as $key => $item) {
-                    $precioNuevo = (float) $item->options->pCatalogo;
-                    Cart::update($item->rowId, ['price' => round($precioNuevo, 2), 'options' => [
-                        'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
-                        'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ? $item->options->dataEnvio : ''
-                    ]]);
-                }
-            }
+            Cart::update($rowId, ['qty' => $item1->qty - 1, 'price' => round($precio, 2), 'options' => [
+                'sku' => $item1->options->sku, 'color'  => $item1->options->color, 'talla' => $item1->options->talla, 'marca' => $item1->options->marca,
+                'descuento' => $descuento, 'pCatalogo' => $item1->options->pCatalogo, 'dataEnvio' => $item1->options->dataEnvio != '' ?$item1->options->dataEnvio : ''
+            ]]);
+            // if ($descuento == 0) {
+            //     $carItems = Cart::content();
+            //     foreach ($carItems as $key => $item) {
+            //         $precioNuevo = (float)$item->options->pCatalogo;
+            //         Cart::update($item->rowId, ['price' => round($precioNuevo, 2), 'options' => [
+            //             'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
+            //             'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ?$item->options->dataEnvio : ''
+            //         ]]);
+            //     }
+            // } else {
+            //     $carItems = Cart::content();
+            //     foreach ($carItems as $key => $item) {
+            //         $precioNuevo = (float)$item->options->pCatalogo - ($item->options->pCatalogo * $descuento);
+            //         Cart::update($item->rowId, ['price' => round($precioNuevo, 2), 'options' => [
+            //             'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
+            //             'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ?$item->options->dataEnvio : ''
+            //         ]]);
+            //     }
+            // }
             $this->emit('cartUpdated');
         }
     }
 
-    public function validacionReglas($descuento, $precio, $parametros, $cantidad, $envio, $tipo = null, $cantidadResta = 1, $cantidadSuma = 1, $descuentoDecrease = 0, $itemCantidad = 0)
+    public function validacionReglas($prod, $descuento, $precio, $parametros, $cantidad, $envio, $tipo = null, $cantidadResta = 1, $cantidadSuma = 1, $descuentoDecrease = 0, $itemCantidad = 0)
     {
-        try {
-            if (!empty($parametros)) {
-                foreach ($parametros as $key => $regla) {
-                    if ($regla->tipo_empresaria == $this->tipoEmpresaria) {
-                        if ($regla->condicion == 'cantidad') {
-                            $desc = $cantidad . $regla->operador . $regla->cantidad;
-                            $desc = eval("return $desc;") ? $regla->valor : 0;
-                            if ($desc > $descuento) $descuento = $desc;
+
+        if (!empty($parametros)) {
+            foreach ($parametros as $key => $regla) {
+                if ($regla->tipo_empresaria == $this->tipoEmpresaria) {
+                    if ($regla->condicion == 'cantidad') {
+                        $desc = $cantidad . $regla->operador . $regla->cantidad;
+                        $desc = eval("return $desc;") ?$regla->valor : 0;
+                        if ($desc != 0) $descuento = $desc;
+                    }
+                    if ($regla->condicion == 'valor') {
+                        $desc = $cantidad . $regla->operador . $regla->cantidad;
+                        $desc = eval("return $desc;") ?$regla->valor : 0;
+                        if ($desc > $descuento) $descuento = $desc;
+                    }
+                    if ($regla->condicion == 'envio_cantidad') {
+                        $env = Cart::count() + $cantidad . $regla->operador . $regla->cantidad;
+                        $env = eval("return $env;") ?$regla->valor : 0;
+                        $this->envio = $env;
+                    }
+                } elseif ($regla->tipo_empresaria == 'TODOS') {
+                    if ($regla->condicion == 'cantidad') {
+                        $desc = $cantidad . $regla->operador . $regla->cantidad;
+                        $desc = eval("return $desc;") ?$regla->valor : 0;
+                        if ($desc > $descuento) $descuento = $desc;
+                    }
+                    if ($regla->condicion == 'valor') {
+                        $desc = $cantidad . $regla->operador . $regla->cantidad;
+                        $desc = eval("return $desc;") ?$regla->valor : 0;
+                        if ($desc > $descuento) $descuento = $desc;
+                    }
+                    if ($regla->condicion == 'envio_cantidad') {
+                        $env = Cart::count() + $cantidad . $regla->operador . $regla->cantidad;
+                        $env = eval("return $env;") ?$regla->valor : 0;
+                        $this->envio = $env;
+                    }
+                    if ($regla->condicion == 'envio_costo') {
+                        $desc = $precio * ($descuento / 100);
+                        if ($descuentoDecrease > 0 && $itemCantidad > 0) {
+                            $desc = $precio * $descuentoDecrease;
+                            $cant = $itemCantidad;
                         }
-                        if ($regla->condicion == 'valor') {
-                            $desc = $cantidad . $regla->operador . $regla->cantidad;
-                            $desc = eval("return $desc;") ? $regla->valor : 0;
-                            if ($desc > $descuento) $descuento = $desc;
-                        }
-                        if ($regla->condicion == 'envio_cantidad') {
-                            $env = Cart::count() + $cantidad . $regla->operador . $regla->cantidad;
-                            $env = eval("return $env;") ? $regla->valor : 0;
-                            $this->envio = $env;
-                        }                    
-                    } elseif ($regla->tipo_empresaria == 'TODOS') {
-                        if ($regla->condicion == 'cantidad') {
-                            $desc = $cantidad . $regla->operador . $regla->cantidad;
-                            $desc = eval("return $desc;") ? $regla->valor : 0;
-                            if ($desc > $descuento) $descuento = $desc;
-                        }
-                        if ($regla->condicion == 'valor') {
-                            $desc = $cantidad . $regla->operador . $regla->cantidad;
-                            $desc = eval("return $desc;") ? $regla->valor : 0;
-                            if ($desc > $descuento) $descuento = $desc;
-                        }
-                        if ($regla->condicion == 'envio_cantidad') {
-                            $env = Cart::count() + $cantidad . $regla->operador . $regla->cantidad;
-                            $env = eval("return $env;") ? $regla->valor : 0;
-                            $this->envio = $env;
-                        }
-                        if ($regla->condicion == 'envio_costo') {
-                            $desc = $precio * ($descuento / 100);
+                        if ($tipo == 'resta') {
                             if ($descuentoDecrease > 0 && $itemCantidad > 0) {
-                                $desc = $precio * $descuentoDecrease;
-                                $cant = $itemCantidad;
-                            }
-                            if ($tipo == 'resta') {
-                                if ($descuentoDecrease > 0 && $itemCantidad > 0) {
-                                    $carro = floatval(str_replace(',', '', Cart::subtotal())) - ($cant * ($precio - $desc));
-                                    $subtotal = $carro + ((($cant - 1) * ($precio - $desc)));
-                                } else {
-                                    $subtotal = floatval(str_replace(',', '', Cart::subtotal())) - ($cantidadResta * ($precio - $desc));
-                                }
+                                $carro = floatval(str_replace(',', '', Cart::subtotal())) - ($cant * ($precio - $desc));
+                                $subtotal = $carro + ((($cant - 1) * ($precio - $desc)));
                             } else {
-                                $subtotal = 0;
-                                $subtotal = Cart::content()->map(function ($item) use ($desc) {
-                                    $desc = $item->options->pCatalogo * $item->options->descuento;
-                                    return ($item->options->pCatalogo - $desc) * $item->qty;
-                                })->sum();                                
-                                $subtotal = $subtotal + ($cantidadSuma * ($precio - $desc));
-                            };                                                     
-                            //Solo aplicar condición del catalogo cuando subtotal sea mayor que 0
-                            if ($subtotal > 0) :
-                                $env = $subtotal  . $regla->operador . $regla->cantidad;
-                                $env = eval("return $env;") ? $regla->valor : 0;
-                                $this->envio = $env;
-                            endif;
+                                $subtotal = floatval(str_replace(',', '', Cart::subtotal())) - ($cantidadResta * ($precio - $desc));
+                            }
+                        } else {
+                            $subtotal = 0;
+                            $subtotal = Cart::content()->map(function ($item) use ($desc) {
+                                $desc = $item->options->pCatalogo * $item->options->descuento;
+                                return ($item->options->pCatalogo - $desc) * $item->qty;
+                            })->sum();
+                            $subtotal = $subtotal + ($cantidadSuma * ($precio - $desc));
+                        };
+                        //Solo aplicar condición del catalogo cuando subtotal sea mayor que 0
+                        if ($subtotal > 0) :
+                            $env = $subtotal  . $regla->operador . $regla->cantidad;
+                            $env = eval("return $env;") ?$regla->valor : 0;
+                            $this->envio = $env;
+                        endif;
+                    }
+                }
+            }
+            $descuento = (float)$descuento / 100;
+        }
+        $parametrosMarca = ParametroMarca::where('estado', 1)->get();
+        if (!empty($parametrosMarca)) {
+            foreach ($parametrosMarca as $key => $regla) {
+                if ($regla->tipo_empresaria == $this->tipoEmpresaria) {
+                    if (in_array($prod->categoria, json_decode($regla->marcas))) {
+                        if ($regla->condicion == 'cantidad') {
+                            $desc = $cantidad . $regla->operador . $regla->cantidad;
+                            $desc = eval("return $desc;") ?$regla->descuento : 0;
+                            $desc = $desc / 100;
+                            if ($desc != 0) $descuento = $desc;
+                        }
+                        if ($regla->condicion == 'valor') {
+                            $desc = $cantidad . $regla->operador . $regla->cantidad;
+                            $desc = eval("return $desc;") ?$regla->descuento : 0;
+                            $desc = $desc / 100;
+                            if ($desc != 0) $descuento = $desc;
+                        }
+                    }
+                } elseif ($regla->tipo_empresaria == 'TODOS') {
+                    if (in_array($prod->categoria, json_decode($regla->marcas))) {
+                        if ($regla->condicion == 'cantidad') {
+                            $desc = $cantidad . $regla->operador . $regla->cantidad;
+                            $desc = eval("return $desc;") ?$regla->descuento : 0;
+                            $desc = $desc / 100;
+                            if ($desc != 0) $descuento = $desc;
+                        }
+                        if ($regla->condicion == 'valor') {
+                            $desc = $cantidad . $regla->operador . $regla->cantidad;
+                            $desc = eval("return $desc;") ?$regla->descuento : 0;
+                            $desc = $desc / 100;
+                            if ($desc != 0) $descuento = $desc;
                         }
                     }
                 }
-                $descuento = (float) $descuento / 100;
-                $precio = (float) $precio - ($precio * $descuento);
             }
-        } catch (\Throwable $th) {
-            dd($th->getMessage());
         }
-
-
+        if ($descuento > 0) {
+            $precio = (float)$precio - ($precio * $descuento);
+        }
         return ['descuento' => $descuento, 'precio' => $precio];
     }
 

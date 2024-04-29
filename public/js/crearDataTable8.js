@@ -730,6 +730,136 @@ function crearTablaPCatalogo(data, ruta) {
     })
 }
 
+
+function crearTablaPMarcas(data, ruta) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar_regla" style="width:30px"> <i class="fas fa-trash"></i></button>';
+    let dataTable = $('#datatable').DataTable({
+
+        destroy: true,
+        "processing": true,
+        "ajax": {
+            "url": ruta,
+            "method": "POST",
+            "data": data,
+            "dataSrc": function (json) {
+                if (json == 'no data') {
+                    return [];
+                } else {
+                    return json;
+                }
+            },
+        },
+        "columns": [
+        {
+            "data": "id"
+        },
+        {
+            "data": "nombre"
+        },
+        {
+            "data": "tipo_empresaria"
+        },
+        {
+            "data": "condicion"
+        },
+        {
+            "data": "operador"
+        },
+        {
+            "data": "cantidad"
+        },
+        {
+            "data": "descuento"
+        },
+        
+        {
+            "data": "marcas",
+            "render": function (data, type, row) {
+                let marcas = '';
+                data.forEach(element => {
+                    marcas += '<span class="badge bg-warning mr-1">'+ element +'</span>';
+                });
+                return marcas;
+            }
+        },
+        {
+            "data": "estado",
+            "render": function (data, type, row) {
+                let estado = '<span class="badge bg-secondary">Inactivo</span>';
+                if (data == 1) {
+                    estado = '<span class="badge bg-success">Activo</span>'
+                }
+                return estado;
+            }
+        },
+        {
+            "data": 'id',
+            "render": function (data, type, row) {
+                return '<a href="/parametro-marca/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
+            }
+        },
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "Todo"]
+        ],
+        "columnDefs": [{
+            "targets": [6],
+            "orderable": false,
+            "searchable": false
+        },
+        ],
+        "order": [
+            [1, 'asc']
+        ],
+        "language": espanol,
+        //para usar los botones
+        responsive: false,
+        autoWidth: false,
+        dom: 'Bfrtilp',
+        buttons: [{
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
+        ]
+    });
+    if (dataTable.length == 0) {
+        dataTable.clear();
+        dataTable.draw();
+    }
+
+    $('#datatable tbody').on('click', '.eliminar', function () {
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#elemento_eliminar').html(data.id);
+        $('#id_eliminar').val(data.id)
+        $('#form_eliminar').attr('action', "/parametro-marca/" + data.id);
+    })
+}
+
 function crearTablaReservas(data, ruta) {
     $.ajaxSetup({
         headers: {

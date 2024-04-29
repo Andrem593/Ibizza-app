@@ -6,17 +6,17 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-    <title>IBIZZA - Sitio Oficial</title>
-    <meta name="keywords" content="ecomerce,zapatos,ibizza,zapatos mujer,zapatos hombre,dpisar" />
+    <title>D'PISAR - Venta por catálogo</title>
+    <meta name="keywords" content="ecomerce,zapatos,zapatos mujer,zapatos hombre, dpisar, catalogo" />
     <meta name="description"
-        content="Se parte de nuestras empresarias y genera ingresos extras vendiendo el fabuloso catalogo de Ibizza">
-    <meta name="author" content="AM DESINGS">
+        content="Se parte de nuestras empresarias y genera ingresos extras vendiendo el fabuloso catalogo de D'PISAR">
+    <meta name="author" content="AM DESIGNS">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- site Favicon -->
-    <link rel="icon" href="assets/images/favicon/Logo_ibizza_verde.svg" sizes="32x32" />
-    <link rel="apple-touch-icon" href="assets/images/favicon/Logo_ibizza.png" />
-    <meta name="msapplication-TileImage" content="assets/images/favicon/Logo_ibizza.png" />
+    <link rel="icon" href="assets/images/favicon/logo_dpisar.svg" sizes="32x32" />
+    <link rel="apple-touch-icon" href="assets/images/favicon/logo_dpisar.svg" />
+    <meta name="msapplication-TileImage" content="assets/images/favicon/logo_dpisar.svg" />
 
     <!-- css Icon Font -->
     <link rel="stylesheet" href="assets/css/vendor/ecicons.min.css" />
@@ -31,7 +31,7 @@
 
     <!-- Main Style -->
     <link rel="stylesheet" href="assets/css/demo1.css" />
-    <link rel="stylesheet" href="assets/css/skin-046.css">
+    <link rel="stylesheet" href="assets/css/skin-046.css?id={{ rand().md5(10) }}">
     <link rel="stylesheet" href="assets/css/responsive.css" />
 
     <!-- Background css -->
@@ -155,8 +155,8 @@
                             <div class="header-logo">
 
                                 <a href="{{ url('/') }}"><img loading='lazy' class="p-1"
-                                        src="{{ url('/assets/images/logo/Logo_ibizza.svg') }}" alt="Logo Ibizza" />
-                                    <img loading='lazy' class="dark-logo" src="assets/images/logo/dark-logo.png"
+                                        src="{{ url('/assets/images/logo/logo_dpisar.svg') }}" alt="Logo dpisar" />
+                                    <img loading='lazy' class="dark-logo" src="assets/images/logo/dark-logo2.png"
                                         alt="Site Logo" style="display: none;" /></a>
 
                             </div>
@@ -277,8 +277,8 @@
                     <div class="col">
                         <div class="header-logo">
                             <a href="index.html"><img loading='lazy'
-                                    src="{{ url('/assets/images/logo/Logo_ibizza.svg') }}" alt="Logo Ibizza" /><img
-                                    loading='lazy' class="dark-logo" src="assets/images/logo/dark-logo.png"
+                                    src="{{ url('/assets/images/logo/logo_dpisar.svg') }}" alt="Logo dpisar" /><img
+                                    loading='lazy' class="dark-logo" src="assets/images/logo/dark-logo2.png"
                                     alt="Site Logo" style="display: none;" /></a>
                         </div>
                     </div>
@@ -306,7 +306,7 @@
         <!-- ekka Mobile Menu -->
         <div id="ec-mobile-menu" class="ec-side-cart ec-mobile-menu">
             <div class="ec-menu-title">
-                <span class="menu_title">Menu Ibizza</span>
+                <span class="menu_title">Menu DPISAR</span>
                 <button class="ec-close">×</button>
             </div>
             <div class="ec-menu-inner">
@@ -360,12 +360,12 @@
                         <div class="header-top-social">
                             <ul class="mb-0">
                                 <li class="list-inline-item"><a class="hdr-facebook" target="_blank"
-                                        href="https://www.facebook.com/catalogo.ibizza/"><i
+                                        href="https://www.facebook.com/CatalogoIbizzaec?mibextid=ZbWKwL/"><i
                                             class="ecicon eci-facebook"></i></a></li>
                                 {{-- <li class="list-inline-item"><a class="hdr-twitter" href="#"><i
                                             class="ecicon eci-twitter"></i></a></li> --}}
                                 <li class="list-inline-item"><a class="hdr-instagram" target="_blank"
-                                        href="https://www.instagram.com/catalogo.ibizza/"><i
+                                        href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn/"><i
                                             class="ecicon eci-instagram"></i></a></li>
                                 {{-- <li class="list-inline-item"><a class="hdr-linkedin" href="#"><i
                                             class="ecicon eci-linkedin"></i></a></li> --}}
@@ -391,13 +391,15 @@
             <div class="ec-slider swiper-container main-slider-nav main-slider-dot">
                 <!-- Main slider -->
                 <div class="swiper-wrapper">
+                    
                     <div class="ec-slide-item swiper-slide d-flex ec-slide-1">
                         <div class="container align-self-center">
                             <div class="row">
                                 <div class="col-xl-6 col-lg-7 col-md-7 col-sm-7 align-self-center">
                                     <div class="ec-slide-content slider-animation">
                                         <h1 class="ec-slide-title">Se una de nuestras Empresarias</h1>
-                                        <h2 class="ec-slide-stitle">En Ibizza</h2>
+                                        <h2 class="ec-slide-stitle">EN D'PISAR</h2>
+                                        <P>VENTA POR CATALOGO</P>
                                         <p>Obten ingresos seguros vendiendo por catálogo y forma parte de nosotras</p>
                                         <a href="{{ route('web.registro-empresaria') }}" class="btn btn-lg btn-secondary">Registrarme
                                             Ahora</a>
@@ -406,6 +408,9 @@
                             </div>
                         </div>
                     </div>
+                    
+                    
+                    
                     <div class="ec-slide-item swiper-slide d-flex ec-slide-2">
                         <div class="container align-self-center">
                             <div class="row">
@@ -423,6 +428,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="swiper-pagination swiper-pagination-white"></div>
                 <div class="swiper-buttons">
                     <div class="swiper-button-next"></div>
@@ -548,7 +554,7 @@
     <section id="porQueSerEmpresaria" class="ec-banner section section-space-p">
         <div class="col-md-12 text-center">
             <div class="section-title">
-                <h2 class="ec-title p-4 ">¿Por qué ser una empresaria en Ibizza?</h2>
+                <h2 class="ec-title p-4 ">¿Por qué ser una empresaria en D'PISAR venta por catálogo?</h2>
                 <p class="col-md-6 col-sm-12 mx-auto fs-5 my-2 p-2">Puedes iniciar tu propio negocio, obtener ganancias seguras y trabajar desde tu casa o el lugar
                     más cómodo para ti.</p>
             </div>
@@ -572,7 +578,7 @@
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">Genera Ingresos</h5>
                             <p class="card-text">Ganancias de hasta el 25% de tus ventas.</p>
-                            <a href="#" class="btn nav-link">Solo en Ibizza</a>
+                            <a href="#" class="btn nav-link">Solo en D'PISAR</a>
                         </div>
                     </div>
                 </div>
@@ -624,7 +630,7 @@
                                 <img loading='lazy' src="storage/images/catalogo/{{ $catalogo->foto_path }}" alt=""
                                     style="width: 22rem" />
                                 <div class="banner-text align-self-end text-center">
-                                    <span class="nombre-catalogo ec-banner-title bg-transparent text-white bg-opacity-50">{{ $catalogo->nombre }}</span>
+                                    <span class="nombre-catalogo ec-banner-title bg-transparent text-white">{{ $catalogo->nombre }}</span>
                                     <span class="ec-banner-title bg-transparent text-white fs-6" style="width: 20rem">{{ $catalogo->descripcion }}</span>
                                     <input type="hidden" class='pdf_path' value="{{ $catalogo->pdf_path }}">
                                 </div>
@@ -919,7 +925,8 @@
         <div class="container">
             <div class="col-md-12 text-center">
                 <div class="section-title">
-                    <h2 class="ec-title">Registrate en Ibizza</h2>
+                    <h2 class="ec-title">Registrate en D'PISAR</h2>
+                    <h4>Venta por catálogo</h4>
                     <p class="w-50 mx-auto my-2">¡Haz tu primer pedido e inmediatamente recibe premios!</p>
                 </div>
             </div>
@@ -952,7 +959,7 @@
                                     <h5 class="card-title fw-bold text-center p-4">Solo Registrate</h5>
                                     <p class="card-text">Debes darle click al boton de registrarte o quiero ser
                                         empresaria para llenar unos
-                                        pocos datos y empezar a formar parte del equipo de Ibizza.</p>
+                                        pocos datos y empezar a formar parte del equipo de D'PISAR venta por catálogo</p>
                                     <a href="{{ route('web.registro-empresaria') }}" class="btn nav-link">Registrarme
                                         aquí</a>
                                 </div>
@@ -994,7 +1001,7 @@
                             <div class="col-md-5 my-auto">
                                 <div class="card-body">
                                     <h5 class="card-title fw-bold text-center p-4">Comparte… y ¡GANA!</h5>
-                                    <p class="card-text">Comentale a tus amigos y familiares que formas parte de Ibizza,
+                                    <p class="card-text">Comentale a tus amigos y familiares que formas parte de D'PISAR venta por catálogo,
                                         realiza tu primer pedido y empieza a ganar muchos premios.</p>
                                     <a href="#" class="btn nav-link">Plan de Premios Actual</a>
                                 </div>
@@ -1009,7 +1016,7 @@
     <section class="section ec-services-section section-space-p">
         <div class="col-md-12 text-center">
             <div class="section-title">
-                <h2 class="ec-title">En Ibizza Estamos para ayudarte</h2>
+                <h2 class="ec-title">En D'PISAR venta por catálogo Estamos para ayudarte</h2>
                 <p class="w-50 mx-auto my-2">Estaremos siempre presente para ayudarte en cualquier duda o
                     inconveniente</p>
             </div>
@@ -1019,7 +1026,7 @@
                 <div class="ec_ser_content ec_ser_content_1 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
                     <div class="ec_ser_inner">
                         <div class="ec-service-image">
-                            <img loading='lazy' src="assets/images/icons/service_1.svg" class="svg_img" alt="" />
+                            <img loading='lazy' src="assets/images/icons/track_4.png" class="svg_img" alt="" />
                         </div>
                         <div class="ec-service-desc">
                             <h2>Envio Gratuito</h2>
@@ -1030,12 +1037,12 @@
                 <div class="ec_ser_content ec_ser_content_2 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
                     <div class="ec_ser_inner">
                         <div class="ec-service-image">
-                            <img loading='lazy' src="assets/images/icons/service_2.svg" class="svg_img" alt="" />
+                            <img loading='lazy' src="assets/images/icons/asesor.png" class="svg_img" alt="" />
                         </div>
                         <div class="ec-service-desc">
                             <h2>Soporte</h2>
                             <p>Contactanos de Lunes a Viernes 9:00 am a 6:00 pm Sabado de 10:00 am a 3:00 pm o
-                                al <a href="mailto:servicioalcliente.ibizza@zapecsa.com">correo</a></p>
+                                al <a href="mailto:servicioalcliente.catalogodpisar@zapecsa.com">correo</a></p>
                         </div>
                     </div>
                 </div>
@@ -1137,7 +1144,7 @@
                                 <div class="ec-test-img"><img loading='lazy' alt="testimonial" title="testimonial"
                                         src="assets/images/testimonial/1.png" /></div>
                                 <div class="ec-test-content">
-                                    <div class="ec-test-desc">llegué a conocer la marca Ibizza porque he sido cliente por años de la marca
+                                    <div class="ec-test-desc">llegué a conocer la marca D'PISAR venta por catálogo porque he sido cliente por años de la marca
                                         Dpisar, decidi inscribirme para obtener mi propia utilidad.
                                         En cuanto a la venta por catálogo es muy importante para mi como
                                         empresaria porque dispongo de mi tiempo… en mi trabajo me enfoco el
@@ -1164,7 +1171,7 @@
                                 <div class="ec-test-img"><img loading='lazy' alt="testimonial" title="testimonial"
                                         src="assets/images/testimonial/2.png" /></div>
                                 <div class="ec-test-content">
-                                    <div class="ec-test-desc">Soy empresaria Ibiza voy a tener un año con este negocio me ha ido bien, me
+                                    <div class="ec-test-desc">Soy empresaria D'PISAR venta por catálogo voy a tener un año con este negocio me ha ido bien, me
                                         gustan los premios, porque me incentivan, cuando llego mi monto de $120
                                         me regalan un obsequio y así tengo más ganancia</div>
                                     <div class="ec-test-name">Aracely Zambrano</div>
@@ -1193,6 +1200,13 @@
         <h2 class="d-none">Brand</h2>
         <div class="container">
             <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="section-title">
+                        <h2 class="ec-bg-title">Importadores y distribuidores</h2>
+                        <h2 class="ec-title">Importadores y distribuidores</h2>
+                        <p class="sub-title"> De las mejores marcas Brasileras</p>
+                    </div>
+                </div>
                 <div class="ec-brand-outer">
                     <ul id="ec-brand-slider">
                         @foreach ($marcas as $marca)
@@ -1229,53 +1243,53 @@
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/1.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/1.jpg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/2.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/2.jpg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/3.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/3.jpg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/4.png" alt="insta"></a>
-                            </div>
-                        </div>
-                        <!-- instagram item -->
-                        <!-- instagram item -->
-                        <div class="ec-insta-item">
-                            <div class="ec-insta-inner">
-                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/5.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/4.jpeg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/6.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/5.jpeg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="https://www.instagram.com/catalogo.ibizza/" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/7.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/6.jpg" alt="insta"></a>
+                            </div>
+                        </div>
+                        <!-- instagram item -->
+                        <!-- instagram item -->
+                        <div class="ec-insta-item">
+                            <div class="ec-insta-inner">
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/7.jpeg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
@@ -1293,7 +1307,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="text-center footer-off-msg">
-                            <span>!Gana Premios! por todas tus compras</span>
+                            <span >!Gana Premios! por todas tus compras</span>
                         </div>
                     </div>
                 </div>
@@ -1304,18 +1318,19 @@
                         <div class="col-sm-12 col-lg-3 ec-footer-contact">
                             <div class="ec-footer-widget">
                                 <div class="ec-footer-logo"><a href="#"><img loading='lazy'
-                                            src="{{ url('/assets/images/logo/Logo_ibizza.svg') }}" alt=""><img
+                                            src="{{ url('/assets/images/logo/logo_dpisar.svg') }}" alt=""><img
                                             loading='lazy' class="dark-footer-logo"
-                                            src="assets/images/logo/dark-logo.png" alt="Site Logo"
+                                            src="assets/images/logo/dark-logo2.png" alt="Site Logo"
                                             style="display: none;" /></a></div>
                                 <h4 class="ec-footer-heading">Contactanos</h4>
                                 <div class="ec-footer-links">
                                     <ul class="align-items-center">
-                                        <li class="ec-footer-link">Guayas - Guayaqui || Chile 315 y Luque, Centro Guayaquil</li>
+                                        <li class="ec-footer-link">Guayas - Guayaqui ||</li>
+                                        <li class="ec-footer-link">D'Pisar, 10 de Agosto y Pedro Carbo</li>
                                         <li class="ec-footer-link"><span>Contactanos:</span><a
                                                 href="tel:0963725427">0963725427</a></li>
                                         <li class="ec-footer-link"><span>Email:</span><a
-                                                href="mailto:servicioalcliente.ibizza@zapecsa.com">servicioalcliente@zapecsa.com</a></li>
+                                                href="mailto:servicioalcliente.catalogodpisar@zapecsa.com">servicioalcliente.catalogodpisar@zapecsa.com</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -1354,16 +1369,16 @@
                                 <h4 class="ec-footer-heading">Servicios</h4>
                                 <div class="ec-footer-links">
                                     <ul class="align-items-center">
-                                        <li class="ec-footer-link"><a href="{{ route('web.terminos-condiciones') }}">Políticas de cambios o devoluciones</a></li>
+                                        <li class="ec-footer-link"><a href="{{ route('web.politica-privacidad') }}">Políticas de cambios o devoluciones</a></li>
                                         <li class="ec-footer-link"><a
                                                 href="{{ route('web.politica-privacidad') }}">Política de
                                                 Privacidad</a>
                                         </li>
                                         <li class="ec-footer-link"><a
-                                                href="{{ route('web.terminos-condiciones') }}">Política de Garantía</a>
+                                                href="{{ route('web.politica-privacidad') }}">Política de Garantía</a>
                                         </li>
                                         <li class="ec-footer-link"><a
-                                                href="{{ route('web.terminos-condiciones') }}">Políticas de Entrega y Envió</a>
+                                                href="{{ route('web.politica-privacidad') }}">Políticas de Entrega y Envió</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -1374,12 +1389,12 @@
                                 <h4 class="ec-footer-heading">Contáctanos</h4>
                                 <div class="ec-footer-links">
                                     <ul class="align-items-center">
-                                        <li class="ec-footer-link"><a href="https://www.facebook.com/catalogo.ibizza/">Facebook</a></li>
+                                        <li class="ec-footer-link"><a href="https://www.facebook.com/CatalogoIbizzaec?mibextid=ZbWKwL">Facebook</a></li>
                                         <li class="ec-footer-link"><a
-                                                href="https://www.instagram.com/catalogo.ibizza/">Instagram</a>
+                                                href="https://www.instagram.com/catalogoibizza.ec?igsh=cTF4Z3lxdXJyNDZn">Instagram</a>
                                         </li>
                                         <li class="ec-footer-link"><a
-                                                href="mailto:servicioalcliente.ibizza@zapecsa.com">E-mail</a>
+                                                href="mailto:servicioalcliente.catalogodpisar@zapecsa.com">E-mail</a>
                                         </li>
                                         <li class="ec-footer-link"><a
                                                 href="tel:0963725427">Llamanos</a>
@@ -1400,10 +1415,10 @@
                                 <span class="social-text text-upper">Follow us on:</span>
                                 <ul class="mb-0">
                                     <li class="list-inline-item"><a class="hdr-facebook" target="_blank"
-                                            href="https://www.facebook.com/catalogo.ibizza/"><i
+                                            href="https://www.facebook.com/CatalogoIbizzaec?mibextid=ZbWKwL"><i
                                                 class="ecicon eci-facebook"></i></a></li>
                                     <li class="list-inline-item"><a class="hdr-instagram" target="_blank"
-                                            href="https://www.instagram.com/catalogo.ibizza/"><i
+                                            href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn"><i
                                                 class="ecicon eci-instagram"></i></a></li>
                                 </ul>
                             </div>
@@ -1413,7 +1428,7 @@
                         <div class="col text-center footer-copy">
                             <div class="footer-bottom-copy ">
                                 <div class="ec-copy">Copyright © 2021-2022 <a class="site-name text-upper"
-                                        href="#">Ibizza<span>.</span></a>. Todos los derechos reservados</div>
+                                        href="#">D'PISAR venta por catálogo<span>.</span></a>. Todos los derechos reservados</div>
                             </div>
                         </div>
                         <!-- Footer Copyright End -->
@@ -1518,14 +1533,14 @@
                             <div class="d-flex bd-highlight">
                                 <!-- Profile Picture -->
                                 <div class="ec-img-cont">
-                                    <img loading='lazy' src="./assets/images/favicon/logo_ibizza_verde.svg"
+                                    <img loading='lazy' src="./assets/images/favicon/logo_dpisar.svg"
                                         class="ec-user-img" alt="Profile image">
                                     <span class="ec-status-icon ec-online"></span>
                                 </div>
                                 <!-- Display Name & Last Seen -->
                                 <div class="ec-user-info">
-                                    <span>Ibizza</span>
-                                    <p>Ibizza está en linea</p>
+                                    <span>D'PISAR</span>
+                                    <p>D'PISAR venta por catálogo está en linea</p>
                                 </div>
                                 <!-- Chat iCon -->
                                 <div class="ec-chat-icon">
@@ -1536,28 +1551,7 @@
                     </li>
                     <!--/ End Single Contact List -->
                     <!-- Single Contact List -->
-                    <li>
-                        <a class="ec-list" data-number="593967402331"
-                            data-message="¡Hola! Necesito ayuda en un pedido ">
-                            <div class="d-flex bd-highlight">
-                                <!-- Profile Picture -->
-                                <div class="ec-img-cont">
-                                    <img loading='lazy' src="./assets/images/favicon/logo_ibizza_verde.svg"
-                                        class="ec-user-img" alt="Profile image">
-                                    <span class="ec-status-icon ec-offline"></span>
-                                </div>
-                                <!-- Display Name & Last Seen -->
-                                <div class="ec-user-info">
-                                    <span>D'pisar</span>
-                                    <p>activo hace 7 min</p>
-                                </div>
-                                <!-- Chat iCon -->
-                                <div class="ec-chat-icon">
-                                    <i class="fa fa-whatsapp"></i>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
+                
                     <!--/ End Single Contact List -->
                 </ul>
             </div>

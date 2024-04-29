@@ -45,10 +45,10 @@
                         </div>
                         <div class="col-md-6 ec-cms-block ec-abcms-block text-center">
                             <div class="ec-cms-block-inner">
-                                <h3 class="ec-cms-block-title">¿Qué es Ibizza?</h3>
-                                <p>Ibizza by Dpisar nace en el año 2020 a través de la venta por catálogo ofreciendo
+                                <h3 class="ec-cms-block-title">¿Qué es D'PISAR venta por catálogo?</h3>
+                                <p>D'PISAR venta por catálogo nace en el año 2020 ofreciendo
                                     productos de
-                                    calidad respaldados por la Marca Dpsiar que lleva en el mercado ecuatoriano más de
+                                    calidad respaldados por la Marca D'psar que lleva en el mercado ecuatoriano más de
                                     25 años,
                                     a través de este medio de comercialización busca llegar a todos los lugares del
                                     país.</p>
@@ -59,7 +59,7 @@
                                     una compañía de más de 25 años haciendo presencia en el mercado ecuatoriano, a la
                                     garantía
                                     de productos de calidad y la prestación de un excelente servicio.</p>
-                                <p>Por medio de Catalogo Ibizza by Dpisar tiene la oportunidad de convertirse en una
+                                <p>Por medio de D'PISAR venta por catálogo tiene la oportunidad de convertirse en una
                                     empresaria
                                     Independiente, construir su propio negocio a través de sus clientes de forma
                                     personalizada
@@ -93,7 +93,7 @@
                                 <div class="ec-test-img"><img loading='lazy' alt="testimonial" title="testimonial"
                                         src="assets/images/testimonial/1.png" /></div>
                                 <div class="ec-test-content">
-                                    <div class="ec-test-desc">llegué a conocer la marca Ibizza porque he sido cliente por años de la marca
+                                    <div class="ec-test-desc">llegué a conocer la marca D'PISAR venta por catálogo porque he sido cliente por años de la marca
                                         Dpisar, decidi inscribirme para obtener mi propia utilidad.
                                         En cuanto a la venta por catálogo es muy importante para mi como
                                         empresaria porque dispongo de mi tiempo… en mi trabajo me enfoco el
@@ -120,7 +120,7 @@
                                 <div class="ec-test-img"><img loading='lazy' alt="testimonial" title="testimonial"
                                         src="assets/images/testimonial/2.png" /></div>
                                 <div class="ec-test-content">
-                                    <div class="ec-test-desc">Soy empresaria Ibiza voy a tener un año con este negocio me ha ido bien, me
+                                    <div class="ec-test-desc">Soy empresaria D'PISAR venta por catálogo voy a tener un año con este negocio me ha ido bien, me
                                         gustan los premios, porque me incentivan, cuando llego mi monto de $120
                                         me regalan un obsequio y así tengo más ganancia</div>
                                     <div class="ec-test-name">Aracely Zambrano</div>
@@ -152,7 +152,7 @@
                 <div class="ec_ser_content ec_ser_content_1 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
                     <div class="ec_ser_inner">
                         <div class="ec-service-image">
-                            <img loading='lazy' src="assets/images/icons/service_1.svg" class="svg_img"
+                            <img loading='lazy' src="assets/images/icons/track_4.png" class="svg_img"
                                 alt="" />
                         </div>
                         <div class="ec-service-desc">
@@ -169,7 +169,7 @@
                         </div>
                         <div class="ec-service-desc">
                             <h2>Soporte 24X7</h2>
-                            <p>Contactanos de Lunes a Viernes 9:00 am a 6:00 pm Sabado de 10:00 am a 3:00 pm o
+                            <p>Contactanos de Lunes a Viernes 9:00 am a 6:00 pm o
                                 al <a href="mailto:servicioalcliente.ibizza@zapecsa.com">correo</a></p>
                         </div>
                     </div>
@@ -225,53 +225,53 @@
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/1.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/1.jpg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/2.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/2.jpg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/3.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/3.jpg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/4.png" alt="insta"></a>
-                            </div>
-                        </div>
-                        <!-- instagram item -->
-                        <!-- instagram item -->
-                        <div class="ec-insta-item">
-                            <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/5.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/4.jpeg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/6.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/5.jpeg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/7.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/6.jpg" alt="insta"></a>
+                            </div>
+                        </div>
+                        <!-- instagram item -->
+                        <!-- instagram item -->
+                        <div class="ec-insta-item">
+                            <div class="ec-insta-inner">
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/7.jpeg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->

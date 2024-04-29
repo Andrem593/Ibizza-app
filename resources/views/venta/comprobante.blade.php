@@ -30,17 +30,26 @@
 
 <body>
     <div class="">
+        <div style="float: right">
+            <img src="{{ public_path('/assets/images/logo/logo_dpisar.png') }}"alt="Logo DPISAR" width="130px"
+                style=" margin-bottom: 02px">
+        </div>
+        <div style="width: 45%; float: right">  
+            <div style= "margin: 0;">D'PISAR - VENTA POR CATÁLOGO</div>
+        </div>
+        {{-- 
         <div style="text-align: center">
-            <img src="{{ public_path('/assets/images/logo/Logo_ibizza.svg') }}"alt="Logo Ibizza" width="120px"
+            <img src="{{ public_path('/assets/images/logo/logo_dpisar.png') }}"alt="Logo DPISAR" width="200px"
                 style="margin-bottom: 10px">
             <div style="width: 100%; text-align: center;">
                 <div style="width: 500px; margin: 0 auto; text-align: center; font-size: 12px">
-                    <div style="margin: 0;">Guayas-Guayaquil || Chile 315 y Luque - Centro Guayaquil</div>
-                    <div style="margin: 0;">Correo: servicioalcliente@zapecsa.com</div>
+                    <div style="margin: 0;">Guayas-Guayaquil || 10 de Agosto y Pedro Carbo</div>
+                    <div style="margin: 0;">Correo: servicioalcliente.catalogodpisar@zapecsa.com</div>
                     <div style="margin: 0;">Teléfono: 0963725427</div>
                 </div>
             </div>
         </div>
+        --}}
 
         <div style="width: 100%; text-align: left; margin-top: 20px">
             <div style="font-weight: bold" style="margin: 0;">N° Pedido: {{ str_pad($venta->id, 6, '0', STR_PAD_LEFT) }}</div>

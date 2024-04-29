@@ -87,7 +87,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="text-center">
-                            <img src="{{ url('/assets/images/logo/Logo_ibizza.svg') }}" alt="Logo Ibizza" width="100px">
+                            <img src="{{ url('/assets/images/logo/logo_dpisar.svg') }}" alt="Logo DPISAR" width="300px">
                         </div>
                         <div class="row">
                             <div class="col">
@@ -135,7 +135,7 @@
                                                 <option value="PEDIDO POR VALIDAR" disabled>PEDIDO POR VALIDAR</option>
                                                 <option value="PEDIDO APROBADO" disabled>PEDIDO APROBADO</option>
                                                 <option value="PEDIDO APROBADO SIN VALIDAR" disabled>PEDIDO APROBADO SIN VALIDAR</option>
-                                                <option value="FACTURADO LOCAL IBIZZA" disabled>FACTURADO LOCAL IBIZZA</option>
+                                                <option value="FACTURADO LOCAL IBIZZA" disabled>FACTURADO LOCAL DPISAR</option>
                                             @endif
                                             
                                             <option value="PEDIDO FACTURADO">PEDIDO FACTURADO</option>
@@ -244,7 +244,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
                         @if (Auth::user()->role != 'ASESOR')
-                            <button type="button" id="editar_venta" class="btn btn-ibizza">GUARDAR</button>
+                            <button type="button" id="editar_venta" class="btn bg-ibizza">GUARDAR</button>
                         @endif
                     </div>
                 </div>
@@ -263,7 +263,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="text-center">
-                            <img src="{{ url('/assets/images/logo/Logo_ibizza.svg') }}" alt="Logo Ibizza" width="100px">
+                            <img src="{{ url('/assets/images/logo/logo_dpisar.svg') }}" alt="Logo DPISAR" width="100px">
                         </div>
                         <div class="row">
                             <div class="col">
@@ -339,7 +339,7 @@
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-secondary" id="guardar_recibo">Guardar Recibo</button>
                         </form>
-                        <button class="btn btn-ibizza" data-bs-target="#editar" data-bs-toggle="modal">Regresar</button>
+                        <button class="btn bg-ibizza" data-bs-target="#editar" data-bs-toggle="modal">Regresar</button>
                     </div>
                 </div>
             </div>
@@ -356,7 +356,7 @@
                     </div>
                     <div class="modal-footer">
                         {{-- <button type="button" class="btn btn-secondary" id="guardar_pago">Guardar Pago</button>                         --}}
-                        <button class="btn btn-ibizza"  data-bs-target="#editar" data-bs-toggle="modal" data-bs-dismiss="modal" >Regresar</button>
+                        <button class="btn bg-ibizza"  data-bs-target="#editar" data-bs-toggle="modal" data-bs-dismiss="modal" >Regresar</button>
                     </div>
                 </div>
             </div>

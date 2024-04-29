@@ -82,7 +82,7 @@
                 <div class="ec_ser_content ec_ser_content_1 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
                     <div class="ec_ser_inner">
                         <div class="ec-service-image">
-                            <img loading='lazy' src="assets/images/icons/service_1.svg" class="svg_img" alt="" />
+                            <img loading='lazy' src="assets/images/icons/track_4.png" class="svg_img" alt="" />
                         </div>
                         <div class="ec-service-desc">
                             <h2>Envio Gratuito</h2>
@@ -93,7 +93,7 @@
                 <div class="ec_ser_content ec_ser_content_2 col-sm-12 col-md-6 col-lg-3" data-animation="zoomIn">
                     <div class="ec_ser_inner">
                         <div class="ec-service-image">
-                            <img loading='lazy' src="assets/images/icons/service_2.svg" class="svg_img" alt="" />
+                            <img loading='lazy' src="assets/images/icons/asesor.png" class="svg_img" alt="" />
                         </div>
                         <div class="ec-service-desc">
                             <h2>Soporte 24X7</h2>
@@ -148,53 +148,53 @@
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/1.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/1.jpg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/2.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/2.jpg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/3.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/3.jpg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/4.png" alt="insta"></a>
-                            </div>
-                        </div>
-                        <!-- instagram item -->
-                        <!-- instagram item -->
-                        <div class="ec-insta-item">
-                            <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/5.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/4.jpeg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/6.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/5.jpeg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->
                         <!-- instagram item -->
                         <div class="ec-insta-item">
                             <div class="ec-insta-inner">
-                                <a href="#" target="_blank"><img loading='lazy'
-                                        src="assets/images/instragram-image/7.png" alt="insta"></a>
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/6.jpg" alt="insta"></a>
+                            </div>
+                        </div>
+                        <!-- instagram item -->
+                        <!-- instagram item -->
+                        <div class="ec-insta-item">
+                            <div class="ec-insta-inner">
+                                <a href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn" target="_blank"><img loading='lazy'
+                                        src="assets/images/instragram-image/7.jpeg" alt="insta"></a>
                             </div>
                         </div>
                         <!-- instagram item -->

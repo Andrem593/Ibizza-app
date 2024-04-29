@@ -103,7 +103,7 @@ function crearTabla(data, ruta) {
             "data": "stock",
             "render": function (data, type, row) {
                 let color = 'bg-success'
-                if (data < 10) { color = 'bg-danger' }
+                if (data < 2) { color = 'bg-danger' }
                 if (data == 0) { color = 'bg-danger'; data = 'AGOTADO' }
                 return '<span class="badge ' + color + ' w-100 p-2">' + data + '</span>';
             }
@@ -119,11 +119,22 @@ function crearTabla(data, ruta) {
         },
         {
             "data": "observaciones",
-        }
-        ],
+        },
+        {
+            "data": "clasificacion_global",
+        },
+        {
+            "data": "tipo_producto",
+        },
+        {
+            "data": "costo_rp3",
+        }],
         "lengthMenu": [
             [10, 25, 50, -1],
             [10, 25, 50, "Todo"]
+        ],
+        "order": [
+            [1, 'desc']
         ],
         "language": espanol,
         //para usar los botones

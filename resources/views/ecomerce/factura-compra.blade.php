@@ -47,7 +47,7 @@
                         <div class="ec-vendor-card-body padding-b-0">
                             <div class="page-content">
                                 <div class="page-header text-blue-d2">
-                                    <img src="../assets/images/logo/logo_ibizza.svg" alt="Logo Ibizza">
+                                    <img src="../assets/images/logo/logo_dpisar.svg" alt="Logo DPISAR">
                                 </div>
 
                                 <div class="container px-0">

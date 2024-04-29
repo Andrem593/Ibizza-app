@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Catalogo;
+use App\Producto;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -14,7 +15,7 @@ class CatalogoEstado extends Command
      *
      * @var string
      */
-    protected $signature = ' ';
+    protected $signature = 'estado:cron';
 
     /**
      * The console command description.
@@ -40,10 +41,24 @@ class CatalogoEstado extends Command
      */
     public function handle()
     {
-        Catalogo::where('fecha_fin_catalogo', '<', Carbon::now()->format('Y-m-d'))
-        ->update(['estado' => 'FINALIZADO']);
+        $catalogos = Catalogo::where('fecha_fin_catalogo','<', Carbon::now()->format('Y-m-d'))->get();
 
-        $this->info('Catalogos actualizados.');
-        //return Command::SUCCESS;
+        if(count($catalogos) > 0){            
+            foreach ($catalogos as $catalogo) {
+                try {                    
+                    Catalogo::find($catalogo->id)->update([
+                        'estado' => 'FINALIZADO'
+                    ]);
+                    Producto::where("catalogo_id", $catalogo->id)->update([
+                        'estado' => 'I'
+                    ]);
+                } catch (\Throwable $th) {
+                    $this->info('Error: '. $th->getMessage());
+                }
+            }
+            $this->info('Catalogos actualizados.');
+        }else{
+            $this->info('Sin cambios.');
+        }
     }
 }

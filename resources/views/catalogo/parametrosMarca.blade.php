@@ -34,12 +34,13 @@
                     <thead class="bg-ibizza text-center">
                         <tr>
                             <th>ID</th>
-                            <th>Catálogo</th>
+                            <th>Nombre</th>
                             <th>Tipo Empresaria</th>
-                            <th>Condición</th>
-                            <th>Operador</th>
+                            <th>Condición</th>                            
                             <th>Cantidad</th>
                             <th>Valor</th>
+                            <th>Descuento</th>
+                            <th>Marcas</th>
                             <th>Estado</th>
                             <th></th>
                         </tr>
@@ -83,4 +84,16 @@
             </div>
         </div>
     @endpush
+    @Push('scripts')
+    <script src="/js/crearDataTable8.js"></script>
+    <script>
+        $(document).ready(function() {
+            var data = {
+                funcion: 'listar_todo',
+            }
+            let ruta = '/catalogo/parametros-marca/listar'
+            crearTablaPMarcas(data, ruta);
+        });
+    </script>
+@endpush
 </x-app-layout>

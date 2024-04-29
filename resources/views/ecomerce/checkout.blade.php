@@ -192,7 +192,7 @@
                                             <span>
                                                 <input type="radio" id="env4" name="radio-envio"
                                                     value="localibizza">
-                                                <label for="env4">Enviar al local de Ibizza</label>
+                                                <label for="env4">Enviar al local D'PISAR</label>
                                             </span>
                                         </span>
                                         <div class="ec-check-bill-form">
@@ -570,11 +570,11 @@
 
             $('#env4').click(function() {
                 $('#identificacion_envio').val('')
-                $('#nombre_envio').val('Local Ibizza')
-                $('#direccion').val('Calle Chile y Luque')
+                $('#nombre_envio').val('Local D´PISAR')
+                $('#direccion').val('Calle 10 de Agosto y Pedro Carbo')
                 $('#provincia').val('9');
                 $('#ciudad').html('<option value="75" selected >GUAYAQUIL</option>');
-                $('#referencia').val('Frente a Deprati')
+                $('#referencia').val('Calle 10 de Agosto y Pedro Carbo')
                 $('#telefono_envio').val('0963725427')
             });
 

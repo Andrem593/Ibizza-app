@@ -43,7 +43,8 @@ class PedidoEstado extends Command
     {
         //Carbon::now()->subDays(3);
         $pedidos = Pedidos_pendiente::where('created_at','<', Carbon::now()->subDays(3))->get();        
-        if(count($pedidos) > 0){            
+        if(count($pedidos) > 0){    
+            $separados = [];        
             foreach ($pedidos as $pedido) {
                 try {                    
                     $producto = Producto::find($pedido->id_producto);
@@ -51,12 +52,20 @@ class PedidoEstado extends Command
                     Producto::find($pedido->id_producto)->update([
                         'stock'=>$nuevo_stock
                     ]);
-                    Pedidos_pendiente::where('id_separados',$pedido->id_separados)->delete();  
                     Separado::find($pedido->id_separados)->delete(); 
+
+                    array_push($separados, $pedido->id_separados);
                 } catch (\Throwable $th) {
-                    dd($th->getMessage(), $pedido->id_separados);
+                    $this->info('Error: ' . $th->getMessage());
                 }
             }
+            if(count($separados) > 0)
+            {
+                $separados = array_unique($separados);
+                Pedidos_pendiente::whereIn('id_separados', $separados)->delete();
+                // where('id_separados',$pedido->id_separados)->
+            }
+
             $this->info('Pedidos actualizados');
         }else{
             $this->info('Sin cambios');

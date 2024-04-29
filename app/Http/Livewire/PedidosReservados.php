@@ -99,6 +99,7 @@ class PedidosReservados extends Component
                     //'image' => $producto['imagen_path'],
                     'sku' =>  $products->sku, //Utilizamos el sku para los detalles del pedidos
                     'color'  => $producto['color'], 'talla' => $producto['talla'], 'descuento' => $producto['descuento'], 'pCatalogo' => $producto['precio_empresaria'],
+                    'marca' => $products->marca->nombre,
                     'dataEnvio' => $producto['direccion_envio']
                 ]
             )->associate('App\Models\Producto');

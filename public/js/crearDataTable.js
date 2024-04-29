@@ -1050,7 +1050,11 @@ function crearTablaEmpresarias(data, ruta) {
                 }
             },
         },
-        "columns": [{
+        "columns": [
+        {
+            "data": "id"
+        },
+        {
             "data": "cedula"
         },
         {
@@ -1067,6 +1071,16 @@ function crearTablaEmpresarias(data, ruta) {
         },
         {
             "data": "nombre_ciudad"
+        },
+        {
+            "data": "campaña_anterior",
+            "render": function (data, type, row) {
+                let color = 'bg-success'
+                if (data == 'CONTINUA') { color = 'bg-info' }
+                if (data == 'BAJA') { color = 'bg-danger' }
+                if (data == 'INACTIVA-1' || data == 'INACTIVA-2' || data == 'INACTIVA-3') { color = 'bg-warning text-dark' }
+                return '<span class="badge ' + color + ' w-100 p-2">' + data + '</span>';
+            }
         },
         {
             "data": "tipo_cliente",
@@ -1087,6 +1101,9 @@ function crearTablaEmpresarias(data, ruta) {
                 data = data.split(' ');
                 return data[0];
             }            
+        },
+        {
+            "data": "observacion"
         },
         {
             "data": "estado",
@@ -1118,7 +1135,7 @@ function crearTablaEmpresarias(data, ruta) {
             //{ "width": "1%", "targets": 0 }
         ],
         "order": [
-            [0, 'asc']
+            [0, 'desc']
         ],
         "language": espanol,
         //para usar los botones

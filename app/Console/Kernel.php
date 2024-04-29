@@ -25,8 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('estado:cron');
-        $schedule->command('pedido:cron');
+        $schedule->command('estado:cron')->dailyAt('00:20')->timezone('America/Guayaquil');
+        $schedule->command('pedido:cron')->dailyAt('00:10')->timezone('America/Guayaquil');
     }
 
     /**

@@ -6,17 +6,17 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-    <title>IBIZZA - @yield('title')</title>
+    <title>D'PISAR - @yield('title')</title>
     <meta name="keywords" content="ecomerce,zapatos,ibizza,zapatos mujer,zapatos hombre,dpisar" />
     <meta name="description"
-        content="Se parte de nuestras empresarias y genera ingresos extras vendiendo el fabuloso catalogo de Ibizza">
+        content="Se parte de nuestras empresarias y genera ingresos extras vendiendo el fabuloso catalogo de DPISAR">
     <meta name="author" content="AM DESINGS">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- site Favicon -->
-    <link rel="icon" href="{{ url('assets/images/favicon/Logo_ibizza_verde.svg') }}" sizes="32x32" />
-    <link rel="apple-touch-icon" href="{{ url('assets/images/favicon/Logo_ibizza.svg') }}" />
-    <meta name="msapplication-TileImage" content="{{ url('assets/images/favicon/Logo_ibizza.svg') }}" />
+    <link rel="icon" href="{{ url('assets/images/favicon/logo_dpisar.svg') }}" sizes="32x32" />
+    <link rel="apple-touch-icon" href="{{ url('assets/images/favicon/logo_dpisar.svg') }}" />
+    <meta name="msapplication-TileImage" content="{{ url('assets/images/favicon/logo_dpisar.svg') }}" />
 
     <!-- css Icon Font -->
     <link rel="stylesheet" href="{{ url('assets/css/vendor/ecicons.min.css') }}" />
@@ -34,7 +34,7 @@
 
     <!-- Main Style -->
     <link rel="stylesheet" href="{{ url('assets/css/demo1.css') }}" />
-    <link rel="stylesheet" href="{{ url('assets/css/skin-046.css') }}">
+    <link rel="stylesheet" href="{{ url('assets/css/skin-046.css') }}?id={{ rand().md5(10) }}">
     <link rel="stylesheet" href="{{ url('assets/css/responsive.css') }}" />
 
     <!-- Background css -->
@@ -123,7 +123,7 @@
                                     @endcan
                                     <form action="{{ route('logout') }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="dropdown-item">cerrar sesión</button>
+                                        <button type="submit" class="dropdown-item">Cerrar sesión</button>
                                     </form>
                                     <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar Pedido</a>
                                     </li>
@@ -176,9 +176,9 @@
                         <div class="align-self-center">
                             <div class="header-logo">
                                 <a href="{{ url('/') }}"><img loading='lazy' class="p-1"
-                                        src="{{ url('/assets/images/logo/Logo_ibizza.svg') }}" alt="Logo Ibizza" />
+                                        src="{{ url('/assets/images/logo/logo_dpisar2.svg') }}" alt="Logo Dpisar" />
                                     <img loading='lazy' class="dark-logo"
-                                        src="{{ url('assets/images/logo/dark-logo.png') }}" alt="Site Logo"
+                                        src="{{ url('assets/images/logo/dark-logo_dpisar2.png') }}" alt="Site Logo"
                                         style="display: none;" /></a>
                             </div>
                         </div>
@@ -242,7 +242,7 @@
                                         @endcan
                                         <form action="{{ route('logout') }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="dropdown-item">cerrar sesión</button>
+                                            <button type="submit" class="dropdown-item">Cerrar sesión</button>
                                         </form>
                                         <li><a class="dropdown-item" href="{{ route('web.checkout') }}">Liquidar Pedido</a>
                                         </li>
@@ -289,8 +289,8 @@
                     <div class="col">
                         <div class="header-logo">
                             <a href="{{ route('web') }}"><img loading='lazy'
-                                    src="{{ url('assets/images/logo/logo_ibizza.svg') }}" alt="Logo Ibizza" /><img
-                                    loading='lazy' class="dark-logo" src="{{ url('assets/images/logo/dark-logo.png') }}"
+                                    src="{{ url('assets/images/logo/logo_dpisar2.svg') }}" alt="Logo Dpisar" /><img
+                                    loading='lazy' class="dark-logo" src="{{ url('assets/images/logo/dark-logo_dpisar2.svg') }}"
                                     alt="Site Logo" style="display: none;" /></a>
                         </div>
                     </div>
@@ -304,7 +304,7 @@
         <!-- ekka Mobile Menu Start -->
         <div id="ec-mobile-menu" class="ec-side-cart ec-mobile-menu">
             <div class="ec-menu-title">
-                <span class="menu_title">Menu Ibizza</span>
+                <span class="menu_title">Menu DPISAR</span>
                 <button class="ec-close">×</button>
             </div>
             <div class="ec-menu-inner">
@@ -363,7 +363,7 @@
                                 {{-- <li class="list-inline-item"><a class="hdr-twitter" href="#"><i
                                             class="ecicon eci-twitter"></i></a></li> --}}
                                 <li class="list-inline-item"><a class="hdr-instagram" target="_blank"
-                                        href="https://www.instagram.com/catalogo.ibizza/"><i
+                                        href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn/"><i
                                             class="ecicon eci-instagram"></i></a></li>
                                 {{-- <li class="list-inline-item"><a class="hdr-linkedin" href="#"><i
                                             class="ecicon eci-linkedin"></i></a></li> --}}
@@ -404,18 +404,19 @@
                         <div class="col-sm-12 col-lg-3 ec-footer-contact">
                             <div class="ec-footer-widget">
                                 <div class="ec-footer-logo"><a href="#"><img loading='lazy'
-                                            src="{{ url('/assets/images/logo/Logo_ibizza.svg') }}" alt=""><img
+                                            src="{{ url('/assets/images/logo/logo_dpisar2.svg') }}" alt=""><img
                                             loading='lazy' class="dark-footer-logo"
-                                            src="assets/images/logo/dark-logo.png" alt="Site Logo"
+                                            src="assets/images/logo/dark-logo_dpisar2.svg" alt="Site Logo"
                                             style="display: none;" /></a></div>
                                 <h4 class="ec-footer-heading">Contactanos</h4>
                                 <div class="ec-footer-links">
                                     <ul class="align-items-center">
-                                        <li class="ec-footer-link">Guayas - Guayaqui || Chile 315 y Luque, Centro Guayaquil</li>
+                                        <li class="ec-footer-link">Guayas - Guayaquil ||</li>
+                                        <li class="ec-footer-link">D'Pisar, 10 de Agosto y Pedro Carbo, Centro-Guayaquil</li>
                                         <li class="ec-footer-link"><span>Contactanos:</span><a
                                                 href="tel:0963725427">0963725427</a></li>
                                         <li class="ec-footer-link"><span>Email:</span><a
-                                                href="mailto:servicioalcliente.ibizza@zapecsa.com">servicioalcliente.ibizza@zapecsa.com</a></li>
+                                                href="mailto:servicioalcliente.catalogodpisar@zapecsa.com">servicioalcliente.catalogodpisar@zapecsa.com</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -454,38 +455,36 @@
                                 <h4 class="ec-footer-heading">Servicios</h4>
                                 <div class="ec-footer-links">
                                     <ul class="align-items-center">
-                                        <li class="ec-footer-link"><a href="track-order.html">Devoluciones</a></li>
+                                        <li class="ec-footer-link"><a href="{{ route('web.politica-privacidad') }}">Devoluciones</a></li>
                                         <li class="ec-footer-link"><a
                                                 href="{{ route('web.politica-privacidad') }}">Política de
                                                 Privacidad</a>
                                         </li>
                                         <li class="ec-footer-link"><a
-                                                href="{{ route('web.terminos-condiciones') }}">Servicios</a>
+                                                href="{{ route('web.politica-privacidad') }}">Servicios</a>
                                         </li>
                                         <li class="ec-footer-link"><a
-                                                href="{{ route('web.terminos-condiciones') }}">Términos y
+                                                href="{{ route('web.politica-privacidad') }}">Términos y
                                                 Condiciones</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-lg-2 ec-footer-service">
+                        <div class="col-sm-12 col-lg-3 ec-footer-service">
                             <div class="ec-footer-widget">
-                                <h4 class="ec-footer-heading">Servicios</h4>
+                                <h4 class="ec-footer-heading">Contáctanos</h4>
                                 <div class="ec-footer-links">
                                     <ul class="align-items-center">
-                                        <li class="ec-footer-link"><a href="track-order.html">Devoluciones</a></li>
+                                        <li class="ec-footer-link"><a href="https://www.facebook.com/CatalogoIbizzaec?mibextid=ZbWKwL">Facebook</a></li>
                                         <li class="ec-footer-link"><a
-                                                href="{{ route('web.politica-privacidad') }}">Política de
-                                                Privacidad</a>
+                                                href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn">Instagram</a>
                                         </li>
                                         <li class="ec-footer-link"><a
-                                                href="{{ route('web.terminos-condiciones') }}">Servicios</a>
+                                                href="mailto:servicioalcliente.ibizza@zapecsa.com">E-mail</a>
                                         </li>
                                         <li class="ec-footer-link"><a
-                                                href="{{ route('web.terminos-condiciones') }}">Términos y
-                                                Condiciones</a>
+                                                href="tel:0963725427">Llamanos</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -503,10 +502,10 @@
                                 <span class="social-text text-upper">Follow us on:</span>
                                 <ul class="mb-0">
                                     <li class="list-inline-item"><a class="hdr-facebook" target="_blank"
-                                            href="https://www.facebook.com/catalogo.ibizza/"><i
+                                            href="https://www.facebook.com/CatalogoIbizzaec/"><i
                                                 class="ecicon eci-facebook"></i></a></li>
                                     <li class="list-inline-item"><a class="hdr-instagram" target="_blank"
-                                            href="https://www.instagram.com/catalogo.ibizza/"><i
+                                            href="https://www.instagram.com/catalogo.dpisar?igsh=cTF4Z3lxdXJyNDZn"><i
                                                 class="ecicon eci-instagram"></i></a></li>
                                 </ul>
                             </div>
@@ -516,7 +515,7 @@
                         <div class="col text-center footer-copy">
                             <div class="footer-bottom-copy ">
                                 <div class="ec-copy">Copyright © 2021-2022 <a class="site-name text-upper"
-                                        href="#">Ibizza<span>.</span></a>. Todos los derechos reservados</div>
+                                        href="#">D'PISAR venta por catálogo<span>.</span></a>. Todos los derechos reservados</div>
                             </div>
                         </div>
                         <!-- Footer Copyright End -->
@@ -618,45 +617,22 @@
             <!-- Panel Content -->
             <div class="ec-body">
                 <ul>
+                    
                     <!-- Start Single Contact List -->
                     <li>
-                        <a class="ec-list" data-number="593967402331"
+                        <a class="ec-list" data-number="593963725427"
                             data-message="¡Hola! Necesito ayuda en un pedido ">
                             <div class="d-flex bd-highlight">
                                 <!-- Profile Picture -->
                                 <div class="ec-img-cont">
-                                    <img loading='lazy' src="{{ url('assets/images/favicon/logo_ibizza_verde.svg') }}"
-                                        class="ec-user-img" alt="Profile image">
-                                    <span class="ec-status-icon ec-online"></span>
-                                </div>
-                                <!-- Display Name & Last Seen -->
-                                <div class="ec-user-info">
-                                    <span>Ibizza</span>
-                                    <p>Ibizza está en linea</p>
-                                </div>
-                                <!-- Chat iCon -->
-                                <div class="ec-chat-icon">
-                                    <i class="fa fa-whatsapp"></i>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <!--/ End Single Contact List -->
-                    <!-- Start Single Contact List -->
-                    <li>
-                        <a class="ec-list" data-number="593967402331"
-                            data-message="¡Hola! Necesito ayuda en un pedido ">
-                            <div class="d-flex bd-highlight">
-                                <!-- Profile Picture -->
-                                <div class="ec-img-cont">
-                                    <img loading='lazy' src="{{ url('assets/images/favicon/logo_ibizza_verde.svg') }}"
+                                    <img loading='lazy' src="{{ url('assets/images/favicon/logo_dpisar.svg') }}"
                                         class="ec-user-img" alt="Profile image">
                                     <span class="ec-status-icon ec-offline"></span>
                                 </div>
                                 <!-- Display Name & Last Seen -->
                                 <div class="ec-user-info">
                                     <span>D'pisar</span>
-                                    <p>activo hace 7 min</p>
+                                    <p>esta en linea</p>
                                 </div>
                                 <!-- Chat iCon -->
                                 <div class="ec-chat-icon">

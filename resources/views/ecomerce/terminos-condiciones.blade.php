@@ -32,14 +32,14 @@
                     <div class="section-title">
                         <h2 class="ec-bg-title">Términos Y Condiciones</h2>
                         <h2 class="ec-title">Términos Y Condiciones</h2>
-                        <p class="sub-title mb-3">Conoce los termino y condiciones de Ibizza</p>
+                        <p class="sub-title mb-3">Conoce los termino y condiciones de D'PISAR venta por catálogo</p>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="ec-common-wrapper">
                         <div class="col-sm-12 ec-cms-block">
                             <div class="ec-cms-block-inner">
-                                <h3 class="ec-cms-block-title">Bienvenido a la Pagina web de Ibizza.</h3>
+                                <h3 class="ec-cms-block-title">Bienvenido a la Pagina web de D'PISAR venta por catálogo.</h3>
                                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. <b>Lorem
                                         Ipsum is simply dutmmy text</b> ever since the 1500s, when an unknown printer
                                     took a galley of type and scrambled it to make a type specimen book. It has survived
@@ -49,7 +49,7 @@
                         </div>
                         <div class="col-sm-12 ec-cms-block">
                             <div class="ec-cms-block-inner">
-                                <h3 class="ec-cms-block-title">Sobre el ecomerce de Ibizza</h3>
+                                <h3 class="ec-cms-block-title">Sobre el ecomerce de D'PISAR venta por catálogo</h3>
                                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. <b>Lorem
                                         Ipsum is simply dutmmy text</b> ever since the 1500s, when an unknown printer
                                     took a galley of type and scrambled it to make a type specimen book. It has survived

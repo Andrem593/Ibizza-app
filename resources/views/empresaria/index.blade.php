@@ -65,7 +65,7 @@
                                         <th>TELEFONO</th>
                                         <th>CIUDAD</th>
                                         <th>CAMPAÑA ANTERIOR</th>
-                                        <th>TIPO EMPRESARIA</th>
+                                        <th>CAMPAÑA ACTUAL</th>
                                         <th>ASESOR</th>
                                         <th>FECHA REGISTRO</th>
                                         <th>OBSERVACION</th>

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
+use Illuminate\Validation\Rule;
 
 /**
  * Class EmpresariaController
@@ -25,6 +26,7 @@ class EmpresariaController extends Controller
     {
         // $this->middleware('can:empresarias.index');
     }
+
     public function index()
     {
         $empresarias = Empresaria::paginate();
@@ -81,6 +83,7 @@ class EmpresariaController extends Controller
             'vendedor' => Auth::user()->id,
             'id_user' => $user->id,
             'observacion' => trim($request->observacion), //Agregamos campo de observación para el formulario de empresaria, opcional
+            'tipo_usuario' => trim($request->tipo_usuario), //Agregamos tipo de usuario al formulario de empresaria
         ];
         Empresaria::create($empresariaData);
 
@@ -132,18 +135,25 @@ class EmpresariaController extends Controller
         if ($request->tipo_id == 'cedula') $request->validate(['cedula' => ['required', 'numeric', 'digits_between:10,10']]);
         if ($request->tipo_id == 'ruc') $request->validate(['cedula' => ['required', 'numeric', 'digits_between:10,13']]);
         if ($request->tipo_id == 'pasaporte') $request->validate(['cedula' => ['required', 'string', 'max:20', 'min:6']]);
-
-        request()->validate([
+        
+        $rules = [
+            // 'cedula' => [
+            //     'required',
+            //     Rule::unique('empresarias', 'cedula')->ignore($request->id, 'id'),
+            // ],
+            'cedula' => "required|unique:empresarias,cedula,$empresaria->id",
             'nombres' => 'required',
             'apellidos' => 'required',
             'id_ciudad' => 'required',
-        ]);
+        ];
+        $request->validate($rules);
 
         if(empty($request->tipo_cliente)){
             $request->tipo_cliente = $empresaria->tipo_cliente;
         }
 
         $empresariaData = [
+            'cedula' => $request->cedula,
             'tipo_id' => $request->tipo_id,
             'nombres' => trim(strtoupper($request->nombres)),
             'apellidos' => trim(strtoupper($request->apellidos)),
@@ -156,6 +166,7 @@ class EmpresariaController extends Controller
             'vendedor' => $request->vendedor != null ? $request->vendedor : Auth::user()->id,
             'estado' => $request->tipo_cliente != 'INACTIVO WEB' ? 'A' : 'I',
             'observacion' => trim($request->observacion), //Agregamos campo de observación para el formulario de empresaria, opcional
+            'tipo_usuario' => trim($request->tipo_usuario) //Agregamos tipo de usuario al formulario de empresaria
         ];
 
         $empresaria->update($empresariaData);

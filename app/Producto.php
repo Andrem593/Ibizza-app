@@ -33,6 +33,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property $numero_pedido
  * @property $proveedor_id
  * @property $clasificacion
+ * @property $clasificacion_global
+ * @property $tipo_producto
+ * @property $costo_rp3
  * @property $created_at
  * @property $updated_at
  *
@@ -44,6 +47,7 @@ class Producto extends Model
 {
 
     static $rules = [
+        'sku' => 'required',
         'precio_empresaria' => 'required',
     ];
 
@@ -57,7 +61,7 @@ class Producto extends Model
     protected $fillable = ['sku', 'imagen_path', 'nombre_producto', 'descripcion', 'marca_id', 'grupo', 'seccion', 
     'clasificacion', 'proveedor_id', 'estilo', 'color', 'talla', 'cantidad_inicial', 'stock', 'valor_venta', 'ultima_venta',
     'estado', 'nombre_mostrar', 'categoria', 'subcategoria', 'descuento', 'precio_empresaria',
-    'observaciones', 'catalogo_id'];
+    'observaciones', 'catalogo_id','clasificacion_global','tipo_producto','costo_rp3'];
 
     public function catalogo()
     {

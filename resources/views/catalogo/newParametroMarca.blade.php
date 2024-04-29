@@ -1,7 +1,7 @@
 <x-app-layout>
     @section('title', 'Catálogo')
     <x-slot name="header">
-        <h5 class="text-center">Reglas de Catálogo</h5>
+        <h5 class="text-center">Parametros por Marca</h5>
     </x-slot>
 
     @if ($message = Session::get('error'))
@@ -10,41 +10,35 @@
         </div>
     @endif
 
+    @section('plugins.Select2', true)
+
     <div class="card">
         <div class="card-header">
             <div style="display: flex; justify-content: space-between; align-items: center;">
 
                 <span id="card_title">
-                    {{ __('Nueva Regla') }}
+                    {{ __('Nuevo') }}
                 </span>
 
                 <div class="float-right">
-                    <a href="{{ route('catalogo.parametros') }}" class="btn btn-ibizza btn-sm float-right"
+                    <a href="{{ route('catalogo.parametros-marca') }}" class="btn btn-ibizza btn-sm float-right"
                         data-placement="left">
                         {{ __('Regresar') }}
                     </a>
                 </div>
             </div>
         </div>
-        <form method="POST" action="{{ route('catalogo.reglas.create') }}" role="form">
+        <form method="POST" action="{{ route('catalogo.parametros-marca-nuevo.store') }}" role="form">
             @csrf
             <div class="card-body">
                 <div class="row">
-                    <div class="col">
-                        <label class="form-label">Catalogos:</label>
-                        <select name="catalogo" class="form-select {{ $errors->has('catalogo') ? 'is-invalid' : '' }}">
-                            <option value="0">Seleccione</option>
-                            @foreach ($catalogos as $catalogo)
-                                <option value="{{ $catalogo->id }}">{{ $catalogo->nombre }}</option>
-                            @endforeach
-                        </select>
-                        @error('catalogo')
-                            <p class="mt-1 p-1 text-danger" role="alert">
-                                {{ $message }}
-                            </p>
-                        @enderror
+                    <div class="col-3">
+                        <label>Nombre</label>
+                        <input type="text" name="nombre"
+                            class="form-control {{ $errors->has('nombre') ? 'is-invalid' : '' }}"
+                            value="{{ old('nombre') }}">
                     </div>
-                    <div class="col">
+                    <div class="col-3">
                         <div class="form-group">
                             {{ Form::label('tipo_empresaria') }}
                             <select name="tipo_cliente"
@@ -89,15 +83,30 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-6">
+                        <label>Categorias</label>
+                        <x-adminlte-select2 id="sel2Category" class="form-control" name="marca[]" multiple>
+                            @foreach ($categorias as $categoria)
+                                <option value="{{$categoria->categoria}}">{{ $categoria->categoria }}</option>
+                            @endforeach
+                        </x-adminlte-select2>
+
+                        @error('marca')
+                            <p class="mt-1 p-1 text-danger" role="alert">
+                                {{ $message }}
+                            </p>
+                        @enderror
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
                         {{ Form::label('Condición') }}
                         <select name="condicion"
                             class="form-select  {{ $errors->has('condicion') ? 'is-invalid' : '' }}">
                             <option value="">Seleccione una opción</option>
                             <option value="factura">Total a pagar</option>
                             <option value="cantidad">Cantidad de productos</option>
-                            <option value="envio_costo">Costo de envio por valor</option>
-                            <option value="envio_cantidad">Costo de envio por cantidad</option>
                         </select>
                         @error('condicion')
                             <p class="mt-1 p-1 text-danger" role="alert">
@@ -105,9 +114,7 @@
                             </p>
                         @enderror
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col">
+                    <div class="col-3">
                         {{ Form::label('Operador') }}
                         <select name="operador" class="form-select {{ $errors->has('operador') ? 'is-invalid' : '' }}">
                             <option value="">Seleccione una opción</option>
@@ -125,36 +132,18 @@
                             </p>
                         @enderror
                     </div>
-                    <div class="col">
-                        {{ Form::label('Cantidad') }}
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">#</span>
-                            </div>
-                            <input type="number"
-                                class="form-control {{ $errors->has('cantidad') ? 'is-invalid' : '' }}"
-                                name="cantidad">
-                        </div>
-                        @error('cantidad')
-                            <p class="mt-1 p-1 text-danger" role="alert">
-                                {{ $message }}
-                            </p>
-                        @enderror
+                    <div class="col-3">
+                        <label>Cantidad</label>
+                        <input type="number" name="cantidad"
+                            class="form-control {{ $errors->has('cantidad') ? 'is-invalid' : '' }}"
+                            value="{{ old('cantidad') }}">
+                        
                     </div>
-                    <div class="col">
-                        {{ Form::label('Valor') }}
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">%</span>
-                            </div>
-                            <input type="number" class="form-control  {{ $errors->has('valor') ? 'is-invalid' : '' }}"
-                                name="valor">
-                        </div>
-                        @error('valor')
-                            <p class="mt-1 p-1 text-danger" role="alert">
-                                {{ $message }}
-                            </p>
-                        @enderror
+                    <div class="col-3">
+                        <label>% Descuento</label>
+                        <input type="number" name="descuento"
+                            class="form-control {{ $errors->has('descuento') ? 'is-invalid' : '' }}"
+                            value="{{ old('descuento') }}">
                     </div>
                 </div>
             </div>

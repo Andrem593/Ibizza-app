@@ -10,6 +10,7 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/generalStyle.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Styles -->
     @stack('css')
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
@@ -20,8 +21,8 @@
 @stop
 
 @section('js')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     @stack('modals')
-
     @livewireScripts
 
     @stack('scripts')

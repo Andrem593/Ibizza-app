@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
         integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>IBIZZA | Sitio Oficial </title>
+    <title>D'PISAR | VENTA POR CATÁLOGO</title>
 </head>
 
 <body>
@@ -21,7 +21,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
-                    <img src="/img/logo_ibizza(2).svg" alt="" width="120" height="35">
+                    <img src="/img/logo_dpisar.svg" alt="" width="120" height="35">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -206,7 +206,7 @@
 
                         <div class="col-4 offset-1">
                             <form>
-                                <img src="/img/logo_ibizza.png" alt="" width="240" height="75" class="mb-2">
+                                <img src="/img/logo_dpisar.svg" alt="" width="240" height="75" class="mb-2">
                                 <h5>Subscribe to our newsletter</h5>
                                 <p>Monthly digest of whats new and exciting from us.</p>
                                 <div class="d-flex w-100 gap-2">
@@ -219,7 +219,7 @@
                     </div>
 
                     <div class="d-flex justify-content-between py-4 my-4 border-top">
-                        <p class="w-50">© 2021 Ibizza, All rights reserved.</p>
+                        <p class="w-50">© 2021 D'PISAR venta por catálogo, All rights reserved.</p>
                         <ul class="list-unstyled d-flex justify-content-end w-50 me-4">
                             <li class="ms-3"><a class="link-dark" href="#"><i class="fab fa-twitter fs-3"></i></a></li>
                             <li class="ms-3"><a class="link-dark" href="#"><i class="fab fa-instagram fs-3"></i></a></li>

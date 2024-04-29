@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label for="name">Tipo de identificación</label>
+                    <label for="name">Tipo de identificación*</label>
                     <select class="form-select" name="tipo_id" id="tipo_id">
                         <option value="cedula" {{ strtolower($empresaria->tipo_id) == 'cedula' ? 'selected' : '' }}>Cédula</option>
                         <option value="pasaporte" {{ strtolower($empresaria->tipo_id) == 'pasaporte' ? 'selected' : '' }}>Pasaporte</option>
@@ -13,27 +13,36 @@
             </div>
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('Identificación') }}
+                    {{ Form::label('Identificación*') }}
                     {{ Form::text('cedula', old('cedula', $empresaria->cedula), ['class' => 'form-control' . ($errors->has('cedula') ? ' is-invalid' : ''), 'placeholder' => 'Identificación']) }}
                     {!! $errors->first('cedula', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('nombres') }}
+                    {{ Form::label('nombres*') }}
                     {{ Form::text('nombres', old('nombres', $empresaria->nombres), ['class' => 'form-control' . ($errors->has('nombres') ? ' is-invalid' : ''), 'placeholder' => 'Nombres']) }}
                     {!! $errors->first('nombres', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('apellidos') }}
+                    {{ Form::label('apellidos*') }}
                     {{ Form::text('apellidos', old('apellidos', $empresaria->apellidos), ['class' => 'form-control' . ($errors->has('apellidos') ? ' is-invalid' : ''), 'placeholder' => 'Apellidos']) }}
                     {!! $errors->first('apellidos', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>
         </div>
         <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="name">Tipo de usuario*</label>
+                    <select class="form-select" name="tipo_usuario" id="tipo_usuario">
+                        <option value="empresaria" {{ strtolower($empresaria->tipo_usuario) == 'empresaria' ? 'selected' : '' }}>Empresaria</option>
+                        <option value="consumidor_final" {{ strtolower($empresaria->tipo_usuario) == 'consumidor_final' ? 'selected' : '' }}>Consumidor final</option>
+                    </select>
+                </div>
+            </div>
             <div class="col">
                 <div class="form-group">
                     {{ Form::label('fecha_nacimiento') }}
@@ -46,7 +55,7 @@
             </div>
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('teléfono') }}
+                    {{ Form::label('teléfono*') }}
 
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -109,7 +118,7 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('Provincia') }}
+                    {{ Form::label('Provincia*') }}
                     <select id="provincia" class="form-select">
                         <option value="">Seleccione Provincia</option>
                         @foreach ($provincias as $provincia)
@@ -124,7 +133,7 @@
             </div>
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('Ciudad') }}
+                    {{ Form::label('Ciudad*') }}
                     <select id="ciudad" name="id_ciudad" class="form-select">
                         <option value="" selected>Seleccione ciudad</option>
                         @isset($ciudades)
@@ -161,14 +170,14 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('direccion') }}
+                    {{ Form::label('direccion*') }}
                     {{ Form::text('direccion', old('direccion', $empresaria->direccion), ['class' => 'form-control' . ($errors->has('direccion') ? ' is-invalid' : ''), 'placeholder' => 'Direccion']) }}
                     {!! $errors->first('direccion', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('referencia') }}
+                    {{ Form::label('referencia*') }}
                     {{ Form::text('referencia', old('referencia', $empresaria->referencia), ['class' => 'form-control' . ($errors->has('referencia') ? ' is-invalid' : ''), 'placeholder' => 'Referencia']) }}
                     {!! $errors->first('referencia', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
@@ -177,7 +186,7 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('email') }}
+                    {{ Form::label('email*') }}
                     <input id="email" type="email"
                         class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
                         placeholder="Email de empresaria"
@@ -209,7 +218,7 @@
         </div>        
     </div>
     <div class="box-footer mt20">
-        <button type="submit" class="btn btn-ibizza w-100">GUARDAR</button>
+        <button type="submit" class="btn bg-ibizza w-100">GUARDAR</button>
     </div>
     @push('js')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"
