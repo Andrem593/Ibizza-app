@@ -197,6 +197,26 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->delete('parametros/{id}', [CatalogoController::class,'reglasDelete'])
 ->name('catalogo.reglas.delete');
 
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/catalogo/ofertas', [CatalogoController::class,'ofertas'])
+->name('ofertas.index');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/ofertas/create', [CatalogoController::class,'ofertasCreate'])
+->name('ofertas.create');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/oferta/{id}/edit', [CatalogoController::class,'ofertasEdit'])
+->name('ofertas.edit');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/catalogo/ofertas/listar', [CatalogoController::class,'ofertasListar'])
+->name('ofertas.listar');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->delete('/catalogo/oferta/{id}', [CatalogoController::class,'ofertasDelete'])
+->name('ofertas.delete');
+
 // PREMIO
 
 Route::resource('premios', PremioController::class)
@@ -205,6 +225,10 @@ Route::resource('premios', PremioController::class)
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/premio/datatable', [PremioController::class,'premioDataTable'])
 ->name('premio.datatable');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/premio/delete-condicion', [PremioController::class, 'deleteCondicion'])
+->name('premio.delete-condicion');
 
 
 // PROVEEDOR
@@ -235,7 +259,7 @@ Route::middleware(['auth:sanctum', 'verified'])
 // USUARIO
 
 Route::middleware(['auth:sanctum', 'verified'])
-->get('/usuario/index/', [userController::class,'index'])
+->get(' ', [userController::class,'index'])
 ->name('usuario.index');
 
 

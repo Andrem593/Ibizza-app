@@ -61,7 +61,7 @@ return [
     |
     */
 
-    'home' => RouteServiceProvider::redirectAuntenticatedUser(),
+    'home' => '/dashboard',
 
     /*
     |--------------------------------------------------------------------------

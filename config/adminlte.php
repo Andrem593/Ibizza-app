@@ -371,6 +371,12 @@ return [
                     'route'  => 'premios.index',
                     'can'  => 'premios.index',
                     'icon'    => 'ml-md-2 fas fa-gifts',
+                ],
+                [
+                    'text' => 'Ofertas',
+                    'route'  => 'ofertas.index',
+                    'can'  => 'premios.index',
+                    'icon'    => 'ml-md-2 fas fa-tag',                
                 ]
             ],
         ],

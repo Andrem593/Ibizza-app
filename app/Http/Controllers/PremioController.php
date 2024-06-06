@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Catalogo;
+use App\Http\Livewire\Condicion;
+use App\Models\CondicionPremio;
 use App\Models\Premio_has_Producto;
 use App\Premio;
 use App\Producto;
@@ -49,9 +51,29 @@ class PremioController extends Controller
     {
         request()->validate(Premio::$rules);
 
-        $premio = Premio::create($request->all());
+        $premio = Premio::create([
+            'catalogo_id' => $request->catalogo_id,
+            'descripcion' => $request->descripcion
+        ]);
 
         $premio_id = $premio->id;
+
+        if (!empty($request->condicion)) {
+
+            $condicion = json_decode($request->condicion);
+
+            foreach ($condicion as $key => $value) {
+
+                CondicionPremio::insert([
+                    'premio_id' => $premio_id,
+                    'tipo_empresaria' => $value->tipo_empresaria,
+                    'nivel' => $value->nivel,
+                    'rango_desde' => $value->rango_desde,
+                    'rango_hasta' => $value->rango_hasta,
+                    'acumular' => $value->acumular,
+                ]);
+            }
+        }
 
         if (!empty($request->premio)) {
 
@@ -100,15 +122,16 @@ class PremioController extends Controller
     public function edit($id)
     {
         $premio = Premio::find($id);
+        $condicion = CondicionPremio::where('premio_id', $id)->get();
         $catalogo = Catalogo::all();
 
-        $productos = Producto::addSelect([
+        $productos = Producto::join('catalogo_has_productos', 'catalogo_has_productos.estilo', '=', 'productos.estilo')->addSelect([
             'en_premio' => Premio_has_Producto::select('estilo')
                 ->whereColumn('estilo', 'productos.estilo')
                 ->where('premio_id', $premio->id)
                 ->limit(1)
-        ])
-            ->groupBy('estilo')
+        ])->where('catalogo_has_productos.catalogo_id', $premio->catalogo_id)
+            ->groupBy('catalogo_has_productos.estilo')
             ->get();
 
         if (count($productos) == 0) {
@@ -117,7 +140,7 @@ class PremioController extends Controller
 
         //$response = json_encode($productos);
 
-        return view('premio.edit', compact('premio', 'catalogo', 'productos'));
+        return view('premio.edit', compact('premio', 'condicion', 'catalogo', 'productos'));
     }
 
     /**
@@ -130,9 +153,33 @@ class PremioController extends Controller
     public function update(Request $request, Premio $premio)
     {
         request()->validate(Premio::$rules);
-        $premio->update($request->all());
+        $premio->update([
+            'catalogo_id' => $request->catalogo_id,
+            'descripcion' => $request->descripcion
+        ]);
 
         $premio_id = $premio->id;
+
+        if (!empty($request->condicion)) {
+
+            $condicion = json_decode($request->condicion);
+
+            // dd($condicion);
+
+            foreach ($condicion as $key => $value) {
+
+                if(!isset($value->id)){
+                    CondicionPremio::insert([
+                        'premio_id' => $premio_id,
+                        'tipo_empresaria' => $value->tipo_empresaria,
+                        'nivel' => $value->nivel,
+                        'rango_desde' => $value->rango_desde,
+                        'rango_hasta' => $value->rango_hasta,
+                        'acumular' => $value->acumular,
+                    ]);
+                }
+            }
+        }
 
         if (!empty($request->premio)) {
 
@@ -183,10 +230,24 @@ class PremioController extends Controller
             ->with('success', 'Premio eliminado correctamente');
     }
 
-    public function premioDataTable()
+    public function deleteCondicion(Request $request)
+    {
+        // $premio = Premio::find($id)->delete();
+
+        CondicionPremio::where('id', $request->id)->delete();
+
+        $json_data = array(
+            'mensaje' => 'ok',
+            'estado' => true
+        );
+
+        return json_encode($json_data);
+    }
+
+    public function premioDataTable(Request $request)
     {
         $response = '';
-        if ($_POST['funcion'] == 'listar_todo') {
+        if ($request->funcion == 'listar_todo') {
 
             $premios = Premio::join('catalogos', 'premios.catalogo_id', '=', 'catalogos.id')
                 ->select('premios.id', 'premios.descripcion', 'catalogos.nombre')
@@ -196,10 +257,12 @@ class PremioController extends Controller
             }
             $response = json_encode($premios);
         }
-        if ($_POST['funcion'] == 'listar_premio_producto') {
+        if ($request->funcion == 'listar_premio_producto') {
 
-            $productos = Producto::groupBy('estilo')
+            $productos = Producto::join('catalogo_has_productos', 'catalogo_has_productos.estilo', '=', 'productos.estilo')->where('catalogo_has_productos.catalogo_id', $request->id_catalogo)->groupBy('catalogo_has_productos.estilo')->select('productos.*')
                 ->get();
+
+            // dd($productos);
 
             if (count($productos) == 0) {
                 $productos = 'no data';

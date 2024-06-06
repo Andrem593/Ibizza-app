@@ -51,6 +51,8 @@
                 <option value="TALLA">TALLA</option>
                 <option value="COLOR Y TALLA">COLOR Y TALLA</option>
                 <option value="AVERIA">AVERIA</option>
+                <option value="POR MODELO">POR MODELO</option>
+                <option value="POR MODELO COSTO ADICIONAL">POR MODELO COSTO ADICIONAL</option>
             </select>
         </div>
         <div class="col">
@@ -59,96 +61,98 @@
         </div>
     </div>
     <div class="row mb-2">
-        <label>Datos Faturación</label>
+        <div class="d-flex">
+            <label class="my-auto">Datos Faturación</label>
+            <button class="btn btn-primary rounded btn-sm ml-2" type="button" wire:click="nuevosDatosFac">
+                <i class="fas fa-plus"></i> Nuevos datos
+            </button>
+        </div>
         <div class="col">
             <label class="form-label"># Factura:</label>
-            <input type="text" class="form-control p-1" value="">
+            <input type="text" class="form-control p-1">
         </div>
         <div class="col">
             <label class="form-label">Nombre:</label>
-            <input type="text" class="form-control p-1" value="">
+            <input type="text" class="form-control p-1" wire:model="f_nombre">
         </div>
         <div class="col">
             <label class="form-label">Cédula:</label>
-            <input type="text" class="form-control p-1" value="">
+            <input type="text" class="form-control p-1" wire:model="f_cedula">
         </div>
         <div class="col">
             <label class="form-label">Teléfono:</label>
-            <input type="text" class="form-control p-1" value="">
+            <input type="text" class="form-control p-1" wire:model="f_telefono">
         </div>
         <div class="col">
             <label class="form-label">Correo:</label>
-            <input type="text" class="form-control p-1" value="">
+            <input type="text" class="form-control p-1" wire:model="f_correo">
         </div>
     </div>
     <div class="row mb-2">
-        <label>Datos Envio</label>
+        <div class="d-flex">
+            <label>Datos Envio</label>
+            <button class="btn btn-primary rounded btn-sm ml-2" type="button" wire:click="nuevosDatosEnv">
+                <i class="fas fa-plus"></i> Nuevos datos
+            </button>
+            <button class="btn btn-success rounded btn-sm ml-2" type="button" wire:click="nuevosDatosLoc">
+                <i class="fas fa-plus"></i> Envio Local
+            </button>
+        </div>
         <div class="col">
             <label class="form-label">Nombre:</label>
-            <input type="text" class="form-control p-1" value="">
+            <input type="text" class="form-control p-1" wire:model="e_nombre">
         </div>
         <div class="col">
             <label class="form-label">Cédula:</label>
-            <input type="text" class="form-control p-1" value="">
+            <input type="text" class="form-control p-1" wire:model="e_cedula">
         </div>
         <div class="col">
             <label class="form-label">Teléfono:</label>
-            <input type="text" class="form-control p-1" value="">
+            <input type="text" class="form-control p-1" wire:model="e_telefono">
         </div>
     </div>
     <div class="row mb-2">
         <div class="col">
             <label class="form-label">Provincia:</label>
-            <input type="text" class="form-control p-1" value="">
+            <input type="text" class="form-control p-1" wire:model="e_provincia">
         </div>
         <div class="col">
             <label class="form-label">Ciudad:</label>
-            <input type="text" class="form-control p-1" value="">
+            <input type="text" class="form-control p-1" wire:model="e_ciudad">
         </div>
         <div class="col">
             <label class="form-label">Dirección:</label>
-            <input type="text" class="form-control p-1" value="">
+            <input type="text" class="form-control p-1" wire:model="e_direccion">
         </div>
     </div>
     <div class="row mb-2">
         <div class="col">
             <label class="form-label">Observaciones:</label>
-            <textarea class="form-control" wire:model="observaciones" rows="3"></textarea>
+            <textarea class="form-control" wire:model="observaciones" rows="3">
+                {{ $observaciones }}
+            </textarea>
         </div>
         <div class="col">
             <label class="form-label">Se va con pedido:</label>
-            <input type="text" class="form-control p-1" value="">
+            <input type="text" class="form-control p-1" wire:model="e_pedido">
         </div>
         <div class="col">
             <label class="form-label">Costo Envio:</label>
-            <input type="number" class="form-control p-1" value="">
+            <input type="number" class="form-control p-1" wire:model="e_c_envio">
         </div>
     </div>
-    <hr />
+    <div class="text-center">
+        <h6>PRODUCTO VENDIDO</h6>
+    </div>
     <div class="row mb-2">
-        <div class="text-center">
-            <h6>PRODUCTO VENDIDO</h6>
-        </div>
-        <div class="col">
+        <div class="col-6">
             <label class="form-label"># de Venta:</label>
             <div class="input-group">
                 <input type="text" class="form-control p-1" placeholder="Ingrese el id de la venta"
-                    wire:model.debounce.500ms="idventa">
+                    wire:model="idventa">
                 <button class="btn btn-primary rounded" type="button" id="search" wire:click='buscarVenta'
                     style="z-index: 10"><i class="fas fa-search"></i></button>
             </div>
-        </div>
-        <div class="col">
-            <label class="form-label">Seleccione el producto:</label>
-            <select class="form-select" wire:model="productosACambiar">
-                @if (empty($pedidos))
-                    <option value="0">Seleccione un producto</option>
-                @else
-                    @foreach ($pedidos as $producto)
-                        <option value="{{ $producto }}">{{ $producto->producto->descripcion }}</option>
-                    @endforeach
-                @endif
-            </select>
         </div>
     </div>
     <div class="row">
@@ -156,6 +160,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>CHECK</th>
                         <th>SKU</th>
                         <th>DESCRIPCION</th>
                         <th>COLOR</th>
@@ -169,6 +174,7 @@
                 <tbody>
                     @foreach ($pedidos as $item)
                         <tr>
+                            <td><input type="checkbox" wire:model="selectedItems.{{ $item['id_producto'] }}" ></td>
                             <td>{{ $item['producto']['sku'] }}</td>
                             <td>{{ $item['producto']['descripcion'] }}</td>
                             <td>{{ $item['producto']['color'] }}</td>
@@ -184,7 +190,6 @@
             </table>
         @endif
     </div>
-    <hr />
     <div class="row">
         <div class="text-center">
             <h6>REFERENCIAS DEL PRODUCTO QUE SE LE TIENE QUE ENVIAR A LA EMPRESARIA</h6>
@@ -299,9 +304,9 @@
                                 <td>{{ $item['color'] }}</td>
                                 <td>{{ $item['talla'] }}</td>
                                 <td>{{ $item['cantidad'] }}</td>
-                                <td>{{ $item['descuento'] }}</td>
+                                <td></td>
                                 <td>{{ number_format($item['cantidad'] * $item['precio'], 2) }}</td>
-                                <td>{{ number_format($item['cantidad'] * ($item['precio'] - $item['precio'] * $item['descuento']), 2) }}
+                                <td>{{ number_format($item['cantidad'] * ($item['precio']), 2) }}
                                 </td>
                             </tr>
                         @endforeach

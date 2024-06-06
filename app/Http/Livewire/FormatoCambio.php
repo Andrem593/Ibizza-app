@@ -14,7 +14,8 @@ class FormatoCambio extends Component
     public $venta, $user, $empresarias, $tipoEmpresaria, $click2 = false, $marca, $id_empresaria, $emp;
     public $idventa, $pedidos, $productosACambiar, $nuevoProducto;
     public $f_nombre, $f_cedula, $f_telefono, $f_correo;
-    public $e_nombre, $e_cedula, $e_telefono, $e_provincia, $e_ciudad, $e_direccion, $e_pedido;    
+    public $e_nombre, $e_cedula, $e_telefono, $e_provincia, $e_ciudad, $e_direccion, $e_pedido, $e_c_envio;
+    public $selectedItems = [];
 
 
     public function render()
@@ -26,6 +27,7 @@ class FormatoCambio extends Component
                     ->orWhere('cedula', 'like', '%' . $this->cliente . '%');
             })
                 ->where('estado', 'A')
+                ->limit(20)
                 ->get();
         }
 
@@ -40,10 +42,51 @@ class FormatoCambio extends Component
     {
         $this->cliente = $emp['nombres'] . ' ' . $emp['apellidos'];
         $this->id_empresaria = $emp['id'];
-        $this->emp = Empresaria::with('pedidos')->find($this->id_empresaria);
+        $this->emp = Empresaria::with('pedidos', 'usuario', 'ciudad')->find($this->id_empresaria);
+        $this->f_cedula = $this->emp->cedula;
+        $this->f_nombre = $this->emp->nombres . ' ' . $this->emp->apellidos;
+        $this->f_telefono = $this->emp->telefono;
+        $this->f_correo = $this->emp->usuario->email;
+        $this->e_nombre = $this->emp->nombres . ' ' . $this->emp->apellidos;
+        $this->e_cedula = $this->emp->cedula;
+        $this->e_telefono = $this->emp->telefono;
+        if ($this->emp->ciudad) {
+            $this->e_provincia = $this->emp->ciudad->provincia->descripcion;
+            $this->e_ciudad = $this->emp->ciudad->descripcion;
+        }
+        $this->e_direccion = $this->emp->direccion;
         $this->empresarias = [];
         $this->click2 = true;
         $this->tipoEmpresaria = $tipo;
+    }
+
+    public function nuevosDatosFac()
+    {
+        $this->f_cedula = '';
+        $this->f_nombre = '';
+        $this->f_telefono = '';
+        $this->f_correo = '';
+    }
+
+    public function nuevosDatosEnv()
+    {
+        $this->e_nombre = '';
+        $this->e_cedula = '';
+        $this->e_telefono = '';
+        $this->e_provincia = '';
+        $this->e_ciudad = '';
+        $this->e_direccion = '';
+        $this->e_pedido = '';
+        $this->e_c_envio = '';
+    }
+
+    public function nuevosDatosLoc()
+    {
+        $this->e_nombre = 'Local Ibizza';
+        $this->e_provincia = 'Guayas';
+        $this->e_ciudad = 'Guayaquil';
+        $this->e_direccion = 'Calle chile y Luque';
+        $this->observaciones = 'Frente a De Prati';
     }
 
     public function clearEmpresaria()
@@ -62,7 +105,6 @@ class FormatoCambio extends Component
             $this->venta = Venta::where('id', $this->idventa)->where('id_empresaria', $this->id_empresaria)
                 ->with('pedidos')
                 ->first();
-
             $this->pedidos = $this->venta->pedidos;
         } catch (\Throwable $th) {
             $this->message = 'No se encontró la venta, verifique los datos';
@@ -70,15 +112,19 @@ class FormatoCambio extends Component
     }
     public function buscarEstilo()
     {
-
         try {
             $estilo = $this->estilo;
-            $colores = Producto::where('estilo', $estilo)->groupBy('color')->get();
+            $colores = Producto::where('estilo', $estilo)->groupBy('color')
+                ->where('estado', 'A')
+                ->where('stock', '>', 0)
+                ->get();
             $tallas = Producto::where('estilo', $estilo)
                 ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
                 ->select('productos.*', 'marcas.nombre AS nombre_marca')
                 ->where('color', $colores[0]->color)
                 ->where('productos.estado', 'A')
+                ->where('productos.stock', '>', 0)
+                ->distinct('talla')
                 ->get();
             $this->colores = $colores;
             $this->tallas = $tallas;
@@ -135,20 +181,18 @@ class FormatoCambio extends Component
                 ->where('estado', 'A')
                 ->with(['marca', 'catalogo'])
                 ->first();
-            $this->productosACambiar = json_decode($this->productosACambiar);
 
             if ($producto->stock >= $this->cantidad) {
                 $this->nuevoProducto[] = [
                     'id' => $producto->id,
-                    'sku'=> $producto->sku,
-                    'descripcion'=> $producto->descripcion,
+                    'sku' => $producto->sku,
+                    'descripcion' => $producto->descripcion,
                     'estilo' => $producto->estilo,
                     'color' => $producto->color,
                     'talla' => $producto->talla,
                     'marca' => $producto->marca->nombre,
                     'cantidad' => $this->cantidad,
-                    'precio'=> $producto->precio_empresaria,
-                    'descuento'=> $this->productosACambiar->descuento,
+                    'precio' => $producto->precio_empresaria,
                 ];
             } else {
                 $this->message = 'NO HAY STOCK DISPONIBLE';

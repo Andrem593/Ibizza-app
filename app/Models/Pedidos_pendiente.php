@@ -10,7 +10,12 @@ class Pedidos_pendiente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id_separados','id_producto','cantidad','precio', 'descuento', 'precio_empresaria','total','direccion_envio','estado','usuario'];    
+    protected $fillable = [
+        'id_separados', 'id_producto', 'cantidad', 'precio', 'descuento', 'precio_empresaria', 'total', 'direccion_envio', 'estado', 'usuario',
+        'promo',
+        'tipo',
+        'premio',
+    ];
 
 
     public function producto()

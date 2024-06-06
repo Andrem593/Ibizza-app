@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\User;
 use App\Models\Venta;
+use App\Models\Ciudad;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Validation\Rule;
@@ -30,7 +31,7 @@ use Illuminate\Contracts\Validation\Rule;
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Empresaria extends Model
-{   
+{
 
     protected $perPage = 20;
 
@@ -39,7 +40,28 @@ class Empresaria extends Model
      *
      * @var array
      */
-    protected $fillable = ['tipo_id','cedula','nombres','apellidos','fecha_nacimiento','direccion','referencia','direccion_envio','referencia_envio','tipo_cliente','email','password','estado','telefono','id_ciudad','vendedor','id_user','observacion', 'campaña_anterior', 'tipo_usuario'];
+    protected $fillable = [
+        'tipo_id',
+        'cedula',
+        'nombres',
+        'apellidos',
+        'fecha_nacimiento',
+        'direccion',
+        'referencia',
+        'direccion_envio',
+        'referencia_envio',
+        'tipo_cliente',
+        'email',
+        'password',
+        'estado',
+        'telefono',
+        'id_ciudad',
+        'vendedor',
+        'id_user',
+        'observacion',
+        'campana_anterior',
+        'tipo_usuario'
+    ];
 
 
     protected $appends  = ['nombre_completo'];
@@ -47,6 +69,11 @@ class Empresaria extends Model
     public function pedidos()
     {
         return $this->hasMany(Venta::class, 'id_empresaria', 'id');
+    }
+
+    public function ciudad()
+    {
+        return $this->belongsTo(Ciudad::class, 'id_ciudad');
     }
 
     public function usuario()
@@ -64,19 +91,18 @@ class Empresaria extends Model
             'fecha_nacimiento' => [
                 'required',
                 'date',
-                'before_or_equal:' . $minAgeDate,                
+                'before_or_equal:' . $minAgeDate,
             ],
             'apellidos' => 'required',
             'id_ciudad' => 'required',
             //'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'email' => ['required','email', 'string', 'max:255'],
+            'email' => ['required', 'email', 'string', 'max:255'],
             //'password' => ['required', 'string', 'min:8']
         ];
     }
-    
+
     public function getNombreCompletoAttribute()
     {
         return $this->nombres . ' ' . $this->apellidos;
     }
-
 }

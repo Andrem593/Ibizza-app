@@ -6,12 +6,14 @@ use App\Catalogo;
 use App\Producto;
 use Carbon\Carbon;
 use App\Models\Marca;
+use App\Models\Oferta;
 use Illuminate\Http\Request;
 use App\Models\ParametroMarca;
 use App\Models\ParametroCatalogo;
 use Illuminate\Support\Facades\DB;
 use App\Models\Catalogo_has_Producto;
 use Intervention\Image\Facades\Image;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class CatalogoController
@@ -301,8 +303,7 @@ class CatalogoController extends Controller
         $response = '';
         if ($_POST['funcion'] == 'listar_todo') {
 
-            $parametros = ParametroMarca::all();
-
+            $parametros = ParametroMarca::orderBy('id', 'desc')->get();
             foreach ($parametros as $key => $value) {
                 $value->marcas = json_decode($value->marcas);
             }
@@ -310,7 +311,7 @@ class CatalogoController extends Controller
             foreach ($parametros as $key => $value) {
                 $value->marcas = DB::table('productos')->select('categoria')->distinct()
                 ->whereIn('categoria', $value)->get()
-                ->pluck('categoria');
+                ->pluck('categoria');                
             }
             if (count($parametros) == 0) {
                 $parametros = 'no data';
@@ -449,5 +450,50 @@ class CatalogoController extends Controller
         ]);
 
         return redirect()->route('catalogo.parametros')->with('success', 'Regla eliminada correctamente');
+    }
+
+    public function ofertas()
+    {
+        return view('catalogo.ofertas');
+    }
+
+    public function ofertasCreate()
+    {
+        $catalogos = Catalogo::all();
+
+        return view('catalogo.newOferta', compact('catalogos'));
+    }
+
+    public function ofertasEdit($id)
+    {
+        $oferta = Oferta::find($id);
+        $catalogos = Catalogo::all();
+
+        return view('catalogo.editOferta', compact('oferta', 'catalogos'));
+    }
+
+    public function ofertasListar()
+    {
+        $response = '';
+        if ($_POST['funcion'] == 'listar_todo') {
+
+            $ofertas = Oferta::where('estado', 1)->get();
+
+            if (count($ofertas) == 0) {
+                $ofertas = 'no data';
+            }
+            $response = json_encode($ofertas);
+        }
+
+        return $response;
+    }
+
+    public function ofertasDelete($id)
+    {
+        Oferta::find($id)->update([
+            'estado' => 0
+        ]);
+
+        return redirect()->route('ofertas.index')->with('success', 'Oferta eliminada correctamente');
     }
 }

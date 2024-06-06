@@ -834,6 +834,226 @@ function crearTablaReservas(data, ruta) {
     }
 }
 
+function crearTablaReservas(data, ruta) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar_regla" style="width:30px"> <i class="fas fa-trash"></i></button>';
+    let dataTable = $('#datatable').DataTable({
+        destroy: true,
+        "processing": true,
+        "ajax": {
+            "url": ruta,
+            "method": "POST",
+            "data": data,
+            "dataSrc": function (json) {
+                if (json == 'no data') {
+                    return [];
+                } else {
+                    return json;
+                }
+            },
+        },
+        "columns": [
+        {
+            "data": "id"
+        },
+        {
+            "data": "nombre_cliente"
+        },
+        {
+            "data": "empresaria.tipo_cliente"
+        },
+        {
+            "data": "cantidad_total"
+        },
+        {
+            "data": "total_venta"
+        },
+        {
+            "data": "usuario.name"
+        },
+        {
+            "data": "created_at",
+            "render": function (data, type, row) {
+                return moment(data).format('DD/MM/YYYY');
+            }
+        },
+        {
+            "data": "created_at",
+            "render": function (data, type, row) {
+                var fecha = moment(data).add(3, 'days');
+                return fecha.format('DD/MM/YYYY');
+            }
+        }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "Todo"]
+        ],
+        "columnDefs": [{
+            "targets": [6],
+            "orderable": false,
+            "searchable": false
+        },
+        ],
+        "order": [
+            [1, 'asc']
+        ],
+        "language": espanol,
+        //para usar los botones
+        responsive: false,
+        autoWidth: false,
+        dom: 'Bfrtilp',
+        buttons: [{
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
+        ]
+    });
+    if (dataTable.length == 0) {
+        dataTable.clear();
+        dataTable.draw();
+    }
+}
+
+function crearTablaOferta(data, ruta) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+    let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
+    let dataTable = $('#datatable').DataTable({
+
+        destroy: true,
+        "processing": true,
+        "ajax": {
+            "url": ruta,
+            "method": "POST",
+            "data": data,
+            "dataSrc": function (json) {
+                if (json == 'no data') {
+                    return [];
+                } else {
+                    return json;
+                }
+            },
+        },
+        "columns": [{
+            "data": "id"
+        },
+        {
+            "data": "catalogo.nombre"
+        },
+        {
+            "data": "oferta"
+        },
+        {
+            "data": "tipo_oferta",
+            "render": function (data, type, row) {
+                if (data == '1') {
+                    return '<span class="badge bg-success">Cantidad Productos</span>';
+                }else if(data == '2'){
+                    return '<span class="badge bg-info">Por Marca</span>';
+                }
+                return '<span class="badge bg-warning">Por Categoria</span>';
+            }
+        },
+        {
+            "data": "tipo_premio",
+            "render": function (data, type, row) {
+                if (data == '1') {
+                    return '<span class="badge bg-success">Precio Especial</span>';
+                }
+                return '<span class="badge bg-info">Regalo Producto</span>';
+            }
+        },
+        {
+            "data": 'id',
+            "render": function (data, type, row) {
+                return '<a href="/oferta/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
+            }
+        }
+
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "Todo"]
+        ],
+        "columnDefs": [{
+            "targets": [2],
+            "orderable": false,
+            "searchable": false
+        },
+            //{ "width": "1%", "targets": 0 }
+        ],
+        "order": [
+            [0, 'asc']
+        ],
+        "language": espanol,
+        //para usar los botones
+        responsive: false,
+        autoWidth: false,
+        dom: 'Bfrtilp',
+        buttons: [{
+            extend: 'excelHtml5',
+            text: '<i class="fas fa-file-excel"></i> ',
+            titleAttr: 'Exportar a Excel',
+            className: 'btn btn-success',
+        },
+        {
+            extend: 'pdfHtml5',
+            text: '<i class="fas fa-file-pdf"></i> ',
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger',
+            pageSize: 'TABLOID',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> ',
+            titleAttr: 'Imprimir',
+            className: 'btn btn-info',
+            exportOptions: {
+                stripHtml: false
+            }
+        },
+        ]
+    });
+    if (dataTable.length == 0) {
+        dataTable.clear();
+        dataTable.draw();
+    }
+    $('#datatable tbody').on('click', '.eliminar', function () {
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#elemento_eliminar').html(data.oferta);
+        $('#id_eliminar').val(data.id)
+        $('#form_eliminar').attr('action', "oferta/" + data.id);
+    })
+}
+
 function crearTablaPremio(data, ruta) {
     $.ajaxSetup({
         headers: {
@@ -1073,7 +1293,7 @@ function crearTablaEmpresarias(data, ruta) {
             "data": "nombre_ciudad"
         },
         {
-            "data": "campaña_anterior",
+            "data": "campana_anterior",
             "render": function (data, type, row) {
                 let color = 'bg-success'
                 if (data == 'CONTINUA') { color = 'bg-info' }

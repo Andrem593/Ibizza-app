@@ -61,9 +61,9 @@ class webController extends Controller
         $flagPremioPedido = 0;
         $contPremio = 0;
         $contRegla = 0;
-        foreach ($catalogos as $catalogo) {
-            $condiciones[] = Premio::where('catalogo_id', $catalogo->id)->get();
-        }
+        // foreach ($catalogos as $catalogo) {
+        //     $condiciones[] = Premio::where('catalogo_id', $catalogo->id)->get();
+        // }
 
         if (!empty(Auth::user())) {
             if (!empty($empresariaId)) {
@@ -198,6 +198,7 @@ class webController extends Controller
                 }
             }
         }
+        $catalogo = Catalogo::select('id')->where('estado', 'PUBLICADO')->first();
         $productos_pedidos = Cart::content();
         $id_pedidos = '';
         $empresaria = Empresaria::where('cedula', $request->cedulaEmpresaria)->first();
@@ -210,6 +211,7 @@ class webController extends Controller
         $envio = str_replace('$', '', $request->envio);
         $venta = Venta::create([
             'id_vendedor' => $empresaria->vendedor,
+            'id_catalogo' => $catalogo->id, //leidy 
             'id_empresaria' => $empresaria->id,
             'factura_identificacion' => $request->cedula,
             'factura_nombres' => ($request->nombres . ' ' . $request->apellidos),
@@ -263,7 +265,6 @@ class webController extends Controller
             if (!empty($venta)) {
                 $response['id_venta'] = $venta->id;
             }
-
             if ($empresaria->tipo_cliente == 'NUEVA') {
                 // $catActual = Catalogo::where('estado', 'PUBLICADO')->get();
                 // $catIds = Catalogo::where('estado', 'PUBLICADO')->pluck('id')->toArray();    
@@ -285,20 +286,44 @@ class webController extends Controller
                 // ->whereHas('pedido', function ($query) use ($catIds) {
                 //     $query->whereIn('id_catalogo', $catIds);
                 // })->get();
-    
-                // Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'CONTINUA']);
+                
+                Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'CONTINUA']);
+                
             }
             if ($empresaria->tipo_cliente == 'PROSPECTO') {
-                Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'NUEVA']);
+                $emp = Empresaria::with('pedidos')->find($empresaria->id);
+                $cant = $emp->pedidos->where('id_catalogo', $catalogo->id)->count();
+                if ($cant <= 1) {
+                    $emp->update(['tipo_cliente' => 'NUEVA']);
+                }
             }
             if ($empresaria->tipo_cliente == 'INACTIVA-1' || $empresaria->tipo_cliente == 'INACTIVA-2' || $empresaria->tipo_cliente == 'INACTIVA-3' || $empresaria->tipo_cliente == 'POSIBLE BAJA') {
-                Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'REACTIVA']);
+                $emp = Empresaria::with('pedidos')->find($empresaria->id);
+                $cant = $emp->pedidos->where('id_catalogo', $catalogo->id)->count();
+                if ($cant <= 1) {
+                    $emp->update(['tipo_cliente' => 'REACTIVA']);
+                }
             }
             if ($empresaria->tipo_cliente == 'REACTIVA') {
-                // Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'CONTINUA']);
+                $emp = Empresaria::with('pedidos')->find($empresaria->id);
+                $cant = $emp->pedidos->where('id_catalogo', $catalogo->id)->count();
+                if ($cant <= 1) {
+                    $emp->update(['tipo_cliente' => 'CONTINUA']);
+                }
             }
             if ($empresaria->tipo_cliente == 'BAJA') {
-                Empresaria::find($empresaria->id)->update(['tipo_cliente' => 'RE-INGRESO']);
+                $emp = Empresaria::with('pedidos')->find($empresaria->id);
+                $cant = $emp->pedidos->where('id_catalogo', $catalogo->id)->count();
+                if ($cant <= 1) {
+                    $emp->update(['tipo_cliente' => 'RE-INGRESO']);
+                }
+            }
+            if ($empresaria->tipo_cliente == 'RE-INGRESO') {
+                $emp = Empresaria::with('pedidos')->find($empresaria->id);
+                $cant = $emp->pedidos->where('id_catalogo', $catalogo->id)->count();
+                if ($cant <= 1) {
+                    $emp->update(['tipo_cliente' => 'CONTINUA']);
+                }
             }
             if (empty($request->observaciones)) {
                 $request->observaciones = 'SIN OBSERVACIONES';

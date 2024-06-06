@@ -66,7 +66,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/admin.php'));
 
             if ($user) {
-                dd($user);
                 if($user->role == 'Administrador'){
                     return $redirector->intended(route('dashboard'));
                 }
