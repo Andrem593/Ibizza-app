@@ -187,13 +187,14 @@ class TomarPedido extends Component
                             'descuento' => $descuento, 'pCatalogo' => $producto->precio_empresaria
                         ]
                     )->associate('App\Models\Producto');
-                    //separar stock 
+                    //separar stock
                     $producto->update(['stock' => $producto->stock - $this->cantidad]);
                     $this->reset(['colores', 'tallas', 'imagen', 'color', 'talla', 'cantidad']);
                 } catch (\Throwable $th) {
                     dd($th->getMessage());
                 }
                 $this->verificarOfertas($descuento);
+                $this->checkShippingCost();
             } else {
                 LogStockFaltante::create([
                     'nombre_mostrar' => $producto->descripcion,
@@ -209,6 +210,81 @@ class TomarPedido extends Component
             $this->message = 'VERIFIQUE QUE ESTEN TODOS LOS CAMPOS LLENOS';
         }
     }
+
+    public function checkShippingCost()
+    {
+        $cartItems = Cart::content();
+        $groupedProducts = [] ;
+        foreach ($cartItems as $key => $item) {
+            $address = 'NINGUNA' ;
+            if( $item->options->has('dataEnvio') && $item->options->dataEnvio != ''){
+                $shippingInformation = json_decode($item->options->dataEnvio);
+                $address = trim(strtolower($shippingInformation->direccion));
+            }
+            if (!isset($groupedProducts[$address])) {
+                $groupedProducts[$address] = [
+                    'precio' => 0,
+                    'cantidad' => 0,
+                    'productos' => [],
+                ];
+            }
+            $groupedProducts[$address]['precio'] += $item->price * $item->qty;
+            $groupedProducts[$address]['cantidad'] += $item->qty;
+            $groupedProducts[$address]['productos'][] = $item;
+        }
+
+        //calculo de envio
+
+        $groupingByCondition = [] ;
+
+        foreach ($groupedProducts as $nameGroup => $group) {
+            $groupingByCondition[$nameGroup] = [];
+            foreach ($group['productos'] as $key => $product) {
+                $productModel = Producto::where('id', $product->id)->with(['marca', 'catalogo'])->first();
+                $parameterCatalog = ParametroCatalogo::where('catalogo_id', $productModel->catalogo_id)
+                    ->where('estado', 1)
+                    ->where('condicion', 'envio_costo')
+                    ->orWhere('condicion', 'envio_cantidad')
+                    ->orderBy('condicion')
+                    ->get();
+
+                foreach ($parameterCatalog as $key => $parameter) {
+
+                        $totalPrice = $product->price * $product->qty ;
+                        $condition = $parameter->operador . $parameter->cantidad ;
+
+                        if (!isset($groupingByCondition[$nameGroup][$parameter->id])) {
+                            $groupingByCondition[$nameGroup][$parameter->id] = [
+                                'total_precio' => 0,
+                                'tipo_empresaria' => $parameter->tipo_empresaria,
+                                'condicion' => $parameter->condicion,
+                                'eval' => $condition,
+                                'valor_condicion' => $parameter->valor ,
+                                'products' => [],
+                            ];
+                        }
+                        $groupingByCondition[$nameGroup][$parameter->id]['total_precio'] += $totalPrice ;
+                }
+
+                $groupingByCondition[$nameGroup][$parameter->id]['products'][] = $product ;
+            }
+        }
+
+        $shippingCost = 0 ;
+        foreach ($groupingByCondition as $nameGroup => $parameter) {
+            foreach ($parameter as $parameterId => $parameterDetail) {
+                if($parameterDetail['tipo_empresaria'] == 'TODOS' && $parameterDetail['condicion'] == 'envio_costo' ){
+                    $eval = $parameterDetail['total_precio'] . $parameterDetail['eval'] ;
+                    $value = eval("return $eval;") ? $parameterDetail['valor_condicion'] : 0 ;
+                    $shippingCost += $value ;
+                }
+            }
+        }
+        $this->envio = $shippingCost  ;
+    }
+
+
+
     public function eliminarItem($id)
     {
         $item = Cart::get($id);
@@ -224,6 +300,8 @@ class TomarPedido extends Component
         $datos = $this->validacionReglas($producto, $descuento, $precio, $parametros, Cart::count() - $item->qty, $this->envio, 'resta', $item->qty);
         $descuento = $datos['descuento'];
         Cart::remove($id);
+
+        $this->checkShippingCost();
         // if ($descuento == 0) {
         //     $carItems = Cart::content();
         //     foreach ($carItems as $key => $item) {
@@ -340,7 +418,7 @@ class TomarPedido extends Component
                 //             'descuento' => $descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => $item->options->dataEnvio != '' ?$item->options->dataEnvio : '', 'premio' => $item->options->premio
                 //         ]]);
                 //     }
-                //     if ($item->options->premio && $item->options->tipo == 'MARCATODAS' || $item->options->premio && $item->options->tipo == NULL) {                        
+                //     if ($item->options->premio && $item->options->tipo == 'MARCATODAS' || $item->options->premio && $item->options->tipo == NULL) {
                 //         $producto = Producto::where('id', $item->id)->first();
                 //         $producto->update(['stock' => $producto->stock - $item->qty]);
                 //         Cart::remove($item->rowId);
@@ -349,6 +427,8 @@ class TomarPedido extends Component
                 // $this->verificarOfertas($descuento);
                 $this->emit('cartUpdated');
             }
+
+            $this->checkShippingCost();
         } else {
             $this->message = 'NO HAY STOCK DISPONIBLE PARA ' . $producto->descripcion;
         }
@@ -364,7 +444,6 @@ class TomarPedido extends Component
                 ->where('estado', 1)
                 ->orderBy('condicion')
                 ->get();
-
             $descuento = 0;
             $precio = $producto->precio_empresaria;
             $data = $this->validacionReglas($producto, $descuento, $precio, $parametros, $item1->qty - 1, $this->envio, 'resta', 1, 1, $item1->options->descuento, $item1->qty);
@@ -385,77 +464,13 @@ class TomarPedido extends Component
             // $this->verificarOfertas($descuento);
             $this->emit('cartUpdated');
         }
+        $this->checkShippingCost();
     }
 
     public function validacionReglas($prod, $descuento, $precio, $parametros, $cantidad, $envio, $tipo = null, $cantidadResta = 1, $cantidadSuma = 1, $descuentoDecrease = 0, $itemCantidad = 0)
     {
 
-        if (!empty($parametros)) {
-            foreach ($parametros as $key => $regla) {
-                if ($regla->tipo_empresaria == $this->tipoEmpresaria) {
-                    if ($regla->condicion == 'cantidad') {
-                        $desc = $cantidad . $regla->operador . $regla->cantidad;
-                        $desc = eval("return $desc;") ?$regla->valor : 0;
-                        if ($desc != 0) $descuento = $desc;
-                    }
-                    if ($regla->condicion == 'valor') {
-                        $desc = $cantidad . $regla->operador . $regla->cantidad;
-                        $desc = eval("return $desc;") ?$regla->valor : 0;
-                        if ($desc > $descuento) $descuento = $desc;
-                    }
-                    if ($regla->condicion == 'envio_cantidad') {
-                        $env = Cart::count() + $cantidad . $regla->operador . $regla->cantidad;
-                        $env = eval("return $env;") ?$regla->valor : 0;
-                        $this->envio = $env;
-                    }
-                } elseif ($regla->tipo_empresaria == 'TODOS') {
-                    if ($regla->condicion == 'cantidad') {
-                        $desc = $cantidad . $regla->operador . $regla->cantidad;
-                        $desc = eval("return $desc;") ?$regla->valor : 0;
-                        if ($desc > $descuento) $descuento = $desc;
-                    }
-                    if ($regla->condicion == 'valor') {
-                        $desc = $cantidad . $regla->operador . $regla->cantidad;
-                        $desc = eval("return $desc;") ?$regla->valor : 0;
-                        if ($desc > $descuento) $descuento = $desc;
-                    }
-                    if ($regla->condicion == 'envio_cantidad') {
-                        $env = Cart::count() + $cantidad . $regla->operador . $regla->cantidad;
-                        $env = eval("return $env;") ?$regla->valor : 0;
-                        $this->envio = $env;
-                    }
-                    if ($regla->condicion == 'envio_costo') {
-                        $desc = $precio * ($descuento / 100);
-                        if ($descuentoDecrease > 0 && $itemCantidad > 0) {
-                            $desc = $precio * $descuentoDecrease;
-                            $cant = $itemCantidad;
-                        }
-                        if ($tipo == 'resta') {
-                            if ($descuentoDecrease > 0 && $itemCantidad > 0) {
-                                $carro = floatval(str_replace(',', '', Cart::subtotal())) - ($cant * ($precio - $desc));
-                                $subtotal = $carro + ((($cant - 1) * ($precio - $desc)));
-                            } else {
-                                $subtotal = floatval(str_replace(',', '', Cart::subtotal())) - ($cantidadResta * ($precio - $desc));
-                            }
-                        } else {
-                            $subtotal = 0;
-                            $subtotal = Cart::content()->map(function ($item) use ($desc) {
-                                $desc = $item->options->pCatalogo * $item->options->descuento;
-                                return ($item->options->pCatalogo - $desc) * $item->qty;
-                            })->sum();
-                            $subtotal = $subtotal + ($cantidadSuma * ($precio - $desc));
-                        };
-                        //Solo aplicar condición del catalogo cuando subtotal sea mayor que 0
-                        if ($subtotal > 0) :
-                            $env = $subtotal  . $regla->operador . $regla->cantidad;
-                            $env = eval("return $env;") ?$regla->valor : 0;
-                            $this->envio = $env;
-                        endif;
-                    }
-                }
-            }
-            $descuento = (float)$descuento / 100;
-        }
+        //NO Borrar
         $parametrosMarca = ParametroMarca::where('estado', 1)->get();
         if (!empty($parametrosMarca)) {
             foreach ($parametrosMarca as $key => $regla) {
@@ -518,7 +533,7 @@ class TomarPedido extends Component
             'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
             'descuento' => $item->options->descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => json_encode($data)
         ]]);
-        $this->reglaDireccionEnvio($data, $item);
+        $this->checkShippingCost();
     }
 
     public function reglaDireccionEnvio($data, $item)
@@ -553,7 +568,7 @@ class TomarPedido extends Component
                 $productosAgrupados[$dir]['productos'][] = $item2;
             }
         }
-        //calculo de envio        
+        //calculo de envio
         foreach ($productosAgrupados as $key => $item3) {
             if (!empty($parametros)) {
                 foreach ($parametros as $key => $regla) {
