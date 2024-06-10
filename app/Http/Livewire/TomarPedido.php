@@ -172,10 +172,10 @@ class TomarPedido extends Component
                 $precio = $producto->precio_empresaria;
                 $descuento = 0;
 
-                $data = $this->validacionReglas($producto, $descuento, $precio, $parametros, $this->cantidad + Cart::count(), $this->envio, 'suma', 1, $this->cantidad);
+                // $data = $this->validacionReglas($producto, $descuento, $precio, $parametros, $this->cantidad + Cart::count(), $this->envio, 'suma', 1, $this->cantidad);
 
-                $descuento = $data['descuento'];
-                $precio = $data['precio'];
+                // $descuento = $data['descuento'];
+                // $precio = $data['precio'];
                 try {
                     Cart::add(
                         $producto->id,
@@ -190,10 +190,12 @@ class TomarPedido extends Component
                     //separar stock
                     $producto->update(['stock' => $producto->stock - $this->cantidad]);
                     $this->reset(['colores', 'tallas', 'imagen', 'color', 'talla', 'cantidad']);
+
                 } catch (\Throwable $th) {
                     dd($th->getMessage());
                 }
                 $this->verificarOfertas($descuento);
+                $this->brandDiscount();
                 $this->checkShippingCost();
             } else {
                 LogStockFaltante::create([
@@ -209,6 +211,123 @@ class TomarPedido extends Component
             $this->click = false;
             $this->message = 'VERIFIQUE QUE ESTEN TODOS LOS CAMPOS LLENOS';
         }
+    }
+
+
+    public function brandDiscount()
+    {
+        $cartItems = Cart::content();
+
+        $parametersBrand = ParametroMarca::where([
+            ['estado', 1],
+            ])->get();
+
+        $groupsParameters = [] ;
+
+        foreach ($parametersBrand as $key => $parameter) {
+            $groupsParameters[] = [
+                'id' => $parameter->id ,
+                'nombre' => $parameter->nombre,
+                'tipo_empresaria' => $parameter->tipo_empresaria,
+                'condicion' => $parameter->condicion,
+                'operador' => $parameter->operador,
+                'cantidad' => $parameter->cantidad,
+                'descuento' => $parameter->descuento ,
+                'operador' => $parameter->operador ,
+                'total_valor' => 0,
+                'total_cantidad' => 0,
+                'marcas' => json_decode($parameter->marcas),
+                'productos' => []
+            ];
+        }
+
+
+        foreach ($cartItems as $key => $item) {
+            $product = Producto::findOrFail($item->id);
+            foreach ($groupsParameters as $keyParameter => $parameter) {
+                $flag = collect($parameter['marcas'])->contains($product->categoria) ;
+                if($flag){
+                    $groupsParameters[$keyParameter]['productos'][] = [
+                        'id' => $product->id,
+                        'categoria' =>$product->categoria,
+                        'cantidad' => $item->qty ,
+                        'valor' => $product->precio_empresaria
+                    ];
+                    $groupsParameters[$keyParameter]['total_valor'] += ( $item->qty * $product->precio_empresaria );
+                    $groupsParameters[$keyParameter]['total_cantidad'] += $item->qty ;
+                }
+            }
+        }
+
+        $groupsParameters = collect($groupsParameters)->filter(function ($item) {
+            return $item['tipo_empresaria'] === $this->tipoEmpresaria || $item['tipo_empresaria'] === 'TODOS';
+        })->values()->toArray();
+
+        foreach ($cartItems as $keyItem => $item) {
+
+            foreach ($groupsParameters as $key => $parameter) {
+
+                $product = collect($parameter['productos'])->where('id', $item->id)->first();
+
+                $productDB = Producto::findOrFail($item->id);
+
+                $discount = 0 ;
+                $price = $productDB->precio_empresaria ;
+
+                if($product){
+                    if ($parameter['tipo_empresaria'] == $this->tipoEmpresaria) {
+                        if ($parameter['condicion'] == 'cantidad') {
+                            $condition = $parameter['total_cantidad'] . $parameter['operador'] . $parameter['cantidad'];
+
+                            $discount = eval("return $condition;") ?$parameter['descuento'] : 0;
+                            $discount = $discount / 100;
+                        }
+
+                        if ($parameter['condicion'] == 'valor') {
+                            $condition = $parameter['total_valor'] . $parameter['operador'] . $parameter['cantidad'];
+                            $discount = eval("return $condition;") ?$parameter['descuento'] : 0;
+                            $discount = $discount / 100;
+                        }
+
+                    }elseif($parameter['tipo_empresaria'] == 'TODOS'){
+                        if ($parameter['condicion'] == 'cantidad') {
+                            $condition = $parameter['total_cantidad'] . $parameter['operador'] . $parameter['cantidad'];
+
+                            $discount = eval("return $condition;") ?$parameter['descuento'] : 0;
+                            $discount = $discount / 100;
+                        }
+
+                        if ($parameter['condicion'] == 'valor') {
+                            $condition = $parameter['total_valor'] . $parameter['operador'] . $parameter['cantidad'];
+                            $discount = eval("return $condition;") ?$parameter['descuento'] : 0;
+                            $discount = $discount / 100;
+                        }
+                    }
+                    $price = (float)$productDB->precio_empresaria - ($productDB->precio_empresaria * $discount);
+
+                }
+                $item1Cart = Cart::get($item->rowId);
+
+                    if ($item1Cart ) {
+                        Cart::update($item1Cart->rowId, [
+                            'qty' => $item1Cart->qty,
+                            'price' => round($price, 2),
+                            'options' => [
+                                'sku' => $item1Cart->options->sku,
+                                'color' => $item1Cart->options->color,
+                                'talla' => $item1Cart->options->talla,
+                                'marca' => $item1Cart->options->marca,
+                                'descuento' => $discount,
+                                'pCatalogo' => $item1Cart->options->pCatalogo,
+                                'dataEnvio' => $item1Cart->options->dataEnvio != '' ? $item1Cart->options->dataEnvio : ''
+                            ]
+                        ]);
+                    }
+            }
+        }
+
+        $this->emit('cartUpdated');
+
     }
 
     public function checkShippingCost()
@@ -297,10 +416,10 @@ class TomarPedido extends Component
         $descuento = 0;
         $this->envio = 0; //Al eliminar item, siempre el costo de envio será 0. Se volverá a calcular según párametro del catalogo
         $precio = $producto->precio_empresaria;
-        $datos = $this->validacionReglas($producto, $descuento, $precio, $parametros, Cart::count() - $item->qty, $this->envio, 'resta', $item->qty);
-        $descuento = $datos['descuento'];
+        // $datos = $this->validacionReglas($producto, $descuento, $precio, $parametros, Cart::count() - $item->qty, $this->envio, 'resta', $item->qty);
+        // $descuento = $datos['descuento'];
         Cart::remove($id);
-
+        $this->brandDiscount();
         $this->checkShippingCost();
         // if ($descuento == 0) {
         //     $carItems = Cart::content();
@@ -403,9 +522,9 @@ class TomarPedido extends Component
             if ($item1) {
                 $descuento = 0;
                 $precio = $producto->precio_empresaria;
-                $data = $this->validacionReglas($producto, $descuento, $precio, $parametros, $item1->qty + 1, $this->envio, 'suma', 1);
-                $descuento = $data['descuento'];
-                $precio = $data['precio'];
+                // $data = $this->validacionReglas($producto, $descuento, $precio, $parametros, $item1->qty + 1, $this->envio, 'suma', 1);
+                // $descuento = $data['descuento'];
+                // $precio = $data['precio'];
                 Cart::update($rowId, [
                     'qty' => $item1->qty + 1, 'price' => round($precio, 2),
                     'options' => $item1->options
@@ -426,12 +545,13 @@ class TomarPedido extends Component
                 // }
                 // $this->verificarOfertas($descuento);
                 $this->emit('cartUpdated');
+                $this->checkShippingCost();
             }
 
-            $this->checkShippingCost();
         } else {
             $this->message = 'NO HAY STOCK DISPONIBLE PARA ' . $producto->descripcion;
         }
+        $this->brandDiscount();
     }
 
     public function decreaseQuantity($rowId)
@@ -446,9 +566,9 @@ class TomarPedido extends Component
                 ->get();
             $descuento = 0;
             $precio = $producto->precio_empresaria;
-            $data = $this->validacionReglas($producto, $descuento, $precio, $parametros, $item1->qty - 1, $this->envio, 'resta', 1, 1, $item1->options->descuento, $item1->qty);
-            $precio = $data['precio'];
-            $descuento = $data['descuento'];
+            // $data = $this->validacionReglas($producto, $descuento, $precio, $parametros, $item1->qty - 1, $this->envio, 'resta', 1, 1, $item1->options->descuento, $item1->qty);
+            // $precio = $data['precio'];
+            // $descuento = $data['descuento'];
 
             Cart::update($rowId, ['qty' => $item1->qty - 1, 'price' => round($precio, 2), 'options' => [
                 'sku' => $item1->options->sku, 'color'  => $item1->options->color, 'talla' => $item1->options->talla, 'marca' => $item1->options->marca,
@@ -462,9 +582,10 @@ class TomarPedido extends Component
             //     }
             // }
             // $this->verificarOfertas($descuento);
+            $this->brandDiscount();
             $this->emit('cartUpdated');
+            $this->checkShippingCost();
         }
-        $this->checkShippingCost();
     }
 
     public function validacionReglas($prod, $descuento, $precio, $parametros, $cantidad, $envio, $tipo = null, $cantidadResta = 1, $cantidadSuma = 1, $descuentoDecrease = 0, $itemCantidad = 0)
