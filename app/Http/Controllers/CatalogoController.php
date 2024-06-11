@@ -351,8 +351,8 @@ class CatalogoController extends Controller
                 'marcas' => json_encode($request->categorias),
                 'condicion' => $request->condicion,
                 'operador' => $request->operador,
-                'cantidad' => 0,
-                'descuento' => $request->descuento,
+                'cantidad' => $request->cantidad,
+                'descuento' => 0,
                 'estado' => 1
             ]);
         } catch (\Throwable $th) {
