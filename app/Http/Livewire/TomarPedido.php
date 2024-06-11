@@ -263,6 +263,7 @@ class TomarPedido extends Component
             return $item['tipo_empresaria'] === $this->tipoEmpresaria || $item['tipo_empresaria'] === 'TODOS';
         })->values()->toArray();
 
+
         foreach ($cartItems as $keyItem => $item) {
 
             foreach ($groupsParameters as $key => $parameter) {
@@ -275,6 +276,7 @@ class TomarPedido extends Component
                 $price = $productDB->precio_empresaria ;
 
                 if($product){
+                    
                     if ($parameter['tipo_empresaria'] == $this->tipoEmpresaria) {
                         if ($parameter['condicion'] == 'cantidad') {
                             $condition = $parameter['total_cantidad'] . $parameter['operador'] . $parameter['cantidad'];
@@ -305,9 +307,8 @@ class TomarPedido extends Component
                     }
                     $price = (float)$productDB->precio_empresaria - ($productDB->precio_empresaria * $discount);
 
-                }
-                $item1Cart = Cart::get($item->rowId);
-
+                    $item1Cart = Cart::get($item->rowId);
+    
                     if ($item1Cart ) {
                         Cart::update($item1Cart->rowId, [
                             'qty' => $item1Cart->qty,
@@ -323,6 +324,8 @@ class TomarPedido extends Component
                             ]
                         ]);
                     }
+
+                }
             }
         }
 
