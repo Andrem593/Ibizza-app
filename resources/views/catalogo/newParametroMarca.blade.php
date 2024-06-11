@@ -83,21 +83,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-6">
-                        <label>Categorias</label>
-                        <x-adminlte-select2 id="sel2Category" class="form-control" name="marca[]" multiple>
-                            @foreach ($categorias as $categoria)
-                                <option value="{{$categoria->categoria}}">{{ $categoria->categoria }}</option>
-                            @endforeach
-                        </x-adminlte-select2>
-
-                        @error('marca')
-                            <p class="mt-1 p-1 text-danger" role="alert">
-                                {{ $message }}
-                            </p>
-                        @enderror
-
-                    </div>
+                 
                 </div>
                 <div class="row">
                     <div class="col-3">
@@ -139,11 +125,37 @@
                             value="{{ old('cantidad') }}">
                         
                     </div>
-                    <div class="col-3">
-                        <label>% Descuento</label>
-                        <input type="number" name="descuento"
-                            class="form-control {{ $errors->has('descuento') ? 'is-invalid' : '' }}"
-                            value="{{ old('descuento') }}">
+                </div>
+                <div class="row mt-4">
+                    <div class="card">
+                        <div class="card-header align-items-center">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <span>DESCUENTO DE CATEGORÍAS</span>
+
+                                </div>
+
+                                <div class="col-md-4 card-header-custom  d-flex justify-content-end">
+
+                                    <button type="button" class="btn btn-primary" onclick="addRow()">Agregar Fila</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            Listado de Descuentos
+                            <div class="row">
+                                <table id="categoryTable" class="table shadow-sm p-3">
+                                    <tr>
+                                        <th>Categoría</th>
+                                        <th>% Descuento</th>
+                                        <th>Acción</th>
+                                    </tr>
+                      
+                                </table>
+                                
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -158,3 +170,27 @@
         </form>
     </div>
 </x-app-layout>
+<script>
+    function addRow() {
+        let table = document.getElementById("categoryTable");
+        let rowCount = table.rows.length;
+        let row = table.insertRow();
+        let cell1 = row.insertCell(0);
+        let cell2 = row.insertCell(1);
+        let cell3 = row.insertCell(2);
+
+        cell1.innerHTML = `<select class="form-select" name="categorias[${rowCount}][categoria]">
+                               @foreach($categorias as $categoria)
+                                   <option value="{{ $categoria->categoria }}">{{ $categoria->categoria }}</option>
+                               @endforeach
+                           </select>`;
+        cell2.innerHTML = '<input type="number" name="categorias[' + rowCount + '][descuento]"  class="form-control">';
+        cell3.innerHTML = '<button type="button" onclick="deleteRow(this)" class="btn btn-danger btn-sm">Eliminar</button>';
+    }
+
+    function deleteRow(button) {
+        let row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+</script>
+

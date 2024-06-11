@@ -236,7 +236,7 @@ class TomarPedido extends Component
                 'operador' => $parameter->operador ,
                 'total_valor' => 0,
                 'total_cantidad' => 0,
-                'marcas' => json_decode($parameter->marcas),
+                'marcas' => json_decode($parameter->marcas, true),
                 'productos' => []
             ];
         }
@@ -245,13 +245,14 @@ class TomarPedido extends Component
         foreach ($cartItems as $key => $item) {
             $product = Producto::findOrFail($item->id);
             foreach ($groupsParameters as $keyParameter => $parameter) {
-                $flag = collect($parameter['marcas'])->contains($product->categoria) ;
-                if($flag){
+                $flag = collect($parameter['marcas'])->where('categoria', $product->categoria)->first();
+                if($flag != null){
                     $groupsParameters[$keyParameter]['productos'][] = [
                         'id' => $product->id,
                         'categoria' =>$product->categoria,
                         'cantidad' => $item->qty ,
-                        'valor' => $product->precio_empresaria
+                        'valor' => $product->precio_empresaria,
+                        'descuento' => $flag['descuento']
                     ];
                     $groupsParameters[$keyParameter]['total_valor'] += ( $item->qty * $product->precio_empresaria );
                     $groupsParameters[$keyParameter]['total_cantidad'] += $item->qty ;
@@ -276,18 +277,17 @@ class TomarPedido extends Component
                 $price = $productDB->precio_empresaria ;
 
                 if($product){
-                    
                     if ($parameter['tipo_empresaria'] == $this->tipoEmpresaria) {
                         if ($parameter['condicion'] == 'cantidad') {
                             $condition = $parameter['total_cantidad'] . $parameter['operador'] . $parameter['cantidad'];
 
-                            $discount = eval("return $condition;") ?$parameter['descuento'] : 0;
+                            $discount = eval("return $condition;") ? $product['descuento'] : 0;
                             $discount = $discount / 100;
                         }
 
                         if ($parameter['condicion'] == 'valor') {
                             $condition = $parameter['total_valor'] . $parameter['operador'] . $parameter['cantidad'];
-                            $discount = eval("return $condition;") ?$parameter['descuento'] : 0;
+                            $discount = eval("return $condition;") ?$product['descuento'] : 0;
                             $discount = $discount / 100;
                         }
 
@@ -295,18 +295,17 @@ class TomarPedido extends Component
                         if ($parameter['condicion'] == 'cantidad') {
                             $condition = $parameter['total_cantidad'] . $parameter['operador'] . $parameter['cantidad'];
 
-                            $discount = eval("return $condition;") ?$parameter['descuento'] : 0;
+                            $discount = eval("return $condition;") ?$product['descuento'] : 0;
                             $discount = $discount / 100;
                         }
 
                         if ($parameter['condicion'] == 'valor') {
                             $condition = $parameter['total_valor'] . $parameter['operador'] . $parameter['cantidad'];
-                            $discount = eval("return $condition;") ?$parameter['descuento'] : 0;
+                            $discount = eval("return $condition;") ?$product['descuento'] : 0;
                             $discount = $discount / 100;
                         }
                     }
                     $price = (float)$productDB->precio_empresaria - ($productDB->precio_empresaria * $discount);
-
                     $item1Cart = Cart::get($item->rowId);
     
                     if ($item1Cart ) {
@@ -396,6 +395,7 @@ class TomarPedido extends Component
         foreach ($groupingByCondition as $nameGroup => $parameter) {
             foreach ($parameter as $parameterId => $parameterDetail) {
                 if($parameterDetail['tipo_empresaria'] == 'TODOS' && $parameterDetail['condicion'] == 'envio_costo' ){
+                    $parameterDetail['total_precio']  = number_format($parameterDetail['total_precio'], 2, '.', ',');
                     $eval = $parameterDetail['total_precio'] . $parameterDetail['eval'] ;
                     $value = eval("return $eval;") ? $parameterDetail['valor_condicion'] : 0 ;
                     $shippingCost += $value ;

@@ -1,7 +1,7 @@
 <x-app-layout>
     @section('title', 'Catálogo')
     <x-slot name="header">
-        <h5 class="text-center">Parametros por Marcas</h5>
+        <h5 class="text-center">Parametros por Marca</h5>
     </x-slot>
 
     @if ($message = Session::get('error'))
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <form method="POST" action="{{ route('catalogo.parametros-marca.update', $parametro->id) }}" role="form" id="categoriesForm">
+        <form method="POST" action="{{ route('catalogo.parametros-marca.update', $parametro->id) }}" role="form">
             @csrf
             <div class="card-body">
                 <div class="row">
@@ -84,10 +84,10 @@
                         </div>
                     </div>
                     {{-- <div class="col-6">
-                        <label>Categorias</label>
+                        <label>Categorias</label>                     
                         <x-adminlte-select2 id="sel2Category" class="form-control" name="marca[]" multiple>
                             @foreach ($categorias as $categoria)
-                                <option value="{{ $categoria->categoria }}"
+                                <option value="{{ $categoria->categoria }}" 
                                     {{in_array($categoria->categoria, json_decode($parametro->marcas))? 'selected' : ''}}>
                                     {{ $categoria->categoria }}
                                 </option>
@@ -98,7 +98,7 @@
                             <p class="mt-1 p-1 text-danger" role="alert">
                                 {{ $message }}
                             </p>
-                        @enderror
+                        @enderror                        
                     </div> --}}
                 </div>
                 <div class="row">
@@ -137,60 +137,66 @@
                         <input type="number" name="cantidad"
                             class="form-control {{ $errors->has('cantidad') ? 'is-invalid' : '' }}"
                             value="{{ $parametro->cantidad }}">
-
-                    </div>
-                    <div class="col-3">
-                        <label>% Descuento</label>
-                        <input type="number" name="descuento"
-                            class="form-control {{ $errors->has('descuento') ? 'is-invalid' : '' }}"
-                            value="{{ $parametro->descuento}}">
+                        
                     </div>
                 </div>
 
 
 
                 <div class="row mt-4">
-                    <div class="card card-success">
-                        <div class="card-header">
-                            <span>Productos de Premio</span>
+                    <div class="card">
+                        <div class="card-header align-items-center">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <span>DESCUENTO DE CATEGORÍAS</span>
 
+                                </div>
+
+                                <div class="col-md-4 card-header-custom  d-flex justify-content-end">
+
+                                    <button type="button" class="btn btn-primary" onclick="addRow()">Agregar Fila</button>
+                                </div>
+                            </div>
+                           
+
+                            
+
+                           
 
                         </div>
 
                         <div class="card-body">
-                            Listado de productos de premios
-
-                            <div class="row mt-2 justify-content-end mt-auto">
-                                <div class="col-3">
-                                    <button id="addRowBtn" type="button" class="btn btn-primary">Agregar Categorías</button>
-                                </div>
-                                <div class="col"></div>
-                            </div>
+                            Listado de Descuentos
 
 
-
-                            <table class="table shadow-sm p-3">
-                                <thead>
+                            <div class="row">
+                                <table id="categoryTable" class="table shadow-sm p-3">
                                     <tr>
-                                        <th>CATEGORÍA</th>
-                                        <th>% DESCUENTO</th>
-                                        <th></th>
+                                        <th>Categoría</th>
+                                        <th>% Descuento</th>
+                                        <th>Acción</th>
                                     </tr>
-                                </thead>
-                                <tbody id="tableBody">
-                                    <!-- Las nuevas filas se agregarán aquí -->
-                                </tbody>
-                            </table>
-
-
-
+                                    @foreach($categorias2 as $index => $categoria)
+                                    <tr>
+                                        <td>
+                                            <select class="form-select" name="categorias[{{ $index }}][categoria]">
+                                                @foreach($categorias as $cat)
+                                                    <option value="{{ $cat->categoria }}" @if($cat->categoria == $categoria->categoria) selected @endif>{{ $cat->categoria }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td><input class="form-control" type="number" name="categorias[{{ $index }}][descuento]" value="{{ $categoria->descuento }}" ></td>
+                                        <td><button class="btn btn-danger btn-sm" type="button" onclick="deleteRow(this)">Eliminar</button></td>
+                                    </tr>
+                                    @endforeach
+                                </table>
+                                
+                            </div>
                         </div>
                     </div>
-
-
                 </div>
 
-
+                
             </div>
 
             <div class="card-footer">
@@ -203,129 +209,28 @@
         </form>
     </div>
 </x-app-layout>
+
+
 <script>
-    function obtenerCategoriasConDescuento() {
-        const categoriasConDescuento = [];
-        const filas = document.querySelectorAll('#tableBody tr');
+    function addRow() {
+        let table = document.getElementById("categoryTable");
+        let rowCount = table.rows.length;
+        let row = table.insertRow();
+        let cell1 = row.insertCell(0);
+        let cell2 = row.insertCell(1);
+        let cell3 = row.insertCell(2);
 
-        filas.forEach(function(fila) {
-            const categoria = fila.querySelector('select').value;
-            const descuento = fila.querySelector('input').value;
-
-            const categoriaConDescuento = {};
-            categoriaConDescuento[categoria] = parseInt(descuento);
-            categoriasConDescuento.push(categoriaConDescuento);
-        });
-
-        return categoriasConDescuento;
+        cell1.innerHTML = `<select class="form-select" name="categorias[${rowCount}][categoria]">
+                               @foreach($categorias as $categoria)
+                                   <option value="{{ $categoria->categoria }}">{{ $categoria->categoria }}</option>
+                               @endforeach
+                           </select>`;
+        cell2.innerHTML = '<input type="number" name="categorias[' + rowCount + '][descuento]"  class="form-control">';
+        cell3.innerHTML = '<button type="button" onclick="deleteRow(this)" class="btn btn-danger btn-sm">Eliminar</button>';
     }
 
-    function mostrarCategoriasConDescuento(categoriasJson) {
-        const categorias = JSON.parse(categoriasJson);
-        categorias.forEach(function(item) {
-            for (let categoria in item) {
-                const descuento = item[categoria];
-                console.log(descuento , ' ss');
-
-                console.log(1 , categoria);
-
-                const nuevaCategoria = categoria ;
-                // Agregar la categoría y descuento a la tabla
-                const newRow = document.createElement('tr');
-                const categoriaCell = document.createElement('td');
-                const selectHtml = `<x-adminlte-select2 class="form-control" name="marca_nuevo">
-                                        @foreach ($categorias as $cat)
-                                            <option value="{{ $cat->categoria }}" {{ $cat->categoria ==`+categoria + ` ? 'selected' : '' }}>
-                                                {{ $cat->categoria }}
-                                            </option>
-                                        @endforeach
-                                    </x-adminlte-select2>`;
-
-                categoriaCell.innerHTML = selectHtml;
-                const descuentoCell = document.createElement('td');
-                descuentoCell.innerHTML = `<input type="number" name="marcas" class="form-control" placeholder="Ingrese % descuento" value="${descuento}">`;
-                const actionCell = document.createElement('td');
-                actionCell.innerHTML = '<button type="button" class="btn btn-danger btn-sm deleteRowBtn">Eliminar</button>';
-
-                newRow.appendChild(categoriaCell);
-                newRow.appendChild(descuentoCell);
-                newRow.appendChild(actionCell);
-
-                document.getElementById('tableBody').appendChild(newRow);
-            }
-        });
+    function deleteRow(button) {
+        let row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
     }
-
-
-    // Función para agregar una nueva fila
-    document.getElementById('addRowBtn').addEventListener('click', function() {
-    // Crear una nueva fila
-    const newRow = document.createElement('tr');
-
-    // Función para crear el HTML del select con las opciones
-    function generateSelectOptions() {
-        let optionsHtml = '';
-        @foreach ($categorias as $categoria)
-            optionsHtml += `<option value="{{ $categoria->categoria }}">{{ $categoria->categoria }}</option>`;
-        @endforeach
-        return optionsHtml;
-    }
-
-    // Crear celda para la categoría
-    const categoriaCell = document.createElement('td');
-    categoriaCell.innerHTML = `
-        <x-adminlte-select2 id="sel2Category" class="form-control" name="marca_nuevo">
-            ${generateSelectOptions()}
-        </x-adminlte-select2>
-    `;
-
-    // Crear celda para el descuento
-    const descuentoCell = document.createElement('td');
-    descuentoCell.innerHTML = '<input type="number" name="marcas" class="form-control" placeholder="Ingrese % descuento">';
-
-    // Crear celda para la acción
-    const actionCell = document.createElement('td');
-    actionCell.innerHTML = '<button type="button" class="btn btn-danger btn-sm deleteRowBtn">Eliminar</button>';
-
-    // Agregar celdas a la nueva fila
-    newRow.appendChild(categoriaCell);
-    newRow.appendChild(descuentoCell);
-    newRow.appendChild(actionCell);
-
-    // Agregar la nueva fila a la tabla
-    document.getElementById('tableBody').appendChild(newRow);
-});
-
-    // Delegar el evento de eliminación a las filas dinámicas
-    document.getElementById('tableBody').addEventListener('click', function(event) {
-        if (event.target && event.target.matches('.deleteRowBtn')) {
-            const row = event.target.closest('tr');
-            row.parentNode.removeChild(row);
-        }
-    });
-
-    // Ejemplo de cómo enviar los datos al backend
-    document.getElementById('categoriesForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Evita que el formulario se envíe de forma convencional
-
-        const categoriasConDescuento = obtenerCategoriasConDescuento();
-        console.log(categoriasConDescuento); // Solo para depuración, puedes enviar estos datos al backend mediante una petición AJAX o añadirlos al formulario antes de enviarlo
-
-        // Puedes añadir los datos al formulario antes de enviarlo
-        const inputCategoriasConDescuento = document.createElement('input');
-        inputCategoriasConDescuento.setAttribute('type', 'hidden');
-        inputCategoriasConDescuento.setAttribute('name', 'categorias_con_descuento');
-        inputCategoriasConDescuento.setAttribute('value', JSON.stringify(categoriasConDescuento));
-        document.getElementById('categoriesForm').appendChild(inputCategoriasConDescuento);
-
-        // Envía el formulario
-        this.submit();
-    });
-
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const categoriasConDescuentoJson = {!! json_encode($parametro->categorias_con_descuento) !!};
-        mostrarCategoriasConDescuento(categoriasConDescuentoJson);
-    });
-
 </script>
