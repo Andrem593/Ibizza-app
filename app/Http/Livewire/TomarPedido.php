@@ -285,7 +285,7 @@ class TomarPedido extends Component
                             $discount = $discount / 100;
                         }
 
-                        if ($parameter['condicion'] == 'valor') {
+                        if ($parameter['condicion'] == 'factura') {
                             $condition = $parameter['total_valor'] . $parameter['operador'] . $parameter['cantidad'];
                             $discount = eval("return $condition;") ?$product['descuento'] : 0;
                             $discount = $discount / 100;
@@ -299,7 +299,7 @@ class TomarPedido extends Component
                             $discount = $discount / 100;
                         }
 
-                        if ($parameter['condicion'] == 'valor') {
+                        if ($parameter['condicion'] == 'factura') {
                             $condition = $parameter['total_valor'] . $parameter['operador'] . $parameter['cantidad'];
                             $discount = eval("return $condition;") ?$product['descuento'] : 0;
                             $discount = $discount / 100;
@@ -307,7 +307,7 @@ class TomarPedido extends Component
                     }
                     $price = (float)$productDB->precio_empresaria - ($productDB->precio_empresaria * $discount);
                     $item1Cart = Cart::get($item->rowId);
-    
+
                     if ($item1Cart ) {
                         Cart::update($item1Cart->rowId, [
                             'qty' => $item1Cart->qty,
