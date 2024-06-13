@@ -83,7 +83,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-6">
+                    {{-- <div class="col-6">
                         <label>Categorias</label>                     
                         <x-adminlte-select2 id="sel2Category" class="form-control" name="marca[]" multiple>
                             @foreach ($categorias as $categoria)
@@ -99,7 +99,7 @@
                                 {{ $message }}
                             </p>
                         @enderror                        
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="row">
                     <div class="col-3">
@@ -139,13 +139,64 @@
                             value="{{ $parametro->cantidad }}">
                         
                     </div>
-                    <div class="col-3">
-                        <label>% Descuento</label>
-                        <input type="number" name="descuento"
-                            class="form-control {{ $errors->has('descuento') ? 'is-invalid' : '' }}"
-                            value="{{ $parametro->descuento}}">
+                </div>
+
+
+
+                <div class="row mt-4">
+                    <div class="card">
+                        <div class="card-header align-items-center">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <span>DESCUENTO DE CATEGORÍAS</span>
+
+                                </div>
+
+                                <div class="col-md-4 card-header-custom  d-flex justify-content-end">
+
+                                    <button type="button" class="btn btn-primary" onclick="addRow()">Agregar Fila</button>
+                                </div>
+                            </div>
+                           
+
+                            
+
+                           
+
+                        </div>
+
+                        <div class="card-body">
+                            Listado de Descuentos
+
+
+                            <div class="row">
+                                <table id="categoryTable" class="table shadow-sm p-3">
+                                    <tr>
+                                        <th>Categoría</th>
+                                        <th>% Descuento</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                    @foreach($categorias2 as $index => $categoria)
+                                    <tr>
+                                        <td>
+                                            <select class="form-select" name="categorias[{{ $index }}][categoria]">
+                                                @foreach($categorias as $cat)
+                                                    <option value="{{ $cat->categoria }}" @if($cat->categoria == $categoria->categoria) selected @endif>{{ $cat->categoria }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td><input class="form-control" type="number" name="categorias[{{ $index }}][descuento]" value="{{ $categoria->descuento }}" ></td>
+                                        <td><button class="btn btn-danger btn-sm" type="button" onclick="deleteRow(this)">Eliminar</button></td>
+                                    </tr>
+                                    @endforeach
+                                </table>
+                                
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                
             </div>
 
             <div class="card-footer">
@@ -158,3 +209,28 @@
         </form>
     </div>
 </x-app-layout>
+
+
+<script>
+    function addRow() {
+        let table = document.getElementById("categoryTable");
+        let rowCount = table.rows.length;
+        let row = table.insertRow();
+        let cell1 = row.insertCell(0);
+        let cell2 = row.insertCell(1);
+        let cell3 = row.insertCell(2);
+
+        cell1.innerHTML = `<select class="form-select" name="categorias[${rowCount}][categoria]">
+                               @foreach($categorias as $categoria)
+                                   <option value="{{ $categoria->categoria }}">{{ $categoria->categoria }}</option>
+                               @endforeach
+                           </select>`;
+        cell2.innerHTML = '<input type="number" name="categorias[' + rowCount + '][descuento]"  class="form-control">';
+        cell3.innerHTML = '<button type="button" onclick="deleteRow(this)" class="btn btn-danger btn-sm">Eliminar</button>';
+    }
+
+    function deleteRow(button) {
+        let row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+</script>
