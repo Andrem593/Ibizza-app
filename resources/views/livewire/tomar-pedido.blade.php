@@ -189,7 +189,7 @@
                                     <span class="mx-2">{{ $item->qty }}</span>
                                 </td>
                                 <td>${{ number_format($item->qty * $item->price, 2) }}</td>
-                                
+
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <button type="button" class="btn btn-sm btn-outline-default mr-1"
@@ -315,9 +315,14 @@
         </div>
     </div>
     <div class="row mt-2 text-end">
-        <button class="btn bg-ibizza w-25 m-3" wire:click='GuardarPedidos' wire:loading.attr="disabled" 
+        <button class="btn bg-ibizza w-25 m-3" wire:click='GuardarPedidos' wire:loading.attr="disabled"
         wire:target="GuardarPedidos">RESERVAR PEDIDO</button>
         <a wire:click="cerrarVenta" class="btn btn-success w-25 m-3">CERRAR VENTA</a>
+
+        <button type="button" class="btn btn-sm btn-outline-default mr-1"
+        wire:click='obtenerPremios'
+                                            data-bs-toggle="modal" data-bs-target="#modalPremios"
+                                           ><i class="fas fa-map-marked-alt"></i></button>
     </div>
 
     <div class="modal fade" wire:ignore.self id="modalDirecciones" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -370,6 +375,54 @@
         </div>
     </div>
 
+    <div class="modal fade" wire:ignore.self id="modalPremios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Premios</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table ec-table" style="font-size: 14px">
+                        <thead>
+                            <tr>
+                                <td>SKU</td>
+                                <td>Descripción</td>
+                                <td>Marca</td>
+                                <td>Color</td>
+                                <td>Talla</td>
+                                <td>Stock</td>
+                                <td>Acción</td>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            @foreach ($productosPremios as $item)
+                            <tr>
+                                <td>{{$item->sku}}</td>
+                                <td>$item</td>
+                                <td>$item</td>
+                                <td>$item</td>
+                                <td>$item</td>
+                                <td>$item</td>
+                                <td><button wire:click="eliminarProducto({{ $item->id }})" class="btn btn-danger btn-sm">Eliminar</button></td>
+                            </tr>
+
+                            @endforeach
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn bg-ibizza" id="agregarPremios" wire:click="agrgarPromocion">Guardar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     @push('js')
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
@@ -397,6 +450,15 @@
                     });
                     $("#formulario_direcciones_envio").trigger("reset");
                     $('#modalDirecciones').modal('hide');
+                });
+
+                $('#modalPremios').on('show.bs.modal', function(event){
+
+                });
+
+                $('#agregarPremios').click(function() {
+
+                    $('#modalPremios').modal('hide');
                 });
             });
         </script>

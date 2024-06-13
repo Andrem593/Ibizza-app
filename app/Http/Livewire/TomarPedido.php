@@ -31,6 +31,9 @@ class TomarPedido extends Component
 
     public $envio = 0;
 
+
+    public $productosPremios = [];
+
     public $imagen = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
 
     protected $listeners = ['change' => 'buscarColor', 'guardarDatos'];
@@ -637,8 +640,20 @@ class TomarPedido extends Component
         return ['descuento' => $descuento, 'precio' => $precio];
     }
 
+
+
+    public function obtenerPremios()
+    {
+        $this->productosPremios = Producto::where([
+            ['estado', 'A'],
+            ['categoria', 'PREMIOS']
+        ])->get();
+
+    }
+
     public function cerrarVenta()
     {
+
         if (empty($this->cliente) || !$this->click2) {
             $this->message = 'INGRESE EL NOMBRE DE LA EMPRESARIA';
             return;
@@ -1033,5 +1048,47 @@ class TomarPedido extends Component
                 }
             }
         }
+    }
+
+
+    public function eliminarProducto($id)
+    {
+        $this->productosPremios = $this->productosPremios->filter(function($producto) use ($id) {
+            return $producto->id != $id;
+        });
+    }
+
+
+
+    public function agrgarPromocion()
+    {
+
+        foreach ($this->productosPremios as $key => $value) {
+            $producto = Producto::where('id', $value->id)
+                ->with(['marca', 'catalogo'])
+                ->first();
+
+            try {
+                $precio = $producto->precio_empresaria;
+                $descuento = 0;
+                Cart::add(
+                    $producto->id,
+                    $producto->descripcion,
+                    1,
+                    $precio,
+                    [
+                        'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
+                        'descuento' => $descuento, 'pCatalogo' => $producto->precio_empresaria
+                    ]
+                )->associate('App\Models\Producto');
+                //separar stock
+                $producto->update(['stock' => $producto->stock - 1]);
+                $this->reset(['colores', 'tallas', 'imagen', 'color', 'talla', 'cantidad']);
+
+            } catch (\Throwable $th) {
+                dd($th->getMessage());
+            }
+        }
+
     }
 }
