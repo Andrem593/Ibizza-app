@@ -317,7 +317,7 @@
     <div class="row mt-2 text-end">
         <button class="btn bg-ibizza w-25 m-3" wire:click='GuardarPedidos' wire:loading.attr="disabled"
         wire:target="GuardarPedidos">RESERVAR PEDIDO</button>
-        <a wire:click="cerrarVenta" class="btn btn-success w-25 m-3">CERRAR VENTA</a>
+        <a wire:click="verificarYProcesar" class="btn btn-success w-25 m-3">CERRAR VENTA</a>
 
         <button type="button" class="btn btn-sm btn-outline-default mr-1"
         wire:click='obtenerPremios'
@@ -459,6 +459,35 @@
                 $('#agregarPremios').click(function() {
 
                     $('#modalPremios').modal('hide');
+                });
+
+                
+            });
+
+            document.addEventListener('DOMContentLoaded', function () {
+                window.addEventListener('mostrar-alerta', function () {
+                    Swal.fire({
+                        title: '¿Qué deseas hacer?',
+                        text: "Existen premios disponibles.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Agregar Premios',
+                        cancelButtonText: 'Cerrar Venta'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $('#modalPremios').modal('show');
+                            Livewire.emit('aceptarAccion');
+
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            Livewire.emit('cerrarVenta');
+                        }
+                    });
+                });
+            });
+
+            document.addEventListener('livewire:load', function () {
+                window.livewire.on('mostrar-modal-premios', () => {
+                    $('#modalPremios').modal('show');
                 });
             });
         </script>
