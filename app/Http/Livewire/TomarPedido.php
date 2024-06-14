@@ -9,6 +9,7 @@ use App\Empresaria;
 use App\Models\Marca;
 use App\Models\Venta;
 use App\Models\Ciudad;
+use App\Models\CondicionPremio;
 use App\Models\Oferta;
 use Livewire\Component;
 use App\Models\Separado;
@@ -17,7 +18,10 @@ use App\Models\ParametroMarca;
 use App\Models\LogStockFaltante;
 use App\Models\ParametroCatalogo;
 use App\Models\Pedidos_pendiente;
+use App\Models\Premio_has_Producto;
+use App\Premio;
 use Illuminate\Support\Facades\Auth;
+use PremioHasProductos;
 
 class TomarPedido extends Component
 {
@@ -641,16 +645,6 @@ class TomarPedido extends Component
     }
 
 
-
-    public function obtenerPremios()
-    {
-        $this->productosPremios = Producto::where([
-            ['estado', 'A'],
-            ['categoria', 'PREMIOS']
-        ])->get();
-
-    }
-
     public function cerrarVenta()
     {
 
@@ -1089,6 +1083,120 @@ class TomarPedido extends Component
                 dd($th->getMessage());
             }
         }
+
+    }
+
+
+    public function verificarPremios()
+    {
+        if($this->tipoEmpresaria != ''){
+            $total = Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum();
+
+            //Aun no se sabe el total porque va a ver si acumula
+            //Preguntar si puede cumplir ambas conidciones
+            //de acumular o no
+            $condicionPremio = CondicionPremio::with('prize')
+                ->whereHas('prize', function($q){
+                    $q->whereHas('catalogue', function($query){
+                        $query->where('estado', 'PUBLICADO');
+                    });
+                })
+                ->where([
+                    ['tipo_empresaria', $this->tipoEmpresaria],
+                    ['rango_desde', '<=', $total],
+                    ['rango_hasta', '>=', $total],
+                    ['acumular', 0]
+                ])
+                ->first();
+
+            if($condicionPremio){
+                //Retorno los productos de ese premio
+                $premioHasProductos = Premio_has_Producto::where('premio_id',$condicionPremio->premio_id )->pluck('estilo');
+
+                $this->productosPremios = Producto::where([
+                        ['catalogo_id', $condicionPremio->prize->catalogo_id],
+                        ['estado', 'A']
+                    ])
+                    ->whereIn('estilo', $premioHasProductos )
+                    ->get();
+
+            }else{
+                $catalogoActual = Catalogo::where('estado', 'PUBLICADO')->first();
+
+                $catalogoOld = Catalogo::where([
+                        ['estado', 'FINALIZADO'],
+                        ['id', '!=',$catalogoActual->id],
+                    ])
+                    ->orderBy('catalogo_fecha_publicacion', 'desc')
+                    ->first();
+
+                if($catalogoOld){
+
+                    //Verificar en la nueva tabla si ya tiene un catalogo acumulado
+                    //si no llega a tener lo busca, caso contrario genera
+
+
+                    //Preguntar si es total vemta
+                    $total = Venta::where([
+                        ['id_empresaria', $this->id_empresaria],
+                        ['id_catalogo', $catalogoOld->id]
+                    ])->sum('total_venta');
+
+                    $condicionPremio = CondicionPremio::with('prize')
+                        ->whereHas('prize', function($q){
+                            $q->whereHas('catalogue', function($query){
+                                $query->where('estado', 'PUBLICADO');
+                            });
+                        })
+                        ->where([
+                            ['tipo_empresaria', $this->tipoEmpresaria],
+                            ['rango_desde', '<=', $total],
+                            ['rango_hasta', '>=', $total],
+                            ['acumular', 1]
+                        ])
+                        ->first();
+
+                    if($condicionPremio){
+                        $premioHasProductos = Premio_has_Producto::where('premio_id',$condicionPremio->premio_id )->pluck('estilo');
+
+                        $this->productosPremios = Producto::where([
+                                ['catalogo_id', $condicionPremio->prize->catalogo_id],
+                                ['estado', 'A']
+                            ])
+                            ->whereIn('estilo', $premioHasProductos )
+                            ->get();
+                    }
+
+
+                }
+            }
+
+
+
+            $catalogo = Catalogo::where('estado', 'PUBLICADO')->first();
+            if($catalogo){
+
+            }
+
+        }
+
+    }
+
+
+    public function verificarAcumular()
+    {
+
+    }
+
+
+
+
+    public function obtenerPremios()
+    {
+        $this->productosPremios = Producto::where([
+            ['estado', 'A'],
+            ['categoria', 'PREMIOS']
+        ])->get();
 
     }
 }
