@@ -656,6 +656,7 @@ class TomarPedido extends Component
             return;
         }
 
+        $this->flagPrize  = false ;
         return redirect()->to(route('web.checkout', ['id' => $this->id_empresaria, 'envio' => $this->envio]));
     }
 
@@ -1144,20 +1145,20 @@ class TomarPedido extends Component
                 $condicionPremio = $this->getAwardCondition( 1, $total) ;
 
                 if($condicionPremio){
-
                     //Preguntar por la condicion
                     $premioAcumuladoEmpresaria = PremioAcumuladoEmpresaria::where([
                             ['empresaria_id' , $this->id_empresaria],
                             ['estado' , 1],
                             ['catalogo_id' , $catalogoOld->id],
-                            ['condicion_premio_id', $condicionPremio]
+                            ['condicion_premio_id', $condicionPremio->id]
                         ])->first();
 
                     if(!$premioAcumuladoEmpresaria){
 
                         $premioHasProductos = Premio_has_Producto::where('premio_id',$condicionPremio->premio_id )->pluck('estilo');
                         
-                        $productosPremios2 = Producto::where([
+                        $productosPremios2 = Producto::with('marca')
+                            ->where([
                                 ['catalogo_id', $condicionPremio->prize->catalogo_id],
                                 ['estado', 'A'],
                                 ['stock', '>', 0]
@@ -1165,15 +1166,12 @@ class TomarPedido extends Component
                             ->whereIn('estilo', $premioHasProductos )
                             ->get();
                     }
-
                 }
-
             }
 
             $this->productosPremios = $productosPremios1->concat($productosPremios2);
 
             $this->flagPrize = $this->productosPremios->count() > 0 ? true : false ;
-
         }
 
     }
@@ -1201,6 +1199,9 @@ class TomarPedido extends Component
 
     public function verificarYProcesar()
     {
+        if($this->flagPrize){
+            $this->cerrarVenta();
+        }
         // Lógica para verificar la bandera (puedes ajustarla a tu lógica de negocio)
         $this->verificarPremios();
         if ($this->flagPrize) {
@@ -1208,7 +1209,6 @@ class TomarPedido extends Component
             $this->dispatchBrowserEvent('mostrar-alerta');
         } else {
             // Cerrar la venta directamente
-            dd("Cerrar Venta");
             $this->cerrarVenta();
         }
     }
