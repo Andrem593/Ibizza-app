@@ -130,7 +130,10 @@ class PremioController extends Controller
                 ->whereColumn('estilo', 'productos.estilo')
                 ->where('premio_id', $premio->id)
                 ->limit(1)
-        ])->where('catalogo_has_productos.catalogo_id', $premio->catalogo_id)
+        ])
+        ->where('categoria', 'PREMIOS')
+        ->where('estado', 'A')
+        ->where('catalogo_has_productos.catalogo_id', $premio->catalogo_id)
             ->groupBy('catalogo_has_productos.estilo')
             ->get();
 

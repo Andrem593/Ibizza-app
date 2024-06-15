@@ -36,12 +36,15 @@ class TomarPedido extends Component
 
     public $envio = 0;
 
+    public $premiosEmpresaria = [] ;
 
     public $productosPremios = [];
 
+    public $countProductosPremios = 0 ;
+
     public $imagen = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
 
-    protected $listeners = ['change' => 'buscarColor', 'guardarDatos', 'aceptarAccion'];
+    protected $listeners = ['change' => 'buscarColor', 'guardarDatos', 'aceptarAccion', 'cerrarVenta'];
 
     public $flagPrize = false;
 
@@ -650,13 +653,17 @@ class TomarPedido extends Component
 
     public function cerrarVenta()
     {
-
         if (empty($this->cliente) || !$this->click2) {
             $this->message = 'INGRESE EL NOMBRE DE LA EMPRESARIA';
             return;
         }
 
         $this->flagPrize  = false ;
+
+        foreach ($this->premiosEmpresaria as $key => $value) {
+            PremioAcumuladoEmpresaria::create($value);
+        }
+
         return redirect()->to(route('web.checkout', ['id' => $this->id_empresaria, 'envio' => $this->envio]));
     }
 
@@ -1091,89 +1098,94 @@ class TomarPedido extends Component
     }
 
 
-    public function verificarPremios()
+    public function checkAwards()
     {
+        $this->premiosEmpresaria = [];
         $this->flagPrize  = false ;
+        $prizeProductsWithoutAccumulation = collect([]);
+        $prizeProductsWithAccumulation = collect([]);
 
         if($this->tipoEmpresaria != ''){
-
+            $this->countProductosPremios += 1 ;
+            //NO acumula
             $total = Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum();
-
-            //Aun no se sabe el total porque va a ver si acumula
-            //Preguntar si puede cumplir ambas conidciones
-            //de acumular o no
-            $condicionPremio = $this->getAwardCondition( 0, $total) ;
-
-            
-            $productosPremios1 = collect([]);
-            $productosPremios2 = collect([]);
-
-            if($condicionPremio){
-                //Retorno los productos de ese premio
-                $premioHasProductos = Premio_has_Producto::where('premio_id',$condicionPremio->premio_id )->pluck('estilo');
-
-                $productosPremios1= Producto::where([
-                        ['catalogo_id', $condicionPremio->prize->catalogo_id],
-                        ['estado', 'A'],
-                        ['stock', '>', 0]
-                    ])
-                    ->whereIn('estilo', $premioHasProductos )
-                    ->get();
-            }
+            $conditionPrize = $this->getAwardCondition( 0, $total) ;
+            if($conditionPrize) $prizeProductsWithoutAccumulation = $this->getThePrizeProducts($conditionPrize);
 
             //Acumula
+            $prizeProductsWithAccumulation = $this->getAccumulationPrizeProducts();
 
-            $catalogoActual = Catalogo::where('estado', 'PUBLICADO')->first();
-
-            $catalogoOld = Catalogo::where([
-                    ['estado', 'FINALIZADO'],
-                    ['id', '!=',$catalogoActual->id]
-                ])
-                ->orderBy('fecha_publicacion', 'desc')
-                ->first();
-
-            if($catalogoOld){
-
-                //Verificar en la nueva tabla si ya tiene un catalogo acumulado
-                //si no llega a tener lo busca, caso contrario genera
-                //Preguntar si es total vemta
-                $total = Venta::where([
-                    ['id_empresaria', $this->id_empresaria],
-                    ['id_catalogo', $catalogoOld->id]
-                ])->sum('total_venta');
-
-                $condicionPremio = $this->getAwardCondition( 1, $total) ;
-
-                if($condicionPremio){
-                    //Preguntar por la condicion
-                    $premioAcumuladoEmpresaria = PremioAcumuladoEmpresaria::where([
-                            ['empresaria_id' , $this->id_empresaria],
-                            ['estado' , 1],
-                            ['catalogo_id' , $catalogoOld->id],
-                            ['condicion_premio_id', $condicionPremio->id]
-                        ])->first();
-
-                    if(!$premioAcumuladoEmpresaria){
-
-                        $premioHasProductos = Premio_has_Producto::where('premio_id',$condicionPremio->premio_id )->pluck('estilo');
-                        
-                        $productosPremios2 = Producto::with('marca')
-                            ->where([
-                                ['catalogo_id', $condicionPremio->prize->catalogo_id],
-                                ['estado', 'A'],
-                                ['stock', '>', 0]
-                            ])
-                            ->whereIn('estilo', $premioHasProductos )
-                            ->get();
-                    }
-                }
-            }
-
-            $this->productosPremios = $productosPremios1->concat($productosPremios2);
+            $this->productosPremios = $prizeProductsWithoutAccumulation->concat($prizeProductsWithAccumulation);
 
             $this->flagPrize = $this->productosPremios->count() > 0 ? true : false ;
         }
 
+    }
+
+
+
+    public function getAccumulationPrizeProducts()
+    {
+        $products = collect([]);
+
+        $currentCatalog = Catalogo::where('estado', 'PUBLICADO')->first();
+
+        $catalogOld = Catalogo::where([
+                ['estado', 'FINALIZADO'],
+                ['id', '!=',$currentCatalog->id]
+            ])
+            ->orderBy('fecha_publicacion', 'desc')
+            ->first();
+
+        if($catalogOld){
+            $total = Venta::where([
+                ['id_empresaria', $this->id_empresaria],
+                ['id_catalogo', $catalogOld->id]
+            ])->sum('total_venta');
+
+            $conditionPrize = $this->getAwardCondition( 1, $total) ;
+
+            if($conditionPrize){
+                //Preguntar por la condicion
+                $prizeAccumulatedBusinesswoman = PremioAcumuladoEmpresaria::where([
+                        ['empresaria_id' , $this->id_empresaria],
+                        ['estado' , 1],
+                        ['catalogo_id' , $catalogOld->id],
+                        ['condicion_premio_id', $conditionPrize->id]
+                    ])->first();
+
+                if(!$prizeAccumulatedBusinesswoman){
+                    //me falta el de ventaId
+                    $this->premiosEmpresaria[]=[
+                        'empresaria_id' => $this->id_empresaria,
+                        'catalogo_id' => $catalogOld->id,
+                        'condicion_premio_id'=> $conditionPrize->id,
+                        'venta_id'=>null
+                    ];
+
+                    $products = $this->getThePrizeProducts($conditionPrize);
+                }
+            }
+        }
+
+        return $products ;
+    }
+
+
+    public function getThePrizeProducts($conditionPrize)
+    {
+        $PrizeHasProduct = Premio_has_Producto::where('premio_id',$conditionPrize->premio_id )->pluck('estilo');
+        $products = Producto::with('marca')
+            ->where([
+                ['catalogo_id', $conditionPrize->prize->catalogo_id],
+                ['categoria', 'PREMIOS'],
+                ['estado', 'A'],
+                ['stock', '>', 0]
+            ])
+            ->whereIn('estilo', $PrizeHasProduct )
+            ->get();
+
+        return $products ;
     }
 
 
@@ -1203,7 +1215,7 @@ class TomarPedido extends Component
             $this->cerrarVenta();
         }
         // Lógica para verificar la bandera (puedes ajustarla a tu lógica de negocio)
-        $this->verificarPremios();
+        $this->checkAwards();
         if ($this->flagPrize) {
             // Emitir evento para mostrar SweetAlert
             $this->dispatchBrowserEvent('mostrar-alerta');
@@ -1213,19 +1225,10 @@ class TomarPedido extends Component
         }
     }
 
-    
+
     public function aceptarAccion()
     {
         $this->emit('mostrar-modal-premios');
     }
 
-
-    public function obtenerPremios()
-    {
-        $this->productosPremios = Producto::where([
-            ['estado', 'A'],
-            ['categoria', 'PREMIOS']
-        ])->get();
-
-    }
 }

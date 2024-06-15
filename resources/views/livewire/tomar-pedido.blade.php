@@ -318,11 +318,6 @@
         <button class="btn bg-ibizza w-25 m-3" wire:click='GuardarPedidos' wire:loading.attr="disabled"
         wire:target="GuardarPedidos">RESERVAR PEDIDO</button>
         <a wire:click="verificarYProcesar" class="btn btn-success w-25 m-3">CERRAR VENTA</a>
-
-        <button type="button" class="btn btn-sm btn-outline-default mr-1"
-        wire:click='obtenerPremios'
-                                            data-bs-toggle="modal" data-bs-target="#modalPremios"
-                                           ><i class="fas fa-map-marked-alt"></i></button>
     </div>
 
     <div class="modal fade" wire:ignore.self id="modalDirecciones" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -461,7 +456,7 @@
                     $('#modalPremios').modal('hide');
                 });
 
-                
+
             });
 
             document.addEventListener('DOMContentLoaded', function () {
@@ -474,11 +469,13 @@
                         confirmButtonText: 'Agregar Premios',
                         cancelButtonText: 'Cerrar Venta'
                     }).then((result) => {
+                    console.log(result, result.dismiss,  Swal.DismissReason.cancel);
                         if (result.isConfirmed) {
                             $('#modalPremios').modal('show');
                             Livewire.emit('aceptarAccion');
 
                         } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            console.log("Deberia llamar a la funcion");
                             Livewire.emit('cerrarVenta');
                         }
                     });

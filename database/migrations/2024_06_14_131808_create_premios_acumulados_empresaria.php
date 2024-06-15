@@ -21,7 +21,7 @@ class CreatePremiosAcumuladosEmpresaria extends Migration
             $table->foreign('empresaria_id')->references('id')->on('empresarias')->onDelete('set null');
             $table->unsignedBigInteger('condicion_premio_id')->nullable();
             $table->foreign('condicion_premio_id')->references('id')->on('condicion_premios')->onDelete('set null');
-            $table->unsignedBigInteger('venta_id');
+            $table->unsignedBigInteger('venta_id')->nullable();
             $table->integer('estado')->default(1);
             $table->timestamps();
         });
