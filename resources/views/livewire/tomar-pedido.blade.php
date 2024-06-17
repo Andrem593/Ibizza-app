@@ -392,18 +392,22 @@
 
                         </thead>
                         <tbody>
-                            @foreach ($productosPremios as $item)
-                            <tr>
-                                <td>{{$item->sku}}</td>
-                                <td>{{$item->descripcion}}</td>
-                                <td>{{$item->marca->nombre}}</td>
-                                <td>{{$item->color}}</td>
-                                <td>{{$item->talla}}</td>
-                                <td>{{$item->stock}}</td>
-                                <td><button wire:click="eliminarProducto({{ $item->id }})" class="btn btn-danger btn-sm">Eliminar</button></td>
-                            </tr>
+                       
+                            @if (count($productosPremios) > 0)
+                                @foreach ($productosPremios as $item)
+                                <tr>
+                                    <td>{{$item->sku}}</td>
+                                    <td>{{$item->descripcion}}</td>
+                                    <td>{{$item->marca->nombre}}</td>
+                                    <td>{{$item->color}}</td>
+                                    <td>{{$item->talla}}</td>
+                                    <td>{{$item->stock}}</td>
+                                    <td><button wire:click="eliminarProducto({{ $item->id }})" class="btn btn-danger btn-sm">Eliminar</button></td>
+                                </tr>
 
-                            @endforeach
+                                @endforeach
+                                
+                            @endif
 
                         </tbody>
                     </table>
