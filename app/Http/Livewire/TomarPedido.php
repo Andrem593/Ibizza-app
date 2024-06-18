@@ -1120,17 +1120,20 @@ class TomarPedido extends Component
                 $conditionPrize = $this->getAwardCondition( 0, $total, $this->tipoEmpresaria) ;
                 if($conditionPrize) $prizeProductsWithoutAccumulation = $this->getThePrizeProducts($conditionPrize);
             }
-            
-            
+
+
             //Acumula
-            $prizeProductsWithAccumulation = $this->getAccumulationPrizeProducts();
+            //Parametrizar
+            if($total > 60){
+                $prizeProductsWithAccumulation = $this->getAccumulationPrizeProducts();
+
+            }
 
             if(count($prizeProductsWithoutAccumulation) > 0){
                 $this->productosPremios = $prizeProductsWithoutAccumulation->merge($prizeProductsWithAccumulation);
             }else{
                 $this->productosPremios = $prizeProductsWithAccumulation->merge($prizeProductsWithoutAccumulation);
             }
-
             // $this->productosPremios = collect($this->productosPremios)->map(function($element){
 
             //     return (object)[
@@ -1142,7 +1145,7 @@ class TomarPedido extends Component
             //         'stock'=> $element->stock,
             //         'id'=> $element->id
             //     ];
-                
+
             // }) ;
             $this->flagPrize = $this->productosPremios->count() > 0 ? true : false ;
         }
@@ -1166,6 +1169,14 @@ class TomarPedido extends Component
                 ['id_empresaria', $this->id_empresaria],
                 ['id_catalogo', $catalogOld->id]
             ])->sum('total_venta');
+
+
+            $envio = Venta::where([
+                ['id_empresaria', $this->id_empresaria],
+                ['id_catalogo', $catalogOld->id]
+            ])->sum('envio');
+
+            $total -= $envio ;
 
             $conditionPrize = $this->getAwardCondition( 1, $total, 'TODOS') ;
 
@@ -1193,7 +1204,7 @@ class TomarPedido extends Component
             }
             if(count($products) == 0 ){
                 $conditionPrize = $this->getAwardCondition( 1, $total, $this->tipoEmpresaria) ;
-    
+
                 if($conditionPrize){
                     //Preguntar por la condicion
                     $prizeAccumulatedBusinesswoman = PremioAcumuladoEmpresaria::where([
@@ -1212,13 +1223,13 @@ class TomarPedido extends Component
                                 'condicion_premio_id'=> $conditionPrize->id,
                                 'venta_id'=>null
                             ];
-    
+
                         }
                     }
                 }
             }
 
-            
+
         }
 
         return $products ;
