@@ -110,42 +110,7 @@
                 </div> --}}
                 </div>
 
-                <div>
-                    <table class="table table-light">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Nombre</th>
-                                <th>Valor</th>
-                                <th>Estado</th>
-                                <th>Accion</th>
-                            </tr>
-                        </thead>
-                        <tbody id="parametros-table-body">
-                            @foreach ($parametros as $parametro)
-                            <tr>
-                                <td>
-                                    <input type="text" name="parametros[{{ $loop->index }}][id]" value="{{ $parametro->id }}">
-                                </td>
-                                <td>
-                                    <input type="text" name="parametros[{{ $loop->index }}][nombre]" value="{{ $parametro->nombre }}" class="form-control" required>
-                                </td>
-                                <td>
-                                    <input type="text" name="parametros[{{ $loop->index }}][valor]" value="{{ $parametro->valor }}" class="form-control" required>
-                                </td>
-                                <td>
-                                    <input type="text" name="parametros[{{ $loop->index }}][estado]" value="{{ $parametro->estado }}" class="form-control" required>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button>
-                                </td>
-                            </tr>
-
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <button type="button" class="btn btn-success" onclick="addRow()">Agregar</button>
-                </div>
+                
             </div>
 
         </div>
