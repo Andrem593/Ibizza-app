@@ -108,23 +108,7 @@ class CatalogoController extends Controller
     public function edit($id)
     {
         $catalogo = Catalogo::find($id);
-
-        $parametros = collect([
-            (object)[
-                'id' => 1,
-                'nombre' => 'Prueba',
-                'valor' => 1,
-                'estado' => 1,
-            ],
-            (object)[
-                'id' => 2,
-                'nombre' => 'Prueba2',
-                'valor' => 1,
-                'estado' => 1,
-            ]
-        ]) ;
-
-        return view('catalogo.edit', compact('catalogo', 'parametros'));
+        return view('catalogo.edit', compact('catalogo'));
     }
 
     /**

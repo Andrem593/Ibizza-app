@@ -32,7 +32,7 @@ class Premio extends Model
      *
      * @var array
      */
-    protected $fillable = ['condicion','descripcion','catalogo_id'];
+    protected $fillable = ['condicion','descripcion','catalogo_id', 'monto_minimo_acumulado'];
 
 
     public function catalogue()

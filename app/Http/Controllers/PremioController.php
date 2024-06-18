@@ -53,7 +53,8 @@ class PremioController extends Controller
 
         $premio = Premio::create([
             'catalogo_id' => $request->catalogo_id,
-            'descripcion' => $request->descripcion
+            'descripcion' => $request->descripcion,
+            // 'monto_minimo_acumulado' => $request->monto_minimo_acumulado
         ]);
 
         $premio_id = $premio->id;
@@ -140,7 +141,7 @@ class PremioController extends Controller
         if (count($productos) == 0) {
             $productos = 'no data';
         }
-
+        
         //$response = json_encode($productos);
 
         return view('premio.edit', compact('premio', 'condicion', 'catalogo', 'productos'));
@@ -158,7 +159,8 @@ class PremioController extends Controller
         request()->validate(Premio::$rules);
         $premio->update([
             'catalogo_id' => $request->catalogo_id,
-            'descripcion' => $request->descripcion
+            'descripcion' => $request->descripcion,
+            // 'monto_minimo_acumulado'=> $request->monto_minimo_acumulado
         ]);
 
         $premio_id = $premio->id;
