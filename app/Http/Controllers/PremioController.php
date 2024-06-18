@@ -54,7 +54,7 @@ class PremioController extends Controller
         $premio = Premio::create([
             'catalogo_id' => $request->catalogo_id,
             'descripcion' => $request->descripcion,
-            // 'monto_minimo_acumulado' => $request->monto_minimo_acumulado
+            'monto_minimo_acumulado' => $request->monto_minimo_acumulado
         ]);
 
         $premio_id = $premio->id;
@@ -160,7 +160,7 @@ class PremioController extends Controller
         $premio->update([
             'catalogo_id' => $request->catalogo_id,
             'descripcion' => $request->descripcion,
-            // 'monto_minimo_acumulado'=> $request->monto_minimo_acumulado
+            'monto_minimo_acumulado'=> $request->monto_minimo_acumulado
         ]);
 
         $premio_id = $premio->id;
