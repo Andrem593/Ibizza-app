@@ -2,7 +2,7 @@
     <div class="box-body">
         <div class="row">
             <div class="col-4">
-                <div class="form-group">
+                <div class="form-group ">
                     {{ Form::label('descripción') }}
                     {{ Form::text('descripcion', $premio->descripcion, ['id' => 'txt_descripcion', 'class' => 'form-control' . ($errors->has('descripcion') ? ' is-invalid' : ''), 'placeholder' => 'Descripcion']) }}
                     {!! $errors->first('descripcion', '<div class="invalid-feedback">:message</p>') !!}
@@ -28,7 +28,8 @@
                 </div>
 
             </div>
-
+        
+            {{-- <input id="conArray" type="hidden" value="{{ !empty($condicion) ? $condicion : '' }}"> --}}
             <input id="conArray" type="hidden" value="{{ !empty($premio->condicion) ? $premio->condicion : '' }}">
 
             <div class="col">
@@ -84,7 +85,7 @@
                             <td>
                                 <center>
                                     @empty($value->imagen_path)
-                                        <img src="https://www.blackwallst.directory/images/NoImageAvailable.png"
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRObusbGxpV0B3_s_l06FZPdwSGrQU31j3ETA&s"
                                             class="rounded" width="80" height="60" />
                                     @else
                                         <img src="/storage/images/productos/{{ $value->imagen_path }}"
@@ -390,6 +391,10 @@
 
             $('#btn_condicion').on('click', function(e) {
                 e.preventDefault();
+                Livewire.emit('recargar');
+                return ;
+
+                
 
                 let campoArray = $.map($(".campo"), function(element) {
                     return {
@@ -397,6 +402,9 @@
                         value: element.value
                     };
                 });
+
+                
+
                 let operadorArray = $.map($(".operador"), function(element) {
                     return {
                         name: element.options[element.selectedIndex].text,
@@ -409,6 +417,7 @@
                         value: "'" + element.value + "'"
                     };
                 });
+
                 // console.log(operadorArray);
                 // let condicionArray = $.map($(".condicion"), function(element) {
                 //     return {
@@ -425,20 +434,29 @@
                     }
                 });
 
+                let tipo_empresaria = $('#tipo_empresaria').val();
+                let chk_acumular = $('#chk_acumular').val();
+                let nivel = $('#nivel').val();
+                let rango_desde = $('#rango_desde').val();
+                let rango_hasta = $('#rango_hasta').val();
+
+
                 let nombre_tabla = $('#nombre_tabla').val();
+
+                console.log("NOmbre tabak: ", nombre_tabla);
 
                 if(nombre_tabla != ""){
                     if (!flag) {
     
                         let condiciones = '';
                         let nombres = '';
-                        $.each(campoArray, function(key, value) {
-                            console.log(key);
-                            condiciones += value.value + ' ' + operadorArray[key].value + ' ' +
-                                valorArray[key].value;// + ' ' + condicionArray[key].value;
-                            nombres += value.name + ' ' + operadorArray[key].name + ' ' +
-                                valorArray[key].name;// + ' ' + condicionArray[key].name;
-                        });
+                        // $.each(campoArray, function(key, value) {
+                        //     console.log(key);
+                        //     condiciones += value.value + ' ' + operadorArray[key].value + ' ' +
+                        //         valorArray[key].value;// + ' ' + condicionArray[key].value;
+                        //     nombres += value.name + ' ' + operadorArray[key].name + ' ' +
+                        //         valorArray[key].name;// + ' ' + condicionArray[key].name;
+                        // });
                         // let condPart = condiciones.split(' ');
                         // condPart.pop();
                         // let condClean = condPart.toString().replace(/,/g, ' ');
@@ -449,10 +467,18 @@
     
                         let tabla = $('#nombre_tabla').val();
     
+                        console.log("Llega", tabla, condiciones, nombres);
+
+                        let descripcion2 = '$'+rango_desde+' - $'+rango_hasta; 
+
                         arrayFinal.push({
-                            'nombre_tabla': tabla,
-                            'condicion': $.trim(condiciones),
-                            'descripcion': $.trim(nombres)
+                            'nombre_tabla': tipo_empresaria,
+                            'descripcion':descripcion2 ,
+                            'rango_desde':rango_desde,
+                            'rango_hasta':rango_hasta,
+                            'nivel':nivel,
+                            'acumular':chk_acumular,
+                            'tipo_empresaria':tipo_empresaria
                         });
                         console.log(arrayFinal);
                         
@@ -513,6 +539,7 @@
             });
 
             let conArray = $('#conArray').val();
+            console.log("conArray", conArray);
             if (conArray != '') {
                 dataTableCondiciones.clear().draw();
                 dataTableCondiciones.rows.add(JSON.parse(conArray)).draw();

@@ -21,6 +21,15 @@
                     </select>
                 </div>
 
+
+
+
+
+
+
+
+
+                
             </div>
 
             <div class="col">
@@ -142,7 +151,7 @@
                         "data": "imagen_path",
                         "render": function(data, type, row) {
                             let image =
-                                'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRObusbGxpV0B3_s_l06FZPdwSGrQU31j3ETA&s';
                             if (data != '' && data != null) {
                                 image = '/storage/images/productos/' + data
                             }
@@ -418,7 +427,7 @@
                         value: "'" + element.value + "'"
                     };
                 });
-                // console.log(operadorArray);
+                console.log(operadorArray);
                 // let condicionArray = $.map($(".condicion"), function(element) {
                 //     return {
                 //         name: element.options[element.selectedIndex].text,
