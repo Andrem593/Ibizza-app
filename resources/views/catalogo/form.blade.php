@@ -109,6 +109,43 @@
                     {!! $errors->first('pdf_path', '<div class="invalid-feedback">:message</p>') !!}
                 </div> --}}
                 </div>
+
+                <div>
+                    <table class="table table-light">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Valor</th>
+                                <th>Estado</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody id="parametros-table-body">
+                            @foreach ($parametros as $parametro)
+                            <tr>
+                                <td>
+                                    <input type="text" name="parametros[{{ $loop->index }}][id]" value="{{ $parametro->id }}">
+                                </td>
+                                <td>
+                                    <input type="text" name="parametros[{{ $loop->index }}][nombre]" value="{{ $parametro->nombre }}" class="form-control" required>
+                                </td>
+                                <td>
+                                    <input type="text" name="parametros[{{ $loop->index }}][valor]" value="{{ $parametro->valor }}" class="form-control" required>
+                                </td>
+                                <td>
+                                    <input type="text" name="parametros[{{ $loop->index }}][estado]" value="{{ $parametro->estado }}" class="form-control" required>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button>
+                                </td>
+                            </tr>
+
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-success" onclick="addRow()">Agregar</button>
+                </div>
             </div>
 
         </div>
@@ -130,3 +167,24 @@
         </x-slot>
     </x-adminlte-modal>
     {{-- Example button to open modal --}}
+
+    <script>
+        function addRow() {
+            var tableBody = document.getElementById('parametros-table-body');
+            var rowCount = tableBody.rows.length;
+            var newRow = tableBody.insertRow();
+
+            newRow.innerHTML = `
+                <td><input type="text" name="parametros[${rowCount}][id]" value="" class="form-control" readonly></td>
+                <td><input type="text" name="parametros[${rowCount}][nombre]" value="" class="form-control" required></td>
+                <td><input type="text" name="parametros[${rowCount}][valor]" value="" class="form-control" required></td>
+                <td><input type="text" name="parametros[${rowCount}][estado]" value="Pendiente" class="form-control" required></td>
+                <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button></td>
+            `;
+        }
+
+        function removeRow(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+    </script>

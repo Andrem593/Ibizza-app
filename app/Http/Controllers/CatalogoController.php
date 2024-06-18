@@ -109,7 +109,22 @@ class CatalogoController extends Controller
     {
         $catalogo = Catalogo::find($id);
 
-        return view('catalogo.edit', compact('catalogo'));
+        $parametros = collect([
+            (object)[
+                'id' => 1,
+                'nombre' => 'Prueba',
+                'valor' => 1,
+                'estado' => 1,
+            ],
+            (object)[
+                'id' => 2,
+                'nombre' => 'Prueba2',
+                'valor' => 1,
+                'estado' => 1,
+            ]
+        ]) ;
+
+        return view('catalogo.edit', compact('catalogo', 'parametros'));
     }
 
     /**
@@ -243,25 +258,25 @@ class CatalogoController extends Controller
     }
 
     public function parametrosMarca()
-    {        
+    {
         return view('catalogo.parametrosMarca');
     }
 
     public function parametrosMarcaNew()
     {
-        $categorias = DB::table('productos')->select('categoria')->distinct()->get();        
+        $categorias = DB::table('productos')->select('categoria')->distinct()->get();
         return view('catalogo.newParametroMarca', compact('categorias'));
     }
 
     public function parametrosMarcaEdit($id)
     {
         $parametro = ParametroMarca::find($id);
-        $categorias = DB::table('productos')->select('categoria')->distinct()->get();  
-        
-        $categorias2 = json_decode($parametro->marcas) ;  
+        $categorias = DB::table('productos')->select('categoria')->distinct()->get();
+
+        $categorias2 = json_decode($parametro->marcas) ;
 
         $categorias2 = is_object($categorias2) ? $categorias2 : [];
-        
+
         return view('catalogo.editParametroMarca', compact('parametro', 'categorias','categorias2'));
     }
 
@@ -273,8 +288,8 @@ class CatalogoController extends Controller
             'condicion' => 'required',
             'operador' => 'required',
             'cantidad' => 'required',
-        ]);    
-        
+        ]);
+
         try {
             ParametroMarca::find($id)->update([
                 'nombre' => $request->nombre,
@@ -311,9 +326,9 @@ class CatalogoController extends Controller
             foreach ($parametros as $key => $value) {
                 $value->marcas = json_decode($value->marcas);
             }
-            
+
             foreach ($parametros as $key => $value) {
-               
+
 
                 $value->marcas = collect($value->marcas)->map(function($mark){
                     if (property_exists($mark, 'categoria')) {
@@ -342,8 +357,8 @@ class CatalogoController extends Controller
             'condicion' => 'required',
             'operador' => 'required',
             'cantidad' => 'required',
-        ]);    
-        
+        ]);
+
         try {
             ParametroMarca::create([
                 'nombre' => $request->nombre,
