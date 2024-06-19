@@ -57,7 +57,6 @@ class PremioController extends Controller
             'monto_minimo_acumulado' => $request->monto_minimo_acumulado
         ]);
 
-        dd($request->all());
         $premio_id = $premio->id;
 
         if (!empty($request->condicion)) {
@@ -129,6 +128,7 @@ class PremioController extends Controller
             ->map(function($condition){
                 $condition->nombre_tabla = $condition->tipo_empresaria;
                 $condition->descripcion = '$'.$condition->rango_desde.' - '.$condition->rango_hasta;
+                $condition->acumular_valor = $condition->acumular == 1 ? 'SI' : 'NO';
                 return $condition ;
             });
 
@@ -150,7 +150,7 @@ class PremioController extends Controller
         if (count($productos) == 0) {
             $productos = 'no data';
         }
-        
+
         //$response = json_encode($productos);
 
         return view('premio.edit', compact('premio', 'condicion', 'catalogo', 'productos'));

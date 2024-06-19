@@ -1124,10 +1124,10 @@ class TomarPedido extends Component
 
             //Acumula
             //Parametrizar
-            if($total > 60){
-                $prizeProductsWithAccumulation = $this->getAccumulationPrizeProducts();
+            // if($total > 60){
+            $prizeProductsWithAccumulation = $this->getAccumulationPrizeProducts($total);
 
-            }
+            // }
 
             if(count($prizeProductsWithoutAccumulation) > 0){
                 $this->productosPremios = $prizeProductsWithoutAccumulation->merge($prizeProductsWithAccumulation);
@@ -1154,7 +1154,7 @@ class TomarPedido extends Component
 
 
 
-    public function getAccumulationPrizeProducts()
+    public function getAccumulationPrizeProducts($valorTotalCarrito)
     {
         $products = collect([]);
 
@@ -1180,42 +1180,19 @@ class TomarPedido extends Component
 
             $conditionPrize = $this->getAwardCondition( 1, $total, 'TODOS') ;
 
+
             if($conditionPrize){
-                $prizeAccumulatedBusinesswoman = PremioAcumuladoEmpresaria::where([
-                        ['empresaria_id' , $this->id_empresaria],
-                        ['estado' , 1],
-                        ['catalogo_id' , $catalogOld->id],
-                        ['condicion_premio_id', $conditionPrize->id]
-                    ])->first();
-
-                if(!$prizeAccumulatedBusinesswoman){
-                    $products = $this->getThePrizeProducts($conditionPrize);
-                    if($products->count() > 0 ){
-                        //me falta el de ventaId
-                        $this->premiosEmpresaria[]=[
-                            'empresaria_id' => $this->id_empresaria,
-                            'catalogo_id' => $catalogOld->id,
-                            'condicion_premio_id'=> $conditionPrize->id,
-                            'venta_id'=>null
-                        ];
-
-                    }
-                }
-            }
-            if(count($products) == 0 ){
-                $conditionPrize = $this->getAwardCondition( 1, $total, $this->tipoEmpresaria) ;
-
-                if($conditionPrize){
-                    //Preguntar por la condicion
+                if($valorTotalCarrito >= $conditionPrize->prize->monto_minimo_acumulado){
                     $prizeAccumulatedBusinesswoman = PremioAcumuladoEmpresaria::where([
                             ['empresaria_id' , $this->id_empresaria],
                             ['estado' , 1],
                             ['catalogo_id' , $catalogOld->id],
                             ['condicion_premio_id', $conditionPrize->id]
                         ])->first();
+
                     if(!$prizeAccumulatedBusinesswoman){
                         $products = $this->getThePrizeProducts($conditionPrize);
-                        if($products->count() > 0){
+                        if($products->count() > 0 ){
                             //me falta el de ventaId
                             $this->premiosEmpresaria[]=[
                                 'empresaria_id' => $this->id_empresaria,
@@ -1225,6 +1202,37 @@ class TomarPedido extends Component
                             ];
 
                         }
+                    }
+
+                }
+            }
+            if(count($products) == 0 ){
+                $conditionPrize = $this->getAwardCondition( 1, $total, $this->tipoEmpresaria) ;
+
+                if($conditionPrize){
+                    // dd($total, $conditionPrize, $conditionPrize->prize->monto_minimo_acumulado , $valorTotalCarrito, $conditionPrize->prize->monto_minimo_acumulado >= $valorTotalCarrito);
+                    if($valorTotalCarrito >= $conditionPrize->prize->monto_minimo_acumulado){
+                        //Preguntar por la condicion
+                        $prizeAccumulatedBusinesswoman = PremioAcumuladoEmpresaria::where([
+                                ['empresaria_id' , $this->id_empresaria],
+                                ['estado' , 1],
+                                ['catalogo_id' , $catalogOld->id],
+                                ['condicion_premio_id', $conditionPrize->id]
+                            ])->first();
+                        if(!$prizeAccumulatedBusinesswoman){
+                            $products = $this->getThePrizeProducts($conditionPrize);
+                            if($products->count() > 0){
+                                //me falta el de ventaId
+                                $this->premiosEmpresaria[]=[
+                                    'empresaria_id' => $this->id_empresaria,
+                                    'catalogo_id' => $catalogOld->id,
+                                    'condicion_premio_id'=> $conditionPrize->id,
+                                    'venta_id'=>null
+                                ];
+
+                            }
+                        }
+
                     }
                 }
             }

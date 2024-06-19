@@ -26,9 +26,14 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="form-group">
+                    {{ Form::label('Monto Mínimo Premio Acumulado') }}
+                    {{ Form::text('monto_minimo_acumulado', $premio->monto_minimo_acumulado, ['id'=>'monto_minimo_acumulado','class' => 'form-control' . ($errors->has('monto_minimo_acumulado') ? ' is-invalid' : ''), 'placeholder' => 'Monto mínimo']) }}
+                </div>
+
 
             </div>
-        
+
             {{-- <input id="conArray" type="hidden" value="{{ !empty($condicion) ? $condicion : '' }}"> --}}
             <input id="conArray" type="hidden" value="{{ !empty($premio->condicion) ? $premio->condicion : '' }}">
 
@@ -45,6 +50,7 @@
                         <thead class="bg-ibizza text-center">
                             <th>Descripción</th>
                             <th>Condición</th>
+                            <th>Acumula</th>
                             <th></th>
                         </thead>
                         <tbody class="text-center">
@@ -249,6 +255,7 @@
 
                 let descripcion = $('#txt_descripcion').val();
                 let catalogo_id = $('#cmb_catalogo').val();
+                let monto_minimo_acumulado = $('#monto_minimo_acumulado').val();
                 let condicion = '';
                 let premio = '';
 
@@ -279,6 +286,7 @@
                         data: {
                             descripcion,
                             catalogo_id,
+                            monto_minimo_acumulado,
                             condicion,
                             premio
                         },
@@ -332,6 +340,9 @@
                     },
                     {
                         'data': 'descripcion'
+                    },
+                    {
+                        'data': 'acumular_valor'
                     },
                     {
                         'data': 'descripcion',
@@ -391,10 +402,10 @@
 
             $('#btn_condicion').on('click', function(e) {
                 e.preventDefault();
-                Livewire.emit('recargar');
-                return ;
+                // Livewire.emit('recargar');
+                // return ;
 
-                
+
 
                 let campoArray = $.map($(".campo"), function(element) {
                     return {
@@ -403,7 +414,7 @@
                     };
                 });
 
-                
+
 
                 let operadorArray = $.map($(".operador"), function(element) {
                     return {
@@ -435,7 +446,7 @@
                 });
 
                 let tipo_empresaria = $('#tipo_empresaria').val();
-                let chk_acumular = $('#chk_acumular').val();
+                let chk_acumular = $('#chk_acumular').prop('checked');
                 let nivel = $('#nivel').val();
                 let rango_desde = $('#rango_desde').val();
                 let rango_hasta = $('#rango_hasta').val();
@@ -447,7 +458,7 @@
 
                 if(nombre_tabla != ""){
                     if (!flag) {
-    
+
                         let condiciones = '';
                         let nombres = '';
                         // $.each(campoArray, function(key, value) {
@@ -460,16 +471,16 @@
                         // let condPart = condiciones.split(' ');
                         // condPart.pop();
                         // let condClean = condPart.toString().replace(/,/g, ' ');
-    
+
                         // let namePart = nombres.split(' ');
                         // namePart.pop();
                         // let nameClean = namePart.toString().replace(/,/g, ' ');
-    
+
                         let tabla = $('#nombre_tabla').val();
-    
+
                         console.log("Llega", tabla, condiciones, nombres);
 
-                        let descripcion2 = '$'+rango_desde+' - $'+rango_hasta; 
+                        let descripcion2 = '$'+rango_desde+' - $'+rango_hasta;
 
                         arrayFinal.push({
                             'nombre_tabla': tipo_empresaria,
@@ -478,15 +489,16 @@
                             'rango_hasta':rango_hasta,
                             'nivel':nivel,
                             'acumular':chk_acumular,
+                            'acumular_valor':chk_acumular == 1 ? 'SI' : 'NO',
                             'tipo_empresaria':tipo_empresaria
                         });
                         console.log(arrayFinal);
-                        
+
                         dataTableCondiciones.clear().draw();
                         dataTableCondiciones.rows.add(arrayFinal).draw();
-    
-                        Livewire.emit('recargar');
-    
+
+                        // Livewire.emit('recargar');
+
                         Livewire.hook('message.processed', (message, component) => {
                             inicializar_select();
                         });
