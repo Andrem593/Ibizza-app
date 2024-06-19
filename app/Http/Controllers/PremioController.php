@@ -172,15 +172,19 @@ class PremioController extends Controller
             'monto_minimo_acumulado'=> $request->monto_minimo_acumulado
         ]);
 
-        // dd($request->all());
-
         $premio_id = $premio->id;
 
         if (!empty($request->condicion)) {
 
             $condicion = json_decode($request->condicion);
 
-            // dd($condicion);
+            $idsEliminar = collect($condicion)->pluck('id')->filter(function ($value) {
+                return !is_null($value);
+            }) ;
+
+            CondicionPremio::where([
+                ['premio_id', $premio->id],
+            ])->whereNotIn('id', $idsEliminar)->delete();
 
             foreach ($condicion as $key => $value) {
 
