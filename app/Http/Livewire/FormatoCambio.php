@@ -17,6 +17,20 @@ class FormatoCambio extends Component
     public $e_nombre, $e_cedula, $e_telefono, $e_provincia, $e_ciudad, $e_direccion, $e_pedido, $e_c_envio;
     public $selectedItems = [];
 
+    public $selectedItem = null;
+    public $selectedItemData = [
+        'sku' => '',
+        'descripcion' => '',
+        'color' => '',
+        'talla' => '',
+        'cantidad' => '',
+        'descuento' => '',
+        'pvp' => '',
+        'p_empresaria' => ''
+    ];
+
+    public $changes = [];
+
 
     public function render()
     {
@@ -183,6 +197,9 @@ class FormatoCambio extends Component
                 ->first();
 
             if ($producto->stock >= $this->cantidad) {
+
+                $originalItem = $this->pedidos->where('id_producto', $this->selectedItem)->first();
+
                 $this->nuevoProducto[] = [
                     'id' => $producto->id,
                     'sku' => $producto->sku,
@@ -193,7 +210,38 @@ class FormatoCambio extends Component
                     'marca' => $producto->marca->nombre,
                     'cantidad' => $this->cantidad,
                     'precio' => $producto->precio_empresaria,
+                    'id_producto_original' => $originalItem['id_producto']
                 ];
+
+
+                $originalData = [
+                    'id' => $originalItem['id_producto'],
+                    'sku' => $originalItem['producto']['sku'],
+                    'descripcion' => $originalItem['producto']['descripcion'],
+                    'color' => $originalItem['producto']['color'],
+                    'talla' => $originalItem['producto']['talla'],
+                    'cantidad' => $originalItem['cantidad'],
+                    'descuento' => $originalItem['descuento'],
+                    'pvp' => number_format($originalItem['cantidad'] * $originalItem['precio'], 2),
+                    'p_empresaria' => number_format($originalItem['cantidad'] * ($originalItem['precio'] - $originalItem['precio'] * $originalItem['descuento']), 2)
+                ];
+                $this->changes[] = [
+                    'original' => $originalData,
+                    'changed' => [
+                        'id' => $producto->id,
+                        'sku' => $producto->sku,
+                        'descripcion' => $producto->descripcion,
+                        'estilo' => $producto->estilo,
+                        'color' => $producto->color,
+                        'talla' => $producto->talla,
+                        'marca' => $producto->marca->nombre,
+                        'cantidad' => $this->cantidad,
+                        'precio' => $producto->precio_empresaria,
+                    ]
+                ];
+
+                $this->reset('selectedItem', 'selectedItemData','estilo', 'color');
+
             } else {
                 $this->message = 'NO HAY STOCK DISPONIBLE';
             }
@@ -202,5 +250,52 @@ class FormatoCambio extends Component
             $this->click = false;
             $this->message = 'VERIFIQUE QUE ESTEN TODOS LOS CAMPOS LLENOS';
         }
+    }
+
+    public function selectItem($itemId)
+    {
+        $item = $this->pedidos->where('id_producto', $itemId)->first();
+        $this->selectedItem = $itemId;
+        $this->selectedItemData = [
+            'sku' => $item['producto']['sku'],
+            'descripcion' => $item['producto']['descripcion'],
+            'color' => $item['producto']['color'],
+            'talla' => $item['producto']['talla'],
+            'cantidad' => $item['cantidad'],
+            'descuento' => $item['descuento'],
+            'pvp' => number_format($item['cantidad'] * $item['precio'], 2),
+            'p_empresaria' => number_format($item['cantidad'] * ($item['precio'] - $item['precio'] * $item['descuento']), 2)
+        ];
+    }
+
+
+    public function isDisabled($itemId)
+    {
+        foreach ($this->changes as $change) {
+            if ($change['original']['id'] == $itemId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public function deleteProduct($index)
+    {
+        $deletedItem = $this->nuevoProducto[$index];
+
+        unset($this->nuevoProducto[$index]);
+        $this->nuevoProducto = array_values($this->nuevoProducto); // Reindex array
+
+        foreach ($this->changes as $key => $change) {
+            if ($change['original']['id'] == $deletedItem['id_producto_original']) {
+                // dd($change['original']['id'], $key, $this->changes[$key] , $this->changes );
+                unset($this->changes[$key]);
+                break;
+            }
+        }
+        $this->changes = array_values($this->changes); // Reindex array
+        // dd($deletedItem);
+
     }
 }
