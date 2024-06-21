@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\CondicionPremio;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Premio extends Model
 {
-    
+
     static $rules = [
 		'descripcion' => 'required',
     'catalogo_id' => 'required',
@@ -31,7 +32,18 @@ class Premio extends Model
      *
      * @var array
      */
-    protected $fillable = ['condicion','descripcion','catalogo_id'];
+    protected $fillable = ['condicion','descripcion','catalogo_id', 'monto_minimo_acumulado'];
+
+
+    public function catalogue()
+    {
+        return $this->belongsTo(Catalogo::class, 'catalogo_id');
+    }
+
+    public function prizeCondition()
+    {
+        return $this->hasMany(CondicionPremio::class, 'premio_id', 'id');
+    }
 
 
 

@@ -9,13 +9,13 @@
                         data-width="100%">
                         <option value="" selected>Seleccionar tipo empresaria</option>
                         <option value="TODOS">Todos</option>
-                        <option value="PROSPECTOS">Prospectos</option>
+                        <option value="PROSPECTO">Prospecto</option>
                         <option value="NUEVA">Nueva</option>
                         <option value="CONTINUA">Continua</option>
                         <option value="INACTIVA-1">Inactiva 1</option>
                         <option value="INACTIVA-2">Inactiva 2</option>
                         <option value="INACTIVA-3">Inactiva 3</option>
-                        <option value="POSIBLE-BAJA">Posible Baja</option>
+                        <option value="POSIBLE BAJA">Posible Baja</option>
                         <option value="REACTIVA">Reactiva</option>
                         <option value="BAJA">Baja</option>
                         <option value="RE-INGRESO">Re-Ingreso</option>

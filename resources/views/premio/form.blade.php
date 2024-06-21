@@ -21,6 +21,20 @@
                     </select>
                 </div>
 
+                <div class="form-group">
+                    {{ Form::label('Monto Mínimo Premio Acumulado') }}
+                    {{ Form::text('monto_minimo_acumulado', $premio->monto_minimo_acumulado, ['id'=>'monto_minimo_acumulado','class' => 'form-control' . ($errors->has('monto_minimo_acumulado') ? ' is-invalid' : ''), 'placeholder' => 'Monto mínimo']) }}
+                </div>
+
+
+
+
+
+
+
+
+
+
             </div>
 
             <div class="col">
@@ -36,6 +50,7 @@
                         <thead class="bg-ibizza text-center">
                             <th>Descripción</th>
                             <th>Condición</th>
+                            <th>Acumula</th>
                             <th></th>
                         </thead>
                         <tbody class="text-center">
@@ -142,7 +157,7 @@
                         "data": "imagen_path",
                         "render": function(data, type, row) {
                             let image =
-                                'https://www.blackwallst.directory/images/NoImageAvailable.png';
+                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRObusbGxpV0B3_s_l06FZPdwSGrQU31j3ETA&s';
                             if (data != '' && data != null) {
                                 image = '/storage/images/productos/' + data
                             }
@@ -220,6 +235,7 @@
 
                 let descripcion = $('#txt_descripcion').val();
                 let catalogo_id = $('#cmb_catalogo').val();
+                let monto_minimo_acumulado = $('#monto_minimo_acumulado').val();
                 let condicion = '';
                 let premio = '';
 
@@ -251,6 +267,7 @@
                                 descripcion,
                                 catalogo_id,
                                 condicion,
+                                monto_minimo_acumulado,
                                 premio
                             },
                             success: function(msg) {
@@ -342,6 +359,9 @@
                         'data': 'descripcion'
                     },
                     {
+                        'data': 'acumular_valor'
+                    },
+                    {
                         'data': 'descripcion',
                         "render": function(data, type, row) {
                             return '<button class="btn btn-danger remove"><i class="fas fa-trash-alt"></i></button>';
@@ -418,7 +438,7 @@
                         value: "'" + element.value + "'"
                     };
                 });
-                // console.log(operadorArray);
+                console.log(operadorArray);
                 // let condicionArray = $.map($(".condicion"), function(element) {
                 //     return {
                 //         name: element.options[element.selectedIndex].text,
@@ -434,11 +454,20 @@
                     }
                 });
 
+
+                let tipo_empresaria = $('#tipo_empresaria').val();
+                let chk_acumular = $('#chk_acumular').prop('checked');
+                let nivel = $('#nivel').val();
+                let rango_desde = $('#rango_desde').val();
+                let rango_hasta = $('#rango_hasta').val();
+
                 let nombre_tabla = $('#nombre_tabla').val();
+
+                console.log("chk_acumular: ", chk_acumular);
 
                 if(nombre_tabla != ""){
                     if (!flag) {
-    
+
                         let condiciones = '';
                         let nombres = '';
                         $.each(campoArray, function(key, value) {
@@ -451,25 +480,32 @@
                         // let condPart = condiciones.split(' ');
                         // condPart.pop();
                         // let condClean = condPart.toString().replace(/,/g, ' ');
-    
+
                         // let namePart = nombres.split(' ');
                         // namePart.pop();
                         // let nameClean = namePart.toString().replace(/,/g, ' ');
-    
+
                         let tabla = $('#nombre_tabla').val();
-    
+
+                        let descripcion2 = '$'+rango_desde+' - $'+rango_hasta;
+
                         arrayFinal.push({
-                            'nombre_tabla': tabla,
-                            'condicion': $.trim(condiciones),
-                            'descripcion': $.trim(nombres)
+                            'nombre_tabla': tipo_empresaria,
+                            'descripcion':descripcion2 ,
+                            'rango_desde':rango_desde,
+                            'rango_hasta':rango_hasta,
+                            'nivel':nivel,
+                            'acumular':chk_acumular,
+                            'acumular_valor':chk_acumular == 1 ? 'SI' : 'NO',
+                            'tipo_empresaria':tipo_empresaria
                         });
                         console.log(arrayFinal);
-                        
+
                         dataTableCondiciones.clear().draw();
                         dataTableCondiciones.rows.add(arrayFinal).draw();
-    
-                        Livewire.emit('recargar');
-    
+
+                        // Livewire.emit('recargar');
+
                         Livewire.hook('message.processed', (message, component) => {
                             inicializar_select();
                         });

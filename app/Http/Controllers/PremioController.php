@@ -53,7 +53,8 @@ class PremioController extends Controller
 
         $premio = Premio::create([
             'catalogo_id' => $request->catalogo_id,
-            'descripcion' => $request->descripcion
+            'descripcion' => $request->descripcion,
+            'monto_minimo_acumulado' => $request->monto_minimo_acumulado
         ]);
 
         $premio_id = $premio->id;
@@ -122,7 +123,16 @@ class PremioController extends Controller
     public function edit($id)
     {
         $premio = Premio::find($id);
-        $condicion = CondicionPremio::where('premio_id', $id)->get();
+        $condicion = CondicionPremio::where('premio_id', $id)
+            ->get()
+            ->map(function($condition){
+                $condition->nombre_tabla = $condition->tipo_empresaria;
+                $condition->descripcion = '$'.$condition->rango_desde.' - '.$condition->rango_hasta;
+                $condition->acumular_valor = $condition->acumular == 1 ? 'SI' : 'NO';
+                return $condition ;
+            });
+
+        $premio->condicion = json_encode($condicion);
         $catalogo = Catalogo::all();
 
         $productos = Producto::join('catalogo_has_productos', 'catalogo_has_productos.estilo', '=', 'productos.estilo')->addSelect([
@@ -130,7 +140,10 @@ class PremioController extends Controller
                 ->whereColumn('estilo', 'productos.estilo')
                 ->where('premio_id', $premio->id)
                 ->limit(1)
-        ])->where('catalogo_has_productos.catalogo_id', $premio->catalogo_id)
+        ])
+        ->where('categoria', 'PREMIOS')
+        ->where('estado', 'A')
+        ->where('catalogo_has_productos.catalogo_id', $premio->catalogo_id)
             ->groupBy('catalogo_has_productos.estilo')
             ->get();
 
@@ -155,7 +168,8 @@ class PremioController extends Controller
         request()->validate(Premio::$rules);
         $premio->update([
             'catalogo_id' => $request->catalogo_id,
-            'descripcion' => $request->descripcion
+            'descripcion' => $request->descripcion,
+            'monto_minimo_acumulado'=> $request->monto_minimo_acumulado
         ]);
 
         $premio_id = $premio->id;
@@ -164,7 +178,13 @@ class PremioController extends Controller
 
             $condicion = json_decode($request->condicion);
 
-            // dd($condicion);
+            $idsEliminar = collect($condicion)->pluck('id')->filter(function ($value) {
+                return !is_null($value);
+            }) ;
+
+            CondicionPremio::where([
+                ['premio_id', $premio->id],
+            ])->whereNotIn('id', $idsEliminar)->delete();
 
             foreach ($condicion as $key => $value) {
 
@@ -261,8 +281,6 @@ class PremioController extends Controller
 
             $productos = Producto::join('catalogo_has_productos', 'catalogo_has_productos.estilo', '=', 'productos.estilo')->where('catalogo_has_productos.catalogo_id', $request->id_catalogo)->groupBy('catalogo_has_productos.estilo')->select('productos.*')
                 ->get();
-
-            // dd($productos);
 
             if (count($productos) == 0) {
                 $productos = 'no data';
