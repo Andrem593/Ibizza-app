@@ -392,7 +392,7 @@ function crearTablaUsuario(data, ruta) {
         },
     });
     let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
-    
+
     let dataTable = $('#datatable').DataTable({
 
         destroy: true,
@@ -776,16 +776,16 @@ function crearTablaPMarcas(data, ruta) {
         {
             "data": "descuento"
         },
-        
+
         {
             "data": "marcas",
-            "render": function (data, type, row) {
-                let marcas = '';
-                data.forEach(element => {
-                    marcas += '<span class="badge bg-warning mr-1">'+ element +'</span>';
-                });
-                return marcas;
-            }
+            // "render": function (data, type, row) {
+            //     let marcas = '';
+            //     data.forEach(element => {
+            //         marcas += '<span class="badge bg-warning mr-1">'+ element +'</span>';
+            //     });
+            //     return marcas;
+            // }
         },
         {
             "data": "estado",
@@ -1216,7 +1216,7 @@ function crearTablaEmpresarias(data, ruta) {
             "render": function (data, type, row) {
                 data = data.split(' ');
                 return data[0];
-            }            
+            }
         },
         {
             "data": "estado",
@@ -1420,7 +1420,7 @@ function crearTablaVentas(data, ruta) {
             },
             success: function (response) {
                 $('#carga').css('visibility', 'hidden')
-                let data = JSON.parse(response);                
+                let data = JSON.parse(response);
                 let empresaria = data['empresaria'];
                 let venta = data['venta'];
                 let rol = data['rol'];
@@ -1471,7 +1471,7 @@ function crearTablaVentas(data, ruta) {
                         image = '/storage/images/productos/' + v['imagen_producto'];
                     }
                     let total = v['precio'] ;
-                    let direccion = v['direccion_envio'] != '' ? JSON.parse(v['direccion_envio']) : '';  
+                    let direccion = v['direccion_envio'] != '' ? JSON.parse(v['direccion_envio']) : '';
                     total = total.toFixed(2);
                     if(direccion != ''){
                         $('#tabla_factura tbody').append('<tr>' +
@@ -1502,16 +1502,16 @@ function crearTablaVentas(data, ruta) {
                     total_factura = parseFloat(total) + parseFloat(total_factura);
                     cantidad_total = parseInt(v['cantidad']) + parseInt(cantidad_total);
                 })
-                total_factura = total_factura.toFixed(2)                
+                total_factura = total_factura.toFixed(2)
 
                 $('#subtotal').text(subtotal.toFixed(2));
-                $('#cant_total').text(cantidad_total);    
+                $('#cant_total').text(cantidad_total);
                 $('#total_fac').text(total_factura);
                 $('#envio').text(envio);
                 totpag = parseFloat(total_factura) + parseFloat(envio);
                 $('#tot_pagar').text(totpag.toFixed(2));
                 $('#ganancia').text(venta['total_p_empresaria']);
-                
+
 
             }
         })
@@ -1823,7 +1823,7 @@ function stockFaltante(data, ruta) {
 }
 
 function reporteVentas() {
-    let dataTable = $('#datatable').DataTable({        
+    let dataTable = $('#datatable').DataTable({
         "processing": true,
         "lengthMenu": [
             [-1, 10, 25, 50],
@@ -1861,6 +1861,6 @@ function reporteVentas() {
             }
         },
         ]
-    });    
+    });
 }
 
