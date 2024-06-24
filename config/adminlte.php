@@ -255,7 +255,7 @@ return [
             'route'  => 'dashboard',
             'icon'    => 'fas fa-tachometer-alt',
             'can'   => 'dashboard',
-        ],        
+        ],
         ['header' => 'ADMINISTRACIÓN'],
         [
             'text'    => 'Productos',
@@ -266,13 +266,13 @@ return [
                     'text' => 'Carga',
                     'route'  => 'producto.upload',
                     'icon'    => 'ml-md-2 fas fa-cloud-upload-alt',
-                    'can'   =>  'producto.upload',                  
+                    'can'   =>  'producto.upload',
                 ],
                 [
                     'text' => 'Lista Productos',
                     'route'  => 'productos.index',
                     'icon'    => 'ml-md-2 fas fa-box-open',
-                    'can'   =>  'producto.index',    
+                    'can'   =>  'producto.index',
                 ],
                 [
                     'text' => 'Estilos y Color',
@@ -295,8 +295,8 @@ return [
                 [
                     'text'    => 'Historial STOCK faltante',
                     'icon'    => 'ml-md-2 fas fa-boxes',
-                    'route'  => 'producto.stock-faltante',  
-                    'can'  => 'producto.stock-faltante',  
+                    'route'  => 'producto.stock-faltante',
+                    'can'  => 'producto.stock-faltante',
                 ],
             ]
         ],
@@ -333,7 +333,19 @@ return [
                     'text' => 'Cambios',
                     'route'  => 'venta.cambios',
                     'icon'    => 'ml-md-2 fas fa-arrows-alt-h',
-                    'can'   =>  'producto.index', 
+                    'can'   =>  'producto.index',
+                ],
+                [
+                    'text' => 'Cambios Guardados',
+                    'route'  => 'cambio.cambios-reservados',
+                    'can'  => 'cambio.cambios-reservados',
+                    'icon'    => 'ml-md-2 fas fa-box',
+                ],
+                [
+                    'text' => 'Registro de Cambios',
+                    'route'  => 'cambio.index',
+                    'can'  => 'venta.index',
+                    'icon'    => 'ml-md-2 fas fa-chart-line',
                 ],
             ],
         ],
@@ -376,15 +388,15 @@ return [
                     'text' => 'Ofertas',
                     'route'  => 'ofertas.index',
                     'can'  => 'premios.index',
-                    'icon'    => 'ml-md-2 fas fa-tag',                
+                    'icon'    => 'ml-md-2 fas fa-tag',
                 ]
             ],
         ],
-        
+
         [
             'text'    => 'Usuarios',
-            'icon'    => 'fas fa-users',    
-            'can'     => ['roles.index','usuario.index','empresarias.index'],        
+            'icon'    => 'fas fa-users',
+            'can'     => ['roles.index','usuario.index','empresarias.index'],
             'submenu' => [
                 [
                     'text' => 'Lista de Roles',
@@ -408,7 +420,7 @@ return [
         ],
         [
             'text'    => 'Reportes',
-            'icon'    => 'fas fa-chart-pie',    
+            'icon'    => 'fas fa-chart-pie',
             'can'     => ['reportes.index','reporte.graficos','reporte.ventas'],
             'submenu' => [
                 [
@@ -438,7 +450,7 @@ return [
             'url'  => 'user/profile',
             'icon' => 'fas fa-fw fa-user',
         ],
-        
+
     ],
 
     /*

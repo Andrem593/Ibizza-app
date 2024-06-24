@@ -57,7 +57,7 @@
         </div>
         <div class="col">
             <label class="form-label">Descripción del cambio:</label>
-            <input type="te xt" class="form-control p-1" value="{{ $this->motivoCambio }}">
+            <input type="te xt" class="form-control p-1" wire:model="motivoCambio">
         </div>
     </div>
     <div class="row mb-2">
@@ -167,8 +167,8 @@
                         <th>TALLA</th>
                         <th>CANTIDAD</th>
                         <th>DESCUENTO</th>
-                        <th>PVP</th>
-                        <th>P.EMPRESARIA</th>
+                        <th>P.V.P</th>
+                        <th>P.V.E</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -193,216 +193,212 @@
             </table>
         @endif
     </div>
+
+
+    <div class="modal fade @if($isOpen) show @endif" id="livewireModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: @if($isOpen) block @else none @endif;">
+        <div class="modal-dialog modal-lg"  role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cambios Registrados</h5>
+                    <button type="button" class="close" wire:click="$emit('closeModal')" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if (count($changes) > 0)
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Productos Venta</th>
+                                            <th>Productos a Cambiar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($changes as $change)
+                                            <tr>
+                                                <td>
+                                                    <div><strong>SKU:</strong> {{ $change['original']['sku'] }}</div>
+                                                    <div><strong>Descripcion:</strong> {{ $change['original']['descripcion'] }}</div>
+                                                    <div><strong>Color:</strong> {{ $change['original']['color'] }}</div>
+                                                    <div><strong>Talla:</strong> {{ $change['original']['talla'] }}</div>
+                                                    <div><strong>Cantidad:</strong> {{ $change['original']['cantidad'] }}</div>
+                                                    <div><strong>Descuento:</strong> {{ $change['original']['descuento'] }}</div>
+                                                    <div><strong>PVP:</strong> {{ $change['original']['pvp'] }}</div>
+                                                    <div><strong>P. Empresaria:</strong> {{ $change['original']['p_empresaria'] }}</div>
+                                                </td>
+                                                <td>
+                                                    <div><strong>SKU:</strong> {{ $change['changed']['sku'] }}</div>
+                                                    <div><strong>Descripcion:</strong> {{ $change['changed']['descripcion'] }}</div>
+                                                    <div><strong>Color:</strong> {{ $change['changed']['color'] }}</div>
+                                                    <div><strong>Talla:</strong> {{ $change['changed']['talla'] }}</div>
+                                                    <div><strong>Cantidad:</strong> {{ $change['changed']['cantidad'] }}</div>
+                                                    {{-- <div><strong>Descuento:</strong> {{ $change['changed']['descuento'] }}</div> --}}
+                                                    {{-- <div><strong>PVP:</strong> {{ $change['changed']['pvp'] }}</div> --}}
+                                                    {{-- <div><strong>P. Empresaria:</strong> {{ $change['changed']['p_empresaria'] }}</div> --}}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+
+                            @endif
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" wire:click="$emit('closeModal')">Cerrar</button>
+                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="row">
         <div class="text-center">
             <h6>REFERENCIAS DEL PRODUCTO QUE SE LE TIENE QUE ENVIAR A LA EMPRESARIA</h6>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <h6><strong>PRODUCTO DE VENTA</strong></h6>
-                        <hr>
-                    </div>
+        @if (count($changes) > 0)
+            <div class="text-right">
+                <button type="button" class="btn btn-primary" wire:click="$emit('openModal')">
+                    Ver Productos Cambiados
+                </button>
+            </div>
 
-                </div>
-                <div class="row">
+        @endif
 
-                    <div class="col-md-12">
-                        <div><strong>SKU:</strong> {{ $selectedItemData['sku'] }}</div>
-                        <div><strong>Descripcion:</strong> {{ $selectedItemData['descripcion'] }}</div>
-                        <div><strong>Color:</strong> {{ $selectedItemData['color'] }}</div>
-                        <div><strong>Talla:</strong> {{ $selectedItemData['talla'] }}</div>
-                        <div><strong>Cantidad:</strong> {{ $selectedItemData['cantidad'] }}</div>
-                        <div><strong>Descuento:</strong> {{ $selectedItemData['descuento'] }}</div>
-                        <div><strong>PVP:</strong> {{ $selectedItemData['pvp'] }}</div>
-                        <div><strong>P. Empresaria:</strong> {{ $selectedItemData['p_empresaria'] }}</div>
-                    </div>
-                    {{-- <div class="col mb-3 position-relative">
-                        <label class="form-label">SKU:</label>
-                        <div class="input-group">
-                            <input disabled type="text" class="form-control p-1"
-                                 style="background: white"
-                                 wire:model="selectedItemData.sku">
+        @if ($selectedItemData['sku'] != '')
+            <div class="row" >
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h6><strong>PRODUCTO DE VENTA</strong></h6>
+                            <hr>
                         </div>
-                    </div>
-                    <div class="col mb-3">
-                        <label class="form-label">Color:</label>
-                        <input disabled type="text" class="form-control p-1"
-                        style="background: white"
-                        wire:model="selectedItemData.color">
-                    </div> --}}
 
-                </div>
-                {{-- <div class="row">
-                    <div class="col mb-3">
-                        <label class="form-label">Cantidad:</label>
-                        <div class="input-group">
-                            <input disabled type="text" class="form-control p-1"
-                                 style="background: white"
-                                 wire:model="selectedItemData.cantidad">
-                        </div>
-                    </div>
-                    <div class="col mb-3">
-                        <label class="form-label">Talla:</label>
-                        <div class="input-group">
-                            <input disabled type="text" class="form-control p-1"
-                                 style="background: white"
-                                 wire:model="selectedItemData.talla">
-                        </div>
                     </div>
                     <div class="row">
 
-                        <div class="col-6">
-                            <span>{{ $selectedItemData['descripcion'] }}</span>
-                            <br>
+                        <div class="col-md-12">
+                            <div><strong>SKU:</strong> {{ $selectedItemData['sku'] }}</div>
+                            <div><strong>Descripcion:</strong> {{ $selectedItemData['descripcion'] }}</div>
+                            <div><strong>Color:</strong> {{ $selectedItemData['color'] }}</div>
+                            <div><strong>Talla:</strong> {{ $selectedItemData['talla'] }}</div>
+                            <div><strong>Cantidad:</strong> {{ $selectedItemData['cantidad'] }}</div>
+                            <div><strong>Descuento:</strong> {{ $selectedItemData['descuento'] }}</div>
+                            <div><strong>PVP:</strong> {{ $selectedItemData['pvp'] }}</div>
+                            <div><strong>P. Empresaria:</strong> {{ $selectedItemData['p_empresaria'] }}</div>
                         </div>
-                    </div>
-                </div> --}}
 
-            </div>
-
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <h6><strong>PRODUCTO A CAMBIAR</strong></h6>
-                        <hr>
                     </div>
 
                 </div>
-                <div class="row">
-                    <div class="col mb-3 position-relative">
-                        <label class="form-label">Código Artículo:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control p-1" placeholder="Ingrese el código"
-                                wire:model.debounce.500ms="estilo" wire:keydown.enter='buscarEstilo'>
-                            <button class="btn btn-primary rounded" type="button" id="search" wire:click='buscarEstilo'
-                                style="z-index: 10"><i class="fas fa-search"></i></button>
+
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h6><strong>PRODUCTO A CAMBIAR</strong></h6>
+                            <hr>
                         </div>
-                        @if (!empty($similitudes))
-                            <div class="position-absolute bg-white shadow mt-2" style="width: 100%; z-index: 100">
-                                <ul class="list-group">
-                                    @foreach ($similitudes as $similitud)
-                                        <li class="list-group-item bg-white"
-                                            wire:click='clickSimilitud("{{ $similitud->estilo }}")'>
-                                            {{ $similitud->estilo }}
-                                        </li>
+
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3 position-relative">
+                            <label class="form-label">Código Artículo:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control p-1" placeholder="Ingrese el código"
+                                    wire:model.debounce.500ms="estilo" wire:keydown.enter='buscarEstilo'>
+                                <button class="btn btn-primary rounded" type="button" id="search" wire:click='buscarEstilo'
+                                    style="z-index: 10"><i class="fas fa-search"></i></button>
+                            </div>
+                            @if (!empty($similitudes))
+                                <div class="position-absolute bg-white shadow mt-2" style="width: 100%; z-index: 100">
+                                    <ul class="list-group">
+                                        @foreach ($similitudes as $similitud)
+                                            <li class="list-group-item bg-white"
+                                                wire:click='clickSimilitud("{{ $similitud->estilo }}")'>
+                                                {{ $similitud->estilo }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="col mb-3">
+                            <label class="form-label">Seleccionar Color:</label>
+                            <select class="form-select p-2" id="optColor" wire:model='color' wire:change='buscarColor'>
+                                @empty(!$colores)
+                                    @foreach ($colores as $color)
+                                        <option value="{{ $color->color }}">{{ $color->color }}</option>
                                     @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="col mb-3">
-                        <label class="form-label">Seleccionar Color:</label>
-                        <select class="form-select p-2" id="optColor" wire:model='color' wire:change='buscarColor'>
-                            @empty(!$colores)
-                                @foreach ($colores as $color)
-                                    <option value="{{ $color->color }}">{{ $color->color }}</option>
-                                @endforeach
-                            @else
-                                <option value="">SELECCIONE</option>
-                            @endempty
-                        </select>
+                                @else
+                                    <option value="">SELECCIONE</option>
+                                @endempty
+                            </select>
+                        </div>
+
                     </div>
 
-                </div>
-
-                <div class="row">
-                    <div class="col mb-3">
-                        <label class="form-label">Ingrese Unidades:</label>
-                        <input type="number" class="form-control p-1" wire:model='cantidad'
-                            placeholder="unidades deseadas">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label class="form-label">Ingrese Unidades:</label>
+                            <input type="number" class="form-control p-1" wire:model='cantidad'
+                                placeholder="unidades deseadas">
+                        </div>
+                        <div class="col mb-3">
+                            <label class="form-label">Seleccionar Talla:</label>
+                            <select class="form-select p-2" wire:model="talla" wire:change='stockProduct({{ $talla }})'>
+                                @empty(!$tallas)
+                                    @foreach ($tallas as $talla)
+                                        <option value="{{ $talla->talla }}">{{ $talla->talla }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="">SELECCIONE</option>
+                                @endempty
+                            </select>
+                        </div>
                     </div>
-                    <div class="col mb-3">
-                        <label class="form-label">Seleccionar Talla:</label>
-                        <select class="form-select p-2" wire:model="talla" wire:change='stockProduct({{ $talla }})'>
+                    <div class="row">
+                        <div class="">
                             @empty(!$tallas)
-                                @foreach ($tallas as $talla)
-                                    <option value="{{ $talla->talla }}">{{ $talla->talla }}</option>
-                                @endforeach
-                            @else
-                                <option value="">SELECCIONE</option>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span>{{ $tallas[0]->nombre_mostrar }}</span>
+                                        <br>
+                                        <span class="{{ $stock == 0 ? 'badge badge-pill bg-danger' : '' }}">Marca:
+                                            {{ $marca }} | STOCK:
+                                            <b>{{ $stock == 0 ? 'AGOTADO' : $stock }}</b></span>
+                                    </div>
+                                    <div class="col-6">
+                                        @empty(!$tallas[0]->descuento)
+                                            <span class="badge badge-pill bg-ibizza" style="font-size: 0.9rem;">Descuento:
+                                                {{ $tallas[0]->descuento }}%</span>
+                                            <span class="badge badge-pill badge-dark" style="font-size: 0.9rem;">P.Final:
+                                                ${{ number_format(
+                                                    $tallas[0]->precio_empresaria - $tallas[0]->precio_empresaria * ($tallas[0]->descuento / 100),
+                                                    2,
+                                                ) }}</span>
+                                        @else
+                                            <span class="badge badge-pill badge-dark" style="font-size: 0.9rem;">P.Final:
+                                                ${{ number_format($tallas[0]->precio_empresaria, 2) }}</span>
+                                        @endempty
+                                    </div>
+                                </div>
                             @endempty
-                        </select>
+                        </div>
+                    </div>
+                    <div class="my-3 text-right">
+                        <button class="btn btn-primary" wire:click="addCart">AGREGAR</button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="">
-                        @empty(!$tallas)
-                            <div class="row">
-                                <div class="col-6">
-                                    <span>{{ $tallas[0]->nombre_mostrar }}</span>
-                                    <br>
-                                    <span class="{{ $stock == 0 ? 'badge badge-pill bg-danger' : '' }}">Marca:
-                                        {{ $marca }} | STOCK:
-                                        <b>{{ $stock == 0 ? 'AGOTADO' : $stock }}</b></span>
-                                </div>
-                                <div class="col-6">
-                                    @empty(!$tallas[0]->descuento)
-                                        <span class="badge badge-pill bg-ibizza" style="font-size: 0.9rem;">Descuento:
-                                            {{ $tallas[0]->descuento }}%</span>
-                                        <span class="badge badge-pill badge-dark" style="font-size: 0.9rem;">P.Final:
-                                            ${{ number_format(
-                                                $tallas[0]->precio_empresaria - $tallas[0]->precio_empresaria * ($tallas[0]->descuento / 100),
-                                                2,
-                                            ) }}</span>
-                                    @else
-                                        <span class="badge badge-pill badge-dark" style="font-size: 0.9rem;">P.Final:
-                                            ${{ number_format($tallas[0]->precio_empresaria, 2) }}</span>
-                                    @endempty
-                                </div>
-                            </div>
-                        @endempty
-                    </div>
-                </div>
-                <div class="my-3 text-right">
-                    <button class="btn btn-primary" wire:click="addCart">AGREGAR</button>
-                </div>
+
             </div>
 
-        </div>
-
-        @if (count($changes) > 0)
-            <div class="mt-5">
-                <h5>Cambios Registrados</h5>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Datos Actuales</th>
-                            <th>Datos Cambiados</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($changes as $change)
-                            <tr>
-                                <td>
-                                    <div><strong>SKU:</strong> {{ $change['original']['sku'] }}</div>
-                                    <div><strong>Descripcion:</strong> {{ $change['original']['descripcion'] }}</div>
-                                    <div><strong>Color:</strong> {{ $change['original']['color'] }}</div>
-                                    <div><strong>Talla:</strong> {{ $change['original']['talla'] }}</div>
-                                    <div><strong>Cantidad:</strong> {{ $change['original']['cantidad'] }}</div>
-                                    <div><strong>Descuento:</strong> {{ $change['original']['descuento'] }}</div>
-                                    <div><strong>PVP:</strong> {{ $change['original']['pvp'] }}</div>
-                                    <div><strong>P. Empresaria:</strong> {{ $change['original']['p_empresaria'] }}</div>
-                                </td>
-                                <td>
-                                    <div><strong>SKU:</strong> {{ $change['changed']['sku'] }}</div>
-                                    <div><strong>Descripcion:</strong> {{ $change['changed']['descripcion'] }}</div>
-                                    <div><strong>Color:</strong> {{ $change['changed']['color'] }}</div>
-                                    <div><strong>Talla:</strong> {{ $change['changed']['talla'] }}</div>
-                                    <div><strong>Cantidad:</strong> {{ $change['changed']['cantidad'] }}</div>
-                                    {{-- <div><strong>Descuento:</strong> {{ $change['changed']['descuento'] }}</div> --}}
-                                    {{-- <div><strong>PVP:</strong> {{ $change['changed']['pvp'] }}</div> --}}
-                                    {{-- <div><strong>P. Empresaria:</strong> {{ $change['changed']['p_empresaria'] }}</div> --}}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
         @endif
-
-
 
         <hr />
         @if (!empty($nuevoProducto))
@@ -414,10 +410,10 @@
                             <th>DESCRIPCION</th>
                             <th>COLOR</th>
                             <th>TALLA</th>
-                            <th>CANTIDAD</th>
+                            <th>P.V.P</th>
                             <th>DESCUENTO</th>
-                            <th>PVP</th>
-                            <th>P.EMPRESARIA</th>
+                            <th>CANTIDAD</th>
+                            <th>P.V.E</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -428,9 +424,9 @@
                                 <td>{{ $item['descripcion'] }}</td>
                                 <td>{{ $item['color'] }}</td>
                                 <td>{{ $item['talla'] }}</td>
-                                <td>{{ $item['cantidad'] }}</td>
-                                <td></td>
                                 <td>{{ number_format($item['cantidad'] * $item['precio'], 2) }}</td>
+                                <td></td>
+                                <td>{{ $item['cantidad'] }}</td>
                                 <td>{{ number_format($item['cantidad'] * ($item['precio']), 2) }}
                                 </td>
                                 <td>
@@ -439,12 +435,64 @@
                             </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4"></td>
+                            <td>{{collect($nuevoProducto)->sum('precio')}}</td>
+                            <td></td>
+                            <td>{{collect($nuevoProducto)->sum('cantidad')}}</td>
+                            <td>{{collect($nuevoProducto)->sum('precio')}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
+                            <td></td>
+                            <td></td>
+                            <td>Envio</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
+                            <td></td>
+                            <td></td>
+                            <td>Total</td>
+                            <td>{{collect($nuevoProducto)->sum('precio')}}</td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4"></td>
+                            <td></td>
+                            <td></td>
+                            <td>Total a Pagar</td>
+                            <td>{{collect($nuevoProducto)->sum('precio')}}</td>
+                        </tr>
+
+
+                    </tfoot>
                 </table>
             </div>
         @endif
 
         <div class="my-3">
-            <button class="btn btn-primary">GUARDAR CAMBIO</button>
+            <button class="btn bg-ibizza w-25 m-3" wire:click="reservarCambio">RESERVAR CAMBIO</button>
+            <button wire:click="saveData" class="btn btn-success w-25 m-3">GUARDAR CAMBIO</button>
         </div>
     </div>
+
+    @if($isOpen)
+        <script>
+            document.addEventListener('livewire:load', function () {
+                var myModal = new bootstrap.Modal(document.getElementById('livewireModal'));
+                myModal.show();
+            });
+        </script>
+        @else
+            <script>
+                document.addEventListener('livewire:load', function () {
+                    var myModal = bootstrap.Modal.getInstance(document.getElementById('livewireModal'));
+                    if (myModal) {
+                        myModal.hide();
+                    }
+                });
+            </script>
+    @endif
 </div>

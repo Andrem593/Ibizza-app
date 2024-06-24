@@ -4,9 +4,14 @@ namespace App\Http\Livewire;
 
 use App\Producto;
 use App\Empresaria;
+use App\Models\CambioPedido;
+use App\Models\ProductoCambio;
+use App\Models\ReservarCambiosDetalle;
+use App\Models\ReservarCambiosPedido;
 use App\Models\Venta;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class FormatoCambio extends Component
 {
@@ -29,7 +34,130 @@ class FormatoCambio extends Component
         'p_empresaria' => ''
     ];
 
+    protected $listeners = ['openModal', 'closeModal'];
+
     public $changes = [];
+
+    public $isOpen = false;
+
+    public $idCambio = null ;
+
+    public function mount()
+    {
+        $id = Session::get('id', null);
+        Session::forget('id');
+        if($id){
+
+            $this->idCambio = $id ;
+            $reserveChangesOrder = ReservarCambiosPedido::findOrFail($id);
+            if($reserveChangesOrder){
+                $this->f_nombre = $reserveChangesOrder->f_cedula ;
+                $this->f_cedula = $reserveChangesOrder->f_cedula ;
+                $this->f_telefono = $reserveChangesOrder->f_telefono ;
+                $this->f_correo = $reserveChangesOrder->f_correo ;
+
+                //Preguntarla Fceha
+                // $this->fecha = ;
+                $this->id_empresaria =  $reserveChangesOrder->id_empresaria ;
+                $this->descripcionCambio = $reserveChangesOrder->motivo ;
+                $this->motivoCambio = $reserveChangesOrder->descripcion ;
+
+                $this->e_nombre = $reserveChangesOrder->e_nombre ;
+                $this->e_cedula = $reserveChangesOrder->e_cedula ;
+                $this->e_telefono = $reserveChangesOrder->e_telefono ;
+                $this->e_provincia = $reserveChangesOrder->e_provincia ;
+                $this->e_ciudad = $reserveChangesOrder->e_ciudad ;
+                $this->e_direccion = $reserveChangesOrder->e_direccion ;
+                $this->observaciones = $reserveChangesOrder->observaciones ;
+                $this->e_pedido = $reserveChangesOrder->e_pedido ;
+
+                $this->e_c_envio = $reserveChangesOrder->envio ;
+                $this->idventa = $reserveChangesOrder->id_venta ;
+
+                $empresaria = Empresaria::findOrFail($this->id_empresaria);
+                $this->cliente = $empresaria->nombre_completo;
+
+                // $this->emp = Empresaria::with('pedidos', 'usuario', 'ciudad')->find($this->id_empresaria);
+
+                $this->buscarVenta() ;
+
+                $this->getReservedChangeDetail($id);
+
+                // dd($reserveChangesOrder);
+
+            }
+        }
+    }
+
+    public function getReservedChangeDetail($id)
+    {
+        $reservarCambiosDetalle = ReservarCambiosDetalle::with('product')->where('id_reservar_cambio_pedido', $id)->get();
+
+        foreach ($reservarCambiosDetalle as $key => $detail) {
+
+            $product = Producto::findOrfail($detail->id_producto);
+
+            $this->nuevoProducto[] = [
+                'id' => $product->id,
+                'sku' => $product->sku,
+                'descripcion' => $product->descripcion,
+                'estilo' => $product->estilo,
+                'color' => $product->color,
+                'talla' => $product->talla,
+                'marca' => $product->marca->nombre,
+                'cantidad' => $detail->cantidad,
+                'precio' => $detail->precio,
+                'precio_catalogo' => $detail->precio_catalogo,
+                'total'=> $detail->total,
+                'descuento' => $detail->descuento,
+                'id_pedido' => $detail->id_pedido ,
+
+                'id_producto_original' => $detail->order->producto->id
+            ];
+
+            $originalItem = $this->pedidos->where('id_producto', $detail->order->producto->id)->first();
+
+
+            $originalData = [
+                'id' => $originalItem['id_producto'],
+                'sku' => $originalItem['producto']['sku'],
+                'descripcion' => $originalItem['producto']['descripcion'],
+                'color' => $originalItem['producto']['color'],
+                'talla' => $originalItem['producto']['talla'],
+                'cantidad' => $originalItem['cantidad'],
+                'descuento' => $originalItem['descuento'],
+                'pvp' => number_format($originalItem['cantidad'] * $originalItem['precio'], 2),
+                'p_empresaria' => number_format($originalItem['cantidad'] * ($originalItem['precio'] - $originalItem['precio'] * $originalItem['descuento']), 2)
+            ];
+            $this->changes[] = [
+                'original' => $originalData,
+                'changed' => [
+                    'id' => $product->id,
+                    'sku' => $product->sku,
+                    'descripcion' => $product->descripcion,
+                    'estilo' => $product->estilo,
+                    'color' => $product->color,
+                    'talla' => $product->talla,
+                    'marca' => $product->marca->nombre,
+                    'cantidad' => $detail->cantidad,
+                    'precio' => $product->precio_empresaria,
+                ]
+            ];
+        }
+
+        // dd($reservarCambiosDetalle);
+    }
+
+
+    public function openModal()
+    {
+        $this->isOpen = true;
+    }
+
+    public function closeModal()
+    {
+        $this->isOpen = false;
+    }
 
 
     public function render()
@@ -210,6 +338,10 @@ class FormatoCambio extends Component
                     'marca' => $producto->marca->nombre,
                     'cantidad' => $this->cantidad,
                     'precio' => $producto->precio_empresaria,
+                    'precio_catalogo' => $producto->precio_empresaria,
+                    'total'=> $this->cantidad * $producto->precio_empresaria,
+                    'descuento' => 0,
+                    'id_pedido' => $originalItem->id ,
                     'id_producto_original' => $originalItem['id_producto']
                 ];
 
@@ -298,4 +430,132 @@ class FormatoCambio extends Component
         // dd($deletedItem);
 
     }
+
+
+    public function saveData()
+    {
+
+        //DESCONTAR DEL STOCK CUANDO GURADE, pero si tiene el Id no descontar
+
+        if(!$this->idventa){
+            dd("Debe seleccionar un a venta");
+        }
+
+
+        $empresaria = Empresaria::where('id', $this->id_empresaria)->first();
+
+        $data =[
+            'id_vendedor' => $empresaria->vendedor,
+            'fecha' => date('Y-m-d'),
+            'id_empresaria' => $this->id_empresaria,
+            'motivo' => $this->descripcionCambio,
+            'descripcion' => $this->motivoCambio,
+            'f_nombre' => $this->f_nombre,
+            'f_cedula' => $this->f_cedula,
+            'f_telefono' => $this->f_telefono,
+            'f_correo' => $this->f_correo,
+            'e_nombre' => $this->e_nombre,
+            'e_cedula' => $this->e_cedula,
+            'e_telefono' => $this->e_telefono,
+            'e_provincia' => $this->e_provincia,
+            'e_ciudad' => $this->e_ciudad,
+            'e_direccion' => $this->e_direccion,
+            'obervaciones' => $this->observaciones,
+            'e_pedido' => $this->e_pedido,
+            //ver el envio
+            'envio' => $this->e_c_envio,
+            'id_venta' => $this->idventa,
+
+            //Id Pedido es si tiene un pedido pendiente
+            'id_pedido' => null,
+        ];
+        $cambioPedido = CambioPedido::create($data);
+
+        foreach ($this->nuevoProducto as $key => $value) {
+            $productosCambios =  [
+                'id_cambio'=>$cambioPedido->id,
+                'id_producto'=> $value['id'],
+                'cantidad' => $value['cantidad'],
+                //ver que va en diferencia
+                'diferencia' => 0,
+                'fecha'=>date('Y-m-d'),
+                'hora'=>date('H:i:s' ),
+
+
+                'id_pedido'=> $value['id_pedido'],
+                'precio'=> $value['precio'],
+                'precio_catalogo' => $value['precio_catalogo'],
+                'total'=> $value['total'],
+                'descuento' => $value['descuento']
+            ];
+
+
+            ProductoCambio::create($productosCambios);
+        }
+    }
+
+
+
+    public function reservarCambio()
+    {
+
+        //DESCONTAR DEL STOCK CUANDO GURADE
+
+        if(!$this->idventa){
+            dd("Debe seleccionar un a venta");
+        }
+
+
+        $empresaria = Empresaria::where('id', $this->id_empresaria)->first();
+
+        $data =[
+            'id_usuario'=> Auth::user()->id,
+            'id_vendedor' => $empresaria->vendedor,
+            'fecha' => date('Y-m-d'),
+            'id_empresaria' => $this->id_empresaria,
+            'motivo' => $this->descripcionCambio,
+            'descripcion' => $this->motivoCambio,
+            'f_nombre' => $this->f_nombre,
+            'f_cedula' => $this->f_cedula,
+            'f_telefono' => $this->f_telefono,
+            'f_correo' => $this->f_correo,
+            'e_nombre' => $this->e_nombre,
+            'e_cedula' => $this->e_cedula,
+            'e_telefono' => $this->e_telefono,
+            'e_provincia' => $this->e_provincia,
+            'e_ciudad' => $this->e_ciudad,
+            'e_direccion' => $this->e_direccion,
+            'obervaciones' => $this->observaciones,
+            'e_pedido' => $this->e_pedido,
+            //ver el envio
+            'envio' => $this->e_c_envio,
+            'id_venta' => $this->idventa,
+
+            //El id Pedido es si tiene un pedido pendiente
+            'id_pedido' => null,
+        ];
+        $cambioPedido = ReservarCambiosPedido::create($data);
+
+        foreach ($this->nuevoProducto as $key => $value) {
+            $productosCambios =  [
+                'id_reservar_cambio_pedido'=>$cambioPedido->id,
+                'id_producto'=> $value['id'],
+                'cantidad' => $value['cantidad'],
+                //ver que va en diferencia
+                'diferencia' => 0,
+                'fecha'=>date('Y-m-d'),
+                'hora'=>date('H:i:s' ),
+
+
+                'id_pedido'=> $value['id_pedido'],
+                'precio'=> $value['precio'],
+                'precio_catalogo' => $value['precio_catalogo'],
+                'total'=> $value['total'],
+                'descuento' => $value['descuento']
+            ];
+
+            ReservarCambiosDetalle::create($productosCambios);
+        }
+    }
+
 }
