@@ -1700,10 +1700,10 @@ function crearTablaCambios(data, ruta) {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#id_venta').text(data.id);
         let dato = {
-            id_venta: data.id,
+            id: data.id,
         }
         $.post({
-            url: '/ventas/datos-ventas',
+            url: '/cambio/datos-cambio',
             data: dato,
             beforeSend: function () {
                 $('#carga').css('visibility', 'visible');
@@ -1711,35 +1711,38 @@ function crearTablaCambios(data, ruta) {
             success: function (response) {
                 $('#carga').css('visibility', 'hidden')
                 let data = JSON.parse(response);
-                let empresaria = data['empresaria'];
-                let venta = data['venta'];
-                let rol = data['rol'];
-                let direccionVenta = data['direccionVenta'];
+                let empresaria = data['businesswoman'];
+                let venta = data['cambio_encabezado'];
+                let rol = data['role'];
+                let direccionVenta = data['shipping_information'];
                 if(rol == "ASESOR"){
                     $('#estado_venta').prop( "disabled", true );
                 }else{
                     $('#estado_venta').prop( "disabled", false );
                 }
-                Livewire.emitTo('guardar-pago', 'setVenta', venta['id']);
+                // Livewire.emitTo('guardar-pago', 'setVenta', venta['id']);
                 $('#estado_venta').val(venta['estado']);
                 $('#venta').text(venta['id'])
                 $('#nfactura').text(venta['n_factura'])
                 $('#nguia').text(venta['n_guia'])
                 $('#btn-descarga').attr( 'href','/venta/comprobante/' + venta['id']);
-                $('#fcedula').text(venta['factura_identificacion'])
-                $('#fnombre').text(venta['factura_nombres'])
-                $('#ftelefono').text(venta['telefono'])
-                $('#femail').text(venta['email'])
+
+                $('#fcedula').text(venta['f_cedula'])
+                $('#fnombre').text(venta['f_nombre'])
+                $('#ftelefono').text(venta['f_telefono'])
+                $('#femail').text(venta['f_correo'])
+
                 $('#empresaria').text(empresaria['nombres'] + ' ' + empresaria['apellidos'])
                 $('#cedula').text(empresaria['cedula'])
                 $('#telefono').text(empresaria['telefono'])
                 $('#correo').text(empresaria['usuario']['email'])
                 $('#enombre').text(direccionVenta['nombre'])
-                $('#etelefono').text(direccionVenta['telefono'])
-                $('#eprovincia').text(direccionVenta['ciudad']['provincia']['descripcion'])
-                $('#eciudad').text(direccionVenta['ciudad']['descripcion'])
-                $('#direccion').text(direccionVenta['direccion'])
-                $('#referencia').text(direccionVenta['referencia'])
+
+                $('#etelefono').text(direccionVenta['e_telefono'])
+                $('#eprovincia').text(direccionVenta['e_provincia'])
+                $('#eciudad').text(direccionVenta['e_ciudad'])
+                $('#direccion').text(direccionVenta['e_direccion'])
+                // $('#referencia').text(direccionVenta['referencia'])
                 $('#imagen_path').val(venta['recibo']);
                 if (venta['recibo'] != null) {
                     $('#imagen_defecto').attr('src',venta['recibo']);

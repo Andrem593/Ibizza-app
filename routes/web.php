@@ -310,7 +310,7 @@ Route::middleware(['auth:sanctum', 'verified'])
 
 
 //Cambios
-Route::resource('cambio', CambiosPedidosController::class)
+Route::resource('cambios', CambiosPedidosController::class)
 ->middleware(['auth:sanctum', 'verified']);
 
 Route::middleware(['auth:sanctum', 'verified'])
@@ -371,6 +371,8 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/cambio/cambios-reservados/{id}', [VentaController::class,'view_cambios_reservado'])
 ->name('venta.cambios-reservados');
+
+
 
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/venta/pedidos-reservados', [VentaController::class,'pedidos_reservados'])

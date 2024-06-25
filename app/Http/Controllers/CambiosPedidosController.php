@@ -7,6 +7,7 @@ use App\Models\CambioPedido;
 use App\Models\ProductoCambio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
 
 class CambiosPedidosController extends Controller
 {
@@ -20,6 +21,7 @@ class CambiosPedidosController extends Controller
 
     public function cambiosDataTable()
     {
+
         $response = '' ;
         if ($_POST['funcion'] == 'listar_todo') {
 
@@ -64,15 +66,16 @@ class CambiosPedidosController extends Controller
     {
         $productChange = ProductoCambio::where('id_cambio', $request->id)->get();
         $changeOrder = CambioPedido::findOrFail($request->id);
-        $businesswoman = Empresaria::where('id', $productChange->id_empresaria)
+        $businesswoman = Empresaria::where('id', $changeOrder->id_empresaria)
             ->with('usuario')
             ->first();
 
         $json = [];
-        $json['cambioDetalle'] = $productChange;
-        $json['cambioEncabezado'] = $changeOrder;
-        $json['empresaria'] = $businesswoman;
-        $json['rol'] = Auth::user()->role;
+        $json['cambio_detalle'] = $productChange;
+        $json['shipping_information'] = $changeOrder;
+        $json['cambio_encabezado'] = $changeOrder;
+        $json['businesswoman'] = $businesswoman;
+        $json['role'] = Auth::user()->role;
         return json_encode($json);
 
     }
