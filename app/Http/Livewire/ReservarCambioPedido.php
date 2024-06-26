@@ -47,6 +47,8 @@ class ReservarCambioPedido extends Component
 
     public function eliminarReserva($id)
     {
+        //Diminuir el stock
+        //Cosa que no hace
         $reserveChangesOrder = ReservarCambiosPedido::findOrFail($id);
         if($reserveChangesOrder){
             $reserveChangesOrder->estado = 0 ;
