@@ -5,12 +5,15 @@ namespace App\Http\Livewire;
 use App\Producto;
 use App\Empresaria;
 use App\Models\CambioPedido;
+use App\Models\ParametroCatalogo;
+use App\Models\ParametroMarca;
 use App\Models\ProductoCambio;
 use App\Models\ReservarCambiosDetalle;
 use App\Models\ReservarCambiosPedido;
 use App\Models\Venta;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class FormatoCambio extends Component
@@ -20,6 +23,8 @@ class FormatoCambio extends Component
     public $idventa, $pedidos, $productosACambiar, $nuevoProducto;
     public $f_nombre, $f_cedula, $f_telefono, $f_correo;
     public $e_nombre, $e_cedula, $e_telefono, $e_provincia, $e_ciudad, $e_direccion, $e_pedido, $e_c_envio;
+    public $envio = 0 ;
+    public $id_pedido = 0 ;
     public $selectedItems = [];
 
     public $selectedItem = null;
@@ -41,6 +46,17 @@ class FormatoCambio extends Component
     public $isOpen = false;
 
     public $idCambio = null ;
+
+
+
+    public function updatedIdPedido($value)
+    {
+        if ($value > 0) {
+            $this->envio = 0 ;
+        }else{
+            $this->checkShippingCost();
+        }
+    }
 
     public function mount()
     {
@@ -76,6 +92,9 @@ class FormatoCambio extends Component
 
                 $empresaria = Empresaria::findOrFail($this->id_empresaria);
                 $this->cliente = $empresaria->nombre_completo;
+                $this->tipoEmpresaria = $empresaria->tipo_cliente;
+
+                $this->id_pedido = $reserveChangesOrder->id_pedido ;
 
                 // $this->emp = Empresaria::with('pedidos', 'usuario', 'ciudad')->find($this->id_empresaria);
 
@@ -83,7 +102,10 @@ class FormatoCambio extends Component
 
                 $this->getReservedChangeDetail($id);
 
-                // dd($reserveChangesOrder);
+                $this->checkShippingCost();
+
+                $this->brandDiscount();
+
 
             }
         }
@@ -96,6 +118,11 @@ class FormatoCambio extends Component
         foreach ($reservarCambiosDetalle as $key => $detail) {
 
             $product = Producto::findOrfail($detail->id_producto);
+
+            $originalItem = $this->pedidos->where('id_producto', $detail->order->producto->id)->first();
+
+
+            $diff = ($detail->precio * $detail->cantidad ) - ($originalItem['precio'] * $detail->cantidad ) ;
 
             $this->nuevoProducto[] = [
                 'id' => $product->id,
@@ -111,11 +138,15 @@ class FormatoCambio extends Component
                 'total'=> $detail->total,
                 'descuento' => $detail->descuento,
                 'id_pedido' => $detail->id_pedido ,
+                'total_p_empresaria' => $detail->total - ($detail->total * $detail->descuento),
 
-                'id_producto_original' => $detail->order->producto->id
+                'id_producto_original' => $detail->order->producto->id,
+                'precio_producto_venta' => $originalItem['precio'],
+                'cantidad_producto_venta' => $originalItem['cantidad'],
+                'diferencia' => $diff
             ];
 
-            $originalItem = $this->pedidos->where('id_producto', $detail->order->producto->id)->first();
+
 
 
             $originalData = [
@@ -328,6 +359,8 @@ class FormatoCambio extends Component
 
                 $originalItem = $this->pedidos->where('id_producto', $this->selectedItem)->first();
 
+                $diff = ($producto->precio_empresaria * $this->cantidad ) - ($originalItem['precio'] * $this->cantidad );
+
                 $this->nuevoProducto[] = [
                     'id' => $producto->id,
                     'sku' => $producto->sku,
@@ -342,7 +375,12 @@ class FormatoCambio extends Component
                     'total'=> $this->cantidad * $producto->precio_empresaria,
                     'descuento' => 0,
                     'id_pedido' => $originalItem->id ,
-                    'id_producto_original' => $originalItem['id_producto']
+                    'total_p_empresaria' => ($this->cantidad * $producto->precio_empresaria) - (($this->cantidad * $producto->precio_empresaria) * 0 ) ,
+
+                    'id_producto_original' => $originalItem['id_producto'],
+                    'precio_producto_venta' => $originalItem['precio'],
+                    'cantidad_producto_venta' => $originalItem['cantidad'],
+                    'diferencia' => $diff
                 ];
 
 
@@ -382,6 +420,8 @@ class FormatoCambio extends Component
             $this->click = false;
             $this->message = 'VERIFIQUE QUE ESTEN TODOS LOS CAMPOS LLENOS';
         }
+        $this->checkShippingCost();
+        $this->brandDiscount();
     }
 
     public function selectItem($itemId)
@@ -427,13 +467,18 @@ class FormatoCambio extends Component
             }
         }
         $this->changes = array_values($this->changes); // Reindex array
-        // dd($deletedItem);
+
+        $this->checkShippingCost();
+        $this->brandDiscount();
 
     }
 
 
     public function saveData()
     {
+
+        dd("En Proceso");
+        return  ;
 
         //DESCONTAR DEL STOCK CUANDO GURADE, pero si tiene el Id no descontar
 
@@ -502,60 +547,282 @@ class FormatoCambio extends Component
         //DESCONTAR DEL STOCK CUANDO GURADE
 
         if(!$this->idventa){
-            dd("Debe seleccionar un a venta");
+            dd("Debe seleccionar una venta");
         }
 
+        try {
+            DB::beginTransaction();
 
-        $empresaria = Empresaria::where('id', $this->id_empresaria)->first();
+            $empresaria = Empresaria::where('id', $this->id_empresaria)->first();
 
-        $data =[
-            'id_usuario'=> Auth::user()->id,
-            'id_vendedor' => $empresaria->vendedor,
-            'fecha' => date('Y-m-d'),
-            'id_empresaria' => $this->id_empresaria,
-            'motivo' => $this->descripcionCambio,
-            'descripcion' => $this->motivoCambio,
-            'f_nombre' => $this->f_nombre,
-            'f_cedula' => $this->f_cedula,
-            'f_telefono' => $this->f_telefono,
-            'f_correo' => $this->f_correo,
-            'e_nombre' => $this->e_nombre,
-            'e_cedula' => $this->e_cedula,
-            'e_telefono' => $this->e_telefono,
-            'e_provincia' => $this->e_provincia,
-            'e_ciudad' => $this->e_ciudad,
-            'e_direccion' => $this->e_direccion,
-            'obervaciones' => $this->observaciones,
-            'e_pedido' => $this->e_pedido,
-            //ver el envio
-            'envio' => $this->e_c_envio,
-            'id_venta' => $this->idventa,
+            $data =[
+                'id_usuario'=> Auth::user()->id,
+                'id_vendedor' => $empresaria->vendedor,
+                'fecha' => date('Y-m-d'),
+                'id_empresaria' => $this->id_empresaria,
+                'motivo' => $this->descripcionCambio,
+                'descripcion' => $this->motivoCambio,
+                'f_nombre' => $this->f_nombre,
+                'f_cedula' => $this->f_cedula,
+                'f_telefono' => $this->f_telefono,
+                'f_correo' => $this->f_correo,
+                'e_nombre' => $this->e_nombre,
+                'e_cedula' => $this->e_cedula,
+                'e_telefono' => $this->e_telefono,
+                'e_provincia' => $this->e_provincia,
+                'e_ciudad' => $this->e_ciudad,
+                'e_direccion' => $this->e_direccion,
+                'obervaciones' => $this->observaciones,
+                'e_pedido' => $this->e_pedido,
+                //ver el envio
+                'envio' => $this->envio,
+                'id_venta' => $this->idventa,
 
-            //El id Pedido es si tiene un pedido pendiente
-            'id_pedido' => null,
-        ];
-        $cambioPedido = ReservarCambiosPedido::create($data);
-
-        foreach ($this->nuevoProducto as $key => $value) {
-            $productosCambios =  [
-                'id_reservar_cambio_pedido'=>$cambioPedido->id,
-                'id_producto'=> $value['id'],
-                'cantidad' => $value['cantidad'],
-                //ver que va en diferencia
-                'diferencia' => 0,
-                'fecha'=>date('Y-m-d'),
-                'hora'=>date('H:i:s' ),
-
-
-                'id_pedido'=> $value['id_pedido'],
-                'precio'=> $value['precio'],
-                'precio_catalogo' => $value['precio_catalogo'],
-                'total'=> $value['total'],
-                'descuento' => $value['descuento']
+                //El id Pedido es si tiene un pedido pendiente
+                'id_pedido' => $this->id_pedido,
             ];
+            $cambioPedido = ReservarCambiosPedido::create($data);
 
-            ReservarCambiosDetalle::create($productosCambios);
+            foreach ($this->nuevoProducto as $key => $value) {
+                $productosCambios =  [
+                    'id_reservar_cambio_pedido'=>$cambioPedido->id,
+                    'id_producto'=> $value['id'],
+                    'cantidad' => $value['cantidad'],
+                    //ver que va en diferencia
+                    'diferencia' => $value['diferencia'],
+                    'fecha'=>date('Y-m-d'),
+                    'hora'=>date('H:i:s' ),
+
+
+                    'id_pedido'=> $value['id_pedido'],
+                    'precio'=> $value['precio'],
+                    'precio_catalogo' => $value['precio_catalogo'],
+                    'total'=> $value['total'],
+                    'descuento' => $value['descuento']
+                ];
+
+                ReservarCambiosDetalle::create($productosCambios);
+
+                $product = Producto::findOrFail($value['id']);
+                if($product){
+                    $product->stock -= $value['cantidad'] ;
+                    // dd($value['cantidad'],$value['id'] , $product->stock );
+                    if($product->stock < 0) throw new \Exception('No existe stock.');
+
+                    $product->save();
+                }
+            }
+
+            DB::commit();
+            return redirect()->route('cambio.cambios-reservados');
+        } catch (\Exception $th) {
+            DB::rollBack();
+            dd("Error ", $th);
+            //throw $th;
         }
+
+
+
+    }
+
+
+
+    public function checkShippingCost()
+    {
+
+        $productChanges = $this->nuevoProducto ;
+
+        $groupedProducts = [] ;
+
+        foreach ($productChanges as $key => $item) {
+            $item = (object) $item ;
+            $address = 'NINGUNA' ;
+
+            if (!isset($groupedProducts[$address])) {
+                $groupedProducts[$address] = [
+                    'precio' => 0,
+                    'cantidad' => 0,
+                    'productos' => [],
+                ];
+            }
+
+            $groupedProducts[$address]['precio'] += $item->precio * $item->cantidad;
+            $groupedProducts[$address]['cantidad'] += $item->cantidad;
+            $groupedProducts[$address]['productos'][] = $item;
+
+        }
+
+        //calculo de envio
+
+        $groupingByCondition = [] ;
+
+        foreach ($groupedProducts as $nameGroup => $group) {
+            $groupingByCondition[$nameGroup] = [];
+            foreach ($group['productos'] as $key => $product) {
+
+                $productModel = Producto::where('id', $product->id)->with(['marca', 'catalogo'])->first();
+                $parameterCatalog = ParametroCatalogo::where('catalogo_id', $productModel->catalogo_id)
+                    ->where('estado', 1)
+                    ->where('condicion', 'envio_costo')
+                    ->orWhere('condicion', 'envio_cantidad')
+                    ->orderBy('condicion')
+                    ->get();
+
+                foreach ($parameterCatalog as $key => $parameter) {
+                    $totalPrice = $product->precio * $product->cantidad ;
+                    $condition = $parameter->operador . $parameter->cantidad ;
+
+                    if (!isset($groupingByCondition[$nameGroup][$parameter->id])) {
+                        $groupingByCondition[$nameGroup][$parameter->id] = [
+                            'total_precio' => 0,
+                            'tipo_empresaria' => $parameter->tipo_empresaria,
+                            'condicion' => $parameter->condicion,
+                            'eval' => $condition,
+                            'valor_condicion' => $parameter->valor ,
+                            'products' => [],
+                        ];
+                    }
+                    $groupingByCondition[$nameGroup][$parameter->id]['total_precio'] += $totalPrice ;
+
+                }
+                $groupingByCondition[$nameGroup][$parameter->id]['products'][] = $product ;
+            }
+        }
+
+        $shippingCost = 0 ;
+
+        foreach ($groupingByCondition as $nameGroup => $parameter) {
+            foreach ($parameter as $parameterId => $parameterDetail) {
+                if($parameterDetail['tipo_empresaria'] == 'TODOS' && $parameterDetail['condicion'] == 'envio_costo' ){
+                    $parameterDetail['total_precio']  = number_format($parameterDetail['total_precio'], 2, '.', ',');
+                    $eval = $parameterDetail['total_precio'] . $parameterDetail['eval'] ;
+                    $value = eval("return $eval;") ? $parameterDetail['valor_condicion'] : 0 ;
+                    $shippingCost += $value ;
+                }
+            }
+        }
+        $this->envio = $this->id_pedido > 0 ? 0 : $shippingCost  ;
+
+    }
+
+
+
+    public function brandDiscount()
+    {
+
+        $productChanges = $this->nuevoProducto ;
+
+
+        $parametersBrand = ParametroMarca::where([
+            ['estado', 1],
+            ])->get();
+
+        $groupsParameters = [] ;
+
+        foreach ($parametersBrand as $key => $parameter) {
+            $groupsParameters[] = [
+                'id' => $parameter->id ,
+                'nombre' => $parameter->nombre,
+                'tipo_empresaria' => $parameter->tipo_empresaria,
+                'condicion' => $parameter->condicion,
+                'operador' => $parameter->operador,
+                'cantidad' => $parameter->cantidad,
+                'descuento' => $parameter->descuento ,
+                'operador' => $parameter->operador ,
+                'total_valor' => 0,
+                'total_cantidad' => 0,
+                'marcas' => json_decode($parameter->marcas, true),
+                'productos' => []
+            ];
+        }
+
+
+        foreach ($productChanges as $key => $item) {
+            $item = (object) $item ;
+            $product = Producto::findOrFail($item->id);
+            foreach ($groupsParameters as $keyParameter => $parameter) {
+                $flag = collect($parameter['marcas'])->where('categoria', $product->categoria)->first();
+                if($flag != null){
+                    $groupsParameters[$keyParameter]['productos'][] = [
+                        'id' => $product->id,
+                        'categoria' =>$product->categoria,
+                        'cantidad' => $item->cantidad ,
+                        'valor' => $product->precio_empresaria,
+                        'descuento' => $flag['descuento']
+                    ];
+                    $groupsParameters[$keyParameter]['total_valor'] += ( $item->cantidad * $product->precio_empresaria );
+                    $groupsParameters[$keyParameter]['total_cantidad'] += $item->cantidad ;
+                }
+            }
+        }
+
+
+        $groupsParameters = collect($groupsParameters)->filter(function ($item) {
+            return $item['tipo_empresaria'] === $this->tipoEmpresaria || $item['tipo_empresaria'] === 'TODOS';
+        })->values()->toArray();
+
+        foreach ($productChanges as $keyItem => $item) {
+            $item = (object) $item ;
+
+            foreach ($groupsParameters as $key => $parameter) {
+
+                $product = collect($parameter['productos'])->where('id', $item->id)->first();
+
+                $productDB = Producto::findOrFail($item->id);
+
+                //Poner en cero
+                $discount = 0 ;
+                $price = $productDB->precio_empresaria ;
+
+                if($product){
+
+                    if ($parameter['tipo_empresaria'] == $this->tipoEmpresaria) {
+
+                        if ($parameter['condicion'] == 'cantidad') {
+                            $condition = $parameter['total_cantidad'] . $parameter['operador'] . $parameter['cantidad'];
+
+                            $discount = eval("return $condition;") ? $product['descuento'] : 0;
+                            $discount = $discount / 100;
+
+                        }
+
+                        if ($parameter['condicion'] == 'factura') {
+                            $condition = $parameter['total_valor'] . $parameter['operador'] . $parameter['cantidad'];
+                            $discount = eval("return $condition;") ?$product['descuento'] : 0;
+                            $discount = $discount / 100;
+                        }
+
+                    }elseif($parameter['tipo_empresaria'] == 'TODOS'){
+                        if ($parameter['condicion'] == 'cantidad') {
+                            $condition = $parameter['total_cantidad'] . $parameter['operador'] . $parameter['cantidad'];
+
+                            $discount = eval("return $condition;") ?$product['descuento'] : 0;
+                            $discount = $discount / 100;
+                        }
+
+                        if ($parameter['condicion'] == 'factura') {
+                            $condition = $parameter['total_valor'] . $parameter['operador'] . $parameter['cantidad'];
+                            $discount = eval("return $condition;") ?$product['descuento'] : 0;
+                            $discount = $discount / 100;
+                        }
+                    }
+
+                    //Aqui debe ir
+
+                    //MOver
+                    $price = (float)$productDB->precio_empresaria - ($productDB->precio_empresaria * $discount);
+                    $productChanges[$keyItem]['descuento'] = $discount;
+                    $productChanges[$keyItem]['precio'] = round($price, 2);
+                    $productChanges[$keyItem]['diferencia'] = (round($price, 2) * $productChanges[$keyItem]['cantidad']) - (round($productChanges[$keyItem]['precio_producto_venta']) * $productChanges[$keyItem]['cantidad']) ;
+                    $productChanges[$keyItem]['total_p_empresaria'] = round($price, 2) * $productChanges[$keyItem]['cantidad'];
+
+                }
+
+            }
+        }
+
+        $this->nuevoProducto = $productChanges ;
+
     }
 
 }

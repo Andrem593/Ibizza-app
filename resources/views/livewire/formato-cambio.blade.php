@@ -137,8 +137,8 @@
             <input type="text" class="form-control p-1" wire:model="e_pedido">
         </div>
         <div class="col">
-            <label class="form-label">Costo Envio:</label>
-            <input type="number" class="form-control p-1" wire:model="e_c_envio">
+            <label class="form-label">N° Guía de Retorno:</label>
+            <input type="number" class="form-control p-1" wire:model="id_pedido">
         </div>
     </div>
     <div class="text-center">
@@ -183,7 +183,7 @@
                             <td>{{ $item['producto']['color'] }}</td>
                             <td>{{ $item['producto']['talla'] }}</td>
                             <td>{{ $item['cantidad'] }}</td>
-                            <td>{{ $item['descuento'] }}</td>
+                            <td>{{ $item['descuento'] * 100 }} %</td>
                             <td>{{ number_format($item['cantidad'] * $item['precio'], 2) }}</td>
                             <td>{{ number_format($item['cantidad'] * ($item['precio'] - $item['precio'] * $item['descuento']), 2) }}
                             </td>
@@ -424,8 +424,8 @@
                                 <td>{{ $item['descripcion'] }}</td>
                                 <td>{{ $item['color'] }}</td>
                                 <td>{{ $item['talla'] }}</td>
-                                <td>{{ number_format($item['cantidad'] * $item['precio'], 2) }}</td>
-                                <td></td>
+                                <td>{{ number_format($item['cantidad'] * $item['precio_catalogo'], 2) }}</td>
+                                <td>{{ $item['descuento'] * 100 }} % </td>
                                 <td>{{ $item['cantidad'] }}</td>
                                 <td>{{ number_format($item['cantidad'] * ($item['precio']), 2) }}
                                 </td>
@@ -438,32 +438,32 @@
                     <tfoot>
                         <tr>
                             <td colspan="4"></td>
-                            <td>{{collect($nuevoProducto)->sum('precio')}}</td>
+                            <td>{{ collect($nuevoProducto)->sum('total')}}</td>
                             <td></td>
                             <td>{{collect($nuevoProducto)->sum('cantidad')}}</td>
-                            <td>{{collect($nuevoProducto)->sum('precio')}}</td>
+                            <td>{{collect($nuevoProducto)->sum('total_p_empresaria')}}</td>
                         </tr>
                         <tr>
                             <td colspan="4"></td>
                             <td></td>
                             <td></td>
-                            <td>Envio</td>
-                            <td>0</td>
+                            <td><strong>Envío</strong></td>
+                            <td>{{$envio}}</td>
                         </tr>
                         <tr>
                             <td colspan="4"></td>
                             <td></td>
                             <td></td>
-                            <td>Total</td>
-                            <td>{{collect($nuevoProducto)->sum('precio')}}</td>
+                            <td><strong>Total</strong></td>
+                            <td>{{collect($nuevoProducto)->sum('diferencia')}}</td>
                         </tr>
 
                         <tr>
                             <td colspan="4"></td>
                             <td></td>
                             <td></td>
-                            <td>Total a Pagar</td>
-                            <td>{{collect($nuevoProducto)->sum('precio')}}</td>
+                            <td><strong>Total a Pagar</strong></td>
+                            <td>{{collect($nuevoProducto)->sum('diferencia') + $envio }}</td>
                         </tr>
 
 
