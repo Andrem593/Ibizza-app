@@ -125,6 +125,7 @@ class FormatoCambio extends Component
 
             $diff = ($detail->precio * $detail->cantidad ) - ($productSale['precio'] * $detail->cantidad ) ;
 
+            $diff = number_format($diff, 2);
             $this->nuevoProducto[] = [
                 'id' => $product->id,
                 'sku' => $product->sku,
@@ -394,6 +395,7 @@ class FormatoCambio extends Component
 
                 $diff = ($producto->precio_empresaria * $this->cantidad ) - ($productSale['precio'] * $this->cantidad );
 
+                $diff = number_format($diff, 2);
                 $this->nuevoProducto[] = [
                     'id' => $producto->id,
                     'sku' => $producto->sku,
@@ -848,10 +850,15 @@ class FormatoCambio extends Component
 
                     //MOver
                     $price = (float)$productDB->precio_empresaria - ($productDB->precio_empresaria * $discount);
+                    $precioCambioTotal = round($price, 2) * $productChanges[$keyItem]['cantidad'];
+                    $precioVentaTotal =  (round($productChanges[$keyItem]['precio_producto_venta'], 2) * $productChanges[$keyItem]['cantidad']);
+                    $precioDiff =  $precioCambioTotal -  $precioVentaTotal ;
+                    
                     $productChanges[$keyItem]['descuento'] = $discount;
                     $productChanges[$keyItem]['precio'] = round($price, 2);
-                    $productChanges[$keyItem]['diferencia'] = (round($price, 2) * $productChanges[$keyItem]['cantidad']) - (round($productChanges[$keyItem]['precio_producto_venta']) * $productChanges[$keyItem]['cantidad']) ;
+                    $productChanges[$keyItem]['diferencia'] = $precioDiff ;
                     $productChanges[$keyItem]['total_p_empresaria'] = round($price, 2) * $productChanges[$keyItem]['cantidad'];
+       
 
                 }
 

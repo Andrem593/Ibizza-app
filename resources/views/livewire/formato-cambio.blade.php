@@ -502,24 +502,24 @@
                     <tfoot>
                         <tr>
                             <td colspan="4"></td>
-                            <td>{{ collect($nuevoProducto)->sum('total')}}</td>
+                            <td><strong>${{ collect($nuevoProducto)->sum('total')}}</strong></td>
                             <td></td>
-                            <td>{{collect($nuevoProducto)->sum('cantidad')}}</td>
-                            <td>{{collect($nuevoProducto)->sum('total_p_empresaria')}}</td>
+                            <td><strong>{{collect($nuevoProducto)->sum('cantidad')}}</strong></td>
+                            <td><strong>${{collect($nuevoProducto)->sum('total_p_empresaria')}}</strong></td>
                         </tr>
                         <tr>
                             <td colspan="4"></td>
                             <td></td>
                             <td></td>
                             <td><strong>Envío</strong></td>
-                            <td>{{$envio}}</td>
+                            <td><strong>${{number_format($envio,2)}}</strong></td>
                         </tr>
                         <tr>
                             <td colspan="4"></td>
                             <td></td>
                             <td></td>
                             <td><strong>Total</strong></td>
-                            <td>{{collect($nuevoProducto)->sum('diferencia')}}</td>
+                            <td><strong>${{number_format(collect($nuevoProducto)->sum('diferencia'),2)}}</strong></td>
                         </tr>
 
                         <tr>
@@ -527,7 +527,7 @@
                             <td></td>
                             <td></td>
                             <td><strong>Total a Pagar</strong></td>
-                            <td>{{collect($nuevoProducto)->sum('diferencia') + $envio }}</td>
+                            <td><strong>${{number_format(collect($nuevoProducto)->sum('diferencia') + $envio ,2)}}</strong></td>
                         </tr>
 
 
