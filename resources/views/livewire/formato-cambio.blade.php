@@ -57,36 +57,71 @@
         </div>
         <div class="col">
             <label class="form-label">Descripción del cambio:</label>
-            <input type="te xt" class="form-control p-1" wire:model="motivoCambio">
+            <textarea  type="te xt" class="form-control p-1" wire:model="motivoCambio"></textarea>
         </div>
     </div>
     <div class="row mb-2">
         <div class="d-flex">
-            <label class="my-auto">Datos Faturación</label>
-            <button class="btn btn-primary rounded btn-sm ml-2" type="button" wire:click="nuevosDatosFac">
-                <i class="fas fa-plus"></i> Nuevos datos
-            </button>
+            <label class="my-auto"><strong>Datos Faturación:</strong></label>
         </div>
-        <div class="col">
+
+        <span class="ec-bill-option">
+            <span>
+                <input wire:click="getBusinessInformation" type="radio" id="bill1" name="radio-direccion"
+                    value="envio" checked >
+                <label for="bill1">Utilizar información de empresarias</label>
+            </span>
+            <span>
+                <input wire:click="nuevosDatosFac" type="radio" id="bill2" name="radio-direccion"
+                    value="domicilio" >
+                <label for="bill2">Ingresar nuevos datos </label>
+            </span>
+        </span>
+
+        <div class="col-md-4">
             <label class="form-label"># Factura:</label>
             <input type="text" class="form-control p-1">
         </div>
-        <div class="col">
+        <div class="col-md-4">
+            <label>Tipo Identificación</label>
+                <span class="ec-bl-select-inner">
+                    <select class="form-control" name="tipo_id" id="tipo_id">
+                        <option value="cedula"
+                            {{-- {{ $empresaria->tipo_id == 'cedula' ? 'selected' : '' }} --}}
+                            >
+                            Cédula</option>
+                        <option value="pasaporte"
+                            {{-- {{ $empresaria->tipo_id == 'pasaporte' ? 'selected' : '' }} --}}
+                            >
+                            Pasaporte</option>
+                        <option value="ruc"
+                            {{-- {{ $empresaria->tipo_id == 'ruc' ? 'selected' : '' }} --}}
+                            >
+                            Ruc
+                        </option>
+                    </select>
+                </span>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Nro de Identificación:</label>
+            <input type="text" class="form-control p-1" wire:model="f_cedula">
+        </div>
+        <div class="col-md-4">
             <label class="form-label">Nombre:</label>
             <input type="text" class="form-control p-1" wire:model="f_nombre">
         </div>
-        <div class="col">
-            <label class="form-label">Cédula:</label>
-            <input type="text" class="form-control p-1" wire:model="f_cedula">
-        </div>
-        <div class="col">
+
+
+        <div class="col-md-4">
             <label class="form-label">Teléfono:</label>
             <input type="text" class="form-control p-1" wire:model="f_telefono">
         </div>
-        <div class="col">
+        <div class="col-md-4">
             <label class="form-label">Correo:</label>
             <input type="text" class="form-control p-1" wire:model="f_correo">
         </div>
+
+
     </div>
     <div class="row mb-2">
         <div class="d-flex">
@@ -97,10 +132,33 @@
             <button class="btn btn-success rounded btn-sm ml-2" type="button" wire:click="nuevosDatosLoc">
                 <i class="fas fa-plus"></i> Envio Local
             </button>
+            <button class="btn btn-warning rounded btn-sm ml-2" type="button" wire:click="getShippingDataBusinesswoman">
+                <i class="fas fa-plus"></i> Dirección Empresaria
+            </button>
         </div>
         <div class="col">
             <label class="form-label">Nombre:</label>
             <input type="text" class="form-control p-1" wire:model="e_nombre">
+        </div>
+        <div class="col">
+            <label>Tipo Identificación</label>
+            <span class="ec-bl-select-inner">
+                <select class="form-control" name="tipo_id" id="tipo_id">
+                    <option value="cedula"
+                        {{-- {{ $empresaria->tipo_id == 'cedula' ? 'selected' : '' }} --}}
+                        >
+                        Cédula</option>
+                    <option value="pasaporte"
+                        {{-- {{ $empresaria->tipo_id == 'pasaporte' ? 'selected' : '' }} --}}
+                        >
+                        Pasaporte</option>
+                    <option value="ruc"
+                        {{-- {{ $empresaria->tipo_id == 'ruc' ? 'selected' : '' }} --}}
+                        >
+                        Ruc
+                    </option>
+                </select>
+            </span>
         </div>
         <div class="col">
             <label class="form-label">Cédula:</label>
@@ -127,7 +185,7 @@
     </div>
     <div class="row mb-2">
         <div class="col">
-            <label class="form-label">Observaciones:</label>
+            <label class="form-label">Referencia:</label>
             <textarea class="form-control" wire:model="observaciones" rows="3">
                 {{ $observaciones }}
             </textarea>
@@ -166,8 +224,8 @@
                         <th>COLOR</th>
                         <th>TALLA</th>
                         <th>CANTIDAD</th>
-                        <th>DESCUENTO</th>
                         <th>P.V.P</th>
+                        <th>DESCUENTO</th>
                         <th>P.V.E</th>
                     </tr>
                 </thead>
@@ -183,9 +241,9 @@
                             <td>{{ $item['producto']['color'] }}</td>
                             <td>{{ $item['producto']['talla'] }}</td>
                             <td>{{ $item['cantidad'] }}</td>
+                            <td>{{ number_format($item['precio_catalogo'], 2) }}</td>
                             <td>{{ $item['descuento'] * 100 }} %</td>
-                            <td>{{ number_format($item['cantidad'] * $item['precio'], 2) }}</td>
-                            <td>{{ number_format($item['cantidad'] * ($item['precio'] - $item['precio'] * $item['descuento']), 2) }}
+                            <td>{{ number_format(($item['precio']), 2) }}
                             </td>
                         </tr>
                     @endforeach
@@ -292,6 +350,12 @@
                             <div><strong>Descuento:</strong> {{ $selectedItemData['descuento'] }}</div>
                             <div><strong>PVP:</strong> {{ $selectedItemData['pvp'] }}</div>
                             <div><strong>P. Empresaria:</strong> {{ $selectedItemData['p_empresaria'] }}</div>
+                            <div class="form-group row align-items-center">
+                                <label class="col-sm-3 col-form-label"><strong>Cantidad a modificar:</strong></label>
+                                <div class="col-sm-3">
+                                    <input type="number" wire:model="selectedItemData.cantidad_cambiar" class="form-control form-control-sm" max="{{ $selectedItemData['cantidad'] }}" min="1" placeholder="Cantidad">
+                                </div>
+                            </div>
                         </div>
 
                     </div>

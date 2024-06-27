@@ -20,11 +20,11 @@ class FormatoCambio extends Component
 {
     public $estilo, $colores, $tallas, $message, $color, $talla, $cantidad, $alert, $stock, $cliente, $similitudes, $click = false, $motivoCambio, $descripcionCambio, $observaciones;
     public $venta, $user, $empresarias, $tipoEmpresaria, $click2 = false, $marca, $id_empresaria, $emp;
-    public $idventa, $pedidos, $productosACambiar, $nuevoProducto;
+    public $idventa, $pedidos, $productosACambiar, $nuevoProducto = [];
     public $f_nombre, $f_cedula, $f_telefono, $f_correo;
     public $e_nombre, $e_cedula, $e_telefono, $e_provincia, $e_ciudad, $e_direccion, $e_pedido, $e_c_envio;
     public $envio = 0 ;
-    public $id_pedido = 0 ;
+    public $id_pedido = "" ;
     public $selectedItems = [];
 
     public $selectedItem = null;
@@ -36,7 +36,8 @@ class FormatoCambio extends Component
         'cantidad' => '',
         'descuento' => '',
         'pvp' => '',
-        'p_empresaria' => ''
+        'p_empresaria' => '',
+        'cantidad_cambiar' =>''
     ];
 
     protected $listeners = ['openModal', 'closeModal'];
@@ -119,10 +120,10 @@ class FormatoCambio extends Component
 
             $product = Producto::findOrfail($detail->id_producto);
 
-            $originalItem = $this->pedidos->where('id_producto', $detail->order->producto->id)->first();
+            $productSale = $this->pedidos->where('id_producto', $detail->order->producto->id)->first();
 
 
-            $diff = ($detail->precio * $detail->cantidad ) - ($originalItem['precio'] * $detail->cantidad ) ;
+            $diff = ($detail->precio * $detail->cantidad ) - ($productSale['precio'] * $detail->cantidad ) ;
 
             $this->nuevoProducto[] = [
                 'id' => $product->id,
@@ -141,24 +142,22 @@ class FormatoCambio extends Component
                 'total_p_empresaria' => $detail->total - ($detail->total * $detail->descuento),
 
                 'id_producto_original' => $detail->order->producto->id,
-                'precio_producto_venta' => $originalItem['precio'],
-                'cantidad_producto_venta' => $originalItem['cantidad'],
+                'precio_producto_venta' => $productSale['precio'],
+                'cantidad_producto_venta' => $productSale['cantidad'],
                 'diferencia' => $diff
             ];
 
 
-
-
             $originalData = [
-                'id' => $originalItem['id_producto'],
-                'sku' => $originalItem['producto']['sku'],
-                'descripcion' => $originalItem['producto']['descripcion'],
-                'color' => $originalItem['producto']['color'],
-                'talla' => $originalItem['producto']['talla'],
-                'cantidad' => $originalItem['cantidad'],
-                'descuento' => $originalItem['descuento'],
-                'pvp' => number_format($originalItem['cantidad'] * $originalItem['precio'], 2),
-                'p_empresaria' => number_format($originalItem['cantidad'] * ($originalItem['precio'] - $originalItem['precio'] * $originalItem['descuento']), 2)
+                'id' => $productSale['id_producto'],
+                'sku' => $productSale['producto']['sku'],
+                'descripcion' => $productSale['producto']['descripcion'],
+                'color' => $productSale['producto']['color'],
+                'talla' => $productSale['producto']['talla'],
+                'cantidad' => $productSale['cantidad'],
+                'pvp' => number_format($productSale['precio_catalogo'], 2),
+                'descuento' => $productSale['descuento'] * 100 . '%',
+                'p_empresaria' => number_format(($productSale['precio']), 2)
             ];
             $this->changes[] = [
                 'original' => $originalData,
@@ -211,6 +210,35 @@ class FormatoCambio extends Component
         return view('livewire.formato-cambio');
     }
 
+
+    public function getBusinessInformation()
+    {
+        if($this->id_empresaria !=''){
+            $this->emp = Empresaria::with('pedidos', 'usuario', 'ciudad')->find($this->id_empresaria);
+            $this->f_cedula = $this->emp->cedula;
+            $this->f_nombre = $this->emp->nombres . ' ' . $this->emp->apellidos;
+            $this->f_telefono = $this->emp->telefono;
+            $this->f_correo = $this->emp->usuario->email;
+        }
+
+    }
+
+    public function getShippingDataBusinesswoman()
+    {
+        if($this->id_empresaria !=''){
+            $this->emp = Empresaria::with('pedidos', 'usuario', 'ciudad')->find($this->id_empresaria);
+            $this->e_nombre = $this->emp->nombres . ' ' . $this->emp->apellidos;
+            $this->e_cedula = $this->emp->cedula;
+            $this->e_telefono = $this->emp->telefono;
+            if ($this->emp->ciudad) {
+                $this->e_provincia = $this->emp->ciudad->provincia->descripcion;
+                $this->e_ciudad = $this->emp->ciudad->descripcion;
+            }
+            $this->e_direccion = $this->emp->direccion;
+        }
+
+    }
+
     public function clickEmpresaria($emp, $tipo)
     {
         $this->cliente = $emp['nombres'] . ' ' . $emp['apellidos'];
@@ -220,6 +248,7 @@ class FormatoCambio extends Component
         $this->f_nombre = $this->emp->nombres . ' ' . $this->emp->apellidos;
         $this->f_telefono = $this->emp->telefono;
         $this->f_correo = $this->emp->usuario->email;
+
         $this->e_nombre = $this->emp->nombres . ' ' . $this->emp->apellidos;
         $this->e_cedula = $this->emp->cedula;
         $this->e_telefono = $this->emp->telefono;
@@ -251,6 +280,8 @@ class FormatoCambio extends Component
         $this->e_direccion = '';
         $this->e_pedido = '';
         $this->e_c_envio = '';
+
+        $this->checkShippingCost();
     }
 
     public function nuevosDatosLoc()
@@ -260,6 +291,8 @@ class FormatoCambio extends Component
         $this->e_ciudad = 'Guayaquil';
         $this->e_direccion = 'Calle chile y Luque';
         $this->observaciones = 'Frente a De Prati';
+
+        // $this->envio = 0 ;
     }
 
     public function clearEmpresaria()
@@ -357,9 +390,9 @@ class FormatoCambio extends Component
 
             if ($producto->stock >= $this->cantidad) {
 
-                $originalItem = $this->pedidos->where('id_producto', $this->selectedItem)->first();
+                $productSale = $this->pedidos->where('id_producto', $this->selectedItem)->first();
 
-                $diff = ($producto->precio_empresaria * $this->cantidad ) - ($originalItem['precio'] * $this->cantidad );
+                $diff = ($producto->precio_empresaria * $this->cantidad ) - ($productSale['precio'] * $this->cantidad );
 
                 $this->nuevoProducto[] = [
                     'id' => $producto->id,
@@ -374,26 +407,25 @@ class FormatoCambio extends Component
                     'precio_catalogo' => $producto->precio_empresaria,
                     'total'=> $this->cantidad * $producto->precio_empresaria,
                     'descuento' => 0,
-                    'id_pedido' => $originalItem->id ,
+                    'id_pedido' => $productSale->id ,
                     'total_p_empresaria' => ($this->cantidad * $producto->precio_empresaria) - (($this->cantidad * $producto->precio_empresaria) * 0 ) ,
 
-                    'id_producto_original' => $originalItem['id_producto'],
-                    'precio_producto_venta' => $originalItem['precio'],
-                    'cantidad_producto_venta' => $originalItem['cantidad'],
+                    'id_producto_original' => $productSale['id_producto'],
+                    'precio_producto_venta' => $productSale['precio'],
+                    'cantidad_producto_venta' => $productSale['cantidad'],
                     'diferencia' => $diff
                 ];
 
-
                 $originalData = [
-                    'id' => $originalItem['id_producto'],
-                    'sku' => $originalItem['producto']['sku'],
-                    'descripcion' => $originalItem['producto']['descripcion'],
-                    'color' => $originalItem['producto']['color'],
-                    'talla' => $originalItem['producto']['talla'],
-                    'cantidad' => $originalItem['cantidad'],
-                    'descuento' => $originalItem['descuento'],
-                    'pvp' => number_format($originalItem['cantidad'] * $originalItem['precio'], 2),
-                    'p_empresaria' => number_format($originalItem['cantidad'] * ($originalItem['precio'] - $originalItem['precio'] * $originalItem['descuento']), 2)
+                    'id' => $productSale['id_producto'],
+                    'sku' => $productSale['producto']['sku'],
+                    'descripcion' => $productSale['producto']['descripcion'],
+                    'color' => $productSale['producto']['color'],
+                    'talla' => $productSale['producto']['talla'],
+                    'cantidad' => $productSale['cantidad'],
+                    'pvp' => number_format($productSale['precio_catalogo'], 2) ,
+                    'descuento' => $productSale['descuento'] * 100 . '%',
+                    'p_empresaria' => number_format(($productSale['precio']), 2)
                 ];
                 $this->changes[] = [
                     'original' => $originalData,
@@ -434,9 +466,10 @@ class FormatoCambio extends Component
             'color' => $item['producto']['color'],
             'talla' => $item['producto']['talla'],
             'cantidad' => $item['cantidad'],
-            'descuento' => $item['descuento'],
-            'pvp' => number_format($item['cantidad'] * $item['precio'], 2),
-            'p_empresaria' => number_format($item['cantidad'] * ($item['precio'] - $item['precio'] * $item['descuento']), 2)
+            'pvp' => number_format($item['precio_catalogo'], 2),
+            'descuento' => $item['descuento'] * 100 .'%',
+            'p_empresaria' => number_format($item['precio'] , 2),
+            'cantidad_cambiar'=> $item['cantidad']
         ];
     }
 
@@ -477,7 +510,6 @@ class FormatoCambio extends Component
     public function saveData()
     {
 
-        dd("En Proceso");
         return  ;
 
         //DESCONTAR DEL STOCK CUANDO GURADE, pero si tiene el Id no descontar
@@ -701,7 +733,12 @@ class FormatoCambio extends Component
                 }
             }
         }
+
         $this->envio = $this->id_pedido > 0 ? 0 : $shippingCost  ;
+        //Si se envia al local Ibizza el envio es cero
+        // if($this->e_nombre == 'Local Ibizza'){
+        //     $this->envio = 0 ;
+        // }
 
     }
 
