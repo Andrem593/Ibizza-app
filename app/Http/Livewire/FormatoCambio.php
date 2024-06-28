@@ -102,6 +102,11 @@ class FormatoCambio extends Component
                 $this->descripcionCambio = $reserveChangesOrder->motivo ;
                 $this->motivoCambio = $reserveChangesOrder->descripcion ;
 
+                $this->provincia_id = $reserveChangesOrder->provincia_id ;
+                $this->ciudades =  Ciudad::where('provincia_id', $this->provincia_id)->get();
+                $this->ciudad_id = $reserveChangesOrder->ciudad_id ;
+
+
                 $this->e_nombre = $reserveChangesOrder->e_nombre ;
                 $this->e_cedula = $reserveChangesOrder->e_cedula ;
                 $this->e_telefono = $reserveChangesOrder->e_telefono ;
@@ -115,6 +120,8 @@ class FormatoCambio extends Component
                 $this->idventa = $reserveChangesOrder->id_venta ;
 
                 $empresaria = Empresaria::findOrFail($this->id_empresaria);
+
+
                 $this->cliente = $empresaria->nombre_completo;
                 $this->tipoEmpresaria = $empresaria->tipo_cliente;
 
