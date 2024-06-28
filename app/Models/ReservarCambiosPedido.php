@@ -14,6 +14,7 @@ class ReservarCambiosPedido extends Model
 
 
     protected $fillable = [
+        'n_factura',
         'id_vendedor',
         'id_usuario',
         'fecha',
@@ -22,14 +23,28 @@ class ReservarCambiosPedido extends Model
         'descripcion',
         'f_nombre',
         'f_cedula',
+        'f_tipo_id',
+        'f_telefono',
+        'f_correo',
         'e_telefono',
         'e_provincia',
         'e_ciudad',
         'e_direccion',
-        'obervaciones',
+        'e_tipo_id',
+        'e_pedido',
+        'e_cedula',
+        'e_nombre',
+        'provincia_id',
+        'ciudad_id',
+        'observaciones',
         'envio',
         'id_venta',
         'id_pedido',
+        'precio_producto_venta',
+        'descuento_venta',
+        'cantidad_producto_venta',
+        'total',
+        'total_pagar'
     ];
 
     protected $timestamp = false;

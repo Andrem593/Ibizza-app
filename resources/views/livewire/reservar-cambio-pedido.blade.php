@@ -127,7 +127,7 @@
         <div class="{{ $detalle ? '' : 'd-none' }}">
             <div class="row d-flex justify-content-between">
                 <div class="col my-auto fw-bold">
-                    DETALLE DEL PEDIDO RESERVADO
+                    DETALLE DEL CAMBIO RESERVADO
                     {{-- @empty(!$cliente)
                         <br>
                         Empresaria: <b>{{ $cliente->nombre_cliente }}</b> <br>

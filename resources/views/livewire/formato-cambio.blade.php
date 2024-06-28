@@ -7,7 +7,7 @@
     <div class="row mb-2">
         <div class="col">
             <label class="form-label"># Cambio:</label>
-            <input type="text" class="form-control p-1" value="00001" disabled>
+            <input type="text" class="form-control p-1" wire:model="idCambio" disabled>
         </div>
         <div class="col">
             <label class="form-label">Asesor:</label>
@@ -80,12 +80,12 @@
 
         <div class="col-md-4">
             <label class="form-label"># Factura:</label>
-            <input type="text" class="form-control p-1">
+            <input type="text" class="form-control p-1" wire:model="n_factura">
         </div>
         <div class="col-md-4">
-            <label>Tipo Identificación</label>
+            <label>Tipo Identificación:</label>
                 <span class="ec-bl-select-inner">
-                    <select class="form-control" name="tipo_id" id="tipo_id">
+                    <select class="form-control" name="tipo_id" id="f_tipo_id" wire:model="f_tipo_id">
                         <option value="cedula"
                             {{-- {{ $empresaria->tipo_id == 'cedula' ? 'selected' : '' }} --}}
                             >
@@ -141,9 +141,9 @@
             <input type="text" class="form-control p-1" wire:model="e_nombre">
         </div>
         <div class="col">
-            <label>Tipo Identificación</label>
+            <label>Tipo Identificación:</label>
             <span class="ec-bl-select-inner">
-                <select class="form-control" name="tipo_id" id="tipo_id">
+                <select class="form-control" name="tipo_id" id="e_tipo_id" wire:model="e_tipo_id">
                     <option value="cedula"
                         {{-- {{ $empresaria->tipo_id == 'cedula' ? 'selected' : '' }} --}}
                         >
@@ -161,7 +161,7 @@
             </span>
         </div>
         <div class="col">
-            <label class="form-label">Cédula:</label>
+            <label class="form-label">Nro de Identificación:</label>
             <input type="text" class="form-control p-1" wire:model="e_cedula">
         </div>
         <div class="col">
@@ -171,12 +171,28 @@
     </div>
     <div class="row mb-2">
         <div class="col">
-            <label class="form-label">Provincia:</label>
-            <input type="text" class="form-control p-1" wire:model="e_provincia">
+            <label>Provincia</label>
+            <span class="ec-bl-select-inner">
+                <select name="provincia" id="provincia" class="form-control" wire:model="provincia_id">
+                    <option value="">Seleccione provincia</option>
+                    @foreach ($provincias as $item)
+                        <option value="{{ $item->id }}" >
+                            {{ $item->descripcion }}</option>
+                    @endforeach
+                </select>
+            </span>
         </div>
         <div class="col">
-            <label class="form-label">Ciudad:</label>
-            <input type="text" class="form-control p-1" wire:model="e_ciudad">
+            <label>Ciudad</label>
+            <span class="ec-bl-select-inner">
+                <select name="ciudad" id="ciudad" class="form-control" wire:model="ciudad_id" {{ empty($ciudades) ? 'disabled' : '' }}>
+                    <option value="">Seleccione ciudad</option>
+                    @foreach ($ciudades as $ciudad)
+                        <option value="{{ $ciudad->id }}">
+                            {{ $ciudad->descripcion }}</option>
+                    @endforeach
+                </select>
+            </span>
         </div>
         <div class="col">
             <label class="form-label">Dirección:</label>
@@ -186,8 +202,7 @@
     <div class="row mb-2">
         <div class="col">
             <label class="form-label">Referencia:</label>
-            <textarea class="form-control" wire:model="observaciones" rows="3">
-                {{ $observaciones }}
+            <textarea class="form-control p-1" wire:model="observaciones" type="te xt">
             </textarea>
         </div>
         <div class="col">
@@ -353,7 +368,7 @@
                             <div class="form-group row align-items-center">
                                 <label class="col-sm-3 col-form-label"><strong>Cantidad a modificar:</strong></label>
                                 <div class="col-sm-3">
-                                    <input type="number" wire:model="selectedItemData.cantidad_cambiar" class="form-control form-control-sm" max="{{ $selectedItemData['cantidad'] }}" min="1" placeholder="Cantidad">
+                                    <input type="number" wire:model="cantidadVenta" class="form-control form-control-sm" max="{{ $selectedItemData['cantidad'] }}" min="1" placeholder="Cantidad">
                                 </div>
                             </div>
                         </div>

@@ -23,7 +23,10 @@ class ReservarCambiosDetalle extends Model
         'precio',
         'precio_catalogo',
         'total',
-        'descuento'
+        'descuento',
+        'precio_producto_venta',
+        'descuento_venta',
+        'cantidad_producto_venta'
     ];
 
     protected $timestamp = false;

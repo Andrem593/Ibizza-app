@@ -4,7 +4,9 @@ namespace App\Http\Livewire;
 
 use App\Models\ReservarCambiosDetalle;
 use App\Models\ReservarCambiosPedido;
+use App\Producto;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class ReservarCambioPedido extends Component
@@ -47,18 +49,35 @@ class ReservarCambioPedido extends Component
 
     public function eliminarReserva($id)
     {
-        //Diminuir el stock
-        //Cosa que no hace
-        $reserveChangesOrder = ReservarCambiosPedido::findOrFail($id);
-        if($reserveChangesOrder){
-            $reserveChangesOrder->estado = 0 ;
-            $reserveChangesOrder->save();
+        try {
+            DB::beginTransaction();
+            $reserveChangesOrder = ReservarCambiosPedido::findOrFail($id);
 
+            if($reserveChangesOrder){
+                $reserveChangesOrder->estado = 0 ;
+                $reserveChangesOrder->save();
 
-            $this->reserveChangesDetails = $this->reserveChangesDetails->filter(function($r) use($id) {
-                return $r['id'] !== $id ;
-            })->values();
+                $reserveChangesDetail = ReservarCambiosDetalle::where('id_reservar_cambio_pedido', $id)->get();
+
+                foreach ($$reserveChangesDetail as $key => $detail) {
+                    $product = Producto::findOrfail($detail->id_producto);
+                    $product->stock += $detail->cantidad ;
+                    $product->save();
+                }
+
+                $this->reserveChangesDetails = $this->reserveChangesDetails->filter(function($r) use($id) {
+                        return $r['id'] !== $id ;
+                    })->values();
+                }
+
+            DB::commit();
+            //code...
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            dd("Error");
+            //throw $th;
         }
+
 
     }
 
