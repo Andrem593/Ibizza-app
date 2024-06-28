@@ -44,9 +44,35 @@ class TomarPedido extends Component
 
     public $imagen = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
 
-    protected $listeners = ['change' => 'buscarColor', 'guardarDatos', 'aceptarAccion', 'cerrarVenta'];
+    protected $listeners = ['change' => 'buscarColor', 'guardarDatos', 'aceptarAccion', 'cerrarVenta', 'showModal' => 'openModal'];
 
     public $flagPrize = false;
+
+    public $showModal = false;
+
+    public $direccionData = [
+        'rowId' => null,
+        'identificacion' => '',
+        'nombre' => '',
+        'telefono' => '',
+        'direccion' => '',
+        'referencia' => ''
+    ];
+
+
+    public function openModal($id)
+    {
+        $this->direccionData = [
+            'rowId' => $id,
+            'identificacion' => '',
+            'nombre' => '',
+            'telefono' => '',
+            'direccion' => '',
+            'referencia' => ''
+        ];
+        $this->showModal = true;
+        $this->emit('showModalJs');
+    }
 
 
     public function render()
@@ -667,17 +693,19 @@ class TomarPedido extends Component
         return redirect()->to(route('web.checkout', ['id' => $this->id_empresaria, 'envio' => $this->envio]));
     }
 
-    public function guardarDatos($data)
+    public function guardarDatos()
     {
-
-        $rowId = $data['rowId'];
+        $rowId = $this->direccionData['rowId'];
         $item = Cart::get($rowId);
 
         Cart::update($item->rowId, ['options' => [
             'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
-            'descuento' => $item->options->descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => json_encode($data)
+            'descuento' => $item->options->descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => json_encode($this->direccionData)
         ]]);
+        //$this->emit('cartUpdated');
         $this->checkShippingCost();
+
+        $this->emit('closeModal');
     }
 
     public function reglaDireccionEnvio($data, $item)

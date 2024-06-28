@@ -192,9 +192,11 @@
 
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <button type="button" class="btn btn-sm btn-outline-default mr-1"
-                                            data-bs-toggle="modal" data-bs-target="#modalDirecciones"
-                                            data-rowid="{{ $item->rowId }}"><i class="fas fa-map-marked-alt"></i></button>
+                                        <button type="button" class="btn btn-sm btn-outline-default mr-1" 
+                                        wire:click="openModal('{{ $item->rowId }}')">
+                                            <i class="fas fa-map-marked-alt"></i>
+                                        </button>
+                                        
                                         <button class="btn btn-sm btn-outline-primary mr-1"
                                             wire:click="increaseQuantity('{{ $item->rowId }}')">+</button>
                                         <button class="btn btn-sm btn-outline-danger mr-1"
@@ -320,8 +322,7 @@
         <a wire:click="verificarYProcesar" class="btn btn-success w-25 m-3">CERRAR VENTA</a>
     </div>
 
-    <div class="modal fade" wire:ignore.self id="modalDirecciones" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" wire:ignore.self id="modalDirecciones" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -329,42 +330,37 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formulario_direcciones_envio">
-                        <input type="hidden" id="modalRowId" wire:ignore.self>
+                    
+                        <input type="hidden" id="modalRowId">
                         <div class="row">
                             <div class="col">
                                 <label class="form-label">Identificación:</label>
-                                <input type="text" class="form-control p-1" value="" id="identificacion"
-                                    autocomplete="off">
+                                <input type="text" class="form-control p-1" wire:model="direccionData.identificacion" autocomplete="off">
                             </div>
                             <div class="col">
                                 <label class="form-label">Nombre completo:</label>
-                                <input type="text" class="form-control p-1" value="" id="nombre"
-                                    autocomplete="off">
+                                <input type="text" class="form-control p-1" wire:model="direccionData.nombre" autocomplete="off">
                             </div>
                             <div class="col">
                                 <label class="form-label">Teléfono:</label>
-                                <input type="text" class="form-control p-1" value="" id="telefono"
-                                    autocomplete="off">
+                                <input type="text" class="form-control p-1" wire:model="direccionData.telefono" autocomplete="off">
                             </div>
                         </div>
                         <div class="row mt-2">
                             <div class="col">
                                 <label class="form-label">Dirección:</label>
-                                <input type="text" class="form-control p-1" value="" id="direccion"
-                                    autocomplete="off">
+                                <input type="text" class="form-control p-1" wire:model="direccionData.direccion" autocomplete="off">
                             </div>
                             <div class="col">
                                 <label class="form-label">Referencia:</label>
-                                <input type="text" class="form-control p-1" value="" id="referencia"
-                                    autocomplete="off">
+                                <input type="text" class="form-control p-1" wire:model="direccionData.referencia" autocomplete="off">
                             </div>
                         </div>
-                    </form>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn bg-ibizza" id="guardarButton">Guardar</button>
+                    <button type="button" class="btn bg-ibizza" wire:click="guardarDatos">Guardar</button>
                 </div>
             </div>
         </div>
@@ -425,12 +421,28 @@
     @push('js')
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            $(document).ready(function() {
-                $('#modalDirecciones').on('show.bs.modal', function(event) {
-                    var button = event.relatedTarget;
-                    var rowId = $(button).data('rowid');
-                    $('#modalRowId').val(rowId);
+
+            document.addEventListener('livewire:load', function () {
+                    Livewire.on('showModalJs', () => {
+                        var modal = new bootstrap.Modal(document.getElementById('modalDirecciones'));
+                        modal.show();
+                    });
+                    Livewire.on('closeModal', () => {
+                        $('#modalDirecciones').modal('hide');
+                    });
+
                 });
+
+            
+            
+            $(document).ready(function() {
+                /*$('#modalDirecciones').on('show.bs.modal', function(event) {
+                    var button = event.relatedTarget;                    
+                    var rowId = $(button).data('rowid');
+                    console.log(button);
+                    $('#modalRowId').val(rowId);
+                    console.log(rowId);
+                }); */
 
 
                 $('#guardarButton').click(function() {
