@@ -309,7 +309,7 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->name('empresaria.datatable');
 
 
-//Cambios
+//Reservar Cambios
 Route::resource('cambios', CambiosPedidosController::class)
 ->middleware(['auth:sanctum', 'verified']);
 
@@ -320,6 +320,11 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/cambio/datos-cambio', [CambiosPedidosController::class,'datosCambios'])
 ->name('cambio.datos-cambio');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/cambio/pdf-reservado/{id}', [ReservarCambiosPedidosController::class,'generatePdfChangeReserved'])
+->name('cambio.pdf-reservado');
+
 
 //ventas
 

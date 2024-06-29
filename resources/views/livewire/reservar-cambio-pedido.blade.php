@@ -67,11 +67,11 @@
                                     <td>{{ sprintf('%06d', $item->id) }}</td>
                                     <td>{{ $item->businesswoman->nombre_completo }}</td>
                                     <td>{{ empty($item->businesswoman->tipo_cliente) ? 1 : $item->businesswoman->tipo_cliente  }}</td>
-                                    <td>{{ $item->cantidad_total }}</td>
-                                    <td>${{ $item->total_venta }}</td>
+                                    <td>{{ $item->reservedChangeDetail->count() }}</td>
+                                    <td>${{ $item->total_pagar }}</td>
                                     <td>{{ $item->user->name }}</td>
                                     <td>{{ $item->created_at->format('Y-m-d') }}</td>
-                                    <td>{{ $item->created_at->addDays(3)->format('Y-m-d') }}</td>
+                                    <td>{{ $item->fecha_vencimiento}}</td>
                                     <td>
                                         <button wire:click="verDetalle('{{ $item->id }}')"
                                             class="btn btn-ibizza btn-sm"> <i class=" fas fa-eye"></i> </button>
@@ -134,10 +134,10 @@
                     @endempty --}}
                 </div>
                 <div class="col text-end">
-                    {{-- <a href="{{ route('venta.pdf-pedido', $id_pedido) }}" target="_blank" id="btn-pedidoPDF"
+                    <a href="{{ route('cambio.pdf-reservado', ['id' => $id_pedido ]) }}" target="_blank" id="btn-pedidoPDF"
                         class="btn bg-ibizza">
                         Descargar PDF
-                    </a> --}}
+                    </a>
                     <button class="btn btn-primary" wire:click="$set('detalle',false)">Regresar</button>
                 </div>
             </div>

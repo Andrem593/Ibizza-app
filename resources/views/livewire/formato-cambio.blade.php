@@ -211,7 +211,7 @@
         </div>
         <div class="col">
             <label class="form-label">N° Guía de Retorno:</label>
-            <input type="number" class="form-control p-1" wire:model="id_pedido">
+            <input type="text" class="form-control p-1" wire:model="id_pedido">
         </div>
     </div>
     <div class="text-center">
@@ -552,7 +552,7 @@
         @endif
 
         <div class="my-3">
-            <button class="btn bg-ibizza w-25 m-3" wire:click="reservarCambio">RESERVAR CAMBIO</button>
+            <button class="btn bg-ibizza w-25 m-3" onclick="showSweetAlert()">RESERVAR CAMBIO</button>
             <button wire:click="saveData" class="btn btn-success w-25 m-3">GUARDAR CAMBIO</button>
         </div>
     </div>
@@ -574,4 +574,23 @@
                 });
             </script>
     @endif
+
+    <script>
+        function showSweetAlert() {
+                Swal.fire({
+                    title: 'Desea Reservar el Cambio ?',
+                    text: "Recuerda que tu cambio solo se guardará por 3 dias separando el stock del producto.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cerrar',
+                    confirmButtonText: 'Reservar Cambio'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Llamar al método Livewire
+                        Livewire.emit('reservarCambio');
+                    }
+                });
+            }
+
+    </script>
 </div>

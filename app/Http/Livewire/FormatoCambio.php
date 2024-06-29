@@ -13,6 +13,7 @@ use App\Models\Provincia;
 use App\Models\ReservarCambiosDetalle;
 use App\Models\ReservarCambiosPedido;
 use App\Models\Venta;
+use Carbon\Carbon;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +53,7 @@ class FormatoCambio extends Component
         'cantidad_cambiar' =>''
     ];
 
-    protected $listeners = ['openModal', 'closeModal'];
+    protected $listeners = ['openModal', 'closeModal', 'reservarCambio'];
 
     public $changes = [];
 
@@ -69,11 +70,16 @@ class FormatoCambio extends Component
 
     public function updatedIdPedido($value)
     {
-        if ($value > 0) {
-            $this->envio = 0 ;
-        }else{
-            $this->checkShippingCost();
-        }
+
+        $this->checkShippingCostChange();
+
+    }
+
+    public function updatedEPedido($value)
+    {
+
+        $this->checkShippingCostChange();
+
     }
 
     public function mount()
@@ -135,9 +141,7 @@ class FormatoCambio extends Component
 
                 $this->brandDiscount();
 
-                $this->checkShippingCost();
-
-
+                $this->checkShippingCostChange();
 
             }
         }
@@ -326,7 +330,7 @@ class FormatoCambio extends Component
         $this->e_pedido = '';
         $this->e_c_envio = '';
 
-        $this->checkShippingCost();
+        $this->checkShippingCostChange();
     }
 
     public function nuevosDatosLoc()
@@ -434,53 +438,20 @@ class FormatoCambio extends Component
                 ->first();
 
             if ($producto->stock >= $this->cantidad) {
+                try {
 
-                $productSale = $this->pedidos->where('id_producto', $this->selectedItem)->first();
+                    DB::beginTransaction();
 
-                $productSalesInformation = Producto::findOrFail($productSale['id_producto']);
+                    $productSale = $this->pedidos->where('id_producto', $this->selectedItem)->first();
 
-                $discountPriceSale = $productSalesInformation->precio_empresaria - ($productSalesInformation->precio_empresaria * $productSale['descuento'] );
+                    $productSalesInformation = Producto::findOrFail($productSale['id_producto']);
 
-                $diff = ($producto->precio_empresaria * $this->cantidad ) - ($productSale['precio'] * $this->cantidad );
+                    $discountPriceSale = $productSalesInformation->precio_empresaria - ($productSalesInformation->precio_empresaria * $productSale['descuento'] );
 
-                $diff = number_format($diff, 2);
-                $this->nuevoProducto[] = [
-                    'id' => $producto->id,
-                    'sku' => $producto->sku,
-                    'descripcion' => $producto->descripcion,
-                    'estilo' => $producto->estilo,
-                    'color' => $producto->color,
-                    'talla' => $producto->talla,
-                    'marca' => $producto->marca->nombre,
-                    'cantidad' => $this->cantidad,
-                    'precio' => $producto->precio_empresaria,
-                    'precio_catalogo' => $producto->precio_empresaria,
-                    'total'=> $this->cantidad * $producto->precio_empresaria,
-                    'descuento' => 0,
-                    'id_pedido' => $productSale->id ,
-                    'total_p_empresaria' => 0,
+                    $diff = ($producto->precio_empresaria * $this->cantidad ) - ($productSale['precio'] * $this->cantidad );
 
-                    'id_producto_original' => $productSale['id_producto'],
-                    'precio_producto_venta' =>$discountPriceSale,
-                    'descuento_venta' =>$productSale['descuento'],
-                    'cantidad_producto_venta' => $this->cantidadVenta,
-                    'diferencia' => $diff
-                ];
-
-                $originalData = [
-                    'id' => $productSale['id_producto'],
-                    'sku' => $productSale['producto']['sku'],
-                    'descripcion' => $productSale['producto']['descripcion'],
-                    'color' => $productSale['producto']['color'],
-                    'talla' => $productSale['producto']['talla'],
-                    'cantidad' => $productSale['cantidad'],
-                    'pvp' => number_format($productSale['precio_catalogo'], 2) ,
-                    'descuento' => $productSale['descuento'] * 100 . '%',
-                    'p_empresaria' => number_format(($productSale['precio']), 2)
-                ];
-                $this->changes[] = [
-                    'original' => $originalData,
-                    'changed' => [
+                    $diff = number_format($diff, 2);
+                    $this->nuevoProducto[] = [
                         'id' => $producto->id,
                         'sku' => $producto->sku,
                         'descripcion' => $producto->descripcion,
@@ -490,10 +461,61 @@ class FormatoCambio extends Component
                         'marca' => $producto->marca->nombre,
                         'cantidad' => $this->cantidad,
                         'precio' => $producto->precio_empresaria,
-                    ]
-                ];
+                        'precio_catalogo' => $producto->precio_empresaria,
+                        'total'=> $this->cantidad * $producto->precio_empresaria,
+                        'descuento' => 0,
+                        'id_pedido' => $productSale->id ,
+                        'total_p_empresaria' => 0,
 
-                $this->reset('selectedItem', 'selectedItemData','estilo', 'color');
+                        'id_producto_original' => $productSale['id_producto'],
+                        'precio_producto_venta' =>$discountPriceSale,
+                        'descuento_venta' =>$productSale['descuento'],
+                        'cantidad_producto_venta' => $this->cantidadVenta,
+                        'diferencia' => $diff
+                    ];
+
+                    $originalData = [
+                        'id' => $productSale['id_producto'],
+                        'sku' => $productSale['producto']['sku'],
+                        'descripcion' => $productSale['producto']['descripcion'],
+                        'color' => $productSale['producto']['color'],
+                        'talla' => $productSale['producto']['talla'],
+                        'cantidad' => $productSale['cantidad'],
+                        'pvp' => number_format($productSale['precio_catalogo'], 2) ,
+                        'descuento' => $productSale['descuento'] * 100 . '%',
+                        'p_empresaria' => number_format(($productSale['precio']), 2)
+                    ];
+                    $this->changes[] = [
+                        'original' => $originalData,
+                        'changed' => [
+                            'id' => $producto->id,
+                            'sku' => $producto->sku,
+                            'descripcion' => $producto->descripcion,
+                            'estilo' => $producto->estilo,
+                            'color' => $producto->color,
+                            'talla' => $producto->talla,
+                            'marca' => $producto->marca->nombre,
+                            'cantidad' => $this->cantidad,
+                            'precio' => $producto->precio_empresaria,
+                        ]
+                    ];
+
+
+                    $productStock = Producto::findOrFail($producto->id);
+                    if($productStock){
+                        $productStock->stock -= $this->cantidad;
+                        if($productStock->stock < 0) throw new \Exception('No existe stock.');
+                        $productStock->save();
+                    }
+                    DB::commit();
+
+                    $this->reset('selectedItem', 'selectedItemData','estilo', 'color');
+
+                } catch (\Throwable $th) {
+                    DB::rollBack();
+                    $this->message = 'Ha ocurrido un error';
+
+                }
 
             } else {
                 $this->message = 'NO HAY STOCK DISPONIBLE';
@@ -504,7 +526,7 @@ class FormatoCambio extends Component
             $this->message = 'VERIFIQUE QUE ESTEN TODOS LOS CAMPOS LLENOS';
         }
         $this->brandDiscount();
-        $this->checkShippingCost();
+        $this->checkShippingCostChange();
     }
 
     public function selectItem($itemId)
@@ -539,22 +561,39 @@ class FormatoCambio extends Component
 
     public function deleteProduct($index)
     {
-        $deletedItem = $this->nuevoProducto[$index];
+        try {
 
-        unset($this->nuevoProducto[$index]);
-        $this->nuevoProducto = array_values($this->nuevoProducto); // Reindex array
+            DB::beginTransaction();
+            $deletedItem = $this->nuevoProducto[$index];
 
-        foreach ($this->changes as $key => $change) {
-            if ($change['original']['id'] == $deletedItem['id_producto_original']) {
-                // dd($change['original']['id'], $key, $this->changes[$key] , $this->changes );
-                unset($this->changes[$key]);
-                break;
+            unset($this->nuevoProducto[$index]);
+            $this->nuevoProducto = array_values($this->nuevoProducto); // Reindex array
+
+            foreach ($this->changes as $key => $change) {
+                if ($change['original']['id'] == $deletedItem['id_producto_original']) {
+                    // dd($change['original']['id'], $key, $this->changes[$key] , $this->changes );
+                    unset($this->changes[$key]);
+                    break;
+                }
             }
-        }
-        $this->changes = array_values($this->changes); // Reindex array
+            $this->changes = array_values($this->changes); // Reindex array
 
-        $this->brandDiscount();
-        $this->checkShippingCost();
+            $this->brandDiscount();
+            $this->checkShippingCostChange();
+
+            $product = Producto::findOrFail($deletedItem['id']);
+            if($product){
+                $product->stock += $deletedItem['cantidad'];
+                $product->save();
+            }
+
+            DB::commit();
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            dd("Error");
+            $this->message = 'Ha ocurrido un error al eleiminar';
+        }
 
     }
 
@@ -641,6 +680,7 @@ class FormatoCambio extends Component
                 'id_usuario'=> Auth::user()->id,
                 'id_vendedor' => $empresaria->vendedor,
                 'fecha' => date('Y-m-d'),
+                'fecha_vencimiento' => $this->addBusinessDays(date('Y-m-d'), 3),
                 'id_empresaria' => $this->id_empresaria,
                 'motivo' => $this->descripcionCambio,
                 'descripcion' => $this->motivoCambio,
@@ -703,15 +743,6 @@ class FormatoCambio extends Component
                 ];
 
                 ReservarCambiosDetalle::create($productosCambios);
-
-                $product = Producto::findOrFail($value['id']);
-                if($product){
-                    $product->stock -= $value['cantidad'] ;
-                    // dd($value['cantidad'],$value['id'] , $product->stock );
-                    if($product->stock < 0) throw new \Exception('No existe stock.');
-
-                    $product->save();
-                }
             }
 
             DB::commit();
@@ -726,6 +757,33 @@ class FormatoCambio extends Component
 
     }
 
+
+
+    function addBusinessDays($date, $days)
+    {
+        $date = Carbon::parse($date);
+
+        while ($days > 0) {
+            $date->addDay();
+
+            // Si el día no es sábado (6) ni domingo (0), decrementamos los días hábiles restantes
+            if (!$date->isWeekend()) {
+                $days--;
+            }
+        }
+
+        return $date->format('Y-m-d');
+    }
+
+
+    public function checkShippingCostChange()
+    {
+        if(trim($this->e_pedido) != '' || trim($this->id_pedido) != ''){
+            $this->envio = 0 ;
+        }else{
+            $this->envio = 3 ;
+        }
+    }
 
 
     public function checkShippingCost()

@@ -18,6 +18,7 @@ class ReservarCambiosPedido extends Model
         'id_vendedor',
         'id_usuario',
         'fecha',
+        'fecha_vencimiento',
         'id_empresaria',
         'motivo',
         'descripcion',
@@ -58,5 +59,21 @@ class ReservarCambiosPedido extends Model
     public function businesswoman()
     {
         return $this->hasOne(Empresaria::class, 'id', 'id_empresaria');
+    }
+
+    public function reservedChangeDetail()
+    {
+
+        return $this->hasMany(ReservarCambiosDetalle::class, 'id_reservar_cambio_pedido', 'id');
+    }
+
+    public function province()
+    {
+        return $this->belongsTo(Provincia::class, 'provincia_id', 'id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(Ciudad::class, 'ciudad_id', 'id');
     }
 }
