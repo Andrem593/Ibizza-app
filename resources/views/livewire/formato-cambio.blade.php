@@ -552,8 +552,15 @@
         @endif
 
         <div class="my-3">
-            <button class="btn bg-ibizza w-25 m-3" onclick="showSweetAlert()">RESERVAR CAMBIO</button>
-            <button wire:click="saveData" class="btn btn-success w-25 m-3">GUARDAR CAMBIO</button>
+            @if ($idVerificate)
+            <a href="{{ route('cambio.cambios-reservados') }}"
+                class="btn btn-primary w-25 m-3">
+                REGRESAR
+            </a>
+            @else
+                <button class="btn bg-ibizza w-25 m-3" onclick="showSweetAlert()">RESERVAR CAMBIO</button>
+            @endif
+            <button onclick="showSweetAlertSave()" class="btn btn-success w-25 m-3">GUARDAR CAMBIO</button>
         </div>
     </div>
 
@@ -579,7 +586,7 @@
         function showSweetAlert() {
                 Swal.fire({
                     title: 'Desea Reservar el Cambio ?',
-                    text: "Recuerda que tu cambio solo se guardará por 3 dias separando el stock del producto.",
+                    text: "Recuerda que tu cambio solo se guardará por 3 dias hábiles separando el stock del producto.",
                     icon: 'warning',
                     showCancelButton: true,
                     cancelButtonText: 'Cerrar',
@@ -588,6 +595,22 @@
                     if (result.isConfirmed) {
                         // Llamar al método Livewire
                         Livewire.emit('reservarCambio');
+                    }
+                });
+            }
+
+        function showSweetAlertSave () {
+                Swal.fire({
+                    title: 'Está Seguro que desea Guardar ?',
+                    text: "Recuerda que tu cambio se guardará.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonText: 'Guardar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Llamar al método Livewire
+                        Livewire.emit('saveData');
                     }
                 });
             }

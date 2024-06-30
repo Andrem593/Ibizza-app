@@ -322,8 +322,15 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->name('cambio.datos-cambio');
 
 Route::middleware(['auth:sanctum', 'verified'])
+->post('/cambio/editar-cambio', [CambiosPedidosController::class,'editarCambio'])
+->name('cambio.datos-cambio');
+
+
+Route::middleware(['auth:sanctum', 'verified'])
 ->get('/cambio/pdf-reservado/{id}', [ReservarCambiosPedidosController::class,'generatePdfChangeReserved'])
 ->name('cambio.pdf-reservado');
+
+
 
 
 //ventas

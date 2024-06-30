@@ -53,13 +53,15 @@ class FormatoCambio extends Component
         'cantidad_cambiar' =>''
     ];
 
-    protected $listeners = ['openModal', 'closeModal', 'reservarCambio'];
+    protected $listeners = ['openModal', 'closeModal', 'reservarCambio','saveData'];
 
     public $changes = [];
 
     public $isOpen = false;
 
     public $idCambio = null ;
+
+    public $idVerificate = null ;
 
 
 
@@ -91,6 +93,8 @@ class FormatoCambio extends Component
 
         $this->provincias = Provincia::get();
         $id = Session::get('id', null);
+
+        $this->idVerificate = $id ;
         Session::forget('id');
         if($id){
             $reserveChangesOrder = ReservarCambiosPedido::findOrFail($id);
@@ -100,6 +104,7 @@ class FormatoCambio extends Component
                 $this->f_telefono = $reserveChangesOrder->f_telefono ;
                 $this->f_correo = $reserveChangesOrder->f_correo ;
                 $this->n_factura = $reserveChangesOrder->n_factura ;
+                $this->f_tipo_id = $reserveChangesOrder->f_tipo_id ;
 
                 //Preguntarla Fceha
                 // $this->fecha = ;
@@ -121,6 +126,7 @@ class FormatoCambio extends Component
                 $this->e_direccion = $reserveChangesOrder->e_direccion ;
                 $this->observaciones = $reserveChangesOrder->observaciones ;
                 $this->e_pedido = $reserveChangesOrder->e_pedido ;
+                $this->e_tipo_id = $reserveChangesOrder->e_tipo_id ;
 
                 $this->e_c_envio = $reserveChangesOrder->envio ;
                 $this->idventa = $reserveChangesOrder->id_venta ;
@@ -600,74 +606,105 @@ class FormatoCambio extends Component
 
     public function saveData()
     {
-
-        return  ;
-
-        //DESCONTAR DEL STOCK CUANDO GURADE, pero si tiene el Id no descontar
+        $this->message = '';
 
         if(!$this->idventa){
-            dd("Debe seleccionar un a venta");
+            $this->message = 'Debe seleccionar una Venta';
         }
 
+        try {
+            DB::beginTransaction();
 
-        $empresaria = Empresaria::where('id', $this->id_empresaria)->first();
+            $empresaria = Empresaria::where('id', $this->id_empresaria)->first();
 
-        $data =[
-            'id_vendedor' => $empresaria->vendedor,
-            'fecha' => date('Y-m-d'),
-            'id_empresaria' => $this->id_empresaria,
-            'motivo' => $this->descripcionCambio,
-            'descripcion' => $this->motivoCambio,
-            'f_nombre' => $this->f_nombre,
-            'f_cedula' => $this->f_cedula,
-            'f_telefono' => $this->f_telefono,
-            'f_correo' => $this->f_correo,
-            'e_nombre' => $this->e_nombre,
-            'e_cedula' => $this->e_cedula,
-            'e_telefono' => $this->e_telefono,
-            'e_provincia' => $this->e_provincia,
-            'e_ciudad' => $this->e_ciudad,
-            'e_direccion' => $this->e_direccion,
-            'observaciones' => $this->observaciones,
-            'e_pedido' => $this->e_pedido,
-            //ver el envio
-            'envio' => $this->e_c_envio,
-            'id_venta' => $this->idventa,
+            $data =[
+                'n_factura'=> $this->n_factura ,
+                'id_usuario'=> Auth::user()->id,
+                'id_vendedor' => $empresaria->vendedor,
+                'fecha' => date('Y-m-d'),
+                'fecha_vencimiento' => $this->addBusinessDays(date('Y-m-d'), 3),
+                'id_empresaria' => $this->id_empresaria,
+                'motivo' => $this->descripcionCambio,
+                'descripcion' => $this->motivoCambio,
+                'f_nombre' => $this->f_nombre,
+                'f_cedula' => $this->f_cedula,
+                'f_telefono' => $this->f_telefono,
+                'f_correo' => $this->f_correo,
 
-            //Id Pedido es si tiene un pedido pendiente
-            'id_pedido' => null,
-        ];
-        $cambioPedido = CambioPedido::create($data);
+                'f_tipo_id' => $this->f_tipo_id,
 
-        foreach ($this->nuevoProducto as $key => $value) {
-            $productosCambios =  [
-                'id_cambio'=>$cambioPedido->id,
-                'id_producto'=> $value['id'],
-                'cantidad' => $value['cantidad'],
-                //ver que va en diferencia
-                'diferencia' => 0,
-                'fecha'=>date('Y-m-d'),
-                'hora'=>date('H:i:s' ),
+                'e_nombre' => $this->e_nombre,
+                'e_cedula' => $this->e_cedula,
+                'e_telefono' => $this->e_telefono,
+                'e_provincia' => $this->e_provincia,
+                'e_ciudad' => $this->e_ciudad,
+                'e_direccion' => $this->e_direccion,
+                'e_pedido' => $this->e_pedido,
+
+                'e_tipo_id' => $this->e_tipo_id ,
+                'provincia_id' => $this->provincia_id ,
+                'ciudad_id' => $this->ciudad_id ,
 
 
-                'id_pedido'=> $value['id_pedido'],
-                'precio'=> $value['precio'],
-                'precio_catalogo' => $value['precio_catalogo'],
-                'total'=> $value['total'],
-                'descuento' => $value['descuento']
+                'referencia' => $this->observaciones,
+                //ver el envio
+                'envio' => $this->envio,
+                'total' =>number_format(collect($this->nuevoProducto)->sum('diferencia'),2),
+                'total_pagar'=> number_format(collect($this->nuevoProducto)->sum('diferencia') + $this->envio ,2),
+                'id_venta' => $this->idventa == 0 ? null : $this->idventa,
+
+                //El id Pedido es si tiene un pedido pendiente
+                'id_pedido' => $this->id_pedido == 0 ? null : $this->id_pedido
             ];
 
+            $changeOrder = CambioPedido::create($data);
 
-            ProductoCambio::create($productosCambios);
+            foreach ($this->nuevoProducto as $key => $value) {
+                $productsChanges =  [
+                    'id_cambio'=>$changeOrder->id,
+                    'id_producto'=> $value['id'],
+                    'cantidad' => $value['cantidad'],
+                    'diferencia' => $value['diferencia'],
+                    'fecha'=>date('Y-m-d'),
+                    'hora'=>date('H:i:s' ),
+                    'id_pedido'=> $value['id_pedido'],
+                    'precio'=> $value['precio'],
+                    'precio_catalogo' => $value['precio_catalogo'],
+                    'total'=> number_format ($value['precio'] * $value['cantidad'] ,2),
+                    'descuento' => $value['descuento'],
+                    'precio_producto_venta'=> $value['precio_producto_venta'],
+                    'descuento_venta'=> $value['descuento_venta'],
+                    'cantidad_producto_venta'=> $value['cantidad_producto_venta'],
+                    //Poner la otra Variable
+                ];
+                ProductoCambio::create($productsChanges);
+            }
+            if($this->idVerificate){
+                $reserveChangesOrder = ReservarCambiosPedido::findOrFail($this->idVerificate);
+                $reserveChangesOrder->estado = 2 ;
+                $reserveChangesOrder->save();
+            }
+
+            DB::commit();
+
+            return redirect()->route('cambios.index');
+            // return redirect()->route('cambio.cambios-reservados');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->message = 'Ha oacurrido un Error';
         }
+
     }
 
 
 
     public function reservarCambio()
     {
+
+        $this->message='' ;
+
         if(!$this->idventa){
-            dd("Debe seleccionar una venta");
+            $this->message = 'Debe seleccionar una Venta';
         }
 
         try {
@@ -709,7 +746,7 @@ class FormatoCambio extends Component
                 'envio' => $this->envio,
                 'total' =>number_format(collect($this->nuevoProducto)->sum('diferencia'),2),
                 'total_pagar'=> number_format(collect($this->nuevoProducto)->sum('diferencia') + $this->envio ,2),
-                'id_venta' => $this->idventa,
+                'id_venta' => $this->idventa == 0 ? null : $this->idventa,
 
                 //El id Pedido es si tiene un pedido pendiente
                 'id_pedido' => $this->id_pedido == 0 ? null : $this->id_pedido
@@ -744,17 +781,12 @@ class FormatoCambio extends Component
 
                 ReservarCambiosDetalle::create($productosCambios);
             }
-
             DB::commit();
             return redirect()->route('cambio.cambios-reservados');
         } catch (\Exception $th) {
             DB::rollBack();
             dd("Error ", $th);
-            //throw $th;
         }
-
-
-
     }
 
 
@@ -762,16 +794,13 @@ class FormatoCambio extends Component
     function addBusinessDays($date, $days)
     {
         $date = Carbon::parse($date);
-
         while ($days > 0) {
             $date->addDay();
-
             // Si el día no es sábado (6) ni domingo (0), decrementamos los días hábiles restantes
             if (!$date->isWeekend()) {
                 $days--;
             }
         }
-
         return $date->format('Y-m-d');
     }
 
@@ -783,90 +812,6 @@ class FormatoCambio extends Component
         }else{
             $this->envio = 3 ;
         }
-    }
-
-
-    public function checkShippingCost()
-    {
-
-        $productChanges = $this->nuevoProducto ;
-
-        $groupedProducts = [] ;
-
-        foreach ($productChanges as $key => $item) {
-            $item = (object) $item ;
-            $address = 'NINGUNA' ;
-
-            if (!isset($groupedProducts[$address])) {
-                $groupedProducts[$address] = [
-                    'precio' => 0,
-                    'cantidad' => 0,
-                    'productos' => [],
-                ];
-            }
-
-            $groupedProducts[$address]['precio'] += $item->precio * $item->cantidad;
-            $groupedProducts[$address]['cantidad'] += $item->cantidad;
-            $groupedProducts[$address]['productos'][] = $item;
-
-        }
-
-        //calculo de envio
-
-        $groupingByCondition = [] ;
-
-        foreach ($groupedProducts as $nameGroup => $group) {
-            $groupingByCondition[$nameGroup] = [];
-            foreach ($group['productos'] as $key => $product) {
-
-                $productModel = Producto::where('id', $product->id)->with(['marca', 'catalogo'])->first();
-                $parameterCatalog = ParametroCatalogo::where('catalogo_id', $productModel->catalogo_id)
-                    ->where('estado', 1)
-                    ->where('condicion', 'envio_costo')
-                    ->orWhere('condicion', 'envio_cantidad')
-                    ->orderBy('condicion')
-                    ->get();
-
-                foreach ($parameterCatalog as $key => $parameter) {
-                    $totalPrice = $product->precio * $product->cantidad ;
-                    $condition = $parameter->operador . $parameter->cantidad ;
-
-                    if (!isset($groupingByCondition[$nameGroup][$parameter->id])) {
-                        $groupingByCondition[$nameGroup][$parameter->id] = [
-                            'total_precio' => 0,
-                            'tipo_empresaria' => $parameter->tipo_empresaria,
-                            'condicion' => $parameter->condicion,
-                            'eval' => $condition,
-                            'valor_condicion' => $parameter->valor ,
-                            'products' => [],
-                        ];
-                    }
-                    $groupingByCondition[$nameGroup][$parameter->id]['total_precio'] += $totalPrice ;
-
-                }
-                $groupingByCondition[$nameGroup][$parameter->id]['products'][] = $product ;
-            }
-        }
-
-        $shippingCost = 0 ;
-
-        foreach ($groupingByCondition as $nameGroup => $parameter) {
-            foreach ($parameter as $parameterId => $parameterDetail) {
-                if($parameterDetail['tipo_empresaria'] == 'TODOS' && $parameterDetail['condicion'] == 'envio_costo' ){
-                    $parameterDetail['total_precio']  = number_format($parameterDetail['total_precio'], 2, '.', ',');
-                    $eval = $parameterDetail['total_precio'] . $parameterDetail['eval'] ;
-                    $value = eval("return $eval;") ? $parameterDetail['valor_condicion'] : 0 ;
-                    $shippingCost += $value ;
-                }
-            }
-        }
-
-        $this->envio = $this->id_pedido > 0 ? 0 : $shippingCost  ;
-        //Si se envia al local Ibizza el envio es cero
-        // if($this->e_nombre == 'Local Ibizza'){
-        //     $this->envio = 0 ;
-        // }
-
     }
 
 

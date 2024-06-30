@@ -1292,295 +1292,6 @@ function crearTablaEmpresarias(data, ruta) {
     })
 }
 
-function crearTablaVentas(data, ruta) {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-    });
-    let dataTable = $('#datatable').DataTable({
-
-        destroy: true,
-        "processing": true,
-        "ajax": {
-            "url": ruta,
-            "method": "POST",
-            "data": data,
-            "dataSrc": function (json) {
-                if (json == 'no data') {
-                    return [];
-                } else {
-                    return json;
-                }
-            },
-        },
-        "columns": [{
-            "data": "id",
-        },
-        {
-            "data": "factura_identificacion",
-        },
-        {
-            "data": "factura_nombres"
-        },
-
-        {
-            "data": "direccion_envio"
-        },
-        {
-            "data": 'empresaria'
-        },
-        {
-            "data": 'observaciones'
-        },
-        {
-            "data": 'cantidad_total'
-        },
-        {
-            "data": 'total_venta'
-        },
-        {
-            "data": 'estado'
-        },
-        {
-            "data": 'created_at',
-            "render": function (data, type, row) {
-                data = data.split('T');
-                return data[0];
-            }
-        },
-        {
-            "data": 'id',
-            "render": function (data, type, row) {
-
-                return '<a class ="btn btn-ibizza btn-sm editar" data-bs-toggle="modal" data-bs-target="#editar" style="width:30px"><i class="fas fa-eye"></i></a>&nbsp;<a class ="btn btn-warning btn-sm pedido" data-bs-toggle="modal" data-bs-target="#pedido" style="width:30px"><i class="fas fa-file-invoice-dollar"></i></a>'
-            }
-        }
-
-        ],
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "Todo"]
-        ],
-        "columnDefs": [{
-            "targets": [3, 10],
-            "orderable": false,
-            "searchable": false
-        },
-            //{ "width": "1%", "targets": 0 }
-        ],
-        "order": [
-            [0, 'desc']
-        ],
-        "language": espanol,
-        //para usar los botones
-        responsive: false,
-        autoWidth: false,
-        dom: 'Bfrtilp',
-        buttons: [{
-            extend: 'excelHtml5',
-            text: '<i class="fas fa-file-excel"></i> ',
-            titleAttr: 'Exportar a Excel',
-            className: 'btn btn-success',
-        },
-        {
-            extend: 'pdfHtml5',
-            text: '<i class="fas fa-file-pdf"></i> ',
-            titleAttr: 'Exportar a PDF',
-            className: 'btn btn-danger',
-            pageSize: 'TABLOID',
-            orientation: 'landscape'
-        },
-        {
-            extend: 'print',
-            text: '<i class="fa fa-print"></i> ',
-            titleAttr: 'Imprimir',
-            className: 'btn btn-info',
-            exportOptions: {
-                stripHtml: false
-            }
-        },
-        ]
-    });
-    if (dataTable.length == 0) {
-        dataTable.clear();
-        dataTable.draw();
-    }
-    $('#datatable tbody').on('click', '.editar', function () {
-        let data = $('#datatable').DataTable().row($(this).parents()).data();
-        $('#id_venta').text(data.id);
-        let dato = {
-            id: data.id,
-        }
-        $.post({
-            url: '/cambio/datos-cambios',
-            data: dato,
-            beforeSend: function () {
-                $('#carga').css('visibility', 'visible');
-            },
-            success: function (response) {
-                $('#carga').css('visibility', 'hidden')
-                let data = JSON.parse(response);
-                let empresaria = data['empresaria'];
-                let venta = data['venta'];
-                let rol = data['rol'];
-                let direccionVenta = data['direccionVenta'];
-                if(rol == "ASESOR"){
-                    $('#estado_venta').prop( "disabled", true );
-                }else{
-                    $('#estado_venta').prop( "disabled", false );
-                }
-                Livewire.emitTo('guardar-pago', 'setVenta', venta['id']);
-                $('#estado_venta').val(venta['estado']);
-                $('#venta').text(venta['id'])
-                $('#nfactura').text(venta['n_factura'])
-                $('#nguia').text(venta['n_guia'])
-                $('#btn-descarga').attr( 'href','/venta/comprobante/' + venta['id']);
-                $('#fcedula').text(venta['factura_identificacion'])
-                $('#fnombre').text(venta['factura_nombres'])
-                $('#ftelefono').text(venta['telefono'])
-                $('#femail').text(venta['email'])
-                $('#empresaria').text(empresaria['nombres'] + ' ' + empresaria['apellidos'])
-                $('#cedula').text(empresaria['cedula'])
-                $('#telefono').text(empresaria['telefono'])
-                $('#correo').text(empresaria['usuario']['email'])
-                $('#enombre').text(direccionVenta['nombre'])
-                $('#etelefono').text(direccionVenta['telefono'])
-                $('#eprovincia').text(direccionVenta['ciudad']['provincia']['descripcion'])
-                $('#eciudad').text(direccionVenta['ciudad']['descripcion'])
-                $('#direccion').text(direccionVenta['direccion'])
-                $('#referencia').text(direccionVenta['referencia'])
-                $('#imagen_path').val(venta['recibo']);
-                if (venta['recibo'] != null) {
-                    $('#imagen_defecto').attr('src',venta['recibo']);
-                }
-                $('#vendedor').text(venta['vendedor']['name'])
-                let fecha = venta['created_at'];
-                fecha = fecha.split('T');
-                $('#fecha').text(fecha[0]);
-                data = data['pedidos'];
-                $('#tabla_factura tbody').html('');
-                let subtotal = 0
-                let total_factura = 0
-                let cantidad_total = 0
-                let envio = venta['envio'];
-                let ganancia = 0
-                $.each(data, function (i, v) {
-                    let image = '/img/imagen-no-disponible.jpg';
-                    if(v['imagen_producto'] != null && v['imagen_producto'] != ''){
-                        image = '/storage/images/productos/' + v['imagen_producto'];
-                    }
-                    let total = v['precio'] ;
-                    let direccion = v['direccion_envio'] != '' ? JSON.parse(v['direccion_envio']) : '';
-                    total = total.toFixed(2);
-                    if(direccion != ''){
-                        $('#tabla_factura tbody').append('<tr>' +
-                            '<td><img src="' + image + '" width="50px"></td>' +
-                            '<td>' + v['nombre_producto'] + '</td>' +
-                            '<td>' + v['color_producto'] + '</td>' +
-                            '<td>' + v['talla_producto'] + '</td>' +
-                            '<td>' + v['precio_catalogo'] + '</td>' +
-                            '<td>'+ v['descuento'] +'</td>' +
-                            '<td>' + v['cantidad'] + '</td>' +
-                            '<td>$' + total + '</td>' +
-                            '<td>Nombre:'+ direccion.nombre+' <br>Tel:'+ direccion.telefono+
-                            '<br> Dir:'+ direccion.direccion +'<br> Ref:'+ direccion.referencia +
-                            '</tr>')
-                    }else{
-                        $('#tabla_factura tbody').append('<tr>' +
-                            '<td><img src="' + image + '" width="50px"></td>' +
-                            '<td>' + v['nombre_producto'] + '</td>' +
-                            '<td>' + v['color_producto'] + '</td>' +
-                            '<td>' + v['talla_producto'] + '</td>' +
-                            '<td>' + v['precio_catalogo'] + '</td>' +
-                            '<td>'+ v['descuento'] +'</td>' +
-                            '<td>' + v['cantidad'] + '</td>' +
-                            '<td>$' + total + '</td>' +
-                            '<td></td>')
-                    }
-                    subtotal = parseFloat(subtotal) + parseFloat(v['precio_catalogo']);
-                    total_factura = parseFloat(total) + parseFloat(total_factura);
-                    cantidad_total = parseInt(v['cantidad']) + parseInt(cantidad_total);
-                })
-                total_factura = total_factura.toFixed(2)
-
-                $('#subtotal').text(subtotal.toFixed(2));
-                $('#cant_total').text(cantidad_total);
-                $('#total_fac').text(total_factura);
-                $('#envio').text(envio);
-                totpag = parseFloat(total_factura) + parseFloat(envio);
-                $('#tot_pagar').text(totpag.toFixed(2));
-                $('#ganancia').text(venta['total_p_empresaria']);
-
-
-            }
-        })
-    })
-
-    $('#datatable tbody').on('click', '.pedido', function () {
-        let data = $('#datatable').DataTable().row($(this).parents()).data();
-        $('#id_venta_t').text(data.id);
-        let dato = {
-            id_venta: data.id,
-        }
-        $.post({
-            url: '/ventas/datos-pedido',
-            data: dato,
-            beforeSend: function () {
-                $('#cargat').css('visibility', 'visible');
-            },
-            success: function (response) {
-                $('#cargat').css('visibility', 'hidden')
-                let data = JSON.parse(response);
-                let empresaria = data['empresaria'];
-                let venta = data['venta'];
-                $('#venta_t').text(venta['id'])
-                $('#vendedor_t').text(venta['vendedor']['name'])
-                let fecha = venta['created_at'];
-                fecha = fecha.split('T');
-                $('#fecha_t').text(fecha[0]);
-
-                if(venta['estado'] == "PENDIENTE DE PAGO"){
-                    $("#pendiente").addClass("bg-green");
-                    $("#tomar_pedido").removeClass("bg-green");
-                    $("#verificar_pago").removeClass("bg-green");
-                    $("#facturado").removeClass("bg-green");
-                    $("#despachado").removeClass("bg-green");
-                }
-                if(venta['estado'] == "PEDIDO POR VALIDAR"){
-                    $("#pendiente").removeClass("bg-green");
-                    $("#tomar_pedido").removeClass("bg-green");
-                    $("#verificar_pago").addClass("bg-green");
-                    $("#facturado").removeClass("bg-green");
-                    $("#despachado").removeClass("bg-green");
-                }
-                if(venta['estado'] == "PEDIDO APROBADO"){
-                    $("#pendiente").removeClass("bg-green");
-                    $("#tomar_pedido").addClass("bg-green");
-                    $("#verificar_pago").removeClass("bg-green");
-                    $("#facturado").removeClass("bg-green");
-                    $("#despachado").removeClass("bg-green");
-                }
-                if(venta['estado'] == "PEDIDO FACTURADO"){
-                    $("#pendiente").removeClass("bg-green");
-                    $("#tomar_pedido").removeClass("bg-green");
-                    $("#verificar_pago").removeClass("bg-green");
-                    $("#facturado").addClass("bg-green");
-                    $("#despachado").removeClass("bg-green");
-                }
-                if(venta['estado'] == "PEDIDO DESPACHADO"){
-                    $("#pendiente").removeClass("bg-green");
-                    $("#tomar_pedido").removeClass("bg-green");
-                    $("#verificar_pago").removeClass("bg-green");
-                    $("#facturado").removeClass("bg-green");
-                    $("#despachado").addClass("bg-green");
-                }
-
-            }
-        })
-    })
-}
-
 
 function crearTablaCambios(data, ruta) {
     $.ajaxSetup({
@@ -1621,13 +1332,16 @@ function crearTablaCambios(data, ruta) {
             "data": 'empresaria'
         },
         {
-            "data": 'observaciones'
+            "data": 'referencia'
         },
         {
             "data": 'cantidad_total'
         },
         {
-            "data": 'total_venta'
+            "data": 'total_pagar',
+            "render": function (data, type, row) {
+                return '$'+data;
+            }
         },
         {
             "data": 'estado'
@@ -1720,11 +1434,12 @@ function crearTablaCambios(data, ruta) {
                 }else{
                     $('#estado_venta').prop( "disabled", false );
                 }
-                // Livewire.emitTo('guardar-pago', 'setVenta', venta['id']);
+                Livewire.emitTo('guardar-pago-cambio', 'setCambio', venta['id']);
                 $('#estado_venta').val(venta['estado']);
                 $('#venta').text(venta['id'])
                 $('#nfactura').text(venta['n_factura'])
-                $('#nguia').text(venta['n_guia'])
+                $('#descripcion').text(venta['descripcion'])
+                $('#nguia').text(venta['id_pedido'])
                 $('#btn-descarga').attr( 'href','/venta/comprobante/' + venta['id']);
 
                 $('#fcedula').text(venta['f_cedula'])
@@ -1736,74 +1451,55 @@ function crearTablaCambios(data, ruta) {
                 $('#cedula').text(empresaria['cedula'])
                 $('#telefono').text(empresaria['telefono'])
                 $('#correo').text(empresaria['usuario']['email'])
-                $('#enombre').text(direccionVenta['nombre'])
+                $('#enombre').text(direccionVenta['e_nombre'])
 
                 $('#etelefono').text(direccionVenta['e_telefono'])
                 $('#eprovincia').text(direccionVenta['e_provincia'])
                 $('#eciudad').text(direccionVenta['e_ciudad'])
                 $('#direccion').text(direccionVenta['e_direccion'])
-                // $('#referencia').text(direccionVenta['referencia'])
+                $('#eidentificacion').text(direccionVenta['e_cedula'])
+
+                $('#referencia').text(direccionVenta['referencia'])
+
                 $('#imagen_path').val(venta['recibo']);
                 if (venta['recibo'] != null) {
                     $('#imagen_defecto').attr('src',venta['recibo']);
                 }
-                $('#vendedor').text(venta['vendedor']['name'])
+                $('#vendedor').text(venta['seller']['name'])
                 let fecha = venta['created_at'];
                 fecha = fecha.split('T');
                 $('#fecha').text(fecha[0]);
-                data = data['pedidos'];
+                data = data['cambio_detalle'];
                 $('#tabla_factura tbody').html('');
                 let subtotal = 0
                 let total_factura = 0
                 let cantidad_total = 0
                 let envio = venta['envio'];
                 let ganancia = 0
-                $.each(data, function (i, v) {
-                    let image = '/img/imagen-no-disponible.jpg';
-                    if(v['imagen_producto'] != null && v['imagen_producto'] != ''){
-                        image = '/storage/images/productos/' + v['imagen_producto'];
-                    }
-                    let total = v['precio'] ;
-                    let direccion = v['direccion_envio'] != '' ? JSON.parse(v['direccion_envio']) : '';
-                    total = total.toFixed(2);
-                    if(direccion != ''){
-                        $('#tabla_factura tbody').append('<tr>' +
-                            '<td><img src="' + image + '" width="50px"></td>' +
-                            '<td>' + v['nombre_producto'] + '</td>' +
-                            '<td>' + v['color_producto'] + '</td>' +
-                            '<td>' + v['talla_producto'] + '</td>' +
-                            '<td>' + v['precio_catalogo'] + '</td>' +
-                            '<td>'+ v['descuento'] +'</td>' +
-                            '<td>' + v['cantidad'] + '</td>' +
-                            '<td>$' + total + '</td>' +
-                            '<td>Nombre:'+ direccion.nombre+' <br>Tel:'+ direccion.telefono+
-                            '<br> Dir:'+ direccion.direccion +'<br> Ref:'+ direccion.referencia +
-                            '</tr>')
-                    }else{
-                        $('#tabla_factura tbody').append('<tr>' +
-                            '<td><img src="' + image + '" width="50px"></td>' +
-                            '<td>' + v['nombre_producto'] + '</td>' +
-                            '<td>' + v['color_producto'] + '</td>' +
-                            '<td>' + v['talla_producto'] + '</td>' +
-                            '<td>' + v['precio_catalogo'] + '</td>' +
-                            '<td>'+ v['descuento'] +'</td>' +
-                            '<td>' + v['cantidad'] + '</td>' +
-                            '<td>$' + total + '</td>' +
-                            '<td></td>')
-                    }
-                    subtotal = parseFloat(subtotal) + parseFloat(v['precio_catalogo']);
-                    total_factura = parseFloat(total) + parseFloat(total_factura);
-                    cantidad_total = parseInt(v['cantidad']) + parseInt(cantidad_total);
+                $.each(data, function (i, product) {
+                    $('#tabla_factura tbody').append('<tr>' +
+                        '<td>' + product['product']['sku'] + '</td>' +
+                        '<td>' + product['product']['descripcion'] + '</td>' +
+                        '<td>' + product['product']['color'] + '</td>' +
+                        '<td>' + product['product']['talla'] + '</td>' +
+                        '<td>' + product['precio_catalogo'] + '</td>' +
+                        '<td>' + (product['descuento'] * 100 ) + '%</td>' +
+                        '<td>' + product['cantidad'] + '</td>' +
+                        '<td>' + product['precio'] + '</td>' +
+                        '<td></td>')
+
+                    subtotal = parseFloat(subtotal) + parseFloat(product['precio_catalogo']);
+                    total_factura += parseFloat(product['total'] );
+                    cantidad_total = parseInt(product['cantidad'] ) + parseInt(cantidad_total);
                 })
                 total_factura = total_factura.toFixed(2)
 
                 $('#subtotal').text(subtotal.toFixed(2));
                 $('#cant_total').text(cantidad_total);
-                $('#total_fac').text(total_factura);
-                $('#envio').text(envio);
-                totpag = parseFloat(total_factura) + parseFloat(envio);
-                $('#tot_pagar').text(totpag.toFixed(2));
-                $('#ganancia').text(venta['total_p_empresaria']);
+                $('#total_fac').text(parseFloat(venta['total']).toFixed(2)) ;
+                $('#envio').text(parseFloat(envio).toFixed(2) );
+                $('#total').text(parseFloat(venta['total']).toFixed(2)) ;
+                $('#total_pagar').text(parseFloat(venta['total_pagar']).toFixed(2));
 
 
             }
@@ -1814,10 +1510,10 @@ function crearTablaCambios(data, ruta) {
         let data = $('#datatable').DataTable().row($(this).parents()).data();
         $('#id_venta_t').text(data.id);
         let dato = {
-            id_venta: data.id,
+            id: data.id,
         }
         $.post({
-            url: '/ventas/datos-pedido',
+            url: '/cambio/datos-cambio',
             data: dato,
             beforeSend: function () {
                 $('#cargat').css('visibility', 'visible');
@@ -1825,48 +1521,77 @@ function crearTablaCambios(data, ruta) {
             success: function (response) {
                 $('#cargat').css('visibility', 'hidden')
                 let data = JSON.parse(response);
-                let empresaria = data['empresaria'];
-                let venta = data['venta'];
+                let empresaria = data['businesswoman'];
+                let venta = data['cambio_encabezado'];
                 $('#venta_t').text(venta['id'])
-                $('#vendedor_t').text(venta['vendedor']['name'])
+                $('#vendedor_t').text(venta['seller']['name'])
                 let fecha = venta['created_at'];
                 fecha = fecha.split('T');
                 $('#fecha_t').text(fecha[0]);
 
                 if(venta['estado'] == "PENDIENTE DE PAGO"){
+                    // $("#pendiente").addClass("bg-green");
                     $("#pendiente").addClass("bg-green");
-                    $("#tomar_pedido").removeClass("bg-green");
-                    $("#verificar_pago").removeClass("bg-green");
-                    $("#facturado").removeClass("bg-green");
-                    $("#despachado").removeClass("bg-green");
+                    $("#cambio_validar").removeClass("bg-green");
+                    $("#cambio_aprobado").removeClass("bg-green");
+                    $("#cambio_aprobado_sin_validar").removeClass("bg-green");
+                    $("#cambio_facturado").removeClass("bg-green");
+                    $("#cambio_facturado_local").removeClass("bg-green");
+                    $("#cambio_despachado").removeClass("bg-green");
                 }
-                if(venta['estado'] == "PEDIDO POR VALIDAR"){
+                if(venta['estado'] == "CAMBIO POR VALIDAR"){
                     $("#pendiente").removeClass("bg-green");
-                    $("#tomar_pedido").removeClass("bg-green");
-                    $("#verificar_pago").addClass("bg-green");
-                    $("#facturado").removeClass("bg-green");
-                    $("#despachado").removeClass("bg-green");
+                    $("#cambio_validar").addClass("bg-green");
+                    $("#cambio_aprobado").removeClass("bg-green");
+                    $("#cambio_aprobado_sin_validar").removeClass("bg-green");
+                    $("#cambio_facturado").removeClass("bg-green");
+                    $("#cambio_facturado_local").removeClass("bg-green");
+                    $("#cambio_despachado").removeClass("bg-green");
                 }
-                if(venta['estado'] == "PEDIDO APROBADO"){
+                if(venta['estado'] == "CAMBIO APROBADO"){
                     $("#pendiente").removeClass("bg-green");
-                    $("#tomar_pedido").addClass("bg-green");
-                    $("#verificar_pago").removeClass("bg-green");
-                    $("#facturado").removeClass("bg-green");
-                    $("#despachado").removeClass("bg-green");
+                    $("#cambio_validar").removeClass("bg-green");
+                    $("#cambio_aprobado").addClass("bg-green");
+                    $("#cambio_aprobado_sin_validar").removeClass("bg-green");
+                    $("#cambio_facturado").removeClass("bg-green");
+                    $("#cambio_facturado_local").removeClass("bg-green");
+                    $("#cambio_despachado").removeClass("bg-green");
                 }
-                if(venta['estado'] == "PEDIDO FACTURADO"){
+                if(venta['estado'] == "CAMBIO APROBADO SIN VALIDAR"){
                     $("#pendiente").removeClass("bg-green");
-                    $("#tomar_pedido").removeClass("bg-green");
-                    $("#verificar_pago").removeClass("bg-green");
-                    $("#facturado").addClass("bg-green");
-                    $("#despachado").removeClass("bg-green");
+                    $("#cambio_validar").removeClass("bg-green");
+                    $("#cambio_aprobado").removeClass("bg-green");
+                    $("#cambio_aprobado_sin_validar").addClass("bg-green");
+                    $("#cambio_facturado").removeClass("bg-green");
+                    $("#cambio_facturado_local").removeClass("bg-green");
+                    $("#cambio_despachado").removeClass("bg-green");
                 }
-                if(venta['estado'] == "PEDIDO DESPACHADO"){
+                if(venta['estado'] == "CAMBIO FACTURADO"){
                     $("#pendiente").removeClass("bg-green");
-                    $("#tomar_pedido").removeClass("bg-green");
-                    $("#verificar_pago").removeClass("bg-green");
-                    $("#facturado").removeClass("bg-green");
-                    $("#despachado").addClass("bg-green");
+                    $("#cambio_validar").removeClass("bg-green");
+                    $("#cambio_aprobado").removeClass("bg-green");
+                    $("#cambio_aprobado_sin_validar").removeClass("bg-green");
+                    $("#cambio_facturado").addClass("bg-green");
+                    $("#cambio_facturado_local").removeClass("bg-green");
+                    $("#cambio_despachado").removeClass("bg-green");
+                }
+                if(venta['estado'] == "CAMBIO FACTURADO LOCAL IBIZZA"){
+                    $("#pendiente").removeClass("bg-green");
+                    $("#cambio_validar").removeClass("bg-green");
+                    $("#cambio_aprobado").removeClass("bg-green");
+                    $("#cambio_aprobado_sin_validar").removeClass("bg-green");
+                    $("#cambio_facturado").removeClass("bg-green");
+                    $("#cambio_facturado_local").addClass("bg-green");
+                    $("#cambio_despachado").removeClass("bg-green");
+                }
+                if(venta['estado'] == "CAMBIO FACTURADO Y DESPACHADO"){
+                    $("#pendiente").removeClass("bg-green");
+                    $("#cambio_validar").removeClass("bg-green");
+                    $("#cambio_aprobado").removeClass("bg-green");
+                    $("#cambio_aprobado_sin_validar").removeClass("bg-green");
+                    $("#cambio_facturado").removeClass("bg-green");
+                    $("#cambio_facturado_local").removeClass("bg-green");
+                    $("#cambio_despachado").addClass("bg-green");
                 }
 
             }

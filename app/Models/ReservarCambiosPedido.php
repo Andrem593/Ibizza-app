@@ -13,6 +13,7 @@ class ReservarCambiosPedido extends Model
     protected $table = 'reservar_cambios_pedidos';
 
 
+
     protected $fillable = [
         'n_factura',
         'id_vendedor',
@@ -22,11 +23,13 @@ class ReservarCambiosPedido extends Model
         'id_empresaria',
         'motivo',
         'descripcion',
+
         'f_nombre',
         'f_cedula',
         'f_tipo_id',
         'f_telefono',
         'f_correo',
+
         'e_telefono',
         'e_provincia',
         'e_ciudad',
@@ -37,6 +40,7 @@ class ReservarCambiosPedido extends Model
         'e_nombre',
         'provincia_id',
         'ciudad_id',
+
         'observaciones',
         'envio',
         'id_venta',
@@ -45,11 +49,38 @@ class ReservarCambiosPedido extends Model
         'descuento_venta',
         'cantidad_producto_venta',
         'total',
-        'total_pagar'
+        'total_pagar',
+
+        // Activo: 1. Inactivo: 0 , Procesado 3
+        'estado'
     ];
 
     protected $timestamp = false;
 
+    protected $appends = ['estado_descripcion'];
+
+
+    public function getEstadoDescripcionAttribute()
+    {
+        $status = [
+            [
+                'tipo' => 1,
+                'descripcion' => 'ACTIVO',
+            ],
+            [
+                'tipo' => 0,
+                'descripcion' => 'INACTIVO',
+            ],
+            [
+                'tipo' => 2,
+                'descripcion' => 'PROCESADO',
+            ]
+        ];
+        $status = collect($status) ;
+
+        $status = $status->where('tipo', $this->estado)->first() ;
+        return $status ? $status['descripcion'] : '';
+    }
 
     public function user()
     {

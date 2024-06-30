@@ -25,7 +25,7 @@ class CambiosPedidosController extends Controller
         $response = '' ;
         if ($_POST['funcion'] == 'listar_todo') {
 
-            $changeOrder = CambioPedido::with('businesswomen')->orderBy('id', 'desc')
+            $changeOrder = CambioPedido::with('businesswomen', 'requestedChanges')->orderBy('id', 'desc')
                 ->get()
                 ->map(function($change){
                     $change->factura_identificacion = $change->f_cedula ;
@@ -33,15 +33,13 @@ class CambiosPedidosController extends Controller
                     $change->direccion_envio = $change->e_direccion ;
                     $change->empresaria = $change->businesswomen->nombre_completo ;
                     //corregir esta variable
-                    $change->observaciones = $change->obervaciones ;
+                    $change->referencia = $change->referencia ;
 
                     //esto ver si se agregan los campos
-                    $change->cantidad_total = 0 ;
-                    $change->total_venta = 0 ;
+                    $change->cantidad_total = $change->requestedChanges->sum('cantidad') ;
                     $change->estado = 0 ;
 
                     return $change ;
-                    // dd($change);
 
                 });
 
@@ -62,10 +60,16 @@ class CambiosPedidosController extends Controller
 
     }
 
+    public function editarCambio(Request $request)
+    {
+        CambioPedido::where('id',$request->id)->update(['estado'=>$request->estado_editar]);
+        return 'editado';
+    }
+
     public function datosCambios(Request $request)
     {
-        $productChange = ProductoCambio::where('id_cambio', $request->id)->get();
-        $changeOrder = CambioPedido::findOrFail($request->id);
+        $productChange = ProductoCambio::with('product', 'changeOrder')->where('id_cambio', $request->id)->get();
+        $changeOrder = CambioPedido::with('seller', 'requestedChanges')->findOrFail($request->id);
         $businesswoman = Empresaria::where('id', $changeOrder->id_empresaria)
             ->with('usuario')
             ->first();

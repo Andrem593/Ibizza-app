@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Producto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,8 +25,23 @@ class ProductoCambio extends Model
         'precio',
         'precio_catalogo',
         'total',
-        'descuento'
+        'descuento',
+        'precio_producto_venta',
+        'descuento_venta',
+        'cantidad_producto_venta',
+        'precio_u_venta'
     ];
 
     protected $timestamp = false;
+
+    public function product()
+    {
+        return $this->belongsTo(Producto::class, 'id_producto', 'id');
+    }
+
+    public function changeOrder()
+    {
+        return $this->belongsTo(Producto::class, 'id_cambio', 'id');
+    }
+
 }

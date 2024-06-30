@@ -13,26 +13,42 @@ class CambioPedido extends Model
     protected $table = 'cambios_pedidos';
 
     protected $fillable = [
+        'n_factura',
         'id_vendedor',
+        'id_usuario',
         'fecha',
         'id_empresaria',
         'motivo',
         'descripcion',
+
         'f_nombre',
         'f_cedula',
+        'f_tipo_id',
         'f_telefono',
         'f_correo',
+
         'e_nombre',
         'e_cedula',
         'e_telefono',
         'e_provincia',
         'e_ciudad',
         'e_direccion',
-        'obervaciones',
+        'e_tipo_id',
         'e_pedido',
+        'provincia_id',
+        'ciudad_id',
+
+        'referencia',
+
         'envio',
         'id_venta',
-        'id_pedido'
+        'id_pedido',
+        'precio_producto_venta',
+        'descuento_venta',
+        'cantidad_producto_venta',
+        'total',
+        'total_pagar',
+        'estado'
     ];
 
 
@@ -50,6 +66,16 @@ class CambioPedido extends Model
     {
         return $this->hasMany(ProductoCambio::class, 'id_cambio');
 
+    }
+
+    public function province()
+    {
+        return $this->belongsTo(Provincia::class, 'provincia_id', 'id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(Ciudad::class, 'ciudad_id', 'id');
     }
 
 

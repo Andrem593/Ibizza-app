@@ -55,10 +55,10 @@
                             <th>NOMBRE</th>
                             <th>DIRECCIÓN</th>
                             <th>EMPRESARIA</th>
-                            <th>OBSERVACIÓN</th>
+                            <th>REFERENCIA</th>
                             <th>CANTIDAD</th>
-                            <th>TOTAL VENTA</th>
-                            <th>ESTADO VENTA</th>
+                            <th>TOTAL CAMBIO</th>
+                            <th>ESTADO CAMBIO</th>
                             <th>FECHA</th>
                             <th></th>
                         </tr>
@@ -82,7 +82,7 @@
                         <i class="fas fa-2x fa-sync fa-spin"></i>
                     </div>
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">VENTA #<span id="id_venta"></span></h5>
+                        <h5 class="modal-title" id="exampleModalLabel">CAMBIO #<span id="id_venta"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -112,35 +112,20 @@
                                 </div>
 
                                 <div class="mt-2">
-                                    <label for="estado_venta">Estado Venta</label>
+                                    <label for="estado_venta">Estado Cambio</label>
                                     <select id="estado_venta" class="form-control-sm">
                                         @if (Auth::user()->role == 'VALIDADOR' || Auth::user()->role == 'ADMINISTRADOR' || Auth::user()->role == 'ASESOR' )
                                             <option value="PENDIENTE DE PAGO">PENDIENTE DE PAGO</option>
-                                            <option value="PEDIDO POR VALIDAR">PEDIDO POR VALIDAR</option>
-                                            <option value="PEDIDO APROBADO">PEDIDO APROBADO</option>
-                                            <option value="PEDIDO APROBADO SIN VALIDAR">PEDIDO APROBADO SIN VALIDAR</option>
-                                            <option value="FACTURADO LOCAL IBIZZA" >FACTURADO LOCAL IBIZZA</option>
+                                            <option value="CAMBIO POR VALIDAR">CAMBIO POR VALIDAR</option>
+                                            <option value="CAMBIO APROBADO">CAMBIO APROBADO</option>
+                                            <option value="CAMBIO APROBADO SIN VALIDAR">CAMBIO APROBADO SIN VALIDAR</option>
+                                            <option value="CAMBIO FACTURADO LOCAL IBIZZA" >CAMBIO FACTURADO LOCAL IBIZZA</option>
+                                            <option value="CAMBIO FACTURADO" disabled>CAMBIO FACTURADO</option>
+                                            <option value="CAMBIO FACTURADO Y DESPACHADO" disabled>CAMBIO FACTURADO Y DESPACHADO</option>
                                             @if (Auth::user()->role == 'VALIDADOR')
                                                 {{--  Si el rol es validador deshabilitar las opciones del validador, para que solo las pueda ver y no seleccionar --}}
-                                                <option value="PEDIDO FACTURADO" disabled>PEDIDO FACTURADO</option>
-                                                <option value="PEDIDO FACTURADO Y DESPACHADO" disabled>PEDIDO FACTURADO Y DESPACHADO</option>
+
                                             @endif
-                                        @endif
-
-                                        @if (Auth::user()->role == 'LOGISTICO' || Auth::user()->role == 'ADMINISTRADOR' || Auth::user()->role == 'ASESOR' )
-
-                                            @if (Auth::user()->role == 'LOGISTICO')
-                                                {{--  Si el rol es logistico deshabilitar las opciones del validador, para que solo las pueda ver y no seleccionar --}}
-                                                <option value="PENDIENTE DE PAGO" disabled>PENDIENTE DE PAGO</option>
-                                                <option value="PEDIDO POR VALIDAR" disabled>PEDIDO POR VALIDAR</option>
-                                                <option value="PEDIDO APROBADO" disabled>PEDIDO APROBADO</option>
-                                                <option value="PEDIDO APROBADO SIN VALIDAR" disabled>PEDIDO APROBADO SIN VALIDAR</option>
-                                                <option value="FACTURADO LOCAL IBIZZA" disabled>FACTURADO LOCAL DPISAR</option>
-                                            @endif
-
-                                            <option value="PEDIDO FACTURADO">PEDIDO FACTURADO</option>
-                                            {{-- <option value="PEDIDO DESPACHADO">PEDIDO DESPACHADO</option> --}}
-                                            <option value="PEDIDO FACTURADO Y DESPACHADO">PEDIDO FACTURADO Y DESPACHADO</option>
                                         @endif
                                     </select>
                                 </div>
@@ -222,20 +207,20 @@
                                     <td class="border-none" colspan="6">
                                         <span></span>
                                     </td>
-                                    <td><span>Total a pagar</span></td>
-                                    <td>$<span id="tot_pagar"></span></td>
+                                    <td><span>Total</span></td>
+                                    <td>$<span id="total"></span></td>
                                 </tr>
                                 <tr>
                                     <td class="border-none" colspan="6">
                                         <span></span>
                                     </td>
-                                    <td><span>Ganancia</span></td>
-                                    <td>$<span id="ganancia"></span></td>
+                                    <td><span>Total Pagar</span></td>
+                                    <td>$<span id="total_pagar"></span></td>
                                 </tr>
                                 <tr>
-                                    <td class="border-1" colspan="1">Observación</td>
+                                    <td class="border-1" colspan="1">Descripción del Cambio</td>
                                     <td class="border-1" colspan="8">
-                                        <textarea class="form-control bg-white border-0" readonly id="observacion_venta" rows="5" contenteditable="false"></textarea>
+                                        <textarea class="form-control bg-white border-0" readonly id="descripcion" rows="5" contenteditable="false"></textarea>
                                     </td>
                                 </tr>
                             </tfoot>
@@ -244,7 +229,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
                         @if (Auth::user()->role != 'ASESOR')
-                            <button type="button" id="editar_venta" class="btn bg-ibizza">GUARDAR</button>
+                            <button type="button" id="editar_cambio" class="btn bg-ibizza">GUARDAR</button>
                         @endif
                     </div>
                 </div>
@@ -257,7 +242,7 @@
                         <i class="fas fa-2x fa-sync fa-spin"></i>
                     </div>
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Tracking de Pedido #<span id="id_venta_t"></span>
+                        <h5 class="modal-title" id="exampleModalLabel">Tracking de Cambio #<span id="id_venta_t"></span>
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -267,7 +252,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <div class="fw-bold">N° Pedido: <span id="venta_t"></span></div>
+                                <div class="fw-bold">N° Cambio: <span id="venta_t"></span></div>
                                 <div>Fecha: <span id="fecha_t"></span></div>
                                 <div>Asesor: <span id="vendedor_t"></span></div>
                             </div>
@@ -288,26 +273,41 @@
                                     <div>
                                         <i class="fas fa-comments-dollar bg-blue"></i>
                                         <div class="timeline-item">
-                                            <h3 id="verificar_pago" class="timeline-header no-border">Pedido por Validar
+                                            <h3 id="cambio_validar" class="timeline-header no-border">Cambio por Validar
                                             </h3>
                                         </div>
                                     </div>
                                     <div>
                                         <i class="fas fa-truck-loading bg-navy"></i>
                                         <div class="timeline-item">
-                                            <h3 id="tomar_pedido" class="timeline-header no-border">Pedido Aprobado</h3>
+                                            <h3 id="cambio_aprobado" class="timeline-header no-border">Cambio Aprobado</h3>
                                         </div>
                                     </div>
+
+                                    <div>
+                                        <i class="fas fa-truck-loading bg-navy"></i>
+                                        <div class="timeline-item">
+                                            <h3 id="cambio_aprobado_sin_validar" class="timeline-header no-border">Cambio Aprobado Sin Validar</h3>
+                                        </div>
+                                    </div>
+
                                     <div>
                                         <i class="fas fa-file-invoice-dollar bg-yellow"></i>
                                         <div class="timeline-item">
-                                            <h3 id="facturado" class="timeline-header no-border">Pedido Facturado</h3>
+                                            <h3 id="cambio_facturado" class="timeline-header no-border">Cambio Facturado</h3>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <i class="fas fa-file-invoice-dollar bg-yellow"></i>
+                                        <div class="timeline-item">
+                                            <h3 id="cambio_facturado_local" class="timeline-header no-border">Cambio Facturado Local IBIZZA</h3>
                                         </div>
                                     </div>
                                     <div>
                                         <i class="fas fa-boxes bg-green"></i>
                                         <div class="timeline-item">
-                                            <h3 id="despachado" class="timeline-header no-border">Pedido Despachado</h3>
+                                            <h3 id="cambio_despachado" class="timeline-header no-border">Cambio Despachado</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -344,15 +344,16 @@
                 </div>
             </div>
         </div>
+
         <div class="modal fade" id="modalPago" aria-hidden="true" aria-labelledby="modalPagoLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalPagoLabel">Pagos - VENTA #<span id="id_venta_p"></h5>
+                        <h5 class="modal-title" id="modalPagoLabel">Pagos - CAMBIO #<span id="id_venta_p"></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        @livewire('guardar-pago')
+                        @livewire('guardar-pago-cambio')
                     </div>
                     <div class="modal-footer">
                         {{-- <button type="button" class="btn btn-secondary" id="guardar_pago">Guardar Pago</button>                         --}}
@@ -437,12 +438,12 @@
             //Al cerrar el modal del pago, volver a actualizar información del pedido en el modal anterior
             $("#modalPago").on("hide.bs.modal", function(e){
                  $('#datatable').DataTable().ajax.reload(null,false) //Recarga el datatable con los datos actualizados
-                 $('form').trigger("reset")
+                 $('form').trigger("reset");
                 let dato = {
-                    id_venta: $('#venta').text(),
+                    id: $('#venta').text(),
                 }
                 $.post({
-                    url: '/ventas/datos-ventas',
+                    url: '/cambio/datos-cambio',
                     data: dato,
                     beforeSend: function () {
                         $('#carga').css('visibility', 'visible');
@@ -450,140 +451,92 @@
                     success: function (response) {
                         $('#carga').css('visibility', 'hidden')
                         let data = JSON.parse(response);
-                        let empresaria = data['empresaria'];
-                        let venta = data['venta'];
-                        let rol = data['rol'];
-                        let direccionVenta = data['direccionVenta'];
+                        let empresaria = data['businesswoman'];
+                        let venta = data['cambio_encabezado'];
+                        let rol = data['role'];
+                        let direccionVenta = data['shipping_information'];
                         if(rol == "ASESOR"){
                             $('#estado_venta').prop( "disabled", true );
                         }else{
                             $('#estado_venta').prop( "disabled", false );
                         }
-                       Livewire.emitTo('guardar-pago','setVenta', dato.id_venta)
+                        Livewire.emitTo('guardar-pago-cambio', 'setCambio', dato.id);
                         $('#estado_venta').val(venta['estado']);
                         $('#venta').text(venta['id'])
                         $('#nfactura').text(venta['n_factura'])
-                        $('#nguia').text(venta['n_guia'])
+                        $('#descripcion').text(venta['descripcion'])
+                        $('#nguia').text(venta['id_pedido'])
                         $('#btn-descarga').attr( 'href','/venta/comprobante/' + venta['id']);
-                        $('#fcedula').text(venta['factura_identificacion'])
-                        $('#fnombre').text(venta['factura_nombres'])
-                        $('#ftelefono').text(venta['telefono'])
-                        $('#femail').text(venta['email'])
+
+                        $('#fcedula').text(venta['f_cedula'])
+                        $('#fnombre').text(venta['f_nombre'])
+                        $('#ftelefono').text(venta['f_telefono'])
+                        $('#femail').text(venta['f_correo'])
+
                         $('#empresaria').text(empresaria['nombres'] + ' ' + empresaria['apellidos'])
                         $('#cedula').text(empresaria['cedula'])
                         $('#telefono').text(empresaria['telefono'])
                         $('#correo').text(empresaria['usuario']['email'])
+                        $('#enombre').text(direccionVenta['e_nombre'])
 
-                        $("#eidentificacion").text(direccionVenta['identificacion']) //Agregamos la cédula de la empresaria
-                        $('#enombre').text(direccionVenta['nombre'])
-                        $('#etelefono').text(direccionVenta['telefono'])
-                        $('#eprovincia').text(direccionVenta['ciudad']['provincia']['descripcion'])
-                        $('#eciudad').text(direccionVenta['ciudad']['descripcion'])
-                        $('#direccion').text(direccionVenta['direccion'])
+                        $('#etelefono').text(direccionVenta['e_telefono'])
+                        $('#eprovincia').text(direccionVenta['e_provincia'])
+                        $('#eciudad').text(direccionVenta['e_ciudad'])
+                        $('#direccion').text(direccionVenta['e_direccion'])
+                        $('#eidentificacion').text(direccionVenta['e_cedula'])
+
                         $('#referencia').text(direccionVenta['referencia'])
+
                         $('#imagen_path').val(venta['recibo']);
                         if (venta['recibo'] != null) {
                             $('#imagen_defecto').attr('src',venta['recibo']);
                         }
-                        $('#vendedor').text(venta['vendedor']['name'])
+                        $('#vendedor').text(venta['seller']['name'])
                         let fecha = venta['created_at'];
                         fecha = fecha.split('T');
                         $('#fecha').text(fecha[0]);
-                        data = data['pedidos'];
+                        data = data['cambio_detalle'];
                         $('#tabla_factura tbody').html('');
                         let subtotal = 0
                         let total_factura = 0
                         let cantidad_total = 0
                         let envio = venta['envio'];
                         let ganancia = 0
-                        $.each(data, function (i, v) {
-                            let image = '/img/imagen-no-disponible.jpg';
-                            if(v['imagen_producto'] != null && v['imagen_producto'] != ''){
-                                image = '/storage/images/productos/' + v['imagen_producto'];
-                            }
-                            let total = v['precio'] ;
-                            let direccion = v['direccion_envio'] != '' ? JSON.parse(v['direccion_envio']) : '';
-                            total = total.toFixed(2);
-                            if(direccion != '' && direccion != null){
-                                $('#tabla_factura tbody').first().append('<tr>' +
-                                    //'<td><img src="' + image + '" width="50px"></td>' +
-                                    '<td>' + v['sku'] + '</td>' +
-                                    '<td>' + v['nombre_producto'] + '</td>' +
-                                    '<td>' + v['color_producto'] + '</td>' +
-                                    '<td>' + v['talla_producto'] + '</td>' +
-                                    '<td>' + v['precio_catalogo'] + '</td>' +
-                                    '<td>'+ v['descuento'] +'</td>' +
-                                    '<td>' + v['cantidad'] + '</td>' +
-                                    '<td>$' + total + '</td>' +
-                                    //'<td>Nombre:'+ direccion.nombre+' <br>Tel:'+ direccion.telefono+
-                                    //'<br> Dir:'+ direccion.direccion +'<br> Ref:'+ direccion.referencia +
-                                    '</tr>').append(`
-                                    <tr>
-                                        <td colspan="1"></td>
-                                        <td colspan="7">
-                                            <table class="table table-borderless table-sm">
-                                                <tr>
-                                                    <td style="width: 10%;">Identificación: </td>
-                                                    <td>${direccion.identificacion}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Nombre: </td>
-                                                    <td>${direccion.nombre}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Teléfono: </td>
-                                                    <td>${direccion.telefono}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td> Dirección: </td>
-                                                    <td>${direccion.direccion}</td>
-                                               </tr>
-                                                <tr>
-                                                    <td> Referencia: </td>
-                                                    <td>${direccion.referencia}</td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>`)
-                            }else{
-                                $('#tabla_factura tbody').first().append('<tr>' +
-                                    //'<td><img src="' + image + '" width="50px"></td>' +
-                                        '<td>' + v['sku'] + '</td>' +
-                                        '<td>' + v['nombre_producto'] + '</td>' +
-                                        '<td>' + v['color_producto'] + '</td>' +
-                                        '<td>' + v['talla_producto'] + '</td>' +
-                                        '<td>' + v['precio_catalogo'] + '</td>' +
-                                        '<td>'+ v['descuento'] +'</td>' +
-                                        '<td>' + v['cantidad'] + '</td>' +
-                                        '<td>$' + total + '</td>' +
-                                    '</tr>')
-                            }
-                            subtotal = parseFloat(subtotal) + parseFloat(v['precio_catalogo']);
-                            total_factura = parseFloat(total) + parseFloat(total_factura);
-                            cantidad_total = parseInt(v['cantidad']) + parseInt(cantidad_total);
+                        $.each(data, function (i, product) {
+                            $('#tabla_factura tbody').append('<tr>' +
+                                '<td>' + product['product']['sku'] + '</td>' +
+                                '<td>' + product['product']['descripcion'] + '</td>' +
+                                '<td>' + product['product']['color'] + '</td>' +
+                                '<td>' + product['product']['talla'] + '</td>' +
+                                '<td>' + product['precio_catalogo'] + '</td>' +
+                                '<td>' + (product['descuento'] * 100 ) + '%</td>' +
+                                '<td>' + product['cantidad'] + '</td>' +
+                                '<td>' + product['precio'] + '</td>' +
+                                '<td></td>')
+
+                            subtotal = parseFloat(subtotal) + parseFloat(product['precio_catalogo']);
+                            total_factura += parseFloat(product['total'] );
+                            cantidad_total = parseInt(product['cantidad'] ) + parseInt(cantidad_total);
                         })
                         total_factura = total_factura.toFixed(2)
 
                         $('#subtotal').text(subtotal.toFixed(2));
                         $('#cant_total').text(cantidad_total);
-                        $('#total_fac').text(total_factura);
-                        $('#envio').text(envio);
-                        totpag = parseFloat(total_factura) + parseFloat(envio);
-                        $('#tot_pagar').text(totpag.toFixed(2));
-                        $('#ganancia').text(venta['total_p_empresaria']);
-
-
+                        $('#total_fac').text(parseFloat(venta['total']).toFixed(2)) ;
+                        $('#envio').text(parseFloat(envio).toFixed(2) );
+                        $('#total').text(parseFloat(venta['total']).toFixed(2)) ;
+                        $('#total_pagar').text(parseFloat(venta['total_pagar']).toFixed(2));
                     }
                 })
             })
 
-            $('#editar_venta').click(function() {
+            $('#editar_cambio').click(function() {
                 dato = {
                     estado_editar: $('#estado_venta').val(),
-                    id_venta: $('#venta').text(),
+                    id: $('#venta').text(),
                 }
                 $.post({
-                    url: '/ventas/editar-venta',
+                    url: '/cambio/editar-cambio',
                     data: dato,
                     beforeSend: function() {
                         $('#carga').css('visibility', 'visible');

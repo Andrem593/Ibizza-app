@@ -57,6 +57,7 @@
                             <th>Asesor</th>
                             <th>Fecha Emisión</th>
                             <th>Fecha Vencimiento</th>
+                            <th>Estado</th>
                             <td></td>
                         </tr>
                     </thead>
@@ -72,6 +73,7 @@
                                     <td>{{ $item->user->name }}</td>
                                     <td>{{ $item->created_at->format('Y-m-d') }}</td>
                                     <td>{{ $item->fecha_vencimiento}}</td>
+                                    <td>{{ $item->estado_descripcion}}</td>
                                     <td>
                                         <button wire:click="verDetalle('{{ $item->id }}')"
                                             class="btn btn-ibizza btn-sm"> <i class=" fas fa-eye"></i> </button>
@@ -178,8 +180,11 @@
                     </div>
                 </div>
                 <div class="row mt-4 p-4">
-                    <button class="btn btn-primary" wire:click='recuperarCambioPedido({{ $reserveChangesDetails }})'>RECUPERAR
-                        PEDIDO</button>
+                    @if ($reserveChangesDetails->count() > 0 && $reserveChangesDetails[0]['reserveChangesOrder']['estado'] == 1)
+                    <button class="btn btn-primary" wire:click='recuperarCambioPedido({{ $reserveChangesDetails }})'>RECUPERAR CAMBIO</button>
+
+                    @endif
+
                 </div>
             @endempty
         </div>

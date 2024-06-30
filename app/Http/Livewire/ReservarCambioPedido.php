@@ -21,7 +21,6 @@ class ReservarCambioPedido extends Component
     public $id_pedido = 1 ;
 
 
-
     public function render()
     {
         $reserveChangeOrder = ReservarCambiosPedido::with('businesswoman', 'user', 'reservedChangeDetail');
@@ -30,7 +29,7 @@ class ReservarCambioPedido extends Component
             $reserveChangeOrder->where('id_usuario', Auth::user()->id);
         }
 
-        $this->reserveChangesOrders = $reserveChangeOrder->get() ;
+        $this->reserveChangesOrders = $reserveChangeOrder->get();
 
         return view('livewire.reservar-cambio-pedido');
     }
@@ -42,7 +41,7 @@ class ReservarCambioPedido extends Component
         $this->detalle = true ;
         $this->id_pedido = $id;
 
-        $this->reserveChangesDetails = ReservarCambiosDetalle::with('product')
+        $this->reserveChangesDetails = ReservarCambiosDetalle::with('product', 'reserveChangesOrder')
                     ->where('id_reservar_cambio_pedido', $id)->get();
     }
 
@@ -50,10 +49,11 @@ class ReservarCambioPedido extends Component
     public function eliminarReserva($id)
     {
         try {
+
             DB::beginTransaction();
             $reserveChangesOrder = ReservarCambiosPedido::findOrFail($id);
 
-            if($reserveChangesOrder){
+            if($reserveChangesOrder && $reserveChangesOrder->estado == 1){
                 $reserveChangesOrder->estado = 0 ;
                 $reserveChangesOrder->save();
 

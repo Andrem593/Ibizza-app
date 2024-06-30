@@ -37,6 +37,11 @@ class ReservarCambiosDetalle extends Model
         return $this->belongsTo(Producto::class, 'id_producto', 'id');
     }
 
+    public function reserveChangesOrder()
+    {
+        return $this->belongsTo(ReservarCambiosPedido::class, 'id_reservar_cambio_pedido', 'id');
+    }
+
     public function order()
     {
         return $this->belongsTo(Pedido::class, 'id_pedido', 'id');
