@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Empresaria;
 use App\Models\CambioPedido;
+use App\Models\PagosCambio;
 use App\Models\ProductoCambio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
+use PDF ;
 
 class CambiosPedidosController extends Controller
 {
@@ -81,6 +83,20 @@ class CambiosPedidosController extends Controller
         $json['businesswoman'] = $businesswoman;
         $json['role'] = Auth::user()->role;
         return json_encode($json);
+
+    }
+
+    public function generarComprobante($id)
+    {
+
+        $changeOrder = CambioPedido::with('seller', 'user', 'requestedChanges.product', 'province', 'city', 'businesswomen')
+            ->findOrfail($id);
+
+        $paymentsChange = PagosCambio::with('user')->where('id_cambio', $id)->latest()->get();
+
+        $pdf = PDF::loadView('cambio.comprobante', compact('changeOrder','paymentsChange'));
+        $pdf->getDomPDF();
+        return $pdf->stream('comprobante.pdf');
 
     }
 }

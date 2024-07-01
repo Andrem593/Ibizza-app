@@ -52,6 +52,11 @@ class CambioPedido extends Model
     ];
 
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_usuario');
+    }
+
     public function businesswomen()
     {
         return $this->belongsTo(Empresaria::class, 'id_empresaria');

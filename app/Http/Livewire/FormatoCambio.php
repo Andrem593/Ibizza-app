@@ -654,7 +654,8 @@ class FormatoCambio extends Component
                 'id_venta' => $this->idventa == 0 ? null : $this->idventa,
 
                 //El id Pedido es si tiene un pedido pendiente
-                'id_pedido' => $this->id_pedido == 0 ? null : $this->id_pedido
+                'id_pedido' => $this->id_pedido == 0 ? null : $this->id_pedido,
+                'estado' =>'PENDIENTE DE PAGO'
             ];
 
             $changeOrder = CambioPedido::create($data);

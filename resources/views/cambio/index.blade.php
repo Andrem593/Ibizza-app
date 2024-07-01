@@ -466,7 +466,7 @@
                         $('#nfactura').text(venta['n_factura'])
                         $('#descripcion').text(venta['descripcion'])
                         $('#nguia').text(venta['id_pedido'])
-                        $('#btn-descarga').attr( 'href','/venta/comprobante/' + venta['id']);
+                        $('#btn-descarga').attr( 'href','/cambio/comprobante/' + venta['id']);
 
                         $('#fcedula').text(venta['f_cedula'])
                         $('#fnombre').text(venta['f_nombre'])
