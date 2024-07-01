@@ -202,7 +202,7 @@
     <div class="row mb-2">
         <div class="col">
             <label class="form-label">Referencia:</label>
-            <textarea class="form-control p-1" wire:model="observaciones" type="te xt">
+            <textarea class="form-control p-1" wire:model="e_referencia" type="te xt">
             </textarea>
         </div>
         <div class="col">
@@ -552,15 +552,8 @@
         @endif
 
         <div class="my-3">
-            @if ($idVerificate)
-            <a href="{{ route('cambio.cambios-reservados') }}"
-                class="btn btn-primary w-25 m-3">
-                REGRESAR
-            </a>
-            @else
-                <button class="btn bg-ibizza w-25 m-3" onclick="showSweetAlert()">RESERVAR CAMBIO</button>
-            @endif
-            <button onclick="showSweetAlertSave()" class="btn btn-success w-25 m-3">GUARDAR CAMBIO</button>
+            <button class="btn bg-ibizza w-25 m-3" onclick="showSweetAlert()">RESERVAR CAMBIO</button>
+            <button onclick="showSweetAlertSave()" class="btn btn-success w-25 m-3">CERRAR CAMBIO</button>
         </div>
     </div>
 

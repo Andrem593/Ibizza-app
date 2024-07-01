@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Session;
 
 class FormatoCambio extends Component
 {
-    public $estilo, $colores, $tallas, $message, $color, $talla, $cantidad, $alert, $stock, $cliente, $similitudes, $click = false, $motivoCambio, $descripcionCambio, $observaciones;
+    public $estilo, $colores, $tallas, $message, $color, $talla, $cantidad, $alert, $stock, $cliente, $similitudes, $click = false, $motivoCambio, $descripcionCambio, $e_referencia;
     public $venta, $user, $empresarias, $tipoEmpresaria, $click2 = false, $marca, $id_empresaria, $emp;
     public $idventa, $pedidos, $productosACambiar, $nuevoProducto = [];
     public $f_nombre, $f_cedula, $f_telefono, $f_correo, $f_tipo_id;
@@ -124,7 +124,7 @@ class FormatoCambio extends Component
                 $this->e_provincia = $reserveChangesOrder->e_provincia ;
                 $this->e_ciudad = $reserveChangesOrder->e_ciudad ;
                 $this->e_direccion = $reserveChangesOrder->e_direccion ;
-                $this->observaciones = $reserveChangesOrder->observaciones ;
+                $this->e_referencia = $reserveChangesOrder->e_referencia ;
                 $this->e_pedido = $reserveChangesOrder->e_pedido ;
                 $this->e_tipo_id = $reserveChangesOrder->e_tipo_id ;
 
@@ -282,6 +282,7 @@ class FormatoCambio extends Component
                 $this->e_ciudad = $this->emp->ciudad->descripcion;
             }
             $this->e_direccion = $this->emp->direccion;
+            $this->e_referencia = $this->emp->referencia;
         }
 
     }
@@ -312,6 +313,7 @@ class FormatoCambio extends Component
             $this->e_ciudad = $this->emp->ciudad->descripcion;
         }
         $this->e_direccion = $this->emp->direccion;
+        $this->e_referencia = $this->emp->referencia;
         $this->empresarias = [];
         $this->click2 = true;
         $this->tipoEmpresaria = $tipo;
@@ -333,6 +335,7 @@ class FormatoCambio extends Component
         $this->e_provincia = '';
         $this->e_ciudad = '';
         $this->e_direccion = '';
+        $this->e_referencia = '';
         $this->e_pedido = '';
         $this->e_c_envio = '';
 
@@ -345,7 +348,7 @@ class FormatoCambio extends Component
         $this->e_provincia = 'Guayas';
         $this->e_ciudad = 'Guayaquil';
         $this->e_direccion = 'Calle chile y Luque';
-        $this->observaciones = 'Frente a De Prati';
+        $this->e_referencia = 'Frente a De Prati';
 
         // $this->envio = 0 ;
     }
@@ -646,7 +649,7 @@ class FormatoCambio extends Component
                 'ciudad_id' => $this->ciudad_id ,
 
 
-                'referencia' => $this->observaciones,
+                'referencia' => $this->e_referencia,
                 //ver el envio
                 'envio' => $this->envio,
                 'total' =>number_format(collect($this->nuevoProducto)->sum('diferencia'),2),
@@ -742,7 +745,7 @@ class FormatoCambio extends Component
                 'ciudad_id' => $this->ciudad_id ,
 
 
-                'observaciones' => $this->observaciones,
+                'e_referencia' => $this->e_referencia,
                 //ver el envio
                 'envio' => $this->envio,
                 'total' =>number_format(collect($this->nuevoProducto)->sum('diferencia'),2),
@@ -781,6 +784,12 @@ class FormatoCambio extends Component
                 ];
 
                 ReservarCambiosDetalle::create($productosCambios);
+            }
+
+            if($this->idVerificate){
+                ReservarCambiosPedido::findOrFail($this->idVerificate)->update([
+                    'estado' => 3
+                ]);
             }
             DB::commit();
             return redirect()->route('cambio.cambios-reservados');

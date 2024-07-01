@@ -41,7 +41,7 @@ class ReservarCambiosPedido extends Model
         'provincia_id',
         'ciudad_id',
 
-        'observaciones',
+        'e_referencia',
         'envio',
         'id_venta',
         'id_pedido',
@@ -74,7 +74,11 @@ class ReservarCambiosPedido extends Model
             [
                 'tipo' => 2,
                 'descripcion' => 'PROCESADO',
-            ]
+            ],
+            [
+                'tipo' => 3,
+                'descripcion' => 'REGENERADO',
+            ],
         ];
         $status = collect($status) ;
 
