@@ -235,7 +235,7 @@
                     <tr>
                         <td style="padding: 8px;border: 1px solid black;" colspan="1">OBSERV.</td>
                         <td style="padding: 1px;border: 1px solid black;" colspan="7">
-                            <textarea style="border:none ;height: auto; font-size: 11pt" readonly id="observacion_venta" rows="8">{{ $changeOrder->motivoCambio }}</textarea>
+                            <textarea style="border:none ;height: auto; font-size: 11pt" readonly id="observacion_venta" rows="8">{{ $changeOrder->descripcion }}</textarea>
                         </td>
                     </tr>
                 </tfoot>

@@ -1357,7 +1357,8 @@ function crearTablaCambios(data, ruta) {
             "data": 'id',
             "render": function (data, type, row) {
 
-                return '<a class ="btn btn-ibizza btn-sm editar" data-bs-toggle="modal" data-bs-target="#editar" style="width:30px"><i class="fas fa-eye"></i></a>&nbsp;<a class ="btn btn-warning btn-sm pedido" data-bs-toggle="modal" data-bs-target="#pedido" style="width:30px"><i class="fas fa-file-invoice-dollar"></i></a>'
+                return '<a class ="btn btn-ibizza btn-sm editar" data-bs-toggle="modal" data-bs-target="#editar" style="width:30px"><i class="fas fa-eye"></i></a>&nbsp;<a class ="btn btn-warning btn-sm pedido" data-bs-toggle="modal" data-bs-target="#pedido" style="width:30px"><i class="fas fa-file-invoice-dollar"></i></a>'+
+                '<a class="btn btn-danger btn-sm eliminar-cambio" id="eliminar-cambio"  style="width:30px"><i class="fas fa-trash"></i></a>'
             }
         }
 
@@ -1505,6 +1506,52 @@ function crearTablaCambios(data, ruta) {
             }
         })
     })
+
+    $('#datatable tbody').on('click', '#eliminar-cambio', function () {
+        console.log('Eliminado');
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#id_venta_t').text(data.id);
+        let dato = {
+            id: data.id,
+        }
+        $.post({
+            url: '/cambio/eliminar-cambio',
+            data: dato,
+            beforeSend: function () {
+                $('#cargat').css('visibility', 'visible');
+            },
+            success: function (response) {
+                $('#cargat').css('visibility', 'hidden');
+
+                // Recarga la tabla
+                dataTable.ajax.reload(null, false);  // Mantiene la página actual
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: response.message,
+                });
+
+            },
+            error: function (xhr, status, error) {
+                // Oculta el indicador de carga
+                $('#cargat').css('visibility', 'hidden');
+
+                // Maneja el error
+                console.error('Error en la operación:', error);
+
+                // Obtiene el mensaje de error desde la respuesta JSON de Laravel
+                let errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Error desconocido';
+
+                // Muestra el mensaje de error en SweetAlert
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: errorMessage,
+                });
+            }
+        });
+    });
 
     $('#datatable tbody').on('click', '.pedido', function () {
         let data = $('#datatable').DataTable().row($(this).parents()).data();

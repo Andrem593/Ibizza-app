@@ -31,6 +31,8 @@ class FormatoCambio extends Component
     public $id_pedido = "" ;
     public $selectedItems = [];
 
+    public $descripcion_producto = "";
+
     public $provincias = [];
 
     public $provincia ;
@@ -392,6 +394,7 @@ class FormatoCambio extends Component
                 ->get();
             $this->colores = $colores;
             $this->tallas = $tallas;
+            $this->descripcion_producto = $tallas[0]->descripcion;
             $this->color = $colores[0]->color;
             $this->marca = $tallas[0]->nombre_marca;
             $this->talla = $tallas[0]->talla;
@@ -414,6 +417,7 @@ class FormatoCambio extends Component
                 ->where('productos.estado', 'A')->get();
             $this->tallas = $tallas;
             $this->talla = $tallas[0]->talla;
+            $this->descripcion_producto = $tallas[0]->descripcion; //Se agrega propiedad para capturar la descripción del producto
             $this->marca = $tallas[0]->nombre_marca;
             $this->stock = $tallas[0]->stock;
             $this->message = '';
@@ -423,12 +427,21 @@ class FormatoCambio extends Component
             $this->reset(['colores', 'tallas']);
         }
     }
+
+
     public function stockProduct($talla)
     {
         $estilo = $this->estilo;
-        $producto = Producto::where('estilo', $estilo)->where('color', $this->color)->where('talla', $this->talla)->first();
+        $producto = Producto::where('estilo', $estilo)->where('color', $this->color)->where('talla', $this->talla)
+            ->where('estado', 'A')
+            ->where('stock', '>', 0)
+            ->first();
         $this->stock = $producto->stock;
+        $this->descripcion_producto = $producto->descripcion; //Se agrega propiedad para capturar la descripción del producto
+
     }
+
+
     public function clickSimilitud($similitud)
     {
         $this->estilo = $similitud;

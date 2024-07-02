@@ -446,7 +446,8 @@
                             @empty(!$tallas)
                                 <div class="row">
                                     <div class="col-6">
-                                        <span>{{ $tallas[0]->nombre_mostrar }}</span>
+                                        {{-- <span>{{ $tallas[0]->nombre_mostrar }}</span> --}}
+                                        <span>{{ $descripcion_producto }}</span>
                                         <br>
                                         <span class="{{ $stock == 0 ? 'badge badge-pill bg-danger' : '' }}">Marca:
                                             {{ $marca }} | STOCK:

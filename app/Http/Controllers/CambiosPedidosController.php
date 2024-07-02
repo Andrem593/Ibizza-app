@@ -6,8 +6,10 @@ use App\Empresaria;
 use App\Models\CambioPedido;
 use App\Models\PagosCambio;
 use App\Models\ProductoCambio;
+use App\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use PDF ;
 
@@ -39,7 +41,6 @@ class CambiosPedidosController extends Controller
 
                     //esto ver si se agregan los campos
                     $change->cantidad_total = $change->requestedChanges->sum('cantidad') ;
-                    $change->estado = 0 ;
 
                     return $change ;
 
@@ -97,6 +98,37 @@ class CambiosPedidosController extends Controller
         $pdf = PDF::loadView('cambio.comprobante', compact('changeOrder','paymentsChange'));
         $pdf->getDomPDF();
         return $pdf->stream('comprobante.pdf');
+    }
 
+
+    public function deleteChangeOrder(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+                $changeOrder = CambioPedido::findOrFail($request->id);
+
+                if($changeOrder->estado == 'ANULADO'){
+                    return response()->json(['message' => 'No puede volver anular un cambio'], 500);
+                }
+
+                $productChange = ProductoCambio::where('id_cambio', $changeOrder->id )->get();
+
+                foreach ($productChange as $key => $detail) {
+                    $product = Producto::findOrFail($detail->id_producto);
+                    $product->stock += $detail->cantidad ;
+                    $product->save();
+                }
+
+                $changeOrder->estado = 'ANULADO';
+                $changeOrder->save();
+
+            DB::commit();
+
+            return response()->json(['message' => 'Eliminado con éxito'], 200);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(['message' => 'Ha ocurrido un error'], 500);
+        }
     }
 }

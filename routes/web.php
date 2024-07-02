@@ -323,7 +323,11 @@ Route::middleware(['auth:sanctum', 'verified'])
 
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/cambio/editar-cambio', [CambiosPedidosController::class,'editarCambio'])
-->name('cambio.datos-cambio');
+->name('cambio.datos-cambio-editar');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/cambio/eliminar-cambio', [CambiosPedidosController::class,'deleteChangeOrder'])
+->name('cambio.datos-cambio-eliminar');
 
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/cambio/comprobante/{id}', [CambiosPedidosController::class,'generarComprobante'])
