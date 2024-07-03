@@ -152,7 +152,7 @@ class GuardarPagoCambio extends Component
         ]);
         endif;
 
-        if ($this->valor_recaudado_total <> $this->valor_pagar):
+        if ($this->valor_recaudado_total <> $this->valor_pagar || $this->tipo_pago == 'RI'):
                 $insert = PagosCambio::create([
                     'id_cambio' => $this->venta_id,
                     'id_usuario' => Auth::user()->id,
@@ -161,7 +161,6 @@ class GuardarPagoCambio extends Component
                     'valor_pendiente' => number_format((float)($this->valor_pendiente - $this->valor_recaudado), 2, ".", ""),
                     'tipo_pago' => $this->tipo_pago
                 ]);
-
                 $valor = PagosCambio::find($insert->id);
                 //Solo permitir subir comprobante si es el arreglo de archivos no esta vacio y el pago es difrente de local ibizza
                 if ($this->tipo_pago <> 'LI' && $this->tipo_pago <> 'CP' && $this->tipo_pago <> 'CL' && $this->tipo_pago <> 'RI')  :

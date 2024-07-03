@@ -45,6 +45,9 @@ class PagosCambio extends Model
             case "LI":
                 return "PAGO LOCAL IBIZZA";
                 break;
+            case "RI":
+                return "RETIRAR LOCAL IBIZZA";
+                break;
             case "CL":
                 return "CAMBIO LOCAL IBIZZA";
                 break;
