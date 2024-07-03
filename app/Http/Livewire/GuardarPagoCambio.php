@@ -126,15 +126,16 @@ class GuardarPagoCambio extends Component
 
     public function validarTipoPago(){
 
-        $this->esPagoLocalIbizza = $this->tipo_pago == 'LI' || $this->tipo_pago == 'CP' ? true : false;
+        $this->esPagoLocalIbizza = $this->tipo_pago == 'LI' || $this->tipo_pago == 'CP' || $this->tipo_pago == 'RI' ? true : false;
     }
 
 
     public function guardar()
     {
         $validatedData = $this->validate([
-            'valor_recaudado' => 'required|numeric|gt:0',
-            'tipo_pago' => Rule::in(['TR','TC','SF','LI','CP','CL']),
+            
+            'valor_recaudado' => $this->tipo_pago == 'LI' || $this->tipo_pago == 'RI' ? 'required|numeric' : 'required|numeric|gt:0',
+            'tipo_pago' => Rule::in(['TR','TC','SF','LI','RI','CP','CL']),
         ], [
             'valor_recaudado.required' => 'Ingrese un valor numérico',
             'valor_recaudado.gt' => 'Debe ser mayor a 0',
@@ -142,7 +143,7 @@ class GuardarPagoCambio extends Component
         ]);
 
         //Si el pago es diferente de local Ibizza, validar comprobante
-        if ($this->tipo_pago <> 'LI' && $this->tipo_pago <> 'CP' && $this->tipo_pago <> 'CL'):
+        if ($this->tipo_pago <> 'LI' && $this->tipo_pago <> 'CP' && $this->tipo_pago <> 'CL' && $this->tipo_pago <> 'RI'):
             $this->validate([
             'comprobante' => 'required|image',
         ],
@@ -163,7 +164,7 @@ class GuardarPagoCambio extends Component
 
                 $valor = PagosCambio::find($insert->id);
                 //Solo permitir subir comprobante si es el arreglo de archivos no esta vacio y el pago es difrente de local ibizza
-                if ($this->tipo_pago <> 'LI' && $this->tipo_pago <> 'CP' && $this->tipo_pago <> 'CL') :
+                if ($this->tipo_pago <> 'LI' && $this->tipo_pago <> 'CP' && $this->tipo_pago <> 'CL' && $this->tipo_pago <> 'RI')  :
 
                     $image = $valor->id . "." . date('d.m.Y.h.i.s') . "." . $this->comprobante->getClientOriginalName();
                     $ruta = public_path('storage/images/recibos/') . $image;

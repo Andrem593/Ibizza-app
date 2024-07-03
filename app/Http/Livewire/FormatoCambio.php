@@ -86,6 +86,13 @@ class FormatoCambio extends Component
 
     }
 
+    public function updatedENombre($value)
+    {
+
+        $this->checkShippingCostChange();
+
+    }
+
     public function mount()
     {
         $changeOrder = CambioPedido::orderBy('id', 'desc')->first();
@@ -353,7 +360,7 @@ class FormatoCambio extends Component
         $this->e_direccion = 'Calle chile y Luque';
         $this->e_referencia = 'Frente a De Prati';
 
-        // $this->envio = 0 ;
+        $this->envio = 0 ;
     }
 
     public function clearEmpresaria()
@@ -834,7 +841,7 @@ class FormatoCambio extends Component
 
     public function checkShippingCostChange()
     {
-        if(trim($this->e_pedido) != '' || trim($this->id_pedido) != ''){
+        if(trim($this->e_pedido) != '' || trim($this->id_pedido) != '' || trim($this->e_nombre) == 'Local Ibizza'){
             $this->envio = 0 ;
         }else{
             $this->envio = 3 ;

@@ -14,6 +14,7 @@ class CambioPedido extends Model
 
     protected $fillable = [
         'n_factura',
+        'n_factura_carga',
         'id_vendedor',
         'id_usuario',
         'fecha',

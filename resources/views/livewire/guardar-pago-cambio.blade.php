@@ -9,7 +9,7 @@
                 </div>
                 <div class="col">
                     <label class="form-label">Valor Recaudado:</label>
-                    <input type="number" min="0.01" step="0.01" class="form-control p-1 currency"  wire:model.lazy='valor_recaudado' wire:change='calcular()'
+                    <input type="number" class="form-control p-1 currency"  wire:model.lazy='valor_recaudado' wire:change='calcular()'
                         placeholder="Valor Recaudado">
                     @error('valor_recaudado')
                         <span class="text-danger">{{ $message }}</span>
@@ -28,6 +28,7 @@
                         <option value="TC">TARJETA DE CRÉDITO</option>
                         <option value="SF">SALDO A FAVOR</option>
                         <option value="LI">PAGO LOCAL IBIZZA</option>
+                        <option value="RI">RETIRAR LOCAL IBIZZA</option>
                         <option value="CP">CAMBIO SE VA CON PEDIDO</option>
                         <option value="CL">CAMBIO LOCAL IBIZZA</option>
 

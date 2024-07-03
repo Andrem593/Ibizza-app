@@ -372,8 +372,16 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->name('venta.upload');
 
 Route::middleware(['auth:sanctum', 'verified'])
+->get('/cambio/upload', [VentaController::class,'cambioUpload'])
+->name('cambio.upload');
+
+Route::middleware(['auth:sanctum', 'verified'])
 ->post('/venta/saveExcel', [VentaController::class,'saveExcel'])
 ->name('venta.saveExcel');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/venta/saveExcelCambio', [VentaController::class,'saveExcelCambio'])
+->name('venta.saveExcelCambio');
 
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/venta/pedido/{empresaria?}/{envio?}', [VentaController::class,'tomar_pedido'])

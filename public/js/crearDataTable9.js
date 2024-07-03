@@ -1473,6 +1473,7 @@ function crearTablaCambios(data, ruta) {
                 $('#fecha').text(fecha[0]);
                 data = data['cambio_detalle'];
                 $('#tabla_factura tbody').html('');
+                $('#tabla_pedido tbody').html('');
                 let subtotal = 0
                 let total_factura = 0
                 let cantidad_total = 0

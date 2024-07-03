@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pedido;
-use Illuminate\Http\Request;
-use App\Models\Venta;
-use App\Empresaria;
-use App\Models\DireccionVenta;
-use App\Models\Pago;
-use App\Models\Separado;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Auth;
 use PDF;
+use App\Empresaria;
+use App\Models\Pago;
+use App\Models\Venta;
+use App\Models\Pedido;
+use App\Models\Separado;
+use App\Models\CambioPedido;
+use Illuminate\Http\Request;
+use App\Models\DireccionVenta;
 use App\Models\Pedidos_pendiente;
+use Illuminate\Support\Facades\Auth;
 use App\Models\ReservarCambiosPedido;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Session;
 
 class VentaController extends Controller
@@ -92,6 +93,10 @@ class VentaController extends Controller
         return view('venta.upload');
     }
 
+    public function cambioUpload(){
+        return view('venta.uploadCambios');
+    }
+
     public function saveExcel(Request $request)
     {
         try {
@@ -142,6 +147,59 @@ class VentaController extends Controller
         }
 
     }
+
+    public function saveExcelCambio(Request $request)
+    {
+        try {
+            $request->validate([
+                'excel' => 'required|max:10000|mimes:xlsx,xls'
+            ]);
+
+            $file_array = explode(".", $_FILES["excel"]["name"]);
+            $file_extension = end($file_array);
+
+            $file_name = time() . '.' . $file_extension;
+            move_uploaded_file($_FILES["excel"]["tmp_name"], $file_name);
+            $file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($file_name);
+            $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($file_type);
+
+            $spreadsheet = $reader->load($file_name);
+
+            unlink($file_name);
+
+            $data = $spreadsheet->getActiveSheet()->toArray();
+
+            $cont = 0;
+
+            foreach ($data as $key => $row) {
+                if ($key >= 1) {
+
+                    $update_data = [
+                        'n_factura_carga'  => $row[1],
+                        'id_pedido'  => $row[2],
+                        // 'id_vendedor'  => $row[3],
+                        'estado'  => $row[4]
+                    ];
+
+                    $update = CambioPedido::where('id', $row[0])->update($update_data);
+
+                    if($update > 0 ){
+                        $cont++;
+                    }
+
+                }
+            }
+
+            return redirect()->route('venta.upload')
+                ->with('success', 'Se actualizaron '.$cont.' registros');
+        } catch (\Throwable $th) {
+            return redirect()->route('venta.upload')
+                ->with('error', 'Existe un error en el archivo excel');
+        }
+
+    }
+
+
     public function tomar_pedido($empresaria = null, $envio = 0)
     {
         if ($empresaria != null) {
