@@ -24,6 +24,14 @@
         td{
             font-size: 12px;
         }
+
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Esto hace que el div ocupe toda la altura de la ventana */
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -96,6 +104,48 @@
                 </tr>
             </tr>
         </table>
+        <div class="center-content">
+            <h6># DE VENTA: {{$reserveChangeOrder->id_venta}}</h6>
+        </div>
+        <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="padding: 8px; background-color: #f2f2f2;">SKU</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">DESCRIPCIÓN</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">COLOR</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">TALLA</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">P.V.C</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">CANT.</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">DESC.</th>
+                    <th style="padding: 8px; background-color: #f2f2f2;">P.V.E</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($reserveChangeOrder->reservedChangeDetail as $reservedChangeDetail)
+                    <tr>
+                        {{-- <td style="padding: 8px; text-align: center;padding: 8px;border: 1px solid black;">
+                            <img
+                                width="60px"
+                                src="{{ $pedido->producto->imagen_path != '' ? 'https://catalogoibizza.com//storage/images/productos/' . $pedido->producto->imagen_path : 'https://catalogoibizza.com/img/imagen-no-disponible.jpg' }}">
+                        </td> --}}
+                        <td style="padding: 8px; text-align: center;padding: 8px;border: 1px solid black;">{{ $reservedChangeDetail->order->producto->sku }}</td>
+                        <td style="padding: 8px;border: 1px solid black;">{{ $reservedChangeDetail->order->producto->descripcion }}</td>
+                        <td style="padding: 8px;border: 1px solid black;">{{ $reservedChangeDetail->order->producto->color }}</td>
+                        <td style="padding: 8px;border: 1px solid black;">{{ $reservedChangeDetail->order->producto->talla }}</td>
+                        <td style="padding: 8px;border: 1px solid black;">{{ $reservedChangeDetail->precio_catalogo_producto_venta}}
+                        <td style="padding: 8px;border: 1px solid black;">{{ $reservedChangeDetail->cantidad_producto_venta }}</td>
+                        <td style="padding: 8px;border: 1px solid black;">{{ $reservedChangeDetail->descuento_venta * 100 }}%</td>
+                        <td style="padding: 8px;border: 1px solid black;">{{ $reservedChangeDetail->precio_producto_venta}}
+                        </td>
+                    </tr>
+                @endforeach
+
+            </tbody>
+        </table>
+
+        <div class="center-content">
+            <h6>REFERENCIAS DEL PRODUCTO QUE SE LE TIENE QUE ENVIAR A LA EMPRESARIA</h6>
+        </div>
 
         <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
             <thead>

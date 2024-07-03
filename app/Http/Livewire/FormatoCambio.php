@@ -187,6 +187,7 @@ class FormatoCambio extends Component
 
                 'id_producto_original' => $detail->order->producto->id,
                 'precio_producto_venta' => $detail->precio_producto_venta,
+                'precio_catalogo_producto_venta' => $detail->precio_catalogo_producto_venta,
                 'descuento_venta' => $detail->descuento_venta ,
                 'cantidad_producto_venta' => $detail->cantidad_producto_venta,
                 'diferencia' => $diff
@@ -491,6 +492,7 @@ class FormatoCambio extends Component
 
                         'id_producto_original' => $productSale['id_producto'],
                         'precio_producto_venta' =>$discountPriceSale,
+                        'precio_catalogo_producto_venta' => $productSalesInformation->precio_empresaria * $this->cantidad,
                         'descuento_venta' =>$productSale['descuento'],
                         'cantidad_producto_venta' => $this->cantidadVenta,
                         'diferencia' => $diff
@@ -691,6 +693,7 @@ class FormatoCambio extends Component
                     'descuento' => $value['descuento'],
                     'precio_producto_venta'=> $value['precio_producto_venta'],
                     'descuento_venta'=> $value['descuento_venta'],
+                    'precio_catalogo_producto_venta'=> $value['precio_catalogo_producto_venta'],
                     'cantidad_producto_venta'=> $value['cantidad_producto_venta'],
                     //Poner la otra Variable
                 ];
@@ -792,6 +795,7 @@ class FormatoCambio extends Component
                     'descuento' => $value['descuento'],
 
                     'precio_producto_venta'=> $value['precio_producto_venta'],
+                    'precio_catalogo_producto_venta'=> $value['precio_catalogo_producto_venta'],
                     'descuento_venta'=> $value['descuento_venta'],
                     'cantidad_producto_venta'=> $value['cantidad_producto_venta'],
                 ];

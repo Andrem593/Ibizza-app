@@ -29,7 +29,8 @@ class ProductoCambio extends Model
         'precio_producto_venta',
         'descuento_venta',
         'cantidad_producto_venta',
-        'precio_u_venta'
+        'precio_u_venta',
+        'precio_catalogo_producto_venta'
     ];
 
     protected $timestamp = false;
@@ -41,7 +42,12 @@ class ProductoCambio extends Model
 
     public function changeOrder()
     {
-        return $this->belongsTo(Producto::class, 'id_cambio', 'id');
+        return $this->belongsTo(ProductoCambio::class, 'id_cambio', 'id');
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Pedido::class, 'id_pedido', 'id');
     }
 
 }

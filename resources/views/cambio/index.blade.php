@@ -160,7 +160,34 @@
                                 <div>Referencia: <span id="referencia"></span></div>
                             </div>
                         </div>
+
                         <hr>
+                        <div class="text-center">
+                            <h6># DE VENTA: <span id="id_venta_pedido"></span></h6>
+                        </div>
+                            <table id="tabla_pedido" class="table table-bordered p-4">
+                                <thead>
+                                    <tr class="bg-ibizza">
+                                        <th scope="col">SKU</th>
+                                        <th scope="col">Descripción</th>
+                                        <th scope="col">Color</th>
+                                        <th scope="col">Talla</th>
+                                        <th scope="col">P.V.C</th>
+                                        <th scope="col">Desc.</th>
+                                        <th scope="col">Cant.</th>
+                                        <th scope="col" width="15px">P.V.E</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+
+                            </table>
+
+                        <hr>
+                        <div class="text-center">
+                            <h6>REFERENCIAS DEL PRODUCTO QUE SE LE TIENE QUE ENVIAR A LA EMPRESARIA</h6>
+                        </div>
 
                         <table id="tabla_factura" class="table table-bordered p-4">
                             <thead>
@@ -472,6 +499,7 @@
                         $('#fnombre').text(venta['f_nombre'])
                         $('#ftelefono').text(venta['f_telefono'])
                         $('#femail').text(venta['f_correo'])
+                        $('#id_venta_pedido').text(venta['id_venta'])
 
                         $('#empresaria').text(empresaria['nombres'] + ' ' + empresaria['apellidos'])
                         $('#cedula').text(empresaria['cedula'])
@@ -502,6 +530,19 @@
                         let cantidad_total = 0
                         let envio = venta['envio'];
                         let ganancia = 0
+                        $.each(data, function (i, product) {
+                        $('#tabla_pedido tbody').append('<tr>' +
+                                '<td>' + product['order']['producto']['sku'] + '</td>' +
+                                '<td>' + product['order']['producto']['descripcion'] + '</td>' +
+                                '<td>' + product['order']['producto']['color'] + '</td>' +
+                                '<td>' + product['order']['producto']['talla'] + '</td>' +
+                                '<td>' + product['precio_catalogo_producto_venta'] + '</td>' +
+                                '<td>' + (product['descuento_venta'] * 100 ) + '%</td>' +
+                                '<td>' + product['cantidad_producto_venta'] + '</td>' +
+                                '<td>' + product['precio_producto_venta'] + '</td>' +
+                                '<td></td>')
+                        });
+
                         $.each(data, function (i, product) {
                             $('#tabla_factura tbody').append('<tr>' +
                                 '<td>' + product['product']['sku'] + '</td>' +

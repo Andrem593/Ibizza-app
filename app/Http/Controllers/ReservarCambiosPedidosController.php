@@ -18,7 +18,7 @@ class ReservarCambiosPedidosController extends Controller
 
     public function generatePdfChangeReserved($id)
     {
-        $reserveChangeOrder = ReservarCambiosPedido::with('reservedChangeDetail.product',
+        $reserveChangeOrder = ReservarCambiosPedido::with('reservedChangeDetail.product', 'reservedChangeDetail.order.producto',
             'province', 'city',
             'businesswoman')
             ->findOrFail($id);

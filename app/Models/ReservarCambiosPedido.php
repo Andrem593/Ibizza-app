@@ -98,7 +98,6 @@ class ReservarCambiosPedido extends Model
 
     public function reservedChangeDetail()
     {
-
         return $this->hasMany(ReservarCambiosDetalle::class, 'id_reservar_cambio_pedido', 'id');
     }
 

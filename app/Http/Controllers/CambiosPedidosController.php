@@ -71,7 +71,7 @@ class CambiosPedidosController extends Controller
 
     public function datosCambios(Request $request)
     {
-        $productChange = ProductoCambio::with('product', 'changeOrder')->where('id_cambio', $request->id)->get();
+        $productChange = ProductoCambio::with('product', 'changeOrder', 'order.producto')->where('id_cambio', $request->id)->get();
         $changeOrder = CambioPedido::with('seller', 'requestedChanges')->findOrFail($request->id);
         $businesswoman = Empresaria::where('id', $changeOrder->id_empresaria)
             ->with('usuario')
@@ -90,7 +90,8 @@ class CambiosPedidosController extends Controller
     public function generarComprobante($id)
     {
 
-        $changeOrder = CambioPedido::with('seller', 'user', 'requestedChanges.product', 'province', 'city', 'businesswomen')
+        $changeOrder = CambioPedido::with('seller', 'user', 'requestedChanges.product','requestedChanges.order.producto',
+         'province', 'city', 'businesswomen')
             ->findOrfail($id);
 
         $paymentsChange = PagosCambio::with('user')->where('id_cambio', $id)->latest()->get();

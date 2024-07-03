@@ -1447,6 +1447,7 @@ function crearTablaCambios(data, ruta) {
                 $('#fnombre').text(venta['f_nombre'])
                 $('#ftelefono').text(venta['f_telefono'])
                 $('#femail').text(venta['f_correo'])
+                $('#id_venta_pedido').text(venta['id_venta'])
 
                 $('#empresaria').text(empresaria['nombres'] + ' ' + empresaria['apellidos'])
                 $('#cedula').text(empresaria['cedula'])
@@ -1477,6 +1478,21 @@ function crearTablaCambios(data, ruta) {
                 let cantidad_total = 0
                 let envio = venta['envio'];
                 let ganancia = 0
+
+                $.each(data, function (i, product) {
+                    $('#tabla_pedido tbody').append('<tr>' +
+                        '<td>' + product['order']['producto']['sku'] + '</td>' +
+                        '<td>' + product['order']['producto']['descripcion'] + '</td>' +
+                        '<td>' + product['order']['producto']['color'] + '</td>' +
+                        '<td>' + product['order']['producto']['talla'] + '</td>' +
+                        '<td>' + product['precio_catalogo_producto_venta'] + '</td>' +
+                        '<td>' + (product['descuento_venta'] * 100 ) + '%</td>' +
+                        '<td>' + product['cantidad_producto_venta'] + '</td>' +
+                        '<td>' + product['precio_producto_venta'] + '</td>' +
+                        '<td></td>')
+                })
+
+
                 $.each(data, function (i, product) {
                     $('#tabla_factura tbody').append('<tr>' +
                         '<td>' + product['product']['sku'] + '</td>' +

@@ -25,6 +25,14 @@
             font-size: 12px;
         }
 
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Esto hace que el div ocupe toda la altura de la ventana */
+            text-align: center;
+        }
+
     </style>
 </head>
 
@@ -162,9 +170,56 @@
                     <td> <div>Referencia: </div> </td>
                     <td> {{ $changeOrder->referencia }}</td>
                 </tr>
+                <tr>
+                    <td> <div>Se va con pedido: </div> </td>
+                    <td> {{ $changeOrder->e_pedido }}</td>
+                </tr>
+                <tr>
+                    <td> <div>N° Guía de Retorno: </div> </td>
+                    <td> {{ $changeOrder->id_pedido }}</td>
+                </tr>
             </table>
         </div>
 
+        <div class="center-content">
+            <h6># DE VENTA: {{$changeOrder->id_venta}}</h6>
+        </div>
+        <div style="display: block">
+            <table style="margin-top: 15px; border-collapse: collapse;" width="100%">
+                <thead>
+                    <tr>
+                        <th style="padding: 8px; background-color: #f2f2f2;">SKU</th>
+                        <th style="padding: 8px; background-color: #f2f2f2;">DESCRIPCION</th>
+                        <th style="padding: 8px; background-color: #f2f2f2;">COLOR</th>
+                        <th style="padding: 8px; background-color: #f2f2f2;">TALLA</th>
+                        <th style="padding: 8px; background-color: #f2f2f2;">P.V.C</th>
+                        <th style="padding: 8px; background-color: #f2f2f2;">DESC.</th>
+                        <th style="padding: 8px; background-color: #f2f2f2;">CANT.</th>
+                        <th style="padding: 8px; background-color: #f2f2f2;">P.V.E</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    @foreach ($changeOrder->requestedChanges as $change)
+                        <tr>
+                            <td style="padding: 8px; text-align: center;padding: 8px; border: 1px solid black;">{{ $change->order->producto->sku }}</td>
+                            <td style="padding: 8px;border: 1px solid black;">{{ $change->order->producto->descripcion }}</td>
+                            <td style="padding: 8px;border: 1px solid black;">{{ $change->order->producto->color }}</td>
+                            <td style="padding: 8px;border: 1px solid black;">{{ $change->order->producto->talla }}</td>
+                            <td style="padding: 8px;border: 1px solid black;">{{ $change->precio_catalogo_producto_venta }}</td>
+                            <td style="padding: 8px;border: 1px solid black;">{{ $change->descuento_venta * 100 }}%</td>
+                            <td style="padding: 8px;border: 1px solid black;">{{ $change->cantidad_producto_venta }}</td>
+                            <td style="padding: 8px;border: 1px solid black;">${{ $change->precio_producto_venta }}</td>
+                        </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="center-content">
+            <h6>REFERENCIAS DEL PRODUCTO QUE SE LE TIENE QUE ENVIAR A LA EMPRESARIA</h6>
+        </div>
 
         <div style="display: block">
             <table style="margin-top: 15px; border-collapse: collapse;" width="100%">
