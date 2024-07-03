@@ -1439,6 +1439,7 @@ function crearTablaCambios(data, ruta) {
                 $('#estado_venta').val(venta['estado']);
                 $('#venta').text(venta['id'])
                 $('#nfactura').text(venta['n_factura'])
+                $('#nfactura_carga').text(venta['n_factura_carga'])
                 $('#descripcion').text(venta['descripcion'])
                 $('#nguia').text(venta['id_pedido'])
                 $('#btn-descarga').attr( 'href','/cambio/comprobante/' + venta['id']);
