@@ -24,15 +24,16 @@ class GuardarPagoCambio extends Component
     public $valor_recaudado_total;
     public $resetearFileInput;
     public $esPagoLocalIbizza = false;
+    public $previewUrl ;
 
     public $pagos = [];
-    protected $listeners = ['setCambio'];
+    protected $listeners = ['setCambio', 'updatePreviewUrl'];
 
     //Cambiar el estado de la Bandera
     public $bandera = false;
 
     public function render()
-    {
+    {        
         if (!empty($this->venta_id)) {
             $this->pagos = PagosCambio::with('user')->where('id_cambio', $this->venta_id)->latest()->get();
             $this->calcularValorRecaudadoTodal();
@@ -45,6 +46,11 @@ class GuardarPagoCambio extends Component
     public function resetForm()
     {
         $this->resetearFileInput++;
+    }
+
+    public function updatePreviewUrl($url)
+    {
+        $this->previewUrl = $url;
     }
 
 
@@ -132,6 +138,7 @@ class GuardarPagoCambio extends Component
 
     public function guardar()
     {
+        $this->previewUrl = '';
         $validatedData = $this->validate([
             
             'valor_recaudado' => $this->tipo_pago == 'LI' || $this->tipo_pago == 'RI' ? 'required|numeric' : 'required|numeric|gt:0',

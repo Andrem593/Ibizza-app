@@ -92,9 +92,11 @@
                         <div class="row">
                             <div class="col">
                                 <div class="fw-bold">N° Pedido: <span id="venta"></span></div>
-                                <div class="fw-bold">N° Guia: <span id="nguia"></span></div>
+                                <div class="fw-bold">N° Guia de Retorno: <span id="nguia"></span></div>
                                 <div class="fw-bold">N° Factura Venta: <span id="nfactura"></span></div>
                                 <div class="fw-bold">N° Factura: <span id="nfactura_carga"></span></div>
+                                <div class="fw-bold">Se va con Pedido: <span id="e_pedido"></span></div>
+                                <div class="fw-bold">Motivo de Cambio: <span id="motivo_cambio"></span></div>
                                 <div>Fecha: <span id="fecha"></span></div>
                                 <div>Asesor: <span id="vendedor"></span></div>
                             </div>
@@ -493,6 +495,8 @@
                         $('#venta').text(venta['id'])
                         $('#nfactura').text(venta['n_factura'])
                         $('#nfactura_carga').text(venta['n_factura_carga'])
+                        $('#e_pedido').text(venta['e_pedido'])
+                        $('#motivo_cambio').text(venta['motivo'])
                         $('#descripcion').text(venta['descripcion'])
                         $('#nguia').text(venta['id_pedido'])
                         $('#btn-descarga').attr( 'href','/cambio/comprobante/' + venta['id']);

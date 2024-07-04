@@ -79,6 +79,10 @@ class ReservarCambiosPedido extends Model
                 'tipo' => 3,
                 'descripcion' => 'REGENERADO',
             ],
+            [
+                'tipo' => 4,
+                'descripcion' => 'DEVUELTO',
+            ],
         ];
         $status = collect($status) ;
 

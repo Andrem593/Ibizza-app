@@ -61,9 +61,11 @@
 
         <div style="width: 100%; text-align: left; margin-top: 20px">
             <div style="font-weight: bold" style="margin: 0;">N° Pedido: {{ str_pad($changeOrder->id, 6, '0', STR_PAD_LEFT) }}</div>
-            <div style="font-weight: bold" style="margin: 0;">N° Guia: {{ $changeOrder->id_pedido }}</div>
+            <div style="font-weight: bold" style="margin: 0;">N° Guia de Retorno: {{ $changeOrder->id_pedido }}</div>
             <div style="font-weight: bold" style="margin: 0;">N° Factura Venta: {{ $changeOrder->n_factura }}</div>
             <div style="font-weight: bold" style="margin: 0;">N° Factura: {{ $changeOrder->n_factura_carga }}</div>
+            <div style="font-weight: bold" style="margin: 0;">Se va con Pedido: {{ $changeOrder->e_pedido }}</div>
+            <div style="font-weight: bold" style="margin: 0;">Motivo Cambio: {{ $changeOrder->motivo }}</div>
             <div>Fecha: {{ $changeOrder->created_at->format('d-m-Y') }}</div>
             <div>Asesor: {{ $changeOrder->seller->name }}</div>
         </div>
