@@ -350,7 +350,7 @@ return [
                 [
                     'text' => 'Carga de Cambios',
                     'route'  => 'cambio.upload',
-                    'can'  => 'cambios.index',
+                    'can'  => 'cambio.upload',
                     'icon'    => 'ml-md-2 fas fa-cloud-upload-alt',
                 ],
             ],
