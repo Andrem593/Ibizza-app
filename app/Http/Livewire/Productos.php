@@ -1,15 +1,29 @@
 <?php
 
-namespace App\Http\Livewire;
 
-class Productos implements Livewire\Wireable
+namespace App\Models;
+
+use Livewire\Wireable;
+
+class Productos implements Wireable
 {
-    public $items = [];
- 
-    public function __construct($items)
+    public $property;
+
+    public function __construct($property = null)
     {
-        $this->items = $items;
+        $this->property = $property;
     }
 
+    public function toLivewire()
+    {
+        return [
+            'property' => $this->property,
+        ];
+    }
 
+    public static function fromLivewire($value)
+    {
+        return new static($value['property']);
+    }
 }
+

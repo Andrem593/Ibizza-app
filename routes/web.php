@@ -3,6 +3,7 @@
 use App\Empresaria;
 use App\Http\Controllers\Admi\homeController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\CambiosPedidosController;
 use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\EmpresariaController;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +13,7 @@ use App\Http\Controllers\PremioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\ReservarCambiosPedidosController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\webController;
 
@@ -64,7 +66,7 @@ Route::get('/termino-condiciones', [webController::class,'terminosCondiciones'])
 Route::get('/politica-privacidad', [webController::class,'politicaPrivacidad'])->name('web.politica-privacidad');
 Route::get('/registro-empresaria', [webController::class,'registroEmpresaria'])->name('web.registro-empresaria');
 
-// RUTAS EMPRESARIAS LOGEADAS 
+// RUTAS EMPRESARIAS LOGEADAS
 Route::get('historial-compras-empresaria',[webController::class,'historial_compras'])
 ->middleware(['auth:sanctum', 'verified'])->name('web.historial-compras');
 
@@ -259,7 +261,7 @@ Route::middleware(['auth:sanctum', 'verified'])
 // USUARIO
 
 Route::middleware(['auth:sanctum', 'verified'])
-->get(' ', [userController::class,'index'])
+->get('/usuario/index/', [userController::class,'index'])
 ->name('usuario.index');
 
 
@@ -306,6 +308,40 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->post('/empresaria/datatable', [EmpresariaController::class,'empresariaDatatable'])
 ->name('empresaria.datatable');
 
+
+//Reservar Cambios
+Route::resource('cambios', CambiosPedidosController::class)
+->middleware(['auth:sanctum', 'verified']);
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/cambio/datatable', [CambiosPedidosController::class,'cambiosDataTable'])
+->name('cambio.datatable');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/cambio/datos-cambio', [CambiosPedidosController::class,'datosCambios'])
+->name('cambio.datos-cambio');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/cambio/editar-cambio', [CambiosPedidosController::class,'editarCambio'])
+->name('cambio.datos-cambio-editar');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/cambio/eliminar-cambio', [CambiosPedidosController::class,'deleteChangeOrder'])
+->name('cambio.datos-cambio-eliminar');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/cambio/comprobante/{id}', [CambiosPedidosController::class,'generarComprobante'])
+->name('cambio.comprobante');
+
+
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/cambio/pdf-reservado/{id}', [ReservarCambiosPedidosController::class,'generatePdfChangeReserved'])
+->name('cambio.pdf-reservado');
+
+
+
+
 //ventas
 
 Route::resource('ventas', VentaController::class)
@@ -336,8 +372,16 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->name('venta.upload');
 
 Route::middleware(['auth:sanctum', 'verified'])
+->get('/cambio/upload', [VentaController::class,'cambioUpload'])
+->name('cambio.upload');
+
+Route::middleware(['auth:sanctum', 'verified'])
 ->post('/venta/saveExcel', [VentaController::class,'saveExcel'])
 ->name('venta.saveExcel');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/venta/saveExcelCambio', [VentaController::class,'saveExcelCambio'])
+->name('venta.saveExcelCambio');
 
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/venta/pedido/{empresaria?}/{envio?}', [VentaController::class,'tomar_pedido'])
@@ -346,6 +390,18 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/venta/pedidos-guardados', [VentaController::class,'pedidos_guardados'])
 ->name('venta.pedidos-guardados');
+
+
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/cambio/cambios-reservados', [ReservarCambiosPedidosController::class,'cambios_pedidos_guardados'])
+->name('cambio.cambios-reservados');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->get('/cambio/cambios-reservados/{id}', [VentaController::class,'view_cambios_reservado'])
+->name('venta.cambios-reservados');
+
+
 
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/venta/pedidos-reservados', [VentaController::class,'pedidos_reservados'])
@@ -366,3 +422,5 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->get('/venta/cambios', [VentaController::class,'view_cambios'])
 ->name('venta.cambios');
+
+
