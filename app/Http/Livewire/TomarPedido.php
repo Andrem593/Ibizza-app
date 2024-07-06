@@ -34,6 +34,8 @@ class TomarPedido extends Component
 
     public $nombre, $telefono, $provincia, $ciudad, $direccion, $referencia;
 
+    public $localDpisar = false;
+
     public $envio = 0;
 
     public $premiosEmpresaria = [] ;
@@ -44,9 +46,35 @@ class TomarPedido extends Component
 
     public $imagen = 'https://catalogoibizza.com/img/imagen-no-disponible.jpg';
 
-    protected $listeners = ['change' => 'buscarColor', 'guardarDatos', 'aceptarAccion', 'cerrarVenta'];
+    protected $listeners = ['change' => 'buscarColor', 'guardarDatos', 'aceptarAccion', 'cerrarVenta', 'showModal' => 'openModal'];
 
     public $flagPrize = false;
+
+    public $showModal = false;
+
+    public $direccionData = [
+        'rowId' => null,
+        'identificacion' => '',
+        'nombre' => '',
+        'telefono' => '',
+        'direccion' => '',
+        'referencia' => ''
+    ];
+
+
+    public function openModal($id)
+    {
+        $this->direccionData = [
+            'rowId' => $id,
+            'identificacion' => '',
+            'nombre' => '',
+            'telefono' => '',
+            'direccion' => '',
+            'referencia' => ''
+        ];
+        $this->showModal = true;
+        $this->emit('showModalJs');
+    }
 
 
     public function render()
@@ -55,6 +83,16 @@ class TomarPedido extends Component
         $venta = $venta == null ?0 : $venta->id;
         $this->venta = sprintf('%06d', $venta + 1);
         $this->user = Auth::user();
+        if ($this->localDpisar) {
+            $this->direccionData = [
+                'rowId' => $this->direccionData['rowId'],
+                'identificacion' => null,
+                'nombre' => 'LOCAL DPISAR',
+                'telefono' => '0963725427',
+                'direccion' => 'Calle 10 de agosto y Pedro Carbo',
+                'referencia' => 'Calle 10 de agosto y Pedro Carbo'
+            ];
+        }
         if ($this->id_empresaria != null && !$this->click2) {
             $emp = Empresaria::with('pedidos')->find($this->id_empresaria);
             $this->cliente = $emp->nombres . ' ' . $emp->apellidos;
@@ -341,7 +379,7 @@ class TomarPedido extends Component
             }
         }
 
-        $this->emit('cartUpdated');
+        //$this->emit('cartUpdated');
 
     }
 
@@ -406,12 +444,14 @@ class TomarPedido extends Component
 
         $shippingCost = 0 ;
         foreach ($groupingByCondition as $nameGroup => $parameter) {
-            foreach ($parameter as $parameterId => $parameterDetail) {
-                if($parameterDetail['tipo_empresaria'] == 'TODOS' && $parameterDetail['condicion'] == 'envio_costo' ){
-                    $parameterDetail['total_precio']  = number_format($parameterDetail['total_precio'], 2, '.', ',');
-                    $eval = $parameterDetail['total_precio'] . $parameterDetail['eval'] ;
-                    $value = eval("return $eval;") ? $parameterDetail['valor_condicion'] : 0 ;
-                    $shippingCost += $value ;
+            if ($nameGroup != 'calle 10 de agosto y pedro carbo') {                
+                foreach ($parameter as $parameterId => $parameterDetail) {
+                    if($parameterDetail['tipo_empresaria'] == 'TODOS' && $parameterDetail['condicion'] == 'envio_costo' ){
+                        $parameterDetail['total_precio']  = number_format($parameterDetail['total_precio'], 2, '.', ',');
+                        $eval = $parameterDetail['total_precio'] . $parameterDetail['eval'] ;
+                        $value = eval("return $eval;") ? $parameterDetail['valor_condicion'] : 0 ;
+                        $shippingCost += $value ;
+                    }
                 }
             }
         }
@@ -560,7 +600,7 @@ class TomarPedido extends Component
                 //     }
                 // }
                 // $this->verificarOfertas($descuento);
-                $this->emit('cartUpdated');
+                //$this->emit('cartUpdated');
                 $this->checkShippingCost();
             }
 
@@ -599,7 +639,7 @@ class TomarPedido extends Component
             // }
             // $this->verificarOfertas($descuento);
             $this->brandDiscount();
-            $this->emit('cartUpdated');
+            //$this->emit('cartUpdated');
             $this->checkShippingCost();
         }
     }
@@ -667,17 +707,19 @@ class TomarPedido extends Component
         return redirect()->to(route('web.checkout', ['id' => $this->id_empresaria, 'envio' => $this->envio]));
     }
 
-    public function guardarDatos($data)
-    {
-
-        $rowId = $data['rowId'];
+    public function guardarDatos()
+    {        
+        $rowId = $this->direccionData['rowId'];
         $item = Cart::get($rowId);
 
         Cart::update($item->rowId, ['options' => [
             'sku' => $item->options->sku, 'color'  => $item->options->color, 'talla' => $item->options->talla, 'marca' => $item->options->marca,
-            'descuento' => $item->options->descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => json_encode($data)
+            'descuento' => $item->options->descuento, 'pCatalogo' => $item->options->pCatalogo, 'dataEnvio' => json_encode($this->direccionData)
         ]]);
+        //$this->emit('cartUpdated');
         $this->checkShippingCost();
+        $this->localDpisar = false;
+        $this->emit('closeModal');
     }
 
     public function reglaDireccionEnvio($data, $item)
