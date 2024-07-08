@@ -811,9 +811,8 @@ class FormatoCambio extends Component
             }
 
             if($this->idVerificate){
-                ReservarCambiosPedido::findOrFail($this->idVerificate)->update([
-                    'estado' => 3
-                ]);
+                ReservarCambiosDetalle::where('id_reservar_cambio_pedido', $this->idVerificate)->delete() ;
+                ReservarCambiosPedido::findOrFail($this->idVerificate)->delete();
             }
             DB::commit();
             return redirect()->route('cambio.cambios-reservados');
