@@ -269,6 +269,22 @@ class TomarPedido extends Component
     {
         $cartItems = Cart::content();
 
+        $catalogue = Catalogo::where('estado', 'PUBLICADO')->first();
+        //Ver el cattalogo Activo
+        $offers = Oferta::where([
+                ['catalogo_id' , $catalogue->id],
+                ['estado', 1]
+            ])->get();
+
+        $productosOffert = [] ;
+
+        foreach ($offers as $key => $value) {
+            $detail = collect(json_decode($value->productos));
+            foreach ($detail as $key2 => $det) {
+                $productosOffert[] = $det ;
+            }
+        }
+
         $parametersBrand = ParametroMarca::where([
             ['estado', 1],
             ])->get();
@@ -292,9 +308,26 @@ class TomarPedido extends Component
             ];
         }
 
+        // dd($cartItems);
 
         foreach ($cartItems as $key => $item) {
+
             $product = Producto::findOrFail($item->id);
+
+            $offert = collect($productosOffert)
+                ->where('estilo', $product->estilo)
+                ->where('color', $product->color)
+                ->first();
+
+
+
+            if($offert){
+                $total_valor = ( $item->qty * $item->options->pCatalogo) ;
+                $price = $item->options->pCatalogo;
+            }else{
+                $total_valor = ( $item->qty * $product->precio_empresaria ) ;
+                $price = $product->precio_empresaria;
+            }
             foreach ($groupsParameters as $keyParameter => $parameter) {
                 $flag = collect($parameter['marcas'])->where('categoria', $product->categoria)->first();
                 if($flag != null){
@@ -302,10 +335,10 @@ class TomarPedido extends Component
                         'id' => $product->id,
                         'categoria' =>$product->categoria,
                         'cantidad' => $item->qty ,
-                        'valor' => $product->precio_empresaria,
+                        'valor' => $price,
                         'descuento' => $flag['descuento']
                     ];
-                    $groupsParameters[$keyParameter]['total_valor'] += ( $item->qty * $product->precio_empresaria );
+                    $groupsParameters[$keyParameter]['total_valor'] += $total_valor;
                     $groupsParameters[$keyParameter]['total_cantidad'] += $item->qty ;
                 }
             }
@@ -324,8 +357,20 @@ class TomarPedido extends Component
 
                 $productDB = Producto::findOrFail($item->id);
 
+                $offert = collect($productosOffert)
+                    ->where('estilo', $productDB->estilo)
+                    ->where('color', $productDB->color)
+                    ->first();
+
+
+
+                if($offert){
+                    $price = $item->options->pCatalogo;
+                }else{
+                    $price = $productDB->precio_empresaria ;
+                }
+
                 $discount = 0 ;
-                $price = $productDB->precio_empresaria ;
 
                 if($product){
                     if ($parameter['tipo_empresaria'] == $this->tipoEmpresaria) {
@@ -356,22 +401,16 @@ class TomarPedido extends Component
                             $discount = $discount / 100;
                         }
                     }
-                    $price = (float)$productDB->precio_empresaria - ($productDB->precio_empresaria * $discount);
+                    $price = (float)$price - ($price * $discount);
                     $item1Cart = Cart::get($item->rowId);
 
                     if ($item1Cart ) {
+                        $options = $item1Cart->options->toArray();
+                        $options['descuento'] = $discount;
                         Cart::update($item1Cart->rowId, [
                             'qty' => $item1Cart->qty,
                             'price' => round($price, 2),
-                            'options' => [
-                                'sku' => $item1Cart->options->sku,
-                                'color' => $item1Cart->options->color,
-                                'talla' => $item1Cart->options->talla,
-                                'marca' => $item1Cart->options->marca,
-                                'descuento' => $discount,
-                                'pCatalogo' => $item1Cart->options->pCatalogo,
-                                'dataEnvio' => $item1Cart->options->dataEnvio != '' ? $item1Cart->options->dataEnvio : ''
-                            ]
+                            'options' => $options
                         ]);
                     }
 
@@ -444,7 +483,7 @@ class TomarPedido extends Component
 
         $shippingCost = 0 ;
         foreach ($groupingByCondition as $nameGroup => $parameter) {
-            if ($nameGroup != 'calle 10 de agosto y pedro carbo') {                
+            if ($nameGroup != 'calle 10 de agosto y pedro carbo') {
                 foreach ($parameter as $parameterId => $parameterDetail) {
                     if($parameterDetail['tipo_empresaria'] == 'TODOS' && $parameterDetail['condicion'] == 'envio_costo' ){
                         $parameterDetail['total_precio']  = number_format($parameterDetail['total_precio'], 2, '.', ',');
@@ -599,7 +638,7 @@ class TomarPedido extends Component
                 //         Cart::remove($item->rowId);
                 //     }
                 // }
-                // $this->verificarOfertas($descuento);
+                $this->verificarOfertas($descuento);
                 //$this->emit('cartUpdated');
                 $this->checkShippingCost();
             }
@@ -637,7 +676,7 @@ class TomarPedido extends Component
             //         Cart::remove($item->rowId);
             //     }
             // }
-            // $this->verificarOfertas($descuento);
+            $this->verificarOfertas($descuento);
             $this->brandDiscount();
             //$this->emit('cartUpdated');
             $this->checkShippingCost();
@@ -708,7 +747,7 @@ class TomarPedido extends Component
     }
 
     public function guardarDatos()
-    {        
+    {
         $rowId = $this->direccionData['rowId'];
         $item = Cart::get($rowId);
 
@@ -831,9 +870,12 @@ class TomarPedido extends Component
                 $productosAgrupados[$producto->estilo]['productos'][] = $item;
             }
         }
+        // dd($productosOferta, $productosAgrupados);
         foreach ($productosOferta as $key => $productoOferta) {
-            foreach ($productosAgrupados as $key => $item) {
-                if ($producto->estilo == $productoOferta->estilo && $producto->color == $productoOferta->color) {
+            foreach ($productosAgrupados as $key2 => $item) {
+                // if ($producto->estilo == $productoOferta->estilo && $producto->color == $productoOferta->color) {
+
+                if ($item['estilo'] == $productoOferta->estilo && $item['color'] == $productoOferta->color) {
                     if ($item['cantidad'] >= $productoOferta->cantidad) {
                         $this->aplicarOferta($productoOferta, $oferta, $item);
                     }
