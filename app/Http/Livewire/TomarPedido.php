@@ -676,11 +676,13 @@ class TomarPedido extends Component
             //         Cart::remove($item->rowId);
             //     }
             // }
-            $this->verificarOfertas($descuento);
-            $this->brandDiscount();
-            //$this->emit('cartUpdated');
-            $this->checkShippingCost();
+            
+            
         }
+        $this->verificarOfertas(0);
+        $this->brandDiscount();
+        //$this->emit('cartUpdated');
+        $this->checkShippingCost();
     }
 
     public function validacionReglas($prod, $descuento, $precio, $parametros, $cantidad, $envio, $tipo = null, $cantidadResta = 1, $cantidadSuma = 1, $descuentoDecrease = 0, $itemCantidad = 0)
@@ -865,12 +867,19 @@ class TomarPedido extends Component
                         'productos' => [],
                     ];
                 }
-                $productosAgrupados[$producto->estilo]['precio'] += $item->options->pCatalogo * $item->qty;
+                $options = $item->options->toArray();
+                $options['pCatalogo'] = $producto->precio_empresaria;
+                
+
+                $nItem = $item->toArray(); 
+                $nItem['options'] = (object) $options ;
+
+                $productosAgrupados[$producto->estilo]['precio'] += $options['pCatalogo']  * $item->qty;
+                // $productosAgrupados[$producto->estilo]['precio'] += $producto->precio_empresaria * $item->qty;
                 $productosAgrupados[$producto->estilo]['cantidad'] += $item->qty;
-                $productosAgrupados[$producto->estilo]['productos'][] = $item;
+                $productosAgrupados[$producto->estilo]['productos'][] = (object) $nItem;
             }
         }
-        // dd($productosOferta, $productosAgrupados);
         foreach ($productosOferta as $key => $productoOferta) {
             foreach ($productosAgrupados as $key2 => $item) {
                 // if ($producto->estilo == $productoOferta->estilo && $producto->color == $productoOferta->color) {
@@ -879,6 +888,7 @@ class TomarPedido extends Component
                     if ($item['cantidad'] >= $productoOferta->cantidad) {
                         $this->aplicarOferta($productoOferta, $oferta, $item);
                     }
+                    //Aqui debe de ser la condicion 
                 }
             }
         }
