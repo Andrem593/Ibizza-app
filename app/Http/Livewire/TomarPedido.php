@@ -676,8 +676,8 @@ class TomarPedido extends Component
             //         Cart::remove($item->rowId);
             //     }
             // }
-            
-            
+
+
         }
         $this->verificarOfertas(0);
         $this->brandDiscount();
@@ -853,7 +853,37 @@ class TomarPedido extends Component
 
     public function VerificarOfertaXProducto($productosOferta, $oferta)
     {
+
+        $cartItems = Cart::content();
+        // dd($cartItems);
+
+        foreach ($cartItems as $keyItem => $item) {
+            $item1Cart = Cart::get($item->rowId);
+            if ($item1Cart ) {
+
+                $producto = Producto::with(['marca', 'catalogo'])->findOrFail($item->id);
+
+                $price = $producto->precio_empresaria;
+
+                $options = $item1Cart->options->toArray();
+                $options['pCatalogo'] = $price;
+                unset($options['promo']);
+                unset($options['premio']);
+                unset($options['oferta']);
+                unset($options['tipo']);
+
+                Cart::update($item1Cart->rowId, [
+                    'qty' => $item1Cart->qty,
+                    'price' => round($price, 2),
+                    'options' => $options
+                ]);
+            }
+        }
+
+
+
         $carItems = Cart::content();
+        // dd($carItems);
         $productosAgrupados = [];
         foreach ($carItems as $key => $item) {
             $producto = Producto::where('id', $item->id)->first();
@@ -867,19 +897,12 @@ class TomarPedido extends Component
                         'productos' => [],
                     ];
                 }
-                $options = $item->options->toArray();
-                $options['pCatalogo'] = $producto->precio_empresaria;
-                
-
-                $nItem = $item->toArray(); 
-                $nItem['options'] = (object) $options ;
-
-                $productosAgrupados[$producto->estilo]['precio'] += $options['pCatalogo']  * $item->qty;
-                // $productosAgrupados[$producto->estilo]['precio'] += $producto->precio_empresaria * $item->qty;
+                $productosAgrupados[$producto->estilo]['precio'] += $item->options->pCatalogo * $item->qty;
                 $productosAgrupados[$producto->estilo]['cantidad'] += $item->qty;
-                $productosAgrupados[$producto->estilo]['productos'][] = (object) $nItem;
+                $productosAgrupados[$producto->estilo]['productos'][] = $item;
             }
         }
+        // dd($productosOferta, $productosAgrupados);
         foreach ($productosOferta as $key => $productoOferta) {
             foreach ($productosAgrupados as $key2 => $item) {
                 // if ($producto->estilo == $productoOferta->estilo && $producto->color == $productoOferta->color) {
@@ -888,7 +911,7 @@ class TomarPedido extends Component
                     if ($item['cantidad'] >= $productoOferta->cantidad) {
                         $this->aplicarOferta($productoOferta, $oferta, $item);
                     }
-                    //Aqui debe de ser la condicion 
+                    //Aqui debe de ser la condicion
                 }
             }
         }
