@@ -245,8 +245,9 @@ class TomarPedido extends Component
                 } catch (\Throwable $th) {
                     dd($th->getMessage());
                 }
-                $this->verificarOfertas($descuento);
+                $this->verificarOfertas(0);
                 $this->brandDiscount();
+                $this->OfertaClasificacion();
                 $this->checkShippingCost();
             } else {
                 LogStockFaltante::create([
@@ -261,6 +262,50 @@ class TomarPedido extends Component
         } else {
             $this->click = false;
             $this->message = 'VERIFIQUE QUE ESTEN TODOS LOS CAMPOS LLENOS';
+        }
+    }
+
+
+
+    public function OfertaClasificacion()
+    {
+        $catalogo = Catalogo::where('estado', 'PUBLICADO')->first();
+        $ofertas = Oferta::where('catalogo_id', $catalogo->id)
+            ->where('estado', 1)
+            ->get();
+
+        foreach ($ofertas as $key => $oferta) {
+            if ($oferta->tipo_oferta == 2) {
+
+                $this->verificarOffertaMarca2($oferta) ;
+
+            } elseif($oferta->tipo_oferta == 4){
+                $carItems = Cart::content();
+                $productosAgrupados = [];
+                $clasificacion = $oferta->clasificacion;
+                foreach ($carItems as $key => $item) {
+                    $producto = Producto::where('id', $item->id)->first();
+                    if ($producto->clasificacion_global == $clasificacion) {
+                        if (!isset($productosAgrupados[$producto->clasificacion_global])) {
+                            $productosAgrupados[$producto->clasificacion_global] = [
+                                'precio' => 0,
+                                'cantidad' => 0,
+                                'productos' => [],
+                            ];
+                        }
+                        $productosAgrupados[$producto->clasificacion_global]['precio'] += $producto->precio_empresaria * $item->qty;
+                        $productosAgrupados[$producto->clasificacion_global]['cantidad'] += $item->qty;
+                        $productosAgrupados[$producto->clasificacion_global]['productos'][] = $item;
+                    }
+                }
+
+                foreach ($productosAgrupados as $key => $item3) {
+                    if ($item3['cantidad'] >= $oferta->cantidad && $item3['precio'] >= $oferta->desde) {
+                        $this->aplicarOfertaXClasificacion($oferta, $item3);
+                    }
+                }
+
+            }
         }
     }
 
@@ -515,6 +560,7 @@ class TomarPedido extends Component
         // $descuento = $datos['descuento'];
         Cart::remove($id);
         $this->brandDiscount();
+        $this->OfertaClasificacion();
         $this->checkShippingCost();
         // if ($descuento == 0) {
         //     $carItems = Cart::content();
@@ -638,15 +684,16 @@ class TomarPedido extends Component
                 //         Cart::remove($item->rowId);
                 //     }
                 // }
-                $this->verificarOfertas($descuento);
                 //$this->emit('cartUpdated');
-                $this->checkShippingCost();
             }
-
+            
         } else {
             $this->message = 'NO HAY STOCK DISPONIBLE PARA ' . $producto->descripcion;
         }
+        $this->verificarOfertas(0);
         $this->brandDiscount();
+        $this->OfertaClasificacion();
+        $this->checkShippingCost();
     }
 
     public function decreaseQuantity($rowId)
@@ -681,6 +728,7 @@ class TomarPedido extends Component
         }
         $this->verificarOfertas(0);
         $this->brandDiscount();
+        $this->OfertaClasificacion();
         //$this->emit('cartUpdated');
         $this->checkShippingCost();
     }
@@ -840,50 +888,106 @@ class TomarPedido extends Component
             //Verificar si la oferta aplica por productos y a la cantidad de productos en el carrito
             if ($oferta->tipo_oferta == 1) {
                 $productosOferta = json_decode($oferta->productos);
-                $this->VerificarOfertaXProducto($productosOferta, $oferta);
+                // $this->VerificarOfertaXProducto($productosOferta, $oferta);
             } else if ($oferta->tipo_oferta == 2) {
                 //Verificar si la oferta aplica por marca y a la cantidad comprada es la requerida
-                $this->verificarOfertaXMarca($oferta);
+                // $this->verificarOfertaXMarca($oferta);
             } else if ($oferta->tipo_oferta == 3) {
                 //Verificar si la oferta aplica por clasificación global y a la cantidad comprada es la requerida
-                $this->verificarOfertaXClasificacion($oferta);
+                //$this->verificarOfertaXClasificacion($oferta);
             }
         }
     }
 
+
+    public function verificarOffertaMarca2($oferta)
+    {
+        $carItems = Cart::content();
+        $productosAgrupados = [];
+        if ($oferta->marca_id != null) $marca = Marca::where('id', $oferta->marca_id)->first()->nombre;
+        else $marca = 'TODAS';
+        foreach ($carItems as $key => $item) {
+            if ($marca != 'TODAS') {
+                if ($item->options->marca == $marca && !$item->options->oferta) {
+                    if (!isset($productosAgrupados[$item->options->marca])) {
+                        $productosAgrupados[$item->options->marca] = [
+                            'precio' => 0,
+                            'cantidad' => 0,
+                            'productos' => [],
+                        ];
+                    }
+                    $productosAgrupados[$item->options->marca]['precio'] += $item->options->pCatalogo * $item->qty;
+                    $productosAgrupados[$item->options->marca]['cantidad'] += $item->qty;
+                    $productosAgrupados[$item->options->marca]['productos'][] = $item;
+                }
+            } else {
+                if (!isset($productosAgrupados['TODAS'])) {
+                    $productosAgrupados['TODAS'] = [
+                        'precio' => 0,
+                        'cantidad' => 0,
+                        'productos' => [],
+                    ];
+                }
+                $productosAgrupados['TODAS']['precio'] += $item->options->pCatalogo * $item->qty;
+                $productosAgrupados['TODAS']['cantidad'] += $item->qty;
+                $productosAgrupados['TODAS']['productos'][] = $item;
+                if ($item->options->oferta) {
+                    if ($item->options->oferta && $item->options->tipo == 'MARCATODAS') {
+                        $productosAgrupados = [];
+                        break;
+                    }
+                }
+            }
+        }
+        foreach ($productosAgrupados as $key => $item3) {
+            if ($item3['cantidad'] >= $oferta->cantidad && $item3['precio'] >= $oferta->desde) {
+                $this->aplicarOfertaXMarca($oferta, $item3, $key);
+                foreach ($item3['productos'] as $key => $pro) {
+                    Cart::update($pro->rowId, ['options' => [
+                        'sku' => $pro->options->sku, 'color'  => $pro->options->color, 'talla' => $pro->options->talla, 'marca' => $pro->options->marca,
+                        'descuento' => $pro->options->descuento, 'pCatalogo' => $pro->options->pCatalogo, 'oferta' => true, 'tipo' => 'MARCA'
+                    ]]);
+                }
+            }
+        }
+
+         
+
+    }
+
+
     public function VerificarOfertaXProducto($productosOferta, $oferta)
     {
 
-        $cartItems = Cart::content();
-        // dd($cartItems);
+        // $cartItems = Cart::content();
+        // // dd($cartItems);
 
-        foreach ($cartItems as $keyItem => $item) {
-            $item1Cart = Cart::get($item->rowId);
-            if ($item1Cart ) {
+        // foreach ($cartItems as $keyItem => $item) {
+        //     $item1Cart = Cart::get($item->rowId);
+        //     if ($item1Cart ) {
 
-                $producto = Producto::with(['marca', 'catalogo'])->findOrFail($item->id);
+        //         $producto = Producto::with(['marca', 'catalogo'])->findOrFail($item->id);
 
-                $price = $producto->precio_empresaria;
+        //         $price = $producto->precio_empresaria;
 
-                $options = $item1Cart->options->toArray();
-                $options['pCatalogo'] = $price;
-                unset($options['promo']);
-                unset($options['premio']);
-                unset($options['oferta']);
-                unset($options['tipo']);
+        //         $options = $item1Cart->options->toArray();
+        //         $options['pCatalogo'] = $price;
+        //         unset($options['promo']);
+        //         unset($options['premio']);
+        //         unset($options['oferta']);
+        //         unset($options['tipo']);
 
-                Cart::update($item1Cart->rowId, [
-                    'qty' => $item1Cart->qty,
-                    'price' => round($price, 2),
-                    'options' => $options
-                ]);
-            }
-        }
+        //         Cart::update($item1Cart->rowId, [
+        //             'qty' => $item1Cart->qty,
+        //             'price' => round($price, 2),
+        //             'options' => $options
+        //         ]);
+        //     }
+        // }
 
 
 
         $carItems = Cart::content();
-        // dd($carItems);
         $productosAgrupados = [];
         foreach ($carItems as $key => $item) {
             $producto = Producto::where('id', $item->id)->first();
@@ -1076,7 +1180,11 @@ class TomarPedido extends Component
 
     public function aplicarOfertaXMarca($oferta, $item3, $marca)
     {
+        //Creeria que se debe crear un nuevo campo para identificar;
         //aplicar oferta de premio
+        $carItems = Cart::content();
+
+  
         if ($oferta->tipo_premio == 2) {
             $premios = json_decode($oferta->premios);
             foreach ($premios as $key => $premio) {
@@ -1084,7 +1192,13 @@ class TomarPedido extends Component
                     ->where('estado', 'A')
                     ->where('stock', '>', 0)
                     ->first();
-                if ($producto) {
+
+                $result = $carItems->where('id', $producto->id )->first() ;
+                
+              
+                if($result && isset($result->options->oferta) && $result->options->oferta == true && isset($result->options->marca) && $result->options->marca == $marca){
+
+                }else if ($producto) {
                     Cart::add(
                         $producto->id,
                         $producto->descripcion,
@@ -1146,6 +1260,7 @@ class TomarPedido extends Component
         if ($oferta->tipo_premio == 2) {
             $premios = json_decode($oferta->premios);
             $cantidadDePremios =  intdiv($item['precio'], $oferta->desde);
+            // dd($cantidadDePremios ,  intdiv($item['precio'], $oferta->desde), $item['precio'], $oferta->desde);
             foreach ($premios as $key => $premio) {
                 $producto = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
                     ->where('estado', 'A')
