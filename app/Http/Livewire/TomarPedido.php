@@ -324,6 +324,7 @@ class TomarPedido extends Component
                         if ($item['cantidad'] >= $productoOferta->cantidad) {
                             $premios = json_decode($oferta->premios);
                             $cantidadDePremios =  intdiv($item['cantidad'], $productoOferta->cantidad);
+                            
 
                             foreach ($premios as $key => $premio) {
                                 $producto = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
@@ -345,6 +346,7 @@ class TomarPedido extends Component
                                         if($item1Cart){
                                             $nstock = $ncant - $item1Cart->qty ;
                                             if($ncant > $item1Cart->qty ){
+                                               
 
                                                 $options = $item1Cart->options->toArray();
                                                 Cart::update($item1Cart->rowId, [
@@ -360,6 +362,8 @@ class TomarPedido extends Component
                                         }
 
                                     }else{
+                                        
+                                        // dump($cantidadDePremios, $premio->cantidad , $cantidadDePremios);
                                         Cart::add(
                                             $producto->id,
                                             $producto->descripcion,
@@ -394,7 +398,7 @@ class TomarPedido extends Component
 
         }
 
-        if ($oferta->tipo_premio == 2) {
+        if ($oferta->tipo_premio == 1) {
 
             foreach ($productosOferta as $key => $productoOferta) {
                 foreach ($productosAgrupados as $key2 => $item) {
