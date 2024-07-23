@@ -318,6 +318,25 @@ class TomarPedido extends Component
 
 
         if($oferta->tipo_premio == 2) {
+
+            $cartItems = Cart::content();
+
+            $tCant = 0 ;
+            foreach ($cartItems as $key2 => $item) {
+
+                $producto = Producto::with(['marca', 'catalogo'])->findOrFail($item->id);
+                
+                $ofert = collect($productosOferta)->where('estilo', $producto->estilo )->where('color', $producto->color)->first();
+
+                if($ofert){
+                    $tCant += $item->qty;
+                }
+
+            }
+
+            
+
+
             foreach ($productosOferta as $key => $productoOferta) {
                 foreach ($productosAgrupados as $key2 => $item) {
                     if ($item['estilo'] == $productoOferta->estilo ){
