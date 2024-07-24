@@ -319,101 +319,186 @@ class TomarPedido extends Component
 
         if($oferta->tipo_premio == 2) {
 
+            $groupOfertas =  collect($productosOferta)->groupBy('cantidad') ;
+
+            $nGroup = [] ;
+
             $cartItems = Cart::content();
 
-            $tCant = 0 ;
-            foreach ($cartItems as $key2 => $item) {
+            foreach ($groupOfertas as $cantidad => $detailOferta) {
+                $nGroup[$cantidad] = [
+                    'productos_oferta' => $detailOferta ,
+                    'cantidad_oferta' => $cantidad ,
+                    'productos' => [],
+                    'cantidad' => 0
+                ];
 
-                $producto = Producto::with(['marca', 'catalogo'])->findOrFail($item->id);
-                
-                $ofert = collect($productosOferta)->where('estilo', $producto->estilo )->where('color', $producto->color)->first();
+                foreach ($cartItems as $key => $item) {
+                    $producto = Producto::with(['marca', 'catalogo'])->findOrFail($item->id);
+                    $result =  $detailOferta->where('estilo', $producto->estilo )->where('color', $producto->color)->first() ;
 
-                if($ofert){
-                    $tCant += $item->qty;
+                    if($result){
+                        $nGroup[$cantidad]['cantidad'] += $item->qty ;
+                        $nGroup[$cantidad]['productos'][] = $item ;
+                    }
                 }
-
             }
 
-            
 
+            foreach ($nGroup as $key => $group) {
 
-            foreach ($productosOferta as $key => $productoOferta) {
-                foreach ($productosAgrupados as $key2 => $item) {
-                    if ($item['estilo'] == $productoOferta->estilo ){
-                        if ($item['cantidad'] >= $productoOferta->cantidad) {
-                            $premios = json_decode($oferta->premios);
-                            $cantidadDePremios =  intdiv($item['cantidad'], $productoOferta->cantidad);
-                            
+                if($group['cantidad'] >= $group['cantidad_oferta']){
+                    $cantidadDePremios = intdiv($group['cantidad'], $group['cantidad_oferta']);
+                    $premios = json_decode($oferta->premios);
 
-                            foreach ($premios as $key => $premio) {
-                                $producto = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
-                                    ->where('estado', 'A')
-                                    ->where('stock', '>', 0)
-                                    ->first();
+                    foreach ($premios as $keyPremio => $premio) {
 
+                        $productoPremio = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
+                        ->where('estado', 'A')
+                        ->where('stock', '>', 0)
+                        ->first();
 
+                        if($productoPremio){
+                            $verifycart = $cartItems->where('id', $premio->id)->first() ;
+                            if($verifycart){
+                                $ncant = ($premio->cantidad * $cantidadDePremios) ;
+                                $nstock = $ncant - $verifycart->qty ;
+                                if($ncant > $verifycart->qty){
+                                    $options = $verifycart->options->toArray();
+                                    Cart::update($verifycart->rowId, [
+                                        'qty' => $ncant,
+                                        'price' => $verifycart->price,
+                                        'options' => $options
+                                    ])->associate('App\Models\Producto');
 
-                                if ($producto) {
+                                    $productoPremio->update(['stock' => $productoPremio->stock - $nstock ]);
 
-                                    $ncant = $premio->cantidad * $cantidadDePremios ;
-                                    $result = $carItems->where('id', $producto->id )->first() ;
-
-                                    if ($result){
-
-                                        $item1Cart = Cart::get($result->rowId);
-
-                                        if($item1Cart){
-                                            $nstock = $ncant - $item1Cart->qty ;
-                                            if($ncant > $item1Cart->qty ){
-                                               
-
-                                                $options = $item1Cart->options->toArray();
-                                                Cart::update($item1Cart->rowId, [
-                                                    'qty' => $ncant,
-                                                    'price' => $item1Cart->price,
-                                                    'options' => $options
-                                                ])->associate('App\Models\Producto');
-
-                                                $producto->update(['stock' => $producto->stock - $nstock ]);
-
-                                            }
-
-                                        }
-
-                                    }else{
-                                        
-                                        // dump($cantidadDePremios, $premio->cantidad , $cantidadDePremios);
-                                        Cart::add(
-                                            $producto->id,
-                                            $producto->descripcion,
-                                            $premio->cantidad * $cantidadDePremios,
-                                            0,
-                                            [
-                                                'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
-                                                'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria, 'promo' => true, 'premio' => true
-                                            ]
-                                        )->associate('App\Models\Producto');
-
-                                        $producto->update(['stock' => $producto->stock - $premio->cantidad]);
-
-                                    }
-                                } else {
-                                    $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
-                                    break;
                                 }
+                                //verifico para Actualizar
+
+                            }else{
+                                //Procedo a Crear
+                                Cart::add(
+                                    $productoPremio->id,
+                                    $productoPremio->descripcion,
+                                    $premio->cantidad * $cantidadDePremios,
+                                    0,
+                                    [
+                                        'sku' => $productoPremio->sku, 'color'  => $productoPremio->color, 'talla' => $productoPremio->talla, 'marca' => $productoPremio->marca->nombre,
+                                        'descuento' => 0, 'pCatalogo' => $productoPremio->precio_empresaria, 'promo' => true, 'premio' => true
+                                    ]
+                                )->associate('App\Models\Producto');
+
+                                $productoPremio->update(['stock' => $productoPremio->stock - $premio->cantidad]);
                             }
 
-                            foreach ($item['productos'] as $key => $pro) {
-                                Cart::update($pro->rowId, ['options' => [
-                                    'sku' => $pro->options->sku, 'color'  => $pro->options->color, 'talla' => $pro->options->talla, 'marca' => $pro->options->marca,
-                                    'descuento' => $pro->options->descuento, 'pCatalogo' => $pro->options->pCatalogo, 'promo' => true
-                                ]]);
-                            }
+                        }else{
+                            $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
+                            break;
+
                         }
                     }
                 }
-
+                // dd($group);
             }
+
+            // dd(collect($productosOferta)->groupBy('cantidad'));
+
+            // $cartItems = Cart::content();
+
+            // $tCant = 0 ;
+            // foreach ($cartItems as $key2 => $item) {
+
+            //     $producto = Producto::with(['marca', 'catalogo'])->findOrFail($item->id);
+
+            //     $ofert = collect($productosOferta)->where('estilo', $producto->estilo )->where('color', $producto->color)->first();
+
+            //     if($ofert){
+            //         $tCant += $item->qty;
+            //     }
+
+            // }
+
+
+
+
+            // foreach ($productosOferta as $key => $productoOferta) {
+            //     foreach ($productosAgrupados as $key2 => $item) {
+            //         if ($item['estilo'] == $productoOferta->estilo ){
+            //             if ($item['cantidad'] >= $productoOferta->cantidad) {
+            //                 $premios = json_decode($oferta->premios);
+            //                 $cantidadDePremios =  intdiv($item['cantidad'], $productoOferta->cantidad);
+
+
+            //                 foreach ($premios as $key => $premio) {
+            //                     $producto = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
+            //                         ->where('estado', 'A')
+            //                         ->where('stock', '>', 0)
+            //                         ->first();
+
+
+
+            //                     if ($producto) {
+
+            //                         $ncant = $premio->cantidad * $cantidadDePremios ;
+            //                         $result = $carItems->where('id', $producto->id )->first() ;
+
+            //                         if ($result){
+
+            //                             $item1Cart = Cart::get($result->rowId);
+
+            //                             if($item1Cart){
+            //                                 $nstock = $ncant - $item1Cart->qty ;
+            //                                 if($ncant > $item1Cart->qty ){
+
+
+            //                                     $options = $item1Cart->options->toArray();
+            //                                     Cart::update($item1Cart->rowId, [
+            //                                         'qty' => $ncant,
+            //                                         'price' => $item1Cart->price,
+            //                                         'options' => $options
+            //                                     ])->associate('App\Models\Producto');
+
+            //                                     $producto->update(['stock' => $producto->stock - $nstock ]);
+
+            //                                 }
+
+            //                             }
+
+            //                         }else{
+
+            //                             // dump($cantidadDePremios, $premio->cantidad , $cantidadDePremios);
+            //                             Cart::add(
+            //                                 $producto->id,
+            //                                 $producto->descripcion,
+            //                                 $premio->cantidad * $cantidadDePremios,
+            //                                 0,
+            //                                 [
+            //                                     'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
+            //                                     'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria, 'promo' => true, 'premio' => true
+            //                                 ]
+            //                             )->associate('App\Models\Producto');
+
+            //                             $producto->update(['stock' => $producto->stock - $premio->cantidad]);
+
+            //                         }
+            //                     } else {
+            //                         $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
+            //                         break;
+            //                     }
+            //                 }
+
+            //                 foreach ($item['productos'] as $key => $pro) {
+            //                     Cart::update($pro->rowId, ['options' => [
+            //                         'sku' => $pro->options->sku, 'color'  => $pro->options->color, 'talla' => $pro->options->talla, 'marca' => $pro->options->marca,
+            //                         'descuento' => $pro->options->descuento, 'pCatalogo' => $pro->options->pCatalogo, 'promo' => true
+            //                     ]]);
+            //                 }
+            //             }
+            //         }
+            //     }
+
+            // }
 
         }
 
@@ -1121,9 +1206,10 @@ class TomarPedido extends Component
         $productosAgrupados = [];
         if ($oferta->marca_id != null) $marca = Marca::where('id', $oferta->marca_id)->first()->nombre;
         else $marca = 'TODAS';
+
         foreach ($carItems as $key => $item) {
             if ($marca != 'TODAS') {
-                if ($item->options->marca == $marca && !$item->options->oferta) {
+                if ($item->options->marca == $marca /*&& !$item->options->oferta*/) {
                     if (!isset($productosAgrupados[$item->options->marca])) {
                         $productosAgrupados[$item->options->marca] = [
                             'precio' => 0,
@@ -1154,6 +1240,7 @@ class TomarPedido extends Component
                 }
             }
         }
+
         foreach ($productosAgrupados as $key => $item3) {
 
             if ($item3['cantidad'] >= $oferta->cantidad && $item3['precio'] >= $oferta->desde) {
@@ -1415,24 +1502,68 @@ class TomarPedido extends Component
                 // dd($result,  $result->options->oferta
                 // , $result->options->tipo , $marca
                 // , $result->options->premio, $carItems);
-                if (!$result && $producto) {
-                    // dd($result ,$result->options->oferta
-                    // , $result->options->tipo,  'MARCA');
-                    Cart::add(
-                        $producto->id,
-                        $producto->descripcion,
-                        $premio->cantidad,
-                        0,
-                        [
-                            'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
-                            'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria, 'oferta' => true, 'tipo' => $marca, 'premio' => true
-                        ]
-                    )->associate('App\Models\Producto');
+                ///Verificar por el tipo de Premio
 
-                    $producto->update(['stock' => $producto->stock - $premio->cantidad]);
-                } else {
-                    $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
-                    break;
+                if ($marca == 'TODAS'){
+                    if (!$result && $producto) {
+                        // dd($result ,$result->options->oferta
+                        // , $result->options->tipo,  'MARCA');
+                        Cart::add(
+                            $producto->id,
+                            $producto->descripcion,
+                            $premio->cantidad,
+                            0,
+                            [
+                                'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
+                                'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria, 'oferta' => true, 'tipo' => $marca, 'premio' => true
+                            ]
+                        )->associate('App\Models\Producto');
+
+                        $producto->update(['stock' => $producto->stock - $premio->cantidad]);
+                    } else {
+                        $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
+                        break;
+                    }
+                }else{
+                    if($producto){
+                        $cantidadDePremios = intdiv($item3['cantidad'], $oferta->cantidad);
+
+                        if($result){
+                            $ncant = ($premio->cantidad * $cantidadDePremios) ;
+                            $nstock = $ncant - $result->qty ;
+                            if($ncant > $result->qty){
+                                $options = $result->options->toArray();
+
+                                Cart::update($result->rowId, [
+                                    'qty' => $ncant,
+                                    'price' => $result->price,
+                                    'options' => $options
+                                ])->associate('App\Models\Producto');
+
+                                $producto->update(['stock' => $producto->stock - $nstock ]);
+                            }
+
+                        }else{
+                              // , $result->options->tipo,  'MARCA');
+                            Cart::add(
+                                $producto->id,
+                                $producto->descripcion,
+                                $premio->cantidad * $cantidadDePremios,
+                                0,
+                                [
+                                    'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
+                                    'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria, 'oferta' => true, 'tipo' => $marca, 'premio' => true
+                                ]
+                            )->associate('App\Models\Producto');
+
+                            $producto->update(['stock' => $producto->stock - ($premio->cantidad * $cantidadDePremios)]);
+
+                        }
+
+                    }else {
+                        $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
+                        break;
+                    }
                 }
             }
         }
