@@ -192,11 +192,11 @@
 
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <button type="button" class="btn btn-sm btn-outline-default mr-1" 
+                                        <button type="button" class="btn btn-sm btn-outline-default mr-1"
                                         wire:click="openModal('{{ $item->rowId }}')">
                                             <i class="fas fa-map-marked-alt"></i>
                                         </button>
-                                        
+
                                         <button class="btn btn-sm btn-outline-primary mr-1"
                                             wire:click="increaseQuantity('{{ $item->rowId }}')">+</button>
                                         <button class="btn btn-sm btn-outline-danger mr-1"
@@ -282,8 +282,20 @@
                             <span><strong>Total</strong></span>
                         </td>
                         <td colspan="3">
-                            <span
-                                class="fw-bold">${{number_format(number_format(Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum(),2) + floatval($envio),2)}}</span>
+                            @php
+                                // Calcular el precio total de los artículos en el carrito
+                                $total = Cart::content()->map(function ($item) {
+                                    return round($item->price * $item->qty, 2);
+                                })->sum();
+
+                                // Añadir el costo de envío
+                                $total += floatval($envio);
+
+                                // Formatear el monto total
+                                $formattedTotal = number_format($total, 2);
+                            @endphp
+                            {{-- <span class="fw-bold">${{number_format(number_format(Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum(),2) + floatval($envio),2)}}</span> --}}
+                            <span class="fw-bold">${{ $formattedTotal }}</span>
                         </td>
                     </tr>
                     <tr>
@@ -292,8 +304,28 @@
                             <span><strong>Ganancias</strong></span>
                         </td>
                         <td colspan="2">
-                            <span
-                                class="fw-bold">${{ number_format(Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum() - number_format(Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum(),2),2) }}</span>
+
+                            @php
+                                // Calcular el precio total del catálogo de los artículos en el carrito
+                                $catalogoTotal = Cart::content()->map(function ($item) {
+                                    return $item->options->pCatalogo * $item->qty;
+                                })->sum();
+
+                                // Calcular el precio total de los artículos en el carrito
+                                $precioTotal = Cart::content()->map(function ($item) {
+                                    return round($item->price * $item->qty, 2);
+                                })->sum();
+
+                                // Restar el precio total del catálogo menos el precio total de los artículos
+                                $diferencia = $catalogoTotal - $precioTotal;
+
+                                // Formatear la diferencia
+                                $formattedDiferencia = number_format($diferencia, 2);
+                            @endphp
+
+                            <span class="fw-bold">${{ $formattedDiferencia }}</span>
+                            {{-- <span
+                                class="fw-bold">${{ number_format(Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum() - number_format(Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum(),2),2) }}</span> --}}
                         </td>
                     </tr>
                     @if (!empty($emp))
@@ -359,7 +391,7 @@
                                 <input type="text" class="form-control p-1" wire:model="direccionData.referencia" autocomplete="off">
                             </div>
                         </div>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -391,7 +423,7 @@
 
                         </thead>
                         <tbody>
-                       
+
                             @if (count($productosPremios) > 0)
                                 @foreach ($productosPremios as $item)
                                 <tr>
@@ -405,7 +437,7 @@
                                 </tr>
 
                                 @endforeach
-                                
+
                             @endif
 
                         </tbody>
@@ -436,11 +468,11 @@
 
                 });
 
-            
-            
+
+
             $(document).ready(function() {
                 /*$('#modalDirecciones').on('show.bs.modal', function(event) {
-                    var button = event.relatedTarget;                    
+                    var button = event.relatedTarget;
                     var rowId = $(button).data('rowid');
                     console.log(button);
                     $('#modalRowId').val(rowId);

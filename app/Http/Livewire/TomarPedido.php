@@ -353,7 +353,7 @@ class TomarPedido extends Component
             // }
 
             $cartItems = Cart::content();
-            // dd($cartItems );
+
 
             foreach ($groupOfertas as $cantidad => $detailOferta) {
                 $nGroup[$cantidad] = [
@@ -373,6 +373,7 @@ class TomarPedido extends Component
                     }
                 }
             }
+
 
 
             foreach ($nGroup as $key => $group) {
@@ -396,6 +397,7 @@ class TomarPedido extends Component
                         $flag = false ;
 
                         for ($i=0; $i < $cantidadDePremios; $i++) {
+
                             $producto = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
                                 ->where('estado', 'A')
                                 ->where('stock', '>=', $premio->cantidad)
@@ -410,11 +412,13 @@ class TomarPedido extends Component
                                         ];
                                 }
                                 $dataPremio[$producto->id]['cantidad'] += $premio->cantidad ;
+                                $producto->update(['stock' => $producto->stock - ($premio->cantidad)]);
                             }else{
                                 $flag = true ;
                             }
 
                         }
+
 
                         foreach ($dataPremio as $key => $value) {
                             $producto = Producto::findOrFail($value['id']);
@@ -432,7 +436,7 @@ class TomarPedido extends Component
                                     'tipo_oferta' => 1
                                 ]
                             )->associate('App\Models\Producto');
-                            $producto->update(['stock' => $producto->stock - ($value['cantidad'])]);
+                            // $producto->update(['stock' => $producto->stock - ($value['cantidad'])]);
                         }
 
                         if($flag){
@@ -931,6 +935,7 @@ class TomarPedido extends Component
     public function checkShippingCost()
     {
         $cartItems = Cart::content();
+        // dd($cartItems);
         $groupedProducts = [] ;
         foreach ($cartItems as $key => $item) {
             $address = 'NINGUNA' ;
@@ -988,18 +993,30 @@ class TomarPedido extends Component
         }
 
         $shippingCost = 0 ;
+        // $r = number_format(2152.49, 2, '.', ',');
+        // $r = (string) (float) "2152,49";
+        // $eval = $r."<=59";
+        // dd($eval);
+        // dd(eval("return $eval;"), $eval);
+        // dd($groupingByCondition);
         foreach ($groupingByCondition as $nameGroup => $parameter) {
             if ($nameGroup != 'calle 10 de agosto y pedro carbo') {
                 foreach ($parameter as $parameterId => $parameterDetail) {
                     if($parameterDetail['tipo_empresaria'] == 'TODOS' && $parameterDetail['condicion'] == 'envio_costo' ){
-                        $parameterDetail['total_precio']  = number_format($parameterDetail['total_precio'], 2, '.', ',');
+                        $parameterDetail['total_precio']  = (string) (float) $parameterDetail['total_precio'] ;
                         $eval = $parameterDetail['total_precio'] . $parameterDetail['eval'] ;
                         $value = eval("return $eval;") ? $parameterDetail['valor_condicion'] : 0 ;
+
                         $shippingCost += $value ;
                     }
                 }
             }
         }
+
+        $cartItems = Cart::content();
+        // dd($cartItems);
+        // dd($this->envio);
+        // dd((float)$parameterDetail['total_precio']);
         $this->envio = $shippingCost  ;
     }
 
@@ -1738,6 +1755,7 @@ class TomarPedido extends Component
                                         ];
                                 }
                                 $dataPremio[$producto->id]['cantidad'] += $premio->cantidad ;
+                                $producto->update(['stock' => $producto->stock - ($premio->cantidad)]);
                             }else{
                                 $flag = true ;
                             }
@@ -1758,7 +1776,7 @@ class TomarPedido extends Component
                                     'tipo_oferta' => 2
                                 ]
                             )->associate('App\Models\Producto');
-                            $producto->update(['stock' => $producto->stock - ($value['cantidad'])]);
+                            // $producto->update(['stock' => $producto->stock - ($value['cantidad'])]);
                         }
 
                         if($flag){
