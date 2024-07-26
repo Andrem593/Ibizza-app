@@ -54,7 +54,7 @@ class PedidosReservados extends Component
         }
 
         $this->separado = $separado->get();
-        
+
         return view('livewire.pedidos-reservados');
     }
     public function eliminarReserva($id)
@@ -86,7 +86,7 @@ class PedidosReservados extends Component
     {
         $id = $productos[0]['id_separados'];
         $envio = Separado::find($id)->envio;
-        foreach ($productos as $producto) {            
+        foreach ($productos as $producto) {
             $products = Producto::find($producto['id_producto']);
             $nuevo_stock = $products->stock + $producto['cantidad'];
             //Producto::find($producto['id_producto']);
@@ -104,6 +104,10 @@ class PedidosReservados extends Component
                     'promo' => $producto['promo'],
                     'tipo' => $producto['tipo'],
                     'premio' => $producto['premio'],
+                    'oferta' => $producto['oferta'],
+                    'marca' => $producto['marca'],
+                    'tipo_premio' => $producto['tipo_premio'],
+                    'tipo_oferta' => $producto['tipo_oferta'],
                 ]
             )->associate('App\Models\Producto');
         }

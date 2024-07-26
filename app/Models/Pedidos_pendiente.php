@@ -15,6 +15,10 @@ class Pedidos_pendiente extends Model
         'promo',
         'tipo',
         'premio',
+        'oferta',
+        'marca',
+        'tipo_premio',
+        'tipo_oferta'
     ];
 
 
