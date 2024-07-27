@@ -1692,10 +1692,6 @@ class TomarPedido extends Component
 
         if ($oferta->tipo_premio == 2) {
 
-
-
-
-
             $carItems = Cart::content();
 
             $premios = json_decode($oferta->premios);
@@ -1727,7 +1723,7 @@ class TomarPedido extends Component
                         $producto->update(['stock' => $producto->stock - $premio->cantidad]);
                     } else {
                         $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
-                        break;
+                        // break;
                     }
                 }else{
                     if($producto){
@@ -1781,7 +1777,6 @@ class TomarPedido extends Component
 
                         if($flag){
                             $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
-                            break;
                         }
 
 
@@ -1834,7 +1829,7 @@ class TomarPedido extends Component
 
                     }else {
                         $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
-                        break;
+                        // break;
                     }
                 }
             }
@@ -1894,38 +1889,88 @@ class TomarPedido extends Component
             $cantidadDePremios =  intdiv($item['precio'], $oferta->desde);
             // dd($cantidadDePremios ,  intdiv($item['precio'], $oferta->desde), $item['precio'], $oferta->desde);
             foreach ($premios as $key => $premio) {
-                $producto = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
-                    ->where('estado', 'A')
-                    ->where('stock', '>', 0)
-                    ->first();
-                if ($producto) {
-                    if($producto->stock >= ($premio->cantidad * $cantidadDePremios)){
-                        Cart::add(
-                            $producto->id,
-                            $producto->descripcion,
-                            $premio->cantidad * $cantidadDePremios,
-                            0,
-                            [
-                                'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
-                                'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria,
-                                'oferta' => true,
-                                'marca' => null ,
-                                'tipo_oferta' => 3,
-                                'tipo_premio' => 2
-                            ]
-                        )->associate('App\Models\Producto');
 
-                        $producto->update(['stock' => $producto->stock - ($premio->cantidad * $cantidadDePremios)]);
+                $dataPremio = [] ;
 
+                $flag = false ;
+
+                for ($i=0; $i < $cantidadDePremios; $i++) {
+                    $producto = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
+                        ->where('estado', 'A')
+                        ->where('stock', '>=', $premio->cantidad)
+                        ->orderBy('descripcion')
+                        ->first();
+
+                    if($producto){
+                        if(!isset($dataPremio[$producto->id])){
+                            $dataPremio[$producto->id] = [
+                                    'id' => $producto->id,
+                                    'cantidad' => 0 ,
+                                ];
+                        }
+                        $dataPremio[$producto->id]['cantidad'] += $premio->cantidad ;
+                        $producto->update(['stock' => $producto->stock - ($premio->cantidad)]);
                     }else{
-                        $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
-                        break;
-
+                        $flag = true ;
                     }
-                } else {
-                    $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
-                    break;
+
                 }
+
+                foreach ($dataPremio as $key => $value) {
+                    $producto = Producto::findOrFail($value['id']);
+                    Cart::add(
+                        $producto->id,
+                        $producto->descripcion,
+                        $value['cantidad'],
+                        0,
+                        [
+                            'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
+                            'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria,
+                            'oferta' => true,
+                            'marca' => null ,
+                            'tipo_oferta' => 3,
+                            'tipo_premio' => 2
+                        ]
+                    )->associate('App\Models\Producto');
+
+                }
+
+                if($flag){
+                    $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
+                }
+
+                // $producto = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
+                //     ->where('estado', 'A')
+                //     ->where('stock', '>', 0)
+                //     ->first();
+                // if ($producto) {
+                //     if($producto->stock >= ($premio->cantidad * $cantidadDePremios)){
+                //         Cart::add(
+                //             $producto->id,
+                //             $producto->descripcion,
+                //             $premio->cantidad * $cantidadDePremios,
+                //             0,
+                //             [
+                //                 'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
+                //                 'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria,
+                //                 'oferta' => true,
+                //                 'marca' => null ,
+                //                 'tipo_oferta' => 3,
+                //                 'tipo_premio' => 2
+                //             ]
+                //         )->associate('App\Models\Producto');
+
+                //         $producto->update(['stock' => $producto->stock - ($premio->cantidad * $cantidadDePremios)]);
+
+                //     }else{
+                //         $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
+                //         break;
+
+                //     }
+                // } else {
+                //     $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
+                //     break;
+                // }
             }
         }
     }
