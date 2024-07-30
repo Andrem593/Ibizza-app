@@ -454,7 +454,7 @@ class TomarPedido extends Component
 
 
                         foreach ($dataPremio as $key => $value) {
-                            $producto = Producto::findOrFail($value['id']);
+                            $producto = Producto::with('marca')->findOrFail($value['id']);
                             Cart::add(
                                 $producto->id,
                                 $producto->descripcion,
@@ -464,7 +464,7 @@ class TomarPedido extends Component
                                     'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
                                     'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria,
                                     'oferta' => true ,
-                                    'marca' => null ,
+                                    'marca' => $producto->marca->nombre ,
                                     'tipo_premio' => 2,
                                     'tipo_oferta' => 1
                                 ]
@@ -1875,7 +1875,7 @@ class TomarPedido extends Component
 
 
                         foreach ($dataPremio as $key => $value) {
-                            $producto = Producto::findOrFail($value['id']);
+                            $producto = Producto::with('marca')->findOrFail($value['id']);
                             Cart::add(
                                 $producto->id,
                                 $producto->descripcion,
@@ -1883,7 +1883,7 @@ class TomarPedido extends Component
                                 0,
                                 [
                                     'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
-                                    'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria, 'oferta' => true , 'marca' => $marca , 'tipo_premio' => $oferta->tipo_premio,
+                                    'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria, 'oferta' => true , 'tipo_premio' => $oferta->tipo_premio,
                                     'tipo_oferta' => 2
                                 ]
                             )->associate('App\Models\Producto');
