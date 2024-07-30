@@ -417,7 +417,37 @@ class TomarPedido extends Component
                                 $dataPremio[$producto->id]['cantidad'] += $premio->cantidad ;
                                 $producto->update(['stock' => $producto->stock - ($premio->cantidad)]);
                             }else{
-                                $flag = true ;
+
+                                $productoStock = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
+                                ->where('estado', 'A')
+                                ->sum('stock');
+
+                                if($productoStock >= $premio->cantidad){
+                                    for ($i=0; $i < $premio->cantidad ; $i++) {
+                                        $cantN = 1 ;
+                                        $producto = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
+                                            ->where('estado', 'A')
+                                            ->where('stock', '>=', $cantN)
+                                            ->orderBy('descripcion')
+                                            ->first();
+
+                                        if($producto){
+                                            if(!isset($dataPremio[$producto->id])){
+                                                $dataPremio[$producto->id] = [
+                                                        'id' => $producto->id,
+                                                        'cantidad' => 0 ,
+                                                    ];
+                                            }
+                                            $dataPremio[$producto->id]['cantidad'] += $cantN ;
+                                            $producto->update(['stock' => $producto->stock - $cantN]);
+                                        }
+                                    }
+
+                                }else{
+
+                                    $flag = true ;
+                                }
+
                             }
 
                         }
@@ -1713,8 +1743,6 @@ class TomarPedido extends Component
                     ->orderBy('descripcion')
                     ->first();
 
-                $result = $carItems->where('id', $producto->id )->first() ;
-
 
                 if ($marca == 'TODAS'){
                     if ($producto && ($producto->stock >= $premio->cantidad) ) {
@@ -1732,13 +1760,62 @@ class TomarPedido extends Component
 
                         $producto->update(['stock' => $producto->stock - $premio->cantidad]);
                     } else {
-                        $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
-                        // break;
+                        $flag = false ;
+                        $dataPremio = [] ;
+                        $productoStock = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
+                            ->where('estado', 'A')
+                            ->sum('stock');
+
+                        if($productoStock >= $premio->cantidad){
+                            for ($i=0; $i < $premio->cantidad ; $i++) {
+                                $cantN = 1 ;
+                                $producto = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
+                                    ->where('estado', 'A')
+                                    ->where('stock', '>=', $cantN)
+                                    ->orderBy('descripcion')
+                                    ->first();
+
+                                if($producto){
+                                    if(!isset($dataPremio[$producto->id])){
+                                        $dataPremio[$producto->id] = [
+                                                'id' => $producto->id,
+                                                'cantidad' => 0 ,
+                                            ];
+                                    }
+                                    $dataPremio[$producto->id]['cantidad'] += $cantN ;
+                                    $producto->update(['stock' => $producto->stock - $cantN]);
+                                }
+                            }
+
+                        }else{
+                            $flag = true ;
+                            $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
+                        }
+
+                        foreach ($dataPremio as $key => $value) {
+                            $producto = Producto::findOrFail($value['id']);
+                            Cart::add(
+                                $producto->id,
+                                $producto->descripcion,
+                                $value['cantidad'],
+                                0,
+                                [
+                                    'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
+                                    'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria, 'oferta' => true , 'marca' => $marca ,'tipo_premio' => $oferta->tipo_premio,
+                                    'tipo_oferta' => 2
+                                ]
+                            )->associate('App\Models\Producto');
+                            // $producto->update(['stock' => $producto->stock - ($value['cantidad'])]);
+                        }
+
+                        if($flag){
+                            $this->message = 'NO HAY STOCK DISPONIBLE PARA EL PREMIO';
+                        }
+
                     }
                 }else{
                     if($producto){
                         $cantidadDePremios = intdiv($item3['cantidad'], $oferta->cantidad);
-                        // dd($cantidadDePremios);
 
                         //Aqui escirbir
 
@@ -1763,11 +1840,39 @@ class TomarPedido extends Component
                                 $dataPremio[$producto->id]['cantidad'] += $premio->cantidad ;
                                 $producto->update(['stock' => $producto->stock - ($premio->cantidad)]);
                             }else{
-                                $flag = true ;
+                                $productoStock = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
+                                ->where('estado', 'A')
+                                ->sum('stock');
+
+                                if($productoStock >= $premio->cantidad){
+                                    for ($i=0; $i < $premio->cantidad ; $i++) {
+                                        $cantN = 1 ;
+                                        $producto = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
+                                            ->where('estado', 'A')
+                                            ->where('stock', '>=', $cantN)
+                                            ->orderBy('descripcion')
+                                            ->first();
+
+                                        if($producto){
+                                            if(!isset($dataPremio[$producto->id])){
+                                                $dataPremio[$producto->id] = [
+                                                        'id' => $producto->id,
+                                                        'cantidad' => 0 ,
+                                                    ];
+                                            }
+                                            $dataPremio[$producto->id]['cantidad'] += $cantN ;
+                                            $producto->update(['stock' => $producto->stock - $cantN]);
+                                        }
+                                    }
+
+                                }else{
+
+                                    $flag = true ;
+                                }
                             }
 
                         }
-                        // dd($dataPremio);
+
 
                         foreach ($dataPremio as $key => $value) {
                             $producto = Producto::findOrFail($value['id']);
@@ -1921,7 +2026,35 @@ class TomarPedido extends Component
                         $dataPremio[$producto->id]['cantidad'] += $premio->cantidad ;
                         $producto->update(['stock' => $producto->stock - ($premio->cantidad)]);
                     }else{
-                        $flag = true ;
+                        $productoStock = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
+                        ->where('estado', 'A')
+                        ->sum('stock');
+
+                        if($productoStock >= $premio->cantidad){
+                            for ($i=0; $i < $premio->cantidad ; $i++) {
+                                $cantN = 1 ;
+                                $producto = Producto::where('estilo', $premio->estilo)->where('color', $premio->color)
+                                    ->where('estado', 'A')
+                                    ->where('stock', '>=', $cantN)
+                                    ->orderBy('descripcion')
+                                    ->first();
+
+                                if($producto){
+                                    if(!isset($dataPremio[$producto->id])){
+                                        $dataPremio[$producto->id] = [
+                                                'id' => $producto->id,
+                                                'cantidad' => 0 ,
+                                            ];
+                                    }
+                                    $dataPremio[$producto->id]['cantidad'] += $cantN ;
+                                    $producto->update(['stock' => $producto->stock - $cantN]);
+                                }
+                            }
+
+                        }else{
+
+                            $flag = true ;
+                        }
                     }
 
                 }
