@@ -1480,7 +1480,7 @@ class TomarPedido extends Component
             $carItems = Cart::content();
 
             foreach ($carItems as $key => $item2) {
-                if ($item2->options->oferta && $item2->options->marca == $marca &&
+                if ($item2->options->oferta &&
                 $item2->options->tipo_oferta == 2 && $item2->options->tipo_premio == 2
                 ) {
                     $producto = Producto::where('id', $item2->id)->first();
@@ -1753,7 +1753,7 @@ class TomarPedido extends Component
                             0,
                             [
                                 'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
-                                'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria, 'oferta' => true , 'marca' => $marca ,'tipo_premio' => $oferta->tipo_premio,
+                                'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria, 'oferta' => true , 'tipo_premio' => $oferta->tipo_premio,
                                 'tipo_oferta' => 2
                             ]
                         )->associate('App\Models\Producto');
@@ -1801,7 +1801,7 @@ class TomarPedido extends Component
                                 0,
                                 [
                                     'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
-                                    'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria, 'oferta' => true , 'marca' => $marca ,'tipo_premio' => $oferta->tipo_premio,
+                                    'descuento' => 0, 'pCatalogo' => $producto->precio_empresaria, 'oferta' => true ,'tipo_premio' => $oferta->tipo_premio,
                                     'tipo_oferta' => 2
                                 ]
                             )->associate('App\Models\Producto');
