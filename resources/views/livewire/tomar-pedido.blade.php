@@ -193,8 +193,10 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <button type="button" class="btn btn-sm btn-outline-default mr-1"
-                                            data-bs-toggle="modal" data-bs-target="#modalDirecciones"
-                                            data-rowid="{{ $item->rowId }}"><i class="fas fa-map-marked-alt"></i></button>
+                                        wire:click="openModal('{{ $item->rowId }}')">
+                                            <i class="fas fa-map-marked-alt"></i>
+                                        </button>
+
                                         <button class="btn btn-sm btn-outline-primary mr-1"
                                             wire:click="increaseQuantity('{{ $item->rowId }}')">+</button>
                                         <button class="btn btn-sm btn-outline-danger mr-1"
@@ -280,8 +282,20 @@
                             <span><strong>Total</strong></span>
                         </td>
                         <td colspan="3">
-                            <span
-                                class="fw-bold">${{number_format(number_format(Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum(),2) + floatval($envio),2)}}</span>
+                            @php
+                                // Calcular el precio total de los artículos en el carrito
+                                $total = Cart::content()->map(function ($item) {
+                                    return round($item->price * $item->qty, 2);
+                                })->sum();
+
+                                // Añadir el costo de envío
+                                $total += floatval($envio);
+
+                                // Formatear el monto total
+                                $formattedTotal = number_format($total, 2);
+                            @endphp
+                            {{-- <span class="fw-bold">${{number_format(number_format(Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum(),2) + floatval($envio),2)}}</span> --}}
+                            <span class="fw-bold">${{ $formattedTotal }}</span>
                         </td>
                     </tr>
                     <tr>
@@ -290,8 +304,28 @@
                             <span><strong>Ganancias</strong></span>
                         </td>
                         <td colspan="2">
-                            <span
-                                class="fw-bold">${{ number_format(Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum() - number_format(Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum(),2),2) }}</span>
+
+                            @php
+                                // Calcular el precio total del catálogo de los artículos en el carrito
+                                $catalogoTotal = Cart::content()->map(function ($item) {
+                                    return $item->options->pCatalogo * $item->qty;
+                                })->sum();
+
+                                // Calcular el precio total de los artículos en el carrito
+                                $precioTotal = Cart::content()->map(function ($item) {
+                                    return round($item->price * $item->qty, 2);
+                                })->sum();
+
+                                // Restar el precio total del catálogo menos el precio total de los artículos
+                                $diferencia = $catalogoTotal - $precioTotal;
+
+                                // Formatear la diferencia
+                                $formattedDiferencia = number_format($diferencia, 2);
+                            @endphp
+
+                            <span class="fw-bold">${{ $formattedDiferencia }}</span>
+                            {{-- <span
+                                class="fw-bold">${{ number_format(Cart::content()->map(function ($item) {return $item->options->pCatalogo * $item->qty;})->sum() - number_format(Cart::content()->map(function ($item) {return round($item->price * $item->qty, 2);})->sum(),2),2) }}</span> --}}
                         </td>
                     </tr>
                     @if (!empty($emp))
@@ -320,8 +354,7 @@
         <a wire:click="verificarYProcesar" class="btn btn-success w-25 m-3">CERRAR VENTA</a>
     </div>
 
-    <div class="modal fade" wire:ignore.self id="modalDirecciones" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" wire:ignore.self id="modalDirecciones" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -329,42 +362,40 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formulario_direcciones_envio">
-                        <input type="hidden" id="modalRowId" wire:ignore.self>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" wire:model="localDpisar" id="customSwitch1">
+                            <label class="custom-control-label" for="customSwitch1">Envio Local D'Pisar</label>
+                        </div>
+                        <input type="hidden" id="modalRowId">
                         <div class="row">
                             <div class="col">
                                 <label class="form-label">Identificación:</label>
-                                <input type="text" class="form-control p-1" value="" id="identificacion"
-                                    autocomplete="off">
+                                <input type="text" class="form-control p-1" wire:model="direccionData.identificacion" autocomplete="off">
                             </div>
                             <div class="col">
                                 <label class="form-label">Nombre completo:</label>
-                                <input type="text" class="form-control p-1" value="" id="nombre"
-                                    autocomplete="off">
+                                <input type="text" class="form-control p-1" wire:model="direccionData.nombre" autocomplete="off">
                             </div>
                             <div class="col">
                                 <label class="form-label">Teléfono:</label>
-                                <input type="text" class="form-control p-1" value="" id="telefono"
-                                    autocomplete="off">
+                                <input type="text" class="form-control p-1" wire:model="direccionData.telefono" autocomplete="off">
                             </div>
                         </div>
                         <div class="row mt-2">
                             <div class="col">
                                 <label class="form-label">Dirección:</label>
-                                <input type="text" class="form-control p-1" value="" id="direccion"
-                                    autocomplete="off">
+                                <input type="text" class="form-control p-1" wire:model="direccionData.direccion" autocomplete="off">
                             </div>
                             <div class="col">
                                 <label class="form-label">Referencia:</label>
-                                <input type="text" class="form-control p-1" value="" id="referencia"
-                                    autocomplete="off">
+                                <input type="text" class="form-control p-1" wire:model="direccionData.referencia" autocomplete="off">
                             </div>
                         </div>
-                    </form>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn bg-ibizza" id="guardarButton">Guardar</button>
+                    <button type="button" class="btn bg-ibizza" wire:click="guardarDatos">Guardar</button>
                 </div>
             </div>
         </div>
@@ -392,7 +423,7 @@
 
                         </thead>
                         <tbody>
-                       
+
                             @if (count($productosPremios) > 0)
                                 @foreach ($productosPremios as $item)
                                 <tr>
@@ -406,7 +437,7 @@
                                 </tr>
 
                                 @endforeach
-                                
+
                             @endif
 
                         </tbody>
@@ -425,12 +456,28 @@
     @push('js')
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
+
+            document.addEventListener('livewire:load', function () {
+                    Livewire.on('showModalJs', () => {
+                        var modal = new bootstrap.Modal(document.getElementById('modalDirecciones'));
+                        modal.show();
+                    });
+                    Livewire.on('closeModal', () => {
+                        $('#modalDirecciones').modal('hide');
+                    });
+
+                });
+
+
+
             $(document).ready(function() {
-                $('#modalDirecciones').on('show.bs.modal', function(event) {
+                /*$('#modalDirecciones').on('show.bs.modal', function(event) {
                     var button = event.relatedTarget;
                     var rowId = $(button).data('rowid');
+                    console.log(button);
                     $('#modalRowId').val(rowId);
-                });
+                    console.log(rowId);
+                }); */
 
 
                 $('#guardarButton').click(function() {
