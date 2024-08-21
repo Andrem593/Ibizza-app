@@ -192,7 +192,10 @@ class GuardarPago extends Component
                     $valor->comprobante = 'storage/images/recibos/' . $image;
                 endif;
                 $valor->save();
-                Venta::find($this->venta_id)->update(['estado' => 'PEDIDO POR VALIDAR']);
+                Venta::find($this->venta_id)->update([
+                    'estado_validacion' => 'PEDIDO POR VALIDAR',
+                    'estado_facturacion' => 'PENDIENTE DE FACTURAR'
+                ]);
             // if ($this->valor_recaudado <= $this->valor_pagar) {
             // }
        endif;

@@ -9,8 +9,11 @@
                 </div>
                 <div class="col">
                     <label class="form-label">Valor Recaudado:</label>
-                    <input type="number" class="form-control p-1 currency" wire:model.lazy='valor_recaudado'
-                        wire:change='calcular()' placeholder="Valor Recaudado">
+                    <input type="number" class="form-control p-1 currency" 
+                    wire:model.lazy="valor_recaudado"
+                    wire:change="calcular()" 
+                    placeholder="Valor Recaudado"
+                    step="0.01" min="0">
                     @error('valor_recaudado')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

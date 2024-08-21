@@ -106,7 +106,7 @@ class TomarPedido extends Component
                         ->orWhereRaw("CONCAT(nombres, ' ', apellidos) LIKE ?", ['%' . $this->cliente . '%']);
                 })
                 ->where('estado', 'A')
-                ->limit(100)
+                ->limit(10)
                 ->get();
         }
 
@@ -116,8 +116,9 @@ class TomarPedido extends Component
             $this->similitudes = Producto::distinct()->where('estilo', 'like', '%' . $this->estilo . '%')
                 ->where('estado', 'A')
                 ->where('stock', '>', 0)
+                ->where('categoria', '<>', 'PREMIOS')
                 ->select('estilo')
-                ->limit(50)
+                ->limit(10)
                 ->get();
         }
         return view('livewire.tomar-pedido');
@@ -155,6 +156,7 @@ class TomarPedido extends Component
             $colores = Producto::where('estilo', $estilo)->groupBy('color')
                 ->where('estado', 'A')
                 ->where('stock', '>', 0)
+                ->limit(50)
                 ->get();
             $tallas = Producto::where('estilo', $estilo)
                 ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
@@ -163,6 +165,7 @@ class TomarPedido extends Component
                 ->where('productos.estado', 'A')
                 ->where('productos.stock', '>', 0)
                 ->distinct('talla')
+                ->limit(50)
                 ->get();
             $this->colores = $colores;
             $this->tallas = $tallas;
@@ -189,7 +192,9 @@ class TomarPedido extends Component
                 ->where('color', $this->color)
                 ->where('productos.stock', '>', 0)
                 ->where('productos.estado', 'A')
-                ->distinct('talla')->get();
+                ->distinct('talla')
+                ->limit(50)
+                ->get();
             $this->tallas = $tallas;
             $this->talla = $tallas[0]->talla;
             $this->descripcion_producto = $tallas[0]->descripcion; //Se agrega propiedad para capturar la descripción del producto

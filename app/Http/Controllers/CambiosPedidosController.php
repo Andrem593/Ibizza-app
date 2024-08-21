@@ -47,8 +47,22 @@ class CambiosPedidosController extends Controller
                 });
 
             if (Auth::user()->role == 'ASESOR') {
-                $changeOrder = $changeOrder->where("id_vendedor", Auth::user()->id);
+                $changeOrder = CambioPedido::with('businesswomen', 'requestedChanges')->orderBy('id', 'desc');
+                $changeOrder = $changeOrder->where("id_vendedor", Auth::user()->id)->get()
+                ->map(function($change){
+                    $change->factura_identificacion = $change->f_cedula ;
+                    $change->factura_nombres = $change->f_nombre ;
+                    $change->direccion_envio = $change->e_direccion ;
+                    $change->empresaria = $change->businesswomen->nombre_completo ;
+                    //corregir esta variable
+                    $change->referencia = $change->referencia ;
 
+                    //esto ver si se agregan los campos
+                    $change->cantidad_total = $change->requestedChanges->sum('cantidad') ;
+
+                    return $change ;
+
+                });                
             }
 
             if (count($changeOrder) == 0) {

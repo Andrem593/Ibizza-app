@@ -125,6 +125,7 @@
                                             <option value="CAMBIO FACTURADO LOCAL IBIZZA" >CAMBIO FACTURADO LOCAL IBIZZA</option>
                                             <option value="CAMBIO FACTURADO" disabled>CAMBIO FACTURADO</option>
                                             <option value="CAMBIO FACTURADO Y DESPACHADO" disabled>CAMBIO FACTURADO Y DESPACHADO</option>
+                                            <option value="ANULADO" disabled>ANULADO</option>
                                             @if (Auth::user()->role == 'VALIDADOR')
                                                 {{--  Si el rol es validador deshabilitar las opciones del validador, para que solo las pueda ver y no seleccionar --}}
 

@@ -46,7 +46,8 @@
         </div>
         <div class="col">
             <label class="form-label">Motivo de cambio:</label>
-            <select class="form-select" wire:model="descripcionCambio">
+            <select class="form-select" required wire:model="descripcionCambio">
+                <option value="">SELECCIONE</option>
                 <option value="COLOR">COLOR</option>
                 <option value="TALLA">TALLA</option>
                 <option value="COLOR Y TALLA">COLOR Y TALLA</option>

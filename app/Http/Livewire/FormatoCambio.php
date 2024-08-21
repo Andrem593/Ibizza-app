@@ -246,17 +246,31 @@ class FormatoCambio extends Component
     {
         $this->user = Auth::user();
         if (!empty($this->cliente) && !$this->click2) {
-            $this->empresarias = Empresaria::with('pedidos')->where(function ($query) {
-                $query->where('nombres', 'like', '%' . $this->cliente . '%')
-                    ->orWhere('cedula', 'like', '%' . $this->cliente . '%');
-            })
-                ->where('estado', 'A')
-                ->limit(20)
-                ->get();
+            if ($this->user->role == 'ADMINISTRADOR' || $this->user->role == 'Administrador') {                
+                $this->empresarias = Empresaria::with('pedidos')->where(function ($query) {
+                    $query->where('cedula', 'like', '%' . $this->cliente . '%')
+                    ->orWhereRaw("CONCAT(nombres, ' ', apellidos) LIKE ?", ['%' . $this->cliente . '%']);
+                })
+                    ->where('estado', 'A')
+                    ->limit(20)
+                    ->get();
+            }else{
+                $this->empresarias = Empresaria::with('pedidos')->where(function ($query) {
+                    $query->where('cedula', 'like', '%' . $this->cliente . '%')
+                    ->orWhereRaw("CONCAT(nombres, ' ', apellidos) LIKE ?", ['%' . $this->cliente . '%']);
+                })
+                    ->where('estado', 'A')
+                    ->where('vendedor', $this->user->id)
+                    ->limit(20)
+                    ->get();
+            }
         }
 
         if (!empty($this->estilo) && !$this->click) {
-            $this->similitudes = Producto::distinct()->where('estilo', 'like', '%' . $this->estilo . '%')->select('estilo')->get();
+            $this->similitudes = Producto::distinct()->where('estilo', 'like', '%' . $this->estilo . '%')
+            ->where('categoria', '<>', 'PREMIOS')
+            ->where('estado', 'A')
+            ->select('estilo')->get();
         }
 
         return view('livewire.formato-cambio');
@@ -391,6 +405,7 @@ class FormatoCambio extends Component
             $colores = Producto::where('estilo', $estilo)->groupBy('color')
                 ->where('estado', 'A')
                 ->where('stock', '>', 0)
+                ->where('categoria', '<>', 'PREMIOS')
                 ->get();
             $tallas = Producto::where('estilo', $estilo)
                 ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
@@ -398,6 +413,7 @@ class FormatoCambio extends Component
                 ->where('color', $colores[0]->color)
                 ->where('productos.estado', 'A')
                 ->where('productos.stock', '>', 0)
+                ->where('categoria', '<>', 'PREMIOS')
                 ->distinct('talla')
                 ->get();
             $this->colores = $colores;
@@ -422,6 +438,7 @@ class FormatoCambio extends Component
                 ->join('marcas', 'marcas.id', '=', 'productos.marca_id')
                 ->select('productos.*', 'marcas.nombre AS nombre_marca')
                 ->where('color', $this->color)
+                ->where('categoria', '<>', 'PREMIOS')
                 ->where('productos.estado', 'A')->get();
             $this->tallas = $tallas;
             $this->talla = $tallas[0]->talla;
@@ -443,6 +460,7 @@ class FormatoCambio extends Component
         $producto = Producto::where('estilo', $estilo)->where('color', $this->color)->where('talla', $this->talla)
             ->where('estado', 'A')
             ->where('stock', '>', 0)
+            ->where('categoria', '<>', 'PREMIOS')
             ->first();
         $this->stock = $producto->stock;
         $this->descripcion_producto = $producto->descripcion; //Se agrega propiedad para capturar la descripción del producto
@@ -464,6 +482,7 @@ class FormatoCambio extends Component
         if ($this->cantidad > 0 && !empty($this->estilo) && !empty($this->color) && !empty($this->talla)) {
             $producto = Producto::where('estilo', $this->estilo)->where('color', $this->color)->where('talla', $this->talla)
                 ->where('estado', 'A')
+                ->where('categoria', '<>', 'PREMIOS')
                 ->with(['marca', 'catalogo'])
                 ->first();
 
@@ -480,6 +499,7 @@ class FormatoCambio extends Component
 
                     $diff = ($producto->precio_empresaria * $this->cantidad ) - ($productSale['precio'] * $this->cantidad );
 
+                    $diff = $diff < 0 ? 0 : $diff ;
                     $diff = number_format($diff, 2);
                     $this->nuevoProducto[] = [
                         'id' => $producto->id,
@@ -812,7 +832,7 @@ class FormatoCambio extends Component
 
             if($this->idVerificate){
                 ReservarCambiosPedido::findOrFail($this->idVerificate)->update([
-                    'estado' => 3
+                    'estado' => 0
                 ]);
             }
             DB::commit();
@@ -956,7 +976,9 @@ class FormatoCambio extends Component
                     $price = (float)$productDB->precio_empresaria - ($productDB->precio_empresaria * $discount);
                     $precioCambioTotal = round($price, 2) * $productChanges[$keyItem]['cantidad'];
                     $precioVentaTotal =  (round($productChanges[$keyItem]['precio_producto_venta'], 2) * $productChanges[$keyItem]['cantidad']);
-                    $precioDiff =  $precioCambioTotal -  $precioVentaTotal ;
+                    $precioDiff =  $precioCambioTotal -  $precioVentaTotal;
+
+                    $precioDiff = $precioDiff < 0 ? 0 : $precioDiff ;
 
                     $productChanges[$keyItem]['descuento'] = $discount;
                     $productChanges[$keyItem]['precio'] = round($price, 2);

@@ -28,7 +28,8 @@ class ReservarCambioPedido extends Component
 
     public function render()
     {
-        $reserveChangeOrder = ReservarCambiosPedido::with('businesswoman', 'user', 'reservedChangeDetail');
+        $reserveChangeOrder = ReservarCambiosPedido::with('businesswoman', 'user', 'reservedChangeDetail')
+        ->where('estado','!=', 0);
 
         if (Auth::user()->role != 'ADMINISTRADOR') {
             $reserveChangeOrder->where('id_usuario', Auth::user()->id);

@@ -77,7 +77,7 @@ class ReservarCambiosPedido extends Model
             ],
             [
                 'tipo' => 3,
-                'descripcion' => 'REGENERADO',
+                'descripcion' => 'ACTIVO',
             ],
             [
                 'tipo' => 4,
