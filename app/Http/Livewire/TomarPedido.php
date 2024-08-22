@@ -1304,8 +1304,6 @@ class TomarPedido extends Component
             return;
         }
 
-        $this->flagPrize  = false ;
-
         foreach ($this->premiosEmpresaria as $key => $value) {
             PremioAcumuladoEmpresaria::create($value);
         }
@@ -2124,6 +2122,7 @@ class TomarPedido extends Component
         $this->flagPrize  = false ;
         $prizeProductsWithoutAccumulation = collect([]);
         $prizeProductsWithAccumulation = collect([]);
+        $this->productosPremios = collect([]);
 
         if($this->tipoEmpresaria != ''){
             $this->countProductosPremios += 1 ;
@@ -2134,11 +2133,15 @@ class TomarPedido extends Component
 
             if($conditionPrize){
                 $prizeProductsWithoutAccumulation = $this->getThePrizeProducts($conditionPrize);
+                $this->flagPrize = true ;
             }
 
             if($prizeProductsWithoutAccumulation->count() == 0){
                 $conditionPrize = $this->getAwardCondition( 0, $total, $this->tipoEmpresaria) ;
-                if($conditionPrize) $prizeProductsWithoutAccumulation = $this->getThePrizeProducts($conditionPrize);
+                if($conditionPrize) {
+                    $prizeProductsWithoutAccumulation = $this->getThePrizeProducts($conditionPrize);
+                    $this->flagPrize = true ;
+                }
             }
 
 
@@ -2167,7 +2170,7 @@ class TomarPedido extends Component
             //     ];
 
             // }) ;
-            $this->flagPrize = $this->productosPremios->count() > 0 ? true : false ;
+
         }
 
     }
@@ -2301,19 +2304,40 @@ class TomarPedido extends Component
     }
 
 
+
+    public function checkForPrizesForSale()
+    {
+        $flag = false ;
+        $carItems = Cart::content();
+        foreach ($carItems as $key => $item) {
+            $product = Producto::findOrFail($item->id);
+            if($product && $product->categoria == 'PREMIOS'){
+                return true ;
+            }
+        }
+        return $flag;
+    }
+
+
     public function verificarYProcesar()
     {
-        if($this->flagPrize){
-            $this->cerrarVenta();
-        }
-        // Lógica para verificar la bandera (puedes ajustarla a tu lógica de negocio)
+        $this->message = '';
+        $re = $this->checkForPrizesForSale();
         $this->checkAwards();
-        if ($this->flagPrize) {
-            // Emitir evento para mostrar SweetAlert
-            $this->dispatchBrowserEvent('mostrar-alerta');
-        } else {
-            // Cerrar la venta directamente
-            $this->cerrarVenta();
+
+        if($re){
+            if($this->flagPrize){
+                $this->cerrarVenta();
+            }else{
+                $this->dispatchBrowserEvent('mostrar-alerta-restriccion');
+                $this->message = 'CONTIENES PREMIO Y NO CUMPLE LA CONDICIÓN';
+            }
+        }else{
+            if($this->flagPrize){
+                $this->dispatchBrowserEvent('mostrar-alerta');
+            }else{
+                $this->cerrarVenta();
+            }
         }
     }
 

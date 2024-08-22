@@ -401,6 +401,7 @@
         </div>
     </div>
 
+
     <div class="modal fade" wire:ignore.self id="modalPremios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -531,6 +532,15 @@
                         }
                     });
                 });
+
+                window.addEventListener('mostrar-alerta-restriccion', function () {
+                    Swal.fire({
+                        title: 'Acción Restringida',
+                        text: "CONTIENE PREMIO Y NO CUMPLE LA CONDICIÓN.",
+                        icon: 'error',
+                        confirmButtonText: 'Entendido'
+                    });
+                });
             });
 
             document.addEventListener('livewire:load', function () {
@@ -538,6 +548,8 @@
                     $('#modalPremios').modal('show');
                 });
             });
+
+
         </script>
     @endpush
     @if (!empty($alert))
