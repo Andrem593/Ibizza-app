@@ -426,15 +426,21 @@
                         <tbody>
 
                             @if (count($productosPremios) > 0)
-                                @foreach ($productosPremios as $item)
+                                @foreach ($productosPremios as $key => $item)
+                               
                                 <tr>
-                                    <td>{{$item->sku}}</td>
-                                    <td>{{$item->descripcion}}</td>
-                                    <td>{{$item->marca->nombre}}</td>
-                                    <td>{{$item->color}}</td>
-                                    <td>{{$item->talla}}</td>
-                                    <td>{{$item->stock}}</td>
-                                    <td><button wire:click="eliminarProducto({{ $item->id }})" class="btn btn-danger btn-sm">Eliminar</button></td>
+                                    <td>{{$item['sku']}}</td>
+                                    <td>{{$item['descripcion']}}</td>
+                                    <td>{{$item['marca']['nombre']}}</td>
+                                    <td>{{$item['color']}}</td>
+                                    <td>{{$item['talla']}}</td>
+                                    <td>{{$item['stock']}}</td>
+
+                                    @php
+                                        $idPremio =is_object($item) ? $item->id : $item['id'] ;
+                                    @endphp
+                                    
+                                    <td><button wire:click="eliminarProducto({{ $idPremio }})" class="btn btn-danger btn-sm">Eliminar</button></td>
                                 </tr>
 
                                 @endforeach
