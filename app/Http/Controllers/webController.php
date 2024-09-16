@@ -8,6 +8,7 @@ use App\Mail\Contacto;
 use App\Mail\RegistroEmpresaria;
 use App\Models\DireccionVenta;
 use App\Models\Pedido;
+use App\Models\PremioAcumuladoEmpresaria;
 use App\Models\Separado;
 use App\Models\Venta;
 use App\Premio;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class webController extends Controller
 {
@@ -185,6 +187,9 @@ class webController extends Controller
     }
     public function dataCheckout(Request $request)
     {
+        $arraySession = Session::get('premios_empresaria', []);
+        
+
         if (isset($request->premios)) {
             $premios = $request->premios;
             if (count($premios) > 0) {
@@ -226,6 +231,10 @@ class webController extends Controller
             'observaciones' => $request->observaciones
         ]);
         try {
+            foreach ($arraySession as $key => $value) {
+                PremioAcumuladoEmpresaria::create($value[0]);
+            }
+            Session::forget('premios_empresaria');
             DireccionVenta::create([
                 'id_venta' => $venta->id,
                 'identificacion' => $request->identificacion_envio, //Se guarda la identificación en las direccion de envío seleccionada

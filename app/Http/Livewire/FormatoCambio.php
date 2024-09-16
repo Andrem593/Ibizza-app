@@ -479,7 +479,9 @@ class FormatoCambio extends Component
                     $discountPriceSale = $productSalesInformation->precio_empresaria - ($productSalesInformation->precio_empresaria * $productSale['descuento'] );
 
                     $diff = ($producto->precio_empresaria * $this->cantidad ) - ($productSale['precio'] * $this->cantidad );
-
+                    
+                    $diff = $diff < 0 ? 0 : $diff ;
+                    // dd($diff);
                     $diff = number_format($diff, 2);
                     $this->nuevoProducto[] = [
                         'id' => $producto->id,
@@ -811,9 +813,8 @@ class FormatoCambio extends Component
             }
 
             if($this->idVerificate){
-                ReservarCambiosPedido::findOrFail($this->idVerificate)->update([
-                    'estado' => 3
-                ]);
+                ReservarCambiosDetalle::where('id_reservar_cambio_pedido', $this->idVerificate)->delete() ;
+                ReservarCambiosPedido::findOrFail($this->idVerificate)->delete();
             }
             DB::commit();
             return redirect()->route('cambio.cambios-reservados');
@@ -957,6 +958,8 @@ class FormatoCambio extends Component
                     $precioCambioTotal = round($price, 2) * $productChanges[$keyItem]['cantidad'];
                     $precioVentaTotal =  (round($productChanges[$keyItem]['precio_producto_venta'], 2) * $productChanges[$keyItem]['cantidad']);
                     $precioDiff =  $precioCambioTotal -  $precioVentaTotal ;
+
+                    $precioDiff = $precioDiff < 0 ? 0 : $precioDiff ;
 
                     $productChanges[$keyItem]['descuento'] = $discount;
                     $productChanges[$keyItem]['precio'] = round($price, 2);

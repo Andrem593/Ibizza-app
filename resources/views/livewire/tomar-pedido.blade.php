@@ -401,6 +401,7 @@
         </div>
     </div>
 
+
     <div class="modal fade" wire:ignore.self id="modalPremios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -425,15 +426,21 @@
                         <tbody>
 
                             @if (count($productosPremios) > 0)
-                                @foreach ($productosPremios as $item)
+                                @foreach ($productosPremios as $key => $item)
+                               
                                 <tr>
-                                    <td>{{$item->sku}}</td>
-                                    <td>{{$item->descripcion}}</td>
-                                    <td>{{$item->marca->nombre}}</td>
-                                    <td>{{$item->color}}</td>
-                                    <td>{{$item->talla}}</td>
-                                    <td>{{$item->stock}}</td>
-                                    <td><button wire:click="eliminarProducto({{ $item->id }})" class="btn btn-danger btn-sm">Eliminar</button></td>
+                                    <td>{{$item['sku']}}</td>
+                                    <td>{{$item['descripcion']}}</td>
+                                    <td>{{$item['marca']['nombre']}}</td>
+                                    <td>{{$item['color']}}</td>
+                                    <td>{{$item['talla']}}</td>
+                                    <td>{{$item['stock']}}</td>
+
+                                    @php
+                                        $idPremio =is_object($item) ? $item->id : $item['id'] ;
+                                    @endphp
+                                    
+                                    <td><button wire:click="eliminarProducto({{ $idPremio }})" class="btn btn-danger btn-sm">Eliminar</button></td>
                                 </tr>
 
                                 @endforeach
@@ -531,6 +538,15 @@
                         }
                     });
                 });
+
+                window.addEventListener('mostrar-alerta-restriccion', function () {
+                    Swal.fire({
+                        title: 'Acción Restringida',
+                        text: "CONTIENE PREMIO Y NO CUMPLE LA CONDICIÓN.",
+                        icon: 'error',
+                        confirmButtonText: 'Entendido'
+                    });
+                });
             });
 
             document.addEventListener('livewire:load', function () {
@@ -538,6 +554,8 @@
                     $('#modalPremios').modal('show');
                 });
             });
+
+
         </script>
     @endpush
     @if (!empty($alert))
