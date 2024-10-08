@@ -403,7 +403,7 @@
 
 
     <div class="modal fade" wire:ignore.self id="modalPremios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Premios</h5>
@@ -419,7 +419,8 @@
                                 <td>Color</td>
                                 <td>Talla</td>
                                 <td>Stock</td>
-                                <td>Acción</td>
+                                <td>Cantidad</td>
+
                             </tr>
 
                         </thead>
@@ -427,7 +428,7 @@
 
                             @if (count($productosPremios) > 0)
                                 @foreach ($productosPremios as $key => $item)
-                               
+
                                 <tr>
                                     <td>{{$item['sku']}}</td>
                                     <td>{{$item['descripcion']}}</td>
@@ -435,12 +436,16 @@
                                     <td>{{$item['color']}}</td>
                                     <td>{{$item['talla']}}</td>
                                     <td>{{$item['stock']}}</td>
+                                    <td>
+                                        <!-- Input para modificar la cantidad de stock -->
+                                        <input type="number" wire:model.lazy="productosPremios.{{$key}}.cantidad" min="0" max="{{ $item['stock'] }}"  style="width: 70px;" />
+                                    </td>
 
                                     @php
                                         $idPremio =is_object($item) ? $item->id : $item['id'] ;
                                     @endphp
-                                    
-                                    <td><button wire:click="eliminarProducto({{ $idPremio }})" class="btn btn-danger btn-sm">Eliminar</button></td>
+
+
                                 </tr>
 
                                 @endforeach
