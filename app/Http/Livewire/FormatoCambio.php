@@ -359,6 +359,11 @@ class FormatoCambio extends Component
         $this->e_ciudad = 'Guayaquil';
         $this->e_direccion = 'Calle chile y Luque';
         $this->e_referencia = 'Frente a De Prati';
+        $city = Ciudad::where('descripcion', 'GUAYAQUIL')->first() ;
+
+        $this->provincia_id = $city->provincia_id ;
+        $this->ciudades =  Ciudad::where('provincia_id', $this->provincia_id)->get();
+        $this->ciudad_id = $city->id ;
 
         $this->envio = 0 ;
     }
@@ -479,7 +484,7 @@ class FormatoCambio extends Component
                     $discountPriceSale = $productSalesInformation->precio_empresaria - ($productSalesInformation->precio_empresaria * $productSale['descuento'] );
 
                     $diff = ($producto->precio_empresaria * $this->cantidad ) - ($productSale['precio'] * $this->cantidad );
-                    
+
                     $diff = $diff < 0 ? 0 : $diff ;
                     // dd($diff);
                     $diff = number_format($diff, 2);
