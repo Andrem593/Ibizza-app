@@ -270,7 +270,8 @@ class PremioController extends Controller
         if ($request->funcion == 'listar_todo') {
 
             $premios = Premio::join('catalogos', 'premios.catalogo_id', '=', 'catalogos.id')
-                ->select('premios.id', 'premios.descripcion', 'catalogos.nombre')
+                ->select('premios.id', 'premios.descripcion', 'catalogos.nombre', 'premios.estado')
+                ->orderBy('id', 'desc')
                 ->get();
             if (count($premios) == 0) {
                 $premios = 'no data';

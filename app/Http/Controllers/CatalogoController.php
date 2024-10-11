@@ -108,6 +108,7 @@ class CatalogoController extends Controller
     public function edit($id)
     {
         $catalogo = Catalogo::find($id);
+
         return view('catalogo.edit', compact('catalogo'));
     }
 
@@ -487,7 +488,7 @@ class CatalogoController extends Controller
         $response = '';
         if ($_POST['funcion'] == 'listar_todo') {
 
-            $ofertas = Oferta::where('estado', 1)->get();
+            $ofertas = Oferta::orderBy('estado', 'desc')->get();
 
             if (count($ofertas) == 0) {
                 $ofertas = 'no data';

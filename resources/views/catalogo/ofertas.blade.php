@@ -38,6 +38,7 @@
                             <th>Oferta</th>
                             <th>Tipo Oferta</th>
                             <th>Tipo Premio</th>
+                            <th>Estado</th>
                             <th></th>
                         </tr>
                     </thead>

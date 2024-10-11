@@ -392,7 +392,7 @@ function crearTablaUsuario(data, ruta) {
         },
     });
     let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
-    
+
     let dataTable = $('#datatable').DataTable({
 
         destroy: true,
@@ -991,6 +991,15 @@ function crearTablaOferta(data, ruta) {
             }
         },
         {
+            "data": "estado",
+            "render": function (data, type, row) {
+                if (data == '1') {
+                    return '<span class="badge bg-success">Activo</span>';
+                }
+                return '<span class="badge bg-danger">Inactivo</span>';
+            }
+        },
+        {
             "data": 'id',
             "render": function (data, type, row) {
                 return '<a href="/oferta/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
@@ -1083,6 +1092,15 @@ function crearTablaPremio(data, ruta) {
 
         {
             "data": "nombre"
+        },
+        {
+            "data": "estado",
+            "render": function (data, type, row) {
+                if (data == 1) {
+                    return '<span class="badge bg-success">Activo</span>';
+                }
+                return '<span class="badge bg-danger">Inactivo</span>';
+            }
         },
         {
             "data": 'id',
@@ -1320,7 +1338,7 @@ function crearTablaEmpresarias(data, ruta) {
             "render": function (data, type, row) {
                 data = data.split(' ');
                 return data[0];
-            }            
+            }
         },
         {
             "data": "observacion"
@@ -1527,7 +1545,7 @@ function crearTablaVentas(data, ruta) {
             },
             success: function (response) {
                 $('#carga').css('visibility', 'hidden')
-                let data = JSON.parse(response);                
+                let data = JSON.parse(response);
                 let empresaria = data['empresaria'];
                 let venta = data['venta'];
                 let rol = data['rol'];
@@ -1583,15 +1601,15 @@ function crearTablaVentas(data, ruta) {
                     total_factura = parseFloat(total) + parseFloat(total_factura);
                     cantidad_total = parseInt(v['cantidad']) + parseInt(cantidad_total);
                 })
-                total_factura = total_factura.toFixed(2)                
+                total_factura = total_factura.toFixed(2)
 
                 $('#subtotal').text(total_factura);
-                $('#cant_total').text(cantidad_total);    
+                $('#cant_total').text(cantidad_total);
                 $('#total_fac').text(total_factura);
                 $('#envio').text(envio);
                 $('#tot_pagar').text(parseFloat(total_factura) + parseFloat(envio));
                 $('#ganancia').text(venta['total_p_empresaria']);
-                
+
 
             }
         })
@@ -1903,7 +1921,7 @@ function stockFaltante(data, ruta) {
 }
 
 function reporteVentas() {
-    let dataTable = $('#datatable').DataTable({        
+    let dataTable = $('#datatable').DataTable({
         "processing": true,
         "lengthMenu": [
             [-1, 10, 25, 50],
@@ -1941,6 +1959,6 @@ function reporteVentas() {
             }
         },
         ]
-    });    
+    });
 }
 

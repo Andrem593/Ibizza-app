@@ -32,6 +32,7 @@
                         <tr>
                             <th>Descripción</th>
                             <th>Catálogo</th>
+                            <th>Estado</th>
 
                             <th></th>
                         </tr>
