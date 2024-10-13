@@ -242,9 +242,9 @@ class PremioController extends Controller
      */
     public function destroy($id)
     {
-        // $premio = Premio::find($id)->delete();
-
-        Premio_has_Producto::where('premio_id', $id)->delete();
+        $premio = Premio::findOrFail($id);
+        $premio->estado = 0;
+        $premio->save();
 
         return redirect()->route('premios.index')
             ->with('success', 'Premio eliminado correctamente');

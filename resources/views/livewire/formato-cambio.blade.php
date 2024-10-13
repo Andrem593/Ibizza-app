@@ -208,6 +208,11 @@
         <div class="col">
             <label class="form-label">Se va con pedido:</label>
             <input type="text" class="form-control p-1" wire:model="e_pedido">
+            @if($mensajeError)
+            <div class="text-danger mt-2">
+                {{ $mensajeError }}
+            </div>
+        @endif
         </div>
         <div class="col">
             <label class="form-label">N° Guía de Retorno:</label>
