@@ -698,6 +698,12 @@ class FormatoCambio extends Component
 
         if(!$this->idventa){
             $this->message = 'Debe seleccionar una Venta';
+            return ;
+        }
+
+        if($this->mensajeError != null){
+            $this->message = 'El Pedido no existe';
+            return ;
         }
 
         try {
@@ -795,7 +801,14 @@ class FormatoCambio extends Component
 
         if(!$this->idventa){
             $this->message = 'Debe seleccionar una Venta';
+            return ;
         }
+
+        if($this->mensajeError != null){
+            $this->message = 'El Pedido no existe';
+            return ;
+        }
+
 
         try {
             DB::beginTransaction();

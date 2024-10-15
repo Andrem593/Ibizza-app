@@ -2399,6 +2399,7 @@ class TomarPedido extends Component
     {
         $prizeCondition = CondicionPremio::with('prize')
                     ->whereHas('prize', function($q){
+                        $q->where('estado', 1);
                         $q->whereHas('catalogue', function($query){
                             $query->where('estado', 'PUBLICADO');
                         });
