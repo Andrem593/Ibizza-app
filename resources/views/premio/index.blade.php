@@ -77,6 +77,34 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal" id="activar" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Activar Premio</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form_activar" action="" method="POST">
+                            <div class="form-group">
+                                <label for="">Seguro de Activar Premio: </label>
+                                <label id="elemento_activar"></label>
+                                <input type="hidden" id="id_activar">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        @csrf
+                        @method('POST')
+                        <button type="submit" class="btn btn-success">Activar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endpush
     @Push('scripts')
         <script src="/js/crearDataTable.js"></script>

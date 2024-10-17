@@ -291,4 +291,15 @@ class PremioController extends Controller
         }
         return $response;
     }
+
+
+    public function premioActivar(Request $request, $id)
+    {
+        $premio = Premio::findOrFail($id);
+        $premio->estado = 1;
+        $premio->save();
+
+        return redirect()->route('premios.index')
+            ->with('success', 'Premio eliminado correctamente');
+    }
 }

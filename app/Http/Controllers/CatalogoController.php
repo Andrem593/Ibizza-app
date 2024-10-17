@@ -507,4 +507,14 @@ class CatalogoController extends Controller
 
         return redirect()->route('ofertas.index')->with('success', 'Oferta eliminada correctamente');
     }
+
+
+    public function ofertaActivar(Request $request, $id)
+    {
+        Oferta::find($id)->update([
+            'estado' => 1
+        ]);
+
+        return redirect()->route('ofertas.index')->with('success', 'Oferta Activada correctamente');
+    }
 }
