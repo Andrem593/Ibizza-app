@@ -88,6 +88,7 @@ class FormatoCambio extends Component
     {
         $limitDate = Carbon::now()->subDays(6);
         $this->id_pedido ='' ;
+        $this->mensajeError = null ;
         if($value != ''){
             $sale = Venta::where('id', $value)
             ->whereDate('created_at', '>=', $limitDate)
