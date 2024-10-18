@@ -86,12 +86,16 @@ class FormatoCambio extends Component
 
     public function updatedEPedido($value)
     {
+        $limitDate = Carbon::now()->subDays(6);
         $this->id_pedido ='' ;
         if($value != ''){
-            $sale = Venta::where('id', $value)->first();
+            $sale = Venta::where('id', $value)
+            ->whereDate('created_at', '>=', $limitDate)
+            ->first();
+
             // Si no se encuentra el pedido, mostrar un mensaje de error
             if (!$sale) {
-                $this->mensajeError = "El pedido {$value} no existe.";
+                $this->mensajeError = "El pedido con ID {$value} no existe o su fecha de creación no está dentro de los últimos 6 días.";
             } else {
                 $this->mensajeError = null; // Limpiar el mensaje si el pedido existe
                 if($this->descripcionCambio === 'AVERIA'){
@@ -127,6 +131,7 @@ class FormatoCambio extends Component
             }
             $this->mensajeCambio = null; // Limpiar el mensaje si el motivo cambia
         }
+        $this->checkShippingCostChange();
     }
 
     public function updatedENombre($value)
@@ -337,6 +342,7 @@ class FormatoCambio extends Component
             $this->e_direccion = $this->emp->direccion;
             $this->e_referencia = $this->emp->referencia;
         }
+        $this->checkShippingCostChange();
 
     }
 
