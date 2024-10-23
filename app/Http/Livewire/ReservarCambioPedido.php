@@ -87,7 +87,7 @@ class ReservarCambioPedido extends Component
 
 
             if($reserveChangesOrder && $reserveChangesOrder->estado == 1){
-                $reserveChangesOrder->estado = 0 ;
+                $reserveChangesOrder->estado = 4 ;
                 $reserveChangesOrder->save();
 
 
