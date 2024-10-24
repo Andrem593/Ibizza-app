@@ -558,8 +558,8 @@
         @endif
 
         <div class="my-3">
-            <button class="btn bg-ibizza w-25 m-3" onclick="showSweetAlert()">RESERVAR CAMBIO</button>
-            <button onclick="showSweetAlertSave()" class="btn btn-success w-25 m-3">CERRAR CAMBIO</button>
+            <button class="btn bg-ibizza w-25 m-3"  @if(empty($nuevoProducto)) disabled @endif onclick="showSweetAlert()">RESERVAR CAMBIO</button>
+            <button onclick="showSweetAlertSave()" class="btn btn-success w-25 m-3" @if(empty($nuevoProducto)) disabled @endif>CERRAR CAMBIO</button>
         </div>
     </div>
 
