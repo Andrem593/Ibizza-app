@@ -1,7 +1,7 @@
 <x-app-layout>
     @section('title', 'Catálogo')
     <x-slot name="header">
-        <h5 class="text-center">Parametros de Catálogo</h5>
+        <h5 class="text-center">Parámetros de Costo de Envío</h5>
     </x-slot>
 
     @if ($message = Session::get('success'))

@@ -215,8 +215,8 @@
         @endif
         </div>
         <div class="col">
-            <label class="form-label">N° Guía de Retorno:</label>
-            <input type="text" class="form-control p-1" wire:model="id_pedido">
+            <label class="form-label">Aplica guia:</label>
+            <input type="text" class="form-control p-1" disabled wire:model="id_pedido">
         </div>
     </div>
     <div class="text-center">
