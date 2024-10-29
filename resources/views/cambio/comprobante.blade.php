@@ -178,7 +178,7 @@
                     <td> {{ $changeOrder->e_pedido }}</td>
                 </tr>
                 <tr>
-                    <td> <div>N° Guía de Retorno: </div> </td>
+                    <td> <div>N° Aplica guia: </div> </td>
                     <td> {{ $changeOrder->id_pedido }}</td>
                 </tr>
             </table>
