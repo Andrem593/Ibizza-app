@@ -242,9 +242,9 @@ class PremioController extends Controller
      */
     public function destroy($id)
     {
-        // $premio = Premio::find($id)->delete();
-
-        Premio_has_Producto::where('premio_id', $id)->delete();
+        $premio = Premio::findOrFail($id);
+        $premio->estado = 0;
+        $premio->save();
 
         return redirect()->route('premios.index')
             ->with('success', 'Premio eliminado correctamente');
@@ -270,7 +270,8 @@ class PremioController extends Controller
         if ($request->funcion == 'listar_todo') {
 
             $premios = Premio::join('catalogos', 'premios.catalogo_id', '=', 'catalogos.id')
-                ->select('premios.id', 'premios.descripcion', 'catalogos.nombre')
+                ->select('premios.id', 'premios.descripcion', 'catalogos.nombre', 'premios.estado')
+                ->orderBy('id', 'desc')
                 ->get();
             if (count($premios) == 0) {
                 $premios = 'no data';
@@ -289,5 +290,16 @@ class PremioController extends Controller
             $response = json_encode($productos);
         }
         return $response;
+    }
+
+
+    public function premioActivar(Request $request, $id)
+    {
+        $premio = Premio::findOrFail($id);
+        $premio->estado = 1;
+        $premio->save();
+
+        return redirect()->route('premios.index')
+            ->with('success', 'Premio eliminado correctamente');
     }
 }

@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
 class Premio extends Model
 {
 
+    protected $table = 'premios';
+
     static $rules = [
 		'descripcion' => 'required',
     'catalogo_id' => 'required',
@@ -32,7 +34,7 @@ class Premio extends Model
      *
      * @var array
      */
-    protected $fillable = ['condicion','descripcion','catalogo_id', 'monto_minimo_acumulado'];
+    protected $fillable = ['condicion','descripcion','catalogo_id', 'monto_minimo_acumulado', 'estado'];
 
 
     public function catalogue()

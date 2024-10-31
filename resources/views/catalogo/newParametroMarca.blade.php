@@ -1,7 +1,7 @@
 <x-app-layout>
     @section('title', 'Catálogo')
     <x-slot name="header">
-        <h5 class="text-center">Parametros por Marca</h5>
+        <h5 class="text-center">Parámetros por categoria</h5>
     </x-slot>
 
     @if ($message = Session::get('error'))
@@ -83,7 +83,7 @@
                             @enderror
                         </div>
                     </div>
-                 
+
                 </div>
                 <div class="row">
                     <div class="col-3">
@@ -123,7 +123,7 @@
                         <input type="number" name="cantidad"
                             class="form-control {{ $errors->has('cantidad') ? 'is-invalid' : '' }}"
                             value="{{ old('cantidad') }}">
-                        
+
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -151,9 +151,9 @@
                                         <th>% Descuento</th>
                                         <th>Acción</th>
                                     </tr>
-                      
+
                                 </table>
-                                
+
                             </div>
                         </div>
                     </div>

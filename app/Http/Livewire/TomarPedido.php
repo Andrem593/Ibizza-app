@@ -22,6 +22,9 @@ use App\Models\Premio_has_Producto;
 use App\Models\PremioAcumuladoEmpresaria;
 use App\Premio;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Livewire\WithPagination;
 use PremioHasProductos;
 
 class TomarPedido extends Component
@@ -60,6 +63,11 @@ class TomarPedido extends Component
         'direccion' => '',
         'referencia' => ''
     ];
+
+
+    public $checkForPrizesForSale = [] ;
+
+
 
 
     public function openModal($id)
@@ -1303,12 +1311,28 @@ class TomarPedido extends Component
             $this->message = 'INGRESE EL NOMBRE DE LA EMPRESARIA';
             return;
         }
+        $groupedArray = [];
 
-        $this->flagPrize  = false ;
+        foreach ($this->premiosEmpresaria as $item) {
+            $empresariaId = $item['empresaria_id'];
 
-        foreach ($this->premiosEmpresaria as $key => $value) {
-            PremioAcumuladoEmpresaria::create($value);
+            // Si no existe el grupo, inicialízalo
+            if (!isset($groupedArray[$empresariaId])) {
+                $groupedArray[$empresariaId] = [];
+            }
+
+            // Añade el item al grupo correspondiente
+            $groupedArray[$empresariaId][] = [
+                'empresaria_id' => $item['empresaria_id'],
+                'catalogo_id' => $item['catalogo_id'],
+                'condicion_premio_id' => $item['condicion_premio_id'],
+                'venta_id' => $item['venta_id']
+            ];
         }
+
+        Session::put('premios_empresaria', $groupedArray);
+
+
 
         return redirect()->to(route('web.checkout', ['id' => $this->id_empresaria, 'envio' => $this->envio]));
     }
@@ -2079,7 +2103,7 @@ class TomarPedido extends Component
     public function eliminarProducto($id)
     {
         $this->productosPremios = $this->productosPremios->filter(function($producto) use ($id) {
-            return $producto->id != $id;
+            return is_object($producto) ? $producto->id != $id : $producto['id'] != $id ;
         });
     }
 
@@ -2088,31 +2112,42 @@ class TomarPedido extends Component
     public function agrgarPromocion()
     {
 
-        foreach ($this->productosPremios as $key => $value) {
-            $producto = Producto::where('id', $value->id)
-                ->with(['marca', 'catalogo'])
-                ->first();
+        DB::beginTransaction();
+        try {
 
-            try {
+            foreach ($this->productosPremios as $key => $value) {
+                $this->message = '';
+                $value = is_object($value) ? $value : (object)$value ;
+                $producto = Producto::where('id', $value->id)
+                    ->with(['marca', 'catalogo'])
+                    ->first();
+
                 $precio = $producto->precio_empresaria;
                 $descuento = 0;
-                Cart::add(
-                    $producto->id,
-                    $producto->descripcion,
-                    1,
-                    $precio,
-                    [
-                        'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => $producto->marca->nombre,
-                        'descuento' => $descuento, 'pCatalogo' => $producto->precio_empresaria
-                    ]
-                )->associate('App\Models\Producto');
-                //separar stock
-                $producto->update(['stock' => $producto->stock - 1]);
-                $this->reset(['colores', 'tallas', 'imagen', 'color', 'talla', 'cantidad']);
+                if(($producto->stock - $value->cantidad)  >= 0 && $value->cantidad > 0){
 
-            } catch (\Throwable $th) {
-                dd($th->getMessage());
+                    Cart::add(
+                        $producto->id,
+                        $producto->descripcion,
+                        $value->cantidad,
+                        $precio,
+                        [
+                            'sku' => $producto->sku, 'color'  => $producto->color, 'talla' => $producto->talla, 'marca' => isset($producto->marca->nombre) ? $producto->marca->nombre : null,
+                            'descuento' => $descuento, 'pCatalogo' => $producto->precio_empresaria
+                        ]
+                    )->associate('App\Models\Producto');
+                    //separar stock
+                    $producto->update(['stock' => $producto->stock - $value->cantidad]);
+                    $this->reset(['colores', 'tallas', 'imagen', 'color', 'talla', 'cantidad']);
+                }else{
+                    $this->message = 'No existe stock: '.$producto->descripcion ;
+                }
+
             }
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            dd($th->getMessage());
         }
 
     }
@@ -2120,10 +2155,13 @@ class TomarPedido extends Component
 
     public function checkAwards()
     {
+        $prizesSaved = $this->getPrizesAddedToCart();
+
         $this->premiosEmpresaria = [];
         $this->flagPrize  = false ;
         $prizeProductsWithoutAccumulation = collect([]);
         $prizeProductsWithAccumulation = collect([]);
+        $this->productosPremios = collect([]);
 
         if($this->tipoEmpresaria != ''){
             $this->countProductosPremios += 1 ;
@@ -2132,43 +2170,65 @@ class TomarPedido extends Component
 
             $conditionPrize = $this->getAwardCondition( 0, $total, 'TODOS') ;
 
-            if($conditionPrize){
-                $prizeProductsWithoutAccumulation = $this->getThePrizeProducts($conditionPrize);
+            foreach ($conditionPrize as $key => $condition) {
+
+                $products = $this->getThePrizeProducts($condition);
+
+                if($products->whereIn('id', $prizesSaved)->count() == 0){
+
+                    $products = $products->where('stock', '>' ,0);
+
+                    $prizeProductsWithoutAccumulation = $prizeProductsWithoutAccumulation->merge($products);
+
+                    $this->flagPrize = true ;
+                }else{
+                    $this->checkForPrizesForSale = $this->checkForPrizesForSale->diff($products->pluck('id'));
+                }
+
+
             }
 
-            if($prizeProductsWithoutAccumulation->count() == 0){
-                $conditionPrize = $this->getAwardCondition( 0, $total, $this->tipoEmpresaria) ;
-                if($conditionPrize) $prizeProductsWithoutAccumulation = $this->getThePrizeProducts($conditionPrize);
+
+            $conditionPrize = $this->getAwardCondition( 0, $total, $this->tipoEmpresaria) ;
+
+            foreach ($conditionPrize as $key => $condition) {
+
+                    $products = $this->getThePrizeProducts($condition);
+
+                    if($products->whereIn('id', $prizesSaved)->count() == 0){
+
+                        $products = $products->where('stock', '>' ,0);
+
+                        $prizeProductsWithoutAccumulation = $prizeProductsWithoutAccumulation->merge($products);
+                        $this->flagPrize = true ;
+                    }else{
+                        $this->checkForPrizesForSale = $this->checkForPrizesForSale->diff($products->pluck('id'));
+                    }
+
+
             }
 
 
             //Acumula
-            //Parametrizar
-            // if($total > 60){
+
             $prizeProductsWithAccumulation = $this->getAccumulationPrizeProducts($total);
 
-            // }
 
             if(count($prizeProductsWithoutAccumulation) > 0){
                 $this->productosPremios = $prizeProductsWithoutAccumulation->merge($prizeProductsWithAccumulation);
             }else{
                 $this->productosPremios = $prizeProductsWithAccumulation->merge($prizeProductsWithoutAccumulation);
             }
-            // $this->productosPremios = collect($this->productosPremios)->map(function($element){
 
-            //     return (object)[
-            //         'sku'=> $element->sku,
-            //         'descripcion'=> $element->descripcion,
-            //         'marca'=> $element->marca->nombre,
-            //         'color'=> $element->color,
-            //         'talla'=> $element->talla,
-            //         'stock'=> $element->stock,
-            //         'id'=> $element->id
-            //     ];
-
-            // }) ;
-            $this->flagPrize = $this->productosPremios->count() > 0 ? true : false ;
         }
+
+        $this->productosPremios = collect($this->productosPremios)->map(function($q){
+            $q->cantidad = 0 ;
+            return $q ;
+        })
+        ->sortBy('descripcion') // Ordenar por descripción
+        ->values();
+
 
     }
 
@@ -2176,6 +2236,8 @@ class TomarPedido extends Component
 
     public function getAccumulationPrizeProducts($valorTotalCarrito)
     {
+        $prizesSaved = $this->getPrizesAddedToCart();
+
         $products = collect([]);
 
         $currentCatalog = Catalogo::where('estado', 'PUBLICADO')->first();
@@ -2200,62 +2262,114 @@ class TomarPedido extends Component
 
             $conditionPrize = $this->getAwardCondition( 1, $total, 'TODOS') ;
 
+            foreach ($conditionPrize as $key => $condition) {
+                    if($valorTotalCarrito >= $condition->prize->monto_minimo_acumulado){
+                        $prizeAccumulatedBusinesswoman = PremioAcumuladoEmpresaria::where([
+                                ['empresaria_id' , $this->id_empresaria],
+                                ['estado' , 1],
+                                ['catalogo_id' , $catalogOld->id],
+                                ['condicion_premio_id', $condition->id]
+                            ])->first();
 
-            if($conditionPrize){
-                if($valorTotalCarrito >= $conditionPrize->prize->monto_minimo_acumulado){
-                    $prizeAccumulatedBusinesswoman = PremioAcumuladoEmpresaria::where([
-                            ['empresaria_id' , $this->id_empresaria],
-                            ['estado' , 1],
-                            ['catalogo_id' , $catalogOld->id],
-                            ['condicion_premio_id', $conditionPrize->id]
-                        ])->first();
+                        if(!$prizeAccumulatedBusinesswoman){
+                            $products2 = $this->getThePrizeProducts($condition);
 
-                    if(!$prizeAccumulatedBusinesswoman){
-                        $products = $this->getThePrizeProducts($conditionPrize);
-                        if($products->count() > 0 ){
-                            //me falta el de ventaId
-                            $this->premiosEmpresaria[]=[
-                                'empresaria_id' => $this->id_empresaria,
-                                'catalogo_id' => $catalogOld->id,
-                                'condicion_premio_id'=> $conditionPrize->id,
-                                'venta_id'=>null
-                            ];
+                            if($products2->whereIn('id', $prizesSaved)->count() == 0){
 
+                                $products2 = $products2->where('stock', '>' ,0);
+
+                                if($products2->count() > 0 ){
+
+                                    $this->flagPrize = true ;
+                                }
+
+                                $products = $products->merge($products2);
+
+
+                                if($products->count() > 0 ){
+                                    //me falta el de ventaId
+                                    $this->premiosEmpresaria[]=[
+                                        'empresaria_id' => $this->id_empresaria,
+                                        'catalogo_id' => $catalogOld->id,
+                                        'condicion_premio_id'=> $condition->id,
+                                        'venta_id'=>null
+                                    ];
+
+
+                                }
+                            }else{
+                                $this->premiosEmpresaria[]=[
+                                    'empresaria_id' => $this->id_empresaria,
+                                    'catalogo_id' => $catalogOld->id,
+                                    'condicion_premio_id'=> $condition->id,
+                                    'venta_id'=>null
+                                ];
+                                $this->checkForPrizesForSale = $this->checkForPrizesForSale->diff($products2->pluck('id'));
+                            }
                         }
+
                     }
 
-                }
             }
-            if(count($products) == 0 ){
-                $conditionPrize = $this->getAwardCondition( 1, $total, $this->tipoEmpresaria) ;
 
-                if($conditionPrize){
-                    // dd($total, $conditionPrize, $conditionPrize->prize->monto_minimo_acumulado , $valorTotalCarrito, $conditionPrize->prize->monto_minimo_acumulado >= $valorTotalCarrito);
-                    if($valorTotalCarrito >= $conditionPrize->prize->monto_minimo_acumulado){
+
+
+
+            $conditionPrize = $this->getAwardCondition( 1, $total, $this->tipoEmpresaria) ;
+
+
+            foreach ($conditionPrize as $key => $condition) {
+
+                    // dd($total, $condition, $condition->prize->monto_minimo_acumulado , $valorTotalCarrito, $condition->prize->monto_minimo_acumulado >= $valorTotalCarrito);
+                    if($valorTotalCarrito >= $condition->prize->monto_minimo_acumulado){
                         //Preguntar por la condicion
                         $prizeAccumulatedBusinesswoman = PremioAcumuladoEmpresaria::where([
                                 ['empresaria_id' , $this->id_empresaria],
                                 ['estado' , 1],
                                 ['catalogo_id' , $catalogOld->id],
-                                ['condicion_premio_id', $conditionPrize->id]
+                                ['condicion_premio_id', $condition->id]
                             ])->first();
                         if(!$prizeAccumulatedBusinesswoman){
-                            $products = $this->getThePrizeProducts($conditionPrize);
-                            if($products->count() > 0){
-                                //me falta el de ventaId
+                            $products2 = $this->getThePrizeProducts($condition);
+                            if($products2->whereIn('id', $prizesSaved)->count() == 0){
+
+                                $products2 = $products2->where('stock', '>' ,0);
+
+                                if($products2->count() > 0){
+
+                                    $this->flagPrize = true ;
+                                }
+
+                                $products = $products->merge($products2);
+
+
+                                if($products->count() > 0){
+                                    //me falta el de ventaId
+                                    $this->premiosEmpresaria[]=[
+                                        'empresaria_id' => $this->id_empresaria,
+                                        'catalogo_id' => $catalogOld->id,
+                                        'condicion_premio_id'=> $condition->id,
+                                        'venta_id'=>null
+                                    ];
+
+                                }
+
+                            }else{
                                 $this->premiosEmpresaria[]=[
                                     'empresaria_id' => $this->id_empresaria,
                                     'catalogo_id' => $catalogOld->id,
-                                    'condicion_premio_id'=> $conditionPrize->id,
+                                    'condicion_premio_id'=> $condition->id,
                                     'venta_id'=>null
                                 ];
-
+                                $this->checkForPrizesForSale = $this->checkForPrizesForSale->diff($products2->pluck('id'));
                             }
                         }
 
                     }
-                }
+
             }
+
+
 
 
         }
@@ -2271,8 +2385,8 @@ class TomarPedido extends Component
             ->where([
                 ['catalogo_id', $conditionPrize->prize->catalogo_id],
                 ['categoria', 'PREMIOS'],
-                ['estado', 'A'],
-                ['stock', '>', 0]
+                ['estado', 'A']
+                // ['stock', '>', 0]
             ])
             ->whereIn('estilo', $PrizeHasProduct )
             ->get();
@@ -2285,6 +2399,7 @@ class TomarPedido extends Component
     {
         $prizeCondition = CondicionPremio::with('prize')
                     ->whereHas('prize', function($q){
+                        $q->where('estado', 1);
                         $q->whereHas('catalogue', function($query){
                             $query->where('estado', 'PUBLICADO');
                         });
@@ -2295,25 +2410,82 @@ class TomarPedido extends Component
                         ['rango_hasta', '>=', $total],
                         ['acumular', $accumulates]
                     ])
-                    ->first();
+                    ->get();
 
         return $prizeCondition ;
     }
 
 
+
+    public function getPrizesAddedToCart()
+    {
+        $data = [] ;
+        $carItems = Cart::content();
+        foreach ($carItems as $key => $item) {
+            $product = Producto::findOrFail($item->id);
+            if($product && $product->categoria == 'PREMIOS'){
+                $data[] = $product->id;
+            }
+        }
+
+        return $data ;
+    }
+
+
+
+    public function checkForPrizesForSale()
+    {
+        $data = collect([]);
+        $carItems = Cart::content();
+
+        foreach ($carItems as $key => $item) {
+            $product = Producto::findOrFail($item->id);
+            if($product && $product->categoria == 'PREMIOS'){
+                $data->push($product->id);
+            }
+        }
+
+        $this->checkForPrizesForSale = $data ;
+    }
+
+
     public function verificarYProcesar()
     {
-        if($this->flagPrize){
+        $this->message = '';
+
+        $this->checkForPrizesForSale();
+
+
+        $this->checkAwards();
+
+        if($this->checkForPrizesForSale->count() > 0){
+            $this->dispatchBrowserEvent('mostrar-alerta-restriccion');
+            $this->message = 'CONTIENES PREMIO Y NO CUMPLE LA CONDICIÓN';
+            return ;
+        }
+
+        if($this->productosPremios->count() > 0){
+            $this->dispatchBrowserEvent('mostrar-alerta');
+        }else{
             $this->cerrarVenta();
         }
-        // Lógica para verificar la bandera (puedes ajustarla a tu lógica de negocio)
-        $this->checkAwards();
-        if ($this->flagPrize) {
-            // Emitir evento para mostrar SweetAlert
-            $this->dispatchBrowserEvent('mostrar-alerta');
-        } else {
-            // Cerrar la venta directamente
-            $this->cerrarVenta();
+
+        // $this->dispatchBrowserEvent('mostrar-alerta');
+
+        return ;
+        if($re){
+            if($this->flagPrize){
+                $this->cerrarVenta();
+            }else{
+                $this->dispatchBrowserEvent('mostrar-alerta-restriccion');
+                $this->message = 'CONTIENES PREMIO Y NO CUMPLE LA CONDICIÓN';
+            }
+        }else{
+            if($this->flagPrize){
+                $this->dispatchBrowserEvent('mostrar-alerta');
+            }else{
+                $this->cerrarVenta();
+            }
         }
     }
 

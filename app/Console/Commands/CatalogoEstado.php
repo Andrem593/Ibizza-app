@@ -152,6 +152,13 @@ class CatalogoEstado extends Command
                             }
                         }                         
                     }
+
+                    Catalogo::find($catalogo->id)->update([
+                        'estado' => 'FINALIZADO'
+                    ]);
+                    Producto::where("catalogo_id", $catalogo->id)->update([
+                        'estado' => 'I'
+                    ]);
                 } catch (\Throwable $th) {
                     $this->info('Error: ' . $th->getMessage());
                 }
