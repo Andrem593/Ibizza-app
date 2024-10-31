@@ -392,7 +392,7 @@ function crearTablaUsuario(data, ruta) {
         },
     });
     let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
-    
+
     let dataTable = $('#datatable').DataTable({
 
         destroy: true,
@@ -945,6 +945,7 @@ function crearTablaOferta(data, ruta) {
         },
     });
     let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
+    let btnActivar = '<button class ="activar btn btn-success btn-sm"type ="button" data-toggle = "modal" data-target = "#activar" style="width:30px"> <i class="fas fa-check"></i></button>';
     let dataTable = $('#datatable').DataTable({
 
         destroy: true,
@@ -991,9 +992,18 @@ function crearTablaOferta(data, ruta) {
             }
         },
         {
+            "data": "estado",
+            "render": function (data, type, row) {
+                if (data == '1') {
+                    return '<span class="badge bg-success">Activo</span>';
+                }
+                return '<span class="badge bg-danger">Inactivo</span>';
+            }
+        },
+        {
             "data": 'id',
             "render": function (data, type, row) {
-                return '<a href="/oferta/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
+                return '<a href="/oferta/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnActivar + btnEliminar;
             }
         }
 
@@ -1052,6 +1062,13 @@ function crearTablaOferta(data, ruta) {
         $('#id_eliminar').val(data.id)
         $('#form_eliminar').attr('action', "oferta/" + data.id);
     })
+
+    $('#datatable tbody').on('click', '.activar', function () {
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#elemento_activar').html(data.oferta);
+        $('#id_activar').val(data.id)
+        $('#form_activar').attr('action', "oferta-activar/" + data.id);
+    })
 }
 
 function crearTablaPremio(data, ruta) {
@@ -1061,6 +1078,7 @@ function crearTablaPremio(data, ruta) {
         },
     });
     let btnEliminar = '<button class ="eliminar btn btn-danger btn-sm"type ="button" data-toggle = "modal" data-target = "#eliminar" style="width:30px"> <i class="fas fa-trash"></i></button>';
+    let btnActivar = '<button class ="activar btn btn-success btn-sm"type ="button" data-toggle = "modal" data-target = "#activar" style="width:30px"> <i class="fas fa-check"></i></button>';
     let dataTable = $('#datatable').DataTable({
 
         destroy: true,
@@ -1085,9 +1103,18 @@ function crearTablaPremio(data, ruta) {
             "data": "nombre"
         },
         {
+            "data": "estado",
+            "render": function (data, type, row) {
+                if (data == 1) {
+                    return '<span class="badge bg-success">Activo</span>';
+                }
+                return '<span class="badge bg-danger">Inactivo</span>';
+            }
+        },
+        {
             "data": 'id',
             "render": function (data, type, row) {
-                return '<a href="/premios/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnEliminar;
+                return '<a href="/premios/' + data + '/edit" class ="btn btn-ibizza btn-sm" style="width:30px"> <i class="fas fa-edit"></i></a>' + btnActivar + btnEliminar ;
             }
         }
 
@@ -1145,6 +1172,13 @@ function crearTablaPremio(data, ruta) {
         $('#elemento_eliminar').html(data.descripcion);
         $('#id_eliminar').val(data.id)
         $('#form_eliminar').attr('action', "/premios/" + data.id);
+    })
+
+    $('#datatable tbody').on('click', '.activar', function () {
+        let data = $('#datatable').DataTable().row($(this).parents()).data();
+        $('#elemento_activar').html(data.oferta);
+        $('#id_activar').val(data.id)
+        $('#form_activar').attr('action', "premio/activar/" + data.id);
     })
 }
 
@@ -1320,7 +1354,7 @@ function crearTablaEmpresarias(data, ruta) {
             "render": function (data, type, row) {
                 data = data.split(' ');
                 return data[0];
-            }            
+            }
         },
         {
             "data": "observacion"
@@ -1527,7 +1561,7 @@ function crearTablaVentas(data, ruta) {
             },
             success: function (response) {
                 $('#carga').css('visibility', 'hidden')
-                let data = JSON.parse(response);                
+                let data = JSON.parse(response);
                 let empresaria = data['empresaria'];
                 let venta = data['venta'];
                 let rol = data['rol'];
@@ -1583,15 +1617,15 @@ function crearTablaVentas(data, ruta) {
                     total_factura = parseFloat(total) + parseFloat(total_factura);
                     cantidad_total = parseInt(v['cantidad']) + parseInt(cantidad_total);
                 })
-                total_factura = total_factura.toFixed(2)                
+                total_factura = total_factura.toFixed(2)
 
                 $('#subtotal').text(total_factura);
-                $('#cant_total').text(cantidad_total);    
+                $('#cant_total').text(cantidad_total);
                 $('#total_fac').text(total_factura);
                 $('#envio').text(envio);
                 $('#tot_pagar').text(parseFloat(total_factura) + parseFloat(envio));
                 $('#ganancia').text(venta['total_p_empresaria']);
-                
+
 
             }
         })
@@ -1903,7 +1937,7 @@ function stockFaltante(data, ruta) {
 }
 
 function reporteVentas() {
-    let dataTable = $('#datatable').DataTable({        
+    let dataTable = $('#datatable').DataTable({
         "processing": true,
         "lengthMenu": [
             [-1, 10, 25, 50],
@@ -1941,6 +1975,6 @@ function reporteVentas() {
             }
         },
         ]
-    });    
+    });
 }
 

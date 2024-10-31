@@ -41,6 +41,10 @@ class FormatoCambio extends Component
 
     public $cantidadVenta ;
 
+    public $mensajeError;
+
+    public $mensajeCambio;
+
 
     public $selectedItem = null;
     public $selectedItemData = [
@@ -75,15 +79,60 @@ class FormatoCambio extends Component
     public function updatedIdPedido($value)
     {
 
+
         $this->checkShippingCostChange();
 
     }
 
     public function updatedEPedido($value)
     {
+        $limitDate = Carbon::now()->subDays(6);
+        $this->id_pedido ='' ;
+        $this->mensajeError = null ;
+        if($value != ''){
+            $sale = Venta::where('id', $value)
+            ->whereDate('created_at', '>=', $limitDate)
+            ->first();
+
+            // Si no se encuentra el pedido, mostrar un mensaje de error
+            if (!$sale) {
+                $this->mensajeError = "El pedido con ID {$value} no existe o su fecha de creación no está dentro de los últimos 6 días.";
+            } else {
+                $this->mensajeError = null; // Limpiar el mensaje si el pedido existe
+                if($this->descripcionCambio === 'AVERIA'){
+                    $this->id_pedido = 'NO';
+
+                }
+            }
+
+        }else{
+            if($this->descripcionCambio === 'AVERIA'){
+                $this->id_pedido = 'Si';
+
+            }
+
+        }
+
 
         $this->checkShippingCostChange();
 
+    }
+
+
+    public function updatedDescripcionCambio($value)
+    {
+        // Verificar si el motivo de cambio es "AVERIA"
+        $this->id_pedido = '';
+        if ($value === 'AVERIA' && $this->mensajeError == null && $this->e_pedido != '') {
+            $this->id_pedido = 'NO';
+            $this->mensajeCambio = "El producto está siendo cambiado por AVERIA.";
+        } else {
+            if($value === 'AVERIA' && ($this->e_pedido == '' || $this->e_pedido == null)){
+                $this->id_pedido = 'SI';
+            }
+            $this->mensajeCambio = null; // Limpiar el mensaje si el motivo cambia
+        }
+        $this->checkShippingCostChange();
     }
 
     public function updatedENombre($value)
@@ -308,6 +357,7 @@ class FormatoCambio extends Component
             $this->e_direccion = $this->emp->direccion;
             $this->e_referencia = $this->emp->referencia;
         }
+        $this->checkShippingCostChange();
 
     }
 
@@ -373,6 +423,11 @@ class FormatoCambio extends Component
         $this->e_ciudad = 'Guayaquil';
         $this->e_direccion = 'Calle chile y Luque';
         $this->e_referencia = 'Frente a De Prati';
+        $city = Ciudad::where('descripcion', 'GUAYAQUIL')->first() ;
+
+        $this->provincia_id = $city->provincia_id ;
+        $this->ciudades =  Ciudad::where('provincia_id', $this->provincia_id)->get();
+        $this->ciudad_id = $city->id ;
 
         $this->envio = 0 ;
     }
@@ -390,11 +445,23 @@ class FormatoCambio extends Component
     public function buscarVenta()
     {
         try {
-            $this->venta = Venta::where('id', $this->idventa)->where('id_empresaria', $this->id_empresaria)
+            $venta = Venta::where('id', $this->idventa)->where('id_empresaria', $this->id_empresaria)
                 ->with('pedidos')
                 ->first();
+
+
+            $this->venta = $venta ;
+
             $this->pedidos = $this->venta->pedidos;
+
+            $this->n_factura = null ;
+            if($venta){
+                $this->n_factura = $venta->n_factura;
+
+            }
+
         } catch (\Throwable $th) {
+            $this->n_factura = null ;
             $this->message = 'No se encontró la venta, verifique los datos';
         }
     }
@@ -486,7 +553,8 @@ class FormatoCambio extends Component
                 ->with(['marca', 'catalogo'])
                 ->first();
 
-            if ($producto->stock >= $this->cantidad) {
+
+            if ($producto && ($producto->stock >= $this->cantidad)) {
                 try {
 
                     DB::beginTransaction();
@@ -500,6 +568,7 @@ class FormatoCambio extends Component
                     $diff = ($producto->precio_empresaria * $this->cantidad ) - ($productSale['precio'] * $this->cantidad );
 
                     $diff = $diff < 0 ? 0 : $diff ;
+
                     $diff = number_format($diff, 2);
                     $this->nuevoProducto[] = [
                         'id' => $producto->id,
@@ -564,7 +633,7 @@ class FormatoCambio extends Component
 
                 } catch (\Throwable $th) {
                     DB::rollBack();
-                    $this->message = 'Ha ocurrido un error';
+                    $this->message = $th;
 
                 }
 
@@ -655,6 +724,12 @@ class FormatoCambio extends Component
 
         if(!$this->idventa){
             $this->message = 'Debe seleccionar una Venta';
+            return ;
+        }
+
+        if($this->mensajeError != null){
+            $this->message = 'El Pedido no existe';
+            return ;
         }
 
         try {
@@ -752,7 +827,14 @@ class FormatoCambio extends Component
 
         if(!$this->idventa){
             $this->message = 'Debe seleccionar una Venta';
+            return ;
         }
+
+        if($this->mensajeError != null){
+            $this->message = 'El Pedido no existe';
+            return ;
+        }
+
 
         try {
             DB::beginTransaction();
@@ -831,9 +913,8 @@ class FormatoCambio extends Component
             }
 
             if($this->idVerificate){
-                ReservarCambiosPedido::findOrFail($this->idVerificate)->update([
-                    'estado' => 0
-                ]);
+                ReservarCambiosDetalle::where('id_reservar_cambio_pedido', $this->idVerificate)->delete() ;
+                ReservarCambiosPedido::findOrFail($this->idVerificate)->delete();
             }
             DB::commit();
             return redirect()->route('cambio.cambios-reservados');
@@ -976,7 +1057,7 @@ class FormatoCambio extends Component
                     $price = (float)$productDB->precio_empresaria - ($productDB->precio_empresaria * $discount);
                     $precioCambioTotal = round($price, 2) * $productChanges[$keyItem]['cantidad'];
                     $precioVentaTotal =  (round($productChanges[$keyItem]['precio_producto_venta'], 2) * $productChanges[$keyItem]['cantidad']);
-                    $precioDiff =  $precioCambioTotal -  $precioVentaTotal;
+                    $precioDiff =  $precioCambioTotal -  $precioVentaTotal ;
 
                     $precioDiff = $precioDiff < 0 ? 0 : $precioDiff ;
 

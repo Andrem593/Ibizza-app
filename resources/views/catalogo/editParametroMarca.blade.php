@@ -1,7 +1,7 @@
 <x-app-layout>
     @section('title', 'Catálogo')
     <x-slot name="header">
-        <h5 class="text-center">Parametros por Marca</h5>
+        <h5 class="text-center">Parámetros por categorias</h5>
     </x-slot>
 
     @if ($message = Session::get('error'))
@@ -84,10 +84,10 @@
                         </div>
                     </div>
                     {{-- <div class="col-6">
-                        <label>Categorias</label>                     
+                        <label>Categorias</label>
                         <x-adminlte-select2 id="sel2Category" class="form-control" name="marca[]" multiple>
                             @foreach ($categorias as $categoria)
-                                <option value="{{ $categoria->categoria }}" 
+                                <option value="{{ $categoria->categoria }}"
                                     {{in_array($categoria->categoria, json_decode($parametro->marcas))? 'selected' : ''}}>
                                     {{ $categoria->categoria }}
                                 </option>
@@ -98,7 +98,7 @@
                             <p class="mt-1 p-1 text-danger" role="alert">
                                 {{ $message }}
                             </p>
-                        @enderror                        
+                        @enderror
                     </div> --}}
                 </div>
                 <div class="row">
@@ -137,7 +137,7 @@
                         <input type="number" name="cantidad"
                             class="form-control {{ $errors->has('cantidad') ? 'is-invalid' : '' }}"
                             value="{{ $parametro->cantidad }}">
-                        
+
                     </div>
                 </div>
 
@@ -157,27 +157,36 @@
                                     <button type="button" class="btn btn-primary" onclick="addRow()">Agregar Fila</button>
                                 </div>
                             </div>
-                           
 
-                            
 
-                           
+
+
+
 
                         </div>
 
                         <div class="card-body">
                             Listado de Descuentos
 
+                            @php
+
+                                $maxIndex = collect($categorias2)->keys()->max() ?? -1;
+                            @endphp
+
 
                             <div class="row">
                                 <table id="categoryTable" class="table shadow-sm p-3">
                                     <tr>
+                                        <th>Index</th>
                                         <th>Categoría</th>
                                         <th>% Descuento</th>
                                         <th>Acción</th>
                                     </tr>
+
                                     @foreach($categorias2 as $index => $categoria)
                                     <tr>
+                                        <td>{{$index}}</td>
+
                                         <td>
                                             <select class="form-select" name="categorias[{{ $index }}][categoria]">
                                                 @foreach($categorias as $cat)
@@ -190,13 +199,13 @@
                                     </tr>
                                     @endforeach
                                 </table>
-                                
+
                             </div>
                         </div>
                     </div>
                 </div>
 
-                
+
             </div>
 
             <div class="card-footer">
@@ -212,22 +221,31 @@
 
 
 <script>
+    let rowIndex = {{ $maxIndex + 1 }};
+
+
+
     function addRow() {
         let table = document.getElementById("categoryTable");
-        let rowCount = table.rows.length;
         let row = table.insertRow();
         let cell1 = row.insertCell(0);
         let cell2 = row.insertCell(1);
         let cell3 = row.insertCell(2);
+        let cell4 = row.insertCell(3);
 
-        cell1.innerHTML = `<select class="form-select" name="categorias[${rowCount}][categoria]">
-                               @foreach($categorias as $categoria)
-                                   <option value="{{ $categoria->categoria }}">{{ $categoria->categoria }}</option>
-                               @endforeach
-                           </select>`;
-        cell2.innerHTML = '<input type="number" name="categorias[' + rowCount + '][descuento]"  class="form-control">';
-        cell3.innerHTML = '<button type="button" onclick="deleteRow(this)" class="btn btn-danger btn-sm">Eliminar</button>';
+        cell1.innerHTML = `${rowIndex}` ;
+
+        cell2.innerHTML = `<select class="form-select" name="categorias[${rowIndex}][categoria]">
+                            @foreach($categorias as $categoria)
+                                <option value="{{ $categoria->categoria }}">{{ $categoria->categoria }}</option>
+                            @endforeach
+                        </select>`;
+        cell3.innerHTML = `<input type="number" name="categorias[${rowIndex}][descuento]" class="form-control">`;
+        cell4.innerHTML = '<button type="button" onclick="deleteRow(this)" class="btn btn-danger btn-sm">Eliminar</button>';
+
+        rowIndex++; // Incrementa el índice global para la próxima fila
     }
+
 
     function deleteRow(button) {
         let row = button.parentNode.parentNode;

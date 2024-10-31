@@ -209,10 +209,15 @@
         <div class="col">
             <label class="form-label">Se va con pedido:</label>
             <input type="text" class="form-control p-1" wire:model="e_pedido">
+            @if($mensajeError)
+            <div class="text-danger mt-2">
+                {{ $mensajeError }}
+            </div>
+        @endif
         </div>
         <div class="col">
-            <label class="form-label">N° Guía de Retorno:</label>
-            <input type="text" class="form-control p-1" wire:model="id_pedido">
+            <label class="form-label">Aplica guia:</label>
+            <input type="text" class="form-control p-1" disabled wire:model="id_pedido">
         </div>
     </div>
     <div class="text-center">
@@ -554,8 +559,8 @@
         @endif
 
         <div class="my-3">
-            <button class="btn bg-ibizza w-25 m-3" onclick="showSweetAlert()">RESERVAR CAMBIO</button>
-            <button onclick="showSweetAlertSave()" class="btn btn-success w-25 m-3">CERRAR CAMBIO</button>
+            <button class="btn bg-ibizza w-25 m-3"  @if(empty($nuevoProducto)) disabled @endif onclick="showSweetAlert()">RESERVAR CAMBIO</button>
+            <button onclick="showSweetAlertSave()" class="btn btn-success w-25 m-3" @if(empty($nuevoProducto)) disabled @endif>CERRAR CAMBIO</button>
         </div>
     </div>
 

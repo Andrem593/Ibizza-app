@@ -219,6 +219,10 @@ Route::middleware(['auth:sanctum', 'verified'])
 ->delete('/catalogo/oferta/{id}', [CatalogoController::class,'ofertasDelete'])
 ->name('ofertas.delete');
 
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/catalogo/oferta-activar/{id}', [CatalogoController::class,'ofertaActivar'])
+->name('ofertas.activar');
+
 // PREMIO
 
 Route::resource('premios', PremioController::class)
@@ -231,6 +235,10 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
 ->post('/premio/delete-condicion', [PremioController::class, 'deleteCondicion'])
 ->name('premio.delete-condicion');
+
+Route::middleware(['auth:sanctum', 'verified'])
+->post('/premio/activar/{id}', [PremioController::class,'premioActivar'])
+->name('premio.activar');
 
 
 // PROVEEDOR

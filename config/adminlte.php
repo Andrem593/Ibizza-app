@@ -367,13 +367,13 @@ return [
                     'icon'    => 'ml-md-2 fas fa-folder-plus',
                 ],
                 [
-                    'text' => 'Parametros',
+                    'text' => 'Parámetro costo de envío',
                     'route'  => 'catalogo.parametros',
                     'can'  => 'catalogos.index',
                     'icon'    => 'ml-md-2 fas fa-folder-plus',
                 ],
                 [
-                    'text' => 'Parametros Marca',
+                    'text' => 'Parámetros por categoria',
                     'route'  => 'catalogo.parametros-marca',
                     'can'  => 'catalogos.index',
                     'icon'    => 'ml-md-2 fas fa-folder-plus',
