@@ -778,7 +778,7 @@ function crearTablaPMarcas(data, ruta) {
         },
 
         {
-            "data": "marcas",
+            "data": "categorías",
             // "render": function (data, type, row) {
             //     let marcas = '';
             //     data.forEach(element => {
